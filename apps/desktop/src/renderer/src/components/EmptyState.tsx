@@ -7,14 +7,17 @@ export function EmptyState({
   title,
   description,
   action,
+  children,
 }: {
   icon: LucideIcon;
   title: string;
   description: string;
   action?: ReactNode;
+  /** Extra content under the action, e.g. the library's three first steps. */
+  children?: ReactNode;
 }) {
   return (
-    <div className="flex h-full min-h-80 flex-col items-center justify-center gap-6 p-6 text-center">
+    <div className="flex h-full min-h-80 flex-1 flex-col items-center justify-center gap-6 p-6 text-center">
       <div className="flex size-16 items-center justify-center rounded-2xl bg-card">
         <Icon className="size-7" strokeWidth={1.75} aria-hidden />
       </div>
@@ -23,6 +26,7 @@ export function EmptyState({
         <p>{description}</p>
       </div>
       {action}
+      {children}
     </div>
   );
 }

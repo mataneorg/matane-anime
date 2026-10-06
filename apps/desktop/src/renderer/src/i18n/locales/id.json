@@ -1,5 +1,7 @@
 {
-  "app": { "name": "Matane Anime" },
+  "app": {
+    "name": "Matane Anime"
+  },
   "nav": {
     "library": "Pustaka",
     "updates": "Pembaruan",
@@ -27,7 +29,24 @@
     "library": {
       "title": "Pustaka kamu masih kosong",
       "description": "Matane Anime tidak membawa sumber apa pun. Tambahkan repositori extension dari orang yang kamu percaya, pasang sumber yang kamu mau, lalu tambahkan anime untuk diikuti di sini.",
-      "action": "Tambah repositori"
+      "action": "Tambah repositori",
+      "secondary": "Jelajahi sumber",
+      "steps": {
+        "add": {
+          "title": "Tambah repositori",
+          "body": "Tempel URL repositori extension. Matane Anime memeriksa tanda tangannya dan memberi tahu kamu jika tidak tepercaya."
+        },
+        "install": {
+          "title": "Pasang sumber",
+          "body": "Pilih extension yang kamu mau. Tiap extension berjalan di sandbox dan setiap permintaannya lewat app."
+        },
+        "watch": {
+          "title": "Tonton dan ikuti",
+          "body": "Buka sebuah anime, tekan putar, lalu tambahkan ke pustaka untuk mendapat kabar episode baru."
+        }
+      },
+      "notice": "Matane Anime tidak menyimpan atau membagikan video apa pun. Sumber dipilih dan ditambahkan oleh kamu.",
+      "count": "{{count}} anime"
     },
     "updates": {
       "title": "Belum ada episode baru",

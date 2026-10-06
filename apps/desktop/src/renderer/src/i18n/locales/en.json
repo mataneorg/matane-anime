@@ -1,5 +1,7 @@
 {
-  "app": { "name": "Matane Anime" },
+  "app": {
+    "name": "Matane Anime"
+  },
   "nav": {
     "library": "Library",
     "updates": "Updates",
@@ -27,7 +29,24 @@
     "library": {
       "title": "Your library is empty",
       "description": "Matane Anime comes with no sources. Add an extension repository from someone you trust, install the sources you want, then add anime to follow them here.",
-      "action": "Add a repository"
+      "action": "Add a repository",
+      "secondary": "Browse sources",
+      "steps": {
+        "add": {
+          "title": "Add a repository",
+          "body": "Paste the URL of an extension repository. Matane Anime checks its signature and tells you if it is not trusted."
+        },
+        "install": {
+          "title": "Install sources",
+          "body": "Pick the extensions you want. Each one runs in a sandbox and goes through the app for every request."
+        },
+        "watch": {
+          "title": "Watch and follow",
+          "body": "Open an anime, press play, and add it to your library to get new-episode alerts."
+        }
+      },
+      "notice": "Matane Anime does not host or distribute any video. Sources are chosen and added by you.",
+      "count": "{{count}} anime"
     },
     "updates": {
       "title": "No new episodes",
