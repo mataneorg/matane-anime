@@ -2,6 +2,7 @@
 export const INVOKE_CHANNELS = [
   'app.getInfo',
   'app.getLocale',
+  'app.openExternal',
   'window.minimize',
   'window.toggleMaximize',
   'window.close',

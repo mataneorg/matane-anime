@@ -58,6 +58,7 @@
     "@matane-anime/extension-runtime": "workspace:*",
     "@matane-anime/extension-sdk": "workspace:*",
     "@matane-anime/shared": "workspace:*",
+    "@tanstack/react-virtual": "3.14.13",
     "better-sqlite3": "13.0.3",
     "cheerio": "1.2.0",
     "drizzle-orm": "0.45.3",

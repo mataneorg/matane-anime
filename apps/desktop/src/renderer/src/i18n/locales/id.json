@@ -61,8 +61,8 @@
       "description": "Sumber berasal dari extension. Tambahkan repositori di Extension, lalu pasang yang kamu mau."
     },
     "extensions": {
-      "title": "Belum ada repositori extension",
-      "description": "Matane Anime tidak menyediakan atau menyarankan repositori apa pun. Tambahkan dari orang yang kamu percaya."
+      "title": "Belum ada extension",
+      "description": "Matane Anime tidak membawa sumber apa pun. Buat extension dengan ma-ext dan muat foldernya di sini."
     },
     "globalSearch": {
       "title": "Cari di semua sumber sekaligus",
@@ -134,7 +134,133 @@
         "system": "Ikuti sistem",
         "en": "English",
         "id": "Bahasa Indonesia"
-      }
+      },
+      "nsfw": {
+        "title": "Tampilkan sumber 18+",
+        "description": "Sumber dari extension yang ditandai 18+ muncul di Jelajah dan pencarian."
+      },
+      "content": "Konten"
+    },
+    "advanced": {
+      "developer": "Pengembang",
+      "logs": "Log extension",
+      "noLogs": "Belum ada log.",
+      "allExtensions": "Semua extension",
+      "loadHint": "Muat extension dari foldernya untuk mengembangkannya. Extension dimuat ulang saat kamu membangunnya lagi."
     }
+  },
+  "browse": {
+    "sources": {
+      "title": "Sumber",
+      "openFromUrl": "Buka dari URL",
+      "urlPlaceholder": "Tempel alamat halaman anime",
+      "open": "Buka",
+      "notRecognized": "Tidak ada sumber yang mengenali alamat ini.",
+      "allLanguages": "Semua bahasa",
+      "notInstalled": "Extension tidak terpasang",
+      "pin": "Sematkan sumber",
+      "unpin": "Lepas sematan",
+      "browse": "Jelajahi",
+      "nsfwHidden": "Sumber 18+ disembunyikan. Kamu bisa menampilkannya di Pengaturan → Umum."
+    },
+    "picker": "Sumber",
+    "tabs": {
+      "popular": "Populer",
+      "latest": "Terbaru"
+    },
+    "search": "Cari di sumber ini",
+    "filters": {
+      "title": "Filter",
+      "toggle": "Tampilkan filter",
+      "reset": "Atur ulang",
+      "apply": "Terapkan filter",
+      "include": "Sertakan",
+      "exclude": "Kecualikan",
+      "ascending": "Naik",
+      "descending": "Turun",
+      "any": "Semua",
+      "none": "Sumber ini tidak punya filter."
+    },
+    "loadingMore": "Memuat lagi",
+    "end": "Hanya itu yang ada",
+    "empty": {
+      "title": "Tidak ada hasil",
+      "description": "Tidak ada yang cocok. Coba pencarian lain atau kurangi filter."
+    },
+    "offline": {
+      "title": "Kamu sedang offline",
+      "description": "Menjelajah butuh koneksi. Pustaka dan riwayat tetap berfungsi."
+    },
+    "retry": "Coba lagi",
+    "verify": "Verifikasi lalu coba lagi",
+    "verifying": "Melewati pemeriksaan keamanan situs…",
+    "inLibrary": "Di pustaka"
+  },
+  "errors": {
+    "title": "Ada yang salah",
+    "NetworkError": "Situs tidak bisa dijangkau.",
+    "HttpError": "Situs membalas dengan galat ({{status}}).",
+    "CloudflareError": "Situs dijaga pemeriksaan keamanan.",
+    "RateLimitedError": "Situs meminta kita melambat. Coba lagi sebentar.",
+    "NotFoundError": "Situs tidak lagi punya ini.",
+    "ParseError": "Situs berubah dan extension tidak bisa membacanya.",
+    "timeout": "Extension terlalu lama menjawab.",
+    "interrupted": "Extension macet dan dihentikan.",
+    "memory": "Extension memakai terlalu banyak memori dan dihentikan.",
+    "host_crashed": "Proses extension berhenti. Coba lagi.",
+    "invalid_result": "Extension mengembalikan sesuatu yang tidak bisa dipakai app.",
+    "offline": "Kamu sedang offline.",
+    "not_found": "Ini tidak tersedia (lagi).",
+    "unknown": "Extension melaporkan galat."
+  },
+  "anime": {
+    "start": "Mulai nonton",
+    "addToLibrary": "Tambah ke pustaka",
+    "download": "Unduh",
+    "comingSoon": "Segera hadir",
+    "refresh": "Segarkan",
+    "openInBrowser": "Buka di browser",
+    "episodes": "Episode",
+    "total": "{{count}} total",
+    "sort": {
+      "newest": "Terbaru dulu",
+      "oldest": "Terlama dulu"
+    },
+    "unwatched": "Belum ditonton",
+    "downloaded": "Terunduh",
+    "missing": "Dihapus oleh sumber",
+    "episodeNumber": "Eps {{number}}",
+    "episodeFallback": "Episode",
+    "noEpisodes": "Sumber ini belum mencantumkan episode.",
+    "refreshFailed": "Tidak bisa menyegarkan anime ini",
+    "showingSaved": "Menampilkan data yang tersimpan sebelumnya.",
+    "loadFailed": "Tidak bisa memuat anime ini",
+    "notFound": "Anime ini tidak ada lagi di app.",
+    "status": {
+      "ongoing": "Berjalan",
+      "completed": "Tamat",
+      "hiatus": "Hiatus",
+      "cancelled": "Dibatalkan"
+    }
+  },
+  "extensions": {
+    "title": "Extension",
+    "loadFolder": "Muat dari folder",
+    "devNotice": "Extension dimuat dari folder yang kamu pilih. Repositori hadir di versi berikutnya.",
+    "dev": "Dev",
+    "failed": "Gagal dimuat",
+    "reload": "Muat ulang",
+    "remove": "Hapus",
+    "preferences": "Preferensi",
+    "sources": "{{count}} sumber",
+    "sources_other": "{{count}} sumber",
+    "folder": "Folder",
+    "save": "Tutup",
+    "emptyTitle": "Belum ada extension",
+    "emptyDescription": "Matane Anime tidak membawa sumber apa pun. Buat extension dengan ma-ext dan muat foldernya di sini.",
+    "noPreferences": "Extension ini tidak punya preferensi."
+  },
+  "network": {
+    "offline": "Offline"
   }
 }

@@ -3,7 +3,9 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { invalidateForTags, networkStatusQuery } from '@renderer/lib/catalog';
 import { osLocaleQuery, receiveSettings, settingsQuery, useIpcEvent } from '@renderer/lib/ipc';
+import { useNetworkStore } from '@renderer/stores/network';
 
 export const Route = createRootRoute({ component: RootLayout });
 
@@ -17,6 +19,16 @@ function RootLayout() {
     'settings.changed',
     useCallback((next) => receiveSettings(queryClient, next), [queryClient]),
   );
+
+  useIpcEvent(
+    'db.changed',
+    useCallback((change) => invalidateForTags(queryClient, change.tags), [queryClient]),
+  );
+  useIpcEvent(
+    'network.status',
+    useCallback((status) => queryClient.setQueryData(networkStatusQuery.queryKey, status), [queryClient]),
+  );
+  useIpcEvent('cloudflare.status', useNetworkStore.getState().setCloudflare);
 
   const language = settings
     ? settings.language === 'system'

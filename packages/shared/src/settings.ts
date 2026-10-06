@@ -9,6 +9,8 @@ export const appSettingsSchema = z.object({
   amoled: z.boolean(),
   /** `system` follows the OS locale. */
   language: z.enum(['system', ...LANGUAGES]),
+  /** 18+ sources are hidden unless this is on (docs/PRD.md EXT-15). */
+  showNsfw: z.boolean(),
 });
 export type AppSettings = z.infer<typeof appSettingsSchema>;
 
@@ -17,6 +19,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   accent: 'mauve',
   amoled: false,
   language: 'system',
+  showNsfw: false,
 };
 
 /** A change to some settings. No defaults here: a patch must never overwrite what it does not name. */

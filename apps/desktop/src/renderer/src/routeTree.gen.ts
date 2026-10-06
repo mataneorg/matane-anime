@@ -19,9 +19,10 @@ import { Route as WatchEpisodeIdRouteImport } from './routes/watch/$episodeId'
 import { Route as AppAnimeAnimeIdRouteImport } from './routes/_app/anime/$animeId'
 import { Route as AppBrowseExtensionsRouteImport } from './routes/_app/browse/extensions'
 import { Route as AppBrowseGlobalSearchRouteImport } from './routes/_app/browse/global-search'
-import { Route as AppBrowseSourcesRouteImport } from './routes/_app/browse/sources'
 import { Route as AppDevSpikeRouteImport } from './routes/_app/dev/spike'
 import { Route as AppSettingsSectionRouteImport } from './routes/_app/settings/$section'
+import { Route as AppBrowseSourcesIndexRouteImport } from './routes/_app/browse/sources/index'
+import { Route as AppBrowseSourcesSourceIdRouteImport } from './routes/_app/browse/sources/$sourceId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -72,11 +73,6 @@ const AppBrowseGlobalSearchRoute = AppBrowseGlobalSearchRouteImport.update({
   path: '/browse/global-search',
   getParentRoute: () => AppRoute,
 } as any)
-const AppBrowseSourcesRoute = AppBrowseSourcesRouteImport.update({
-  id: '/browse/sources',
-  path: '/browse/sources',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppDevSpikeRoute = AppDevSpikeRouteImport.update({
   id: '/dev/spike',
   path: '/dev/spike',
@@ -87,6 +83,17 @@ const AppSettingsSectionRoute = AppSettingsSectionRouteImport.update({
   path: '/settings/$section',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBrowseSourcesIndexRoute = AppBrowseSourcesIndexRouteImport.update({
+  id: '/browse/sources/',
+  path: '/browse/sources/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBrowseSourcesSourceIdRoute =
+  AppBrowseSourcesSourceIdRouteImport.update({
+    id: '/browse/sources/$sourceId',
+    path: '/browse/sources/$sourceId',
+    getParentRoute: () => AppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -98,9 +105,10 @@ export interface FileRoutesByFullPath {
   '/anime/$animeId': typeof AppAnimeAnimeIdRoute
   '/browse/extensions': typeof AppBrowseExtensionsRoute
   '/browse/global-search': typeof AppBrowseGlobalSearchRoute
-  '/browse/sources': typeof AppBrowseSourcesRoute
   '/dev/spike': typeof AppDevSpikeRoute
   '/settings/$section': typeof AppSettingsSectionRoute
+  '/browse/sources/$sourceId': typeof AppBrowseSourcesSourceIdRoute
+  '/browse/sources/': typeof AppBrowseSourcesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -112,9 +120,10 @@ export interface FileRoutesByTo {
   '/anime/$animeId': typeof AppAnimeAnimeIdRoute
   '/browse/extensions': typeof AppBrowseExtensionsRoute
   '/browse/global-search': typeof AppBrowseGlobalSearchRoute
-  '/browse/sources': typeof AppBrowseSourcesRoute
   '/dev/spike': typeof AppDevSpikeRoute
   '/settings/$section': typeof AppSettingsSectionRoute
+  '/browse/sources/$sourceId': typeof AppBrowseSourcesSourceIdRoute
+  '/browse/sources': typeof AppBrowseSourcesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -128,9 +137,10 @@ export interface FileRoutesById {
   '/_app/anime/$animeId': typeof AppAnimeAnimeIdRoute
   '/_app/browse/extensions': typeof AppBrowseExtensionsRoute
   '/_app/browse/global-search': typeof AppBrowseGlobalSearchRoute
-  '/_app/browse/sources': typeof AppBrowseSourcesRoute
   '/_app/dev/spike': typeof AppDevSpikeRoute
   '/_app/settings/$section': typeof AppSettingsSectionRoute
+  '/_app/browse/sources/$sourceId': typeof AppBrowseSourcesSourceIdRoute
+  '/_app/browse/sources/': typeof AppBrowseSourcesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -144,9 +154,10 @@ export interface FileRouteTypes {
     | '/anime/$animeId'
     | '/browse/extensions'
     | '/browse/global-search'
-    | '/browse/sources'
     | '/dev/spike'
     | '/settings/$section'
+    | '/browse/sources/$sourceId'
+    | '/browse/sources/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -158,9 +169,10 @@ export interface FileRouteTypes {
     | '/anime/$animeId'
     | '/browse/extensions'
     | '/browse/global-search'
-    | '/browse/sources'
     | '/dev/spike'
     | '/settings/$section'
+    | '/browse/sources/$sourceId'
+    | '/browse/sources'
   id:
     | '__root__'
     | '/'
@@ -173,9 +185,10 @@ export interface FileRouteTypes {
     | '/_app/anime/$animeId'
     | '/_app/browse/extensions'
     | '/_app/browse/global-search'
-    | '/_app/browse/sources'
     | '/_app/dev/spike'
     | '/_app/settings/$section'
+    | '/_app/browse/sources/$sourceId'
+    | '/_app/browse/sources/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -256,13 +269,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBrowseGlobalSearchRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/browse/sources': {
-      id: '/_app/browse/sources'
-      path: '/browse/sources'
-      fullPath: '/browse/sources'
-      preLoaderRoute: typeof AppBrowseSourcesRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/dev/spike': {
       id: '/_app/dev/spike'
       path: '/dev/spike'
@@ -277,6 +283,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsSectionRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/browse/sources/': {
+      id: '/_app/browse/sources/'
+      path: '/browse/sources'
+      fullPath: '/browse/sources/'
+      preLoaderRoute: typeof AppBrowseSourcesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/browse/sources/$sourceId': {
+      id: '/_app/browse/sources/$sourceId'
+      path: '/browse/sources/$sourceId'
+      fullPath: '/browse/sources/$sourceId'
+      preLoaderRoute: typeof AppBrowseSourcesSourceIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -288,9 +308,10 @@ interface AppRouteChildren {
   AppAnimeAnimeIdRoute: typeof AppAnimeAnimeIdRoute
   AppBrowseExtensionsRoute: typeof AppBrowseExtensionsRoute
   AppBrowseGlobalSearchRoute: typeof AppBrowseGlobalSearchRoute
-  AppBrowseSourcesRoute: typeof AppBrowseSourcesRoute
   AppDevSpikeRoute: typeof AppDevSpikeRoute
   AppSettingsSectionRoute: typeof AppSettingsSectionRoute
+  AppBrowseSourcesSourceIdRoute: typeof AppBrowseSourcesSourceIdRoute
+  AppBrowseSourcesIndexRoute: typeof AppBrowseSourcesIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -301,9 +322,10 @@ const AppRouteChildren: AppRouteChildren = {
   AppAnimeAnimeIdRoute: AppAnimeAnimeIdRoute,
   AppBrowseExtensionsRoute: AppBrowseExtensionsRoute,
   AppBrowseGlobalSearchRoute: AppBrowseGlobalSearchRoute,
-  AppBrowseSourcesRoute: AppBrowseSourcesRoute,
   AppDevSpikeRoute: AppDevSpikeRoute,
   AppSettingsSectionRoute: AppSettingsSectionRoute,
+  AppBrowseSourcesSourceIdRoute: AppBrowseSourcesSourceIdRoute,
+  AppBrowseSourcesIndexRoute: AppBrowseSourcesIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

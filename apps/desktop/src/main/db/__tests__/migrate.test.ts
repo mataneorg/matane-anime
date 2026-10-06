@@ -178,7 +178,13 @@ describe('SettingsRepository', () => {
   it('returns defaults, stores patches and survives a corrupt value', async () => {
     const { connection } = await freshDatabase();
     const repo = new SettingsRepository(connection.db);
-    expect(repo.getAppSettings()).toEqual({ theme: 'mocha', accent: 'mauve', amoled: false, language: 'system' });
+    expect(repo.getAppSettings()).toEqual({
+      theme: 'mocha',
+      accent: 'mauve',
+      amoled: false,
+      language: 'system',
+      showNsfw: false,
+    });
 
     const updated = repo.updateAppSettings({ theme: 'latte', accent: 'peach' });
     expect(updated).toMatchObject({ theme: 'latte', accent: 'peach', amoled: false });

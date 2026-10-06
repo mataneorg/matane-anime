@@ -61,8 +61,8 @@
       "description": "Sources come from extensions. Add a repository in Extensions, then install the ones you want."
     },
     "extensions": {
-      "title": "No extension repositories",
-      "description": "Matane Anime does not host or suggest any repository. Add one from someone you trust."
+      "title": "No extensions loaded",
+      "description": "Matane Anime ships with no sources. Build an extension with ma-ext and load its folder here."
     },
     "globalSearch": {
       "title": "Search every source at once",
@@ -134,7 +134,133 @@
         "system": "Match system",
         "en": "English",
         "id": "Bahasa Indonesia"
-      }
+      },
+      "nsfw": {
+        "title": "Show 18+ sources",
+        "description": "Sources from extensions marked 18+ appear in Browse and search."
+      },
+      "content": "Content"
+    },
+    "advanced": {
+      "developer": "Developer",
+      "logs": "Extension logs",
+      "noLogs": "Nothing logged yet.",
+      "allExtensions": "All extensions",
+      "loadHint": "Load an extension from its folder to develop it. It reloads when you rebuild it."
     }
+  },
+  "browse": {
+    "sources": {
+      "title": "Sources",
+      "openFromUrl": "Open from URL",
+      "urlPlaceholder": "Paste the address of an anime page",
+      "open": "Open",
+      "notRecognized": "None of your sources recognizes this address.",
+      "allLanguages": "All languages",
+      "notInstalled": "Extension not installed",
+      "pin": "Pin source",
+      "unpin": "Unpin source",
+      "browse": "Browse",
+      "nsfwHidden": "18+ sources are hidden. You can show them in Settings → General."
+    },
+    "picker": "Source",
+    "tabs": {
+      "popular": "Popular",
+      "latest": "Latest"
+    },
+    "search": "Search this source",
+    "filters": {
+      "title": "Filters",
+      "toggle": "Show filters",
+      "reset": "Reset",
+      "apply": "Apply filters",
+      "include": "Include",
+      "exclude": "Exclude",
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "any": "Any",
+      "none": "This source has no filters."
+    },
+    "loadingMore": "Loading more",
+    "end": "That is everything",
+    "empty": {
+      "title": "No results",
+      "description": "Nothing matched. Try another search or fewer filters."
+    },
+    "offline": {
+      "title": "You are offline",
+      "description": "Browsing needs a connection. Your library and history keep working."
+    },
+    "retry": "Try again",
+    "verify": "Verify and try again",
+    "verifying": "Passing the site's security check…",
+    "inLibrary": "In library"
+  },
+  "errors": {
+    "title": "Something went wrong",
+    "NetworkError": "Could not reach the site.",
+    "HttpError": "The site answered with an error ({{status}}).",
+    "CloudflareError": "The site is guarding itself with a security check.",
+    "RateLimitedError": "The site asked us to slow down. Try again in a moment.",
+    "NotFoundError": "The site no longer has this.",
+    "ParseError": "The site changed and the extension could not read it.",
+    "timeout": "The extension took too long to answer.",
+    "interrupted": "The extension got stuck and was stopped.",
+    "memory": "The extension used too much memory and was stopped.",
+    "host_crashed": "The extension process stopped. Try again.",
+    "invalid_result": "The extension returned something the app cannot use.",
+    "offline": "You are offline.",
+    "not_found": "This is not available (any more).",
+    "unknown": "The extension reported an error."
+  },
+  "anime": {
+    "start": "Start watching",
+    "addToLibrary": "Add to library",
+    "download": "Download",
+    "comingSoon": "Coming soon",
+    "refresh": "Refresh",
+    "openInBrowser": "Open in browser",
+    "episodes": "Episodes",
+    "total": "{{count}} total",
+    "sort": {
+      "newest": "Newest first",
+      "oldest": "Oldest first"
+    },
+    "unwatched": "Unwatched",
+    "downloaded": "Downloaded",
+    "missing": "Removed by source",
+    "episodeNumber": "Ep {{number}}",
+    "episodeFallback": "Episode",
+    "noEpisodes": "This source lists no episodes yet.",
+    "refreshFailed": "Could not refresh this anime",
+    "showingSaved": "Showing what was saved earlier.",
+    "loadFailed": "Could not load this anime",
+    "notFound": "This anime is not in the app any more.",
+    "status": {
+      "ongoing": "Ongoing",
+      "completed": "Completed",
+      "hiatus": "On hiatus",
+      "cancelled": "Cancelled"
+    }
+  },
+  "extensions": {
+    "title": "Extensions",
+    "loadFolder": "Load from folder",
+    "devNotice": "Extensions load from folders you choose. Repositories arrive in a later version.",
+    "dev": "Dev",
+    "failed": "Failed to load",
+    "reload": "Reload",
+    "remove": "Remove",
+    "preferences": "Preferences",
+    "sources": "{{count}} source",
+    "sources_other": "{{count}} sources",
+    "folder": "Folder",
+    "save": "Close",
+    "emptyTitle": "No extensions loaded",
+    "emptyDescription": "Matane Anime ships with no sources. Build an extension with ma-ext and load its folder here.",
+    "noPreferences": "This extension has no preferences."
+  },
+  "network": {
+    "offline": "Offline"
   }
 }

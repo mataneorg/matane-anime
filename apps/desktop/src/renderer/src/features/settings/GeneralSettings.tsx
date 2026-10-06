@@ -86,6 +86,25 @@ export function GeneralSettings() {
         </div>
       </section>
 
+      <section className="flex flex-col gap-4 border-t pt-5" aria-labelledby="content-title">
+        <h2 id="content-title" className="text-[15px] leading-[22px] font-semibold">
+          {t('settings.general.content')}
+        </h2>
+        <div className="flex items-center gap-4">
+          <div className="flex-1">
+            <label htmlFor="show-nsfw" className="block font-semibold">
+              {t('settings.general.nsfw.title')}
+            </label>
+            <div className="text-xs leading-4">{t('settings.general.nsfw.description')}</div>
+          </div>
+          <Switch
+            id="show-nsfw"
+            checked={settings.showNsfw}
+            onCheckedChange={(showNsfw) => update.mutate({ showNsfw })}
+          />
+        </div>
+      </section>
+
       <section className="flex flex-col gap-4 border-t pt-5" aria-labelledby="language-title">
         <h2 id="language-title" className="text-[15px] leading-[22px] font-semibold">
           {t('settings.general.language')}

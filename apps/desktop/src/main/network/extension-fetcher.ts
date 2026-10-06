@@ -31,7 +31,7 @@ export interface FetcherOptions {
   isOnline: () => boolean;
 }
 
-interface Raw {
+export interface Raw {
   status: number;
   url: string;
   headers: Record<string, string>;
@@ -54,6 +54,21 @@ export class ExtensionFetcher {
   }
 
   async request(request: HttpRequest): Promise<HttpResult> {
+    const raw = await this.execute(request);
+    return {
+      status: raw.status,
+      url: raw.url,
+      headers: raw.headers,
+      text: decodeBody(raw.body, raw.headers['content-type']),
+    };
+  }
+
+  /** The same request with the body as bytes: covers, keys, anything that is not text. */
+  requestBytes(request: HttpRequest): Promise<Raw> {
+    return this.execute(request);
+  }
+
+  private async execute(request: HttpRequest): Promise<Raw> {
     const idempotent = (request.method ?? 'GET') !== 'POST';
     let solved = false;
     for (let attempt = 0; ; attempt++) {
@@ -87,7 +102,7 @@ export class ExtensionFetcher {
           continue;
         }
       }
-      return { status: raw.status, url: raw.url, headers: raw.headers, text };
+      return raw;
     }
   }
 

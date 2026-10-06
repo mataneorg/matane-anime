@@ -118,6 +118,12 @@ if (!app.requestSingleInstanceLock()) {
       handleAnimeScheme({
         sessions,
         fetchUpstream,
+        fetcherFor: (sourceId) => {
+          const manifest = registry.byExtensionId(sourceId.split('/')[0] ?? '')?.manifest;
+          return manifest
+            ? network.fetcherFor({ id: manifest.id, userAgent: manifest.userAgent, rateLimit: manifest.rateLimit })
+            : undefined;
+        },
         onRequest: (entry) => {
           const message = `anime:// ${entry.status} ${entry.target}${entry.range ? ` [${entry.range}]` : ''}`;
           if (entry.error) log.warn(`${message}: ${entry.error}`);

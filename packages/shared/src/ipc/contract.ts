@@ -39,6 +39,8 @@ export const invokeContract = {
   'app.getInfo': invoke(z.void(), appInfoSchema),
   /** The OS locale, e.g. `en-US`. */
   'app.getLocale': invoke(z.void(), z.string()),
+  /** Opens an http(s) URL in the system browser. Anything else is refused. */
+  'app.openExternal': invoke(z.string(), z.void()),
   'window.minimize': invoke(z.void(), z.void()),
   'window.toggleMaximize': invoke(z.void(), z.void()),
   'window.close': invoke(z.void(), z.void()),

@@ -19,7 +19,13 @@ describe('settingsFromStored', () => {
     const result = settingsFromStored(
       stored({ theme: '"latte"', accent: '"not-an-accent"', amoled: '{oops', language: '"id"' }),
     );
-    expect(result).toEqual({ theme: 'latte', accent: DEFAULT_SETTINGS.accent, amoled: false, language: 'id' });
+    expect(result).toEqual({
+      theme: 'latte',
+      accent: DEFAULT_SETTINGS.accent,
+      amoled: false,
+      language: 'id',
+      showNsfw: false,
+    });
     expect(appSettingsSchema.safeParse(result).success).toBe(true);
   });
 

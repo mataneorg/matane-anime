@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter, useRouterState } from '@tanstack/react-router';
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, WifiOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { networkStatusQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
 import { WindowControls } from './WindowControls';
 
@@ -17,6 +18,8 @@ function crumbsFor(pathname: string): string[] {
       return ['nav.browse', second === 'global-search' ? 'nav.globalSearch' : `nav.${second ?? 'sources'}`];
     case 'settings':
       return ['nav.settings', `settings.sections.${second ?? 'general'}`];
+    case 'anime':
+      return ['nav.library'];
     case 'library':
     case 'updates':
     case 'history':
@@ -32,6 +35,7 @@ export function TitleBar() {
   const router = useRouter();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: info } = useQuery(appInfoQuery);
+  const { data: network } = useQuery(networkStatusQuery);
   const crumbs = crumbsFor(pathname);
   // macOS draws its traffic lights over the top-left corner of the frameless window.
   const leftPadding = info?.platform === 'darwin' ? 'pl-20' : 'pl-3';
@@ -79,6 +83,12 @@ export function TitleBar() {
           </kbd>
         </button>
       </div>
+      {network?.online === false ? (
+        <span className="flex h-6 items-center gap-1.5 rounded-full bg-warning/16 px-2.5 text-xs leading-4 font-medium text-foreground">
+          <WifiOff className="size-3.5" strokeWidth={1.75} aria-hidden />
+          {t('network.offline')}
+        </span>
+      ) : null}
       <WindowControls />
     </header>
   );

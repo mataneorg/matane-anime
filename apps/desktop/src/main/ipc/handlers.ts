@@ -1,5 +1,5 @@
 import { AppError } from '@matane-anime/shared';
-import { BrowserWindow, app, dialog } from 'electron';
+import { BrowserWindow, app, dialog, shell } from 'electron';
 import type { SettingsRepository } from '../db/repositories/settings';
 import type { ExtensionLogs } from '../extensions/logs';
 import type { ExtensionRegistry } from '../extensions/registry';
@@ -46,6 +46,10 @@ export function createHandlers({
       spike: spike !== null,
     }),
     'app.getLocale': () => app.getLocale(),
+    'app.openExternal': async (url) => {
+      if (!/^https?:\/\//i.test(url)) throw new AppError('invalid_input', 'Only http and https links can be opened');
+      await shell.openExternal(url);
+    },
     'window.minimize': (_input, event) => BrowserWindow.fromWebContents(event.sender)?.minimize(),
     'window.toggleMaximize': (_input, event) => {
       const window = BrowserWindow.fromWebContents(event.sender);

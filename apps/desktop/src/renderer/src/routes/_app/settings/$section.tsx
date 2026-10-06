@@ -2,6 +2,7 @@ import { Link, createFileRoute } from '@tanstack/react-router';
 import { SlidersHorizontal } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@renderer/components/EmptyState';
+import { AdvancedSettings } from '@renderer/features/settings/AdvancedSettings';
 import { GeneralSettings } from '@renderer/features/settings/GeneralSettings';
 
 export const Route = createFileRoute('/_app/settings/$section')({ component: SettingsPage });
@@ -42,6 +43,8 @@ function SettingsPage() {
         <h1 className="mb-6 text-2xl leading-8 font-bold tracking-tight">{t(`settings.sections.${active}`)}</h1>
         {active === 'general' ? (
           <GeneralSettings />
+        ) : active === 'advanced' ? (
+          <AdvancedSettings />
         ) : (
           <EmptyState
             icon={SlidersHorizontal}
