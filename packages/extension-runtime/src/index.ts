@@ -10,4 +10,4 @@ export {
   aesDecrypt,
 } from './runtime';
 export * from './results';
-export { SourceClient } from './source-client';
+export { type SourceBackend, SourceClient, runtimeBackend } from './source-client';

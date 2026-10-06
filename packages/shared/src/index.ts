@@ -1,3 +1,4 @@
+export * from './catalog';
 export * from './errors';
 export * from './settings';
 export * from './spike';

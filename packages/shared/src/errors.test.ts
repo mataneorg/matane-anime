@@ -10,6 +10,13 @@ describe('IPC errors', () => {
     expect(decoded.message).toBe('Unknown spike fixture: nope');
   });
 
+  it('carries the detail the UI acts on', () => {
+    const wire = encodeIpcError(new AppError('extension', 'challenge', { kind: 'CloudflareError', status: 503 }));
+    const decoded = decodeIpcError(wire);
+    expect([decoded.code, decoded.detail]).toEqual(['extension', { kind: 'CloudflareError', status: 503 }]);
+    expect(decodeIpcError(encodeIpcError(new AppError('offline', 'x'))).detail).toEqual({});
+  });
+
   it('treats an ordinary error as internal', () => {
     const decoded = decodeIpcError(encodeIpcError(new Error('boom')));
     expect(decoded.code).toBe('internal');

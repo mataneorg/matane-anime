@@ -21,7 +21,11 @@ export type RuntimeErrorCode =
   /** The extension returned something that does not match the contract. */
   | 'invalid_result'
   /** The source does not implement the method (an optional one). */
-  | 'unsupported';
+  | 'unsupported'
+  /** The extension host had unloaded the extension (idle); the caller loads it again and retries. */
+  | 'not_loaded'
+  /** The extension host process died while the call was running. */
+  | 'host_crashed';
 
 /** Everything the host throws for a call into an extension. */
 export class ExtensionRuntimeError extends Error {

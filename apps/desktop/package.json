@@ -25,6 +25,7 @@
     "@electron/rebuild": "4.2.0",
     "@fontsource-variable/figtree": "5.3.0",
     "@fontsource/jetbrains-mono": "5.3.0",
+    "@matane-anime/test-site": "workspace:*",
     "@playwright/test": "1.63.0",
     "@tailwindcss/vite": "4.3.3",
     "@tanstack/react-query": "5.104.1",
@@ -54,10 +55,14 @@
     "zustand": "5.0.15"
   },
   "dependencies": {
+    "@matane-anime/extension-runtime": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*",
     "@matane-anime/shared": "workspace:*",
     "better-sqlite3": "13.0.3",
+    "cheerio": "1.2.0",
     "drizzle-orm": "0.45.3",
     "electron-log": "5.4.4",
+    "quickjs-emscripten": "0.32.0",
     "zod": "4.6.5"
   }
 }

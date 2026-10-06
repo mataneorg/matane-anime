@@ -23,17 +23,39 @@ import {
 import type { CallOptions, ExtensionRuntime } from './runtime';
 
 /**
+ * Where a source's calls go. Locally that is an `ExtensionRuntime`; in the app it is the extension host
+ * process, so everything is async. Whatever comes back is untrusted and checked by `SourceClient`.
+ */
+export interface SourceBackend {
+  call(sourceKey: string, method: string, args: unknown[], options?: CallOptions): Promise<unknown>;
+  supports(sourceKey: string, method: string): Promise<boolean>;
+  preferences(): Promise<unknown>;
+}
+
+export function runtimeBackend(runtime: ExtensionRuntime): SourceBackend {
+  return {
+    call: (sourceKey, method, args, options) => runtime.call(sourceKey, method, args, options),
+    supports: async (sourceKey, method) => runtime.supports(sourceKey, method),
+    preferences: async () => runtime.preferences(),
+  };
+}
+
+/**
  * One source of a runtime, with every result checked against the contract. The app and the CLI both go
  * through this, so an extension that works in `ma-ext test` works in the app. Pages start at 1.
  */
 export class SourceClient {
   constructor(
-    readonly runtime: ExtensionRuntime,
+    readonly backend: SourceBackend,
     readonly sourceKey: string,
   ) {}
 
-  supports(method: 'getLatest' | 'getFilters' | 'resolveUrl' | 'getWebUrl' | 'migrateUrl'): boolean {
-    return this.runtime.supports(this.sourceKey, method);
+  static forRuntime(runtime: ExtensionRuntime, sourceKey: string): SourceClient {
+    return new SourceClient(runtimeBackend(runtime), sourceKey);
+  }
+
+  supports(method: 'getLatest' | 'getFilters' | 'resolveUrl' | 'getWebUrl' | 'migrateUrl'): Promise<boolean> {
+    return this.backend.supports(this.sourceKey, method);
   }
 
   getPopular(page: number, options?: CallOptions): Promise<AnimePage> {
@@ -49,7 +71,7 @@ export class SourceClient {
   }
 
   async getFilters(options?: CallOptions): Promise<Filter[]> {
-    if (!this.supports('getFilters')) return [];
+    if (!(await this.supports('getFilters'))) return [];
     return this.checked('getFilters', [], filterListSchema, options);
   }
 
@@ -76,25 +98,25 @@ export class SourceClient {
   }
 
   async resolveUrl(url: string, options?: CallOptions): Promise<AnimeSummary | null> {
-    if (!this.supports('resolveUrl')) return null;
-    const result = await this.runtime.call<unknown>(this.sourceKey, 'resolveUrl', [url], options);
+    if (!(await this.supports('resolveUrl'))) return null;
+    const result = await this.backend.call(this.sourceKey, 'resolveUrl', [url], options);
     return result === null ? null : this.parse('resolveUrl', animeSummarySchema, result);
   }
 
   async getWebUrl(item: AnimeSummary | Episode, options?: CallOptions): Promise<string | null> {
-    if (!this.supports('getWebUrl')) return null;
-    const result = await this.runtime.call<unknown>(this.sourceKey, 'getWebUrl', [item], options);
+    if (!(await this.supports('getWebUrl'))) return null;
+    const result = await this.backend.call(this.sourceKey, 'getWebUrl', [item], options);
     return typeof result === 'string' && /^https?:\/\//i.test(result) ? result : null;
   }
 
   async migrateUrl(url: string, kind: UrlKind, fromVersion: string, options?: CallOptions): Promise<string | null> {
-    if (!this.supports('migrateUrl')) return null;
-    const result = await this.runtime.call<unknown>(this.sourceKey, 'migrateUrl', [url, kind, fromVersion], options);
+    if (!(await this.supports('migrateUrl'))) return null;
+    const result = await this.backend.call(this.sourceKey, 'migrateUrl', [url, kind, fromVersion], options);
     return typeof result === 'string' && result !== url ? result : null;
   }
 
-  preferences(): Preference[] {
-    return this.parse('preferences', preferenceListSchema, this.runtime.preferences());
+  async preferences(): Promise<Preference[]> {
+    return this.parse('preferences', preferenceListSchema, await this.backend.preferences());
   }
 
   private async checked<S extends z.ZodType>(
@@ -103,7 +125,7 @@ export class SourceClient {
     schema: S,
     options?: CallOptions,
   ): Promise<z.output<S>> {
-    return this.parse(method, schema, await this.runtime.call<unknown>(this.sourceKey, method, args, options));
+    return this.parse(method, schema, await this.backend.call(this.sourceKey, method, args, options));
   }
 
   private parse<S extends z.ZodType>(method: string, schema: S, value: unknown): z.output<S> {

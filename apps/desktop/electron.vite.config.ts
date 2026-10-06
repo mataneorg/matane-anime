@@ -11,6 +11,13 @@ export default defineConfig({
   main: {
     build: {
       externalizeDeps: { exclude: bundledWorkspaceDeps },
+      rollupOptions: {
+        // The extension host runs as a utilityProcess forked from main (docs/adr/0010).
+        input: {
+          index: resolve(__dirname, 'src/main/index.ts'),
+          'extension-host': resolve(__dirname, 'src/extension-host/index.ts'),
+        },
+      },
     },
   },
   preload: {

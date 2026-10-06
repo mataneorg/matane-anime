@@ -33,7 +33,7 @@ async function client(methods: string): Promise<SourceClient> {
     hostInfo: { appName: 'Matane Anime', appVersion: '0.0.0', apiVersion: 1 },
   });
   created.push(runtime);
-  return new SourceClient(runtime, 'en');
+  return SourceClient.forRuntime(runtime, 'en');
 }
 
 const reject = async (promise: Promise<unknown>): Promise<ExtensionRuntimeError> => {
@@ -107,6 +107,6 @@ describe('SourceClient', () => {
 
   it('validates the declared preferences', async () => {
     const source = await client(`x() {}`);
-    expect(source.preferences()).toEqual([{ type: 'text', key: 'k', label: 'K', default: '' }]);
+    expect(await source.preferences()).toEqual([{ type: 'text', key: 'k', label: 'K', default: '' }]);
   });
 });

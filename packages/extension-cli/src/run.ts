@@ -57,8 +57,8 @@ export async function loadSource(
       `No such source "${options.source}". The manifest has: ${built.manifest.sources.map((s) => s.key).join(', ')}`,
     );
   }
-  const client = new SourceClient(runtime, sourceKey);
-  const defaults = Object.fromEntries(client.preferences().map((p) => [p.key, p.default]));
+  const client = SourceClient.forRuntime(runtime, sourceKey);
+  const defaults = Object.fromEntries((await client.preferences()).map((p) => [p.key, p.default]));
   const prefs = { ...defaults, ...parsePrefs(options.prefs) };
   return { client, runtime, host, prefs, sourceKey, call: { prefs } };
 }

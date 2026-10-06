@@ -6,6 +6,7 @@
     "emitDeclarationOnly": true,
     "outDir": "node_modules/.cache/tsc-node",
     "allowImportingTsExtensions": true,
+    "lib": ["ES2023", "DOM"],
     "types": ["node", "electron-vite/node"]
   },
   "include": [

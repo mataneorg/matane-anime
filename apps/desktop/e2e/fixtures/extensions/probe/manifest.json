@@ -1,0 +1,10 @@
+{
+  "id": "probe",
+  "name": "Probe",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "type": "anime",
+  "nsfw": false,
+  "rateLimit": { "perSecond": 5 },
+  "sources": [{ "key": "en", "lang": "en", "name": "Probe" }]
+}

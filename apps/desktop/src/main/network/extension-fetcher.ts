@@ -1,0 +1,178 @@
+import type { HttpRequest, HttpResult } from '@matane-anime/extension-sdk';
+import { HostError } from '@matane-anime/extension-runtime/client';
+import { type Session, net } from 'electron';
+import type { CloudflareSolver } from './cloudflare';
+import { installHeaderBridge, withMarkers } from './header-bridge';
+import {
+  DEFAULT_TIMEOUT_MS,
+  MAX_BODY_BYTES,
+  MAX_REDIRECTS,
+  MAX_RETRIES,
+  MAX_TIMEOUT_MS,
+  decodeBody,
+  isRetryableStatus,
+  joinHeaders,
+  looksLikeChallenge,
+  retryDelayMs,
+} from './policy';
+import { TokenBucket } from './token-bucket';
+
+export interface FetcherOptions {
+  extensionId: string;
+  session: Session;
+  /** Requests per second from the manifest (default 10). */
+  perSecond: number;
+  /** For segments and media: looser, so HLS never waits behind page requests (NET-2). */
+  mediaPerSecond: number;
+  /** Manifest `userAgent`, else the user's global one, else the default. */
+  userAgent: () => string;
+  solver: CloudflareSolver;
+  /** Reported to the UI when a request fails while the machine is offline. */
+  isOnline: () => boolean;
+}
+
+interface Raw {
+  status: number;
+  url: string;
+  headers: Record<string, string>;
+  body: Uint8Array;
+}
+
+/**
+ * Every request an extension makes (docs/PRD.md NET-1…5). One per extension: its own session (cookies,
+ * cache), its own rate limit, http(s) only on every redirect hop, a timeout, retries for what is worth
+ * retrying, and the Cloudflare challenge passed in a window when one shows up.
+ */
+export class ExtensionFetcher {
+  private readonly pages: TokenBucket;
+  readonly media: TokenBucket;
+
+  constructor(private readonly options: FetcherOptions) {
+    this.pages = new TokenBucket(options.perSecond);
+    this.media = new TokenBucket(options.mediaPerSecond);
+    installHeaderBridge(options.session);
+  }
+
+  async request(request: HttpRequest): Promise<HttpResult> {
+    const idempotent = (request.method ?? 'GET') !== 'POST';
+    let solved = false;
+    for (let attempt = 0; ; attempt++) {
+      await this.pages.take();
+      let raw: Raw;
+      try {
+        raw = await this.once(request);
+      } catch (error) {
+        const wait = idempotent ? retryDelayMs(attempt, undefined) : null;
+        if (wait === null || error instanceof HostError) throw this.offlineAware(error);
+        await new Promise((resolve) => setTimeout(resolve, wait));
+        continue;
+      }
+
+      const text = decodeBody(raw.body, raw.headers['content-type']);
+      if (!solved && looksLikeChallenge(raw.status, raw.headers, text.slice(0, 4096))) {
+        solved = true;
+        if (await this.options.solver.solve(this.options.extensionId, request.url)) {
+          attempt = -1; // a fresh set of retries with the cookie in place
+          continue;
+        }
+        throw new HostError(
+          'CloudflareError',
+          `${new URL(request.url).host} is behind a Cloudflare challenge that could not be passed`,
+        );
+      }
+      if (isRetryableStatus(raw.status)) {
+        const wait = idempotent ? retryDelayMs(attempt, raw.headers['retry-after']) : null;
+        if (wait !== null && attempt < MAX_RETRIES) {
+          await new Promise((resolve) => setTimeout(resolve, wait));
+          continue;
+        }
+      }
+      return { status: raw.status, url: raw.url, headers: raw.headers, text };
+    }
+  }
+
+  private offlineAware(error: unknown): unknown {
+    if (error instanceof HostError || this.options.isOnline()) return error;
+    return new HostError('NetworkError', 'You are offline');
+  }
+
+  /** One attempt: no retry, no challenge handling. */
+  private once(request: HttpRequest): Promise<Raw> {
+    return new Promise<Raw>((resolve, reject) => {
+      const method = request.method ?? 'GET';
+      const timeoutMs = Math.min(request.timeoutMs ?? DEFAULT_TIMEOUT_MS, MAX_TIMEOUT_MS);
+      const client = net.request({
+        method,
+        url: request.url,
+        session: this.options.session,
+        useSessionCookies: true,
+        redirect: 'manual',
+      });
+      const headers = { 'user-agent': this.options.userAgent(), ...lowerKeys(request.headers) };
+      for (const [name, value] of Object.entries(withMarkers(headers))) client.setHeader(name, value);
+
+      let settled = false;
+      let hops = 0;
+      let currentUrl = request.url;
+      const fail = (error: Error): void => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        client.abort();
+        reject(error);
+      };
+      const timer = setTimeout(
+        () =>
+          fail(
+            new HostError('NetworkError', `${new URL(currentUrl).host} did not answer within ${timeoutMs / 1000} s`),
+          ),
+        timeoutMs,
+      );
+
+      client.on('redirect', (_status, _method, redirectUrl) => {
+        let target: URL;
+        try {
+          target = new URL(redirectUrl);
+        } catch {
+          return fail(new HostError('NetworkError', `Redirect to an invalid URL: ${redirectUrl}`));
+        }
+        if (target.protocol !== 'http:' && target.protocol !== 'https:') {
+          return fail(new HostError('NetworkError', `Refusing a redirect to ${target.protocol}`));
+        }
+        if (++hops > MAX_REDIRECTS) return fail(new HostError('NetworkError', 'Too many redirects'));
+        currentUrl = target.href;
+        client.followRedirect();
+      });
+      client.on('response', (response) => {
+        const chunks: Buffer[] = [];
+        let size = 0;
+        response.on('data', (chunk: Buffer) => {
+          size += chunk.length;
+          if (size > MAX_BODY_BYTES) return fail(new HostError('NetworkError', 'The response is too large'));
+          chunks.push(chunk);
+        });
+        response.on('end', () => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          resolve({
+            status: response.statusCode,
+            url: currentUrl,
+            headers: joinHeaders(response.headers),
+            body: Buffer.concat(chunks),
+          });
+        });
+        response.on('error', (error: Error) => fail(new HostError('NetworkError', error.message)));
+      });
+      client.on('error', (error) => fail(new HostError('NetworkError', error.message.replace(/^net::/, ''))));
+      client.on('abort', () => fail(new HostError('NetworkError', 'The request was aborted')));
+
+      if (request.body !== undefined && method === 'POST') client.write(request.body);
+      client.end();
+    });
+  }
+}
+
+function lowerKeys(headers: Record<string, string> | undefined): Record<string, string> {
+  return Object.fromEntries(Object.entries(headers ?? {}).map(([name, value]) => [name.toLowerCase(), value]));
+}

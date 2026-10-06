@@ -32,7 +32,7 @@ export async function runTest(dir: string, options: TestOptions): Promise<number
         (p) => `${p.items.length} items, next page: ${p.hasNextPage ? 'yes' : 'no'}`,
       ),
     );
-    if (client.supports('getLatest')) {
+    if (await client.supports('getLatest')) {
       check(
         await step(
           'getLatest(1)',
@@ -92,7 +92,7 @@ export async function runTest(dir: string, options: TestOptions): Promise<number
       console.log('\nNo episodes to resolve streams for.');
     }
 
-    if (client.supports('getWebUrl')) {
+    if (await client.supports('getWebUrl')) {
       check(
         await step(
           'getWebUrl()',
