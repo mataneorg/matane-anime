@@ -2,13 +2,19 @@
   "name": "@matane-anime/extension-sdk",
   "version": "0.0.0",
   "private": true,
-  "description": "Types for Matane Anime extensions (the runtime and tooling arrive in phase 1)",
+  "description": "Types and helpers for writing Matane Anime extensions",
   "license": "MIT",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./manifest": "./src/manifest.ts",
+    "./globals": "./src/globals.ts"
   },
   "scripts": {
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
   }
 }

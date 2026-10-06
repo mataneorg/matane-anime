@@ -1,0 +1,16 @@
+{
+  "name": "@matane-anime/test-site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A fake anime site on loopback for tests: HTML pages, embeds, HLS/MP4 media, a Cloudflare-style challenge",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "serve": "node src/serve.ts"
+  }
+}

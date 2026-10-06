@@ -1,2 +1,13 @@
-// Placeholder. The QuickJS runtime (memory, CPU and time limits, host API) is built in phase 1.
-export {};
+export * from './errors';
+export {
+  type CallOptions,
+  type CreateRuntimeOptions,
+  DEFAULT_LIMITS,
+  ExtensionRuntime,
+  type HostApi,
+  type LogLevel,
+  type RuntimeLimits,
+  aesDecrypt,
+} from './runtime';
+export * from './results';
+export { SourceClient } from './source-client';

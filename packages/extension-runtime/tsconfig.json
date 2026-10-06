@@ -1,4 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
+  // DOM only for the `WebAssembly` types; the runtime runs in Node.
+  "compilerOptions": { "lib": ["ES2023", "DOM"], "types": ["node"] },
   "include": ["src"]
 }

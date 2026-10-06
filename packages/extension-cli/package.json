@@ -1,0 +1,32 @@
+{
+  "name": "@matane-anime/extension-cli",
+  "version": "0.0.0",
+  "private": true,
+  "description": "ma-ext: create, build, test and benchmark Matane Anime extensions",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "ma-ext": "bin/ma-ext.js"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "prepare": "node scripts/build.mjs",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@matane-anime/extension-runtime": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*",
+    "cheerio": "1.2.0",
+    "commander": "15.0.0",
+    "esbuild": "0.28.2",
+    "quickjs-emscripten": "0.32.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@matane-anime/test-site": "workspace:*"
+  }
+}

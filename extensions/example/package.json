@@ -1,0 +1,16 @@
+{
+  "name": "@matane-anime/example-extension",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Exercises every part of the extension contract against the fake site in packages/test-site. Not shipped with the app.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "ma-ext build",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@matane-anime/extension-cli": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "example",
+  "name": "Example Site",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "type": "anime",
+  "nsfw": false,
+  "rateLimit": { "perSecond": 20 },
+  "sources": [
+    { "key": "en", "lang": "en", "name": "Example Site (EN)" },
+    { "key": "id", "lang": "id", "name": "Example Site (ID)" }
+  ]
+}

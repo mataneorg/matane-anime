@@ -19,3 +19,6 @@ playwright-report/
 
 # Results written by the playback spike (one file per OS, uploaded by CI)
 spike-results*.json
+
+# CodeGraph index (local)
+.codegraph/
