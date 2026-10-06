@@ -145,6 +145,7 @@ test('shows an anime: details come in on their own, episodes are listed, errors 
   await go('#/browse/sources/example%2Fen');
   await cards().filter({ hasText: 'Sky Harbor' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Sky Harbor' })).toBeVisible();
+  await expect(page.getByRole('navigation', { name: 'Breadcrumb' })).toContainText('Sky Harbor');
   await expect(page.getByText('Sora no Minato · Hafen im Himmel')).toBeVisible();
   await expect(page.getByText('12 total')).toBeVisible();
   await expect(page.getByRole('listitem')).toHaveCount(12);

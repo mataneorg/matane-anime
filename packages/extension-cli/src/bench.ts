@@ -65,6 +65,25 @@ async function synthetic(name: string, code: string, body: string, runs: number)
 const wrap = (method: string): string =>
   `globalThis.__extension = { createSource() { return { run: async () => { ${method} } }; } };`;
 
+/** What it costs to start an extension: a fresh WASM module (its own memory cap) plus the prelude. */
+async function creation(runs: number): Promise<Row> {
+  const times: number[] = [];
+  let heap = 0;
+  for (let i = 0; i < runs; i++) {
+    const started = performance.now();
+    const runtime = await ExtensionRuntime.create({
+      code: wrap('return 1;'),
+      manifest,
+      host: canned(''),
+      hostInfo: HOST_INFO,
+    });
+    times.push(performance.now() - started);
+    heap = Math.max(heap, runtime.memoryUsage());
+    runtime.dispose();
+  }
+  return { name: 'Creating a runtime', p50: percentile(times, 50), p95: percentile(times, 95), heapMb: heap / 1048576 };
+}
+
 /** The synthetic worst cases of docs/adr/0010: a big JSON feed, a big HTML page, and a CPU loop. */
 export async function runSynthetic(runs: number): Promise<Row[]> {
   const feed = JSON.stringify({
@@ -78,6 +97,7 @@ export async function runSynthetic(runs: number): Promise<Row[]> {
   });
   const page = `<ul>${Array.from({ length: 3000 }, (_, i) => `<li class="card"><a href="/a/${i}"><img src="/i/${i}.jpg"><h3 class="title">Title ${i}</h3></a></li>`).join('')}</ul>`;
   return [
+    await creation(runs),
     await synthetic(
       '10k-episode JSON feed → mapped',
       wrap(

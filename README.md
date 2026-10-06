@@ -2,7 +2,7 @@
 
 A desktop app for watching anime from sources you choose, with a library, watch progress, downloads and new-episode alerts. Built with Electron, React and TypeScript; styled with Catppuccin.
 
-> **Status: pre-alpha (phase 0).** The app shell, settings, database and the playback proof of concept exist. There is nothing to watch yet: sources arrive with the extension system in phase 1. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
+> **Status: pre-alpha (phase 1 done).** Extensions load from folders, you can browse sources, open an anime, and watch it in the player with server fallback. There is no library, progress, download or update checker yet, and no extension repository: those are phases 2 to 4. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
 
 Matane Anime does not host, distribute or index any video. It ships with no sources; extensions are written and added by the user, who is responsible for what they use them for.
 
@@ -26,11 +26,19 @@ pnpm dev         # starts the app with hot reload
 ## Layout
 
 ```
-apps/desktop            Electron app (main, preload, renderer)
+apps/desktop            Electron app (main, extension host, preload, renderer)
 packages/shared         Domain types, IPC contract, theme constants
 packages/extension-sdk  The contract extensions implement (MIT)
+packages/extension-runtime  The QuickJS sandbox (MIT)
+packages/extension-cli  ma-ext: create, build, test, bench (MIT)
+packages/test-site      A fake anime site on loopback, for tests and for writing extensions
+extensions/example      An extension for the fake site; not shipped
 docs/                   PRD, architecture decisions (adr/), UI mockups (ui/)
 ```
+
+## Extensions
+
+Matane Anime ships no sources. You write an extension for a site (see [docs/extensions.md](docs/extensions.md)), build it with `ma-ext build`, and load its folder under **Extensions → Load from folder**. To try the app without a real site: `pnpm --filter @matane-anime/test-site serve`, build `extensions/example`, load it, and set its _Site address_ preference to the address the server prints.
 
 ## Playback spike
 

@@ -154,7 +154,7 @@ Prioritas: **P0** = wajib di v1.0 · **P1** = diusahakan di v1.0, boleh bergeser
 | ID | Persyaratan | Pri |
 |---|---|---|
 | EXT-1 | Extension adalah bundle `manifest.json` + `index.js` (ES2020, satu file) + `icon.png`, berjalan di **QuickJS (WASM)** di dalam satu `utilityProcess`, **satu runtime per extension**. Runtime dimuat lazy dan dibongkar setelah idle | P0 |
-| EXT-2 | Batas per runtime: memori **64 MB**, kode sinkron maksimal **2 detik**, timeout per panggilan **30 detik** (`getEpisodes`: 60 detik). Dikonfirmasi dengan benchmark `ma-ext bench` di Fase 1 | P0 |
+| EXT-2 | Batas per runtime: memori **64 MB**, kode sinkron maksimal **2 detik**, timeout per panggilan **30 detik** (`getEpisodes`: 60 detik). Dikonfirmasi dengan benchmark `ma-ext bench` di Fase 1 (7 Okt 2026: kasus terburuk realistis memakai ±3% heap dan ±40% anggaran kode sinkron, batas tetap; lihat [ADR 0010](adr/0010-extension-runtime.md)). Batas memori ditegakkan dua lapis: `setMemoryLimit` saja tidak cukup, jadi tiap runtime punya modul WASM dengan memori maksimum | P0 |
 | EXT-3 | Manifest: `id` (tanpa bahasa, tidak pernah berubah), `name`, `version`, `apiVersion`, **`type: "anime"`**, `nsfw`, `rateLimit`, `sources[]` (`key`, `lang`). App menolak manifest dengan `type` selain `anime` agar extension Matane tidak terpasang tersalah | P0 |
 | EXT-4 | Source id = `<extensionId>/<key>`. Anime unik berdasarkan `(sourceId, url)`; episode unik berdasarkan `(animeId, url)` | P0 |
 | EXT-5 | Repositori = `index.json` + `index.json.sig` (ed25519) + arsip zip + ikon. Arsip diperiksa terhadap `sha256` dan ukuran sebelum ditulis. Batas: index 2 MB, arsip 20 MB, ikon 512 KB | P0 |
@@ -163,7 +163,7 @@ Prioritas: **P0** = wajib di v1.0 · **P1** = diusahakan di v1.0, boleh bergeser
 | EXT-8 | Install dua langkah (`prepareInstall` memeriksa dan menampilkan dialog; `install(token)` menulis). Penulisan atomik (`.tmp` → `.old` → rename). Update memasang langsung; "Update all". Uninstall menghapus folder, storage, prefs, dan session `persist:ext-<id>`; source tetap di DB (anime tampil "source belum terpasang") | P0 |
 | EXT-9 | Satu `id` hanya boleh berasal dari satu repo pada satu waktu; prioritas asal: folder dev > repo | P0 |
 | EXT-10 | **Mode dev**: muat extension dari folder, hot reload, panel log extension | P0 |
-| EXT-11 | Host API di sandbox: `http`, `html` (CSS selector, parsing di host), `storage`, `prefs`, `log`, `crypto` (md5/sha1/sha256/`aesDecrypt`), `base64`, `utf8`, `timers.sleep`. Tanpa `require`, `fetch`, `process`, atau akses file. `eval` diizinkan (di dalam sandbox) | P0 |
+| EXT-11 | Host API di sandbox: `http`, `html` (CSS selector, parsing di host), `storage`, `prefs`, `log`, `crypto` (md5/sha1/sha256/`aesDecrypt`), `base64`, `utf8`, `timers.sleep`, serta `URL` dan `URLSearchParams` (QuickJS tidak punya API web). Tanpa `require`, `fetch`, `process`, atau akses file. `eval` diizinkan (di dalam sandbox) | P0 |
 | EXT-12 | Error bertipe: `NetworkError`, `HttpError(status)`, `CloudflareError`, `RateLimitedError`, `NotFoundError`, `ParseError`; UI menampilkan pesan yang sesuai | P0 |
 | EXT-13 | Preferensi extension dideklarasikan sekali (`switch`/`select`/`multiselect`/`text`); UI setting dibuat otomatis | P0 |
 | EXT-14 | Filter extension (`text`/`select`/`checkbox`/`tristate`/`sort`/`group`) dirender otomatis | P0 |
@@ -201,7 +201,7 @@ Prioritas: **P0** = wajib di v1.0 · **P1** = diusahakan di v1.0, boleh bergeser
 | PLY-9 | Posisi terakhir dipulihkan saat episode dibuka (aturan di §6.6) | P0 |
 | PLY-10 | Panel daftar episode di dalam pemutar (ganti episode tanpa keluar) | P1 |
 | PLY-11 | Media keys (MediaSession): play/pause, next, previous; metadata judul dan cover | P1 |
-| PLY-12 | Stream dengan `CODECS` yang tidak didukung (`MediaSource.isTypeSupported`) diberi peringkat paling akhir | P1 |
+| PLY-12 | Stream dengan `CODECS` yang tidak didukung (`MediaSource.isTypeSupported`) diberi peringkat paling akhir | P1 (ditunda: main tidak bisa memanggil `isTypeSupported`, butuh probe kemampuan dari renderer; saat ini audio tanpa gambar dideteksi saat memutar dan memicu server berikutnya, [ADR 0014](adr/0014-playback-service.md)) |
 
 Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pada build Chromium dan OS. Hasil uji di Fase 0 dicatat di ADR; stream yang gagal diputar menghasilkan error yang jelas (PLY-6), bukan layar kosong.
 
@@ -630,7 +630,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Kunci versi toolchain (ADR).
 - ADR: mockup di Claude Design (`docs/ui/MOCKUP_PLAN.md`, tema Catppuccin) menjadi **sumber kebenaran UI**, setara ADR 0008 di Matane.
 
-**Fase 1: Extension dan menonton**
+**Fase 1: Extension dan menonton** *(selesai 7 Okt 2026; rencana dan penyimpangannya di [docs/plans/fase-1-extension-menonton.md](plans/fase-1-extension-menonton.md))*
 - `extension-runtime` (QuickJS) + batas sumber daya + test sandbox + benchmark; extension host; host API.
 - Network layer: `net.request`, partition per extension, rate limit (termasuk bucket media), UA, Cloudflare.
 - SDK + `ma-ext create|build|test|bench`; extension contoh untuk uji E2E (tidak dikirim bersama app). Setelah SDK jadi, pemilik produk menulis extension nyata pertama di **repo terpisah** untuk uji manual; repo app tidak merujuknya.

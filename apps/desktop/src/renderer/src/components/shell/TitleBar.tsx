@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter, useRouterState } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, Search, WifiOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { networkStatusQuery } from '@renderer/lib/catalog';
+import { animeQuery, networkStatusQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
 import { WindowControls } from './WindowControls';
 
@@ -36,7 +36,13 @@ export function TitleBar() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: info } = useQuery(appInfoQuery);
   const { data: network } = useQuery(networkStatusQuery);
-  const crumbs = crumbsFor(pathname);
+  // An anime page ends in the anime's own title (mockup 02); the others are fixed translation keys.
+  const animeId = /^\/anime\/(\d+)/.exec(pathname)?.[1];
+  const { data: anime } = useQuery({ ...animeQuery(Number(animeId)), enabled: animeId !== undefined });
+  const crumbs: { text: string }[] = [
+    ...crumbsFor(pathname).map((key) => ({ text: t(key) })),
+    ...(animeId !== undefined && anime ? [{ text: anime.title }] : []),
+  ];
   // macOS draws its traffic lights over the top-left corner of the frameless window.
   const leftPadding = info?.platform === 'darwin' ? 'pl-20' : 'pl-3';
 
@@ -64,10 +70,10 @@ export function TitleBar() {
       </div>
       <nav aria-label="Breadcrumb" className="text-xs leading-4 whitespace-nowrap text-muted-foreground">
         {t('app.name')}
-        {crumbs.map((key, index) => (
-          <span key={key}>
+        {crumbs.map(({ text }, index) => (
+          <span key={`${index}-${text}`}>
             <span className="px-1">/</span>
-            <span className={index === crumbs.length - 1 ? 'text-foreground' : undefined}>{t(key)}</span>
+            <span className={index === crumbs.length - 1 ? 'text-foreground' : undefined}>{text}</span>
           </span>
         ))}
       </nav>

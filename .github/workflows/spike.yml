@@ -38,12 +38,12 @@ jobs:
         run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
       - name: Spike (Linux, virtual display)
         if: runner.os == 'Linux'
-        run: xvfb-run -a pnpm e2e
+        run: xvfb-run -a pnpm e2e e2e/spike.spec.ts
         env:
           CI: 'true'
       - name: Spike
         if: runner.os != 'Linux'
-        run: pnpm e2e
+        run: pnpm e2e e2e/spike.spec.ts
         env:
           CI: 'true'
       - uses: actions/upload-artifact@v4

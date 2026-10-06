@@ -1,5 +1,15 @@
 # Plan: Fase 1 (Extension dan menonton) Matane Anime
 
+> **Status: selesai (7 Okt 2026), dalam lima commit (1a–1e).** Penyimpangan dari rencana di bawah, dan apa yang ditemukan di jalan:
+>
+> - **Batas memori runtime** ternyata tidak ditegakkan `setMemoryLimit` untuk semua alokasi (150 MB di bawah batas 4 MB). Tiap runtime sekarang punya modul WASM dengan memori maksimum ([ADR 0010](../adr/0010-extension-runtime.md)).
+> - **Sandbox tidak punya `URL`/`URLSearchParams`**: ditambahkan ke prelude (ditemukan saat menjalankan extension pertama).
+> - **User-Agent** masih memuat token app (`MataneAnime/x`) karena Chromium menulisnya tanpa spasi; ditemukan oleh tes e2e dan diperbaiki.
+> - **Cover** butuh `anime://cover/<source>/<gambar>` sejak Fase 1 (rencana semula menundanya); cover permanen tetap Fase 2.
+> - Ditambahkan di luar rencana: setting `showNsfw` dan setting pemutar (autoplay, kualitas, lompatan seek, volume, mute, kecepatan), `app.openExternal`, paket `packages/test-site`, dan skenario stream `refreshing`/`fallback` di situs tiruan.
+> - **Belum**: ranking `CODECS` (PLY-12), preferensi yang bisa diatur untuk shortcut, resume/progres (Fase 2), spike di Windows dan macOS (menunggu repo GitHub).
+> - Breadcrumb halaman anime masih "Library" (bukan judul anime); poles kecil.
+
 ## Context
 
 Fase 0 selesai: monorepo, shell Catppuccin, IPC bertipe (zod), seluruh skema SQLite §9, i18n EN/ID, CI, ADR 0001–0009, dan spike pemutaran (HLS TS/AES/fMP4, URI absolut, seek MP4 `Range` 206 lewat `anime://`; lulus 11 tes di Linux). Fase 1 (PRD §13) membuat app **benar-benar bisa dipakai menonton**: extension berjalan di sandbox QuickJS, browse → detail → putar episode, dengan pemilihan stream, probe, dan fallback.
