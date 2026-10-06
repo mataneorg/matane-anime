@@ -1,0 +1,12 @@
+node_modules
+out
+dist
+release
+pnpm-lock.yaml
+**/routeTree.gen.ts
+**/drizzle/meta
+LICENSE
+docs
+test-results
+playwright-report
+apps/desktop/e2e/fixtures/media

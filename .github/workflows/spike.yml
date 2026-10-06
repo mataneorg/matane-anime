@@ -1,0 +1,87 @@
+name: Playback spike
+
+# Plays every fixture through the anime:// proxy in the real app on each OS (docs/adr/0008-media-transport.md).
+# Run it by hand, or let it run when the playback code changes.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/desktop/src/main/playback/**'
+      - 'apps/desktop/src/renderer/src/features/spike/**'
+      - 'apps/desktop/e2e/**'
+      - '.github/workflows/spike.yml'
+
+concurrency:
+  group: spike-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  spike:
+    name: spike (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false # a failure on one OS must not hide the results of the others
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Ubuntu 24.04 runners restrict unprivileged user namespaces (AppArmor), which Chromium's
+      # sandbox needs; without it every Electron start aborts.
+      - name: Allow user namespaces for the Chromium sandbox
+        if: runner.os == 'Linux'
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - name: Spike (Linux, virtual display)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a pnpm e2e
+        env:
+          CI: 'true'
+      - name: Spike
+        if: runner.os != 'Linux'
+        run: pnpm e2e
+        env:
+          CI: 'true'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spike-results-${{ runner.os }}
+          path: apps/desktop/test-results/spike-results-*.json
+          if-no-files-found: warn
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-${{ runner.os }}
+          path: |
+            apps/desktop/playwright-report
+            apps/desktop/test-results
+          retention-days: 7
+
+  report:
+    name: report
+    needs: spike
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: spike-results-*
+          path: spike-results
+          merge-multiple: true
+      # The tables for the ADRs. Exits non-zero when a transport fixture fails on any OS.
+      - name: Report
+        run: |
+          set -o pipefail
+          pnpm --filter @matane-anime/desktop spike:report "$GITHUB_WORKSPACE"/spike-results/*.json | tee "$GITHUB_STEP_SUMMARY"

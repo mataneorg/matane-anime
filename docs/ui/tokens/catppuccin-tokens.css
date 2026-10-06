@@ -1,0 +1,48 @@
+/* Matane Anime tokens as CSS variables. Mocha is the default; Latte replaces the palette and re-declares every alias. */
+:root, [data-theme="mocha"] {
+  color-scheme: dark;
+  --crust: #11111b; --mantle: #181825; --base: #1e1e2e;
+  --surface0: #313244; --surface1: #45475a; --surface2: #585b70;
+  --overlay0: #6c7086; --overlay1: #7f849c; --overlay2: #9399b2;
+  --subtext0: #a6adc8; --subtext1: #bac2de; --text: #cdd6f4;
+  --rosewater: #f5e0dc; --flamingo: #f2cdcd; --pink: #f5c2e7; --mauve: #cba6f7;
+  --red: #f38ba8; --maroon: #eba0ac; --peach: #fab387; --yellow: #f9e2af;
+  --green: #a6e3a1; --teal: #94e2d5; --sky: #89dceb; --sapphire: #74c7ec;
+  --blue: #89b4fa; --lavender: #b4befe;
+  --background: var(--base); --foreground: var(--text); --muted-foreground: var(--subtext0);
+  --sidebar: var(--mantle); --popover: var(--mantle); --card: var(--surface0);
+  --border: var(--surface0); --border-strong: var(--overlay0); --input: var(--surface1);
+  --accent: var(--mauve); --on-accent: var(--crust);
+  --success: var(--green); --warning: var(--peach); --danger: var(--red); --info: var(--sapphire);
+  --shadow-popover: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-dialog: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+[data-theme="latte"] {
+  color-scheme: light;
+  --crust: #dce0e8; --mantle: #e6e9ef; --base: #eff1f5;
+  --surface0: #ccd0da; --surface1: #bcc0cc; --surface2: #acb0be;
+  --overlay0: #9ca0b0; --overlay1: #8c8fa1; --overlay2: #7c7f93;
+  --subtext0: #6c6f85; --subtext1: #5c5f77; --text: #4c4f69;
+  --rosewater: #dc8a78; --flamingo: #dd7878; --pink: #ea76cb; --mauve: #8839ef;
+  --red: #d20f39; --maroon: #e64553; --peach: #fe640b; --yellow: #df8e1d;
+  --green: #40a02b; --teal: #179299; --sky: #04a5e5; --sapphire: #209fb5;
+  --blue: #1e66f5; --lavender: #7287fd;
+  --background: var(--base); --foreground: var(--text); --muted-foreground: var(--subtext1);
+  --sidebar: var(--mantle); --popover: var(--mantle); --card: var(--surface0);
+  --border: var(--surface0); --border-strong: var(--overlay2); --input: var(--surface1);
+  --accent: var(--mauve); --on-accent: var(--base);
+  --success: var(--green); --warning: var(--peach); --danger: var(--red); --info: var(--sapphire);
+  --shadow-popover: 0 8px 24px rgba(76, 79, 105, 0.18);
+  --shadow-dialog: 0 16px 48px rgba(76, 79, 105, 0.25);
+}
+/* The player does not follow Latte: the same values in both themes. */
+:root {
+  --video-stage: #11111b; --video-scrim: #11111bd9; --video-text: #cdd6f4; --video-muted: #a6adc8;
+  --video-track: #45475a; --video-buffered: #9399b2; --video-accent: #cba6f7; --video-on-accent: #11111b;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-8: 32px; --space-10: 40px; --space-12: 48px;
+  --titlebar-h: 40px; --sidebar-w: 224px; --sidebar-w-collapsed: 64px; --topbar-h: 56px; --bottombar-h: 64px;
+  --radius-sm: 4px; --radius-md: 6px; --radius-lg: 8px; --radius-xl: 12px; --radius-full: 9999px;
+  --font-sans: "Figtree", "Noto Sans JP", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}

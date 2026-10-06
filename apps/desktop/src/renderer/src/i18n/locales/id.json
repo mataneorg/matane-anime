@@ -1,0 +1,121 @@
+{
+  "app": { "name": "Matane Anime" },
+  "nav": {
+    "library": "Pustaka",
+    "updates": "Pembaruan",
+    "history": "Riwayat",
+    "browse": "Jelajah",
+    "sources": "Sumber",
+    "extensions": "Extension",
+    "globalSearch": "Cari di semua sumber",
+    "downloads": "Unduhan",
+    "settings": "Pengaturan",
+    "spike": "Spike pemutaran",
+    "collapse": "Ciutkan sidebar",
+    "expand": "Perluas sidebar"
+  },
+  "titleBar": {
+    "back": "Kembali",
+    "forward": "Maju",
+    "searchHint": "Cari pustaka, sumber, episode",
+    "minimize": "Perkecil",
+    "maximize": "Perbesar",
+    "restore": "Kembalikan",
+    "close": "Tutup"
+  },
+  "empty": {
+    "library": {
+      "title": "Pustaka kamu masih kosong",
+      "description": "Matane Anime tidak membawa sumber apa pun. Tambahkan repositori extension dari orang yang kamu percaya, pasang sumber yang kamu mau, lalu tambahkan anime untuk diikuti di sini.",
+      "action": "Tambah repositori"
+    },
+    "updates": {
+      "title": "Belum ada episode baru",
+      "description": "Episode baru dari anime di pustaka kamu muncul di sini begitu rilis."
+    },
+    "history": {
+      "title": "Belum ada yang ditonton",
+      "description": "Episode yang mulai kamu tonton muncul di sini, satu entri per anime."
+    },
+    "sources": {
+      "title": "Belum ada sumber terpasang",
+      "description": "Sumber berasal dari extension. Tambahkan repositori di Extension, lalu pasang yang kamu mau."
+    },
+    "extensions": {
+      "title": "Belum ada repositori extension",
+      "description": "Matane Anime tidak menyediakan atau menyarankan repositori apa pun. Tambahkan dari orang yang kamu percaya."
+    },
+    "globalSearch": {
+      "title": "Cari di semua sumber sekaligus",
+      "description": "Pasang satu sumber dulu, lalu cari di semuanya dari sini."
+    },
+    "downloads": {
+      "title": "Belum ada unduhan",
+      "description": "Episode yang kamu unduh untuk ditonton offline muncul di sini beserta progresnya."
+    },
+    "anime": {
+      "title": "Anime tidak ditemukan",
+      "description": "Anime ini belum ada di pustaka kamu."
+    },
+    "watch": {
+      "title": "Tidak ada yang diputar",
+      "description": "Pemutarnya hadir di fase berikutnya."
+    }
+  },
+  "settings": {
+    "title": "Pengaturan",
+    "sectionsLabel": "Bagian pengaturan",
+    "sections": {
+      "general": "Umum",
+      "library": "Pustaka",
+      "player": "Pemutar",
+      "downloads": "Unduhan",
+      "extensions": "Jelajah dan extension",
+      "network": "Jaringan",
+      "data": "Data dan penyimpanan",
+      "advanced": "Lanjutan",
+      "about": "Tentang"
+    },
+    "unavailable": {
+      "title": "Belum tersedia",
+      "description": "Bagian pengaturan ini hadir di fase berikutnya."
+    },
+    "general": {
+      "appearance": "Tampilan",
+      "theme": "Tema",
+      "themes": {
+        "system": "Ikuti sistem",
+        "mocha": "Mocha",
+        "macchiato": "Macchiato",
+        "frappe": "Frappé",
+        "latte": "Latte"
+      },
+      "accent": "Warna aksen",
+      "accents": {
+        "rosewater": "Rosewater",
+        "flamingo": "Flamingo",
+        "pink": "Pink",
+        "mauve": "Mauve",
+        "red": "Red",
+        "maroon": "Maroon",
+        "peach": "Peach",
+        "yellow": "Yellow",
+        "green": "Green",
+        "teal": "Teal",
+        "sky": "Sky",
+        "sapphire": "Sapphire",
+        "blue": "Blue",
+        "lavender": "Lavender"
+      },
+      "amoled": "Latar hitam pekat",
+      "amoledHint": "Membuat tema gelap menjadi hitam, untuk layar OLED. Tidak tersedia di Latte.",
+      "language": "Bahasa",
+      "appLanguage": "Bahasa aplikasi",
+      "languages": {
+        "system": "Ikuti sistem",
+        "en": "English",
+        "id": "Bahasa Indonesia"
+      }
+    }
+  }
+}

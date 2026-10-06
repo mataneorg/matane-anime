@@ -1,0 +1,143 @@
+@import 'tailwindcss';
+@import '@catppuccin/tailwindcss/mocha.css';
+
+/*
+ * Theme model (docs/ui/design-system.md, docs/PRD.md UI-3):
+ * - flavor: one of .latte/.frappe/.macchiato/.mocha on <html> (palette variables from @catppuccin/tailwindcss)
+ * - .amoled: dark flavors with pure black surfaces
+ * - data-accent: one of the 14 Catppuccin accents; text on the accent is `on-accent`
+ * The semantic names below are the Design System's, so a screen built from its tokens maps one to one.
+ */
+
+@custom-variant amoled (&:where(.amoled, .amoled *));
+
+@theme inline {
+  --font-sans: 'Figtree Variable', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-background: var(--catppuccin-color-base);
+  --color-foreground: var(--catppuccin-color-text);
+  --color-muted-foreground: var(--app-muted);
+  --color-sidebar: var(--catppuccin-color-mantle);
+  --color-popover: var(--catppuccin-color-mantle);
+  --color-card: var(--catppuccin-color-surface0);
+  --color-border: var(--catppuccin-color-surface0);
+  --color-border-strong: var(--app-border-strong);
+  --color-input: var(--catppuccin-color-surface1);
+  --color-accent: var(--app-accent);
+  --color-on-accent: var(--app-on-accent);
+  --color-success: var(--catppuccin-color-green);
+  --color-warning: var(--catppuccin-color-peach);
+  --color-danger: var(--catppuccin-color-red);
+  --color-info: var(--catppuccin-color-sapphire);
+  --color-ring: var(--app-accent);
+
+  /* The player stays dark in every theme (Design System: video-*). */
+  --color-video-stage: #11111b;
+  --color-video-scrim: #11111bd9;
+  --color-video-text: #cdd6f4;
+  --color-video-muted: #a6adc8;
+  --color-video-track: #45475a;
+  --color-video-buffered: #9399b2;
+  --color-video-accent: #cba6f7;
+  --color-video-on-accent: #11111b;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --app-accent: var(--catppuccin-color-mauve);
+    --app-on-accent: var(--catppuccin-color-crust);
+    /* subtext0 reads at 7:1 or better on the dark flavors, but only 4.4:1 on Latte (Design System note). */
+    --app-muted: var(--catppuccin-color-subtext0);
+    --app-border-strong: var(--catppuccin-color-overlay0);
+  }
+  .latte {
+    color-scheme: light;
+    --app-on-accent: var(--catppuccin-color-base);
+    --app-muted: var(--catppuccin-color-subtext1);
+    --app-border-strong: var(--catppuccin-color-overlay2);
+  }
+  [data-accent='rosewater'] {
+    --app-accent: var(--catppuccin-color-rosewater);
+  }
+  [data-accent='flamingo'] {
+    --app-accent: var(--catppuccin-color-flamingo);
+  }
+  [data-accent='pink'] {
+    --app-accent: var(--catppuccin-color-pink);
+  }
+  [data-accent='mauve'] {
+    --app-accent: var(--catppuccin-color-mauve);
+  }
+  [data-accent='red'] {
+    --app-accent: var(--catppuccin-color-red);
+  }
+  [data-accent='maroon'] {
+    --app-accent: var(--catppuccin-color-maroon);
+  }
+  [data-accent='peach'] {
+    --app-accent: var(--catppuccin-color-peach);
+  }
+  [data-accent='yellow'] {
+    --app-accent: var(--catppuccin-color-yellow);
+  }
+  [data-accent='green'] {
+    --app-accent: var(--catppuccin-color-green);
+  }
+  [data-accent='teal'] {
+    --app-accent: var(--catppuccin-color-teal);
+  }
+  [data-accent='sky'] {
+    --app-accent: var(--catppuccin-color-sky);
+  }
+  [data-accent='sapphire'] {
+    --app-accent: var(--catppuccin-color-sapphire);
+  }
+  [data-accent='blue'] {
+    --app-accent: var(--catppuccin-color-blue);
+  }
+  [data-accent='lavender'] {
+    --app-accent: var(--catppuccin-color-lavender);
+  }
+  .amoled {
+    --catppuccin-color-base: #000000;
+    --catppuccin-color-mantle: #000000;
+    --catppuccin-color-crust: #000000;
+    --app-on-accent: #11111b;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-background font-sans text-sm text-foreground antialiased;
+    overflow: hidden;
+    user-select: none;
+  }
+  *,
+  ::before,
+  ::after {
+    @apply border-border;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility drag-region {
+  -webkit-app-region: drag;
+}
+@utility no-drag {
+  -webkit-app-region: no-drag;
+}

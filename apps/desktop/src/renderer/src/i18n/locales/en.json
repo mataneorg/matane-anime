@@ -1,0 +1,121 @@
+{
+  "app": { "name": "Matane Anime" },
+  "nav": {
+    "library": "Library",
+    "updates": "Updates",
+    "history": "History",
+    "browse": "Browse",
+    "sources": "Sources",
+    "extensions": "Extensions",
+    "globalSearch": "Global search",
+    "downloads": "Downloads",
+    "settings": "Settings",
+    "spike": "Playback spike",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar"
+  },
+  "titleBar": {
+    "back": "Back",
+    "forward": "Forward",
+    "searchHint": "Search library, sources, episodes",
+    "minimize": "Minimize",
+    "maximize": "Maximize",
+    "restore": "Restore",
+    "close": "Close"
+  },
+  "empty": {
+    "library": {
+      "title": "Your library is empty",
+      "description": "Matane Anime comes with no sources. Add an extension repository from someone you trust, install the sources you want, then add anime to follow them here.",
+      "action": "Add a repository"
+    },
+    "updates": {
+      "title": "No new episodes",
+      "description": "New episodes of the anime in your library show up here as they come out."
+    },
+    "history": {
+      "title": "Nothing watched yet",
+      "description": "Episodes you start watching appear here, one entry per anime."
+    },
+    "sources": {
+      "title": "No sources installed",
+      "description": "Sources come from extensions. Add a repository in Extensions, then install the ones you want."
+    },
+    "extensions": {
+      "title": "No extension repositories",
+      "description": "Matane Anime does not host or suggest any repository. Add one from someone you trust."
+    },
+    "globalSearch": {
+      "title": "Search every source at once",
+      "description": "Install a source first, then search all of them from here."
+    },
+    "downloads": {
+      "title": "No downloads",
+      "description": "Episodes you download for offline viewing show up here, with their progress."
+    },
+    "anime": {
+      "title": "Anime not found",
+      "description": "This anime is not in your library yet."
+    },
+    "watch": {
+      "title": "Nothing is playing",
+      "description": "The player arrives in the next phase."
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "sectionsLabel": "Settings sections",
+    "sections": {
+      "general": "General",
+      "library": "Library",
+      "player": "Player",
+      "downloads": "Downloads",
+      "extensions": "Browse and extensions",
+      "network": "Network",
+      "data": "Data and storage",
+      "advanced": "Advanced",
+      "about": "About"
+    },
+    "unavailable": {
+      "title": "Not available yet",
+      "description": "This part of Settings arrives in a later phase."
+    },
+    "general": {
+      "appearance": "Appearance",
+      "theme": "Theme",
+      "themes": {
+        "system": "Match system",
+        "mocha": "Mocha",
+        "macchiato": "Macchiato",
+        "frappe": "Frappé",
+        "latte": "Latte"
+      },
+      "accent": "Accent colour",
+      "accents": {
+        "rosewater": "Rosewater",
+        "flamingo": "Flamingo",
+        "pink": "Pink",
+        "mauve": "Mauve",
+        "red": "Red",
+        "maroon": "Maroon",
+        "peach": "Peach",
+        "yellow": "Yellow",
+        "green": "Green",
+        "teal": "Teal",
+        "sky": "Sky",
+        "sapphire": "Sapphire",
+        "blue": "Blue",
+        "lavender": "Lavender"
+      },
+      "amoled": "Pure black background",
+      "amoledHint": "Makes the dark themes black, for OLED screens. Not available in Latte.",
+      "language": "Language",
+      "appLanguage": "App language",
+      "languages": {
+        "system": "Match system",
+        "en": "English",
+        "id": "Bahasa Indonesia"
+      }
+    }
+  }
+}

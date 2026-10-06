@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.icns binary
+# Test media (video segments are *.ts files that are not TypeScript)
+apps/desktop/e2e/fixtures/media/** binary

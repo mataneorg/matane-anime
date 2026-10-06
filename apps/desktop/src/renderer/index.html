@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" class="mocha" data-accent="mauve">
+  <head>
+    <meta charset="UTF-8" />
+    <!--
+      The renderer never talks to the internet (docs/PRD.md §8.3). Video comes through anime:// (served by main),
+      hls.js plays it through MediaSource (blob: URLs) and parses in a worker (blob:). ws: is only for Vite HMR in dev.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: anime:; media-src anime: blob:; worker-src blob:; font-src 'self' data:; connect-src 'self' anime: ws://localhost:*; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Matane Anime</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
