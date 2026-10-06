@@ -1,5 +1,6 @@
 export * from './catalog';
 export * from './errors';
+export * from './playback';
 export * from './settings';
 export * from './spike';
 export * from './theme';

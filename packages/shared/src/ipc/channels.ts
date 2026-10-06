@@ -28,6 +28,11 @@ export const INVOKE_CHANNELS = [
   'anime.get',
   'anime.refresh',
   'episodes.list',
+  'playback.start',
+  'playback.event',
+  'playback.switchStream',
+  'playback.close',
+  'playback.keepAwake',
   // Playback spike (phase 0). Only answered when the app runs with MATANE_SPIKE=1 or in development.
   'spike.fixtures',
   'spike.start',

@@ -5,6 +5,7 @@ import type { ExtensionLogs } from '../extensions/logs';
 import type { ExtensionRegistry } from '../extensions/registry';
 import type { ExtensionService } from '../extensions/service';
 import type { NetworkManager } from '../network/manager';
+import type { PlaybackService } from '../playback/service';
 import type { SpikeApi } from '../playback/spike/api';
 import { type IpcHandlers, broadcast } from './register';
 import type { RequestRegistry } from './requests';
@@ -16,6 +17,7 @@ export interface HandlerDeps {
   logs: ExtensionLogs;
   network: NetworkManager;
   requests: RequestRegistry;
+  playback: PlaybackService;
   /** Null unless the spike is switched on (development, or MATANE_SPIKE=1). */
   spike: SpikeApi | null;
 }
@@ -27,6 +29,7 @@ export function createHandlers({
   logs,
   network,
   requests,
+  playback,
   spike,
 }: HandlerDeps): IpcHandlers {
   const requireSpike = (): SpikeApi => {
@@ -89,6 +92,11 @@ export function createHandlers({
     'anime.get': ({ animeId }) => service.getAnime(animeId),
     'anime.refresh': ({ animeId, requestId }) => service.refresh(animeId, requestId),
     'episodes.list': ({ animeId }) => service.listEpisodes(animeId),
+    'playback.start': ({ episodeId, requestId }) => playback.start(episodeId, requestId),
+    'playback.event': ({ playbackId, event }) => playback.event(playbackId, event),
+    'playback.switchStream': ({ playbackId, index, requestId }) => playback.switchStream(playbackId, index, requestId),
+    'playback.close': ({ playbackId }) => playback.close(playbackId),
+    'playback.keepAwake': ({ enabled }) => playback.keepAwake(enabled),
     'spike.fixtures': () => requireSpike().fixtures(),
     'spike.start': ({ id }) => requireSpike().start(id),
     'spike.stats': () => requireSpike().stats(),

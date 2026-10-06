@@ -147,6 +147,23 @@
       "noLogs": "Nothing logged yet.",
       "allExtensions": "All extensions",
       "loadHint": "Load an extension from its folder to develop it. It reloads when you rebuild it."
+    },
+    "player": {
+      "playback": "Playback",
+      "autoplay": "Play the next episode automatically",
+      "autoplayHint": "A five-second countdown starts when an episode ends, and you can cancel it.",
+      "quality": "Preferred quality",
+      "qualityHint": "Used to pick the first stream. You can always change it in the player.",
+      "qualities": {
+        "highest": "Highest available",
+        "1080": "1080p",
+        "720": "720p",
+        "480": "480p",
+        "360": "360p"
+      },
+      "seek": "Seek step",
+      "seekHint": "Arrow keys jump this far; J and L jump twice as far.",
+      "seekSeconds": "{{count}} seconds"
     }
   },
   "browse": {
@@ -211,7 +228,8 @@
     "invalid_result": "The extension returned something the app cannot use.",
     "offline": "You are offline.",
     "not_found": "This is not available (any more).",
-    "unknown": "The extension reported an error."
+    "unknown": "The extension reported an error.",
+    "no_stream": "No server answered."
   },
   "anime": {
     "start": "Start watching",
@@ -262,5 +280,60 @@
   },
   "network": {
     "offline": "Offline"
+  },
+  "player": {
+    "back": "Back",
+    "play": "Play",
+    "pause": "Pause",
+    "next": "Next episode",
+    "previous": "Previous episode",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "volume": "Volume",
+    "seek": "Seek",
+    "speed": "Playback speed",
+    "fullscreen": "Full screen",
+    "exitFullscreen": "Exit full screen",
+    "servers": "Servers",
+    "episodes": "Episodes",
+    "quality": "Quality",
+    "server": "Server",
+    "playingNow": "Playing",
+    "lastWorked": "Last worked",
+    "failedEarlier": "Failed earlier",
+    "switchNote": "Switching keeps your position. Your choice is remembered for this anime.",
+    "switching": "Switching to {{server}}",
+    "nextEpisodeIn_one": "Next episode in {{count}} second",
+    "nextEpisodeIn_other": "Next episode in {{count}} seconds",
+    "playNow": "Play now",
+    "cancel": "Cancel",
+    "buffering": "Buffering",
+    "tried": "Tried",
+    "retry": "Retry",
+    "switchServer": "Switch server",
+    "error": {
+      "expired": {
+        "title": "This stream has expired",
+        "body": "The server refused the request. Retry, or switch to another server. Your place is kept."
+      },
+      "network": {
+        "title": "Could not load the video",
+        "body": "The connection to the server failed. Retry, or switch to another server."
+      },
+      "codec": {
+        "title": "This video cannot be shown",
+        "body": "The format is not supported on this computer: the sound may play without a picture. Try another server."
+      },
+      "noStream": {
+        "title": "No server answered",
+        "body": "This episode has no working stream right now. Try again in a moment."
+      },
+      "generic": {
+        "title": "Playback stopped",
+        "body": "Something went wrong while playing. Retry, or switch to another server."
+      }
+    },
+    "speedValue": "{{speed}}×",
+    "qualityValue": "{{quality}}p"
   }
 }

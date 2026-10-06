@@ -25,6 +25,12 @@ describe('settingsFromStored', () => {
       amoled: false,
       language: 'id',
       showNsfw: false,
+      playerAutoplay: true,
+      playerQuality: 'highest',
+      playerSeekSeconds: 5,
+      playerVolume: 1,
+      playerMuted: false,
+      playerSpeed: 1,
     });
     expect(appSettingsSchema.safeParse(result).success).toBe(true);
   });
@@ -44,6 +50,9 @@ describe('settingsPatchSchema', () => {
     expect(settingsPatchSchema.safeParse({ theme: 'amoled' }).success).toBe(false);
     expect(settingsPatchSchema.safeParse({ language: 'fr' }).success).toBe(false);
     expect(settingsPatchSchema.safeParse({ amoled: 'yes' }).success).toBe(false);
+    expect(settingsPatchSchema.safeParse({ playerSpeed: 3 }).success).toBe(false);
+    expect(settingsPatchSchema.safeParse({ playerQuality: '4k' }).success).toBe(false);
+    expect(settingsPatchSchema.safeParse({ playerSpeed: 1.5, playerVolume: 0.4 }).success).toBe(true);
   });
 });
 

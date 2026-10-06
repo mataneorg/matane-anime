@@ -19,10 +19,11 @@ import { createHandlers } from './ipc/handlers';
 import { broadcast, registerIpcHandlers } from './ipc/register';
 import { RequestRegistry } from './ipc/requests';
 import { NetworkManager } from './network/manager';
+import { PlaybackService } from './playback/service';
 import { SessionStore } from './playback/sessions';
 import { handleAnimeScheme, registerAnimeScheme } from './playback/scheme';
 import { SpikeApi } from './playback/spike/api';
-import { selectUpstream } from './playback/upstream';
+import { createSessionUpstream } from './playback/upstream';
 
 import { API_VERSION } from '@matane-anime/extension-sdk/manifest';
 
@@ -114,21 +115,32 @@ if (!app.requestSingleInstanceLock()) {
       void registry.init();
 
       const sessions = new SessionStore();
-      const fetchUpstream = selectUpstream();
+      const fetcherFor = (extensionId: string) => {
+        const manifest = registry.byExtensionId(extensionId)?.manifest;
+        return manifest
+          ? network.fetcherFor({ id: manifest.id, userAgent: manifest.userAgent, rateLimit: manifest.rateLimit })
+          : undefined;
+      };
+      const fetchUpstream = createSessionUpstream(fetcherFor);
       handleAnimeScheme({
         sessions,
         fetchUpstream,
-        fetcherFor: (sourceId) => {
-          const manifest = registry.byExtensionId(sourceId.split('/')[0] ?? '')?.manifest;
-          return manifest
-            ? network.fetcherFor({ id: manifest.id, userAgent: manifest.userAgent, rateLimit: manifest.rateLimit })
-            : undefined;
-        },
+        fetcherFor: (sourceId) => fetcherFor(sourceId.split('/')[0] ?? ''),
         onRequest: (entry) => {
           const message = `anime:// ${entry.status} ${entry.target}${entry.range ? ` [${entry.range}]` : ''}`;
           if (entry.error) log.warn(`${message}: ${entry.error}`);
           else log.debug(message);
         },
+      });
+      const playback = new PlaybackService({
+        extensions: service,
+        anime: animeRepo,
+        episodes: episodeRepo,
+        settings,
+        store,
+        sessions,
+        upstream: fetchUpstream,
+        requests,
       });
 
       const spikeEnabled = process.env['MATANE_SPIKE'] === '1' || !app.isPackaged;
@@ -148,7 +160,7 @@ if (!app.requestSingleInstanceLock()) {
           })
         : null;
 
-      registerIpcHandlers(createHandlers({ settings, registry, service, logs, network, requests, spike }));
+      registerIpcHandlers(createHandlers({ settings, registry, service, logs, network, requests, playback, spike }));
       createMainWindow(settings);
 
       app.on('activate', () => {
@@ -156,6 +168,7 @@ if (!app.requestSingleInstanceLock()) {
       });
       // `quit`, not `before-quit`: windows still save their geometry while they close.
       app.on('quit', () => {
+        playback.closeAll();
         registry.dispose();
         network.status.stop();
         host.kill();

@@ -147,6 +147,23 @@
       "noLogs": "Belum ada log.",
       "allExtensions": "Semua extension",
       "loadHint": "Muat extension dari foldernya untuk mengembangkannya. Extension dimuat ulang saat kamu membangunnya lagi."
+    },
+    "player": {
+      "playback": "Pemutaran",
+      "autoplay": "Putar episode berikutnya otomatis",
+      "autoplayHint": "Hitung mundur lima detik dimulai saat episode selesai, dan bisa kamu batalkan.",
+      "quality": "Kualitas pilihan",
+      "qualityHint": "Dipakai untuk memilih stream pertama. Kamu selalu bisa mengubahnya di pemutar.",
+      "qualities": {
+        "highest": "Tertinggi yang tersedia",
+        "1080": "1080p",
+        "720": "720p",
+        "480": "480p",
+        "360": "360p"
+      },
+      "seek": "Lompatan geser",
+      "seekHint": "Tombol panah melompat sejauh ini; J dan L dua kali lebih jauh.",
+      "seekSeconds": "{{count}} detik"
     }
   },
   "browse": {
@@ -211,7 +228,8 @@
     "invalid_result": "Extension mengembalikan sesuatu yang tidak bisa dipakai app.",
     "offline": "Kamu sedang offline.",
     "not_found": "Ini tidak tersedia (lagi).",
-    "unknown": "Extension melaporkan galat."
+    "unknown": "Extension melaporkan galat.",
+    "no_stream": "Tidak ada server yang menjawab."
   },
   "anime": {
     "start": "Mulai nonton",
@@ -262,5 +280,60 @@
   },
   "network": {
     "offline": "Offline"
+  },
+  "player": {
+    "back": "Kembali",
+    "play": "Putar",
+    "pause": "Jeda",
+    "next": "Episode berikutnya",
+    "previous": "Episode sebelumnya",
+    "mute": "Bisukan",
+    "unmute": "Bunyikan",
+    "volume": "Volume",
+    "seek": "Geser posisi",
+    "speed": "Kecepatan putar",
+    "fullscreen": "Layar penuh",
+    "exitFullscreen": "Keluar layar penuh",
+    "servers": "Server",
+    "episodes": "Episode",
+    "quality": "Kualitas",
+    "server": "Server",
+    "playingNow": "Diputar",
+    "lastWorked": "Terakhir berhasil",
+    "failedEarlier": "Gagal sebelumnya",
+    "switchNote": "Berpindah mempertahankan posisimu. Pilihanmu diingat untuk anime ini.",
+    "switching": "Beralih ke {{server}}",
+    "nextEpisodeIn_one": "Episode berikutnya dalam {{count}} detik",
+    "nextEpisodeIn_other": "Episode berikutnya dalam {{count}} detik",
+    "playNow": "Putar sekarang",
+    "cancel": "Batal",
+    "buffering": "Memuat",
+    "tried": "Dicoba",
+    "retry": "Coba lagi",
+    "switchServer": "Ganti server",
+    "error": {
+      "expired": {
+        "title": "Stream ini sudah kedaluwarsa",
+        "body": "Server menolak permintaan. Coba lagi, atau pindah ke server lain. Posisimu tersimpan."
+      },
+      "network": {
+        "title": "Video tidak bisa dimuat",
+        "body": "Koneksi ke server gagal. Coba lagi, atau pindah ke server lain."
+      },
+      "codec": {
+        "title": "Video ini tidak bisa ditampilkan",
+        "body": "Formatnya tidak didukung di komputer ini: suara mungkin terdengar tanpa gambar. Coba server lain."
+      },
+      "noStream": {
+        "title": "Tidak ada server yang menjawab",
+        "body": "Episode ini belum punya stream yang berfungsi. Coba lagi sebentar."
+      },
+      "generic": {
+        "title": "Pemutaran berhenti",
+        "body": "Ada yang salah saat memutar. Coba lagi, atau pindah ke server lain."
+      }
+    },
+    "speedValue": "{{speed}}×",
+    "qualityValue": "{{quality}}p"
   }
 }

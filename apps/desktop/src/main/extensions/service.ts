@@ -4,7 +4,7 @@ import {
   type SourceBackend,
   SourceClient,
 } from '@matane-anime/extension-runtime/client';
-import type { FilterState, Preference } from '@matane-anime/extension-sdk';
+import type { FilterState, Preference, Stream } from '@matane-anime/extension-sdk';
 import {
   AppError,
   type AnimeDetail,
@@ -93,12 +93,16 @@ function sanitizeFilters(filters: Record<string, unknown> | undefined): FilterSt
   return out;
 }
 
+/** Stream URLs expire quickly, so they are only kept in memory, and not for long (docs/PRD.md STR-6). */
+const STREAM_TTL_MS = 2 * 60_000;
+
 /**
  * Everything the renderer asks of extensions, in one place: it finds the extension behind a source, calls it
  * through the host process, validates what comes back, stores it, and turns failures into `AppError`s.
  */
 export class ExtensionService {
   private readonly deps: ServiceDeps;
+  private readonly streamCache = new Map<string, { at: number; streams: Stream[] }>();
 
   constructor(deps: ServiceDeps) {
     this.deps = deps;
@@ -196,6 +200,38 @@ export class ExtensionService {
       anime: this.detail(saved, await this.webUrlOf(saved)),
       episodes: this.deps.episodes.list(animeId).map(toEpisode),
     };
+  }
+
+  // ------------------------------------------------------------------ streams
+
+  /**
+   * The streams an extension offers for an episode, from memory if they are under two minutes old.
+   * `fresh` skips the cache: an expired link needs a new one (STR-4).
+   */
+  async streamsFor(row: AnimeRow, episode: EpisodeRecord, fresh: boolean): Promise<Stream[]> {
+    const key = `${row.sourceId}|${episode.url}`;
+    const hit = this.streamCache.get(key);
+    if (!fresh && hit && Date.now() - hit.at < STREAM_TTL_MS) return hit.streams;
+    const { client } = this.resolve(row.sourceId);
+    const streams = await this.guard(() =>
+      client.getStreams(
+        {
+          url: episode.url,
+          name: episode.name,
+          ...(episode.number !== null && { number: episode.number }),
+          ...(episode.variant !== null && { variant: episode.variant }),
+          ...(episode.uploadedAt !== null && { uploadedAt: episode.uploadedAt }),
+        },
+        this.options(row.sourceId),
+      ),
+    );
+    this.streamCache.set(key, { at: Date.now(), streams });
+    return streams;
+  }
+
+  /** Throws `not_found` unless the source's extension is loaded. */
+  assertAvailable(sourceId: string): void {
+    this.resolve(sourceId);
   }
 
   // ------------------------------------------------------------------ preferences

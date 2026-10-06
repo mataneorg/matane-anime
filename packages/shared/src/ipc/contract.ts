@@ -16,6 +16,7 @@ import {
   sourceCapabilitiesSchema,
   sourceInfoSchema,
 } from '../catalog';
+import { playbackEventSchema, playbackSessionSchema, playbackUpdateSchema } from '../playback';
 import { appSettingsSchema, settingsPatchSchema } from '../settings';
 import { spikeFixtureSchema, spikeRequestLogSchema, spikeResultSchema, spikeStartResultSchema } from '../spike';
 import type { EventChannel, InvokeChannel } from './channels';
@@ -77,6 +78,24 @@ export const invokeContract = {
     refreshResultSchema,
   ),
   'episodes.list': invoke(z.object({ animeId: z.number().int() }), z.array(episodeSchema)),
+  /**
+   * Picks a stream for an episode (ranked, probed) and opens a session for it. `requestId` lets the
+   * renderer cancel while extensions and probes are still working.
+   */
+  'playback.start': invoke(
+    z.object({ episodeId: z.number().int(), requestId: z.string().optional() }),
+    playbackSessionSchema,
+  ),
+  /** The player tells main what happened; on a fatal error main answers with the next stream or gives up. */
+  'playback.event': invoke(z.object({ playbackId: z.string(), event: playbackEventSchema }), playbackUpdateSchema),
+  /** The user picked a server or quality by hand. Remembered for this anime (STR-5). */
+  'playback.switchStream': invoke(
+    z.object({ playbackId: z.string(), index: z.number().int(), requestId: z.string().optional() }),
+    playbackSessionSchema,
+  ),
+  'playback.close': invoke(z.object({ playbackId: z.string() }), z.void()),
+  /** Keeps the screen on while video plays (PLY-8). */
+  'playback.keepAwake': invoke(z.object({ enabled: z.boolean() }), z.void()),
   'spike.fixtures': invoke(z.void(), z.array(spikeFixtureSchema)),
   'spike.start': invoke(z.object({ id: z.string() }), spikeStartResultSchema),
   /** Every request the fake site has served since the last reset (to check `Range` and `Referer`). */

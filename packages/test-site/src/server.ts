@@ -54,7 +54,8 @@ const escapeHtml = (text: string): string =>
  *   /anime/<slug>                                           detail (HTML)
  *   /anime/<slug>/episodes.json                             episodes, newest first
  *   /watch/<slug>/<number>?variant=Sub                      episode page with server buttons
- *   /embed/<id>                                             player config (A: plain, B: AES payload)
+ *   /embed/<id>                                             player config (A: plain, B: AES payload);
+ *                                                           see StreamKind for how streams behave
  *   /img/<slug>.svg                                         cover
  *   /cf/<any of the above>                                  the same, behind a Cloudflare-style challenge
  *   /_t/{echo,flaky,limited,redirect,slow,big}              helpers for the network layer's tests
@@ -62,7 +63,10 @@ const escapeHtml = (text: string): string =>
 export class TestSite {
   readonly log: RequestLogEntry[] = [];
   private servers: { name: 'site' | 'cdn'; server: Server; origin: string }[] = [];
-  private expiringHits = 0;
+  /** Segments served per expiring stream token. */
+  private expiringHits = new Map<string, number>();
+  /** How often each embed was fetched (a renewed token changes what the second fetch returns). */
+  private embedHits = new Map<string, number>();
   private flakyHits = 0;
   private limitedHits = 0;
 
@@ -103,7 +107,8 @@ export class TestSite {
 
   reset(): void {
     this.log.length = 0;
-    this.expiringHits = 0;
+    this.expiringHits.clear();
+    this.embedHits.clear();
     this.flakyHits = 0;
     this.limitedHits = 0;
   }
@@ -268,14 +273,24 @@ export class TestSite {
     const entry = match ? findAnime(match[1] as string) : undefined;
     if (!match || !entry || entry.streams === 'none') return plain(404, 'no such embed');
 
-    const file =
-      entry.streams === 'mp4'
-        ? '/media/mp4/h264-aac.mp4'
-        : entry.streams === 'expiring'
-          ? '/media/expiring/index.m3u8'
-          : match[4] === 'a'
-            ? '/media/hls-ts/master.m3u8'
-            : '/media/hls-fmp4/index.m3u8';
+    const hit = (this.embedHits.get(id) ?? 0) + 1;
+    this.embedHits.set(id, hit);
+    const side = match[4] as 'a' | 'b';
+    const good = side === 'a' ? '/media/hls-ts/master.m3u8' : '/media/hls-fmp4/index.m3u8';
+    const file = ((): string => {
+      switch (entry.streams) {
+        case 'mp4':
+          return '/media/mp4/h264-aac.mp4';
+        case 'expiring':
+          return `/media/expiring/${id}/index.m3u8`;
+        case 'fallback':
+          return side === 'a' ? `/media/expiring/${id}/index.m3u8` : good;
+        case 'refreshing':
+          return side === 'a' && hit === 1 ? `/media/expiring/${id}-1/index.m3u8` : good;
+        default:
+          return good;
+      }
+    })();
     const streamUrl = `${this.cdnOrigin}${file}`;
 
     if (match[4] === 'a') {
@@ -298,10 +313,14 @@ export class TestSite {
   ): Promise<void> {
     if (!header(req, 'referer')?.startsWith(this.referer)) return plain(403, 'referer required');
     let relative = decodeURIComponent(url.pathname).replace(/^\/media\/?/, '');
-    if (relative.startsWith('expiring/')) {
-      relative = relative.replace('expiring/', 'hls-ts/v360/');
-      if (relative.endsWith('.ts') && ++this.expiringHits > this.options.expireAfterSegments) {
-        return plain(403, 'stream expired');
+    const expiring = /^expiring\/([^/]+)\//.exec(relative);
+    if (expiring) {
+      const token = expiring[1] as string;
+      relative = relative.replace(expiring[0], 'hls-ts/v360/');
+      if (relative.endsWith('.ts')) {
+        const served = (this.expiringHits.get(token) ?? 0) + 1;
+        this.expiringHits.set(token, served);
+        if (served > this.options.expireAfterSegments) return plain(403, 'stream expired');
       }
     }
     const root = normalize(this.options.mediaDir);

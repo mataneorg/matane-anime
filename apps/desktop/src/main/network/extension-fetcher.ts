@@ -63,6 +63,11 @@ export class ExtensionFetcher {
     };
   }
 
+  /** The extension's own session, for requests that stream (playback) and so cannot go through `request`. */
+  get session(): Session {
+    return this.options.session;
+  }
+
   /** The same request with the body as bytes: covers, keys, anything that is not text. */
   requestBytes(request: HttpRequest): Promise<Raw> {
     return this.execute(request);

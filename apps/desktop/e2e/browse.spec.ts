@@ -92,7 +92,7 @@ test('browses a source: covers load, tabs work, the list keeps loading as you sc
   await page.locator('main').evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
   await expect(cards()).toHaveCount(24);
   await page.locator('main').evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
-  await expect(cards()).toHaveCount(32); // 32 anime in the fake catalog
+  await expect(cards()).toHaveCount(34); // 34 anime in the fake catalog
   await expect(page.getByText('That is everything')).toBeVisible();
 
   await page.getByRole('tab', { name: 'Latest' }).click();

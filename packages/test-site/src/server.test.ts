@@ -68,16 +68,27 @@ describe('embeds and media', () => {
     expect((await get(`${site.origin}/embed/no-streams-1-sub.a`, withReferer())).status).toBe(404);
   });
 
+  it('renews an expiring link on the second embed fetch, and keeps the fallback server dead', async () => {
+    const first = await (await get(`${site.origin}/embed/token-tide-1-sub.a`, withReferer())).text();
+    const second = await (await get(`${site.origin}/embed/token-tide-1-sub.a`, withReferer())).text();
+    expect(first).toContain('/media/expiring/token-tide-1-sub.a-1/index.m3u8');
+    expect(second).toContain('/media/hls-ts/master.m3u8');
+    const a = await (await get(`${site.origin}/embed/bad-server-1-sub.a`, withReferer())).text();
+    const b = await (await get(`${site.origin}/embed/bad-server-1-sub.b`, withReferer())).text();
+    expect(a).toContain('/media/expiring/');
+    expect(b).toMatch(/data-payload/);
+  });
+
   it('answers Range with 206 and expires the stream after its first segment', async () => {
     const part = await get(`${site.cdnOrigin}/media/mp4/h264-aac.mp4`, { ...withReferer(), range: 'bytes=0-99' });
     expect(part.status).toBe(206);
     expect(part.headers.get('content-range')).toMatch(/^bytes 0-99\//);
-    const playlist = await get(`${site.cdnOrigin}/media/expiring/index.m3u8`, withReferer());
+    const playlist = await get(`${site.cdnOrigin}/media/expiring/t1/index.m3u8`, withReferer());
     expect(playlist.status).toBe(200);
     const statuses: number[] = [];
     for (const n of [0, 1, 2]) {
       const segment = String(n).padStart(3, '0');
-      statuses.push((await get(`${site.cdnOrigin}/media/expiring/seg_${segment}.ts`, withReferer())).status);
+      statuses.push((await get(`${site.cdnOrigin}/media/expiring/t1/seg_${segment}.ts`, withReferer())).status);
     }
     expect(statuses).toEqual([200, 403, 403]);
   });

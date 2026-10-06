@@ -1,6 +1,7 @@
 import { mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { DEFAULT_SETTINGS } from '@matane-anime/shared';
 import { afterEach, describe, expect, it } from 'vitest';
 import { openDatabase } from '../client';
 import { runMigrations } from '../migrate';
@@ -178,13 +179,7 @@ describe('SettingsRepository', () => {
   it('returns defaults, stores patches and survives a corrupt value', async () => {
     const { connection } = await freshDatabase();
     const repo = new SettingsRepository(connection.db);
-    expect(repo.getAppSettings()).toEqual({
-      theme: 'mocha',
-      accent: 'mauve',
-      amoled: false,
-      language: 'system',
-      showNsfw: false,
-    });
+    expect(repo.getAppSettings()).toEqual(DEFAULT_SETTINGS);
 
     const updated = repo.updateAppSettings({ theme: 'latte', accent: 'peach' });
     expect(updated).toMatchObject({ theme: 'latte', accent: 'peach', amoled: false });

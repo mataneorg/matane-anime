@@ -12,12 +12,15 @@ export interface PlaybackSession {
   headers: Record<string, string>;
   /** `host:port` values the session may fetch from: the entry host plus every host found in its playlists. */
   hostsSeen: Set<string>;
+  /** The extension whose session, cookies and media rate limit upstream requests use. Absent in the spike. */
+  extensionId?: string;
 }
 
 export interface NewSession {
   entryUrl: string;
   kind: SessionKind;
   headers?: Record<string, string>;
+  extensionId?: string;
 }
 
 /**
@@ -34,6 +37,7 @@ export class SessionStore {
       kind: input.kind,
       headers: { ...input.headers },
       hostsSeen: new Set([hostOf(input.entryUrl)]),
+      ...(input.extensionId !== undefined && { extensionId: input.extensionId }),
     };
     this.sessions.set(session.id, session);
     return session;

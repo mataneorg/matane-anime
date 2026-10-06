@@ -6,9 +6,13 @@ export const ANIME_SCHEME = 'anime';
 export interface UpstreamInit {
   method: 'GET' | 'HEAD';
   headers: Record<string, string>;
+  signal?: AbortSignal;
 }
-/** Fetches `url` with exactly these headers. Redirects are followed; `Response.url` is the final URL. */
-export type UpstreamFetch = (url: string, init: UpstreamInit) => Promise<Response>;
+/**
+ * Fetches `url` with exactly these headers. Redirects are followed; `Response.url` is the final URL. The
+ * session says whose cookies, network session and rate limit apply (docs/adr/0008).
+ */
+export type UpstreamFetch = (url: string, init: UpstreamInit, session: PlaybackSession) => Promise<Response>;
 
 export interface ProxyLogEntry {
   sessionId: string;
@@ -104,7 +108,7 @@ export function createAnimeHandler(deps: AnimeHandlerDeps): (request: Request) =
 
     let upstream: Response;
     try {
-      upstream = await deps.fetchUpstream(target, { method: request.method, headers });
+      upstream = await deps.fetchUpstream(target, { method: request.method, headers }, session);
     } catch (error) {
       deps.onRequest?.({ sessionId: session.id, target, status: 502, range, error: String(error) });
       return failure(502, 'network');

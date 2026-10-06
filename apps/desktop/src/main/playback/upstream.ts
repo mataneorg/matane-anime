@@ -1,14 +1,16 @@
 import { net, session } from 'electron';
 import { installHeaderBridge, withMarkers } from '../network/header-bridge';
+import type { ExtensionFetcher } from '../network/extension-fetcher';
 import type { UpstreamFetch } from './proxy';
 
-/** Upstream through `net.fetch`. */
+/** Upstream through `net.fetch` on the default session: what the spike used, and what a session without an extension gets. */
 export const fetchWithNetFetch: UpstreamFetch = (url, init) =>
   net.fetch(url, {
     method: init.method,
     headers: withMarkers(init.headers),
     redirect: 'follow',
     bypassCustomProtocolHandlers: true,
+    ...(init.signal && { signal: init.signal }),
   });
 
 /** Upstream through `net.request`. Kept to compare with `net.fetch`; it needs the same header bridge. */
@@ -43,6 +45,30 @@ export const fetchWithNetRequest: UpstreamFetch = (url, init) =>
     request.on('error', reject);
     request.end();
   });
+
+/**
+ * Upstream for playback sessions: through the extension's own network session (its cookies, so a passed
+ * Cloudflare challenge still counts), its media rate limit, and `net.fetch`'s streaming body, so a
+ * multi-hundred-megabyte file is never held in memory. Sessions without an extension use the default.
+ */
+export function createSessionUpstream(
+  fetcherFor: (extensionId: string) => ExtensionFetcher | undefined,
+): UpstreamFetch {
+  return async (url, init, playbackSession) => {
+    const fetcher = playbackSession.extensionId ? fetcherFor(playbackSession.extensionId) : undefined;
+    if (!fetcher) return selectUpstream()(url, init, playbackSession);
+    await fetcher.media.take();
+    installHeaderBridge(fetcher.session);
+    return fetcher.session.fetch(url, {
+      method: init.method,
+      headers: withMarkers(init.headers),
+      redirect: 'follow',
+      credentials: 'include',
+      bypassCustomProtocolHandlers: true,
+      ...(init.signal && { signal: init.signal }),
+    });
+  };
+}
 
 /** Installs the header bridge and picks the upstream; `MATANE_SPIKE_FETCH=request` switches to `net.request`. */
 export function selectUpstream(): UpstreamFetch {

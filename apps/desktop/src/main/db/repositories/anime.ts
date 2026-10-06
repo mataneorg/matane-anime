@@ -25,6 +25,25 @@ export class AnimeRepository {
       .get();
   }
 
+  /** What the user picked by hand in the player for this anime (STR-5): `{ server, quality }`. */
+  playbackPrefs(row: AnimeRow): { server?: string; quality?: number | null } | null {
+    if (!row.playbackPrefsJson) return null;
+    try {
+      const value: unknown = JSON.parse(row.playbackPrefsJson);
+      return value && typeof value === 'object' ? (value as { server?: string; quality?: number | null }) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  savePlaybackPrefs(id: number, prefs: { server: string; quality: number | null }): void {
+    this.db
+      .update(anime)
+      .set({ playbackPrefsJson: JSON.stringify(prefs) })
+      .where(eq(anime.id, id))
+      .run();
+  }
+
   /**
    * Stores what a listing showed, one row per `(source, url)`. A listing never overwrites what the detail
    * page told us, and never touches `inLibrary` or `addedAt`. Returns the rows in the order given.

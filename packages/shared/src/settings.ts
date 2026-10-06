@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import { ACCENTS, LANGUAGES, THEME_MODES } from './theme';
 
+export const PLAYER_QUALITIES = ['highest', '1080', '720', '480', '360'] as const;
+export type PlayerQuality = (typeof PLAYER_QUALITIES)[number];
+
 /** App-wide settings. Stored one key per row in the `settings` table (value as JSON). */
 export const appSettingsSchema = z.object({
   theme: z.enum(THEME_MODES),
@@ -11,6 +14,15 @@ export const appSettingsSchema = z.object({
   language: z.enum(['system', ...LANGUAGES]),
   /** 18+ sources are hidden unless this is on (docs/PRD.md EXT-15). */
   showNsfw: z.boolean(),
+  /** Play the next episode after a 5 s countdown (docs/PRD.md PLY-4). */
+  playerAutoplay: z.boolean(),
+  /** Which quality to start with (STR-1): the highest, or the nearest to a fixed height. */
+  playerQuality: z.enum(PLAYER_QUALITIES),
+  /** Arrow keys seek this many seconds; J and L seek twice as many. */
+  playerSeekSeconds: z.number().int().min(1).max(60),
+  playerVolume: z.number().min(0).max(1),
+  playerMuted: z.boolean(),
+  playerSpeed: z.number().min(0.5).max(2),
 });
 export type AppSettings = z.infer<typeof appSettingsSchema>;
 
@@ -20,6 +32,12 @@ export const DEFAULT_SETTINGS: AppSettings = {
   amoled: false,
   language: 'system',
   showNsfw: false,
+  playerAutoplay: true,
+  playerQuality: 'highest',
+  playerSeekSeconds: 5,
+  playerVolume: 1,
+  playerMuted: false,
+  playerSpeed: 1,
 };
 
 /** A change to some settings. No defaults here: a patch must never overwrite what it does not name. */
