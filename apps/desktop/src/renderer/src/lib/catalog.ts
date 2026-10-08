@@ -109,10 +109,17 @@ function invalidateUpdates(queryClient: QueryClient): void {
 /** What a write in main touched (`db.changed` tags) → which cached queries are now out of date. */
 export function invalidateForTags(queryClient: QueryClient, tags: string[]): void {
   for (const tag of tags) {
+    if (tag === 'repos') {
+      void queryClient.invalidateQueries({ queryKey: ['repos'] });
+      void queryClient.invalidateQueries({ queryKey: ['extensions'] });
+      void queryClient.invalidateQueries({ queryKey: ['available'] });
+      continue;
+    }
     if (tag === 'extensions' || tag === 'sources') {
       void queryClient.invalidateQueries({ queryKey: ['extensions'] });
       void queryClient.invalidateQueries({ queryKey: ['sources'] });
       void queryClient.invalidateQueries({ queryKey: ['extension-preferences'] });
+      void queryClient.invalidateQueries({ queryKey: ['available'] });
       continue;
     }
     if (tag === 'library') {

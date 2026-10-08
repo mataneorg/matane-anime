@@ -43,7 +43,7 @@ function ExtensionsPage() {
       </p>
       <ul className="flex flex-col gap-2">
         {extensions.map((extension) => (
-          <ExtensionCard key={extension.folder} extension={extension} />
+          <ExtensionCard key={extension.key} extension={extension} />
         ))}
       </ul>
     </div>
@@ -53,8 +53,10 @@ function ExtensionsPage() {
 function ExtensionCard({ extension }: { extension: ExtensionInfo }) {
   const { t } = useTranslation();
   const [prefsOpen, setPrefsOpen] = useState(false);
-  const reload = useMutation({ mutationFn: () => call('extensions.reload', { folder: extension.folder }) });
-  const remove = useMutation({ mutationFn: () => call('extensions.removeDevFolder', { folder: extension.folder }) });
+  const reload = useMutation({ mutationFn: () => call('extensions.reload', { folder: extension.folder ?? '' }) });
+  const remove = useMutation({
+    mutationFn: () => call('extensions.removeDevFolder', { folder: extension.folder ?? '' }),
+  });
   const failed = extension.status === 'error';
 
   return (
@@ -75,7 +77,7 @@ function ExtensionCard({ extension }: { extension: ExtensionInfo }) {
             {extension.nsfw ? <Badge tone="warning">18+</Badge> : null}
             {failed ? <Badge tone="danger">{t('extensions.failed')}</Badge> : null}
           </div>
-          <span className="truncate font-mono text-xs leading-4" title={extension.folder}>
+          <span className="truncate font-mono text-xs leading-4" title={extension.folder ?? undefined}>
             {extension.folder}
           </span>
           {!failed ? (

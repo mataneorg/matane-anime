@@ -66,6 +66,18 @@ describe('settingsPatchSchema', () => {
     expect(ok({ downloadFolder: null })).toBe(true);
     expect(ok({ updateChannel: 'nightly' })).toBe(false);
   });
+
+  it('checks the content languages and the developer mode', () => {
+    const ok = (patch: Record<string, unknown>) => settingsPatchSchema.safeParse(patch).success;
+    expect(ok({ contentLanguages: [] })).toBe(true);
+    expect(ok({ contentLanguages: ['en', 'id', 'pt-BR'] })).toBe(true);
+    expect(ok({ contentLanguages: ['english'] })).toBe(false);
+    expect(ok({ contentLanguages: 'en' })).toBe(false);
+    expect(ok({ devMode: true })).toBe(true);
+    expect(ok({ devMode: 'yes' })).toBe(false);
+    expect(DEFAULT_SETTINGS.contentLanguages).toEqual([]);
+    expect(DEFAULT_SETTINGS.devMode).toBe(false);
+  });
 });
 
 describe('windowStateSchema', () => {

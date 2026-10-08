@@ -11,9 +11,15 @@ export const extensionRepos = sqliteTable('extension_repos', {
   /** Exact bytes of the last accepted `index.json` and its signature (trust is re-checked from these). */
   indexJson: text(),
   signature: text(),
+  /** The key the repository announced in its signature file, trusted or not; `publicKey` is the trusted one. */
+  signingKey: text(),
+  /** `serial` of the last accepted index: an index with a smaller one is a rollback and is refused. */
+  serial: integer().notNull().default(0),
   lastFetchedAt: integer(),
   lastError: text(),
 });
+
+export const EXTENSION_ORIGINS = ['dev', 'repo'] as const;
 
 export const extensions = sqliteTable('extensions', {
   /** Stable extension id without language, e.g. "example". */
@@ -22,6 +28,12 @@ export const extensions = sqliteTable('extensions', {
   version: text().notNull(),
   apiVersion: integer().notNull(),
   repoId: integer().references(() => extensionRepos.id, { onDelete: 'set null' }),
+  /** `dev`: loaded from a folder the user picked; `repo`: installed from a repository into `installDir`. */
+  origin: text({ enum: EXTENSION_ORIGINS }).notNull().default('dev'),
+  /** Where an installed extension lives, under the user data folder (null for dev folders). */
+  installDir: text(),
+  /** SHA-256 of the installed `index.js`, checked every time it is loaded. */
+  sha256: text(),
   nsfw: integer({ mode: 'boolean' }).notNull().default(false),
   enabled: integer({ mode: 'boolean' }).notNull().default(true),
   installedAt: integer().notNull(),

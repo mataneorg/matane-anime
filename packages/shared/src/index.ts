@@ -2,6 +2,7 @@ export * from './catalog';
 export * from './downloads';
 export * from './episodes';
 export * from './errors';
+export * from './extensions-repo';
 export * from './library';
 export * from './playback';
 export * from './settings';

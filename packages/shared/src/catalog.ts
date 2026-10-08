@@ -15,9 +15,21 @@ export const extensionSourceSchema = z.object({
 export const extensionInfoSchema = z.object({
   /** The manifest id; for a folder that failed to load, the folder path. */
   id: z.string(),
-  folder: z.string(),
-  /** Phase 1 loads only from folders; repositories come in phase 4. */
-  origin: z.literal('dev'),
+  /** Unique in the list: the folder path of a dev extension, the id of an installed one. */
+  key: z.string(),
+  /** The folder a dev extension is loaded from; null for one installed from a repository. */
+  folder: z.string().nullable(),
+  /** `dev`: a folder the user picked; `repo`: installed from a repository (EXT-9: dev wins over repo). */
+  origin: z.enum(['dev', 'repo']),
+  /** The repository an installed extension came from, if it still exists. */
+  repoId: z.number().int().nullable(),
+  repoName: z.string().nullable(),
+  /** How much the repository it came from is trusted; null for dev extensions. */
+  trust: z.enum(['trusted', 'unverified', 'unsigned']).nullable(),
+  /** A newer version is in the repository it came from. */
+  updateAvailable: z.string().nullable(),
+  /** A dev folder with the same id is loaded instead of this installed copy (EXT-9). */
+  shadowed: z.boolean(),
   status: z.enum(['ready', 'error']),
   error: z.string().nullable(),
   name: z.string(),

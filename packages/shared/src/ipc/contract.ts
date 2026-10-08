@@ -17,6 +17,14 @@ import {
   sourceInfoSchema,
 } from '../catalog';
 import {
+  availableExtensionSchema,
+  installPreparationSchema,
+  repoInfoSchema,
+  repoPreviewSchema,
+  repoRefreshResultSchema,
+  updateAllResultSchema,
+} from '../extensions-repo';
+import {
   downloadItemSchema,
   downloadProgressSchema,
   downloadStorageSchema,
@@ -83,6 +91,30 @@ export const invokeContract = {
     z.object({ extensionId: z.string(), key: z.string(), value: z.unknown() }),
     preferencesStateSchema,
   ),
+  /** What the added repositories offer, with the install state; 18+ and content languages are applied here (EXT-15). */
+  'extensions.available': invoke(z.void(), z.array(availableExtensionSchema)),
+  /** Step one of an install (EXT-8): fetches and checks the package and returns what the dialog shows. */
+  'extensions.prepareInstall': invoke(
+    z.object({ repoId: z.number().int(), extensionId: z.string() }),
+    installPreparationSchema,
+  ),
+  /** Step two: writes what `prepareInstall` checked. */
+  'extensions.install': invoke(z.object({ token: z.string() }), z.void()),
+  /** Installs the newer version from the repository the extension came from; no dialog (EXT-8). */
+  'extensions.update': invoke(z.object({ extensionId: z.string() }), z.void()),
+  'extensions.updateAll': invoke(z.void(), updateAllResultSchema),
+  /** Removes an installed extension: its files, storage, preferences and session. Sources and anime stay. */
+  'extensions.uninstall': invoke(z.object({ extensionId: z.string() }), z.void()),
+  'repos.list': invoke(z.void(), z.array(repoInfoSchema)),
+  /** Reads a repository's index and checks who signed it, without storing anything. */
+  'repos.preview': invoke(z.object({ url: z.string().min(1) }), repoPreviewSchema),
+  /** Adds the repository; `trustKey` also trusts the key it signs with (EXT-6). */
+  'repos.add': invoke(z.object({ url: z.string().min(1), trustKey: z.boolean() }), repoInfoSchema),
+  'repos.remove': invoke(z.object({ id: z.number().int() }), z.void()),
+  /** Re-reads one repository, or all of them. */
+  'repos.refresh': invoke(z.object({ id: z.number().int().optional() }), repoRefreshResultSchema),
+  /** Trusts or stops trusting the key a repository signs with. */
+  'repos.setTrust': invoke(z.object({ id: z.number().int(), trusted: z.boolean() }), repoInfoSchema),
   'sources.list': invoke(z.void(), z.array(sourceInfoSchema)),
   'sources.capabilities': invoke(z.object({ sourceId: z.string() }), sourceCapabilitiesSchema),
   'sources.filters': invoke(z.object({ sourceId: z.string(), requestId: z.string().optional() }), filterListSchema),

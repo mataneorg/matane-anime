@@ -1,7 +1,9 @@
 packages:
   - apps/*
   - packages/*
-  - extensions/*
+  # `extensions/otakudesu` stays on disk but is not part of the workspace: a real extension belongs in its own
+  # repository (docs/PRD.md §15.1, R9), and its tests need saved pages of the real site that are not here.
+  - extensions/example
 
 allowBuilds:
   better-sqlite3: true

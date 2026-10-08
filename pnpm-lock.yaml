@@ -348,18 +348,6 @@ importers:
         specifier: workspace:*
         version: link:../../packages/extension-sdk
 
-  extensions/otakudesu:
-    devDependencies:
-      '@matane-anime/extension-cli':
-        specifier: workspace:*
-        version: link:../../packages/extension-cli
-      '@matane-anime/extension-runtime':
-        specifier: workspace:*
-        version: link:../../packages/extension-runtime
-      '@matane-anime/extension-sdk':
-        specifier: workspace:*
-        version: link:../../packages/extension-sdk
-
   packages/extension-cli:
     dependencies:
       '@matane-anime/extension-runtime':

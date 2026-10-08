@@ -76,6 +76,10 @@ export const appSettingsSchema = z.object({
   runAtLogin: z.boolean(),
   /** Which GitHub release channel the app updates from. */
   updateChannel: z.enum(UPDATE_CHANNELS),
+  /** Languages of the sources to offer (EXT-15); empty means every language. `multi` sources always pass. */
+  contentLanguages: z.array(z.string().regex(/^[a-z]{2,3}(-[A-Za-z]{2,4})?$/)),
+  /** Shows the developer tools: loading an extension from a folder and the extended log (EXT-10). */
+  devMode: z.boolean(),
 });
 export type AppSettings = z.infer<typeof appSettingsSchema>;
 
@@ -110,6 +114,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   closeToTray: false,
   runAtLogin: false,
   updateChannel: 'beta',
+  contentLanguages: [],
+  devMode: false,
 };
 
 /** A change to some settings. No defaults here: a patch must never overwrite what it does not name. */

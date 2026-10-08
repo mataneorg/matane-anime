@@ -39,6 +39,10 @@ export interface HandlerDeps {
   spike: SpikeApi | null;
 }
 
+const notYet = (): never => {
+  throw new AppError('unsupported', 'Extension repositories are not available yet');
+};
+
 export function createHandlers({
   settings,
   registry,
@@ -110,6 +114,19 @@ export function createHandlers({
     'extensions.logs': ({ extensionId }) => logs.list(extensionId),
     'extensions.preferences': ({ extensionId }) => service.preferences(extensionId),
     'extensions.setPreference': ({ extensionId, key, value }) => service.setPreference(extensionId, key, value),
+    // Repositories and installing from them arrive in milestone 4c; until then the lists are empty.
+    'extensions.available': () => [],
+    'extensions.prepareInstall': () => notYet(),
+    'extensions.install': () => notYet(),
+    'extensions.update': () => notYet(),
+    'extensions.updateAll': () => notYet(),
+    'extensions.uninstall': () => notYet(),
+    'repos.list': () => [],
+    'repos.preview': () => notYet(),
+    'repos.add': () => notYet(),
+    'repos.remove': () => notYet(),
+    'repos.refresh': () => notYet(),
+    'repos.setTrust': () => notYet(),
     'sources.list': () => service.listSources(),
     'sources.capabilities': ({ sourceId }) => service.capabilities(sourceId),
     'sources.filters': ({ sourceId, requestId }) => service.filters(sourceId, requestId),

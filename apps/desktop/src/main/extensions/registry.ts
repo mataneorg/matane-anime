@@ -122,8 +122,14 @@ export class ExtensionRegistry {
     const manifest = record.manifest;
     return {
       id: manifest?.id ?? record.inputFolder,
+      key: record.inputFolder,
       folder: record.inputFolder,
       origin: 'dev',
+      repoId: null,
+      repoName: null,
+      trust: null,
+      updateAvailable: null,
+      shadowed: false,
       status: record.status,
       error: record.error,
       name: manifest?.name ?? record.inputFolder.split(/[\\/]/).pop() ?? record.inputFolder,
