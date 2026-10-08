@@ -14,6 +14,29 @@ export interface SourceRow {
   lastUsedAt: number | null;
 }
 
+export type ExtensionOrigin = 'dev' | 'repo';
+
+export interface ExtensionRow {
+  id: string;
+  name: string;
+  version: string;
+  apiVersion: number;
+  nsfw: boolean;
+  repoId: number | null;
+  origin: ExtensionOrigin;
+  installDir: string | null;
+  sha256: string | null;
+  installedAt: number;
+  updatedAt: number;
+}
+
+/** Where an installed extension came from and lives; passed when the row is written for a repository install. */
+export interface InstallInfo {
+  repoId: number | null;
+  installDir: string;
+  sha256: string;
+}
+
 /** The `extensions`, `sources`, `extension_prefs` and `extension_storage` tables. */
 export class ExtensionStore {
   constructor(
@@ -21,30 +44,52 @@ export class ExtensionStore {
     private readonly changes: ChangeEmitter,
   ) {}
 
-  /** Records an extension that just loaded, and its sources. Sources of other extensions are not touched. */
-  upsertExtension(manifest: ExtensionManifest, now = Date.now()): void {
+  /**
+   * Records an extension that just loaded, and its sources. Sources of other extensions are not touched.
+   * `updatedAt` moves only when the version does (a hot reload is not an update). A dev folder that loads
+   * with the id of an installed repository extension leaves that row alone (EXT-9: only its sources are kept);
+   * `install` is how a repository install writes its origin, folder and hash in the same step.
+   */
+  upsertExtension(manifest: ExtensionManifest, now = Date.now(), install?: InstallInfo): void {
     this.db.transaction((tx) => {
-      tx.insert(extensions)
-        .values({
-          id: manifest.id,
-          name: manifest.name,
-          version: manifest.version,
-          apiVersion: manifest.apiVersion,
-          nsfw: manifest.nsfw,
-          installedAt: now,
-          updatedAt: now,
-        })
-        .onConflictDoUpdate({
-          target: extensions.id,
-          set: {
-            name: manifest.name,
-            version: manifest.version,
-            apiVersion: manifest.apiVersion,
-            nsfw: manifest.nsfw,
+      const existing = tx.select().from(extensions).where(eq(extensions.id, manifest.id)).get();
+      const fields = {
+        name: manifest.name,
+        version: manifest.version,
+        apiVersion: manifest.apiVersion,
+        nsfw: manifest.nsfw,
+      };
+      const origin = install ? ({ origin: 'repo', ...install } as const) : undefined;
+      if (!existing) {
+        tx.insert(extensions)
+          .values({
+            id: manifest.id,
+            ...fields,
+            ...(origin && {
+              origin: origin.origin,
+              repoId: origin.repoId,
+              installDir: origin.installDir,
+              sha256: origin.sha256,
+            }),
+            installedAt: now,
             updatedAt: now,
-          },
-        })
-        .run();
+          })
+          .run();
+      } else if (install || existing.origin !== 'repo') {
+        tx.update(extensions)
+          .set({
+            ...fields,
+            ...(origin && {
+              origin: origin.origin,
+              repoId: origin.repoId,
+              installDir: origin.installDir,
+              sha256: origin.sha256,
+            }),
+            ...(existing.version !== manifest.version && { updatedAt: now }),
+          })
+          .where(eq(extensions.id, manifest.id))
+          .run();
+      }
       for (const source of manifest.sources) {
         tx.insert(sources)
           .values({
@@ -67,6 +112,36 @@ export class ExtensionStore {
       .from(extensions)
       .where(eq(extensions.id, id))
       .get();
+  }
+
+  findExtension(id: string): ExtensionRow | undefined {
+    return this.db.select().from(extensions).where(eq(extensions.id, id)).get();
+  }
+
+  listExtensions(): ExtensionRow[] {
+    return this.db.select().from(extensions).orderBy(extensions.id).all();
+  }
+
+  /** Marks an existing row as installed from a repository (or back as a dev one). */
+  setInstall(input: {
+    id: string;
+    repoId: number | null;
+    installDir: string | null;
+    sha256: string | null;
+    origin: ExtensionOrigin;
+  }): void {
+    this.db
+      .update(extensions)
+      .set({ repoId: input.repoId, installDir: input.installDir, sha256: input.sha256, origin: input.origin })
+      .where(eq(extensions.id, input.id))
+      .run();
+    this.changes.emit('extensions');
+  }
+
+  /** Deletes the row; preferences and storage go with it (cascade). Sources and anime stay on purpose. */
+  deleteExtension(id: string): void {
+    this.db.delete(extensions).where(eq(extensions.id, id)).run();
+    this.changes.emit('extensions', 'sources');
   }
 
   listSources(): SourceRow[] {

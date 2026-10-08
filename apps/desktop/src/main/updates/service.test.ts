@@ -421,6 +421,90 @@ describe('after a check (UPD-6)', () => {
     });
   });
 
+  describe('migrateExtension (right after an install or an update, EXT-16)', () => {
+    it('migrates one extension now, without a check, and remembers the version', async () => {
+      setup();
+      const id = h.anime('Alpha', 2);
+      h.migrations.set('/Alpha', '/alpha-v2');
+      db.settings.setValue(EXTENSION_VERSIONS_KEY, { example: '1.0.0', other: '1.0.0' });
+      h.versions = { example: '2.0.0', other: '2.0.0' };
+      await h.service.migrateExtension('example');
+      expect(db.anime.get(id)!.url).toBe('/alpha-v2');
+      expect(h.log).toContain('migrateUrl:anime:1.0.0');
+      // Only that extension's baseline moved.
+      expect(db.settings.getValue(EXTENSION_VERSIONS_KEY, {})).toEqual({ example: '2.0.0', other: '1.0.0' });
+      h.log.length = 0;
+      await h.service.migrateExtension('example');
+      expect(h.log).toEqual([]);
+    });
+
+    it('records the baseline of an extension it has never seen, without migrating', async () => {
+      setup();
+      h.anime('Alpha', 1);
+      await h.service.migrateExtension('example');
+      expect(h.log).toEqual([]);
+      expect(db.settings.getValue(EXTENSION_VERSIONS_KEY, {})).toEqual({ example: '1.0.0' });
+    });
+
+    it('ignores an extension that is not loaded', async () => {
+      setup();
+      await h.service.migrateExtension('ghost');
+      expect(db.settings.getValue(EXTENSION_VERSIONS_KEY, {})).toEqual({});
+    });
+
+    it('keeps the baseline after the extension is gone, so an older reinstall is compared with it', async () => {
+      setup();
+      h.anime('Alpha', 1);
+      db.settings.setValue(EXTENSION_VERSIONS_KEY, { example: '2.0.0' });
+      // Uninstalled: nothing loaded, nothing removed from the baseline.
+      h.versions = {};
+      await h.service.check({ kind: 'all' });
+      expect(db.settings.getValue(EXTENSION_VERSIONS_KEY, {})).toEqual({ example: '2.0.0' });
+      // Reinstalled at an older version: the migration runs from the version the urls were written by.
+      h.versions = { example: '1.5.0' };
+      await h.service.migrateExtension('example');
+      expect(h.log).toContain('migrateUrl:anime:2.0.0');
+      expect(db.settings.getValue(EXTENSION_VERSIONS_KEY, {})).toEqual({ example: '1.5.0' });
+    });
+
+    it('migrates anime that are only in the history', async () => {
+      setup();
+      const [row] = db.anime.upsertSummaries('example/en', [{ url: '/Old', title: 'Old' }]);
+      db.episodes.sync(row!.id, [{ url: '/Old/1', name: 'E1', number: 1 }], 100);
+      db.history.touch(row!.id, db.episodes.list(row!.id)[0]!.id, 600);
+      h.migrations.set('/Old', '/old-v2');
+      h.migrations.set('/Old/1', '/old-v2/1');
+      db.settings.setValue(EXTENSION_VERSIONS_KEY, { example: '1.0.0' });
+      h.versions = { example: '2.0.0' };
+      await h.service.migrateExtension('example');
+      expect(db.anime.get(row!.id)!.url).toBe('/old-v2');
+      expect(db.episodes.list(row!.id)[0]!.url).toBe('/old-v2/1');
+    });
+  });
+
+  describe('repositories before a scheduled check', () => {
+    it('runs the hook for a scheduled check only, and a failing hook does not stop the check', async () => {
+      setup();
+      h.anime('Alpha', 1);
+      const calls: string[] = [];
+      const service = new UpdateService({
+        ...(h.service as unknown as { deps: ConstructorParameters<typeof UpdateService>[0] }).deps,
+        beforeScheduledCheck: async () => {
+          calls.push('refresh');
+          throw new Error('offline');
+        },
+        log: { warn: (message) => void calls.push(message) },
+      });
+      await service.check({ kind: 'all' });
+      expect(calls).toEqual([]);
+      db.settings.setValue(LAST_RUN_KEY, h.now - 13 * HOUR);
+      service.start();
+      await settle();
+      expect(calls).toEqual(['refresh', 'repository refresh failed']);
+      service.stop();
+    });
+  });
+
   describe('auto-download (DL-11)', () => {
     it('does nothing while the setting is off', async () => {
       setup();

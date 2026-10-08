@@ -223,23 +223,30 @@ export class UpdatesRepository {
 
   // ------------------------------------------------------------------ url migration (UPD-6a)
 
-  /** Library anime and their episodes of one extension, with the urls the extension wrote. */
+  /**
+   * The anime of one extension that someone still looks at, and their episodes, with the urls the extension
+   * wrote: library entries, anime with watch history, and anime with downloads (an offline copy is opened
+   * through the same url). Anime that were only seen in a listing are cache and are not migrated.
+   */
   urlsOfExtension(extensionId: string): {
     anime: { id: number; sourceId: string; url: string }[];
     episodes: { id: number; sourceId: string; url: string }[];
   } {
     const params = { extensionId };
+    const kept = `a.in_library = 1
+      OR EXISTS (SELECT 1 FROM history h WHERE h.anime_id = a.id)
+      OR EXISTS (SELECT 1 FROM downloads d JOIN episodes de ON de.id = d.episode_id WHERE de.anime_id = a.id)`;
     const anime = this.db.$client
       .prepare(
         `SELECT a.id, a.source_id AS sourceId, a.url FROM anime a
-         JOIN sources s ON s.id = a.source_id WHERE s.extension_id = @extensionId AND a.in_library = 1`,
+         JOIN sources s ON s.id = a.source_id WHERE s.extension_id = @extensionId AND (${kept})`,
       )
       .all(params) as { id: number; sourceId: string; url: string }[];
     const episodes = this.db.$client
       .prepare(
         `SELECT e.id, a.source_id AS sourceId, e.url FROM episodes e
          JOIN anime a ON a.id = e.anime_id JOIN sources s ON s.id = a.source_id
-         WHERE s.extension_id = @extensionId AND a.in_library = 1`,
+         WHERE s.extension_id = @extensionId AND (${kept})`,
       )
       .all(params) as { id: number; sourceId: string; url: string }[];
     return { anime, episodes };

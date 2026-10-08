@@ -2,7 +2,9 @@ import { mkdir } from 'node:fs/promises';
 import { AppError, type AppSettings } from '@matane-anime/shared';
 import { BrowserWindow, app, dialog, shell } from 'electron';
 import type { SettingsRepository } from '../db/repositories/settings';
+import type { InstallService } from '../extensions/install';
 import type { ExtensionLogs } from '../extensions/logs';
+import type { RepoService } from '../extensions/repos';
 import type { ExtensionRegistry } from '../extensions/registry';
 import type { ExtensionService } from '../extensions/service';
 import type { NetworkManager } from '../network/manager';
@@ -21,6 +23,8 @@ export interface HandlerDeps {
   settings: SettingsRepository;
   registry: ExtensionRegistry;
   service: ExtensionService;
+  repos: RepoService;
+  installs: InstallService;
   logs: ExtensionLogs;
   network: NetworkManager;
   requests: RequestRegistry;
@@ -39,14 +43,12 @@ export interface HandlerDeps {
   spike: SpikeApi | null;
 }
 
-const notYet = (): never => {
-  throw new AppError('unsupported', 'Extension repositories are not available yet');
-};
-
 export function createHandlers({
   settings,
   registry,
   service,
+  repos,
+  installs,
   logs,
   network,
   requests,
@@ -114,19 +116,18 @@ export function createHandlers({
     'extensions.logs': ({ extensionId }) => logs.list(extensionId),
     'extensions.preferences': ({ extensionId }) => service.preferences(extensionId),
     'extensions.setPreference': ({ extensionId, key, value }) => service.setPreference(extensionId, key, value),
-    // Repositories and installing from them arrive in milestone 4c; until then the lists are empty.
-    'extensions.available': () => [],
-    'extensions.prepareInstall': () => notYet(),
-    'extensions.install': () => notYet(),
-    'extensions.update': () => notYet(),
-    'extensions.updateAll': () => notYet(),
-    'extensions.uninstall': () => notYet(),
-    'repos.list': () => [],
-    'repos.preview': () => notYet(),
-    'repos.add': () => notYet(),
-    'repos.remove': () => notYet(),
-    'repos.refresh': () => notYet(),
-    'repos.setTrust': () => notYet(),
+    'extensions.available': () => repos.available(),
+    'extensions.prepareInstall': (input) => installs.prepareInstall(input),
+    'extensions.install': ({ token }) => installs.install(token),
+    'extensions.update': ({ extensionId }) => installs.update(extensionId),
+    'extensions.updateAll': () => installs.updateAll(),
+    'extensions.uninstall': ({ extensionId }) => installs.uninstall(extensionId),
+    'repos.list': () => repos.list(),
+    'repos.preview': ({ url }) => repos.preview(url),
+    'repos.add': ({ url, trustKey }) => repos.add(url, trustKey),
+    'repos.remove': ({ id }) => repos.remove(id),
+    'repos.refresh': ({ id }) => repos.refresh(id),
+    'repos.setTrust': ({ id, trusted }) => repos.setTrust(id, trusted),
     'sources.list': () => service.listSources(),
     'sources.capabilities': ({ sourceId }) => service.capabilities(sourceId),
     'sources.filters': ({ sourceId, requestId }) => service.filters(sourceId, requestId),

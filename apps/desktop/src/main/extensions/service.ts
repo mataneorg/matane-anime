@@ -20,8 +20,10 @@ import {
 import type { AnimeRepository, AnimeRow } from '../db/repositories/anime';
 import type { EpisodeRecord, EpisodesRepository } from '../db/repositories/episodes';
 import type { ExtensionStore } from '../db/repositories/extension-store';
+import type { SettingsRepository } from '../db/repositories/settings';
 import { type RequestRegistry, abortable } from '../ipc/requests';
 import type { NetworkManager } from '../network/manager';
+import { allowsLanguage, allowsNsfw } from './content-filter';
 import { toAppError } from './errors';
 import type { ExtensionHostClient } from './host-client';
 import type { ExtensionRecord, ExtensionRegistry } from './registry';
@@ -30,6 +32,8 @@ export interface ServiceDeps {
   registry: ExtensionRegistry;
   host: ExtensionHostClient;
   store: ExtensionStore;
+  /** `showNsfw` and `contentLanguages` (EXT-15). */
+  settings: Pick<SettingsRepository, 'getAppSettings'>;
   anime: AnimeRepository;
   episodes: EpisodesRepository;
   network: NetworkManager;
@@ -114,24 +118,43 @@ export class ExtensionService {
 
   // ------------------------------------------------------------------ sources
 
+  /**
+   * The sources the user may see: 18+ sources only with `showNsfw`, and only languages in `contentLanguages`
+   * (empty means all, `multi` always passes). This is where EXT-15 is enforced, not in the renderer.
+   */
   listSources(): SourceInfo[] {
     const { registry, store } = this.deps;
-    return store.listSources().map((row) => {
+    const preferences = this.deps.settings.getAppSettings();
+    const out: SourceInfo[] = [];
+    for (const row of store.listSources()) {
       const record = registry.byExtensionId(row.extensionId);
       const known = store.getExtension(row.extensionId);
-      return {
+      const nsfw = record?.manifest?.nsfw ?? known?.nsfw ?? false;
+      if (!allowsNsfw(preferences, nsfw) || !allowsLanguage(preferences.contentLanguages, row.lang)) continue;
+      out.push({
         id: row.id,
         extensionId: row.extensionId,
         extensionName: record?.manifest?.name ?? known?.name ?? row.extensionId,
         key: row.key,
         lang: row.lang,
         name: row.name,
-        nsfw: record?.manifest?.nsfw ?? known?.nsfw ?? false,
+        nsfw,
         pinned: row.pinned,
         lastUsedAt: row.lastUsedAt,
         available: record?.status === 'ready' && record.manifest?.sources.some((s) => s.key === row.key) === true,
-      };
-    });
+      });
+    }
+    return out;
+  }
+
+  /** Browsing an 18+ source needs `showNsfw` (EXT-15). */
+  private assertBrowsable(sourceId: string, nsfw: boolean): void {
+    if (!allowsNsfw(this.deps.settings.getAppSettings(), nsfw)) {
+      throw new AppError(
+        'forbidden',
+        `"${sourceId}" is an 18+ source. Turn on "Show 18+ sources" in Settings to use it.`,
+      );
+    }
   }
 
   setPinned(sourceId: string, pinned: boolean): void {
@@ -148,12 +171,14 @@ export class ExtensionService {
   }
 
   async filters(sourceId: string, requestId?: string) {
-    const { client } = this.resolve(sourceId);
+    const { client, record } = this.resolve(sourceId);
+    this.assertBrowsable(sourceId, record.manifest?.nsfw ?? false);
     return this.run(requestId, () => client.getFilters(this.options(sourceId)));
   }
 
   async browse(input: BrowseInput): Promise<CatalogPage> {
-    const { client } = this.resolve(input.sourceId);
+    const { client, record } = this.resolve(input.sourceId);
+    this.assertBrowsable(input.sourceId, record.manifest?.nsfw ?? false);
     const options = this.options(input.sourceId);
     const page = await this.run(input.requestId, () => {
       if (input.kind === 'latest') return client.getLatest(input.page, options);
@@ -168,7 +193,8 @@ export class ExtensionService {
   }
 
   async resolveUrl(sourceId: string, url: string): Promise<CatalogAnime | null> {
-    const { client } = this.resolve(sourceId);
+    const { client, record } = this.resolve(sourceId);
+    this.assertBrowsable(sourceId, record.manifest?.nsfw ?? false);
     const summary = await this.guard(() => client.resolveUrl(url, this.options(sourceId)));
     if (!summary) return null;
     const [row] = this.deps.anime.upsertSummaries(sourceId, [summary]);

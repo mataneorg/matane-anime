@@ -2,7 +2,7 @@ import { mkdirSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
-import { BrowserWindow, app, crashReporter } from 'electron';
+import { BrowserWindow, app, crashReporter, session } from 'electron';
 import type { AppSettings } from '@matane-anime/shared';
 import { autoUpdater } from 'electron-updater';
 import { createMainWindow } from './app/window';
@@ -35,16 +35,21 @@ import { resolveLanguage } from './updates/messages';
 import { isWindowFocused, showUpdateNotification } from './updates/notify';
 import { UpdateService } from './updates/service';
 import { WatchService } from './watch/service';
+import { RepoStore } from './db/repositories/extension-repos';
 import { ExtensionStore } from './db/repositories/extension-store';
 import { SettingsRepository } from './db/repositories/settings';
 import { ExtensionHostClient } from './extensions/host-client';
+import { InstallService } from './extensions/install';
 import { ExtensionLogs } from './extensions/logs';
 import { ExtensionRegistry } from './extensions/registry';
+import { RepoService } from './extensions/repos';
 import { ExtensionService } from './extensions/service';
 import { createHandlers } from './ipc/handlers';
 import { broadcast, registerIpcHandlers } from './ipc/register';
 import { RequestRegistry } from './ipc/requests';
-import { NetworkManager } from './network/manager';
+import { GLOBAL_USER_AGENT_KEY, NetworkManager } from './network/manager';
+import { RepoFetcher } from './network/repo-fetcher';
+import { defaultUserAgent } from './network/user-agent';
 import { PlaybackService } from './playback/service';
 import { SessionStore } from './playback/sessions';
 import { handleAnimeScheme, registerAnimeScheme } from './playback/scheme';
@@ -109,6 +114,23 @@ if (!app.requestSingleInstanceLock()) {
       });
       network.status.start();
 
+      // Extension repositories (EXT-5…9): fetched by their own session, never by an extension's fetcher.
+      const repoSession = session.fromPartition('persist:repos');
+      const repoHttp = new RepoFetcher({
+        session: repoSession,
+        userAgent: () => settings.getValue<string | null>(GLOBAL_USER_AGENT_KEY, null) ?? defaultUserAgent(repoSession),
+        isOnline: () => network.status.isOnline,
+      });
+      const repoService = new RepoService({
+        http: repoHttp,
+        repos: new RepoStore(connection.db, changes),
+        extensions: store,
+        settings,
+        appVersion: app.getVersion(),
+        isDevLoaded: (extensionId) => registry.isDevLoaded(extensionId),
+        log: { warn: (message, error) => log.warn(message, error) },
+      });
+
       // eslint-disable-next-line prefer-const -- the host's callbacks need the registry, which needs the host
       let registry: ExtensionRegistry;
       const host = new ExtensionHostClient(
@@ -137,6 +159,7 @@ if (!app.requestSingleInstanceLock()) {
         hostInfo: { appName: app.getName(), appVersion: app.getVersion(), apiVersion: API_VERSION },
         onReloaded: (extensionId) => network.invalidate(extensionId),
         onChanged: () => changes.emit('extensions', 'sources'),
+        repos: repoService,
       });
       const fetcherFor = (extensionId: string) => {
         const manifest = registry.byExtensionId(extensionId)?.manifest;
@@ -166,6 +189,7 @@ if (!app.requestSingleInstanceLock()) {
         registry,
         host,
         store,
+        settings,
         anime: animeRepo,
         episodes: episodeRepo,
         network,
@@ -197,6 +221,27 @@ if (!app.requestSingleInstanceLock()) {
         isOnline: () => network.status.isOnline,
         onOnlineChange: (listener) => network.onOnlineChange(listener),
         log: { warn: (message, error) => log.warn(message, error) },
+        beforeScheduledCheck: async () => {
+          if (network.status.isOnline) await repoService.refresh();
+        },
+      });
+      const extensionsDir = join(userData, 'extensions');
+      mkdirSync(extensionsDir, { recursive: true });
+      const installService = new InstallService({
+        http: repoHttp,
+        repos: repoService,
+        store,
+        registry,
+        extensionsDir,
+        migrate: (extensionId) => updateService.migrateExtension(extensionId),
+        clearSession: async (extensionId) => {
+          const target = session.fromPartition(`persist:ext-${extensionId}`);
+          await target.clearStorageData();
+          await target.clearCache();
+          await target.clearAuthCache();
+        },
+        invalidateNetwork: (extensionId) => network.invalidate(extensionId),
+        log: { warn: (message, error) => log.warn(message, error) },
       });
       const sourceMigration = new MigrationService({
         anime: animeRepo,
@@ -209,10 +254,18 @@ if (!app.requestSingleInstanceLock()) {
         },
       });
       // The schedule starts once the extensions are loaded: a check before that would fail every anime.
-      const registryReady = registry
-        .init()
+      const registryReady = installService
+        .recoverInterrupted()
+        .catch((error: unknown) => log.warn('could not recover an interrupted install', error))
+        .then(() => registry.init())
         .catch((error: unknown) => log.error('extension registry failed to start', error));
       void registryReady.then(() => updateService.start());
+      // Look at the repositories once at start, without holding anything up (needs the network).
+      void registryReady.then(() => {
+        if (network.status.isOnline) {
+          void repoService.refresh().catch((error: unknown) => log.warn('repository refresh failed', error));
+        }
+      });
 
       const sessions = new SessionStore();
       const fetchUpstream = createSessionUpstream(fetcherFor);
@@ -341,6 +394,8 @@ if (!app.requestSingleInstanceLock()) {
           settings,
           registry,
           service,
+          repos: repoService,
+          installs: installService,
           logs,
           network,
           requests,

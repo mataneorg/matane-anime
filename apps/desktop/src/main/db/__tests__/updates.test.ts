@@ -339,6 +339,27 @@ describe('what the checker reads', () => {
     expect(db.updates.describeEpisodes([])).toEqual([]);
   });
 
+  it('covers anime that are only in the history or have downloads, but not browse-only cache', () => {
+    const inLibrary = anime('Alpha', [2, 1]);
+    // Left the library, still in the history.
+    const [watched] = db.anime.upsertSummaries('example/en', [{ url: '/Watched', title: 'Watched' }]);
+    db.episodes.sync(watched!.id, episodeList('Watched', [1]), 500);
+    db.history.touch(watched!.id, ids(watched!.id)[0]!, 600);
+    // Not in the library nor the history, but an episode is on disk.
+    const [offline] = db.anime.upsertSummaries('example/id', [{ url: '/Offline', title: 'Offline' }]);
+    db.episodes.sync(offline!.id, episodeList('Offline', [1]), 500);
+    db.downloads.insert({ episodeId: ids(offline!.id)[0]!, kind: 'mp4', sizeBytes: 1, now: 700 });
+    // Only seen in a listing: cache.
+    const [cached] = db.anime.upsertSummaries('example/en', [{ url: '/Cached', title: 'Cached' }]);
+    db.episodes.sync(cached!.id, episodeList('Cached', [1]), 500);
+
+    const urls = db.updates.urlsOfExtension('example');
+    expect(urls.anime.map((a) => a.url).sort()).toEqual(['/Alpha', '/Offline', '/Watched']);
+    expect(urls.episodes.map((e) => e.url).sort()).toEqual(['/Alpha/1', '/Alpha/2', '/Offline/1', '/Watched/1']);
+    expect(urls.anime.find((a) => a.id === inLibrary)?.sourceId).toBe('example/en');
+    expect(db.updates.urlsOfExtension('other')).toEqual({ anime: [], episodes: [] });
+  });
+
   it('rewrites stored urls, and refuses one that is taken', () => {
     const alpha = anime('Alpha', [2, 1]);
     const beta = anime('Beta', [1], { sourceId: 'example/id' });

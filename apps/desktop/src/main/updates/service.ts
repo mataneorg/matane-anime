@@ -49,6 +49,8 @@ export interface UpdateServiceDeps {
   isOnline(): boolean;
   onOnlineChange(listener: (online: boolean) => void): () => void;
   log?: { warn(message: string, error?: unknown): void };
+  /** Runs before each scheduled check, e.g. to refresh the extension repositories; failures are only logged. */
+  beforeScheduledCheck?(): Promise<void>;
   now?(): number;
   concurrency?: number;
   /** Test hooks for the scheduler's timer. */
@@ -69,6 +71,8 @@ interface RunOptions {
  */
 export class UpdateService {
   private readonly scheduler: UpdateScheduler;
+  /** Url migrations one at a time: a check and an install must not rewrite the same urls twice. */
+  private migrating: Promise<unknown> = Promise.resolve();
   /** The library-wide check in progress, which a second request joins instead of starting another. */
   private current: Promise<UpdateCheckResult> | null = null;
 
@@ -119,6 +123,10 @@ export class UpdateService {
     return this.deps.now?.() ?? Date.now();
   }
 
+  private warn(message: string): (error: unknown) => void {
+    return (error) => this.deps.log?.warn(message, error);
+  }
+
   private execute(scope: UpdateScope, options: RunOptions): Promise<UpdateCheckResult> {
     // One library-wide check at a time. A single anime can always be checked: the user is looking at it.
     if (scope.kind !== 'anime') {
@@ -137,6 +145,7 @@ export class UpdateService {
     const request = this.deps.requests.begin(options.requestId);
     const { signal } = request;
     try {
+      if (options.automatic) await this.deps.beforeScheduledCheck?.().catch(this.warn('repository refresh failed'));
       await this.migrateUrls(signal);
 
       let targets = repo.targets(scope);
@@ -207,28 +216,52 @@ export class UpdateService {
    * a stale url would fail the refresh. The version is remembered only once the migration went through, so
    * a failure is tried again at the next check. Extensions without `migrateUrl` are passed over silently.
    */
-  private async migrateUrls(signal: AbortSignal): Promise<void> {
-    const { settings, extensions } = this.deps;
-    const current = extensions.extensionVersions();
-    const known = settings.getValue<Record<string, string>>(EXTENSION_VERSIONS_KEY, {});
-    const next = { ...known };
-    for (const [extensionId, version] of Object.entries(current)) {
-      const previous = known[extensionId];
-      if (previous === version) continue;
-      if (previous !== undefined) {
-        try {
-          await this.migrateExtension(extensionId, previous, signal);
-        } catch (error) {
-          this.deps.log?.warn(`could not migrate the urls of ${extensionId}`, error);
-          continue;
-        }
-      }
-      next[extensionId] = version;
-    }
-    if (Object.keys(next).some((id) => next[id] !== known[id])) settings.setValue(EXTENSION_VERSIONS_KEY, next);
+  private migrateUrls(signal: AbortSignal): Promise<void> {
+    return this.serialMigration(async () => {
+      const current = this.deps.extensions.extensionVersions();
+      for (const [extensionId, version] of Object.entries(current)) await this.migrateOne(extensionId, version, signal);
+    });
   }
 
-  private async migrateExtension(extensionId: string, fromVersion: string, signal: AbortSignal): Promise<void> {
+  /**
+   * Runs the version-change migration of ONE extension now, e.g. right after it was installed or updated
+   * (EXT-16). The first time a version is seen it only becomes the baseline, which is kept when the extension
+   * is uninstalled, so installing an older version later is still compared with it.
+   */
+  migrateExtension(extensionId: string, signal = new AbortController().signal): Promise<void> {
+    return this.serialMigration(async () => {
+      const version = this.deps.extensions.extensionVersions()[extensionId];
+      if (version !== undefined) await this.migrateOne(extensionId, version, signal);
+    });
+  }
+
+  private serialMigration<T>(work: () => Promise<T>): Promise<T> {
+    const run = this.migrating.then(work, work);
+    this.migrating = run.catch(() => undefined);
+    return run;
+  }
+
+  private async migrateOne(extensionId: string, version: string, signal: AbortSignal): Promise<void> {
+    const { settings } = this.deps;
+    const known = settings.getValue<Record<string, string>>(EXTENSION_VERSIONS_KEY, {});
+    const previous = known[extensionId];
+    if (previous === version) return;
+    if (previous !== undefined) {
+      try {
+        await this.rewriteUrlsOf(extensionId, previous, signal);
+      } catch (error) {
+        this.deps.log?.warn(`could not migrate the urls of ${extensionId}`, error);
+        return;
+      }
+    }
+    // Read again: another extension may have been recorded while this one migrated.
+    settings.setValue(EXTENSION_VERSIONS_KEY, {
+      ...settings.getValue<Record<string, string>>(EXTENSION_VERSIONS_KEY, {}),
+      [extensionId]: version,
+    });
+  }
+
+  private async rewriteUrlsOf(extensionId: string, fromVersion: string, signal: AbortSignal): Promise<void> {
     const { repo, extensions } = this.deps;
     const { anime, episodes } = repo.urlsOfExtension(extensionId);
     const sourceId = anime[0]?.sourceId ?? episodes[0]?.sourceId;

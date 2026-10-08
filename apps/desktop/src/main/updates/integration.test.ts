@@ -93,6 +93,7 @@ beforeEach(async () => {
     registry,
     host,
     store: db.store,
+    settings: db.settings,
     anime: db.anime,
     episodes: db.episodes,
     network: { status: { isOnline: true } } as unknown as NetworkManager,
