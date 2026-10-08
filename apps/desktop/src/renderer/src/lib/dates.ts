@@ -32,3 +32,21 @@ export function formatClock(ms: number): string {
   const s = String(total % 60).padStart(2, '0');
   return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${s}` : `${m}:${s}`;
 }
+
+const RELATIVE_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
+  ['year', 365 * DAY_MS],
+  ['month', 30 * DAY_MS],
+  ['day', DAY_MS],
+  ['hour', 3_600_000],
+  ['minute', 60_000],
+];
+
+/** "2 hours ago", "yesterday", "just now": how long ago something happened, in the app language. */
+export function relativeTime(timestamp: number, now: number, locale: string): string {
+  const elapsed = Math.max(0, now - timestamp);
+  const format = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+  for (const [unit, size] of RELATIVE_UNITS) {
+    if (elapsed >= size) return format.format(-Math.floor(elapsed / size), unit);
+  }
+  return format.format(0, 'second');
+}

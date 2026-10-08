@@ -445,7 +445,7 @@ function LibraryEmpty() {
           description={t('empty.library.description')}
           action={
             <div className="flex gap-2">
-              <Link to="/browse/extensions" className={buttonVariants({ size: 'lg' })}>
+              <Link to="/browse/extensions" search={{ add: true }} className={buttonVariants({ size: 'lg' })}>
                 <Plus className="size-4" strokeWidth={1.75} aria-hidden />
                 {t('empty.library.action')}
               </Link>

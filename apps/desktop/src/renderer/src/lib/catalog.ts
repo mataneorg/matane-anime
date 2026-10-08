@@ -19,6 +19,19 @@ export const sourcesQuery = queryOptions({
   ...localQueryDefaults,
 });
 
+export const reposQuery = queryOptions({
+  queryKey: ['repos'],
+  queryFn: () => call('repos.list'),
+  ...localQueryDefaults,
+});
+
+/** What the repositories offer (already narrowed by the 18+ and language settings in main). */
+export const availableQuery = queryOptions({
+  queryKey: ['available'],
+  queryFn: () => call('extensions.available'),
+  ...localQueryDefaults,
+});
+
 export const networkStatusQuery = queryOptions({
   queryKey: ['network', 'status'],
   queryFn: () => call('network.getStatus'),

@@ -60,10 +60,6 @@
       "title": "Belum ada sumber terpasang",
       "description": "Sumber berasal dari extension. Tambahkan repositori di Extension, lalu pasang yang kamu mau."
     },
-    "extensions": {
-      "title": "Belum ada extension",
-      "description": "Matane Anime tidak membawa sumber apa pun. Buat extension dengan ma-ext dan muat foldernya di sini."
-    },
     "globalSearch": {
       "title": "Cari di semua sumber sekaligus",
       "description": "Pasang satu sumber dulu, lalu cari di semuanya dari sini."
@@ -144,16 +140,35 @@
       },
       "nsfw": {
         "title": "Tampilkan sumber 18+",
-        "description": "Sumber dari extension yang ditandai 18+ muncul di Jelajah dan pencarian."
+        "description": "Mati secara bawaan. Menyembunyikan extension dewasa di daftar repositori, jelajah, dan pencarian global."
       },
-      "content": "Konten"
+      "content": "Konten",
+      "contentLanguage": {
+        "title": "Bahasa konten",
+        "hintAll": "Tidak ada bahasa dipilih: sumber dalam semua bahasa ditawarkan.",
+        "hintSome": "Hanya sumber dalam bahasa terpilih yang ditawarkan (dan yang multibahasa)."
+      }
     },
     "advanced": {
       "developer": "Pengembang",
       "logs": "Log extension",
       "noLogs": "Belum ada log.",
       "allExtensions": "Semua extension",
-      "loadHint": "Muat extension dari foldernya untuk mengembangkannya. Extension dimuat ulang saat kamu membangunnya lagi."
+      "loadHint": "Muat extension dari foldernya untuk mengembangkannya. Extension dimuat ulang saat kamu membangunnya lagi.",
+      "devMode": "Mode pengembang",
+      "devModeHint": "Menampilkan pemuatan extension dari folder dan log extension yang lebih lengkap.",
+      "logsOf": "Tampilkan log milik",
+      "copy": "Salin",
+      "clear": "Bersihkan",
+      "copied": "Log disalin",
+      "copyFailed": "Gagal menyalin log",
+      "levels": "Level log",
+      "level": {
+        "error": "Error",
+        "warn": "Peringatan",
+        "info": "Info",
+        "debug": "Debug"
+      }
     },
     "player": {
       "playback": "Pemutaran",
@@ -265,8 +280,7 @@
       "notInstalled": "Extension tidak terpasang",
       "pin": "Sematkan sumber",
       "unpin": "Lepas sematan",
-      "browse": "Jelajahi",
-      "nsfwHidden": "Sumber 18+ disembunyikan. Kamu bisa menampilkannya di Pengaturan → Umum."
+      "browse": "Jelajahi"
     },
     "picker": "Sumber",
     "tabs": {
@@ -362,7 +376,6 @@
   "extensions": {
     "title": "Extension",
     "loadFolder": "Muat dari folder",
-    "devNotice": "Extension dimuat dari folder yang kamu pilih. Repositori hadir di versi berikutnya.",
     "dev": "Dev",
     "failed": "Gagal dimuat",
     "reload": "Muat ulang",
@@ -373,8 +386,151 @@
     "folder": "Folder",
     "save": "Tutup",
     "emptyTitle": "Belum ada extension",
-    "emptyDescription": "Matane Anime tidak membawa sumber apa pun. Buat extension dengan ma-ext dan muat foldernya di sini.",
-    "noPreferences": "Extension ini tidak punya preferensi."
+    "emptyDescription": "Matane Anime tidak membawa sumber apa pun. Untuk mendapatkannya, tambahkan alamat repositori extension dari orang yang kamu percaya, lalu pasang extension yang kamu mau.",
+    "noPreferences": "Extension ini tidak punya preferensi.",
+    "addRepository": "Tambah repositori",
+    "check": "Periksa repositori",
+    "retry": "Coba lagi",
+    "tabs": {
+      "installed": "Terpasang",
+      "available": "Tersedia",
+      "repositories": "Repositori"
+    },
+    "filter": {
+      "language": "Bahasa",
+      "allLanguages": "Semua bahasa",
+      "nsfw": "Tampilkan sumber 18+"
+    },
+    "updatesAvailable_other": "{{count}} pembaruan tersedia.",
+    "updatesHint": "Pembaruan langsung terpasang dan pustaka serta pengaturanmu tetap aman.",
+    "updateAll": "Perbarui semua",
+    "update": "Perbarui",
+    "updating": "Memperbarui…",
+    "updateTo": "Perbarui ke {{version}}",
+    "updateOf": "Perbarui {{name}}",
+    "install": "Pasang",
+    "installOf": "Pasang {{name}}",
+    "installed": "Terpasang",
+    "reinstall": "Pasang ulang",
+    "reinstallHint": "Filenya berubah setelah dipasang, jadi tidak dimuat. Pasang ulang dari repositori, atau copot.",
+    "uninstall": "Copot",
+    "uninstallOf": "Copot {{name}}",
+    "uninstallTitle": "Copot {{name}}?",
+    "uninstallBody": "Sumbernya dan anime yang kamu ikuti dari sana tetap ada di pustaka. Keduanya tampil sebagai \"belum dipasang\" sampai extension dipasang lagi.",
+    "preferencesOf": "Preferensi {{name}}",
+    "shadowed": "Folder dengan id yang sama dimuat menggantikan salinan terpasang ini.",
+    "alsoOffered": "Juga ditawarkan oleh {{repos}}, yang tetap tidak dipasang",
+    "trust": {
+      "trusted": "Kunci tepercaya",
+      "unverified": "Repositori belum terverifikasi",
+      "unsigned": "Repositori tanpa tanda tangan"
+    },
+    "repoTrust": {
+      "trusted": "Kunci tepercaya",
+      "unverified": "Belum terverifikasi",
+      "unsigned": "Tanpa tanda tangan"
+    },
+    "incompatible": {
+      "api": "Butuh API extension yang lebih baru dari yang didukung aplikasi ini. Perbarui aplikasi untuk memasangnya.",
+      "app": "Butuh Matane Anime versi lebih baru. Perbarui aplikasi untuk memasangnya."
+    },
+    "conflict": {
+      "dev": "Folder yang kamu muat sudah menyediakan extension ini. Hapus folder itu untuk memasangnya dari sini.",
+      "repo": "Sudah terpasang dari {{repo}}. Copot dulu untuk memasangnya dari sini.",
+      "another": "repositori lain"
+    },
+    "noneInstalled": {
+      "title": "Belum ada yang terpasang",
+      "description": "Pasang extension dari repositorimu untuk mendapatkan sumber yang bisa dijelajahi.",
+      "action": "Lihat extension tersedia"
+    },
+    "noneAvailable": {
+      "title": "Tidak ada yang bisa dipasang",
+      "description": "Repositorimu tidak menawarkan apa pun yang cocok dengan filter Bahasa dan 18+. Ubah filternya di atas, atau periksa repositori untuk kabar baru."
+    },
+    "noRepos": {
+      "title": "Belum ada repositori",
+      "description": "Extension datang dari repositori yang kamu tambahkan. Tekan Tambah repositori dan tempel alamat repositori dari orang yang kamu percaya."
+    },
+    "trustKey": "Percayai kunci ini",
+    "stopTrusting": "Berhenti percaya",
+    "unsignedMark": "tanpa tanda tangan",
+    "synced": "Disinkronkan {{when}}",
+    "neverSynced": "Belum disinkronkan",
+    "lastError": "Pemeriksaan terakhir gagal: {{message}}",
+    "refresh": "Periksa sekarang",
+    "refreshRepo": "Periksa {{name}}",
+    "removeRepo": "Hapus {{name}}",
+    "removeRepoShort": "Hapus",
+    "removeRepoTitle": "Hapus {{name}}?",
+    "removeRepoBody": "Extension yang kamu pasang darinya tetap terpasang dan berfungsi. Kamu tidak akan menerima pembaruannya dari sini lagi.",
+    "addRepo": {
+      "title": "Tambah repositori",
+      "description": "Tempel alamat repositori extension. Matane Anime membaca daftarnya dan memeriksa siapa yang menandatanganinya.",
+      "address": "Alamat repositori",
+      "placeholder": "https://example.org/extensions/",
+      "check": "Periksa repositori",
+      "add": "Tambah repositori",
+      "result": "Isi repositori",
+      "count_other": "{{count}} extension",
+      "unverifiedTitle": "Repositori belum terverifikasi",
+      "unverifiedBody": "Repositori ini tidak ditandatangani dengan kunci yang kamu percaya. Kamu tetap bisa menambahkannya, tetapi memasang darinya akan selalu menampilkan peringatan.",
+      "signingKey": "Kunci penanda tangan",
+      "trustKey": "Percayai kunci ini",
+      "trustKeyHint": "Pemasangan dan pembaruan dari repositori ini tidak lagi menampilkan peringatan. Lakukan hanya untuk orang yang kamu kenal.",
+      "unsignedTitle": "Repositori tanpa tanda tangan",
+      "unsignedBody": "Repositori ini tidak punya tanda tangan, jadi tidak ada yang menjamin isinya. Kamu tetap bisa menambahkannya, tetapi memasang darinya akan selalu menampilkan peringatan.",
+      "notice": "Matane Anime tidak menyarankan atau menyertakan repositori apa pun. Tambahkan hanya dari orang yang kamu percaya."
+    },
+    "installDialog": {
+      "title": "Pasang {{name}}",
+      "checking": "Mengunduh dan memeriksa paket…",
+      "retry": "Periksa lagi",
+      "version": "Versi",
+      "from": "dari {{repo}}",
+      "unnamed": "repositori tanpa nama",
+      "installedNow": "terpasang: {{version}}",
+      "repository": "Repositori",
+      "api": "Versi API",
+      "compatible": "kompatibel",
+      "languages": "Bahasa",
+      "size": "Ukuran",
+      "integrity": "Integritas",
+      "verified": "SHA-256 terverifikasi",
+      "sandbox": "Extension ini berjalan di sandbox. Ia bisa meminta halaman dari situs mana pun, dan setiap permintaan lewat Matane Anime yang menerapkan batas laju. Ia tidak bisa membaca filemu.",
+      "warnings": {
+        "unverified": {
+          "title": "Repositori belum terverifikasi",
+          "body": "Tidak ada pihak yang kamu percaya menjamin repositori ini. Pasang hanya jika kamu tahu siapa pengelolanya. Kunci penanda tangan:"
+        },
+        "unsigned": {
+          "title": "Repositori tanpa tanda tangan",
+          "body": "Repositori ini tidak punya tanda tangan, jadi tidak ada yang menjamin isinya. Pasang hanya jika kamu tahu siapa pengelolanya."
+        },
+        "nsfw": {
+          "title": "Konten 18+",
+          "body": "Extension ini ditandai 18+. Ia bisa menyediakan sumber dewasa, yang tetap tersembunyi kecuali Tampilkan sumber 18+ aktif."
+        }
+      }
+    },
+    "toast": {
+      "installed": "{{name}} terpasang",
+      "updated": "{{name}} diperbarui",
+      "updateFailed": "Gagal memperbarui {{name}}",
+      "updatedAll_other": "{{count}} extension diperbarui",
+      "updateAllFailed": "Gagal memperbarui extension",
+      "uninstalled": "{{name}} dicopot",
+      "uninstallFailed": "Gagal mencopot {{name}}",
+      "checked_other": "{{count}} repositori diperiksa",
+      "checkFailed_other": "{{count}} repositori tidak bisa diperiksa",
+      "checkFailedAll": "Gagal memeriksa repositori",
+      "repoAdded": "{{name}} ditambahkan",
+      "repoRefreshed": "{{name}} sudah terbaru",
+      "repoFailed": "Gagal memeriksa {{name}}",
+      "repoRemoved": "{{name}} dihapus",
+      "repoRemoveFailed": "Gagal menghapus {{name}}",
+      "trustFailed": "Gagal mengubah kepercayaan {{name}}"
+    }
   },
   "network": {
     "offline": "Offline"

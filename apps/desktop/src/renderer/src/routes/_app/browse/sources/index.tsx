@@ -9,7 +9,6 @@ import { Button, buttonVariants } from '@renderer/components/ui/button';
 import { Input } from '@renderer/components/ui/input';
 import { call } from '@renderer/lib/api';
 import { sourcesQuery } from '@renderer/lib/catalog';
-import { settingsQuery } from '@renderer/lib/ipc';
 import { cn } from '@renderer/lib/utils';
 import type { SourceInfo } from '@matane-anime/shared';
 
@@ -20,13 +19,11 @@ const hue = (text: string): number => [...text].reduce((sum, ch) => sum + ch.cha
 function SourcesPage() {
   const { t } = useTranslation();
   const { data: sources = [], isPending } = useQuery(sourcesQuery);
-  const { data: settings } = useQuery(settingsQuery);
   const [language, setLanguage] = useState('all');
 
-  const visible = useMemo(() => sources.filter((source) => settings?.showNsfw || !source.nsfw), [sources, settings]);
-  const hiddenCount = sources.length - visible.length;
-  const languages = useMemo(() => [...new Set(visible.map((source) => source.lang))].sort(), [visible]);
-  const shown = visible
+  // Main already leaves out 18+ sources and languages the user did not choose (EXT-15).
+  const languages = useMemo(() => [...new Set(sources.map((source) => source.lang))].sort(), [sources]);
+  const shown = sources
     .filter((source) => language === 'all' || source.lang === language)
     .sort((a, b) => Number(b.pinned) - Number(a.pinned) || a.name.localeCompare(b.name));
 
@@ -49,7 +46,7 @@ function SourcesPage() {
     <div className="flex flex-col gap-6 p-6">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('browse.sources.title')}</h1>
-        <OpenFromUrl sources={visible.filter((source) => source.available)} />
+        <OpenFromUrl sources={sources.filter((source) => source.available)} />
       </header>
 
       {languages.length > 1 ? (
@@ -76,7 +73,6 @@ function SourcesPage() {
           <SourceRow key={source.id} source={source} />
         ))}
       </ul>
-      {hiddenCount > 0 ? <p className="text-xs leading-4">{t('browse.sources.nsfwHidden')}</p> : null}
     </div>
   );
 }

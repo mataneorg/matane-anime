@@ -60,10 +60,6 @@
       "title": "No sources installed",
       "description": "Sources come from extensions. Add a repository in Extensions, then install the ones you want."
     },
-    "extensions": {
-      "title": "No extensions loaded",
-      "description": "Matane Anime ships with no sources. Build an extension with ma-ext and load its folder here."
-    },
     "globalSearch": {
       "title": "Search every source at once",
       "description": "Install a source first, then search all of them from here."
@@ -144,16 +140,35 @@
       },
       "nsfw": {
         "title": "Show 18+ sources",
-        "description": "Sources from extensions marked 18+ appear in Browse and search."
+        "description": "Off by default. Hides adult extensions in the repository list, browse and global search."
       },
-      "content": "Content"
+      "content": "Content",
+      "contentLanguage": {
+        "title": "Content language",
+        "hintAll": "No language selected: sources in every language are offered.",
+        "hintSome": "Only sources in the selected languages are offered (and multi-language ones)."
+      }
     },
     "advanced": {
       "developer": "Developer",
       "logs": "Extension logs",
       "noLogs": "Nothing logged yet.",
       "allExtensions": "All extensions",
-      "loadHint": "Load an extension from its folder to develop it. It reloads when you rebuild it."
+      "loadHint": "Load an extension from its folder to develop it. It reloads when you rebuild it.",
+      "devMode": "Developer mode",
+      "devModeHint": "Shows loading an extension from a folder and the extended extension log.",
+      "logsOf": "Show the log of",
+      "copy": "Copy",
+      "clear": "Clear",
+      "copied": "Log copied",
+      "copyFailed": "Could not copy the log",
+      "levels": "Log levels",
+      "level": {
+        "error": "Errors",
+        "warn": "Warnings",
+        "info": "Info",
+        "debug": "Debug"
+      }
     },
     "player": {
       "playback": "Playback",
@@ -265,8 +280,7 @@
       "notInstalled": "Extension not installed",
       "pin": "Pin source",
       "unpin": "Unpin source",
-      "browse": "Browse",
-      "nsfwHidden": "18+ sources are hidden. You can show them in Settings → General."
+      "browse": "Browse"
     },
     "picker": "Source",
     "tabs": {
@@ -362,7 +376,6 @@
   "extensions": {
     "title": "Extensions",
     "loadFolder": "Load from folder",
-    "devNotice": "Extensions load from folders you choose. Repositories arrive in a later version.",
     "dev": "Dev",
     "failed": "Failed to load",
     "reload": "Reload",
@@ -372,9 +385,157 @@
     "sources_other": "{{count}} sources",
     "folder": "Folder",
     "save": "Close",
-    "emptyTitle": "No extensions loaded",
-    "emptyDescription": "Matane Anime ships with no sources. Build an extension with ma-ext and load its folder here.",
-    "noPreferences": "This extension has no preferences."
+    "emptyTitle": "No extensions yet",
+    "emptyDescription": "Matane Anime ships with no sources. To get some, add the address of an extension repository from someone you trust, then install the extensions you want.",
+    "noPreferences": "This extension has no preferences.",
+    "addRepository": "Add repository",
+    "check": "Check repositories",
+    "retry": "Try again",
+    "tabs": {
+      "installed": "Installed",
+      "available": "Available",
+      "repositories": "Repositories"
+    },
+    "filter": {
+      "language": "Language",
+      "allLanguages": "All languages",
+      "nsfw": "Show 18+ sources"
+    },
+    "updatesAvailable_one": "{{count}} update available.",
+    "updatesAvailable_other": "{{count}} updates available.",
+    "updatesHint": "Updates install right away and keep your library and settings.",
+    "updateAll": "Update all",
+    "update": "Update",
+    "updating": "Updating…",
+    "updateTo": "Update to {{version}}",
+    "updateOf": "Update {{name}}",
+    "install": "Install",
+    "installOf": "Install {{name}}",
+    "installed": "Installed",
+    "reinstall": "Reinstall",
+    "reinstallHint": "Its files were changed after it was installed, so it was not loaded. Reinstall it from the repository, or uninstall it.",
+    "uninstall": "Uninstall",
+    "uninstallOf": "Uninstall {{name}}",
+    "uninstallTitle": "Uninstall {{name}}?",
+    "uninstallBody": "Its sources and the anime you followed from them stay in your library. They show as \"not installed\" until you install the extension again.",
+    "preferencesOf": "Preferences of {{name}}",
+    "shadowed": "A folder with the same id is loaded instead of this installed copy.",
+    "alsoOffered": "Also offered by {{repos}}, which stays uninstalled",
+    "trust": {
+      "trusted": "Trusted key",
+      "unverified": "Unverified repository",
+      "unsigned": "Unsigned repository"
+    },
+    "repoTrust": {
+      "trusted": "Trusted key",
+      "unverified": "Unverified",
+      "unsigned": "Unsigned"
+    },
+    "incompatible": {
+      "api": "Needs a newer extension API than this app supports. Update the app to install it.",
+      "app": "Needs a newer version of Matane Anime. Update the app to install it."
+    },
+    "conflict": {
+      "dev": "A folder you loaded already provides this extension. Remove the folder to install it from here.",
+      "repo": "Already installed from {{repo}}. Uninstall it first to install it from here.",
+      "another": "another repository"
+    },
+    "noneInstalled": {
+      "title": "Nothing installed yet",
+      "description": "Install an extension from your repositories to get sources to browse.",
+      "action": "See available extensions"
+    },
+    "noneAvailable": {
+      "title": "Nothing to install",
+      "description": "Your repositories offer nothing that matches the Language and 18+ filters. Change them above, or check the repositories for news."
+    },
+    "noRepos": {
+      "title": "No repositories yet",
+      "description": "Extensions come from repositories that you add. Press Add repository and paste the address of one from someone you trust."
+    },
+    "trustKey": "Trust this key",
+    "stopTrusting": "Stop trusting",
+    "unsignedMark": "unsigned",
+    "synced": "Synced {{when}}",
+    "neverSynced": "Not synced yet",
+    "lastError": "Last check failed: {{message}}",
+    "refresh": "Check now",
+    "refreshRepo": "Check {{name}}",
+    "removeRepo": "Remove {{name}}",
+    "removeRepoShort": "Remove",
+    "removeRepoTitle": "Remove {{name}}?",
+    "removeRepoBody": "The extensions you installed from it stay installed and keep working. You will not get their updates from it any more.",
+    "addRepo": {
+      "title": "Add repository",
+      "description": "Paste the address of an extension repository. Matane Anime reads its list and checks who signed it.",
+      "address": "Repository address",
+      "placeholder": "https://example.org/extensions/",
+      "check": "Check repository",
+      "add": "Add repository",
+      "result": "What the repository contains",
+      "count_one": "{{count}} extension",
+      "count_other": "{{count}} extensions",
+      "unverifiedTitle": "Unverified repository",
+      "unverifiedBody": "This repository is not signed with a key you trust. You can still add it, but installing from it will show a warning every time.",
+      "signingKey": "Signing key",
+      "trustKey": "Trust this key",
+      "trustKeyHint": "Installs and updates from this repository stop showing the warning. Only do this for people you know.",
+      "unsignedTitle": "Unsigned repository",
+      "unsignedBody": "This repository has no signature, so nobody vouches for what it serves. You can still add it, but installing from it will show a warning every time.",
+      "notice": "Matane Anime does not suggest or ship any repository. Add only ones from people you trust."
+    },
+    "installDialog": {
+      "title": "Install {{name}}",
+      "checking": "Downloading and checking the package…",
+      "retry": "Check again",
+      "version": "Version",
+      "from": "from {{repo}}",
+      "unnamed": "an unnamed repository",
+      "installedNow": "installed: {{version}}",
+      "repository": "Repository",
+      "api": "API version",
+      "compatible": "compatible",
+      "languages": "Languages",
+      "size": "Size",
+      "integrity": "Integrity",
+      "verified": "SHA-256 verified",
+      "sandbox": "This extension runs in a sandbox. It can ask for pages from any website, and every request goes through Matane Anime, which applies rate limits. It cannot read your files.",
+      "warnings": {
+        "unverified": {
+          "title": "Unverified repository",
+          "body": "Nobody you trust vouches for this repository. Install only if you know who runs it. Signing key:"
+        },
+        "unsigned": {
+          "title": "Unsigned repository",
+          "body": "This repository has no signature, so nobody vouches for what it serves. Install only if you know who runs it."
+        },
+        "nsfw": {
+          "title": "18+ content",
+          "body": "This extension is marked 18+. It can offer adult sources, which stay hidden unless Show 18+ sources is on."
+        }
+      }
+    },
+    "toast": {
+      "installed": "{{name}} installed",
+      "updated": "{{name}} updated",
+      "updateFailed": "Could not update {{name}}",
+      "updatedAll_one": "{{count}} extension updated",
+      "updatedAll_other": "{{count}} extensions updated",
+      "updateAllFailed": "Could not update the extensions",
+      "uninstalled": "{{name}} uninstalled",
+      "uninstallFailed": "Could not uninstall {{name}}",
+      "checked_one": "Checked {{count}} repository",
+      "checked_other": "Checked {{count}} repositories",
+      "checkFailed_one": "{{count}} repository could not be checked",
+      "checkFailed_other": "{{count}} repositories could not be checked",
+      "checkFailedAll": "Could not check the repositories",
+      "repoAdded": "{{name}} added",
+      "repoRefreshed": "{{name}} is up to date",
+      "repoFailed": "Could not check {{name}}",
+      "repoRemoved": "{{name}} removed",
+      "repoRemoveFailed": "Could not remove {{name}}",
+      "trustFailed": "Could not change trust for {{name}}"
+    }
   },
   "network": {
     "offline": "Offline"

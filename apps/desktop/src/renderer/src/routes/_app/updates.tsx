@@ -2,7 +2,7 @@ import { AppError, type UpdateCheckResult } from '@matane-anime/shared';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { Check, Download, RefreshCw, TriangleAlert, X } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@renderer/components/EmptyState';
 import { ErrorState } from '@renderer/components/ErrorState';
@@ -15,21 +15,10 @@ import { call } from '@renderer/lib/api';
 import { enqueueEpisodes } from '@renderer/lib/downloads';
 import { describeError } from '@renderer/lib/errors';
 import { updatesQuery } from '@renderer/lib/updates';
+import { useNow } from '@renderer/lib/useNow';
 import { useUpdatesStore } from '@renderer/stores/updates';
 
 export const Route = createFileRoute('/_app/updates')({ component: UpdatesPage });
-
-/** How long "12 minutes ago" may be stale before the page looks again. */
-const CLOCK_MS = 60_000;
-
-function useNow(): number {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), CLOCK_MS);
-    return () => clearInterval(timer);
-  }, []);
-  return now;
-}
 
 function UpdatesPage() {
   const { t, i18n } = useTranslation();

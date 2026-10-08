@@ -13,7 +13,6 @@ import { Select } from '@renderer/components/ui/select';
 import { MAX_PARALLEL, type SourceResult, useGlobalSearch } from '@renderer/features/search/useGlobalSearch';
 import { networkStatusQuery, sourcesQuery } from '@renderer/lib/catalog';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
-import { settingsQuery } from '@renderer/lib/ipc';
 
 export const Route = createFileRoute('/_app/browse/global-search')({
   validateSearch: (search: Record<string, unknown>): { q?: string } => ({
@@ -31,15 +30,12 @@ function GlobalSearchPage() {
   const query = Route.useSearch().q?.trim() ?? '';
   const navigate = useNavigate();
   const { data: sources = [], isPending } = useQuery(sourcesQuery);
-  const { data: settings } = useQuery(settingsQuery);
   const { data: network } = useQuery(networkStatusQuery);
   const [draft, setDraft] = useState(query);
   const [language, setLanguage] = useState('all');
 
-  const searchable = useMemo(
-    () => sources.filter((source) => source.available && (settings?.showNsfw || !source.nsfw)),
-    [sources, settings?.showNsfw],
-  );
+  // Main already leaves out 18+ sources and languages the user did not choose (EXT-15).
+  const searchable = useMemo(() => sources.filter((source) => source.available), [sources]);
   const languages = useMemo(() => [...new Set(searchable.map((source) => source.lang))].sort(), [searchable]);
   const scope = useMemo(
     () => searchable.filter((source) => language === 'all' || source.lang === language),

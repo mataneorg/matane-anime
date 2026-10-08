@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { RadioGroup, RadioOption } from '@renderer/components/ui/radio-group';
 import { Switch } from '@renderer/components/ui/switch';
+import { LanguageChips } from '@renderer/features/extensions/LanguageChips';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { cn } from '@renderer/lib/utils';
 import { usePrefersDark } from '@renderer/theme/ThemeProvider';
@@ -109,22 +110,25 @@ export function GeneralSettings() {
         <h2 id="language-title" className="text-[15px] leading-[22px] font-semibold">
           {t('settings.general.language')}
         </h2>
-        <div className="flex max-w-60 flex-col gap-1.5">
-          <label htmlFor="app-language" className="text-xs leading-4 font-semibold">
-            {t('settings.general.appLanguage')}
-          </label>
-          <select
-            id="app-language"
-            value={settings.language}
-            onChange={(event) => update.mutate({ language: event.target.value as (typeof settings)['language'] })}
-            className="h-9 rounded-lg border border-border-strong bg-background px-2"
-          >
-            {(['system', ...LANGUAGES] as const).map((language) => (
-              <option key={language} value={language}>
-                {t(`settings.general.languages.${language}`)}
-              </option>
-            ))}
-          </select>
+        <div className="flex flex-wrap items-start gap-x-8 gap-y-4">
+          <div className="flex w-60 flex-col gap-1.5">
+            <label htmlFor="app-language" className="text-xs leading-4 font-semibold">
+              {t('settings.general.appLanguage')}
+            </label>
+            <select
+              id="app-language"
+              value={settings.language}
+              onChange={(event) => update.mutate({ language: event.target.value as (typeof settings)['language'] })}
+              className="h-9 rounded-lg border border-border-strong bg-background px-2"
+            >
+              {(['system', ...LANGUAGES] as const).map((language) => (
+                <option key={language} value={language}>
+                  {t(`settings.general.languages.${language}`)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <LanguageChips />
         </div>
       </section>
 

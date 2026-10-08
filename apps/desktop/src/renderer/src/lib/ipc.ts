@@ -57,7 +57,14 @@ export function useUpdateSettings() {
       if (context?.previous) queryClient.setQueryData(settingsQuery.queryKey, context.previous);
     },
     // This save still counts as pending here; only the last of several overlapping saves lands.
-    onSuccess: (next) => receiveSettings(queryClient, next, 1),
+    onSuccess: (next, patch) => {
+      receiveSettings(queryClient, next, 1);
+      // Main narrows the source list and the offers by these two (EXT-15), so what it answered before is stale.
+      if (patch.showNsfw !== undefined || patch.contentLanguages !== undefined) {
+        void queryClient.invalidateQueries({ queryKey: ['sources'] });
+        void queryClient.invalidateQueries({ queryKey: ['available'] });
+      }
+    },
   });
 }
 

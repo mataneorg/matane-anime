@@ -56,8 +56,8 @@ test('starts with no sources and says how to get some', async () => {
   await go('#/browse/sources');
   await expect(page.getByRole('heading', { name: 'No sources installed' })).toBeVisible();
   await go('#/browse/extensions');
-  await expect(page.getByRole('heading', { name: 'No extensions loaded' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Load from folder' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'No extensions yet' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Add repository' })).toBeVisible();
 });
 
 test('loads an extension and lists its sources', async () => {
@@ -174,13 +174,14 @@ test('virtualizes a long episode list', async () => {
   await page.getByRole('searchbox', { name: 'Search this source' }).press('Enter');
   await cards().filter({ hasText: 'Long Runner' }).click();
   await expect(page.getByText('120 total')).toBeVisible();
-  const rendered = await page.getByRole('listitem').count();
-  expect(rendered).toBeGreaterThan(5);
-  expect(rendered).toBeLessThan(40);
+  // The list is virtualised: some rows, far fewer than the 120 episodes. Poll, the rows appear a moment later.
+  const rendered = () => page.getByRole('listitem').count();
+  await expect.poll(rendered).toBeGreaterThan(5);
+  expect(await rendered()).toBeLessThan(40);
 
   await page.locator('main').evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
   await expect(page.getByRole('listitem').last()).toContainText('Episode 1');
-  expect(await page.getByRole('listitem').count()).toBeLessThan(40);
+  expect(await rendered()).toBeLessThan(40);
 });
 
 test('edits extension preferences and reads the log in Settings', async () => {
@@ -200,6 +201,8 @@ test('edits extension preferences and reads the log in Settings', async () => {
   await page.keyboard.press('Escape');
   await invoke('extensions.setPreference', { extensionId: 'example', key: 'showDub', value: true });
 
+  // The developer tools are behind Developer mode (EXT-10).
+  await invoke('settings.set', { devMode: true });
   await go('#/settings/advanced');
   await expect(page.getByRole('heading', { name: 'Extension logs' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Load from folder' })).toBeVisible();

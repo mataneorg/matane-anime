@@ -12,7 +12,6 @@ import { useGlobalSearch } from '@renderer/features/search/useGlobalSearch';
 import { call } from '@renderer/lib/api';
 import { sourcesQuery } from '@renderer/lib/catalog';
 import { describeError } from '@renderer/lib/errors';
-import { settingsQuery } from '@renderer/lib/ipc';
 
 /**
  * Moving an anime to the same series on another source, keeping what was watched (docs/PRD.md BRW-8):
@@ -46,18 +45,14 @@ function Flow({ anime, close }: { anime: AnimeDetail; close: () => void }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: sources = [] } = useQuery(sourcesQuery);
-  const { data: settings } = useQuery(settingsQuery);
   const [draft, setDraft] = useState(anime.title);
   const [query, setQuery] = useState(anime.title);
   const [picked, setPicked] = useState<CatalogAnime | null>(null);
 
   // Every other source, whatever extension it comes from: the same series is often on a sibling source.
   const others = useMemo(
-    () =>
-      sources.filter(
-        (source) => source.available && source.id !== anime.sourceId && (settings?.showNsfw || !source.nsfw),
-      ),
-    [sources, anime.sourceId, settings?.showNsfw],
+    () => sources.filter((source) => source.available && source.id !== anime.sourceId),
+    [sources, anime.sourceId],
   );
   const { results, done } = useGlobalSearch(others, query, true);
 
