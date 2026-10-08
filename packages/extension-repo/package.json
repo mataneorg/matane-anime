@@ -1,0 +1,20 @@
+{
+  "name": "@matane-anime/extension-repo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Extension repository format for Matane Anime: keys, signed index, zip archives and verification",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@matane-anime/extension-sdk": "workspace:*",
+    "fflate": "0.8.3",
+    "zod": "4.6.5"
+  }
+}
