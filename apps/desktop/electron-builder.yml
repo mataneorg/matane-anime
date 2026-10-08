@@ -1,0 +1,85 @@
+# Packaging for the beta (docs/plans/fase-3-download-update-beta.md, milestone 3h). Run through
+# `pnpm pack` (unpacked folder) and `pnpm dist` (AppImage on Linux); CI publishes with .github/workflows/release.yml.
+# Only the AppImage is verified so far; the NSIS and dmg targets are configured but untested.
+appId: dev.sukun.matane-anime
+productName: Matane Anime
+executableName: matane-anime
+copyright: Copyright © SukunDev
+# GitHub renames assets with spaces, which would break the file names written into latest*.yml.
+artifactName: matane-anime-${version}-${os}-${arch}.${ext}
+
+# The workspace package is scoped (@matane-anime/desktop); the packaged one gets a plain name, which
+# also names the updater's download cache in the user's profile.
+extraMetadata:
+  name: matane-anime
+
+directories:
+  output: release
+  buildResources: resources
+
+# The app is bundled by electron-vite into out/. Only the runtime dependencies that it leaves external
+# (see `dependencies` in package.json) are collected from node_modules, through pnpm's symlinked layout,
+# without node-linker=hoisted. Extensions are never part of the app (docs/PRD.md §7): there is no extensions/ here.
+files:
+  - out/**
+  - drizzle/**
+  - resources/**
+  - package.json
+  - '!**/*.map'
+  - '!**/node_modules/**/*.d.{ts,cts,mts}'
+  # The workspace packages are bundled into out/ already (electron.vite.config.ts).
+  - '!node_modules/@matane-anime/**'
+  # quickjs-emscripten requires every variant's JS at load time, but extension-runtime only runs the
+  # release-sync WASM; the binaries of the other variants are never read.
+  - '!**/node_modules/@jitl/quickjs-wasmfile-{debug-sync,debug-asyncify,release-asyncify}/dist/*.wasm'
+  # better-sqlite3 is an N-API module that ships a prebuilt binary per platform (loaded from prebuilds/).
+  - '!**/node_modules/better-sqlite3/{deps,src}/**'
+  - '!**/node_modules/better-sqlite3/prebuilds/linuxmusl-*'
+# Prebuilt binaries are used as they are: no compiler on the CI runners, and one mac runner can build both arches.
+npmRebuild: false
+# A .node file cannot be dlopen'ed from inside the asar.
+asarUnpack:
+  - '**/node_modules/better-sqlite3/**'
+
+# TODO: placeholder until the GitHub repository exists. Keep RELEASES_URL in src/main/app/updater.ts in sync.
+publish:
+  provider: github
+  owner: SukunDev
+  repo: matane-anime
+  # Not a draft: electron-updater only sees published releases. CI sets EP_PRE_RELEASE for -beta tags.
+  releaseType: release
+
+linux:
+  target:
+    - target: AppImage
+      arch: x64
+  icon: icon.png
+  category: AudioVideo
+  synopsis: Open-source desktop anime player
+  description: Open-source desktop anime player with a sandboxed extension system.
+  desktop:
+    entry:
+      Name: Matane Anime
+      Keywords: anime;video;player;
+      StartupWMClass: Matane Anime
+
+win:
+  target:
+    - target: nsis
+      arch: x64
+  icon: icon-1024.png
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  # The library lives in %APPDATA%\Matane Anime: uninstalling must not delete it.
+  deleteAppDataOnUninstall: false
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  icon: icon-1024.png
+  category: public.app-category.entertainment
+  # Unsigned for now: macOS only gets update notifications (docs/PRD.md R13).

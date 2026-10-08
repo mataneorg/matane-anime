@@ -1,0 +1,139 @@
+name: Release
+
+# Builds the installers on each OS (native modules are per OS, docs/PRD.md R12) and publishes them to GitHub
+# Releases, where electron-updater finds them. Pushing a tag `v<version>` publishes; a manual run only builds
+# and keeps the files as workflow artifacts, unless "publish" is ticked. A tag with a prerelease part
+# (`v0.1.0-beta.1`) becomes a GitHub pre-release: that is the beta channel.
+#
+# Not verified yet: the repository did not exist when this was written (milestone 3h). Only the Linux
+# AppImage was built and smoke-tested, locally. NSIS, dmg and publishing are untested.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish to GitHub Releases (the release is named after the version in package.json)
+        type: boolean
+        default: false
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write # create the release and upload its files
+
+jobs:
+  prepare:
+    name: prepare
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+      prerelease: ${{ steps.meta.outputs.prerelease }}
+      publish: ${{ steps.meta.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the version
+        id: meta
+        run: |
+          version=$(node -p "require('./apps/desktop/package.json').version")
+          tag="v$version"
+          if [[ "$GITHUB_REF_TYPE" == "tag" && "$GITHUB_REF_NAME" != "$tag" ]]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match apps/desktop/package.json ($tag)"
+            exit 1
+          fi
+          publish=false
+          if [[ "$GITHUB_REF_TYPE" == "tag" || "$PUBLISH_INPUT" == "true" ]]; then publish=true; fi
+          prerelease=false
+          if [[ "$version" == *-* ]]; then prerelease=true; fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
+        env:
+          PUBLISH_INPUT: ${{ inputs.publish }}
+      # Created once here: three jobs creating the same release at the same time would race.
+      - name: Create the release
+        if: steps.meta.outputs.publish == 'true'
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then exit 0; fi
+          flags=(--title "$TAG" --generate-notes)
+          if [[ "$PRERELEASE" == "true" ]]; then flags+=(--prerelease); fi
+          gh release create "$TAG" "${flags[@]}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.meta.outputs.tag }}
+          PRERELEASE: ${{ steps.meta.outputs.prerelease }}
+
+  build:
+    name: build (${{ matrix.name }})
+    needs: prepare
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false # one OS failing must not stop the others from publishing
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-latest
+            args: --linux AppImage
+            cache: |
+              ~/.cache/electron
+              ~/.cache/electron-builder
+          - name: windows
+            os: windows-latest
+            args: --win nsis
+            cache: |
+              ~\AppData\Local\electron\Cache
+              ~\AppData\Local\electron-builder\Cache
+          - name: macos
+            os: macos-latest
+            # One runner builds both arches: better-sqlite3 ships a prebuilt binary for each (npmRebuild is off).
+            args: --mac dmg --arm64 --x64
+            cache: |
+              ~/Library/Caches/electron
+              ~/Library/Caches/electron-builder
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # version comes from "packageManager" in package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - uses: actions/cache@v4
+        with:
+          path: ${{ matrix.cache }}
+          key: electron-${{ matrix.name }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: electron-${{ matrix.name }}-
+      - run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm --filter @matane-anime/desktop build
+      - name: Package (and publish when releasing)
+        working-directory: apps/desktop
+        run: pnpm exec electron-builder ${{ matrix.args }} --publish ${{ needs.prepare.outputs.publish == 'true' && 'always' || 'never' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EP_PRE_RELEASE: ${{ needs.prepare.outputs.prerelease }}
+          # Unsigned builds for now (docs/PRD.md R13): do not go looking for a certificate in the keychain.
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      # Runs after the upload: a red job tells you to pull the release, nothing downloads it before the beta announcement.
+      # Ubuntu 24.04 runners restrict unprivileged user namespaces (AppArmor), which Chromium's sandbox needs.
+      - name: Allow user namespaces for the Chromium sandbox
+        if: matrix.name == 'linux'
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - name: Smoke test the AppImage
+        if: matrix.name == 'linux'
+        working-directory: apps/desktop
+        run: xvfb-run -a pnpm smoke:packaged
+        env:
+          APPIMAGE_EXTRACT_AND_RUN: '1' # the runners have no FUSE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installers-${{ matrix.name }}
+          path: |
+            apps/desktop/release/*.AppImage
+            apps/desktop/release/*.exe
+            apps/desktop/release/*.dmg
+            apps/desktop/release/*.blockmap
+            apps/desktop/release/latest*.yml
+          if-no-files-found: error
+          retention-days: 14

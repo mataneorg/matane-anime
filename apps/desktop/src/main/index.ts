@@ -2,7 +2,10 @@ import { mkdirSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { BrowserWindow, app, crashReporter } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { createMainWindow } from './app/window';
+import { printSmokeReport, isSmokeRun, runSmoke } from './app/smoke';
+import { AppUpdater, type AutoUpdaterLike } from './app/updater';
 import { initLogging } from './app/log';
 import { openDatabase } from './db/client';
 import { purgeBrowseRows } from './db/housekeeping';
@@ -193,10 +196,10 @@ if (!app.requestSingleInstanceLock()) {
           void covers.remove(fromId);
         },
       });
+      // The schedule starts once the extensions are loaded: a check before that would fail every anime.
       const registryReady = registry
         .init()
         .catch((error: unknown) => log.error('extension registry failed to start', error));
-      // The schedule starts once the extensions are loaded: a check before that would fail every anime.
       void registryReady.then(() => updateService.start());
 
       const sessions = new SessionStore();
@@ -280,7 +283,25 @@ if (!app.requestSingleInstanceLock()) {
           spike,
         }),
       );
-      createMainWindow(settings);
+      const mainWindow = createMainWindow(settings);
+
+      const updater = new AppUpdater({
+        app,
+        getAutoUpdater: () => autoUpdater as unknown as AutoUpdaterLike,
+        getChannel: () => settings.getAppSettings().updateChannel,
+        logger: log,
+      });
+      app.on('quit', () => updater.stop());
+      if (isSmokeRun()) {
+        // scripts/smoke-packaged.mjs: check the packaged pieces, report, quit. No update check, no network.
+        void runSmoke({ app, sqlite: connection.sqlite, host, window: mainWindow }).then((report) => {
+          printSmokeReport(report);
+          if (report.ok) app.quit();
+          else app.exit(1);
+        });
+      } else {
+        updater.start();
+      }
 
       app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createMainWindow(settings);

@@ -25,7 +25,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm -r test",
-    "e2e": "pnpm --filter @matane-anime/desktop e2e"
+    "e2e": "pnpm --filter @matane-anime/desktop e2e",
+    "dist": "pnpm --filter @matane-anime/desktop dist",
+    "smoke:packaged": "pnpm --filter @matane-anime/desktop smoke:packaged"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
