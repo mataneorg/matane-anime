@@ -11,13 +11,16 @@ import { runMigrations } from './db/migrate';
 import { HostError } from '@matane-anime/extension-runtime/client';
 import { AnimeRepository } from './db/repositories/anime';
 import { ChangeEmitter } from './db/repositories/changes';
+import { DownloadsRepository } from './db/repositories/downloads';
 import { EpisodesRepository } from './db/repositories/episodes';
 import { HistoryRepository } from './db/repositories/history';
 import { LibraryRepository } from './db/repositories/library';
 import { WatchSessionsRepository } from './db/repositories/watch-sessions';
+import { DownloadService } from './downloads/service';
 import { LibraryCovers } from './library/covers';
 import { MigrationService } from './library/migration';
 import { LibraryService } from './library/service';
+import { UpdateService } from './updates/service';
 import { WatchService } from './watch/service';
 import { ExtensionStore } from './db/repositories/extension-store';
 import { SettingsRepository } from './db/repositories/settings';
@@ -123,6 +126,7 @@ if (!app.requestSingleInstanceLock()) {
           ? network.fetcherFor({ id: manifest.id, userAgent: manifest.userAgent, rateLimit: manifest.rateLimit })
           : undefined;
       };
+      const downloadsRepo = new DownloadsRepository(connection.db, changes);
       const historyRepo = new HistoryRepository(connection.db, changes);
       const libraryRepo = new LibraryRepository(connection.db, changes);
       const covers = new LibraryCovers(
@@ -154,6 +158,8 @@ if (!app.requestSingleInstanceLock()) {
           if (row.inLibrary && row.thumbnailUrl !== previousThumbnail) void covers.ensure(row.id, true);
         },
       });
+      const downloadService = new DownloadService({ downloads: downloadsRepo });
+      const updateService = new UpdateService();
       const sourceMigration = new MigrationService({
         anime: animeRepo,
         episodes: episodeRepo,
@@ -219,6 +225,8 @@ if (!app.requestSingleInstanceLock()) {
           playback,
           watch,
           library: libraryService,
+          downloads: downloadService,
+          updates: updateService,
           libraryRepo,
           migration: sourceMigration,
           seedLibrary: (anime, episodesPerAnime) => {

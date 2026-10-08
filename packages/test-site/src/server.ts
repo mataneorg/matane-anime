@@ -3,7 +3,16 @@ import { readFile } from 'node:fs/promises';
 import { type IncomingMessage, type Server, type ServerResponse, createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { extname, join, normalize, sep } from 'node:path';
-import { CATALOG, type CatalogEntry, GENRE_LIST, type Query, episodesOf, findAnime, query } from './catalog.ts';
+import {
+  CATALOG,
+  type CatalogEntry,
+  GENRE_LIST,
+  type Query,
+  STREAM_FIXTURES,
+  episodesOf,
+  findAnime,
+  query,
+} from './catalog.ts';
 
 export interface TestSiteOptions {
   /** Folder with the media fixtures (`hls-ts/`, `mp4/`, …): apps/desktop/e2e/fixtures/media. */
@@ -12,6 +21,28 @@ export interface TestSiteOptions {
   expireAfterSegments?: number;
   /** How long the fake Cloudflare challenge "thinks" before it sets its cookie. Default 300 ms. */
   challengeMs?: number;
+}
+
+/** Slows media responses (not playlists), so a download stays in flight long enough to pause, cancel or time. */
+export interface Throttle {
+  /** Wait this long before answering a media request. */
+  segmentDelayMs?: number;
+  /** Send media at about this speed. */
+  bytesPerSecond?: number;
+}
+
+/** Makes matching media requests misbehave, as a flaky CDN would. */
+export interface Fault {
+  /** Matched against the request path: a substring, or a RegExp. */
+  pattern: string | RegExp;
+  /** Answer with this status instead of the file. */
+  status?: number;
+  /** Send this many bytes of the body, then cut the connection. */
+  resetAfterBytes?: number;
+  /** Apply from the n-th matching request on (1-based). Default 1. */
+  from?: number;
+  /** ...for this many requests. Default: every one from `from` on. */
+  times?: number;
 }
 
 export interface RequestLogEntry {
@@ -69,6 +100,13 @@ export class TestSite {
   private embedHits = new Map<string, number>();
   private flakyHits = 0;
   private limitedHits = 0;
+  private throttle: Throttle = {};
+  private faults: { fault: Fault; hits: number }[] = [];
+  /** Episode counts that differ from the catalog's (`setEpisodeCount`), and when the extra ones appeared. */
+  private episodeCounts = new Map<string, { count: number; at: number }>();
+  /** Fixed at the first start, so `resume` listens on the same ports. */
+  private origins: { site: string; cdn: string } | null = null;
+  private ports: Record<'site' | 'cdn', number> = { site: 0, cdn: 0 };
 
   private readonly options: Required<TestSiteOptions>;
 
@@ -78,21 +116,42 @@ export class TestSite {
 
   static async start(options: TestSiteOptions): Promise<TestSite> {
     const site = new TestSite({ expireAfterSegments: 1, challengeMs: 300, ...options });
-    for (const name of ['site', 'cdn'] as const) {
-      const server = createServer((req, res) => void site.handle(name, req, res));
-      await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
-      const { port } = server.address() as AddressInfo;
-      site.servers.push({ name, server, origin: `http://127.0.0.1:${port}` });
-    }
+    await site.listen();
+    site.origins = { site: site.find('site').origin, cdn: site.find('cdn').origin };
     return site;
   }
 
+  private async listen(): Promise<void> {
+    for (const name of ['site', 'cdn'] as const) {
+      const server = createServer((req, res) => void this.handle(name, req, res));
+      // After a `stop` the port can take a moment to come back.
+      for (let attempt = 0; ; attempt++) {
+        try {
+          await new Promise<void>((resolve, reject) => {
+            server.once('error', reject);
+            server.listen(this.ports[name], '127.0.0.1', () => {
+              server.off('error', reject);
+              resolve();
+            });
+          });
+          break;
+        } catch (error) {
+          if (attempt >= 20 || (error as NodeJS.ErrnoException).code !== 'EADDRINUSE') throw error;
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+      }
+      const { port } = server.address() as AddressInfo;
+      this.ports[name] = port;
+      this.servers.push({ name, server, origin: `http://127.0.0.1:${port}` });
+    }
+  }
+
   get origin(): string {
-    return this.find('site').origin;
+    return this.origins?.site ?? this.find('site').origin;
   }
 
   get cdnOrigin(): string {
-    return this.find('cdn').origin;
+    return this.origins?.cdn ?? this.find('cdn').origin;
   }
 
   /** The Referer media and embeds need. */
@@ -100,12 +159,62 @@ export class TestSite {
     return `${this.origin}/`;
   }
 
-  async close(): Promise<void> {
-    await Promise.all(this.servers.map(({ server }) => new Promise((resolve) => server.close(resolve))));
+  /** Takes the site offline: every connection is cut and the ports refuse new ones, until `resume`. */
+  async stop(): Promise<void> {
+    await Promise.all(
+      this.servers.map(
+        ({ server }) =>
+          new Promise((resolve) => {
+            server.close(resolve);
+            server.closeAllConnections();
+          }),
+      ),
+    );
     this.servers = [];
   }
 
+  /** Brings the site back on the same ports it had, with its state (log, counters, faults) as it was. */
+  async resume(): Promise<void> {
+    if (this.servers.length === 0) await this.listen();
+  }
+
+  /** Stops for good. */
+  async close(): Promise<void> {
+    await this.stop();
+  }
+
+  /** The site now lists this many episodes of an anime; the new ones are uploaded "now" (an update to find). */
+  setEpisodeCount(slug: string, count: number): void {
+    const entry = findAnime(slug);
+    if (!entry) throw new Error(`No such anime: ${slug}`);
+    this.episodeCounts.set(slug, { count, at: Date.now() });
+  }
+
+  setThrottle(throttle: Throttle): void {
+    this.throttle = throttle;
+  }
+
+  addFault(fault: Fault): void {
+    this.faults.push({ fault, hits: 0 });
+  }
+
+  clearFaults(): void {
+    this.faults = [];
+  }
+
+  private episodeCount(entry: CatalogEntry): number {
+    return this.episodeCounts.get(entry.slug)?.count ?? entry.episodes;
+  }
+
+  private episodeList(entry: CatalogEntry) {
+    const override = this.episodeCounts.get(entry.slug);
+    return episodesOf(entry, override ? { count: override.count, extraUploadedAt: override.at } : {});
+  }
+
   reset(): void {
+    this.throttle = {};
+    this.faults = [];
+    this.episodeCounts.clear();
     this.log.length = 0;
     this.expiringHits.clear();
     this.embedHits.clear();
@@ -122,9 +231,23 @@ export class TestSite {
   private async handle(name: 'site' | 'cdn', req: IncomingMessage, res: ServerResponse): Promise<void> {
     const url = new URL(req.url ?? '/', 'http://localhost');
     const range = header(req, 'range');
-    const finish = (status: number, headers: Record<string, string | number>, body?: Buffer | string): void => {
+    const finish = (
+      status: number,
+      headers: Record<string, string | number>,
+      body?: Buffer | string,
+      options: { throttle?: boolean; resetAfterBytes?: number } = {},
+    ): void => {
       res.writeHead(status, headers);
-      res.end(req.method === 'HEAD' ? undefined : body);
+      const { segmentDelayMs = 0, bytesPerSecond = 0 } = options.throttle ? this.throttle : {};
+      if (
+        req.method !== 'HEAD' &&
+        Buffer.isBuffer(body) &&
+        (segmentDelayMs || bytesPerSecond || options.resetAfterBytes !== undefined)
+      ) {
+        void sendSlowly(res, body, { segmentDelayMs, bytesPerSecond, resetAfterBytes: options.resetAfterBytes });
+      } else {
+        res.end(req.method === 'HEAD' ? undefined : body);
+      }
       this.log.push({
         server: name,
         method: req.method ?? 'GET',
@@ -170,12 +293,16 @@ export class TestSite {
         page: Math.max(1, Number(url.searchParams.get('page')) || 1),
       });
 
+      const listed = CATALOG.filter((entry) => !entry.hidden);
       if (path === '/popular')
-        return html(this.listing('Popular', query(CATALOG, { ...params(), sort: 'popular' }), url));
+        return html(this.listing('Popular', query(listed, { ...params(), sort: 'popular' }), url));
       if (path === '/latest') {
-        return html(this.listing('Latest', query([...CATALOG].reverse(), { ...params(), sort: undefined }), url));
+        return html(this.listing('Latest', query([...listed].reverse(), { ...params(), sort: undefined }), url));
       }
-      if (path === '/search') return html(this.listing('Search', query(CATALOG, params()), url));
+      if (path === '/search') {
+        // Hidden series show up only when searched for.
+        return html(this.listing('Search', query(params().q ? CATALOG : listed, params()), url));
+      }
       if (path === '/filters.json') return json({ genres: GENRE_LIST, statuses: ['ongoing', 'completed'] });
 
       let match = /^\/anime\/([^/]+)$/.exec(path);
@@ -186,7 +313,7 @@ export class TestSite {
       match = /^\/anime\/([^/]+)\/episodes\.json$/.exec(path);
       if (match) {
         const entry = findAnime(match[1] as string);
-        return entry ? json({ episodes: episodesOf(entry) }) : plain(404, 'no such anime');
+        return entry ? json({ episodes: this.episodeList(entry) }) : plain(404, 'no such anime');
       }
       match = /^\/watch\/([^/]+)\/(\d+)$/.exec(path);
       if (match) return this.watch(match[1] as string, Number(match[2]), url, html, plain);
@@ -248,7 +375,7 @@ export class TestSite {
     plain: (status: number, text: string) => void,
   ): void {
     const entry = findAnime(slug);
-    if (!entry || number < 1 || number > entry.episodes) return plain(404, 'no such episode');
+    if (!entry || number < 1 || number > this.episodeCount(entry)) return plain(404, 'no such episode');
     const variant = (url.searchParams.get('variant') ?? entry.variants[0] ?? 'Sub').toLowerCase();
     const id = `${slug}-${number}-${variant}`;
     const servers =
@@ -290,7 +417,7 @@ export class TestSite {
         case 'refreshing':
           return side === 'a' && hit === 1 ? `/media/expiring/${id}-1/index.m3u8` : good;
         default:
-          return good;
+          return STREAM_FIXTURES[entry.streams] ?? good;
       }
     })();
     const streamUrl = `${this.cdnOrigin}${file}`;
@@ -310,7 +437,12 @@ export class TestSite {
     req: IncomingMessage,
     url: URL,
     range: string | null,
-    finish: (status: number, headers: Record<string, string | number>, body?: Buffer | string) => void,
+    finish: (
+      status: number,
+      headers: Record<string, string | number>,
+      body?: Buffer | string,
+      options?: { throttle?: boolean; resetAfterBytes?: number },
+    ) => void,
     plain: (status: number, text: string) => void,
   ): Promise<void> {
     if (!header(req, 'referer')?.startsWith(this.referer)) return plain(403, 'referer required');
@@ -325,6 +457,8 @@ export class TestSite {
         if (served > this.options.expireAfterSegments) return plain(403, 'stream expired');
       }
     }
+    const fault = this.faultFor(url.pathname);
+    if (fault?.status !== undefined) return plain(fault.status, 'fault');
     const root = normalize(this.options.mediaDir);
     const file = normalize(join(root, relative));
     if (!file.startsWith(root + sep)) return plain(403, 'outside root');
@@ -341,7 +475,10 @@ export class TestSite {
     }
     const match = range ? /^bytes=(\d*)-(\d*)$/.exec(range) : null;
     if (!match) {
-      return finish(200, { 'content-type': type, 'content-length': body.length, 'accept-ranges': 'bytes' }, body);
+      return finish(200, { 'content-type': type, 'content-length': body.length, 'accept-ranges': 'bytes' }, body, {
+        throttle: true,
+        resetAfterBytes: fault?.resetAfterBytes,
+      });
     }
     const start = match[1] === '' ? Math.max(0, body.length - Number(match[2])) : Number(match[1]);
     const end = match[1] === '' || match[2] === '' ? body.length - 1 : Math.min(Number(match[2]), body.length - 1);
@@ -356,7 +493,19 @@ export class TestSite {
         'accept-ranges': 'bytes',
       },
       part,
+      { throttle: true, resetAfterBytes: fault?.resetAfterBytes },
     );
+  }
+
+  /** The fault that applies to this request, counting the hit. */
+  private faultFor(path: string): Fault | null {
+    for (const entry of this.faults) {
+      const { pattern, from = 1, times = Number.POSITIVE_INFINITY } = entry.fault;
+      if (!(typeof pattern === 'string' ? path.includes(pattern) : pattern.test(path))) continue;
+      const hit = ++entry.hits;
+      if (hit >= from && hit < from + times) return entry.fault;
+    }
+    return null;
   }
 
   // ----------------------------------------------------------------- helpers for the network layer
@@ -401,6 +550,28 @@ export class TestSite {
         return plain(404, 'no such helper');
     }
   }
+}
+
+/** Writes `body` after a delay, at a limited speed, or cut off part way: what a slow or flaky CDN does. */
+async function sendSlowly(
+  res: ServerResponse,
+  body: Buffer,
+  options: { segmentDelayMs: number; bytesPerSecond: number; resetAfterBytes: number | undefined },
+): Promise<void> {
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+  if (options.segmentDelayMs) await sleep(options.segmentDelayMs);
+  const limit = options.resetAfterBytes ?? body.length;
+  const chunk = options.bytesPerSecond ? Math.max(512, Math.floor(options.bytesPerSecond / 20)) : limit || 1;
+  for (let sent = 0; sent < limit && !res.destroyed; sent += chunk) {
+    const part = body.subarray(sent, Math.min(sent + chunk, limit));
+    res.write(part);
+    if (options.bytesPerSecond) await sleep((part.length / options.bytesPerSecond) * 1000);
+  }
+  if (options.resetAfterBytes !== undefined) {
+    // Let the headers and what was written reach the client before the connection drops.
+    await sleep(20);
+    res.destroy();
+  } else res.end();
 }
 
 function cover(entry: CatalogEntry): string {

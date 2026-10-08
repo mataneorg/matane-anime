@@ -17,6 +17,13 @@ import {
   sourceInfoSchema,
 } from '../catalog';
 import {
+  downloadItemSchema,
+  downloadProgressSchema,
+  downloadStorageSchema,
+  enqueueInputSchema,
+  enqueueResultSchema,
+} from '../downloads';
+import {
   categorySchema,
   continueTargetSchema,
   historyEntrySchema,
@@ -27,6 +34,7 @@ import {
 } from '../library';
 import { playbackEventSchema, playbackSessionSchema, playbackUpdateSchema } from '../playback';
 import { appSettingsSchema, settingsPatchSchema } from '../settings';
+import { updateCheckResultSchema, updateScopeSchema, updateStatusSchema, updatesListSchema } from '../updates';
 import { spikeFixtureSchema, spikeRequestLogSchema, spikeResultSchema, spikeStartResultSchema } from '../spike';
 import type { EventChannel, InvokeChannel } from './channels';
 
@@ -146,6 +154,31 @@ export const invokeContract = {
   'playback.close': invoke(z.object({ playbackId: z.string() }), z.void()),
   /** Keeps the screen on while video plays (PLY-8). */
   'playback.keepAwake': invoke(z.object({ enabled: z.boolean() }), z.void()),
+  'downloads.list': invoke(z.void(), z.array(downloadItemSchema)),
+  /** Queues episodes (DL-1). Over the size limit they are refused unless `force` is set (DL-10). */
+  'downloads.enqueue': invoke(enqueueInputSchema, enqueueResultSchema),
+  'downloads.pause': invoke(z.object({ id: z.number().int() }), z.void()),
+  'downloads.resume': invoke(z.object({ id: z.number().int() }), z.void()),
+  'downloads.pauseAll': invoke(z.void(), z.void()),
+  'downloads.resumeAll': invoke(z.void(), z.void()),
+  /** Stops an unfinished download and deletes what it saved. */
+  'downloads.cancel': invoke(z.object({ id: z.number().int() }), z.void()),
+  /** Deletes a download, finished or not, with its files. The episode stays in the library. */
+  'downloads.remove': invoke(z.object({ id: z.number().int() }), z.void()),
+  'downloads.retry': invoke(z.object({ id: z.number().int() }), z.void()),
+  /** The new queue order, as download ids; ids left out keep their place after these. */
+  'downloads.reorder': invoke(z.object({ ids: z.array(z.number().int()) }), z.void()),
+  'downloads.clearFailed': invoke(z.void(), z.void()),
+  'downloads.storage': invoke(z.void(), downloadStorageSchema),
+  /** Changes where new downloads go; `move` also moves the finished ones and rewrites their paths. */
+  'downloads.changeFolder': invoke(z.object({ folder: z.string().min(1), move: z.boolean() }), z.void()),
+  'updates.list': invoke(z.void(), updatesListSchema),
+  /** How many new episodes are waiting: the sidebar badge (UPD-8). */
+  'updates.count': invoke(z.void(), z.number().int()),
+  'updates.check': invoke(
+    z.object({ scope: updateScopeSchema, requestId: z.string().optional() }),
+    updateCheckResultSchema,
+  ),
   /** Fills the library with test data for performance checks. Only in development or with MATANE_SPIKE=1. */
   'dev.seedLibrary': invoke(
     z.object({ anime: z.number().int().min(1).max(5000), episodesPerAnime: z.number().int().min(1).max(200) }),
@@ -167,6 +200,9 @@ export const eventContract = {
   'network.status': networkStatusSchema,
   'extensions.log': extensionLogEntrySchema,
   'cloudflare.status': cloudflareStatusSchema,
+  'downloads.progress': z.array(downloadProgressSchema),
+  'updates.status': updateStatusSchema,
+  'app.navigate': z.object({ to: z.enum(['/updates', '/downloads', '/library']) }),
 } satisfies Record<EventChannel, z.ZodType>;
 
 export type InvokeInput<C extends InvokeChannel> = z.input<(typeof invokeContract)[C]['input']>;

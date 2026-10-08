@@ -1,4 +1,5 @@
 export * from './catalog';
+export * from './downloads';
 export * from './episodes';
 export * from './errors';
 export * from './library';
@@ -6,5 +7,6 @@ export * from './playback';
 export * from './settings';
 export * from './spike';
 export * from './theme';
+export * from './updates';
 export * from './ipc/channels';
 export * from './ipc/contract';

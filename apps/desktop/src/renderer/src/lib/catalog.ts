@@ -113,6 +113,15 @@ export function invalidateForTags(queryClient: QueryClient, tags: string[]): voi
       void queryClient.invalidateQueries({ queryKey: ['library'] });
       continue;
     }
+    if (tag === 'downloads') {
+      void queryClient.invalidateQueries({ queryKey: ['downloads'] });
+      void queryClient.invalidateQueries({ queryKey: ['updates'] });
+      continue;
+    }
+    if (tag === 'updates') {
+      void queryClient.invalidateQueries({ queryKey: ['updates'] });
+      continue;
+    }
     if (tag === 'history') {
       void queryClient.invalidateQueries({ queryKey: ['history'] });
       void queryClient.invalidateQueries({ queryKey: ['continue'] });

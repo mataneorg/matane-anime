@@ -8,7 +8,9 @@ import type { NetworkManager } from '../network/manager';
 import type { LibraryRepository } from '../db/repositories/library';
 import type { MigrationService } from '../library/migration';
 import type { LibraryService } from '../library/service';
+import type { DownloadService } from '../downloads/service';
 import type { PlaybackService } from '../playback/service';
+import type { UpdateService } from '../updates/service';
 import type { WatchService } from '../watch/service';
 import type { SpikeApi } from '../playback/spike/api';
 import { type IpcHandlers, broadcast } from './register';
@@ -24,6 +26,8 @@ export interface HandlerDeps {
   playback: PlaybackService;
   watch: WatchService;
   library: LibraryService;
+  downloads: DownloadService;
+  updates: UpdateService;
   libraryRepo: LibraryRepository;
   migration: MigrationService;
   /** Fills the library for performance checks (development only). */
@@ -42,6 +46,8 @@ export function createHandlers({
   playback,
   watch,
   library,
+  downloads,
+  updates,
   libraryRepo,
   migration,
   seedLibrary,
@@ -134,6 +140,22 @@ export function createHandlers({
     'playback.switchStream': ({ playbackId, index, requestId }) => playback.switchStream(playbackId, index, requestId),
     'playback.close': ({ playbackId }) => playback.close(playbackId),
     'playback.keepAwake': ({ enabled }) => playback.keepAwake(enabled),
+    'downloads.list': () => downloads.list(),
+    'downloads.enqueue': (input) => downloads.enqueue(input, { reason: 'manual' }),
+    'downloads.pause': ({ id }) => downloads.pause(id),
+    'downloads.resume': ({ id }) => downloads.resume(id),
+    'downloads.pauseAll': () => downloads.pauseAll(),
+    'downloads.resumeAll': () => downloads.resumeAll(),
+    'downloads.cancel': ({ id }) => downloads.cancel(id),
+    'downloads.remove': ({ id }) => downloads.remove(id),
+    'downloads.retry': ({ id }) => downloads.retry(id),
+    'downloads.reorder': ({ ids }) => downloads.reorder(ids),
+    'downloads.clearFailed': () => downloads.clearFailed(),
+    'downloads.storage': () => downloads.storage(),
+    'downloads.changeFolder': ({ folder, move }) => downloads.changeFolder(folder, move),
+    'updates.list': () => updates.list(),
+    'updates.count': () => updates.count(),
+    'updates.check': ({ scope, requestId }) => updates.check(scope, requestId),
     'dev.seedLibrary': ({ anime, episodesPerAnime }) => {
       requireSpike();
       seedLibrary(anime, episodesPerAnime);

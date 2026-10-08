@@ -29,6 +29,10 @@ export const anime = sqliteTable(
     inLibrary: integer({ mode: 'boolean' }).notNull().default(false),
     addedAt: integer(),
     lastUpdateCheckAt: integer(),
+    /** When the update checker last looked at this anime (UPD-1). `lastUpdateCheckAt` also moves on a manual refresh. */
+    updateCheckedAt: integer(),
+    /** Why the last scheduled check failed; null when it worked (UPD-2). */
+    updateError: text(),
     latestEpisodeAt: integer(),
     /** Server and quality the user picked by hand for this anime (STR-5). */
     playbackPrefsJson: text(),

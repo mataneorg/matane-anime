@@ -20,18 +20,11 @@ describe('settingsFromStored', () => {
       stored({ theme: '"latte"', accent: '"not-an-accent"', amoled: '{oops', language: '"id"' }),
     );
     expect(result).toEqual({
+      ...DEFAULT_SETTINGS,
       theme: 'latte',
       accent: DEFAULT_SETTINGS.accent,
       amoled: false,
       language: 'id',
-      showNsfw: false,
-      playerAutoplay: true,
-      playerQuality: 'highest',
-      playerSeekSeconds: 5,
-      playerVolume: 1,
-      playerMuted: false,
-      playerSpeed: 1,
-      playerWatchedThreshold: 85,
     });
     expect(appSettingsSchema.safeParse(result).success).toBe(true);
   });
@@ -56,6 +49,22 @@ describe('settingsPatchSchema', () => {
     expect(settingsPatchSchema.safeParse({ playerWatchedThreshold: 49 }).success).toBe(false);
     expect(settingsPatchSchema.safeParse({ playerWatchedThreshold: 100 }).success).toBe(true);
     expect(settingsPatchSchema.safeParse({ playerSpeed: 1.5, playerVolume: 0.4 }).success).toBe(true);
+  });
+
+  it('checks the download and update settings', () => {
+    const ok = (patch: Record<string, unknown>) => settingsPatchSchema.safeParse(patch).success;
+    expect(ok({ updateIntervalHours: 0 })).toBe(true);
+    expect(ok({ updateIntervalHours: 168 })).toBe(true);
+    expect(ok({ updateIntervalHours: 7 })).toBe(false);
+    expect(ok({ updateSkipUnwatchedOver: null })).toBe(true);
+    expect(ok({ updateSkipUnwatchedOver: 0 })).toBe(false);
+    expect(ok({ downloadQuality: 'playback' })).toBe(true);
+    expect(ok({ downloadQuality: '4k' })).toBe(false);
+    expect(ok({ downloadParallelEpisodes: 4 })).toBe(false);
+    expect(ok({ downloadParallelSegments: 16 })).toBe(true);
+    expect(ok({ downloadSizeLimitGb: 0 })).toBe(false);
+    expect(ok({ downloadFolder: null })).toBe(true);
+    expect(ok({ updateChannel: 'nightly' })).toBe(false);
   });
 });
 

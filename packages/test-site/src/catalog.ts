@@ -7,8 +7,36 @@
  *   working one (a token that was renewed); Server B works.
  * - `fallback`: Server A's link always dies after one segment, Server B works.
  * - `none`: no servers at all.
+ * - `hls-*`: both servers serve that fixture of apps/desktop/e2e/fixtures/media (see STREAM_FIXTURES), for the
+ *   download engine's tests: AES-128, absolute URIs, a separate audio rendition, a 24 segment episode, byte
+ *   ranges, a rotating key, and a live playlist (no `EXT-X-ENDLIST`).
  */
-export type StreamKind = 'hls' | 'mp4' | 'long' | 'expiring' | 'refreshing' | 'fallback' | 'none';
+export type StreamKind =
+  | 'hls'
+  | 'mp4'
+  | 'long'
+  | 'expiring'
+  | 'refreshing'
+  | 'fallback'
+  | 'none'
+  | 'hls-aes'
+  | 'hls-abs'
+  | 'hls-audio'
+  | 'hls-long'
+  | 'hls-byterange'
+  | 'hls-keyrot'
+  | 'hls-live';
+
+/** Where each `hls-*` kind's playlist lives on the media host. */
+export const STREAM_FIXTURES: Partial<Record<StreamKind, string>> = {
+  'hls-aes': '/media/hls-aes/index.m3u8',
+  'hls-abs': '/media/hls-abs/index.m3u8',
+  'hls-audio': '/media/hls-audio/master.m3u8',
+  'hls-long': '/media/hls-long/index.m3u8',
+  'hls-byterange': '/media/hls-byterange/index.m3u8',
+  'hls-keyrot': '/media/hls-keyrot/index.m3u8',
+  'hls-live': '/media/hls-live/index.m3u8',
+};
 
 export interface CatalogEntry {
   slug: string;
@@ -24,6 +52,8 @@ export interface CatalogEntry {
   /** "Sub" and "Dub" episodes share numbers. */
   variants: string[];
   streams: StreamKind;
+  /** Left out of /popular and /latest (so listing tests keep their counts); /search?q= still finds it. */
+  hidden?: boolean;
 }
 
 const base = (entry: Partial<CatalogEntry> & Pick<CatalogEntry, 'slug' | 'title'>): CatalogEntry => ({
@@ -97,6 +127,19 @@ const FEATURED: CatalogEntry[] = [
   base({ slug: 'one-shot-movie', title: 'One Shot Movie', genres: ['drama'], type: 'movie', episodes: 1, year: 2017 }),
 ];
 
+/** Series for the download engine's tests: three episodes each, one stream shape each. */
+const DOWNLOAD_SERIES: CatalogEntry[] = (
+  [
+    ['dl-aes', 'Cipher Coast', 'hls-aes'],
+    ['dl-abs', 'Far Shore', 'hls-abs'],
+    ['dl-audio', 'Two Tracks', 'hls-audio'],
+    ['dl-long', 'Long Wave', 'hls-long'],
+    ['dl-byterange', 'Single File', 'hls-byterange'],
+    ['dl-keyrot', 'Turning Keys', 'hls-keyrot'],
+    ['dl-live', 'Always On', 'hls-live'],
+  ] as const
+).map(([slug, title, streams]) => base({ slug, title, streams, episodes: 3, hidden: true, year: 2025 }));
+
 const GENRES = ['action', 'adventure', 'comedy', 'drama', 'mystery', 'slice-of-life'];
 
 const FILLER: CatalogEntry[] = Array.from({ length: 24 }, (_, index) => {
@@ -111,7 +154,7 @@ const FILLER: CatalogEntry[] = Array.from({ length: 24 }, (_, index) => {
   });
 });
 
-export const CATALOG: CatalogEntry[] = [...FEATURED, ...FILLER];
+export const CATALOG: CatalogEntry[] = [...FEATURED, ...FILLER, ...DOWNLOAD_SERIES];
 export const PAGE_SIZE = 12;
 export const GENRE_LIST = GENRES;
 
@@ -127,17 +170,27 @@ export interface FakeEpisode {
   uploadedAt: number;
 }
 
+export interface EpisodesOptions {
+  /** More (or fewer) episodes than the catalog says. */
+  count?: number;
+  /** When the episodes past the catalog's own count were "uploaded": now, not in January 2024. */
+  extraUploadedAt?: number;
+}
+
 /** Newest first, like a real listing. */
-export function episodesOf(entry: CatalogEntry): FakeEpisode[] {
+export function episodesOf(entry: CatalogEntry, options: EpisodesOptions = {}): FakeEpisode[] {
   const out: FakeEpisode[] = [];
-  for (let number = entry.episodes; number >= 1; number--) {
+  for (let number = options.count ?? entry.episodes; number >= 1; number--) {
     for (const variant of [...entry.variants].reverse()) {
       out.push({
         id: `${entry.slug}-${number}-${variant.toLowerCase()}`,
         number,
         title: `Episode ${number}`,
         variant,
-        uploadedAt: Date.UTC(2024, 0, 1) + number * 86_400_000,
+        uploadedAt:
+          number > entry.episodes && options.extraUploadedAt !== undefined
+            ? options.extraUploadedAt
+            : Date.UTC(2024, 0, 1) + number * 86_400_000,
       });
     }
   }

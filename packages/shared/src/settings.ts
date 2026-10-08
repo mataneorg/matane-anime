@@ -4,6 +4,17 @@ import { ACCENTS, LANGUAGES, THEME_MODES } from './theme';
 export const PLAYER_QUALITIES = ['highest', '1080', '720', '480', '360'] as const;
 export type PlayerQuality = (typeof PLAYER_QUALITIES)[number];
 
+/** Hours between update checks; 0 turns the schedule off (UPD-1). 168 is weekly. */
+export const UPDATE_INTERVALS = [0, 6, 12, 24, 48, 168] as const;
+export type UpdateInterval = (typeof UPDATE_INTERVALS)[number];
+
+/** `playback` downloads the quality the player would pick (DL-3); the others pick the nearest height. */
+export const DOWNLOAD_QUALITIES = ['playback', ...PLAYER_QUALITIES] as const;
+export type DownloadQuality = (typeof DOWNLOAD_QUALITIES)[number];
+
+export const UPDATE_CHANNELS = ['stable', 'beta'] as const;
+export type UpdateChannel = (typeof UPDATE_CHANNELS)[number];
+
 /** App-wide settings. Stored one key per row in the `settings` table (value as JSON). */
 export const appSettingsSchema = z.object({
   theme: z.enum(THEME_MODES),
@@ -25,6 +36,46 @@ export const appSettingsSchema = z.object({
   playerSpeed: z.number().min(0.5).max(2),
   /** Percent of the video after which an episode counts as watched; 100 means only when it ends (PRG-3). */
   playerWatchedThreshold: z.number().int().min(50).max(100),
+  /** Where episodes are saved; null means `Documents/Matane Anime` (DL-6). */
+  downloadFolder: z.string().nullable(),
+  downloadQuality: z.enum(DOWNLOAD_QUALITIES),
+  /** Episodes downloaded at once (DL-1). */
+  downloadParallelEpisodes: z.number().int().min(1).max(3),
+  /** Segments fetched at once for one HLS episode (DL-1). */
+  downloadParallelSegments: z.number().int().min(1).max(16),
+  /** Total size of downloaded episodes, in GB, after which auto-download stops (DL-10). */
+  downloadSizeLimitGb: z.number().min(1).max(10_000),
+  /** While watching, download the next episodes (DL-12). */
+  downloadAhead: z.boolean(),
+  downloadAheadCount: z.number().int().min(1).max(10),
+  /** Delete an episode once it is watched, after this many more episodes are watched (DL-13). */
+  deleteAfterWatched: z.boolean(),
+  deleteAfterWatchedDelay: z.number().int().min(0).max(20),
+  /** Categories whose anime keep their downloads after watching. */
+  deleteAfterWatchedExcludedCategories: z.array(z.number().int()),
+  /** Hours between scheduled update checks (UPD-1). */
+  updateIntervalHours: z.union([
+    z.literal(0),
+    z.literal(6),
+    z.literal(12),
+    z.literal(24),
+    z.literal(48),
+    z.literal(168),
+  ]),
+  /** Library and category checks skip completed anime (UPD-3). */
+  updateSkipCompleted: z.boolean(),
+  /** ...and anime nothing was watched of. */
+  updateSkipNotStarted: z.boolean(),
+  /** ...and anime with more than this many unwatched episodes; null turns the rule off. */
+  updateSkipUnwatchedOver: z.number().int().min(1).max(1000).nullable(),
+  /** Download new episodes after a check, for the categories that allow it (DL-11). */
+  autoDownload: z.boolean(),
+  /** Keep running in the tray after the window closes (UPD-9). */
+  closeToTray: z.boolean(),
+  /** Start with the computer, hidden, so checks and downloads keep going (UPD-9). */
+  runAtLogin: z.boolean(),
+  /** Which GitHub release channel the app updates from. */
+  updateChannel: z.enum(UPDATE_CHANNELS),
 });
 export type AppSettings = z.infer<typeof appSettingsSchema>;
 
@@ -41,6 +92,24 @@ export const DEFAULT_SETTINGS: AppSettings = {
   playerMuted: false,
   playerSpeed: 1,
   playerWatchedThreshold: 85,
+  downloadFolder: null,
+  downloadQuality: 'playback',
+  downloadParallelEpisodes: 1,
+  downloadParallelSegments: 6,
+  downloadSizeLimitGb: 20,
+  downloadAhead: false,
+  downloadAheadCount: 2,
+  deleteAfterWatched: false,
+  deleteAfterWatchedDelay: 1,
+  deleteAfterWatchedExcludedCategories: [],
+  updateIntervalHours: 12,
+  updateSkipCompleted: true,
+  updateSkipNotStarted: false,
+  updateSkipUnwatchedOver: 10,
+  autoDownload: false,
+  closeToTray: false,
+  runAtLogin: false,
+  updateChannel: 'beta',
 };
 
 /** A change to some settings. No defaults here: a patch must never overwrite what it does not name. */

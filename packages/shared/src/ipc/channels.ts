@@ -54,6 +54,23 @@ export const INVOKE_CHANNELS = [
   'playback.switchStream',
   'playback.close',
   'playback.keepAwake',
+  'downloads.list',
+  'downloads.enqueue',
+  'downloads.pause',
+  'downloads.resume',
+  'downloads.pauseAll',
+  'downloads.resumeAll',
+  'downloads.cancel',
+  'downloads.remove',
+  'downloads.retry',
+  'downloads.reorder',
+  /** Drops the failed downloads and their partial files. */
+  'downloads.clearFailed',
+  'downloads.storage',
+  'downloads.changeFolder',
+  'updates.list',
+  'updates.count',
+  'updates.check',
   // Playback spike (phase 0). Only answered when the app runs with MATANE_SPIKE=1 or in development.
   'dev.seedLibrary',
   'spike.fixtures',
@@ -72,5 +89,10 @@ export const EVENT_CHANNELS = [
   'network.status',
   'extensions.log',
   'cloudflare.status',
+  /** Progress of the active downloads, a few times a second. */
+  'downloads.progress',
+  'updates.status',
+  /** Main asks the renderer to open a route (a clicked notification, the tray). */
+  'app.navigate',
 ] as const;
 export type EventChannel = (typeof EVENT_CHANNELS)[number];

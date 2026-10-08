@@ -6,6 +6,7 @@ import { type DatabaseConnection, openDatabase } from '../client';
 import { runMigrations } from '../migrate';
 import { AnimeRepository } from '../repositories/anime';
 import { ChangeEmitter } from '../repositories/changes';
+import { DownloadsRepository } from '../repositories/downloads';
 import { EpisodesRepository } from '../repositories/episodes';
 import { ExtensionStore } from '../repositories/extension-store';
 import { HistoryRepository } from '../repositories/history';
@@ -35,6 +36,7 @@ export interface TestDb {
   emitted: string[][];
   store: ExtensionStore;
   anime: AnimeRepository;
+  downloads: DownloadsRepository;
   episodes: EpisodesRepository;
   history: HistoryRepository;
   library: LibraryRepository;
@@ -60,6 +62,7 @@ export async function createTestDb(): Promise<TestDb> {
     emitted,
     store,
     anime: new AnimeRepository(connection.db, changes),
+    downloads: new DownloadsRepository(connection.db, changes),
     episodes: new EpisodesRepository(connection.db, changes),
     history: new HistoryRepository(connection.db, changes),
     library: new LibraryRepository(connection.db, changes),

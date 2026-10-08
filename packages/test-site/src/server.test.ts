@@ -130,3 +130,100 @@ describe('behind a challenge, and helpers', () => {
     });
   });
 });
+
+describe('for the download engine', () => {
+  it('hides the download series from listings but finds them by search', async () => {
+    expect(await (await get(`${site.origin}/popular?page=3`)).text()).not.toContain('class="next"');
+    expect(await (await get(`${site.origin}/latest`)).text()).not.toContain('Long Wave');
+    const found = await (await get(`${site.origin}/search?q=long%20wave`)).text();
+    expect(found).toContain('data-slug="dl-long"');
+  });
+
+  it('serves each hls-* fixture as the stream of its series', async () => {
+    const kinds: [string, string][] = [
+      ['dl-aes', '/media/hls-aes/index.m3u8'],
+      ['dl-abs', '/media/hls-abs/index.m3u8'],
+      ['dl-audio', '/media/hls-audio/master.m3u8'],
+      ['dl-long', '/media/hls-long/index.m3u8'],
+      ['dl-byterange', '/media/hls-byterange/index.m3u8'],
+      ['dl-keyrot', '/media/hls-keyrot/index.m3u8'],
+      ['dl-live', '/media/hls-live/index.m3u8'],
+    ];
+    for (const [slug, path] of kinds) {
+      const embed = await (await get(`${site.origin}/embed/${slug}-1-sub.a`, withReferer())).text();
+      expect(embed, slug).toContain(`${site.cdnOrigin}${path}`);
+      const playlist = await get(`${site.cdnOrigin}${path}`, withReferer());
+      expect(playlist.status, slug).toBe(200);
+      expect(await playlist.text(), slug).toContain('#EXTM3U');
+    }
+  });
+
+  it('has the shapes the engine must handle: a separate audio group, byte ranges, two keys, no end', async () => {
+    const text = async (path: string) => (await get(`${site.cdnOrigin}${path}`, withReferer())).text();
+    expect(await text('/media/hls-audio/master.m3u8')).toMatch(/TYPE=AUDIO[^\n]*DEFAULT=YES[^\n]*URI=/);
+    expect(await text('/media/hls-byterange/index.m3u8')).toContain('#EXT-X-BYTERANGE:');
+    expect((await text('/media/hls-keyrot/index.m3u8')).match(/#EXT-X-KEY/g)).toHaveLength(2);
+    expect(await text('/media/hls-live/index.m3u8')).not.toContain('#EXT-X-ENDLIST');
+    expect((await text('/media/hls-long/index.m3u8')).match(/#EXTINF/g)).toHaveLength(24);
+  });
+
+  it('goes offline and comes back on the same ports', async () => {
+    const [origin, cdn] = [site.origin, site.cdnOrigin];
+    await site.stop();
+    await expect(get(`${origin}/popular`)).rejects.toThrow();
+    await expect(get(`${cdn}/media/mp4/h264-aac.mp4`, withReferer())).rejects.toThrow();
+    await site.resume();
+    expect([site.origin, site.cdnOrigin]).toEqual([origin, cdn]);
+    expect((await get(`${origin}/popular`)).status).toBe(200);
+  });
+
+  it('adds episodes over time, uploaded now, and takes them back on reset', async () => {
+    const list = async () =>
+      (
+        (await (await get(`${site.origin}/anime/quiet-orchard/episodes.json`)).json()) as {
+          episodes: { number: number; uploadedAt: number }[];
+        }
+      ).episodes;
+    expect(await list()).toHaveLength(3);
+    expect((await get(`${site.origin}/watch/quiet-orchard/4`)).status).toBe(404);
+    const before = Date.now();
+    site.setEpisodeCount('quiet-orchard', 5);
+    const episodes = await list();
+    expect(episodes.map((e) => e.number)).toEqual([5, 4, 3, 2, 1]);
+    expect(episodes[0]?.uploadedAt).toBeGreaterThanOrEqual(before);
+    expect(episodes[4]?.uploadedAt).toBeLessThan(before);
+    expect((await get(`${site.origin}/watch/quiet-orchard/5`)).status).toBe(200);
+    site.reset();
+    expect(await list()).toHaveLength(3);
+  });
+
+  it('slows media down, and not playlists', async () => {
+    site.setThrottle({ segmentDelayMs: 150 });
+    const started = Date.now();
+    await get(`${site.cdnOrigin}/media/hls-long/index.m3u8`, withReferer());
+    expect(Date.now() - started).toBeLessThan(100);
+    const segmentStarted = Date.now();
+    const segment = await get(`${site.cdnOrigin}/media/hls-long/seg_000.ts`, withReferer());
+    expect((await segment.arrayBuffer()).byteLength).toBeGreaterThan(10_000);
+    expect(Date.now() - segmentStarted).toBeGreaterThanOrEqual(140);
+
+    site.setThrottle({ bytesPerSecond: 200_000 });
+    const slowStarted = Date.now();
+    const slow = await get(`${site.cdnOrigin}/media/hls-long/seg_001.ts`, withReferer());
+    const size = (await slow.arrayBuffer()).byteLength;
+    expect(Date.now() - slowStarted).toBeGreaterThanOrEqual((size / 200_000) * 1000 * 0.7);
+  });
+
+  it('refuses or cuts the requests a fault matches, from the n-th on, a number of times', async () => {
+    site.addFault({ pattern: /seg_002\.ts$/, status: 403, from: 2, times: 1 });
+    const seg2 = () => get(`${site.cdnOrigin}/media/hls-long/seg_002.ts`, withReferer());
+    expect([(await seg2()).status, (await seg2()).status, (await seg2()).status]).toEqual([200, 403, 200]);
+
+    site.clearFaults();
+    site.addFault({ pattern: 'seg_003.ts', resetAfterBytes: 1000 });
+    const cut = await get(`${site.cdnOrigin}/media/hls-long/seg_003.ts`, withReferer());
+    await expect(cut.arrayBuffer()).rejects.toThrow();
+    // Other files are untouched.
+    expect((await get(`${site.cdnOrigin}/media/hls-long/seg_004.ts`, withReferer())).status).toBe(200);
+  });
+});

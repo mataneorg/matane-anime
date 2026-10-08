@@ -27,6 +27,7 @@ export class NetworkManager {
   private readonly fetchers = new Map<string, ExtensionFetcher>();
   private readonly solver: CloudflareSolver;
   readonly status: NetworkStatus;
+  private readonly onlineListeners = new Set<(online: boolean) => void>();
 
   constructor(
     private readonly settings: SettingsRepository,
@@ -36,7 +37,16 @@ export class NetworkManager {
       emit: events.onCloudflare,
       userAgentFor: (extensionId) => this.userAgentOf(extensionId),
     });
-    this.status = new NetworkStatus(events.onOnline);
+    this.status = new NetworkStatus((online) => {
+      events.onOnline(online);
+      for (const listener of this.onlineListeners) listener(online);
+    });
+  }
+
+  /** Calls `listener` whenever the machine goes on or offline (the downloader and the update checker wait on it). */
+  onOnlineChange(listener: (online: boolean) => void): () => void {
+    this.onlineListeners.add(listener);
+    return () => this.onlineListeners.delete(listener);
   }
 
   private readonly manifestAgents = new Map<string, string | undefined>();
