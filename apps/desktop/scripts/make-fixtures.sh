@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Generates the small test media used by the playback spike (docs/adr/0008-media-transport.md).
 # Run once with `pnpm fixtures` (needs ffmpeg and openssl) and commit the result: CI never needs ffmpeg.
-# Every file is a 6 second 640x360 test pattern with a sine tone, kept tiny on purpose.
+# Every file is a 6 second 640x360 test pattern with a sine tone, kept tiny on purpose (except long.mp4).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -18,6 +18,10 @@ SEGMENTED=(-f hls -hls_time 2 -hls_playlist_type vod)
 
 echo "== progressive file for Range requests"
 "${FF[@]}" "${VIDEO[@]}" "${AUDIO[@]}" "${H264[@]}" "${AAC[@]}" -movflags +faststart "$OUT/mp4/h264-aac.mp4"
+
+echo "== a longer file (40 s, 320x180) for resume tests: positions past ten seconds need a video that long"
+"${FF[@]}" -f lavfi -i "testsrc2=size=320x180:rate=12:duration=40" -f lavfi -i "sine=frequency=330:duration=40" \
+  "${H264[@]}" -b:v 60k -maxrate 80k -bufsize 160k "${AAC[@]}" -movflags +faststart "$OUT/mp4/long.mp4"
 
 echo "== HLS, MPEG-TS, master playlist with two variants"
 "${FF[@]}" "${VIDEO[@]}" "${AUDIO[@]}" -map 0:v -map 1:a "${H264[@]}" "${AAC[@]}" \

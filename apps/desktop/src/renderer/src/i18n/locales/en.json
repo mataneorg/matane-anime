@@ -163,7 +163,24 @@
       },
       "seek": "Seek step",
       "seekHint": "Arrow keys jump this far; J and L jump twice as far.",
-      "seekSeconds": "{{count}} seconds"
+      "seekSeconds": "{{count}} seconds",
+      "threshold": "Mark as watched at",
+      "thresholdPercent": "{{percent}}%",
+      "thresholdEnd": "the end",
+      "thresholdHint": "An episode counts as watched once you pass this point. Going back does not undo it. At the end, only a finished video counts."
+    },
+    "library": {
+      "categories": "Categories",
+      "categoriesHint": "Group your library however you like. An anime can be in several categories, or none.",
+      "rename": "Rename {{name}}",
+      "moveUp": "Move {{name}} up",
+      "moveDown": "Move {{name}} down",
+      "delete": "Delete {{name}}",
+      "deleteTitle": "Delete the category \"{{name}}\"?",
+      "deleteBody": "The anime in it stay in your library.",
+      "updates": "New episode checks",
+      "updatesHint": "Checking for new episodes and downloading them automatically come in a later version.",
+      "nameField": "Category name"
     }
   },
   "browse": {
@@ -259,7 +276,17 @@
       "completed": "Completed",
       "hiatus": "On hiatus",
       "cancelled": "Cancelled"
-    }
+    },
+    "watched": "Watched",
+    "episodeActions": "Episode actions",
+    "markWatched": "Mark as watched",
+    "markUnwatched": "Mark as not watched",
+    "markPrevious": "Mark all previous as watched",
+    "resetProgress": "Reset progress",
+    "inLibrary": "In library",
+    "watchAgain": "Watch again",
+    "unwatchedCount_one": "{{count}} unwatched",
+    "unwatchedCount_other": "{{count}} unwatched"
   },
   "extensions": {
     "title": "Extensions",
@@ -335,5 +362,56 @@
     },
     "speedValue": "{{speed}}×",
     "qualityValue": "{{quality}}p"
+  },
+  "common": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "library": {
+    "filter": "Filter library",
+    "sortBy": "Sort by",
+    "sort": {
+      "title": "Title",
+      "lastWatched": "Last watched",
+      "latestEpisode": "Latest episode",
+      "added": "Date added",
+      "unwatched": "Unwatched"
+    },
+    "filters": "Filters",
+    "unwatchedOnly": "Only with unwatched episodes",
+    "startedOnly": "Only started",
+    "status": "Status",
+    "statusUnknown": "Unknown",
+    "source": "Source",
+    "select": "Select",
+    "selection": "Selection",
+    "selected_one": "{{count}} selected",
+    "selected_other": "{{count}} selected",
+    "moveToCategory": "Move to category",
+    "markWatched": "Mark as watched",
+    "removeFromLibrary": "Remove from library",
+    "removeTitle_one": "Remove {{count}} anime from your library?",
+    "removeTitle_other": "Remove {{count}} anime from your library?",
+    "removeBody": "Their progress and history stay; you can add them again later.",
+    "all": "All",
+    "addCategory": "Add category",
+    "newCategory": "New category",
+    "noCategories": "You have no categories yet. Make one below, or skip it: categories are optional.",
+    "progress": "Ep {{number}} / {{total}}",
+    "episodes_one": "{{count}} episode",
+    "episodes_other": "{{count}} episodes",
+    "unwatched_one": "{{count}} unwatched episode",
+    "unwatched_other": "{{count}} unwatched episodes",
+    "continue": "Continue",
+    "continueEpisode": "Continue Ep {{number}}",
+    "noResults": {
+      "title": "Nothing matches",
+      "description": "Try another search or fewer filters."
+    },
+    "emptyCategory": {
+      "title": "This category is empty",
+      "description": "Add anime to it from an anime page or with Select."
+    }
   }
 }

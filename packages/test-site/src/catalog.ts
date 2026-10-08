@@ -1,14 +1,14 @@
 // The fake site's catalog. Deterministic, so tests can name titles and episode counts.
 
 /**
- * - `hls`, `mp4`: work.
+ * - `hls`, `mp4`: work. `long` is a 40 second file, for resume tests.
  * - `expiring`: both servers' links die after their first segment, for good.
  * - `refreshing`: Server A's first link dies after one segment, but asking the embed again gives a fresh,
  *   working one (a token that was renewed); Server B works.
  * - `fallback`: Server A's link always dies after one segment, Server B works.
  * - `none`: no servers at all.
  */
-export type StreamKind = 'hls' | 'mp4' | 'expiring' | 'refreshing' | 'fallback' | 'none';
+export type StreamKind = 'hls' | 'mp4' | 'long' | 'expiring' | 'refreshing' | 'fallback' | 'none';
 
 export interface CatalogEntry {
   slug: string;
@@ -91,6 +91,7 @@ const FEATURED: CatalogEntry[] = [
     streams: 'refreshing',
     year: 2016,
   }),
+  base({ slug: 'long-night', title: 'Long Night', genres: ['drama'], episodes: 3, streams: 'long', year: 2013 }),
   base({ slug: 'bad-server', title: 'Bad Server', genres: ['comedy'], episodes: 2, streams: 'fallback', year: 2014 }),
   base({ slug: 'empty-shelf', title: 'Empty Shelf', genres: ['comedy'], episodes: 0, year: 2018 }),
   base({ slug: 'one-shot-movie', title: 'One Shot Movie', genres: ['drama'], type: 'movie', episodes: 1, year: 2017 }),

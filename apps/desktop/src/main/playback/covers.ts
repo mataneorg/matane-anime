@@ -54,7 +54,12 @@ export function createCoverHandler(deps: CoverDeps): (request: Request) => Promi
       const local = deps.localCover?.(Number(segments[1]));
       if (!local) return fail(404);
       try {
-        return ok({ type: local.type, body: new Uint8Array(await readFile(local.path)) });
+        const body = new Uint8Array(await readFile(local.path));
+        // The file is replaced when the site changes the image, so the renderer must ask again.
+        return new Response(body as BodyInit, {
+          status: 200,
+          headers: { 'content-type': local.type, 'cache-control': 'no-cache' },
+        });
       } catch {
         return fail(404);
       }

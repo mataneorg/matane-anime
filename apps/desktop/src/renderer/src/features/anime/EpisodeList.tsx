@@ -1,11 +1,21 @@
 import type { EpisodeRow } from '@matane-anime/shared';
+import { useMutation } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Play } from 'lucide-react';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { Check, EllipsisVertical, Play } from 'lucide-react';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Badge } from '@renderer/components/ui/badge';
 import { Cover } from '@renderer/components/Cover';
+import { Badge } from '@renderer/components/ui/badge';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@renderer/components/ui/dropdown-menu';
+import { call } from '@renderer/lib/api';
+import { useScroller } from '@renderer/lib/useScroller';
+import { cn } from '@renderer/lib/utils';
 
 const ROW = 72; // 64 px row + 8 px gap
 
@@ -23,31 +33,16 @@ export function EpisodeList({
   episodes,
   sourceId,
   thumbnailUrl,
+  localCoverId,
 }: {
   episodes: EpisodeRow[];
   sourceId: string;
   thumbnailUrl: string | null;
+  localCoverId?: number | undefined;
 }) {
   const { t, i18n } = useTranslation();
   const listRef = useRef<HTMLDivElement>(null);
-  const [scroller, setScroller] = useState<HTMLElement | null>(null);
-  const [margin, setMargin] = useState(0);
-
-  useLayoutEffect(() => {
-    const list = listRef.current;
-    const scrollElement = list?.closest('main') as HTMLElement | null;
-    if (!list || !scrollElement) return;
-    setScroller(scrollElement);
-    const measure = (): void => {
-      setMargin(list.getBoundingClientRect().top - scrollElement.getBoundingClientRect().top + scrollElement.scrollTop);
-    };
-    measure();
-    // The header above the list changes height as its text and tags load.
-    const observer = new ResizeObserver(measure);
-    observer.observe(scrollElement);
-    if (list.parentElement) observer.observe(list.parentElement);
-    return () => observer.disconnect();
-  }, []);
+  const { scroller, margin } = useScroller(listRef);
 
   // The compiler skips memoizing this component, which is fine: it only renders the rows in view.
   // eslint-disable-next-line react-hooks/incompatible-library
@@ -72,27 +67,100 @@ export function EpisodeList({
             className="absolute top-0 left-0 w-full pb-2"
             style={{ height: item.size, transform: `translateY(${item.start - virtualizer.options.scrollMargin}px)` }}
           >
-            <Link
-              to="/watch/$episodeId"
-              params={{ episodeId: String(episode.id) }}
-              className="flex h-16 items-center gap-4 rounded-xl bg-card pr-4 transition-colors hover:bg-input/60"
-            >
-              <Cover sourceId={sourceId} url={thumbnailUrl} className="h-16 w-28 shrink-0 rounded-l-xl" />
-              <div className="flex min-w-0 flex-1 flex-col">
-                <span className="truncate font-semibold text-foreground">
-                  {episodeTitle(episode, (number) => t('anime.episodeNumber', { number }))}
-                </span>
-                <span className="truncate text-xs leading-4">
-                  {episode.uploadedAt ? dates.format(episode.uploadedAt) : t('anime.episodeFallback')}
-                </span>
-              </div>
-              {episode.variant ? <Badge>{episode.variant}</Badge> : null}
-              {episode.sourceMissing ? <Badge tone="warning">{t('anime.missing')}</Badge> : null}
-              <Play className="size-4 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
-            </Link>
+            <EpisodeRowView
+              episode={episode}
+              sourceId={sourceId}
+              thumbnailUrl={thumbnailUrl}
+              localCoverId={localCoverId}
+              date={episode.uploadedAt ? dates.format(episode.uploadedAt) : t('anime.episodeFallback')}
+            />
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function EpisodeRowView({
+  episode,
+  sourceId,
+  thumbnailUrl,
+  localCoverId,
+  date,
+}: {
+  episode: EpisodeRow;
+  sourceId: string;
+  thumbnailUrl: string | null;
+  localCoverId: number | undefined;
+  date: string;
+}) {
+  const { t } = useTranslation();
+  const progress =
+    !episode.watched && episode.positionMs > 0 && episode.durationMs
+      ? Math.min(100, (episode.positionMs / episode.durationMs) * 100)
+      : 0;
+  const mark = useMutation({
+    mutationFn: (watched: boolean) => call('episodes.markWatched', { episodeIds: [episode.id], watched }),
+  });
+  const previous = useMutation({ mutationFn: () => call('episodes.markPrevious', { episodeId: episode.id }) });
+  const reset = useMutation({ mutationFn: () => call('episodes.resetProgress', { episodeId: episode.id }) });
+
+  return (
+    <div className="relative flex h-16 items-center rounded-xl bg-card transition-colors hover:bg-input/60">
+      <Link
+        to="/watch/$episodeId"
+        params={{ episodeId: String(episode.id) }}
+        className="flex h-16 min-w-0 flex-1 items-center gap-4 pr-2"
+      >
+        <div className="relative shrink-0">
+          <Cover
+            sourceId={sourceId}
+            url={thumbnailUrl}
+            localAnimeId={localCoverId}
+            className={cn('h-16 w-28 rounded-l-xl', episode.watched && 'opacity-60')}
+          />
+          {progress > 0 ? (
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-black/40" aria-hidden>
+              <div className="h-full bg-accent" style={{ width: `${progress}%` }} />
+            </div>
+          ) : null}
+        </div>
+        <div className={cn('flex min-w-0 flex-1 flex-col', episode.watched && 'opacity-70')}>
+          <span className="truncate font-semibold text-foreground">
+            {episodeTitle(episode, (number) => t('anime.episodeNumber', { number }))}
+          </span>
+          <span className="truncate text-xs leading-4">{date}</span>
+        </div>
+        {episode.variant ? <Badge>{episode.variant}</Badge> : null}
+        {episode.sourceMissing ? <Badge tone="warning">{t('anime.missing')}</Badge> : null}
+        {episode.watched ? (
+          <span className="flex items-center gap-1 text-xs leading-4 text-success">
+            <Check className="size-3.5" strokeWidth={2} aria-hidden />
+            {t('anime.watched')}
+          </span>
+        ) : (
+          <Play className="size-4 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
+        )}
+      </Link>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          aria-label={t('anime.episodeActions')}
+          className="mr-2 flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-input/60"
+        >
+          <EllipsisVertical className="size-4" strokeWidth={1.75} aria-hidden />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          {episode.watched ? (
+            <DropdownMenuItem onSelect={() => mark.mutate(false)}>{t('anime.markUnwatched')}</DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem onSelect={() => mark.mutate(true)}>{t('anime.markWatched')}</DropdownMenuItem>
+          )}
+          <DropdownMenuItem onSelect={() => previous.mutate()}>{t('anime.markPrevious')}</DropdownMenuItem>
+          <DropdownMenuItem disabled={episode.positionMs === 0 && !episode.watched} onSelect={() => reset.mutate()}>
+            {t('anime.resetProgress')}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }

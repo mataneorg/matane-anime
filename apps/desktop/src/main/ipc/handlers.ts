@@ -102,6 +102,8 @@ export function createHandlers({
     'anime.refresh': ({ animeId, requestId }) => service.refresh(animeId, requestId),
     'episodes.list': ({ animeId }) => service.listEpisodes(animeId),
     'library.list': (query) => library.list(query),
+    'library.count': () => library.count(),
+    'library.markWatched': ({ animeIds, watched }) => watch.markAnimeWatched(animeIds, watched),
     'library.add': ({ animeId, categoryIds }) => library.add(animeId, categoryIds),
     'library.remove': ({ animeId }) => library.remove(animeId),
     'library.setCategories': ({ animeIds, categoryIds }) => libraryRepo.setCategories(animeIds, categoryIds),

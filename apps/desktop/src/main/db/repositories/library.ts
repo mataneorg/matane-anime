@@ -174,6 +174,10 @@ export class LibraryRepository {
     }
   }
 
+  count(): number {
+    return (this.db.$client.prepare('SELECT COUNT(*) AS n FROM anime WHERE in_library = 1').get() as { n: number }).n;
+  }
+
   // ------------------------------------------------------------------ the list
 
   /**

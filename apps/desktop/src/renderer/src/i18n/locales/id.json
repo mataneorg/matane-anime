@@ -163,7 +163,24 @@
       },
       "seek": "Lompatan geser",
       "seekHint": "Tombol panah melompat sejauh ini; J dan L dua kali lebih jauh.",
-      "seekSeconds": "{{count}} detik"
+      "seekSeconds": "{{count}} detik",
+      "threshold": "Tandai ditonton pada",
+      "thresholdPercent": "{{percent}}%",
+      "thresholdEnd": "akhir video",
+      "thresholdHint": "Episode dianggap ditonton setelah melewati titik ini. Memundurkan video tidak membatalkannya. Pada akhir video, hanya video yang selesai yang dihitung."
+    },
+    "library": {
+      "categories": "Kategori",
+      "categoriesHint": "Kelompokkan pustakamu sesukamu. Satu anime bisa ada di beberapa kategori, atau tanpa kategori.",
+      "rename": "Ganti nama {{name}}",
+      "moveUp": "Naikkan {{name}}",
+      "moveDown": "Turunkan {{name}}",
+      "delete": "Hapus {{name}}",
+      "deleteTitle": "Hapus kategori \"{{name}}\"?",
+      "deleteBody": "Anime di dalamnya tetap ada di pustakamu.",
+      "updates": "Pengecekan episode baru",
+      "updatesHint": "Pengecekan episode baru dan unduhan otomatis hadir di versi berikutnya.",
+      "nameField": "Nama kategori"
     }
   },
   "browse": {
@@ -259,7 +276,17 @@
       "completed": "Tamat",
       "hiatus": "Hiatus",
       "cancelled": "Dibatalkan"
-    }
+    },
+    "watched": "Ditonton",
+    "episodeActions": "Aksi episode",
+    "markWatched": "Tandai sudah ditonton",
+    "markUnwatched": "Tandai belum ditonton",
+    "markPrevious": "Tandai semua sebelumnya sudah ditonton",
+    "resetProgress": "Reset progres",
+    "inLibrary": "Di pustaka",
+    "watchAgain": "Tonton lagi",
+    "unwatchedCount_one": "{{count}} belum ditonton",
+    "unwatchedCount_other": "{{count}} belum ditonton"
   },
   "extensions": {
     "title": "Extension",
@@ -335,5 +362,56 @@
     },
     "speedValue": "{{speed}}×",
     "qualityValue": "{{quality}}p"
+  },
+  "common": {
+    "close": "Tutup",
+    "cancel": "Batal",
+    "save": "Simpan"
+  },
+  "library": {
+    "filter": "Filter pustaka",
+    "sortBy": "Urutkan",
+    "sort": {
+      "title": "Judul",
+      "lastWatched": "Terakhir ditonton",
+      "latestEpisode": "Episode terbaru",
+      "added": "Tanggal ditambahkan",
+      "unwatched": "Belum ditonton"
+    },
+    "filters": "Filter",
+    "unwatchedOnly": "Hanya yang ada episode belum ditonton",
+    "startedOnly": "Hanya yang sudah dimulai",
+    "status": "Status",
+    "statusUnknown": "Tidak diketahui",
+    "source": "Sumber",
+    "select": "Pilih",
+    "selection": "Pilihan",
+    "selected_one": "{{count}} dipilih",
+    "selected_other": "{{count}} dipilih",
+    "moveToCategory": "Pindah ke kategori",
+    "markWatched": "Tandai sudah ditonton",
+    "removeFromLibrary": "Hapus dari pustaka",
+    "removeTitle_one": "Hapus {{count}} anime dari pustaka?",
+    "removeTitle_other": "Hapus {{count}} anime dari pustaka?",
+    "removeBody": "Progres dan riwayatnya tetap ada; kamu bisa menambahkannya lagi nanti.",
+    "all": "Semua",
+    "addCategory": "Tambah kategori",
+    "newCategory": "Kategori baru",
+    "noCategories": "Kamu belum punya kategori. Buat di bawah, atau lewati: kategori bersifat opsional.",
+    "progress": "Eps {{number}} / {{total}}",
+    "episodes_one": "{{count}} episode",
+    "episodes_other": "{{count}} episode",
+    "unwatched_one": "{{count}} episode belum ditonton",
+    "unwatched_other": "{{count}} episode belum ditonton",
+    "continue": "Lanjut",
+    "continueEpisode": "Lanjut Eps {{number}}",
+    "noResults": {
+      "title": "Tidak ada yang cocok",
+      "description": "Coba pencarian lain atau kurangi filter."
+    },
+    "emptyCategory": {
+      "title": "Kategori ini kosong",
+      "description": "Tambahkan anime dari halaman anime atau dengan Pilih."
+    }
   }
 }

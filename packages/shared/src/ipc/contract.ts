@@ -87,6 +87,10 @@ export const invokeContract = {
   ),
   'episodes.list': invoke(z.object({ animeId: z.number().int() }), z.array(episodeSchema)),
   'library.list': invoke(libraryQuerySchema, z.array(libraryItemSchema)),
+  /** How many anime the library holds (the "All" tab). */
+  'library.count': invoke(z.void(), z.number().int()),
+  /** Marks every episode of these anime watched or not. */
+  'library.markWatched': invoke(z.object({ animeIds: z.array(z.number().int()), watched: z.boolean() }), z.void()),
   /** Adds an anime to the library, in these categories (any number, or none). */
   'library.add': invoke(z.object({ animeId: z.number().int(), categoryIds: z.array(z.number().int()) }), z.void()),
   'library.remove': invoke(z.object({ animeId: z.number().int() }), z.void()),

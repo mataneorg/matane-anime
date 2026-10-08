@@ -138,6 +138,15 @@ export class WatchService {
     this.deps.episodes.setWatched(episodeIds, watched, this.now());
   }
 
+  /** Every episode of these anime (the library's multi-select, LIB-5). */
+  markAnimeWatched(animeIds: number[], watched: boolean): void {
+    this.deps.episodes.setWatched(
+      this.deps.episodes.forAnime(animeIds).map((episode) => episode.id),
+      watched,
+      this.now(),
+    );
+  }
+
   markPrevious(episodeId: number): void {
     this.deps.episodes.markPrevious(episodeId, this.now());
   }

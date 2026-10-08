@@ -23,6 +23,10 @@ export class LibraryService {
     return this.deps.library.list(query, this.deps.settings.getAppSettings().playerWatchedThreshold);
   }
 
+  count(): number {
+    return this.deps.library.count();
+  }
+
   add(animeId: number, categoryIds: number[]): void {
     this.deps.library.add(animeId, categoryIds);
     void this.deps.covers.ensure(animeId);

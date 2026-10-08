@@ -1,4 +1,4 @@
-import { AppError, type PlaybackSession } from '@matane-anime/shared';
+import { AppError, type PlaybackSession, type ProgressReason } from '@matane-anime/shared';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import { Loader2 } from 'lucide-react';
@@ -22,6 +22,7 @@ import {
 import { type PlayerError, usePlayerStore } from './store';
 
 const HIDE_AFTER_MS = 3000;
+const HEARTBEAT_MS = 5000;
 const COUNTDOWN_SECONDS = 5;
 
 /** Shows the controls and hides them again after 3 s without movement (PLY-7). Not a hook: its timer is plain state. */
@@ -93,6 +94,8 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
         if (closed) void call('playback.close', { playbackId: opened.playbackId });
         else {
           playbackId = opened.playbackId;
+          // Start where the episode was left (PRG-4). A retry keeps the position it already has.
+          if (position.current === 0) position.current = opened.resumeMs / 1000;
           setSession(opened);
         }
       },
@@ -266,6 +269,62 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
   useEffect(() => {
     settingsRef.current = { volume, muted, speed, seekStep };
   }, [volume, muted, speed, seekStep]);
+
+  // ------------------------------------------------------------------ progress (docs/PRD.md PRG-2, PRG-9)
+  // Everything about what was watched is decided in main; this only reports where the video is.
+  const report = useCallback((reason: ProgressReason) => {
+    const element = video.current;
+    const current = sessionRef.current;
+    // Nothing is loaded (a stream is being replaced): a position of 0 would erase real progress.
+    if (!element || !current || element.readyState === 0) return;
+    void call('watch.progress', {
+      playbackId: current.playbackId,
+      episodeId: current.episodeId,
+      positionMs: Math.round(element.currentTime * 1000),
+      durationMs: Number.isFinite(element.duration) ? Math.round(element.duration * 1000) : null,
+      reason,
+    }).catch(() => undefined);
+  }, []);
+  const reportRef = useRef(report);
+  useEffect(() => {
+    reportRef.current = report;
+  }, [report]);
+
+  useEffect(() => {
+    const element = video.current;
+    const heartbeat = setInterval(() => {
+      if (element && !element.paused && !element.ended) reportRef.current('heartbeat');
+    }, HEARTBEAT_MS);
+    const onEvent = (reason: ProgressReason) => () => reportRef.current(reason);
+    const handlers: [string, () => void][] = [
+      // `playing`, not `play`: `play` fires before any data is loaded, when there is nothing to report yet.
+      ['playing', onEvent('play')],
+      ['pause', onEvent('pause')],
+      ['seeked', onEvent('seek')],
+      ['ended', onEvent('ended')],
+    ];
+    for (const [name, handler] of handlers) element?.addEventListener(name, handler);
+    // Closing the window takes the player with it without a chance to unmount.
+    const onHide = (): void => reportRef.current('close');
+    window.addEventListener('pagehide', onHide);
+    return () => {
+      clearInterval(heartbeat);
+      for (const [name, handler] of handlers) element?.removeEventListener(name, handler);
+      window.removeEventListener('pagehide', onHide);
+      // The element is already gone from the page here, so the last known position is reported.
+      const current = sessionRef.current;
+      if (current && position.current > 0) {
+        const duration = usePlayerStore.getState().duration;
+        void call('watch.progress', {
+          playbackId: current.playbackId,
+          episodeId: current.episodeId,
+          positionMs: Math.round(position.current * 1000),
+          durationMs: duration > 0 ? Math.round(duration * 1000) : null,
+          reason: 'close',
+        }).catch(() => undefined);
+      }
+    };
+  }, []);
 
   // ------------------------------------------------------------------ keyboard (docs/PRD.md PLY-3)
   useEffect(() => {

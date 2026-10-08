@@ -103,9 +103,27 @@ export function invalidateForTags(queryClient: QueryClient, tags: string[]): voi
       void queryClient.invalidateQueries({ queryKey: ['extension-preferences'] });
       continue;
     }
+    if (tag === 'library') {
+      void queryClient.invalidateQueries({ queryKey: ['library'] });
+      void queryClient.invalidateQueries({ queryKey: ['continue'] });
+      continue;
+    }
+    if (tag === 'categories') {
+      void queryClient.invalidateQueries({ queryKey: ['categories'] });
+      void queryClient.invalidateQueries({ queryKey: ['library'] });
+      continue;
+    }
+    if (tag === 'history') {
+      void queryClient.invalidateQueries({ queryKey: ['history'] });
+      void queryClient.invalidateQueries({ queryKey: ['continue'] });
+      continue;
+    }
     const [kind, id] = tag.split(':');
     if (kind === 'anime' && id) void queryClient.invalidateQueries({ queryKey: ['anime', Number(id)] });
-    if (kind === 'episodes' && id) void queryClient.invalidateQueries({ queryKey: ['episodes', Number(id)] });
+    if (kind === 'episodes' && id) {
+      void queryClient.invalidateQueries({ queryKey: ['episodes', Number(id)] });
+      void queryClient.invalidateQueries({ queryKey: ['continue', Number(id)] });
+    }
   }
 }
 

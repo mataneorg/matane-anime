@@ -77,7 +77,7 @@ test('loads an extension and lists its sources', async () => {
 test('browses a source: covers load, tabs work, the list keeps loading as you scroll', async () => {
   await go('#/browse/sources/example%2Fen');
   await expect(cards().first()).toBeVisible();
-  await expect(cards()).toHaveCount(12);
+  await expect.poll(() => cards().count()).toBeGreaterThanOrEqual(12); // more may already have loaded, on a tall window
   await expect(page.getByRole('combobox', { name: 'Source' })).toHaveValue('example/en');
 
   // Covers come through anime://cover: an <img> that decoded has a width.
@@ -89,10 +89,12 @@ test('browses a source: covers load, tabs work, the list keeps loading as you sc
   expect(loaded).toBeGreaterThanOrEqual(10);
   await shot('browse-popular');
 
-  await page.locator('main').evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
-  await expect(cards()).toHaveCount(24);
-  await page.locator('main').evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
-  await expect(cards()).toHaveCount(34); // 34 anime in the fake catalog
+  // Keep scrolling: the list loads page after page until the source has no more.
+  await expect(async () => {
+    await page.locator('main').evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
+    await expect(page.getByText('That is everything')).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 20_000 });
+  await expect(cards()).toHaveCount(35); // 35 anime in the fake catalog
   await expect(page.getByText('That is everything')).toBeVisible();
 
   await page.getByRole('tab', { name: 'Latest' }).click();
@@ -108,7 +110,7 @@ test('searches and filters', async () => {
 
   await page.getByRole('searchbox', { name: 'Search this source' }).fill('');
   await page.getByRole('searchbox', { name: 'Search this source' }).press('Enter');
-  await expect(cards()).toHaveCount(12);
+  await expect.poll(() => cards().count()).toBeGreaterThanOrEqual(12); // more may already have loaded, on a tall window
 
   await page.getByRole('button', { name: 'Show filters' }).click();
   await expect(page.getByRole('complementary', { name: 'Filters' })).toBeVisible();
@@ -120,7 +122,7 @@ test('searches and filters', async () => {
   await expect(page.getByText('Two Voices')).toBeVisible();
   await expect(page.getByText('Sky Harbor')).toHaveCount(0);
   await page.getByRole('button', { name: 'Reset' }).click();
-  await expect(cards()).toHaveCount(12);
+  await expect.poll(() => cards().count()).toBeGreaterThanOrEqual(12); // more may already have loaded, on a tall window
 });
 
 test('shows a clear error with a way forward, then recovers', async () => {
@@ -130,7 +132,7 @@ test('shows a clear error with a way forward, then recovers', async () => {
   await shot('browse-error');
   await invoke('extensions.setPreference', { extensionId: 'example', key: 'baseUrl', value: site.origin });
   await page.getByRole('button', { name: 'Try again' }).click();
-  await expect(cards()).toHaveCount(12);
+  await expect.poll(() => cards().count()).toBeGreaterThanOrEqual(12); // more may already have loaded, on a tall window
 });
 
 test('opens a pasted URL', async () => {
@@ -151,7 +153,7 @@ test('shows an anime: details come in on their own, episodes are listed, errors 
   await expect(page.getByRole('listitem')).toHaveCount(12);
   await expect(page.getByText('Ongoing')).toBeVisible();
   await expect(page.getByRole('link', { name: 'Start watching' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Add to library' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Add to library' })).toBeEnabled(); // the library arrived in phase 2
   await shot('detail');
 
   await page.getByLabel('Newest first').selectOption('oldest');

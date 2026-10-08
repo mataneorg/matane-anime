@@ -36,6 +36,8 @@ export interface ServiceDeps {
   requests: RequestRegistry;
   /** Called after a refresh stored new details; the library keeps its permanent cover up to date with it. */
   onRefreshed?(row: AnimeRow, previousThumbnail: string | null): void;
+  /** The library categories an anime is in. */
+  categoryIdsOf(animeId: number): number[];
 }
 
 interface Resolved {
@@ -367,6 +369,7 @@ export class ExtensionService {
       type: row.type,
       thumbnailUrl: row.thumbnailUrl,
       inLibrary: row.inLibrary,
+      categoryIds: this.deps.categoryIdsOf(row.id),
       detailsFetchedAt: row.lastUpdateCheckAt,
       webUrl,
     };

@@ -1,4 +1,5 @@
 export * from './catalog';
+export * from './episodes';
 export * from './errors';
 export * from './library';
 export * from './playback';

@@ -140,6 +140,7 @@ if (!app.requestSingleInstanceLock()) {
         episodes: episodeRepo,
         network,
         requests,
+        categoryIdsOf: (animeId) => libraryRepo.categoryIdsOf(animeId),
         // A library entry's permanent cover follows the site's image when it changes (LIB-7).
         onRefreshed: (row, previousThumbnail) => {
           if (row.inLibrary && row.thumbnailUrl !== previousThumbnail) void covers.ensure(row.id, true);

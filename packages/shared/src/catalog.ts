@@ -96,6 +96,8 @@ export const animeDetailSchema = z.object({
   type: z.enum(['tv', 'movie', 'ova', 'ona', 'special']).nullable(),
   thumbnailUrl: z.string().nullable(),
   inLibrary: z.boolean(),
+  /** The library categories the anime is in. */
+  categoryIds: z.array(z.number().int()),
   /** When the details were last fetched from the source; null if only the listing entry is known. */
   detailsFetchedAt: z.number().nullable(),
   webUrl: z.string().nullable(),

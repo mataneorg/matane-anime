@@ -281,6 +281,8 @@ export class TestSite {
       switch (entry.streams) {
         case 'mp4':
           return '/media/mp4/h264-aac.mp4';
+        case 'long':
+          return '/media/mp4/long.mp4';
         case 'expiring':
           return `/media/expiring/${id}/index.m3u8`;
         case 'fallback':

@@ -1,5 +1,7 @@
 // The rules of watching, as plain functions so they can be tested without a database (docs/PRD.md §6.6).
 
+export { type CountableEpisode, countEpisodes } from '@matane-anime/shared';
+
 export const DEFAULT_THRESHOLD = 85;
 /** A saved position at or below this counts as "not started" (PRG-4). */
 export const RESUME_MIN_MS = 10_000;
@@ -39,29 +41,6 @@ export function resumePosition(progress: Progress, thresholdPercent: number): nu
   if (progress.watched || progress.positionMs <= RESUME_MIN_MS) return 0;
   if (reachedThreshold(progress.positionMs, progress.durationMs, thresholdPercent, false)) return 0;
   return Math.max(0, progress.positionMs - RESUME_REWIND_MS);
-}
-
-export interface CountableEpisode {
-  id: number;
-  number: number | null;
-  watched: boolean;
-  sourceMissing: boolean;
-}
-
-/**
- * Episode counts per **number**, not per row (PRG-5): Sub and Dub of episode 3 are one episode, and an
- * episode without a number counts on its own. Episodes the source no longer lists are not counted.
- */
-export function countEpisodes(episodes: CountableEpisode[]): { total: number; unwatched: number } {
-  const total = new Set<number | string>();
-  const unwatched = new Set<number | string>();
-  for (const episode of episodes) {
-    if (episode.sourceMissing) continue;
-    const key = episode.number ?? `row-${episode.id}`;
-    total.add(key);
-    if (!episode.watched) unwatched.add(key);
-  }
-  return { total: total.size, unwatched: unwatched.size };
 }
 
 export interface OrderedEpisode {

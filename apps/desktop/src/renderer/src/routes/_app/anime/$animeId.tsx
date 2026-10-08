@@ -1,17 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { Download, Globe, Library, Loader2, Play, RefreshCw } from 'lucide-react';
+import { Download, Globe, Loader2, Play, RefreshCw } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { countEpisodes } from '@matane-anime/shared';
 import { Cover } from '@renderer/components/Cover';
 import { ErrorState } from '@renderer/components/ErrorState';
 import { Badge } from '@renderer/components/ui/badge';
 import { Button, buttonVariants } from '@renderer/components/ui/button';
 import { Select } from '@renderer/components/ui/select';
 import { EpisodeList } from '@renderer/features/anime/EpisodeList';
+import { LibraryButton } from '@renderer/features/anime/LibraryButton';
 import { call } from '@renderer/lib/api';
 import { animeQuery, episodesQuery } from '@renderer/lib/catalog';
+import { continueQuery } from '@renderer/lib/library';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
+import { cn } from '@renderer/lib/utils';
 
 export const Route = createFileRoute('/_app/anime/$animeId')({ component: AnimePage });
 
@@ -21,7 +25,9 @@ function AnimePage() {
   const queryClient = useQueryClient();
   const anime = useQuery(animeQuery(animeId));
   const episodes = useQuery(episodesQuery(animeId));
+  const target = useQuery(continueQuery(animeId));
   const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
+  const [unwatchedOnly, setUnwatchedOnly] = useState(false);
 
   const refresh = useMutation({
     mutationFn: () => call('anime.refresh', { animeId }),
@@ -42,13 +48,12 @@ function AnimePage() {
   }, [anime.data, animeId, refreshNow]);
 
   const list = useMemo(() => {
-    const rows = episodes.data ?? [];
+    const rows = (episodes.data ?? []).filter(
+      (episode) => !unwatchedOnly || (!episode.watched && !episode.sourceMissing),
+    );
     return sort === 'newest' ? rows : [...rows].reverse();
-  }, [episodes.data, sort]);
-  const distinct = useMemo(
-    () => new Set((episodes.data ?? []).map((episode) => episode.number ?? `row-${episode.id}`)).size,
-    [episodes.data],
-  );
+  }, [episodes.data, sort, unwatchedOnly]);
+  const counts = useMemo(() => countEpisodes(episodes.data ?? []), [episodes.data]);
 
   if (anime.isError) {
     return (
@@ -65,7 +70,19 @@ function AnimePage() {
   }
   if (!anime.data) return <HeaderSkeleton />;
   const data = anime.data;
+  // "Continue" when there is something to continue (PRG-6); otherwise the first episode, or the first again
+  // when everything was watched.
   const oldest = episodes.data?.at(-1);
+  const continuing = target.data ? episodes.data?.find((episode) => episode.id === target.data?.episodeId) : undefined;
+  const playTarget = continuing ?? oldest;
+  const playLabel =
+    target.data && target.data.reason !== 'first'
+      ? target.data.number !== null
+        ? t('library.continueEpisode', { number: target.data.number })
+        : t('library.continue')
+      : counts.total > 0 && counts.unwatched === 0
+        ? t('anime.watchAgain')
+        : t('anime.start');
   const facts = [
     data.type?.toUpperCase(),
     data.year?.toString(),
@@ -77,7 +94,12 @@ function AnimePage() {
   return (
     <div className="flex flex-col">
       <header className="flex gap-6 bg-card/40 p-6">
-        <Cover sourceId={data.sourceId} url={data.thumbnailUrl} className="aspect-[2/3] w-48 shrink-0 rounded-xl" />
+        <Cover
+          sourceId={data.sourceId}
+          url={data.thumbnailUrl}
+          localAnimeId={data.inLibrary ? data.animeId : undefined}
+          className="aspect-[2/3] w-48 shrink-0 rounded-xl"
+        />
         <div className="flex min-w-0 flex-col gap-3">
           <div>
             <h1 className="text-2xl leading-8 font-bold tracking-tight">{data.title}</h1>
@@ -104,14 +126,14 @@ function AnimePage() {
           ) : null}
           {data.description ? <p className="line-clamp-4 max-w-3xl">{data.description}</p> : null}
           <div className="flex flex-wrap items-center gap-2">
-            {oldest ? (
+            {playTarget ? (
               <Link
                 to="/watch/$episodeId"
-                params={{ episodeId: String(oldest.id) }}
+                params={{ episodeId: String(playTarget.id) }}
                 className={buttonVariants({ size: 'lg' })}
               >
                 <Play className="size-4" strokeWidth={1.75} aria-hidden />
-                {t('anime.start')}
+                {playLabel}
               </Link>
             ) : (
               <Button size="lg" disabled>
@@ -119,10 +141,7 @@ function AnimePage() {
                 {t('anime.start')}
               </Button>
             )}
-            <Button variant="secondary" size="lg" disabled title={t('anime.comingSoon')}>
-              <Library className="size-4" strokeWidth={1.75} aria-hidden />
-              {t('anime.addToLibrary')}
-            </Button>
+            <LibraryButton anime={data} />
             <Button variant="secondary" size="lg" disabled title={t('anime.comingSoon')}>
               <Download className="size-4" strokeWidth={1.75} aria-hidden />
               {t('anime.download')}
@@ -161,16 +180,40 @@ function AnimePage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="episodes-title" className="text-lg leading-6 font-semibold">
             {t('anime.episodes')}{' '}
-            <span className="font-mono text-xs leading-4 font-normal">{t('anime.total', { count: distinct })}</span>
+            <span className="font-mono text-xs leading-4 font-normal">
+              {t('anime.total', { count: counts.total })}
+              {counts.unwatched > 0 ? ` · ${t('anime.unwatchedCount', { count: counts.unwatched })}` : ''}
+            </span>
           </h2>
-          <Select
-            aria-label={t('anime.sort.newest')}
-            value={sort}
-            onChange={(event) => setSort(event.target.value as 'newest' | 'oldest')}
-          >
-            <option value="newest">{t('anime.sort.newest')}</option>
-            <option value="oldest">{t('anime.sort.oldest')}</option>
-          </Select>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-pressed={unwatchedOnly}
+              onClick={() => setUnwatchedOnly((on) => !on)}
+              className={cn(
+                'h-9 rounded-full border border-border-strong px-3 text-[13px] transition-colors',
+                unwatchedOnly && 'border-accent bg-accent/16 font-semibold text-foreground',
+              )}
+            >
+              {t('anime.unwatched')}
+            </button>
+            <button
+              type="button"
+              disabled
+              title={t('anime.comingSoon')}
+              className="h-9 cursor-not-allowed rounded-full border border-border-strong px-3 text-[13px] opacity-50"
+            >
+              {t('anime.downloaded')}
+            </button>
+            <Select
+              aria-label={t('anime.sort.newest')}
+              value={sort}
+              onChange={(event) => setSort(event.target.value as 'newest' | 'oldest')}
+            >
+              <option value="newest">{t('anime.sort.newest')}</option>
+              <option value="oldest">{t('anime.sort.oldest')}</option>
+            </Select>
+          </div>
         </div>
 
         {refresh.isError ? (
@@ -196,7 +239,12 @@ function AnimePage() {
         ) : list.length === 0 && !refresh.isError ? (
           <p>{t('anime.noEpisodes')}</p>
         ) : (
-          <EpisodeList episodes={list} sourceId={data.sourceId} thumbnailUrl={data.thumbnailUrl} />
+          <EpisodeList
+            episodes={list}
+            sourceId={data.sourceId}
+            thumbnailUrl={data.thumbnailUrl}
+            localCoverId={data.inLibrary ? data.animeId : undefined}
+          />
         )}
       </section>
     </div>

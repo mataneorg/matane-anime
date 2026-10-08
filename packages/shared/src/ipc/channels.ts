@@ -29,6 +29,8 @@ export const INVOKE_CHANNELS = [
   'anime.refresh',
   'episodes.list',
   'library.list',
+  'library.count',
+  'library.markWatched',
   'library.add',
   'library.remove',
   'library.setCategories',

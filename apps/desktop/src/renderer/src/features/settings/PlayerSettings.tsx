@@ -52,6 +52,30 @@ export function PlayerSettings() {
         <div className="text-xs leading-4">{t('settings.player.qualityHint')}</div>
       </div>
 
+      <div className="flex max-w-md flex-col gap-1.5">
+        <label htmlFor="watched-threshold" className="font-semibold">
+          {t('settings.player.threshold')}
+        </label>
+        <div className="flex items-center gap-3">
+          <input
+            id="watched-threshold"
+            type="range"
+            min={50}
+            max={100}
+            step={5}
+            value={settings.playerWatchedThreshold}
+            onChange={(event) => update.mutate({ playerWatchedThreshold: Number(event.target.value) })}
+            className="flex-1 accent-accent"
+          />
+          <span className="w-28 text-right font-mono text-xs leading-4">
+            {settings.playerWatchedThreshold === 100
+              ? t('settings.player.thresholdEnd')
+              : t('settings.player.thresholdPercent', { percent: settings.playerWatchedThreshold })}
+          </span>
+        </div>
+        <div className="text-xs leading-4">{t('settings.player.thresholdHint')}</div>
+      </div>
+
       <div className="flex max-w-72 flex-col gap-1.5">
         <label htmlFor="seek-step" className="font-semibold">
           {t('settings.player.seek')}
