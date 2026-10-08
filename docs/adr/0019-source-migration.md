@@ -13,7 +13,7 @@ The same series often exists on several sources, and a source can die. The user 
 
 ## Not done
 - Matching by title across sources, and migrating several anime at once: the first is unreliable, the second is a loop over this.
-- Downloads belong to the old anime and are phase 3's concern.
+- Downloads belong to the old anime; phase 3 keeps them there ([0021](0021-download-engine.md)).
 
 ## Consequences
 - Progress that has no counterpart is lost, but the user is told first.

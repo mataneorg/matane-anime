@@ -645,7 +645,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Global search; migrasi source (P1).
 - Penutup: E2E alur penuh termasuk restart app; ukur performa 1.000 anime / 50 ribu episode.
 
-**Fase 3: Download dan update → beta**
+**Fase 3: Download dan update → beta** *(selesai 9 Okt 2026; rencana dan penyimpangannya di [docs/plans/fase-3-download-update-beta.md](plans/fase-3-download-update-beta.md))*
 - Antrean download persisten, HLS dan MP4, penulisan atomik, tonton offline, cek ruang disk, batas ukuran.
 - Auto-download episode baru; download ahead dan hapus setelah ditonton (P1).
 - Update checker + aturan lewati, halaman Updates, notifikasi; tray dan jalan saat login (P1).

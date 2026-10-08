@@ -10,3 +10,4 @@ docs
 test-results
 playwright-report
 apps/desktop/e2e/fixtures/media
+.claude

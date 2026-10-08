@@ -2,7 +2,7 @@
 
 A desktop app for watching anime from sources you choose, with a library, watch progress, downloads and new-episode alerts. Built with Electron, React and TypeScript; styled with Catppuccin.
 
-> **Status: pre-alpha (phase 2 done).** Extensions load from folders, you can browse sources, search all of them at once, keep anime in a library with categories, watch in the player with server fallback, resume where you left off, see your history, and move an anime to another source without losing progress. There are no downloads or update checker yet, and no extension repository: those are phases 3 and 4. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
+> **Status: beta-ready (phase 3 done).** Extensions load from folders, you can browse sources, search all of them at once, keep anime in a library with categories, watch in the player with server fallback, resume where you left off, see your history, and move an anime to another source without losing progress. Episodes can be downloaded (HLS and MP4, a persistent queue, a size limit) and watched offline, the app checks the library for new episodes on a schedule and lists them under Updates, and a beta AppImage can be built. There is no extension repository yet: that is phase 4. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
 
 Matane Anime does not host, distribute or index any video. It ships with no sources; extensions are written and added by the user, who is responsible for what they use them for.
 
@@ -15,13 +15,14 @@ pnpm install     # also rebuilds better-sqlite3 for Electron
 pnpm dev         # starts the app with hot reload
 ```
 
-| Command                           | What it does                                                                                                       |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `pnpm lint` / `pnpm format:check` | ESLint and Prettier (`pnpm format` fixes)                                                                          |
-| `pnpm typecheck`                  | TypeScript across all packages                                                                                     |
-| `pnpm test`                       | Unit tests (Vitest, plain Node)                                                                                    |
-| `pnpm build`                      | Production build into `apps/desktop/out`                                                                           |
-| `pnpm e2e`                        | Builds, then runs the Playwright playback spike against the real app. On headless Linux use `xvfb-run -a pnpm e2e` |
+| Command                           | What it does                                                                                                |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `pnpm lint` / `pnpm format:check` | ESLint and Prettier (`pnpm format` fixes)                                                                   |
+| `pnpm typecheck`                  | TypeScript across all packages                                                                              |
+| `pnpm test`                       | Unit tests (Vitest, plain Node)                                                                             |
+| `pnpm build`                      | Production build into `apps/desktop/out`                                                                    |
+| `pnpm e2e`                        | Builds, then runs the Playwright specs against the real app. On headless Linux use `xvfb-run -a pnpm e2e`   |
+| `pnpm dist`                       | Builds the packaged app (an AppImage on Linux) into `apps/desktop/release`; `pnpm smoke:packaged` checks it |
 
 ## Layout
 

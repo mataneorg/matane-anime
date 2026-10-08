@@ -11,6 +11,7 @@ export default tseslint.config(
       '**/out/**',
       '**/dist/**',
       '**/release/**',
+      '.claude/**',
       '**/routeTree.gen.ts',
       'docs/**',
       // Video segments are *.ts files that are not TypeScript.

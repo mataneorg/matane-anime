@@ -246,7 +246,7 @@ test('manages categories in Settings: add, rename, reorder, delete', async () =>
   await go('#/settings/library');
   await page.getByLabel('New category').fill('Plan to watch');
   await page.getByRole('button', { name: 'Add category' }).click();
-  const names = () => page.locator('main li span.flex-1').allTextContents();
+  const names = () => page.getByRole('region', { name: 'Categories' }).locator('li span.flex-1').allTextContents();
   await expect.poll(names).toEqual(['Watching', 'Plan to watch']);
 
   await page.getByRole('button', { name: 'Move Plan to watch up' }).click();
