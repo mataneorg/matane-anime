@@ -11,6 +11,7 @@ import {
   fingerprint,
   generateKeyPair,
   isRepoError,
+  isSemver,
   parseIndex,
   parsePublicKey,
   publicKeyOf,
@@ -89,6 +90,8 @@ export interface RepoBuildOptions {
   serial?: number;
   /** Makes `archive` and `icon` in the index absolute URLs. */
   baseUrl?: string;
+  /** The oldest app version that may install these extensions (`minAppVersion` of every entry). */
+  minAppVersion?: string;
 }
 
 export interface RepoBuildResult {
@@ -165,6 +168,10 @@ export async function buildRepo(directories: string[], options: RepoBuildOptions
     if (protocol !== 'http:' && protocol !== 'https:') throw new BuildError('--base-url must be an http(s) URL.');
   }
 
+  if (options.minAppVersion !== undefined && !isSemver(options.minAppVersion)) {
+    throw new BuildError(`--min-app-version must be a version like 0.2.0, not "${options.minAppVersion}".`);
+  }
+
   let privateKeyPem: string | undefined;
   let publicKey: PublicKey | null = null;
   if (options.key !== undefined) {
@@ -179,7 +186,10 @@ export async function buildRepo(directories: string[], options: RepoBuildOptions
   }
 
   const packages = [];
-  for (const directory of directories) packages.push(await readBuiltExtension(directory));
+  for (const directory of directories) {
+    const built = await readBuiltExtension(directory);
+    packages.push(options.minAppVersion === undefined ? built : { ...built, minAppVersion: options.minAppVersion });
+  }
 
   const out = resolve(options.out);
   const previous = await previousSerial(out, options.serial !== undefined);

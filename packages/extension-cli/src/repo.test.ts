@@ -219,6 +219,27 @@ describe('repo build and verify', () => {
     expect((await verifyRepo(out)).ok).toBe(true);
     await expect(buildRepo([ext], { out, name: 'R', key: pem, baseUrl: 'ftp://x/' })).rejects.toThrow(/http\(s\)/);
   });
+
+  it('writes --min-app-version into every entry, and refuses something that is not a version', async () => {
+    const [a, b] = [await builtExtension('alpha'), await builtExtension('beta')];
+    const { pem } = await keyFiles();
+    const out = await tempDir();
+    await buildRepo([a, b], { out, name: 'R', key: pem, minAppVersion: '0.2.0' });
+    const index = JSON.parse(await readFile(join(out, 'index.json'), 'utf8')) as {
+      extensions: { id: string; minAppVersion?: string }[];
+    };
+    expect(index.extensions.map((e) => [e.id, e.minAppVersion])).toEqual([
+      ['alpha', '0.2.0'],
+      ['beta', '0.2.0'],
+    ]);
+    expect((await verifyRepo(out)).ok).toBe(true);
+    await expect(buildRepo([a], { out, name: 'R', key: pem, minAppVersion: 'new' })).rejects.toThrow(
+      /--min-app-version/,
+    );
+    // Without the option the field is absent.
+    await buildRepo([a], { out, name: 'R', key: pem });
+    expect(await readFile(join(out, 'index.json'), 'utf8')).not.toContain('minAppVersion');
+  });
 });
 
 describe('repo verify catches tampering', () => {

@@ -123,7 +123,7 @@ export async function scaffold(options: ScaffoldOptions): Promise<string> {
     writeFile(join(target, 'src/index.ts'), SOURCE_TEMPLATE),
     writeFile(
       join(target, 'README.md'),
-      `# ${manifest.name}\n\nA Matane Anime extension.\n\n\`\`\`sh\nnpx ma-ext build   # bundle into dist/\nnpx ma-ext test    # run popular → details → episodes → streams against the real site\n\`\`\`\n\nLoad the \`dist/\` folder in Matane Anime: Settings → Advanced → Load extension from folder.\n`,
+      `# ${manifest.name}\n\nA Matane Anime extension.\n\n\`\`\`sh\nnpx ma-ext build   # bundle into dist/\nnpx ma-ext test    # run popular → details → episodes → streams against the real site\n\`\`\`\n\nLoad the \`dist/\` folder in Matane Anime: turn on Settings → Advanced → Developer mode, then Extensions → Load from folder.\n`,
     ),
   ]);
   return target;

@@ -99,6 +99,7 @@ repo
   .option('--unsigned', 'publish without a signature (users will see "Unverified repository")')
   .option('--serial <n>', 'index serial (default: the previous one in --out plus 1, else 1)', integer)
   .option('--base-url <url>', 'make archive and icon references absolute URLs under this base')
+  .option('--min-app-version <semver>', 'the oldest app version that may install these extensions, e.g. 0.2.0')
   .addHelpText(
     'after',
     `
@@ -108,7 +109,15 @@ index lists exactly the extensions given now; archives of older versions stay on
   .action(
     async (
       dirs: string[],
-      options: { out: string; name: string; key?: string; unsigned?: boolean; serial?: number; baseUrl?: string },
+      options: {
+        out: string;
+        name: string;
+        key?: string;
+        unsigned?: boolean;
+        serial?: number;
+        baseUrl?: string;
+        minAppVersion?: string;
+      },
     ) => {
       const result = await buildRepo(dirs, options);
       for (const warning of result.warnings) warn(warning);
