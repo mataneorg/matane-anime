@@ -7,12 +7,13 @@
 //      store), import every entry point and type-check against the declarations.
 //   3. In that project run `ma-ext create`, `build` and `test` on a scaffolded extension (against a local server)
 //      and type-check it.
+//      and `ma-ext repo keygen`, `repo build` and `repo verify` on it (the bundle must carry zip and crypto code).
 //   4. `npm publish --dry-run` per package when npm is installed (it lists files; it never uploads).
 //
 // Run with `pnpm verify:packages`. Needs network only for the registry reads of the third-party dependencies.
 import { spawn } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
@@ -230,6 +231,31 @@ function startSite() {
   return new Promise((done) => server.listen(0, '127.0.0.1', () => done(server)));
 }
 
+/** The scaffold needs an icon to go into a repository; then keygen → build → verify with the installed binary. */
+async function repositoryRoundTrip(bin, demo) {
+  await copyFile(join(ROOT, 'extensions/example/icon.png'), join(demo, 'icon.png'));
+  await must('ma-ext build (with an icon)', bin, ['build'], { cwd: demo });
+  await must('ma-ext repo keygen', bin, ['repo', 'keygen', '--out', 'keys'], { cwd: demo });
+  const publicKey = (await readFile(join(demo, 'keys/repo-key.pub'), 'utf8')).trim();
+  await must(
+    'ma-ext repo build',
+    bin,
+    ['repo', 'build', '.', '--out', 'repo', '--name', 'Demo repository', '--key', 'keys/repo-key.pem'],
+    { cwd: demo },
+  );
+  for (const file of ['index.json', 'index.json.sig', 'demo-0.1.0.zip', 'demo.png']) {
+    check(existsSync(join(demo, 'repo', file)), `repo/${file} exists`);
+  }
+  const verified = await must('ma-ext repo verify --key', bin, ['repo', 'verify', 'repo', '--key', publicKey], {
+    cwd: demo,
+  });
+  check(verified.output.includes('is consistent'), 'ma-ext repo verify reports a consistent repository');
+  const tampered = join(demo, 'repo/demo.png');
+  await writeFile(tampered, 'not the icon');
+  const rejected = await run(bin, ['repo', 'verify', 'repo'], { cwd: demo });
+  check(rejected.code === 1, 'ma-ext repo verify exits 1 for a tampered icon');
+}
+
 async function scaffoldProject(workDir, consumerDir, tarballs, version, rootManifest) {
   heading('3. Scaffold, build and test an extension from the installed packages');
   const maExt = join(consumerDir, 'node_modules/.bin/ma-ext');
@@ -271,6 +297,7 @@ async function scaffoldProject(workDir, consumerDir, tarballs, version, rootMani
     for (const file of ['dist/index.js', 'dist/manifest.json']) check(existsSync(join(demo, file)), `${file} exists`);
     const tested = await must('ma-ext test', bin, ['test'], { cwd: demo });
     check(tested.output.includes('All steps passed.'), 'ma-ext test reports all steps passed');
+    await repositoryRoundTrip(bin, demo);
     await must(
       'tsc --noEmit on the scaffold',
       join(demo, 'node_modules/.bin/tsc'),

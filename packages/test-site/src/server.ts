@@ -73,6 +73,13 @@ const CONTENT_TYPES: Record<string, string> = {
   '.key': 'application/octet-stream',
 };
 
+const REPO_CONTENT_TYPES: Record<string, string> = {
+  '.json': 'application/json',
+  '.sig': 'application/json',
+  '.zip': 'application/zip',
+  '.png': 'image/png',
+};
+
 const escapeHtml = (text: string): string =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -89,6 +96,7 @@ const escapeHtml = (text: string): string =>
  *                                                           see StreamKind for how streams behave
  *   /img/<slug>.svg                                         cover
  *   /cf/<any of the above>                                  the same, behind a Cloudflare-style challenge
+ *   /repo/<file>                                            the extension repository set with `setRepo` (GET, HEAD)
  *   /_t/{echo,flaky,limited,redirect,slow,big}              helpers for the network layer's tests
  */
 export class TestSite {
@@ -107,6 +115,8 @@ export class TestSite {
   /** Fixed at the first start, so `resume` listens on the same ports. */
   private origins: { site: string; cdn: string } | null = null;
   private ports: Record<'site' | 'cdn', number> = { site: 0, cdn: 0 };
+  /** The extension repository served under `/repo/` (`setRepo`). */
+  private repoFiles = new Map<string, Uint8Array>();
 
   private readonly options: Required<TestSiteOptions>;
 
@@ -157,6 +167,20 @@ export class TestSite {
   /** The Referer media and embeds need. */
   get referer(): string {
     return `${this.origin}/`;
+  }
+
+  /** Where `setRepo` serves its files; what a user types into "Add repository". */
+  get repoUrl(): string {
+    return `${this.origin}/repo/`;
+  }
+
+  /** Serves these files (name → bytes, e.g. from `buildTestRepo`) under `repoUrl`, replacing any earlier set. */
+  setRepo(files: ReadonlyMap<string, Uint8Array>): void {
+    this.repoFiles = new Map(files);
+  }
+
+  clearRepo(): void {
+    this.repoFiles = new Map();
   }
 
   /** Takes the site offline: every connection is cut and the ports refuse new ones, until `resume`. */
@@ -220,6 +244,7 @@ export class TestSite {
     this.embedHits.clear();
     this.flakyHits = 0;
     this.limitedHits = 0;
+    this.repoFiles = new Map();
   }
 
   private find(name: 'site' | 'cdn') {
@@ -324,6 +349,22 @@ export class TestSite {
         const entry = findAnime(match[1] as string);
         if (!entry) return plain(404, 'no such cover');
         return finish(200, { 'content-type': 'image/svg+xml' }, cover(entry));
+      }
+
+      if (path.startsWith('/repo/')) {
+        if (req.method !== 'GET' && req.method !== 'HEAD')
+          return plain(405, 'method not allowed', { allow: 'GET, HEAD' });
+        const file = this.repoFiles.get(path.slice('/repo/'.length));
+        if (!file) return plain(404, 'no such repository file');
+        return finish(
+          200,
+          {
+            'content-type': REPO_CONTENT_TYPES[extname(path)] ?? 'application/octet-stream',
+            'content-length': file.length,
+            'cache-control': 'no-store',
+          },
+          Buffer.from(file),
+        );
       }
 
       if (path.startsWith('/_t/')) return await this.helper(path.slice(4), req, url, finish, json, plain);

@@ -3,6 +3,8 @@ import { BuildError, buildExtension } from './build';
 import { printRows, runChain, runSynthetic } from './bench';
 import { scaffold } from './create';
 import { bold, dim, fail, ok, warn } from './log';
+import { buildRepo, keygen, verifyRepo } from './repo';
+import { printVerifyReport } from './repo-output';
 import { runTest } from './test-command';
 import { VERSION } from './version';
 
@@ -69,6 +71,67 @@ program
       printRows('Synthetic worst cases', await runSynthetic(options.runs));
     },
   );
+
+const repo = program
+  .command('repo')
+  .description('create, sign and check extension repositories (static folders any web server can host)');
+
+repo
+  .command('keygen')
+  .description('create the Ed25519 key pair that signs a repository (repo-key.pem, repo-key.pub)')
+  .option('--out <dir>', 'where to write the two files', '.')
+  .action(async (options: { out: string }) => {
+    const result = await keygen(options.out);
+    ok(`Wrote ${result.privateKeyPath} (private, mode 600) and ${result.publicKeyPath}`);
+    console.log(`  public key   ${result.publicKey}\n  fingerprint  ${result.fingerprint}`);
+    warn('Keep repo-key.pem secret and do NOT commit it: whoever holds it can publish as your repository.');
+    console.log(
+      dim('  Share the public key so users can compare it with what the app shows when they add the repository.'),
+    );
+  });
+
+repo
+  .command('build <extensionDir...>')
+  .description('write a repository (index.json, signature, <id>-<version>.zip, <id>.png) from built extensions')
+  .requiredOption('--out <dir>', 'repository folder; created if needed, unrelated files in it are kept')
+  .requiredOption('--name <name>', 'repository name shown in the app')
+  .option('--key <pem>', 'private key from `ma-ext repo keygen`; signing is the default')
+  .option('--unsigned', 'publish without a signature (users will see "Unverified repository")')
+  .option('--serial <n>', 'index serial (default: the previous one in --out plus 1, else 1)', integer)
+  .option('--base-url <url>', 'make archive and icon references absolute URLs under this base')
+  .addHelpText(
+    'after',
+    `
+Each directory must have been built with \`ma-ext build\` (dist/ with index.js, manifest.json and icon.png). The new
+index lists exactly the extensions given now; archives of older versions stay on disk but are no longer listed.`,
+  )
+  .action(
+    async (
+      dirs: string[],
+      options: { out: string; name: string; key?: string; unsigned?: boolean; serial?: number; baseUrl?: string },
+    ) => {
+      const result = await buildRepo(dirs, options);
+      for (const warning of result.warnings) warn(warning);
+      ok(
+        `Built "${options.name}" serial ${result.serial}: ${result.extensions.map((e) => `${e.id}@${e.version}`).join(', ')}`,
+        `→ ${result.out}`,
+      );
+      console.log(dim(`  ${result.files.join(', ')}`));
+      if (result.publicKey) console.log(dim(`  signed by ${result.publicKey}`));
+    },
+  );
+
+repo
+  .command('verify <dirOrUrl>')
+  .description('check a repository in a folder or at an http(s) URL; exit code 1 when anything is wrong')
+  .option('--key <ed25519:hex>', 'also require the index to be signed by this public key')
+  .option('--json', 'print the result as JSON')
+  .action(async (source: string, options: { key?: string; json?: boolean }) => {
+    const report = await verifyRepo(source, options);
+    if (options.json) console.log(JSON.stringify(report, null, 2));
+    else printVerifyReport(report);
+    process.exitCode = report.ok ? 0 : 1;
+  });
 
 try {
   await program.parseAsync();

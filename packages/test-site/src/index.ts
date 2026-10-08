@@ -8,3 +8,4 @@ export {
   type TestSiteOptions,
   type Throttle,
 } from './server.ts';
+export { exampleExtensionDir, type TestRepo, type TestRepoOptions, buildTestRepo, loadBuiltExtension } from './repo.ts';

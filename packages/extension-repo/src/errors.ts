@@ -17,11 +17,12 @@ export type RepoErrorCode =
 export class RepoError extends Error {
   override readonly name = 'RepoError';
 
-  constructor(
-    readonly code: RepoErrorCode,
-    message: string,
-  ) {
+  readonly code: RepoErrorCode;
+
+  // No parameter property: packages with `erasableSyntaxOnly` (the test site) type-check this file too.
+  constructor(code: RepoErrorCode, message: string) {
     super(message);
+    this.code = code;
   }
 }
 
