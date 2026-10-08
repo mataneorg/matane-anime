@@ -652,7 +652,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Paket beta: AppImage, NSIS, dmg + auto-update (channel beta).
 - Penutup: E2E (download → situs mati → tonton offline → episode baru → Updates → auto-download).
 
-**Fase 4: Ekosistem extension**
+**Fase 4: Ekosistem extension** *(selesai 9 Okt 2026; rencana dan penyimpangannya di [docs/plans/fase-4-ekosistem-extension.md](plans/fase-4-ekosistem-extension.md))*
 - Repo extension (`index.json`), signing ed25519, install/update/uninstall, filter NSFW dan bahasa.
 - Mode dev (hot reload, panel log), `ma-ext repo keygen|build|verify`.
 - `migrateUrl`; publikasi SDK ke npm; panduan membuat extension.

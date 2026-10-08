@@ -4,11 +4,15 @@
 
 ## Install
 
+> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so the commands below will not work until then. Until it is published, work from a checkout of the [repository](https://github.com/SukunDev/matane-anime): `pnpm install` builds the CLI, which you run as `node packages/extension-cli/bin/ma-ext.js`, and a project outside the checkout links the packages with `pnpm add -D link:/path/to/matane-anime/packages/extension-sdk link:/path/to/matane-anime/packages/extension-cli`. The steps are in [docs/extensions.md](../../docs/extensions.md#quick-start).
+
+Once it is published (Node 22 or newer):
+
 ```sh
 npm install --save-dev @matane-anime/extension-cli @matane-anime/extension-sdk
 ```
 
-Node 22 or newer. Or start from a scaffold, which has both set up:
+Or start from a scaffold, which has both set up:
 
 ```sh
 npx @matane-anime/extension-cli create my-site --name "My Site" --lang en
@@ -18,16 +22,16 @@ npm install
 
 ## Commands
 
-| Command              | What it does                                                                                                     |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `ma-ext create <id>` | Scaffolds `./<id>` (`--name`, `--lang`, `--dir`): manifest, `src/index.ts`, tsconfig and package.json            |
-| `ma-ext build [dir]` | Bundles `src/index.ts` into `dist/index.js` (+ `manifest.json` and `icon.png`), checking it loads in the sandbox |
-| `ma-ext test [dir]`  | Runs popular → search → details → episodes → streams against the real site, with the app's checks                |
-| `ma-ext bench [dir]` | Times each call in the sandbox; `--synthetic` runs the built-in worst cases only                                 |
-| `ma-ext repo …`      | Creates, signs and checks extension repositories (below)                                                         |
+| Command                                           | What it does                                                                                                          |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `ma-ext create <id>`                              | Scaffolds `./<id>` (`--name`, `--lang`, `--dir`): manifest, `src/index.ts`, tsconfig and package.json                 |
+| `ma-ext build [dir]`                              | Bundles `src/index.ts` into `dist/index.js` (+ `manifest.json` and `icon.png`), checking it loads in the sandbox      |
+| `ma-ext test [dir]`                               | Runs popular → search → details → episodes → streams against the real site, with the app's checks                     |
+| `ma-ext bench [dir]`                              | Times each call in the sandbox (`--source`, `--pref`, `--runs <n>`); `--synthetic` runs the built-in worst cases only |
+| `ma-ext repo keygen`, `repo build`, `repo verify` | Creates, signs and checks extension repositories (below)                                                              |
 
-`test` takes `--source <key>`, `--query <text>`, `--pref key=value` (repeatable) and `-v` for the extension's log
-output. Exit code is non-zero when a step fails.
+`test` takes `--source <key>`, `--query <text>`, `--pref key=value` (repeatable) and `-v`/`--verbose` for the extension's
+log output. Exit code is non-zero when a step fails.
 
 ## Repositories
 
@@ -45,7 +49,7 @@ ma-ext repo verify https://example.com/repo/          # a folder URL or the URL 
 
 - `keygen [--out dir]` refuses to overwrite existing keys. Keep `repo-key.pem` secret and never commit it; publish
   the public key (and its fingerprint, which the app shows) so users can compare.
-- `build <extensionDir...> --out <dir> --name <name>` needs `--key <pem>`, or `--unsigned` to publish without a
+- `build <extensionDir...> --out <dir> --name <name>` needs `--key <pem>` (the private key of `keygen`), or `--unsigned` to publish without a
   signature (users then see "Unverified repository"). Every extension needs `dist/` from `ma-ext build` and an
   `icon.png` (at most 512 KB) next to its `manifest.json`. The new index lists exactly the extensions given, with
   `serial` one higher than the index already in `--out` (or `--serial <n>`; apps refuse a lower one for a repository
@@ -55,7 +59,9 @@ ma-ext repo verify https://example.com/repo/          # a folder URL or the URL 
   manifest against its index entry) and icon. With `--key` it also requires that key to be the signer; without it,
   it only reports the announced key. Exit code 0 when clean, 1 otherwise.
 
-The `dist/` folder can be loaded in the app (Settings → Advanced → Load extension from folder).
+The `dist/` folder can be loaded in the app in developer mode (Settings → Advanced → Developer mode, then Extensions →
+Load from folder). The format, trust rules and what users see are in
+[docs/repositories.md](../../docs/repositories.md).
 
 ## License
 

@@ -4,10 +4,14 @@ Types and helpers for writing [Matane Anime](https://github.com/SukunDev/matane-
 extension implements (`defineExtension`, `AnimeSummary`, `Episode`, `Stream`, the error classes), the types of the
 host globals available inside the sandbox (`http`, `html`, `storage`, `prefs`, `log`, …) and the manifest schema.
 
-Most people want [`@matane-anime/extension-cli`](https://www.npmjs.com/package/@matane-anime/extension-cli), which
-scaffolds a project that already depends on this package.
+Most people want [`@matane-anime/extension-cli`](../extension-cli), which scaffolds a project that already depends on
+this package. The full author's guide is [docs/extensions.md](../../docs/extensions.md).
 
 ## Install
+
+> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so `npm install` will not find it until then. Until it is published, use the workspace of the [repository](https://github.com/SukunDev/matane-anime): see the quick start in [docs/extensions.md](https://github.com/SukunDev/matane-anime/blob/main/docs/extensions.md#quick-start).
+
+Once it is published:
 
 ```sh
 npm install --save-dev @matane-anime/extension-sdk

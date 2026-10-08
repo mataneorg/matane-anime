@@ -22,5 +22,7 @@ A repository is a static folder:
 - `build.ts`: `buildRepoFiles` writes a whole repo in memory; `verifyRepoFiles` re-checks one.
 - `versions.ts`: semver `compareVersions`, `isNewer`, `satisfiesMinAppVersion`.
 
+Trust is decided outside this package (by the user's choice of a key in the app, or by `--key` in `ma-ext repo verify`); `classifyRepo` only compares the announced key with the one it is given. The format and the rules the app applies are described in [docs/repositories.md](../../docs/repositories.md).
+
 Every failure is a `RepoError` with a `code`; no raw zod or zip errors escape. Limits (EXT-5) are exported as
 `MAX_INDEX_BYTES`, `MAX_ARCHIVE_BYTES`, `MAX_ICON_BYTES` and `MAX_BUNDLE_BYTES`.

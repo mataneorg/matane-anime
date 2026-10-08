@@ -4,10 +4,13 @@ The QuickJS sandbox that runs [Matane Anime](https://github.com/SukunDev/matane-
 and the `ma-ext` CLI use the same code, so an extension that passes `ma-ext test` behaves the same in the app.
 
 This is a library for embedders (tools that load extension bundles). To write an extension, use
-[`@matane-anime/extension-sdk`](https://www.npmjs.com/package/@matane-anime/extension-sdk) and
-[`@matane-anime/extension-cli`](https://www.npmjs.com/package/@matane-anime/extension-cli).
+[`@matane-anime/extension-sdk`](../extension-sdk) and [`@matane-anime/extension-cli`](../extension-cli).
 
 ## Install
+
+> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so `npm install` will not find it until then. Until it is published, use the workspace of the [repository](https://github.com/SukunDev/matane-anime): see the quick start in [docs/extensions.md](https://github.com/SukunDev/matane-anime/blob/main/docs/extensions.md#quick-start).
+
+Once it is published:
 
 ```sh
 npm install @matane-anime/extension-runtime

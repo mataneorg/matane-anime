@@ -16,3 +16,6 @@ Repositories, signatures and updates are phase 4 (docs/PRD.md EXT-5…9). Phase 
 ## Consequences
 - Phase 4 adds a second origin (a repository, with signature checks) next to the folder one; the registry already separates the two.
 - Extensions are not published yet: `@matane-anime/extension-sdk` and the CLI are workspace packages, so outside authors link them until phase 4.
+
+## Update (phase 4)
+The folder origin is now one of two: installed extensions have their own origin, and a dev folder wins over an installed copy with the same id. See [0024](0024-extension-repositories.md) to [0027](0027-publishable-packages.md).
