@@ -179,8 +179,30 @@
       "deleteTitle": "Hapus kategori \"{{name}}\"?",
       "deleteBody": "Anime di dalamnya tetap ada di pustakamu.",
       "updates": "Pengecekan episode baru",
-      "updatesHint": "Pengecekan episode baru dan unduhan otomatis hadir di versi berikutnya.",
-      "nameField": "Nama kategori"
+      "nameField": "Nama kategori",
+      "updatesEvery": "Cek setiap",
+      "updatesEveryHint": "Juga berjalan saat aplikasi dibuka jika waktunya sudah lewat. Menunggu saat kamu offline.",
+      "interval": {
+        "0": "Mati",
+        "6": "6 jam",
+        "12": "12 jam",
+        "24": "24 jam",
+        "48": "48 jam",
+        "168": "Mingguan"
+      },
+      "updatesSkip": "Lewati ini saat mengecek seluruh pustaka atau satu kategori",
+      "skipCompleted": "Anime yang sudah tamat",
+      "skipNotStarted": "Anime yang belum kamu tonton",
+      "skipUnwatchedBefore": "Anime dengan lebih dari",
+      "skipUnwatchedNumber": "Jumlah episode belum ditonton",
+      "skipUnwatchedAfter": "episode belum ditonton",
+      "skipHint": "Mengecek satu anime selalu mengabaikan aturan ini.",
+      "autoDownload": "Unduh episode baru otomatis",
+      "autoDownloadHint": "Mati secara bawaan. Memakai kualitas yang diatur di Unduhan dan berhenti di batas ukuranmu.",
+      "autoDownloadCategories": "Unduh kategori ini",
+      "autoDownloadRule": "Klik kategori untuk menyertakannya, klik lagi untuk mengecualikannya. Bila ada kategori yang disertakan, hanya itu yang diunduh. Pengecualian selalu menang.",
+      "include": "Sertakan",
+      "exclude": "Kecualikan"
     },
     "downloads": {
       "folder": "Tempat episode disimpan",
@@ -616,5 +638,55 @@
       "title_other": "Unduh {{count}} episode?",
       "body_other": "Episode yang belum ditonton dari {{count}} anime terpilih akan diantrekan."
     }
+  },
+  "updates": {
+    "count_one": "{{count}} episode baru",
+    "count_other": "{{count}} episode baru",
+    "checkNow": "Cek sekarang",
+    "checking": "Mengecek…",
+    "checkingProgress": "Mengecek {{done}} dari {{total}}",
+    "lastChecked": "Terakhir dicek {{when}}",
+    "neverChecked": "Belum pernah dicek",
+    "dayAt": "{{day}} pukul {{time}}",
+    "markAll": "Tandai semua sudah ditonton",
+    "markAllTitle": "Tandai semua sudah ditonton?",
+    "markAllBody_one": "Ini menandai {{count}} episode baru sebagai sudah ditonton dan menghapusnya dari daftar ini.",
+    "markAllBody_other": "Ini menandai semua {{count}} episode baru sebagai sudah ditonton dan menghapusnya dari daftar ini.",
+    "failed_one": "{{count}} anime tidak bisa dicek.",
+    "failed_other": "{{count}} anime tidak bisa dicek.",
+    "failedMore": "dan {{count}} lagi",
+    "retry": "Coba lagi",
+    "loadFailed": "Episode baru tidak bisa dimuat",
+    "play": "Putar",
+    "download": "Unduh",
+    "markWatched": "Tandai sudah ditonton",
+    "playLabel": "Putar {{episode}} dari {{title}}",
+    "downloadLabel": "Unduh {{episode}} dari {{title}}",
+    "watchedLabel": "Tandai {{episode}} dari {{title}} sudah ditonton",
+    "select": "Pilih {{episode}} dari {{title}}",
+    "selection": "Episode terpilih",
+    "selected_one": "{{count}} dipilih",
+    "selected_other": "{{count}} dipilih",
+    "downloadSelected": "Unduh",
+    "markSelected": "Tandai sudah ditonton",
+    "clearSelection": "Hapus pilihan",
+    "state": {
+      "queued": "Antre",
+      "downloading": "Mengunduh",
+      "paused": "Dijeda",
+      "error": "Unduhan gagal",
+      "done": "Terunduh"
+    },
+    "refused": {
+      "size_limit": "Tidak diunduh: akan melewati batas ukuranmu.",
+      "disk_space": "Tidak diunduh: ruang kosong tidak cukup.",
+      "no_extension": "Tidak diunduh: extension sumbernya belum terpasang.",
+      "live": "Tidak diunduh: ini siaran langsung.",
+      "no_stream": "Tidak diunduh: sumber tidak menyediakan stream untuk episode ini."
+    },
+    "skipped_one": "{{count}} dilewati",
+    "skipped_other": "{{count}} dilewati",
+    "badge_one": "{{count}} pembaruan menunggu",
+    "badge_other": "{{count}} pembaruan menunggu"
   }
 }

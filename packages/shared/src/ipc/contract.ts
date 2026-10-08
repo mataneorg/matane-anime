@@ -24,6 +24,7 @@ import {
   enqueueResultSchema,
 } from '../downloads';
 import {
+  autoDownloadModeSchema,
   categorySchema,
   continueTargetSchema,
   historyEntrySchema,
@@ -125,6 +126,11 @@ export const invokeContract = {
   'categories.delete': invoke(z.object({ id: z.number().int() }), z.void()),
   /** The full list of category ids in their new order. */
   'categories.reorder': invoke(z.object({ ids: z.array(z.number().int()) }), z.void()),
+  /** Marks a category for auto-download (DL-11); `null` removes the mark. */
+  'categories.setAutoDownload': invoke(
+    z.object({ id: z.number().int(), mode: autoDownloadModeSchema.nullable() }),
+    z.void(),
+  ),
   /** Marks episodes watched or not; every variant of the same number follows (PRG-5). */
   'episodes.markWatched': invoke(z.object({ episodeIds: z.array(z.number().int()), watched: z.boolean() }), z.void()),
   /** "Mark all previous as watched" (PRG-7). */

@@ -1,6 +1,7 @@
 import { writeFileSync } from 'node:fs';
 import type { LibrarySort } from '@matane-anime/shared';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { autoDownloadAllowed } from '../../updates/rules';
 import { type TestDb, createTestDb } from './helpers';
 
 let db: TestDb;
@@ -53,6 +54,62 @@ describe('categories (LIB-1)', () => {
     db.library.deleteCategory(a.id);
     expect(db.library.listCategories()).toHaveLength(2);
     expect(() => db.library.createCategory('   ')).toThrow(/needs a name/);
+  });
+
+  it('marks a category for auto-download, keeps its other settings and emits the change (DL-11)', () => {
+    const a = db.library.createCategory('A');
+    const mark = (): unknown => db.library.listCategories().find((c) => c.id === a.id)?.autoDownload;
+    const row = () =>
+      db.connection.sqlite.prepare('SELECT settings_json AS json FROM categories WHERE id = ?').get(a.id) as {
+        json: string | null;
+      };
+    expect(a.autoDownload).toBeNull();
+    expect(mark()).toBeNull();
+
+    db.connection.sqlite.prepare('UPDATE categories SET settings_json = ? WHERE id = ?').run('{"other":1}', a.id);
+    db.emitted.length = 0;
+    db.library.setCategoryAutoDownload(a.id, 'include');
+    expect(mark()).toBe('include');
+    expect(JSON.parse(row().json!)).toEqual({ other: 1, autoDownload: 'include' });
+    expect(db.emitted.flat()).toContain('categories');
+
+    db.library.setCategoryAutoDownload(a.id, 'exclude');
+    expect(mark()).toBe('exclude');
+    db.library.setCategoryAutoDownload(a.id, null);
+    expect(mark()).toBeNull();
+    expect(JSON.parse(row().json!)).toEqual({ other: 1 });
+
+    // With nothing else stored the column goes back to NULL; a damaged value is replaced; an unknown id is ignored.
+    db.connection.sqlite.prepare('UPDATE categories SET settings_json = ? WHERE id = ?').run('not json', a.id);
+    expect(mark()).toBeNull();
+    db.library.setCategoryAutoDownload(a.id, 'include');
+    expect(JSON.parse(row().json!)).toEqual({ autoDownload: 'include' });
+    db.library.setCategoryAutoDownload(a.id, null);
+    expect(row().json).toBeNull();
+    expect(() => db.library.setCategoryAutoDownload(9999, 'include')).not.toThrow();
+  });
+
+  it('writes the marks the update checker reads (DL-11)', () => {
+    const a = db.library.createCategory('A');
+    const b = db.library.createCategory('B');
+    const c = db.library.createCategory('C');
+    db.library.setCategoryAutoDownload(a.id, 'include');
+    db.library.setCategoryAutoDownload(b.id, 'exclude');
+    db.library.setCategoryAutoDownload(c.id, 'include');
+    db.library.setCategoryAutoDownload(c.id, null);
+    const modes = db.updates.autoDownloadModes();
+    expect(modes).toEqual(
+      new Map([
+        [a.id, 'include'],
+        [b.id, 'exclude'],
+      ]),
+    );
+    // What the list shows is what the checker decides on.
+    for (const category of db.library.listCategories())
+      expect(modes.get(category.id) ?? null).toBe(category.autoDownload);
+    expect(autoDownloadAllowed([a.id], modes)).toBe(true);
+    expect(autoDownloadAllowed([a.id, b.id], modes)).toBe(false);
+    expect(autoDownloadAllowed([c.id], modes)).toBe(false);
   });
 
   it('counts only anime in the library, and an anime can be in several categories', () => {

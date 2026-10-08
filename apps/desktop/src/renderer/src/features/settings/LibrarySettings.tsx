@@ -8,8 +8,9 @@ import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { call } from '@renderer/lib/api';
 import { categoriesQuery } from '@renderer/lib/library';
+import { UpdateChecksSettings } from './UpdateChecksSettings';
 
-/** Settings → Library (mockup 10d): the categories. Update checks and auto-download arrive in phase 3. */
+/** Settings → Library (mockup 10d): update checks, automatic downloads and the categories. */
 export function LibrarySettings() {
   const { t } = useTranslation();
   const { data: categories = [] } = useQuery(categoriesQuery);
@@ -46,8 +47,10 @@ export function LibrarySettings() {
   };
 
   return (
-    <div className="flex flex-col gap-8">
-      <section className="flex flex-col gap-4" aria-labelledby="categories-title">
+    <div className="flex max-w-190 flex-col gap-8">
+      <UpdateChecksSettings />
+
+      <section className="flex flex-col gap-4 border-t pt-5" aria-labelledby="categories-title">
         <div className="flex items-center justify-between gap-4">
           <h2 id="categories-title" className="text-[15px] leading-[22px] font-semibold">
             {t('settings.library.categories')}
@@ -133,13 +136,6 @@ export function LibrarySettings() {
             </li>
           ))}
         </ul>
-      </section>
-
-      <section className="flex flex-col gap-2 border-t pt-5 opacity-60" aria-labelledby="updates-title">
-        <h2 id="updates-title" className="text-[15px] leading-[22px] font-semibold">
-          {t('settings.library.updates')}
-        </h2>
-        <p>{t('settings.library.updatesHint')}</p>
       </section>
 
       <Dialog open={deleting !== null} onOpenChange={(open) => !open && setDeleting(null)}>

@@ -94,6 +94,18 @@ export const browseQuery = (params: BrowseParams, enabled = true) =>
     enabled,
   });
 
+const UPDATES_DEBOUNCE_MS = 300;
+const updatesTimers = new WeakMap<QueryClient, ReturnType<typeof setTimeout>>();
+
+/** A check emits the `updates` tag once per anime: refetch the list and the badge once the burst is over. */
+function invalidateUpdates(queryClient: QueryClient): void {
+  clearTimeout(updatesTimers.get(queryClient));
+  updatesTimers.set(
+    queryClient,
+    setTimeout(() => void queryClient.invalidateQueries({ queryKey: ['updates'] }), UPDATES_DEBOUNCE_MS),
+  );
+}
+
 /** What a write in main touched (`db.changed` tags) → which cached queries are now out of date. */
 export function invalidateForTags(queryClient: QueryClient, tags: string[]): void {
   for (const tag of tags) {
@@ -115,11 +127,11 @@ export function invalidateForTags(queryClient: QueryClient, tags: string[]): voi
     }
     if (tag === 'downloads') {
       void queryClient.invalidateQueries({ queryKey: ['downloads'] });
-      void queryClient.invalidateQueries({ queryKey: ['updates'] });
+      invalidateUpdates(queryClient);
       continue;
     }
     if (tag === 'updates') {
-      void queryClient.invalidateQueries({ queryKey: ['updates'] });
+      invalidateUpdates(queryClient);
       continue;
     }
     if (tag === 'history') {
@@ -132,6 +144,8 @@ export function invalidateForTags(queryClient: QueryClient, tags: string[]): voi
     if (kind === 'episodes' && id) {
       void queryClient.invalidateQueries({ queryKey: ['episodes', Number(id)] });
       void queryClient.invalidateQueries({ queryKey: ['continue', Number(id)] });
+      // Watching an episode takes it off the Updates list without an `updates` tag.
+      invalidateUpdates(queryClient);
     }
   }
 }

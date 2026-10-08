@@ -179,8 +179,30 @@
       "deleteTitle": "Delete the category \"{{name}}\"?",
       "deleteBody": "The anime in it stay in your library.",
       "updates": "New episode checks",
-      "updatesHint": "Checking for new episodes and downloading them automatically come in a later version.",
-      "nameField": "Category name"
+      "nameField": "Category name",
+      "updatesEvery": "Check every",
+      "updatesEveryHint": "Also runs when the app starts if the time has passed. Waits while you are offline.",
+      "interval": {
+        "0": "Off",
+        "6": "6 hours",
+        "12": "12 hours",
+        "24": "24 hours",
+        "48": "48 hours",
+        "168": "Weekly"
+      },
+      "updatesSkip": "Skip these when checking the whole library or a category",
+      "skipCompleted": "Anime that are completed",
+      "skipNotStarted": "Anime you have not started",
+      "skipUnwatchedBefore": "Anime with more than",
+      "skipUnwatchedNumber": "Number of unwatched episodes",
+      "skipUnwatchedAfter": "unwatched episodes",
+      "skipHint": "Checking a single anime always ignores these rules.",
+      "autoDownload": "Download new episodes automatically",
+      "autoDownloadHint": "Off by default. Uses the quality set in Downloads and stops at your size limit.",
+      "autoDownloadCategories": "Download these categories",
+      "autoDownloadRule": "Click a category to include it, again to exclude it. When any category is included, only those are downloaded. Exclude always wins.",
+      "include": "Include",
+      "exclude": "Exclude"
     },
     "downloads": {
       "folder": "Where episodes are saved",
@@ -623,5 +645,55 @@
       "body_one": "The unwatched episodes of {{count}} selected anime will be queued.",
       "body_other": "The unwatched episodes of {{count}} selected anime will be queued."
     }
+  },
+  "updates": {
+    "count_one": "{{count}} new episode",
+    "count_other": "{{count}} new episodes",
+    "checkNow": "Check now",
+    "checking": "Checking…",
+    "checkingProgress": "Checking {{done}} of {{total}}",
+    "lastChecked": "Last checked {{when}}",
+    "neverChecked": "Not checked yet",
+    "dayAt": "{{day}} at {{time}}",
+    "markAll": "Mark all as watched",
+    "markAllTitle": "Mark all as watched?",
+    "markAllBody_one": "This marks {{count}} new episode as watched and takes it off this list.",
+    "markAllBody_other": "This marks all {{count}} new episodes as watched and takes them off this list.",
+    "failed_one": "{{count}} anime could not be checked.",
+    "failed_other": "{{count}} anime could not be checked.",
+    "failedMore": "and {{count}} more",
+    "retry": "Retry",
+    "loadFailed": "Could not load the new episodes",
+    "play": "Play",
+    "download": "Download",
+    "markWatched": "Mark as watched",
+    "playLabel": "Play {{episode}} of {{title}}",
+    "downloadLabel": "Download {{episode}} of {{title}}",
+    "watchedLabel": "Mark {{episode}} of {{title}} as watched",
+    "select": "Select {{episode}} of {{title}}",
+    "selection": "Selected episodes",
+    "selected_one": "{{count}} selected",
+    "selected_other": "{{count}} selected",
+    "downloadSelected": "Download",
+    "markSelected": "Mark as watched",
+    "clearSelection": "Clear selection",
+    "state": {
+      "queued": "Queued",
+      "downloading": "Downloading",
+      "paused": "Paused",
+      "error": "Download failed",
+      "done": "Downloaded"
+    },
+    "refused": {
+      "size_limit": "Not downloaded: it would pass your size limit.",
+      "disk_space": "Not downloaded: there is not enough free space.",
+      "no_extension": "Not downloaded: the source's extension is not installed.",
+      "live": "Not downloaded: this is a live stream.",
+      "no_stream": "Not downloaded: the source offers no stream for it."
+    },
+    "skipped_one": "{{count}} skipped",
+    "skipped_other": "{{count}} skipped",
+    "badge_one": "{{count}} update waiting",
+    "badge_other": "{{count}} updates waiting"
   }
 }

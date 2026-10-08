@@ -1,4 +1,4 @@
-import type { Category, ContinueTarget, LibraryItem, LibraryQuery } from '@matane-anime/shared';
+import type { AutoDownloadMode, Category, ContinueTarget, LibraryItem, LibraryQuery } from '@matane-anime/shared';
 import { and, asc, eq, gt, inArray, sql } from 'drizzle-orm';
 import type { AppDatabase } from '../client';
 import { anime, animeCategories, categories, episodes, history } from '../schema';
@@ -47,6 +47,17 @@ interface LibraryEpisode extends ContinueEpisode {
   name: string;
 }
 
+/** The auto-download mark in a category's `settings_json`; anything unreadable means "no mark". */
+function autoDownloadOf(json: string | null): AutoDownloadMode | null {
+  if (!json) return null;
+  try {
+    const value = (JSON.parse(json) as { autoDownload?: unknown } | null)?.autoDownload;
+    return value === 'include' || value === 'exclude' ? value : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Categories, library membership and the library list (docs/PRD.md LIB-1…6). */
 export class LibraryRepository {
   constructor(
@@ -57,14 +68,16 @@ export class LibraryRepository {
   // ------------------------------------------------------------------ categories
 
   listCategories(): Category[] {
-    return this.db.$client
-      .prepare(
-        `SELECT c.id, c.name, c.sort_order AS sortOrder,
+    return (
+      this.db.$client
+        .prepare(
+          `SELECT c.id, c.name, c.sort_order AS sortOrder, c.settings_json AS settingsJson,
                 (SELECT COUNT(*) FROM anime_categories ac JOIN anime a ON a.id = ac.anime_id AND a.in_library = 1
                  WHERE ac.category_id = c.id) AS count
          FROM categories c ORDER BY c.sort_order, c.id`,
-      )
-      .all() as Category[];
+        )
+        .all() as (Omit<Category, 'autoDownload'> & { settingsJson: string | null })[]
+    ).map(({ settingsJson, ...category }): Category => ({ ...category, autoDownload: autoDownloadOf(settingsJson) }));
   }
 
   createCategory(name: string): Category {
@@ -76,7 +89,7 @@ export class LibraryRepository {
         .get()?.max ?? -1) + 1;
     const row = this.db.insert(categories).values({ name: clean, sortOrder: next }).returning().get();
     this.changes.emit('categories');
-    return { id: row.id, name: row.name, sortOrder: row.sortOrder, count: 0 };
+    return { id: row.id, name: row.name, sortOrder: row.sortOrder, autoDownload: null, count: 0 };
   }
 
   renameCategory(id: number, name: string): void {
@@ -85,6 +98,27 @@ export class LibraryRepository {
       .set({ name: this.cleanName(name) })
       .where(eq(categories.id, id))
       .run();
+    this.changes.emit('categories');
+  }
+
+  /**
+   * Marks a category for auto-download (DL-11) in `categories.settings_json`, keeping any other key in it.
+   * `UpdatesRepository.autoDownloadModes` reads the same key.
+   */
+  setCategoryAutoDownload(id: number, mode: AutoDownloadMode | null): void {
+    const row = this.db.select({ json: categories.settingsJson }).from(categories).where(eq(categories.id, id)).get();
+    if (!row) return;
+    let settings: Record<string, unknown> = {};
+    try {
+      const parsed: unknown = row.json ? JSON.parse(row.json) : null;
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) settings = parsed as Record<string, unknown>;
+    } catch {
+      // A damaged value is replaced.
+    }
+    if (mode === null) delete settings['autoDownload'];
+    else settings['autoDownload'] = mode;
+    const json = Object.keys(settings).length === 0 ? null : JSON.stringify(settings);
+    this.db.update(categories).set({ settingsJson: json }).where(eq(categories.id, id)).run();
     this.changes.emit('categories');
   }
 

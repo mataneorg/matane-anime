@@ -5,10 +5,16 @@ import { z } from 'zod';
 export const LIBRARY_SORTS = ['title', 'lastWatched', 'latestEpisode', 'added', 'unwatched'] as const;
 export type LibrarySort = (typeof LIBRARY_SORTS)[number];
 
+/** A category's mark for auto-download (DL-11): `null` follows the global setting. */
+export const autoDownloadModeSchema = z.enum(['include', 'exclude']);
+export type AutoDownloadMode = z.infer<typeof autoDownloadModeSchema>;
+
 export const categorySchema = z.object({
   id: z.number().int(),
   name: z.string(),
   sortOrder: z.number().int(),
+  /** Whether new episodes of its anime are downloaded on their own: included, excluded, or no mark. */
+  autoDownload: autoDownloadModeSchema.nullable(),
   /** Anime of the library in this category. */
   count: z.number().int(),
 });

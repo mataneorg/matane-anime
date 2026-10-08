@@ -129,6 +129,7 @@ export function createHandlers({
     'categories.rename': ({ id, name }) => libraryRepo.renameCategory(id, name),
     'categories.delete': ({ id }) => libraryRepo.deleteCategory(id),
     'categories.reorder': ({ ids }) => libraryRepo.reorderCategories(ids),
+    'categories.setAutoDownload': ({ id, mode }) => libraryRepo.setCategoryAutoDownload(id, mode),
     'episodes.markWatched': ({ episodeIds, watched }) => watch.markWatched(episodeIds, watched),
     'episodes.markPrevious': ({ episodeId }) => watch.markPrevious(episodeId),
     'episodes.resetProgress': ({ episodeId }) => watch.resetProgress(episodeId),

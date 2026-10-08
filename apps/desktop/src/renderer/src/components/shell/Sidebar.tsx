@@ -3,7 +3,9 @@ import { Link } from '@tanstack/react-router';
 import { FlaskConical, PanelLeftClose, PanelLeftOpen, Play } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePendingDownloads } from '@renderer/features/downloads/DownloadActivity';
+import { badgeText } from '@renderer/features/updates/helpers';
 import { appInfoQuery } from '@renderer/lib/ipc';
+import { updatesCountQuery } from '@renderer/lib/updates';
 import { cn } from '@renderer/lib/utils';
 import { useUiStore } from '@renderer/stores/ui';
 import { BROWSE_NAV, DOWNLOADS_NAV, MAIN_NAV, type NavItem, SETTINGS_ICON } from './nav';
@@ -48,7 +50,7 @@ function NavLink({
                 collapsed && 'absolute top-1 right-1 px-1 text-[10px] leading-4',
               )}
             >
-              {badge}
+              {badgeText(badge)}
               <span className="sr-only"> {badgeLabel}</span>
             </span>
           )}
@@ -64,6 +66,7 @@ export function Sidebar() {
   const toggle = useUiStore((state) => state.toggleSidebar);
   const { data: info } = useQuery(appInfoQuery);
   const pendingDownloads = usePendingDownloads();
+  const { data: updatesCount = 0 } = useQuery(updatesCountQuery);
   const SettingsIcon = SETTINGS_ICON;
   const ToggleIcon = collapsed ? PanelLeftOpen : PanelLeftClose;
 
@@ -82,7 +85,13 @@ export function Sidebar() {
       </div>
 
       {MAIN_NAV.map((item) => (
-        <NavLink key={item.to} item={item} collapsed={collapsed} />
+        <NavLink
+          key={item.to}
+          item={item}
+          collapsed={collapsed}
+          badge={item.to === '/updates' ? updatesCount : 0}
+          badgeLabel={item.to === '/updates' ? t('updates.badge', { count: updatesCount }) : ''}
+        />
       ))}
 
       {collapsed ? (

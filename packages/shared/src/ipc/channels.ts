@@ -41,6 +41,7 @@ export const INVOKE_CHANNELS = [
   'categories.rename',
   'categories.delete',
   'categories.reorder',
+  'categories.setAutoDownload',
   'episodes.markWatched',
   'episodes.markPrevious',
   'episodes.resetProgress',
