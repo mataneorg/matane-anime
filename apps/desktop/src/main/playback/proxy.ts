@@ -1,4 +1,7 @@
 import { decodeResource, encodeResource, hostOf, looksLikePlaylist, rewriteManifest } from './m3u8';
+import { serveLocal } from './local';
+import { CORS_HEADERS, failure } from './responses';
+export type { ErrorCode } from './responses';
 import type { PlaybackSession, SessionStore } from './sessions';
 
 export const ANIME_SCHEME = 'anime';
@@ -29,28 +32,12 @@ export interface AnimeHandlerDeps {
   onRequest?: (entry: ProxyLogEntry) => void;
 }
 
-/** What the renderer can read on a failed response (the CORS-exposed `x-error-code` header). */
-export type ErrorCode =
-  'bad_request' | 'session_not_found' | 'host_not_allowed' | 'method_not_allowed' | 'network' | `http_${number}`;
-
-const CORS_HEADERS: Record<string, string> = {
-  'access-control-allow-origin': '*',
-  'access-control-expose-headers': 'x-error-code, content-range, content-length, accept-ranges',
-};
-
 /** Headers worth passing from the site to the player; the rest (cookies, CORS, cache) stay behind. */
 const PASSED_HEADERS = ['content-type', 'content-length', 'content-range', 'accept-ranges', 'etag', 'last-modified'];
 
 /** The URL hls.js (or `<video>`) must request for a resource of a session. */
 export function resourceUrl(sessionId: string, absoluteUpstreamUrl: string): string {
   return `${ANIME_SCHEME}://play/${sessionId}/r/${encodeResource(absoluteUpstreamUrl)}`;
-}
-
-function failure(status: number, code: ErrorCode): Response {
-  return new Response(null, {
-    status,
-    headers: { ...CORS_HEADERS, 'x-error-code': code, 'cache-control': 'no-store' },
-  });
 }
 
 function parseRequestUrl(raw: string): { sessionId: string; rest: string[] } | null {
@@ -98,6 +85,17 @@ export function createAnimeHandler(deps: AnimeHandlerDeps): (request: Request) =
     if (!parsed) return failure(400, 'bad_request');
     const session = deps.sessions.get(parsed.sessionId);
     if (!session) return failure(404, 'session_not_found');
+
+    if (session.kind === 'local') {
+      const served = await serveLocal(session, parsed.rest, request);
+      deps.onRequest?.({
+        sessionId: session.id,
+        target: served.target,
+        status: served.response.status,
+        range: request.headers.get('range'),
+      });
+      return served.response;
+    }
 
     const target = resolveTarget(session, parsed.rest);
     if (target instanceof Response) return target;

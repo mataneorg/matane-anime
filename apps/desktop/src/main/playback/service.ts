@@ -1,6 +1,9 @@
 import { randomBytes } from 'node:crypto';
+import { stat } from 'node:fs/promises';
+import { join } from 'node:path';
 import {
   AppError,
+  DOWNLOAD_FILE_MISSING,
   type EpisodeRef,
   type PlaybackEvent,
   type PlaybackSession as PlaybackSessionDto,
@@ -9,6 +12,7 @@ import {
 } from '@matane-anime/shared';
 import { powerSaveBlocker } from 'electron';
 import type { AnimeRepository, AnimeRow } from '../db/repositories/anime';
+import type { DownloadsRepository, DownloadRecord } from '../db/repositories/downloads';
 import type { EpisodeRecord, EpisodesRepository } from '../db/repositories/episodes';
 import type { ExtensionStore } from '../db/repositories/extension-store';
 import type { SettingsRepository } from '../db/repositories/settings';
@@ -33,9 +37,24 @@ export interface PlaybackDeps {
   sessions: SessionStore;
   upstream: UpstreamFetch;
   requests: RequestRegistry;
+  /** Finished downloads are played from disk before any stream is tried (STR-7). */
+  downloads: Pick<DownloadsRepository, 'byEpisode' | 'update'>;
+  /** Whether a regular file exists. Defaults to `fs.stat`; a test replaces it. */
+  fileExists?(path: string): Promise<boolean>;
   /** Where playback of an episode starts (PRG-4). */
   resumeFor(episode: EpisodeRecord): number;
 }
+
+/** The only server of a playback from disk. */
+export const LOCAL_SERVER = 'Downloaded';
+/** The playlist inside an HLS download's folder. */
+const LOCAL_PLAYLIST = 'playlist.m3u8';
+
+const isFile = (path: string): Promise<boolean> =>
+  stat(path).then(
+    (stats) => stats.isFile(),
+    () => false,
+  );
 
 interface Playback {
   id: string;
@@ -47,6 +66,8 @@ interface Playback {
   failed: Set<number>;
   active: number;
   kind: 'hls' | 'mp4';
+  /** Played from a download: one synthetic candidate, no extension involved. */
+  local: DownloadRecord | null;
   sessionId: string | null;
   url: string;
   attempts: number;
@@ -90,8 +111,10 @@ export class PlaybackService {
     if (!episode) throw new AppError('not_found', `No episode with id ${episodeId}`);
     const row = anime.get(episode.animeId);
     if (!row) throw new AppError('not_found', `No anime with id ${episode.animeId}`);
+    // STR-7: a downloaded episode plays from disk before anything else, so no extension and no network is needed.
+    const download = await this.usableDownload(episode.id);
+    if (download) return this.startLocal(episode, row, download);
     extensions.assertAvailable(row.sourceId);
-    // STR-7 (phase 3): a downloaded episode is played from disk before any stream is tried.
 
     const streams = await extensions.streamsFor(row, episode, false);
     const playback: Playback = {
@@ -103,6 +126,7 @@ export class PlaybackService {
       failed: new Set(),
       active: -1,
       kind: 'hls',
+      local: null,
       sessionId: null,
       url: '',
       attempts: 0,
@@ -114,6 +138,60 @@ export class PlaybackService {
       playback,
       playback.candidates.map((_c, position) => position),
     );
+    this.playbacks.set(playback.id, playback);
+    return this.describe(playback);
+  }
+
+  /**
+   * The finished download of an episode whose files are still there. When they are gone the download becomes
+   * an error the Downloads page can retry (`file_missing`), and the caller streams instead.
+   */
+  private async usableDownload(episodeId: number): Promise<DownloadRecord | null> {
+    const download = this.deps.downloads.byEpisode(episodeId);
+    if (download?.status !== 'done' || !download.path) return null;
+    if (await this.fileExists(localEntry(download))) return download;
+    this.deps.downloads.update(download.id, { status: 'error', error: DOWNLOAD_FILE_MISSING });
+    return null;
+  }
+
+  private fileExists(path: string): Promise<boolean> {
+    return (this.deps.fileExists ?? isFile)(path);
+  }
+
+  private startLocal(episode: EpisodeRecord, row: AnimeRow, download: DownloadRecord): PlaybackSessionDto {
+    const playback: Playback = {
+      id: randomBytes(9).toString('base64url'),
+      episode,
+      anime: row,
+      extensionId: row.sourceId.split('/')[0] as string,
+      candidates: [
+        {
+          stream: {
+            url: localEntry(download),
+            server: LOCAL_SERVER,
+            kind: download.kind,
+            ...(download.quality !== null && { quality: download.quality }),
+          },
+          originalIndex: 0,
+        },
+      ],
+      failed: new Set(),
+      active: 0,
+      kind: download.kind,
+      local: download,
+      sessionId: null,
+      url: '',
+      attempts: 0,
+      refreshed: false,
+      tried: [],
+      lock: Promise.resolve(),
+    };
+    const session = this.deps.sessions.createLocal({
+      path: download.path as string,
+      media: download.kind,
+    });
+    playback.sessionId = session.id;
+    playback.url = `anime://play/${session.id}/${download.kind === 'hls' ? LOCAL_PLAYLIST : 'media.mp4'}`;
     this.playbacks.set(playback.id, playback);
     return this.describe(playback);
   }
@@ -136,6 +214,8 @@ export class PlaybackService {
         if (!chosen) throw new AppError('invalid_input', `No stream ${index}`);
         playback.failed.delete(index);
         playback.attempts = 0;
+        // The only candidate of a download is the one already open: nothing to switch, nothing to remember.
+        if (playback.local) return this.describe(playback);
         await this.openFirstWorking(playback, [index]);
         this.deps.anime.savePlaybackPrefs(playback.anime.id, {
           server: chosen.stream.server,
@@ -189,6 +269,7 @@ export class PlaybackService {
   }
 
   private async handleEvent(playback: Playback, event: PlaybackEvent): Promise<PlaybackUpdate> {
+    if (playback.local) return this.handleLocalEvent(playback, event);
     if (event.type === 'playing') {
       const server = playback.candidates[playback.active]?.stream.server;
       if (server) this.deps.settings.setValue(lastServerKey(playback.anime.sourceId), server);
@@ -239,6 +320,24 @@ export class PlaybackService {
       return failure();
     }
     return { type: 'switched', reason: 'fallback', session: this.describe(playback) };
+  }
+
+  /**
+   * A download has no other server to move to. If its files vanished meanwhile the download is marked so the
+   * Downloads page offers Retry; either way the player gets a clear failure instead of a retry loop.
+   */
+  private async handleLocalEvent(playback: Playback, event: PlaybackEvent): Promise<PlaybackUpdate> {
+    const download = playback.local as DownloadRecord;
+    if (event.type === 'playing') return { type: 'ok' };
+    const missing = !(await this.fileExists(localEntry(download)));
+    if (missing) this.deps.downloads.update(download.id, { status: 'error', error: DOWNLOAD_FILE_MISSING });
+    playback.failed.add(playback.active);
+    return {
+      type: 'failed',
+      tried: [LOCAL_SERVER],
+      message: missing ? 'The downloaded files are missing' : event.message,
+      httpStatus: event.httpStatus,
+    };
   }
 
   /** Probes candidates in order and activates the first that answers. */
@@ -311,3 +410,7 @@ export class PlaybackService {
     };
   }
 }
+
+/** The file the player starts from: the folder's playlist (HLS) or the `.mp4`. */
+const localEntry = (download: DownloadRecord): string =>
+  download.kind === 'hls' ? join(download.path as string, LOCAL_PLAYLIST) : (download.path as string);

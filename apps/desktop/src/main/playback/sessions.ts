@@ -1,7 +1,9 @@
 import { randomBytes } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 import { hostOf } from './m3u8';
 
-export type SessionKind = 'hls' | 'file';
+/** `local` plays a download from disk (docs/PRD.md STR-7): no upstream, no hosts. */
+export type SessionKind = 'hls' | 'file' | 'local';
 
 export interface PlaybackSession {
   id: string;
@@ -14,6 +16,14 @@ export interface PlaybackSession {
   hostsSeen: Set<string>;
   /** The extension whose session, cookies and media rate limit upstream requests use. Absent in the spike. */
   extensionId?: string;
+  /** Local sessions only: what is on disk, and what the session may read. */
+  local?: LocalTarget;
+}
+
+export interface LocalTarget {
+  /** The download's folder (HLS) or the `.mp4` file itself; nothing outside it is ever served. */
+  path: string;
+  media: 'hls' | 'mp4';
 }
 
 export interface NewSession {
@@ -38,6 +48,20 @@ export class SessionStore {
       headers: { ...input.headers },
       hostsSeen: new Set([hostOf(input.entryUrl)]),
       ...(input.extensionId !== undefined && { extensionId: input.extensionId }),
+    };
+    this.sessions.set(session.id, session);
+    return session;
+  }
+
+  /** A session that serves a finished download. It is rooted at `target.path` and has no upstream. */
+  createLocal(target: LocalTarget): PlaybackSession {
+    const session: PlaybackSession = {
+      id: randomBytes(12).toString('base64url'),
+      entryUrl: pathToFileURL(target.path).href,
+      kind: 'local',
+      headers: {},
+      hostsSeen: new Set(),
+      local: { ...target },
     };
     this.sessions.set(session.id, session);
     return session;

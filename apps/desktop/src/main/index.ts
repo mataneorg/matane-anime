@@ -239,6 +239,7 @@ if (!app.requestSingleInstanceLock()) {
         settings,
         store,
         sessions,
+        downloads: downloadsRepo,
         upstream: fetchUpstream,
         requests,
         resumeFor: (episode) => watch.resumeFor(episode),
