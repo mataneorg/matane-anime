@@ -125,7 +125,7 @@ export class WatchService {
       history.touch(episode.animeId, episode.id, now, previous?.episodeId !== episode.id);
     }
     if (input.reason !== 'heartbeat' && input.reason !== 'play') {
-      changes.emit(`episodes:${episode.animeId}`, `anime:${episode.animeId}`, 'library');
+      changes.emit(`episodes:${episode.animeId}`, `anime:${episode.animeId}`, 'library', 'history');
     }
     if (input.reason === 'close') {
       sessions.end(session.sessionId, now);

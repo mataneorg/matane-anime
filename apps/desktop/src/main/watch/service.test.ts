@@ -245,6 +245,6 @@ describe('notifications', () => {
     report('p', ids['1']!, 11_000, 'heartbeat', 5000);
     expect(db.emitted).toEqual([]);
     report('p', ids['1']!, 11_000, 'pause', 100);
-    expect(db.emitted.flat()).toEqual(expect.arrayContaining([`episodes:${animeId}`, 'library']));
+    expect(db.emitted.flat()).toEqual(expect.arrayContaining([`episodes:${animeId}`, 'library', 'history']));
   });
 });

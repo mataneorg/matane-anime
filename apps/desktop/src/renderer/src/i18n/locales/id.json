@@ -413,5 +413,36 @@
       "title": "Kategori ini kosong",
       "description": "Tambahkan anime dari halaman anime atau dengan Pilih."
     }
+  },
+  "history": {
+    "clearAll": "Hapus semua riwayat",
+    "clearTitle": "Hapus semua riwayat?",
+    "clearBody": "Ini hanya menghapus daftarnya. Pustaka, progres, dan apa yang sudah kamu tonton tetap ada.",
+    "explainer": "Satu entri per anime, menampilkan episode terakhir yang kamu buka. Menghapus riwayat tidak menghapus pustaka, progres, atau unduhanmu.",
+    "position": "{{position}} dari {{duration}}",
+    "playEpisode": "Putar Eps {{number}}",
+    "playNext": "Putar berikutnya",
+    "open": "Buka",
+    "remove": "Hapus {{title}} dari riwayat"
+  },
+  "globalSearch": {
+    "title": "Pencarian global",
+    "placeholder": "Cari di semua sumber",
+    "scope": "Sumber",
+    "allLanguages": "Semua bahasa",
+    "searching_one": "Mencari di {{count}} sumber",
+    "searching_other": "Mencari di {{count}} sumber",
+    "progress": "{{done}} dari {{total}} sumber selesai",
+    "results_one": "{{count}} hasil",
+    "results_other": "{{count}} hasil",
+    "viewAll": "Lihat semua",
+    "none": "Tidak ada hasil untuk \"{{query}}\".",
+    "searchingSource": "Mencari",
+    "verify": "Perlu verifikasi. Situs meminta pemeriksaan browser.",
+    "solve": "Selesaikan pemeriksaan",
+    "retry": "Coba lagi",
+    "noSources": "Belum ada sumber untuk dicari. Muat extension dulu.",
+    "offline": "Mencari butuh koneksi.",
+    "hint": "Ketik judul lalu tekan Enter."
   }
 }

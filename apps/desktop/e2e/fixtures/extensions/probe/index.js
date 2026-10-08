@@ -5,6 +5,17 @@
   var pref = function (key) {
     return prefs.get(key);
   };
+  var fetchOnce = function () {
+    var options = { headers: {} };
+    if (pref('referer')) options.headers.Referer = pref('referer');
+    if (pref('timeoutMs')) options.timeoutMs = Number(pref('timeoutMs'));
+    return http.get(pref('url'), options).then(function (response) {
+      return {
+        items: [{ url: '/probe', title: response.text.slice(0, 500) + '|' + response.status + '|' + response.url }],
+        hasNextPage: false,
+      };
+    });
+  };
   globalThis.__extension = {
     preferences: function () {
       return [
@@ -17,20 +28,11 @@
       return {
         baseUrl: 'http://probe.test',
         getPopular: function () {
-          var options = { headers: {} };
-          if (pref('referer')) options.headers.Referer = pref('referer');
-          if (pref('timeoutMs')) options.timeoutMs = Number(pref('timeoutMs'));
-          return http.get(pref('url'), options).then(function (response) {
-            return {
-              items: [
-                { url: '/probe', title: response.text.slice(0, 500) + '|' + response.status + '|' + response.url },
-              ],
-              hasNextPage: false,
-            };
-          });
+          return fetchOnce();
         },
+        // The global search asks every source the same thing; here that is whatever the `url` points at.
         search: function () {
-          return { items: [], hasNextPage: false };
+          return fetchOnce();
         },
         getAnimeDetails: function (anime) {
           return { url: anime.url, title: anime.title, status: 'unknown' };

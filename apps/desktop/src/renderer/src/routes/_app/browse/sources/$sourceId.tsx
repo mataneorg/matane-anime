@@ -16,7 +16,13 @@ import { describeError, isCloudflare } from '@renderer/lib/errors';
 import { cn } from '@renderer/lib/utils';
 import { useNetworkStore } from '@renderer/stores/network';
 
-export const Route = createFileRoute('/_app/browse/sources/$sourceId')({ component: BrowsePage });
+export const Route = createFileRoute('/_app/browse/sources/$sourceId')({
+  // `?q=` opens the source already searched (the "View all" of global search).
+  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
+    q: typeof search['q'] === 'string' && search['q'] !== '' ? search['q'] : undefined,
+  }),
+  component: BrowsePage,
+});
 
 type Kind = 'popular' | 'latest';
 
@@ -36,8 +42,9 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   const online = network?.online ?? true;
 
   const [tab, setTab] = useState<Kind>('popular');
-  const [draft, setDraft] = useState('');
-  const [query, setQuery] = useState('');
+  const initialQuery = Route.useSearch().q ?? '';
+  const [draft, setDraft] = useState(initialQuery);
+  const [query, setQuery] = useState(initialQuery);
   const [panelOpen, setPanelOpen] = useState(false);
   const [filterDraft, setFilterDraft] = useState<FilterState>({});
   const [filters, setFilters] = useState<FilterState>({});

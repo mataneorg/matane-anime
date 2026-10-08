@@ -80,6 +80,7 @@ export function TitleBar() {
       <div className="flex min-w-0 flex-1 justify-center">
         <button
           type="button"
+          onClick={() => void router.navigate({ to: '/browse/global-search' })}
           className="no-drag flex h-7 w-80 max-w-full items-center gap-2 rounded-lg border border-border-strong bg-input pr-2 pl-2.5 text-xs leading-4 text-foreground"
         >
           <Search className="size-3.5 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />

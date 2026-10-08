@@ -413,5 +413,36 @@
       "title": "This category is empty",
       "description": "Add anime to it from an anime page or with Select."
     }
+  },
+  "history": {
+    "clearAll": "Clear all history",
+    "clearTitle": "Clear all history?",
+    "clearBody": "This removes the list only. Your library, your progress and what you have watched stay as they are.",
+    "explainer": "One entry per anime, showing the last episode you opened. Clearing history does not remove your library, progress or downloads.",
+    "position": "{{position}} of {{duration}}",
+    "playEpisode": "Play Ep {{number}}",
+    "playNext": "Play next",
+    "open": "Open",
+    "remove": "Remove {{title}} from history"
+  },
+  "globalSearch": {
+    "title": "Global search",
+    "placeholder": "Search every source",
+    "scope": "Sources",
+    "allLanguages": "All languages",
+    "searching_one": "Searching {{count}} source",
+    "searching_other": "Searching {{count}} sources",
+    "progress": "{{done}} of {{total}} sources done",
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "viewAll": "View all",
+    "none": "No results for \"{{query}}\".",
+    "searchingSource": "Searching",
+    "verify": "Verification needed. The site wants a browser check.",
+    "solve": "Solve check",
+    "retry": "Try again",
+    "noSources": "There are no sources to search yet. Load an extension first.",
+    "offline": "Searching needs a connection.",
+    "hint": "Type a title and press Enter."
   }
 }
