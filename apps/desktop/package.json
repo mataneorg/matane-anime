@@ -61,6 +61,7 @@
     "zustand": "5.0.15"
   },
   "dependencies": {
+    "@matane-anime/extension-repo": "workspace:*",
     "@matane-anime/extension-runtime": "workspace:*",
     "@matane-anime/extension-sdk": "workspace:*",
     "@matane-anime/shared": "workspace:*",

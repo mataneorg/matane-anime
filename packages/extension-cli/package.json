@@ -55,6 +55,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@matane-anime/extension-repo": "workspace:*",
     "@matane-anime/extension-runtime": "workspace:*",
     "@matane-anime/extension-sdk": "workspace:*",
     "@matane-anime/test-site": "workspace:*"

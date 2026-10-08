@@ -5,7 +5,12 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'electron-vite';
 
 // Workspace packages ship TypeScript sources, so they must be bundled instead of externalized.
-const bundledWorkspaceDeps = ['@matane-anime/shared', '@matane-anime/extension-runtime', '@matane-anime/extension-sdk'];
+const bundledWorkspaceDeps = [
+  '@matane-anime/shared',
+  '@matane-anime/extension-repo',
+  '@matane-anime/extension-runtime',
+  '@matane-anime/extension-sdk',
+];
 
 // The extension-* packages export their sources under this condition; `dist` is what npm consumers get.
 const sourceResolve = { conditions: ['matane-source'] };

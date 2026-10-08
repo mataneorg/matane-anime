@@ -202,6 +202,9 @@ importers:
 
   apps/desktop:
     dependencies:
+      '@matane-anime/extension-repo':
+        specifier: workspace:*
+        version: link:../../packages/extension-repo
       '@matane-anime/extension-runtime':
         specifier: workspace:*
         version: link:../../packages/extension-runtime
@@ -366,6 +369,9 @@ importers:
         specifier: ^4.6.5
         version: 4.6.5
     devDependencies:
+      '@matane-anime/extension-repo':
+        specifier: workspace:*
+        version: link:../extension-repo
       '@matane-anime/extension-runtime':
         specifier: workspace:*
         version: link:../extension-runtime
@@ -418,7 +424,11 @@ importers:
         specifier: 4.6.5
         version: 4.6.5
 
-  packages/test-site: {}
+  packages/test-site:
+    dependencies:
+      '@matane-anime/extension-repo':
+        specifier: workspace:*
+        version: link:../extension-repo
 
 packages:
 
