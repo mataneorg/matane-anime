@@ -1,6 +1,14 @@
 # Plan: Fase 2 (Library dan progress) Matane Anime
 
-> **Status: draf untuk ditinjau** (ditulis 7 Okt 2026 setelah Fase 1 selesai). Belum ada kode. Bagian "Keputusan yang saya ambil sendiri" di akhir perlu dibaca dulu: itu hal-hal yang PRD tidak menentukan.
+> **Status: selesai (8 Okt 2026), dalam lima commit (2a–2e).** Penyimpangan dari rencana di bawah, dan apa yang ditemukan di jalan:
+>
+> - **`library.list` memakai dua query dan agregasi di TypeScript**, bukan satu query SQL, supaya aturan hitung varian (`countEpisodes`) hanya ada satu dan dipakai juga halaman detail. Angkanya memenuhi target (79 ms median di 1.000/50 ribu; [ADR 0016](../adr/0016-library-queries.md)).
+> - **Performa diukur di app yang sebenarnya** (`e2e/performance.spec.ts`, kanal `dev.seedLibrary` yang hanya hidup di dev atau `MATANE_SPIKE=1`), bukan lewat skrip `scripts/seed-library.mts`: start dingin sampai kartu pertama ±1,1 detik (target < 2 detik), buka ulang library 55 ms, filter teks 320 ms, DOM hanya berisi kartu yang terlihat.
+> - **Query global search disimpan di URL** (`?q=`) supaya tombol kembali memulihkan pencarian; ditemukan oleh tes e2e. Orkestrasinya di renderer, seperti direncanakan ([ADR 0018](../adr/0018-global-search.md)).
+> - **Ditemukan dan diperbaiki oleh e2e**: daftar History tidak diperbarui saat anime yang sama ditonton lagi (tag `history` tidak dipancarkan dari laporan progres); history tidak tercatat dari pemutar karena event `play` datang saat `readyState` masih 0 (sekarang dilaporkan dari event `playing`); setelah migrasi, entri baru tidak mengunduh cover permanennya dan file cover lama tertinggal.
+> - **E2E dikelompokkan per topik**: `library`, `history-search`, `migrate`, `performance`, `restart` (bukan `history`/`search` terpisah).
+> - **Gerbang (d)** terpenuhi dengan dua pengecualian yang disengaja dan dicatat: `EpisodesRepository.sync` mewariskan status ditonton ke varian baru, dan `LibraryRepository.migrate` memindahkan progres yang sudah ada ([ADR 0015](../adr/0015-watch-service.md), [0019](../adr/0019-source-migration.md)).
+> - **Belum**: pemeriksaan manual menutup paksa app saat memutar (verifikasi nomor 5), perbandingan screenshot tema Latte untuk 2c–2d, filter/aksi "Downloaded" (menunggu Fase 3), spike 3 OS (menunggu repo GitHub).
 
 ## Context
 

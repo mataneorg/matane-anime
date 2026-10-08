@@ -639,7 +639,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - `PlaybackService`: pemilihan stream, probe, fallback.
 - Penutup: E2E dengan extension tiruan + situs tiruan di CI.
 
-**Fase 2: Library dan progress**
+**Fase 2: Library dan progress** *(selesai 8 Okt 2026; rencana dan penyimpangannya di [docs/plans/fase-2-library-progress.md](plans/fase-2-library-progress.md))*
 - Library (kategori multi, sort/filter, FTS5, multi-select, cover permanen).
 - `WatchService`: progress, resume, ambang ditonton, "lanjut nonton", history, `watch_sessions`.
 - Global search; migrasi source (P1).

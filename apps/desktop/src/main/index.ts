@@ -159,6 +159,10 @@ if (!app.requestSingleInstanceLock()) {
         episodes: episodeRepo,
         library: libraryRepo,
         refresh: (animeId, requestId) => service.refresh(animeId, requestId),
+        afterMigrate: (fromId, toId) => {
+          void covers.ensure(toId);
+          void covers.remove(fromId);
+        },
       });
       void registry.init();
 

@@ -10,6 +10,8 @@ export interface MigrationDeps {
   library: LibraryRepository;
   /** Fetches an anime's details and episodes from its source (the same call as the detail page's refresh). */
   refresh(animeId: number, requestId?: string): Promise<unknown>;
+  /** Called after a migration: the new entry needs its permanent cover and the old one's is no longer needed. */
+  afterMigrate?(fromId: number, toId: number): void;
 }
 
 const asMatch = (row: EpisodeRecord): MatchEpisode => ({
@@ -67,6 +69,8 @@ export class MigrationService {
     this.check(fromId, toId);
     if (this.deps.episodes.list(toId).length === 0) await this.deps.refresh(toId);
     const { plan } = this.plan(fromId, toId);
-    return { animeId: toId, carried: this.deps.library.migrate(fromId, toId, plan) };
+    const carried = this.deps.library.migrate(fromId, toId, plan);
+    this.deps.afterMigrate?.(fromId, toId);
+    return { animeId: toId, carried };
   }
 }

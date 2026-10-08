@@ -2,7 +2,7 @@
 
 A desktop app for watching anime from sources you choose, with a library, watch progress, downloads and new-episode alerts. Built with Electron, React and TypeScript; styled with Catppuccin.
 
-> **Status: pre-alpha (phase 1 done).** Extensions load from folders, you can browse sources, open an anime, and watch it in the player with server fallback. There is no library, progress, download or update checker yet, and no extension repository: those are phases 2 to 4. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
+> **Status: pre-alpha (phase 2 done).** Extensions load from folders, you can browse sources, search all of them at once, keep anime in a library with categories, watch in the player with server fallback, resume where you left off, see your history, and move an anime to another source without losing progress. There are no downloads or update checker yet, and no extension repository: those are phases 3 and 4. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
 
 Matane Anime does not host, distribute or index any video. It ships with no sources; extensions are written and added by the user, who is responsible for what they use them for.
 
