@@ -9,6 +9,12 @@ import { HostError } from '@matane-anime/extension-runtime/client';
 import { AnimeRepository } from './db/repositories/anime';
 import { ChangeEmitter } from './db/repositories/changes';
 import { EpisodesRepository } from './db/repositories/episodes';
+import { HistoryRepository } from './db/repositories/history';
+import { LibraryRepository } from './db/repositories/library';
+import { WatchSessionsRepository } from './db/repositories/watch-sessions';
+import { LibraryCovers } from './library/covers';
+import { LibraryService } from './library/service';
+import { WatchService } from './watch/service';
 import { ExtensionStore } from './db/repositories/extension-store';
 import { SettingsRepository } from './db/repositories/settings';
 import { ExtensionHostClient } from './extensions/host-client';
@@ -103,6 +109,29 @@ if (!app.requestSingleInstanceLock()) {
         onReloaded: (extensionId) => network.invalidate(extensionId),
         onChanged: () => changes.emit('extensions', 'sources'),
       });
+      const fetcherFor = (extensionId: string) => {
+        const manifest = registry.byExtensionId(extensionId)?.manifest;
+        return manifest
+          ? network.fetcherFor({ id: manifest.id, userAgent: manifest.userAgent, rateLimit: manifest.rateLimit })
+          : undefined;
+      };
+      const historyRepo = new HistoryRepository(connection.db, changes);
+      const libraryRepo = new LibraryRepository(connection.db, changes);
+      const covers = new LibraryCovers(
+        join(userData, 'covers'),
+        animeRepo,
+        (sourceId) => fetcherFor(sourceId.split('/')[0] ?? ''),
+        (message, error) => log.warn(message, error),
+      );
+      const libraryService = new LibraryService({ library: libraryRepo, history: historyRepo, settings, covers });
+      const watch = new WatchService({
+        episodes: episodeRepo,
+        anime: animeRepo,
+        history: historyRepo,
+        sessions: new WatchSessionsRepository(connection.db),
+        settings,
+        changes,
+      });
       const service = new ExtensionService({
         registry,
         host,
@@ -111,21 +140,20 @@ if (!app.requestSingleInstanceLock()) {
         episodes: episodeRepo,
         network,
         requests,
+        // A library entry's permanent cover follows the site's image when it changes (LIB-7).
+        onRefreshed: (row, previousThumbnail) => {
+          if (row.inLibrary && row.thumbnailUrl !== previousThumbnail) void covers.ensure(row.id, true);
+        },
       });
       void registry.init();
 
       const sessions = new SessionStore();
-      const fetcherFor = (extensionId: string) => {
-        const manifest = registry.byExtensionId(extensionId)?.manifest;
-        return manifest
-          ? network.fetcherFor({ id: manifest.id, userAgent: manifest.userAgent, rateLimit: manifest.rateLimit })
-          : undefined;
-      };
       const fetchUpstream = createSessionUpstream(fetcherFor);
       handleAnimeScheme({
         sessions,
         fetchUpstream,
         fetcherFor: (sourceId) => fetcherFor(sourceId.split('/')[0] ?? ''),
+        localCover: (animeId) => covers.localCover(animeId),
         onRequest: (entry) => {
           const message = `anime:// ${entry.status} ${entry.target}${entry.range ? ` [${entry.range}]` : ''}`;
           if (entry.error) log.warn(`${message}: ${entry.error}`);
@@ -141,6 +169,7 @@ if (!app.requestSingleInstanceLock()) {
         sessions,
         upstream: fetchUpstream,
         requests,
+        resumeFor: (episode) => watch.resumeFor(episode),
       });
 
       const spikeEnabled = process.env['MATANE_SPIKE'] === '1' || !app.isPackaged;
@@ -160,7 +189,21 @@ if (!app.requestSingleInstanceLock()) {
           })
         : null;
 
-      registerIpcHandlers(createHandlers({ settings, registry, service, logs, network, requests, playback, spike }));
+      registerIpcHandlers(
+        createHandlers({
+          settings,
+          registry,
+          service,
+          logs,
+          network,
+          requests,
+          playback,
+          watch,
+          library: libraryService,
+          libraryRepo,
+          spike,
+        }),
+      );
       createMainWindow(settings);
 
       app.on('activate', () => {

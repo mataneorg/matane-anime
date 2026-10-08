@@ -36,7 +36,12 @@ export const anime = sqliteTable(
     createdAt: integer().notNull(),
     updatedAt: integer().notNull(),
   },
-  (t) => [uniqueIndex('anime_source_url_unique').on(t.sourceId, t.url), index('anime_in_library_idx').on(t.inLibrary)],
+  (t) => [
+    uniqueIndex('anime_source_url_unique').on(t.sourceId, t.url),
+    index('anime_in_library_idx').on(t.inLibrary),
+    // The library list filters on it and sorts by it.
+    index('anime_library_added_idx').on(t.inLibrary, t.addedAt),
+  ],
 );
 
 export const categories = sqliteTable('categories', {
@@ -84,5 +89,7 @@ export const episodes = sqliteTable(
     uniqueIndex('episodes_anime_url_unique').on(t.animeId, t.url),
     index('episodes_anime_number_idx').on(t.animeId, t.number),
     index('episodes_fetched_at_idx').on(t.fetchedAt),
+    // Unwatched counts and "continue" targets look episodes up by anime and watched state.
+    index('episodes_anime_watched_idx').on(t.animeId, t.watched),
   ],
 );

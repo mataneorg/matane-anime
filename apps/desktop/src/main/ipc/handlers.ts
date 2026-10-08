@@ -5,7 +5,10 @@ import type { ExtensionLogs } from '../extensions/logs';
 import type { ExtensionRegistry } from '../extensions/registry';
 import type { ExtensionService } from '../extensions/service';
 import type { NetworkManager } from '../network/manager';
+import type { LibraryRepository } from '../db/repositories/library';
+import type { LibraryService } from '../library/service';
 import type { PlaybackService } from '../playback/service';
+import type { WatchService } from '../watch/service';
 import type { SpikeApi } from '../playback/spike/api';
 import { type IpcHandlers, broadcast } from './register';
 import type { RequestRegistry } from './requests';
@@ -18,6 +21,9 @@ export interface HandlerDeps {
   network: NetworkManager;
   requests: RequestRegistry;
   playback: PlaybackService;
+  watch: WatchService;
+  library: LibraryService;
+  libraryRepo: LibraryRepository;
   /** Null unless the spike is switched on (development, or MATANE_SPIKE=1). */
   spike: SpikeApi | null;
 }
@@ -30,6 +36,9 @@ export function createHandlers({
   network,
   requests,
   playback,
+  watch,
+  library,
+  libraryRepo,
   spike,
 }: HandlerDeps): IpcHandlers {
   const requireSpike = (): SpikeApi => {
@@ -92,6 +101,23 @@ export function createHandlers({
     'anime.get': ({ animeId }) => service.getAnime(animeId),
     'anime.refresh': ({ animeId, requestId }) => service.refresh(animeId, requestId),
     'episodes.list': ({ animeId }) => service.listEpisodes(animeId),
+    'library.list': (query) => library.list(query),
+    'library.add': ({ animeId, categoryIds }) => library.add(animeId, categoryIds),
+    'library.remove': ({ animeId }) => library.remove(animeId),
+    'library.setCategories': ({ animeIds, categoryIds }) => libraryRepo.setCategories(animeIds, categoryIds),
+    'categories.list': () => libraryRepo.listCategories(),
+    'categories.create': ({ name }) => libraryRepo.createCategory(name),
+    'categories.rename': ({ id, name }) => libraryRepo.renameCategory(id, name),
+    'categories.delete': ({ id }) => libraryRepo.deleteCategory(id),
+    'categories.reorder': ({ ids }) => libraryRepo.reorderCategories(ids),
+    'episodes.markWatched': ({ episodeIds, watched }) => watch.markWatched(episodeIds, watched),
+    'episodes.markPrevious': ({ episodeId }) => watch.markPrevious(episodeId),
+    'episodes.resetProgress': ({ episodeId }) => watch.resetProgress(episodeId),
+    'watch.progress': (input) => watch.progress(input),
+    'watch.continueTarget': ({ animeId }) => watch.continueTarget(animeId),
+    'history.list': () => watch.listHistory(),
+    'history.delete': ({ animeId }) => watch.deleteHistory(animeId),
+    'history.clear': () => watch.clearHistory(),
     'playback.start': ({ episodeId, requestId }) => playback.start(episodeId, requestId),
     'playback.event': ({ playbackId, event }) => playback.event(playbackId, event),
     'playback.switchStream': ({ playbackId, index, requestId }) => playback.switchStream(playbackId, index, requestId),

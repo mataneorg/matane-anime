@@ -16,6 +16,14 @@ import {
   sourceCapabilitiesSchema,
   sourceInfoSchema,
 } from '../catalog';
+import {
+  categorySchema,
+  continueTargetSchema,
+  historyEntrySchema,
+  libraryItemSchema,
+  libraryQuerySchema,
+  progressInputSchema,
+} from '../library';
 import { playbackEventSchema, playbackSessionSchema, playbackUpdateSchema } from '../playback';
 import { appSettingsSchema, settingsPatchSchema } from '../settings';
 import { spikeFixtureSchema, spikeRequestLogSchema, spikeResultSchema, spikeStartResultSchema } from '../spike';
@@ -78,6 +86,31 @@ export const invokeContract = {
     refreshResultSchema,
   ),
   'episodes.list': invoke(z.object({ animeId: z.number().int() }), z.array(episodeSchema)),
+  'library.list': invoke(libraryQuerySchema, z.array(libraryItemSchema)),
+  /** Adds an anime to the library, in these categories (any number, or none). */
+  'library.add': invoke(z.object({ animeId: z.number().int(), categoryIds: z.array(z.number().int()) }), z.void()),
+  'library.remove': invoke(z.object({ animeId: z.number().int() }), z.void()),
+  'library.setCategories': invoke(
+    z.object({ animeIds: z.array(z.number().int()), categoryIds: z.array(z.number().int()) }),
+    z.void(),
+  ),
+  'categories.list': invoke(z.void(), z.array(categorySchema)),
+  'categories.create': invoke(z.object({ name: z.string() }), categorySchema),
+  'categories.rename': invoke(z.object({ id: z.number().int(), name: z.string() }), z.void()),
+  'categories.delete': invoke(z.object({ id: z.number().int() }), z.void()),
+  /** The full list of category ids in their new order. */
+  'categories.reorder': invoke(z.object({ ids: z.array(z.number().int()) }), z.void()),
+  /** Marks episodes watched or not; every variant of the same number follows (PRG-5). */
+  'episodes.markWatched': invoke(z.object({ episodeIds: z.array(z.number().int()), watched: z.boolean() }), z.void()),
+  /** "Mark all previous as watched" (PRG-7). */
+  'episodes.markPrevious': invoke(z.object({ episodeId: z.number().int() }), z.void()),
+  'episodes.resetProgress': invoke(z.object({ episodeId: z.number().int() }), z.void()),
+  /** The single door for progress, history and watch sessions (PRG-9). Returns whether the episode is now watched. */
+  'watch.progress': invoke(progressInputSchema, z.object({ watched: z.boolean() })),
+  'watch.continueTarget': invoke(z.object({ animeId: z.number().int() }), continueTargetSchema.nullable()),
+  'history.list': invoke(z.void(), z.array(historyEntrySchema)),
+  'history.delete': invoke(z.object({ animeId: z.number().int() }), z.void()),
+  'history.clear': invoke(z.void(), z.void()),
   /**
    * Picks a stream for an episode (ranked, probed) and opens a session for it. `requestId` lets the
    * renderer cancel while extensions and probes are still working.

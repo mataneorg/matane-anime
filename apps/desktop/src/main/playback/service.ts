@@ -33,6 +33,8 @@ export interface PlaybackDeps {
   sessions: SessionStore;
   upstream: UpstreamFetch;
   requests: RequestRegistry;
+  /** Where playback of an episode starts (PRG-4). */
+  resumeFor(episode: EpisodeRecord): number;
 }
 
 interface Playback {
@@ -297,6 +299,7 @@ export class PlaybackService {
       animeId: playback.anime.id,
       url: playback.url,
       kind: playback.kind,
+      resumeMs: this.deps.resumeFor(playback.episode),
       streams: options,
       activeIndex: playback.active,
       animeTitle: anime.get(playback.anime.id)?.title ?? playback.anime.title,

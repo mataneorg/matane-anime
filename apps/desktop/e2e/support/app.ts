@@ -13,8 +13,12 @@ export interface LaunchedApp {
  * Starts the built app (`out/`, so run `pnpm e2e`, which builds first) with a throwaway profile.
  * `--no-sandbox` is for CI runners that forbid user namespaces; local runs do not need it.
  */
-export async function launchApp(env: Record<string, string> = {}): Promise<LaunchedApp> {
-  const userData = mkdtempSync(join(tmpdir(), 'matane-anime-e2e-'));
+export async function launchApp(
+  env: Record<string, string> = {},
+  options: { userData?: string } = {},
+): Promise<LaunchedApp> {
+  // Pass the `userData` of an earlier launch to start the app again on the same profile (restart tests).
+  const userData = options.userData ?? mkdtempSync(join(tmpdir(), 'matane-anime-e2e-'));
   // The package folder, not out/main/index.js: `app.getAppPath()` must be apps/desktop, as in `pnpm dev`
   // (it is where drizzle/ and e2e/fixtures/ are found).
   const args = [resolve(__dirname, '../..'), `--user-data-dir=${userData}`];

@@ -25,6 +25,11 @@ export class AnimeRepository {
       .get();
   }
 
+  setCoverPath(id: number, path: string | null): void {
+    this.db.update(anime).set({ coverPath: path }).where(eq(anime.id, id)).run();
+    this.changes.emit(`anime:${id}`, 'library');
+  }
+
   /** What the user picked by hand in the player for this anime (STR-5): `{ server, quality }`. */
   playbackPrefs(row: AnimeRow): { server?: string; quality?: number | null } | null {
     if (!row.playbackPrefsJson) return null;

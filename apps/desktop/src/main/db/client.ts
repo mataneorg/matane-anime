@@ -2,7 +2,8 @@ import Database from 'better-sqlite3';
 import { type BetterSQLite3Database, drizzle } from 'drizzle-orm/better-sqlite3';
 import * as schema from './schema';
 
-export type AppDatabase = BetterSQLite3Database<typeof schema>;
+/** `$client` is the underlying better-sqlite3 handle, for the few queries that are clearer as SQL. */
+export type AppDatabase = BetterSQLite3Database<typeof schema> & { $client: Database.Database };
 
 export interface DatabaseConnection {
   sqlite: Database.Database;

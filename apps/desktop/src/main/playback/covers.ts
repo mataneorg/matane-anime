@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import { decodeResource } from './m3u8';
 import type { ExtensionFetcher } from '../network/extension-fetcher';
 
@@ -15,6 +16,8 @@ interface Cached {
 }
 
 export interface CoverDeps {
+  /** The permanent cover of a library entry, if it was saved (LIB-7). */
+  localCover?(animeId: number): { path: string; type: string } | null;
   /** The fetcher of the extension behind a source, or undefined when it is not installed. */
   fetcherFor(sourceId: string): ExtensionFetcher | undefined;
 }
@@ -46,7 +49,17 @@ export function createCoverHandler(deps: CoverDeps): (request: Request) => Promi
 
   return async (request) => {
     if (request.method !== 'GET') return fail(405);
-    const [, encodedSource, encodedUrl] = new URL(request.url).pathname.split('/');
+    const segments = new URL(request.url).pathname.split('/').filter(Boolean);
+    if (segments[0] === 'library') {
+      const local = deps.localCover?.(Number(segments[1]));
+      if (!local) return fail(404);
+      try {
+        return ok({ type: local.type, body: new Uint8Array(await readFile(local.path)) });
+      } catch {
+        return fail(404);
+      }
+    }
+    const [encodedSource, encodedUrl] = segments;
     const sourceId = encodedSource ? decodeResource(encodedSource) : null;
     const imageUrl = encodedUrl ? decodeResource(encodedUrl) : null;
     if (!sourceId || !imageUrl || !/^https?:\/\//i.test(imageUrl)) return fail(400);

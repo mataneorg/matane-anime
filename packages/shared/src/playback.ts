@@ -26,6 +26,8 @@ export const playbackSessionSchema = z.object({
   /** `anime://play/<session>/…` */
   url: z.string(),
   kind: z.enum(['hls', 'mp4']),
+  /** Where to start (PRG-4): 0, or the saved position minus three seconds. */
+  resumeMs: z.number(),
   streams: z.array(streamOptionSchema),
   activeIndex: z.number().int(),
   animeTitle: z.string(),

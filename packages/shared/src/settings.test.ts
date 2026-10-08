@@ -31,6 +31,7 @@ describe('settingsFromStored', () => {
       playerVolume: 1,
       playerMuted: false,
       playerSpeed: 1,
+      playerWatchedThreshold: 85,
     });
     expect(appSettingsSchema.safeParse(result).success).toBe(true);
   });
@@ -52,6 +53,8 @@ describe('settingsPatchSchema', () => {
     expect(settingsPatchSchema.safeParse({ amoled: 'yes' }).success).toBe(false);
     expect(settingsPatchSchema.safeParse({ playerSpeed: 3 }).success).toBe(false);
     expect(settingsPatchSchema.safeParse({ playerQuality: '4k' }).success).toBe(false);
+    expect(settingsPatchSchema.safeParse({ playerWatchedThreshold: 49 }).success).toBe(false);
+    expect(settingsPatchSchema.safeParse({ playerWatchedThreshold: 100 }).success).toBe(true);
     expect(settingsPatchSchema.safeParse({ playerSpeed: 1.5, playerVolume: 0.4 }).success).toBe(true);
   });
 });

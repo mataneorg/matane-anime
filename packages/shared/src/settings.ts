@@ -23,6 +23,8 @@ export const appSettingsSchema = z.object({
   playerVolume: z.number().min(0).max(1),
   playerMuted: z.boolean(),
   playerSpeed: z.number().min(0.5).max(2),
+  /** Percent of the video after which an episode counts as watched; 100 means only when it ends (PRG-3). */
+  playerWatchedThreshold: z.number().int().min(50).max(100),
 });
 export type AppSettings = z.infer<typeof appSettingsSchema>;
 
@@ -38,6 +40,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   playerVolume: 1,
   playerMuted: false,
   playerSpeed: 1,
+  playerWatchedThreshold: 85,
 };
 
 /** A change to some settings. No defaults here: a patch must never overwrite what it does not name. */

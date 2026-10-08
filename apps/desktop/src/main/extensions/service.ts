@@ -34,6 +34,8 @@ export interface ServiceDeps {
   episodes: EpisodesRepository;
   network: NetworkManager;
   requests: RequestRegistry;
+  /** Called after a refresh stored new details; the library keeps its permanent cover up to date with it. */
+  onRefreshed?(row: AnimeRow, previousThumbnail: string | null): void;
 }
 
 interface Resolved {
@@ -196,6 +198,7 @@ export class ExtensionService {
     this.deps.anime.saveDetails(animeId, details, Date.now(), sync.latestUploadedAt);
     this.deps.store.touchSource(row.sourceId);
     const saved = this.requireAnime(animeId);
+    this.deps.onRefreshed?.(saved, row.thumbnailUrl);
     return {
       anime: this.detail(saved, await this.webUrlOf(saved)),
       episodes: this.deps.episodes.list(animeId).map(toEpisode),

@@ -1,5 +1,5 @@
 import type { Episode } from '@matane-anime/extension-sdk';
-import { asc, eq } from 'drizzle-orm';
+import { and, asc, eq, gt, inArray as inArrayOf, isNull, lt } from 'drizzle-orm';
 import type { AppDatabase } from '../client';
 import { episodes } from '../schema';
 import type { ChangeEmitter } from './changes';
@@ -54,6 +54,10 @@ export class EpisodesRepository {
           .all()
           .map((row) => [row.url, row]),
       );
+      // A number that is already watched stays watched when a new variant of it appears (PRG-5).
+      const watchedNumbers = new Set(
+        [...existing.values()].filter((row) => row.watched && row.number !== null).map((row) => row.number),
+      );
       unique.forEach((episode, order) => {
         const fields = {
           name: episode.name,
@@ -70,8 +74,15 @@ export class EpisodesRepository {
             .run();
           existing.delete(episode.url);
         } else {
+          const inherited = episode.number !== undefined && watchedNumbers.has(episode.number);
           tx.insert(episodes)
-            .values({ animeId, url: episode.url, fetchedAt: now, ...fields })
+            .values({
+              animeId,
+              url: episode.url,
+              fetchedAt: now,
+              ...fields,
+              ...(inherited && { watched: true, watchedAt: now }),
+            })
             .run();
           added++;
         }
@@ -84,5 +95,72 @@ export class EpisodesRepository {
     this.changes.emit(`episodes:${animeId}`);
     const uploaded = unique.map((episode) => episode.uploadedAt).filter((at): at is number => at !== undefined);
     return { added, missing, latestUploadedAt: uploaded.length ? Math.max(...uploaded) : undefined };
+  }
+
+  // ------------------------------------------------------------------ progress (written only by WatchService, PRG-9)
+
+  saveProgress(id: number, positionMs: number, durationMs: number | null): void {
+    this.db
+      .update(episodes)
+      .set({ positionMs: Math.round(positionMs), ...(durationMs !== null && { durationMs: Math.round(durationMs) }) })
+      .where(eq(episodes.id, id))
+      .run();
+  }
+
+  /**
+   * Marks episodes watched or not. Every variant with the same number follows (PRG-5); an episode without a
+   * number is on its own. Marking unwatched also forgets the position, so it plays from the start. Returns the
+   * anime that were touched.
+   */
+  setWatched(ids: number[], watched: boolean, now = Date.now()): number[] {
+    const touched = new Set<number>();
+    this.db.transaction((tx) => {
+      for (const id of ids) {
+        const row = tx.select().from(episodes).where(eq(episodes.id, id)).get();
+        if (!row) continue;
+        touched.add(row.animeId);
+        const where =
+          row.number !== null
+            ? and(eq(episodes.animeId, row.animeId), eq(episodes.number, row.number))
+            : eq(episodes.id, row.id);
+        tx.update(episodes)
+          .set(watched ? { watched: true, watchedAt: now } : { watched: false, watchedAt: null, positionMs: 0 })
+          .where(where)
+          .run();
+      }
+    });
+    for (const animeId of touched) this.changes.emit(`episodes:${animeId}`, `anime:${animeId}`, 'library');
+    return [...touched];
+  }
+
+  /** Everything before this episode in watching order becomes watched ("mark all previous", PRG-7). */
+  markPrevious(id: number, now = Date.now()): number | undefined {
+    const row = this.get(id);
+    if (!row) return undefined;
+    const before =
+      row.number !== null
+        ? and(eq(episodes.animeId, row.animeId), lt(episodes.number, row.number), eq(episodes.watched, false))
+        : and(
+            eq(episodes.animeId, row.animeId),
+            isNull(episodes.number),
+            gt(episodes.sourceOrder, row.sourceOrder),
+            eq(episodes.watched, false),
+          );
+    this.db.update(episodes).set({ watched: true, watchedAt: now }).where(before).run();
+    this.changes.emit(`episodes:${row.animeId}`, `anime:${row.animeId}`, 'library');
+    return row.animeId;
+  }
+
+  resetProgress(id: number): number | undefined {
+    const row = this.get(id);
+    if (!row) return undefined;
+    this.setWatched([id], false);
+    return row.animeId;
+  }
+
+  /** Every episode of the given anime, with only what the library and history logic needs. */
+  forAnime(animeIds: number[]): EpisodeRecord[] {
+    if (animeIds.length === 0) return [];
+    return this.db.select().from(episodes).where(inArrayOf(episodes.animeId, animeIds)).all();
   }
 }
