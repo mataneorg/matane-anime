@@ -1,3 +1,4 @@
+import { mkdir } from 'node:fs/promises';
 import { AppError } from '@matane-anime/shared';
 import { BrowserWindow, app, dialog, shell } from 'electron';
 import type { SettingsRepository } from '../db/repositories/settings';
@@ -154,6 +155,13 @@ export function createHandlers({
     'downloads.clearFailed': () => downloads.clearFailed(),
     'downloads.storage': () => downloads.storage(),
     'downloads.changeFolder': ({ folder, move }) => downloads.changeFolder(folder, move),
+    'downloads.openFolder': async () => {
+      const { folder } = await downloads.storage();
+      // Nothing is downloaded before the first episode, so the folder may not exist yet.
+      await mkdir(folder, { recursive: true });
+      const failure = await shell.openPath(folder);
+      if (failure) throw new AppError('internal', failure);
+    },
     'updates.list': () => updates.list(),
     'updates.count': () => updates.count(),
     'updates.check': ({ scope, requestId }) => updates.check(scope, requestId),

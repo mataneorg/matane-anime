@@ -68,6 +68,8 @@ export const INVOKE_CHANNELS = [
   'downloads.clearFailed',
   'downloads.storage',
   'downloads.changeFolder',
+  /** Opens the download folder in the file manager. */
+  'downloads.openFolder',
   'updates.list',
   'updates.count',
   'updates.check',

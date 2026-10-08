@@ -3,6 +3,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Toaster } from '@renderer/components/Toaster';
+import { DownloadsHost } from '@renderer/features/downloads/DownloadsHost';
 import { invalidateForTags, networkStatusQuery } from '@renderer/lib/catalog';
 import { osLocaleQuery, receiveSettings, settingsQuery, useIpcEvent } from '@renderer/lib/ipc';
 import { useNetworkStore } from '@renderer/stores/network';
@@ -43,5 +45,11 @@ function RootLayout() {
 
   // Wait for the stored settings so the first paint already has the right theme and language.
   if (!settings || (settings.language === 'system' && locale === undefined)) return null;
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <DownloadsHost />
+      <Toaster />
+    </>
+  );
 }

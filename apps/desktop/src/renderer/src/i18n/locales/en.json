@@ -181,6 +181,48 @@
       "updates": "New episode checks",
       "updatesHint": "Checking for new episodes and downloading them automatically come in a later version.",
       "nameField": "Category name"
+    },
+    "downloads": {
+      "folder": "Where episodes are saved",
+      "free": "{{size}} free on this drive.",
+      "folderHint": "Moving the folder offers to move the episodes already downloaded. Each episode is saved under its source and anime name. Streams that arrive as segments are saved as a folder with a playlist; single files are saved as one MP4.",
+      "quality": "Quality",
+      "qualities": {
+        "playback": "Same as playback",
+        "highest": "Highest available",
+        "1080": "1080p",
+        "720": "720p",
+        "480": "480p",
+        "360": "360p"
+      },
+      "qualityHint": "Closest available when exact is missing.",
+      "episodesAtOnce": "Episodes at once",
+      "episodesAtOnceHint": "Each source's rate limit still applies.",
+      "segments": "Segments per episode",
+      "segmentsHint": "Parallel pieces of one stream.",
+      "automation": "Automatic downloads",
+      "ahead": "Download ahead while watching",
+      "aheadHint": "Saves the next episodes of anime in your library.",
+      "aheadCount": "Episodes to download ahead",
+      "nextCount": "Next {{count}}",
+      "deleteAfter": "Delete after watching",
+      "deleteAfterHint": "Removes a downloaded episode once it is watched and the next one has been too.",
+      "deleteDelay": "When to delete",
+      "afterNow": "Right away",
+      "afterCount": "After {{count}} more",
+      "keepCategories": "Keep downloads for these categories",
+      "keepCategoriesHint": "Anime in a checked category keep their downloads after watching.",
+      "limit": "Size limit",
+      "gb": "GB",
+      "used": "{{size}} used",
+      "limitHint": "When downloads pass the limit, automatic downloads stop and manual ones ask first. Matane Anime also checks free disk space before each download starts."
+    },
+    "data": {
+      "storage": "Storage",
+      "downloaded": "Downloaded episodes",
+      "openFolder": "Open folder",
+      "openFailed": "Could not open the folder",
+      "ofLimit": "{{percent}}% of the {{limit}} limit"
     }
   },
   "browse": {
@@ -460,5 +502,126 @@
     "note": "Your library entry, categories and history move to the new anime. The old one stays out of your library.",
     "back": "Back",
     "confirm": "Migrate"
+  },
+  "downloads": {
+    "counts": {
+      "downloading": "{{count}} downloading",
+      "queued": "{{count}} queued",
+      "paused": "{{count}} paused",
+      "failed": "{{count}} failed"
+    },
+    "pauseAll": "Pause all",
+    "resumeAll": "Resume all",
+    "clearFailed": "Clear failed",
+    "queueLabel": "Download queue",
+    "loadFailed": "Could not load your downloads",
+    "actionFailed": "That did not work",
+    "noneDownloaded": "No episode of this anime is downloaded yet.",
+    "badge_one": "{{count}} download running or waiting",
+    "badge_other": "{{count}} downloads running or waiting",
+    "activity": "Downloading {{count}}",
+    "storage": {
+      "title": "Storage used by downloads",
+      "usage": "{{used}} of {{limit}} limit",
+      "free": "free on this drive",
+      "note": "Auto-download pauses at the limit. Manual downloads ask first."
+    },
+    "folder": {
+      "change": "Change folder",
+      "changed": "Download folder changed",
+      "failed": "Could not change the folder",
+      "moveTitle": "Move the episodes already downloaded?",
+      "moveBody": "The episodes downloaded so far can move to the new folder, or stay where they are. New downloads go to the new folder either way.",
+      "leave": "Leave them",
+      "move": "Move them"
+    },
+    "row": {
+      "segments": "{{done}} / {{total}} segments",
+      "bytesOf": "{{done}} of {{total}}",
+      "saved": "{{size}} saved",
+      "left": "{{time}} left",
+      "waiting": "Waiting for a free slot",
+      "pause": "Pause {{name}}",
+      "resume": "Resume {{name}}",
+      "cancel": "Cancel {{name}}",
+      "reorder": "Move {{name}} in the queue",
+      "reorderHint": "Drag to reorder, or use the arrow keys",
+      "retry": "Retry {{name}}",
+      "retryLabel": "Retry",
+      "remove": "Remove {{name}}",
+      "play": "Play {{name}}",
+      "playLabel": "Play",
+      "delete": "Delete {{name}}"
+    },
+    "status": {
+      "queued": "Queued",
+      "downloading": "Downloading",
+      "paused": "Paused",
+      "failed": "Failed"
+    },
+    "completed": {
+      "heading": "Completed ({{count}})",
+      "title": "Completed downloads",
+      "deleteTitle": "Delete this download?",
+      "deleteBody": "The files of this episode of {{title}} are removed from your computer. The episode stays in your library.",
+      "delete": "Delete"
+    },
+    "errors": {
+      "live": "This is a live stream, which cannot be downloaded.",
+      "no_stream": "The source has no stream to download for this episode.",
+      "no_extension": "The extension of this source is not installed.",
+      "unsupported_encryption": "This stream uses an encryption Matane Anime cannot download.",
+      "size_limit": "Downloading this would pass your size limit.",
+      "disk_space": "There is not enough free space on the drive.",
+      "write_failed": "Could not write to the download folder.",
+      "disk_full": "The drive ran out of space.",
+      "expired": "The stream link expired and could not be renewed.",
+      "network": "The connection dropped too many times.",
+      "unreachable": "The site could not be reached.",
+      "redirect": "The site redirected to something that is not a web address.",
+      "file_missing": "The downloaded files are gone from the disk, so this episode streams instead.",
+      "http": "The site refused the request ({{status}}).",
+      "unknown": "The download failed.",
+      "raw": "{{message}}",
+      "reused": "What was already saved is reused on retry."
+    },
+    "enqueue": {
+      "queued_one": "Queued {{count}} episode",
+      "queued_other": "Queued {{count}} episodes",
+      "existing_one": "That episode is already downloaded or queued",
+      "existing_other": "Those episodes are already downloaded or queued",
+      "refused_one": "{{count}} episode not downloaded",
+      "refused_other": "{{count}} episodes not downloaded",
+      "failed": "Could not queue the download"
+    },
+    "refusals": {
+      "disk_space": "There is not enough free space on the drive.",
+      "no_extension": "The extension of this source is not installed.",
+      "live": "Live streams cannot be downloaded.",
+      "no_stream": "The source has no stream to download."
+    },
+    "limit": {
+      "title": "This passes your size limit",
+      "body_one": "Downloading {{count}} more episode would go past your {{limit}} limit ({{used}} used). Download anyway?",
+      "body_other": "Downloading {{count}} more episodes would go past your {{limit}} limit ({{used}} used). Download anyway?",
+      "confirm": "Download anyway"
+    },
+    "episode": {
+      "download": "Download episode",
+      "retry": "Retry download",
+      "status": "Download: {{status}}"
+    },
+    "menu": {
+      "next": "Next {{count}} unwatched",
+      "unwatched": "All unwatched",
+      "all": "All episodes"
+    },
+    "library": {
+      "none": "Everything unwatched is already downloaded or queued.",
+      "title_one": "Download {{count}} episode?",
+      "title_other": "Download {{count}} episodes?",
+      "body_one": "The unwatched episodes of {{count}} selected anime will be queued.",
+      "body_other": "The unwatched episodes of {{count}} selected anime will be queued."
+    }
   }
 }

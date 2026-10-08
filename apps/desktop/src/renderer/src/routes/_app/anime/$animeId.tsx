@@ -12,8 +12,10 @@ import { Select } from '@renderer/components/ui/select';
 import { EpisodeList } from '@renderer/features/anime/EpisodeList';
 import { LibraryButton } from '@renderer/features/anime/LibraryButton';
 import { MigrateDialog } from '@renderer/features/anime/MigrateDialog';
+import { DownloadMenu } from '@renderer/features/downloads/DownloadMenu';
 import { call } from '@renderer/lib/api';
 import { animeQuery, episodesQuery } from '@renderer/lib/catalog';
+import { useDownloadMap } from '@renderer/lib/downloads';
 import { continueQuery } from '@renderer/lib/library';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
 import { cn } from '@renderer/lib/utils';
@@ -29,6 +31,8 @@ function AnimePage() {
   const target = useQuery(continueQuery(animeId));
   const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
   const [unwatchedOnly, setUnwatchedOnly] = useState(false);
+  const [downloadedOnly, setDownloadedOnly] = useState(false);
+  const downloads = useDownloadMap();
   const [migrating, setMigrating] = useState(false);
 
   const refresh = useMutation({
@@ -51,10 +55,12 @@ function AnimePage() {
 
   const list = useMemo(() => {
     const rows = (episodes.data ?? []).filter(
-      (episode) => !unwatchedOnly || (!episode.watched && !episode.sourceMissing),
+      (episode) =>
+        (!unwatchedOnly || (!episode.watched && !episode.sourceMissing)) &&
+        (!downloadedOnly || downloads.get(episode.id)?.status === 'done'),
     );
     return sort === 'newest' ? rows : [...rows].reverse();
-  }, [episodes.data, sort, unwatchedOnly]);
+  }, [episodes.data, sort, unwatchedOnly, downloadedOnly, downloads]);
   const counts = useMemo(() => countEpisodes(episodes.data ?? []), [episodes.data]);
 
   if (anime.isError) {
@@ -144,10 +150,14 @@ function AnimePage() {
               </Button>
             )}
             <LibraryButton anime={data} />
-            <Button variant="secondary" size="lg" disabled title={t('anime.comingSoon')}>
-              <Download className="size-4" strokeWidth={1.75} aria-hidden />
-              {t('anime.download')}
-            </Button>
+            {episodes.data && episodes.data.length > 0 ? (
+              <DownloadMenu episodes={episodes.data} />
+            ) : (
+              <Button variant="secondary" size="lg" disabled>
+                <Download className="size-4" strokeWidth={1.75} aria-hidden />
+                {t('anime.download')}
+              </Button>
+            )}
             <Button
               variant="secondary"
               size="icon"
@@ -211,9 +221,12 @@ function AnimePage() {
             </button>
             <button
               type="button"
-              disabled
-              title={t('anime.comingSoon')}
-              className="h-9 cursor-not-allowed rounded-full border border-border-strong px-3 text-[13px] opacity-50"
+              aria-pressed={downloadedOnly}
+              onClick={() => setDownloadedOnly((on) => !on)}
+              className={cn(
+                'h-9 rounded-full border border-border-strong px-3 text-[13px] transition-colors',
+                downloadedOnly && 'border-accent bg-accent/16 font-semibold text-foreground',
+              )}
             >
               {t('anime.downloaded')}
             </button>
@@ -249,7 +262,7 @@ function AnimePage() {
         {refresh.isPending && list.length === 0 ? (
           <RowSkeletons />
         ) : list.length === 0 && !refresh.isError ? (
-          <p>{t('anime.noEpisodes')}</p>
+          <p>{downloadedOnly ? t('downloads.noneDownloaded') : t('anime.noEpisodes')}</p>
         ) : (
           <EpisodeList
             episodes={list}

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter, useRouterState } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, Search, WifiOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { DownloadActivity } from '@renderer/features/downloads/DownloadActivity';
 import { animeQuery, networkStatusQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
 import { WindowControls } from './WindowControls';
@@ -90,6 +91,7 @@ export function TitleBar() {
           </kbd>
         </button>
       </div>
+      <DownloadActivity />
       {network?.online === false ? (
         <span className="flex h-6 items-center gap-1.5 rounded-full bg-warning/16 px-2.5 text-xs leading-4 font-medium text-foreground">
           <WifiOff className="size-3.5" strokeWidth={1.75} aria-hidden />

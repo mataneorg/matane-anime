@@ -1,7 +1,7 @@
 import { LIBRARY_SORTS, type LibraryQuery, type LibrarySort } from '@matane-anime/shared';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { Check, Info, ListFilter, Package, Plus, Search, SquareCheckBig, Trash2, X } from 'lucide-react';
+import { Check, Download, Info, ListFilter, Package, Plus, Search, SquareCheckBig, Trash2, X } from 'lucide-react';
 import { type FormEvent, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@renderer/components/EmptyState';
@@ -9,12 +9,15 @@ import { Button, buttonVariants } from '@renderer/components/ui/button';
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { Select } from '@renderer/components/ui/select';
+import { pickEpisodes } from '@renderer/features/downloads/pick';
 import { CategoryDialog } from '@renderer/features/library/CategoryDialog';
 import { LibraryGrid } from '@renderer/features/library/LibraryGrid';
 import { call } from '@renderer/lib/api';
-import { sourcesQuery } from '@renderer/lib/catalog';
+import { episodesQuery, sourcesQuery } from '@renderer/lib/catalog';
+import { enqueueEpisodes, useDownloadMap } from '@renderer/lib/downloads';
 import { categoriesQuery, libraryCountQuery, libraryQuery } from '@renderer/lib/library';
 import { usePersistedState } from '@renderer/lib/storage';
+import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
 
 export const Route = createFileRoute('/_app/library')({ component: LibraryPage });
@@ -33,6 +36,8 @@ function useDebounced<T>(value: T, ms: number): T {
 
 function LibraryPage() {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const downloads = useDownloadMap();
   const { data: count } = useQuery(libraryCountQuery);
   const { data: categories = [] } = useQuery(categoriesQuery);
   const { data: sources = [] } = useQuery(sourcesQuery);
@@ -50,6 +55,7 @@ function LibraryPage() {
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [moving, setMoving] = useState(false);
   const [removing, setRemoving] = useState(false);
+  const [downloadPlan, setDownloadPlan] = useState<{ ids: number[]; animeCount: number } | null>(null);
   const [creating, setCreating] = useState(false);
 
   // Only what the user switched on is sent: the query is also the cache key.
@@ -75,6 +81,21 @@ function LibraryPage() {
   });
   const move = useMutation({
     mutationFn: (categoryIds: number[]) => call('library.setCategories', { animeIds: [...selected], categoryIds }),
+  });
+  // The unwatched episodes of the selected anime that are not downloaded yet; the user confirms the number (LIB-5).
+  const prepareDownload = useMutation({
+    mutationFn: async () => {
+      const ids: number[] = [];
+      for (const animeId of selected) {
+        const episodes = await queryClient.fetchQuery(episodesQuery(animeId));
+        ids.push(...pickEpisodes(episodes, 'unwatched', downloads));
+      }
+      return ids;
+    },
+    onSuccess: (ids) => {
+      if (ids.length === 0) notify.info(t('downloads.library.none'));
+      else setDownloadPlan({ ids, animeCount: selected.size });
+    },
   });
   const remove = useMutation({
     mutationFn: async () => {
@@ -260,7 +281,13 @@ function LibraryPage() {
             <Check className="size-4" strokeWidth={1.75} aria-hidden />
             {t('library.markWatched')}
           </Button>
-          <Button variant="secondary" size="sm" disabled title={t('anime.comingSoon')}>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={selected.size === 0 || prepareDownload.isPending}
+            onClick={() => prepareDownload.mutate()}
+          >
+            <Download className="size-4" strokeWidth={1.75} aria-hidden />
             {t('anime.download')}
           </Button>
           <Button
@@ -306,6 +333,28 @@ function LibraryPage() {
               }}
             >
               {t('library.removeFromLibrary')}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={downloadPlan !== null} onOpenChange={(open) => !open && setDownloadPlan(null)}>
+        <DialogContent
+          title={t('downloads.library.title', { count: downloadPlan?.ids.length ?? 0 })}
+          description={t('downloads.library.body', { count: downloadPlan?.animeCount ?? 0 })}
+          closeLabel={t('common.close')}
+        >
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setDownloadPlan(null)}>
+              {t('common.cancel')}
+            </Button>
+            <Button
+              onClick={() => {
+                if (downloadPlan) void enqueueEpisodes(downloadPlan.ids);
+                setDownloadPlan(null);
+                stopSelecting();
+              }}
+            >
+              {t('anime.download')}
             </Button>
           </div>
         </DialogContent>

@@ -3,6 +3,8 @@ import { SlidersHorizontal } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@renderer/components/EmptyState';
 import { AdvancedSettings } from '@renderer/features/settings/AdvancedSettings';
+import { DataSettings } from '@renderer/features/settings/DataSettings';
+import { DownloadsSettings } from '@renderer/features/settings/DownloadsSettings';
 import { GeneralSettings } from '@renderer/features/settings/GeneralSettings';
 import { LibrarySettings } from '@renderer/features/settings/LibrarySettings';
 import { PlayerSettings } from '@renderer/features/settings/PlayerSettings';
@@ -49,6 +51,10 @@ function SettingsPage() {
           <LibrarySettings />
         ) : active === 'player' ? (
           <PlayerSettings />
+        ) : active === 'downloads' ? (
+          <DownloadsSettings />
+        ) : active === 'data' ? (
+          <DataSettings />
         ) : active === 'advanced' ? (
           <AdvancedSettings />
         ) : (

@@ -181,6 +181,48 @@
       "updates": "Pengecekan episode baru",
       "updatesHint": "Pengecekan episode baru dan unduhan otomatis hadir di versi berikutnya.",
       "nameField": "Nama kategori"
+    },
+    "downloads": {
+      "folder": "Tempat episode disimpan",
+      "free": "{{size}} kosong di drive ini.",
+      "folderHint": "Saat folder diganti, kamu ditawari memindahkan episode yang sudah diunduh. Tiap episode disimpan di bawah nama sumber dan animenya. Stream berupa segmen disimpan sebagai folder dengan playlist; file tunggal disimpan sebagai satu MP4.",
+      "quality": "Kualitas",
+      "qualities": {
+        "playback": "Sama seperti pemutaran",
+        "highest": "Tertinggi yang tersedia",
+        "1080": "1080p",
+        "720": "720p",
+        "480": "480p",
+        "360": "360p"
+      },
+      "qualityHint": "Yang terdekat bila yang pas tidak ada.",
+      "episodesAtOnce": "Episode sekaligus",
+      "episodesAtOnceHint": "Batas laju tiap sumber tetap berlaku.",
+      "segments": "Segmen per episode",
+      "segmentsHint": "Potongan paralel dari satu stream.",
+      "automation": "Unduhan otomatis",
+      "ahead": "Unduh lebih dulu saat menonton",
+      "aheadHint": "Menyimpan episode berikutnya dari anime di pustakamu.",
+      "aheadCount": "Jumlah episode yang diunduh lebih dulu",
+      "nextCount": "{{count}} berikutnya",
+      "deleteAfter": "Hapus setelah ditonton",
+      "deleteAfterHint": "Menghapus episode terunduh setelah ditonton dan episode berikutnya juga.",
+      "deleteDelay": "Kapan dihapus",
+      "afterNow": "Langsung",
+      "afterCount": "Setelah {{count}} lagi",
+      "keepCategories": "Simpan unduhan untuk kategori ini",
+      "keepCategoriesHint": "Anime di kategori yang dicentang tetap menyimpan unduhannya setelah ditonton.",
+      "limit": "Batas ukuran",
+      "gb": "GB",
+      "used": "{{size}} terpakai",
+      "limitHint": "Saat unduhan melewati batas, unduhan otomatis berhenti dan yang manual bertanya dulu. Matane Anime juga memeriksa ruang disk kosong sebelum tiap unduhan dimulai."
+    },
+    "data": {
+      "storage": "Penyimpanan",
+      "downloaded": "Episode terunduh",
+      "openFolder": "Buka folder",
+      "openFailed": "Folder tidak bisa dibuka",
+      "ofLimit": "{{percent}}% dari batas {{limit}}"
     }
   },
   "browse": {
@@ -460,5 +502,119 @@
     "note": "Entri pustaka, kategori, dan riwayatmu pindah ke anime baru. Yang lama keluar dari pustakamu.",
     "back": "Kembali",
     "confirm": "Pindahkan"
+  },
+  "downloads": {
+    "counts": {
+      "downloading": "{{count}} diunduh",
+      "queued": "{{count}} antre",
+      "paused": "{{count}} dijeda",
+      "failed": "{{count}} gagal"
+    },
+    "pauseAll": "Jeda semua",
+    "resumeAll": "Lanjutkan semua",
+    "clearFailed": "Hapus yang gagal",
+    "queueLabel": "Antrean unduhan",
+    "loadFailed": "Unduhan tidak bisa dimuat",
+    "actionFailed": "Itu tidak berhasil",
+    "noneDownloaded": "Belum ada episode anime ini yang diunduh.",
+    "badge_other": "{{count}} unduhan berjalan atau menunggu",
+    "activity": "Mengunduh {{count}}",
+    "storage": {
+      "title": "Penyimpanan yang dipakai unduhan",
+      "usage": "{{used}} dari batas {{limit}}",
+      "free": "kosong di drive ini",
+      "note": "Unduh otomatis berhenti di batas. Unduhan manual bertanya dulu."
+    },
+    "folder": {
+      "change": "Ganti folder",
+      "changed": "Folder unduhan diganti",
+      "failed": "Folder tidak bisa diganti",
+      "moveTitle": "Pindahkan episode yang sudah diunduh?",
+      "moveBody": "Episode yang sudah diunduh bisa pindah ke folder baru, atau tetap di tempatnya. Unduhan baru masuk ke folder baru dalam kedua kasus.",
+      "leave": "Biarkan",
+      "move": "Pindahkan"
+    },
+    "row": {
+      "segments": "{{done}} / {{total}} segmen",
+      "bytesOf": "{{done}} dari {{total}}",
+      "saved": "{{size}} tersimpan",
+      "left": "sisa {{time}}",
+      "waiting": "Menunggu slot kosong",
+      "pause": "Jeda {{name}}",
+      "resume": "Lanjutkan {{name}}",
+      "cancel": "Batalkan {{name}}",
+      "reorder": "Pindahkan {{name}} di antrean",
+      "reorderHint": "Seret untuk mengubah urutan, atau pakai tombol panah",
+      "retry": "Coba lagi {{name}}",
+      "retryLabel": "Coba lagi",
+      "remove": "Hapus {{name}}",
+      "play": "Putar {{name}}",
+      "playLabel": "Putar",
+      "delete": "Hapus {{name}}"
+    },
+    "status": {
+      "queued": "Antre",
+      "downloading": "Mengunduh",
+      "paused": "Dijeda",
+      "failed": "Gagal"
+    },
+    "completed": {
+      "heading": "Selesai ({{count}})",
+      "title": "Unduhan selesai",
+      "deleteTitle": "Hapus unduhan ini?",
+      "deleteBody": "File episode {{title}} ini dihapus dari komputermu. Episodenya tetap ada di pustaka.",
+      "delete": "Hapus"
+    },
+    "errors": {
+      "live": "Ini siaran langsung, tidak bisa diunduh.",
+      "no_stream": "Sumber tidak punya stream untuk diunduh pada episode ini.",
+      "no_extension": "Extension sumber ini belum terpasang.",
+      "unsupported_encryption": "Stream ini memakai enkripsi yang tidak bisa diunduh Matane Anime.",
+      "size_limit": "Mengunduh ini akan melewati batas ukuranmu.",
+      "disk_space": "Ruang kosong di drive tidak cukup.",
+      "write_failed": "Tidak bisa menulis ke folder unduhan.",
+      "disk_full": "Ruang drive habis.",
+      "expired": "Tautan stream kedaluwarsa dan tidak bisa diperbarui.",
+      "network": "Koneksi terputus terlalu sering.",
+      "unreachable": "Situs tidak bisa dijangkau.",
+      "redirect": "Situs mengalihkan ke sesuatu yang bukan alamat web.",
+      "file_missing": "File unduhan hilang dari disk, jadi episode ini diputar lewat streaming.",
+      "http": "Situs menolak permintaan ({{status}}).",
+      "unknown": "Unduhan gagal.",
+      "raw": "{{message}}",
+      "reused": "Yang sudah tersimpan dipakai lagi saat dicoba ulang."
+    },
+    "enqueue": {
+      "queued_other": "{{count}} episode diantrekan",
+      "existing_other": "Episode itu sudah diunduh atau diantrekan",
+      "refused_other": "{{count}} episode tidak diunduh",
+      "failed": "Unduhan tidak bisa diantrekan"
+    },
+    "refusals": {
+      "disk_space": "Ruang kosong di drive tidak cukup.",
+      "no_extension": "Extension sumber ini belum terpasang.",
+      "live": "Siaran langsung tidak bisa diunduh.",
+      "no_stream": "Sumber tidak punya stream untuk diunduh."
+    },
+    "limit": {
+      "title": "Ini melewati batas ukuranmu",
+      "body_other": "Mengunduh {{count}} episode lagi akan melewati batas {{limit}} ({{used}} terpakai). Tetap unduh?",
+      "confirm": "Tetap unduh"
+    },
+    "episode": {
+      "download": "Unduh episode",
+      "retry": "Ulangi unduhan",
+      "status": "Unduhan: {{status}}"
+    },
+    "menu": {
+      "next": "{{count}} belum ditonton berikutnya",
+      "unwatched": "Semua yang belum ditonton",
+      "all": "Semua episode"
+    },
+    "library": {
+      "none": "Semua yang belum ditonton sudah diunduh atau diantrekan.",
+      "title_other": "Unduh {{count}} episode?",
+      "body_other": "Episode yang belum ditonton dari {{count}} anime terpilih akan diantrekan."
+    }
   }
 }

@@ -2,12 +2,24 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { FlaskConical, PanelLeftClose, PanelLeftOpen, Play } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { usePendingDownloads } from '@renderer/features/downloads/DownloadActivity';
 import { appInfoQuery } from '@renderer/lib/ipc';
 import { cn } from '@renderer/lib/utils';
 import { useUiStore } from '@renderer/stores/ui';
 import { BROWSE_NAV, DOWNLOADS_NAV, MAIN_NAV, type NavItem, SETTINGS_ICON } from './nav';
 
-function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
+function NavLink({
+  item,
+  collapsed,
+  badge = 0,
+  badgeLabel = '',
+}: {
+  item: NavItem;
+  collapsed: boolean;
+  /** A count shown as a pill; `badgeLabel` says what it counts, for screen readers. */
+  badge?: number;
+  badgeLabel?: string;
+}) {
   const { t } = useTranslation();
   const label = t(`nav.${item.label}`);
   const Icon = item.icon;
@@ -17,7 +29,7 @@ function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
       aria-label={collapsed ? label : undefined}
       title={collapsed ? label : undefined}
       className={cn(
-        'flex h-9 items-center gap-3 rounded-lg px-3 text-muted-foreground transition-colors hover:bg-input/50',
+        'relative flex h-9 items-center gap-3 rounded-lg px-3 text-muted-foreground transition-colors hover:bg-input/50',
         collapsed && 'justify-center px-0',
       )}
       activeProps={{
@@ -29,6 +41,17 @@ function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
         <>
           <Icon className={cn('size-4 shrink-0', isActive && 'text-accent')} strokeWidth={1.75} aria-hidden />
           {!collapsed && <span className="flex-1 truncate">{label}</span>}
+          {badge > 0 && (
+            <span
+              className={cn(
+                'rounded-full bg-input px-1.5 font-mono text-xs leading-5 font-medium text-foreground',
+                collapsed && 'absolute top-1 right-1 px-1 text-[10px] leading-4',
+              )}
+            >
+              {badge}
+              <span className="sr-only"> {badgeLabel}</span>
+            </span>
+          )}
         </>
       )}
     </Link>
@@ -40,6 +63,7 @@ export function Sidebar() {
   const collapsed = useUiStore((state) => state.sidebarCollapsed);
   const toggle = useUiStore((state) => state.toggleSidebar);
   const { data: info } = useQuery(appInfoQuery);
+  const pendingDownloads = usePendingDownloads();
   const SettingsIcon = SETTINGS_ICON;
   const ToggleIcon = collapsed ? PanelLeftOpen : PanelLeftClose;
 
@@ -73,7 +97,12 @@ export function Sidebar() {
       ))}
 
       <div className="mt-2" />
-      <NavLink item={DOWNLOADS_NAV} collapsed={collapsed} />
+      <NavLink
+        item={DOWNLOADS_NAV}
+        collapsed={collapsed}
+        badge={pendingDownloads}
+        badgeLabel={t('downloads.badge', { count: pendingDownloads })}
+      />
 
       <div className="flex-1" />
 

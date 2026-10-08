@@ -2,6 +2,7 @@ import type { EpisodeRow } from '@matane-anime/shared';
 import { useMutation } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import type { DownloadItem } from '@matane-anime/shared';
 import { Check, EllipsisVertical, Play } from 'lucide-react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@renderer/components/ui/dropdown-menu';
+import {
+  DownloadedChip,
+  EpisodeDownloadControl,
+  useDownloadPercent,
+} from '@renderer/features/downloads/EpisodeDownload';
 import { call } from '@renderer/lib/api';
+import { useDownloadMap } from '@renderer/lib/downloads';
 import { useScroller } from '@renderer/lib/useScroller';
 import { cn } from '@renderer/lib/utils';
 
@@ -54,6 +61,7 @@ export function EpisodeList({
     scrollMargin: margin,
   });
   const dates = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' });
+  const downloads = useDownloadMap();
 
   return (
     <div ref={listRef} className="relative" style={{ height: virtualizer.getTotalSize() }} role="list">
@@ -72,6 +80,7 @@ export function EpisodeList({
               sourceId={sourceId}
               thumbnailUrl={thumbnailUrl}
               localCoverId={localCoverId}
+              download={downloads.get(episode.id)}
               date={episode.uploadedAt ? dates.format(episode.uploadedAt) : t('anime.episodeFallback')}
             />
           </div>
@@ -86,12 +95,14 @@ function EpisodeRowView({
   sourceId,
   thumbnailUrl,
   localCoverId,
+  download,
   date,
 }: {
   episode: EpisodeRow;
   sourceId: string;
   thumbnailUrl: string | null;
   localCoverId: number | undefined;
+  download: DownloadItem | undefined;
   date: string;
 }) {
   const { t } = useTranslation();
@@ -99,6 +110,7 @@ function EpisodeRowView({
     !episode.watched && episode.positionMs > 0 && episode.durationMs
       ? Math.min(100, (episode.positionMs / episode.durationMs) * 100)
       : 0;
+  const downloadPercent = useDownloadPercent(download);
   const mark = useMutation({
     mutationFn: (watched: boolean) => call('episodes.markWatched', { episodeIds: [episode.id], watched }),
   });
@@ -107,6 +119,11 @@ function EpisodeRowView({
 
   return (
     <div className="relative flex h-16 items-center rounded-xl bg-card transition-colors hover:bg-input/60">
+      {downloadPercent !== null ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 overflow-hidden rounded-b-xl" aria-hidden>
+          <div className="h-full bg-accent" style={{ width: `${downloadPercent}%` }} />
+        </div>
+      ) : null}
       <Link
         to="/watch/$episodeId"
         params={{ episodeId: String(episode.id) }}
@@ -133,6 +150,7 @@ function EpisodeRowView({
         </div>
         {episode.variant ? <Badge>{episode.variant}</Badge> : null}
         {episode.sourceMissing ? <Badge tone="warning">{t('anime.missing')}</Badge> : null}
+        {download?.status === 'done' ? <DownloadedChip /> : null}
         {episode.watched ? (
           <span className="flex items-center gap-1 text-xs leading-4 text-success">
             <Check className="size-3.5" strokeWidth={2} aria-hidden />
@@ -142,6 +160,9 @@ function EpisodeRowView({
           <Play className="size-4 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
         )}
       </Link>
+      {episode.sourceMissing && !download ? null : (
+        <EpisodeDownloadControl episodeId={episode.id} download={download} />
+      )}
       <DropdownMenu>
         <DropdownMenuTrigger
           aria-label={t('anime.episodeActions')}
