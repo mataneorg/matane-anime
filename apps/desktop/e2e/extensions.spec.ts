@@ -180,17 +180,23 @@ test.describe('browse and detail through the host', () => {
 
   test('shows dubbed variants together and honors a preference', async () => {
     const voices = (await popular('example/en')).items.find((i) => i.title === 'Two Voices');
-    const both = await invoke<{ episodes: { variant: string | null }[] }>('anime.refresh', {
+    const both = await invoke<{ episodes: { id: number; variant: string | null }[] }>('anime.refresh', {
       animeId: voices!.animeId,
     });
     expect(new Set(both.episodes.map((e) => e.variant))).toEqual(new Set(['Sub', 'Dub']));
+    // A dubbed episode that was watched must survive the dub going away; the others have no reason to.
+    const watchedDub = both.episodes.find((e) => e.variant === 'Dub')!;
+    await invoke('episodes.markWatched', { episodeIds: [watchedDub.id], watched: true });
     await setPref('example', 'showDub', false);
-    const subOnly = await invoke<{ episodes: { variant: string | null; sourceMissing: boolean }[] }>('anime.refresh', {
-      animeId: voices!.animeId,
-    });
-    // The dubbed rows are not deleted, they are marked as gone from the source (UPD-5 decides later).
+    const subOnly = await invoke<{ episodes: { id: number; variant: string | null; sourceMissing: boolean }[] }>(
+      'anime.refresh',
+      { animeId: voices!.animeId },
+    );
     expect(subOnly.episodes.filter((e) => !e.sourceMissing).every((e) => e.variant === 'Sub')).toBe(true);
-    expect(subOnly.episodes.some((e) => e.sourceMissing)).toBe(true);
+    // UPD-5: the unwatched dubbed rows are deleted, the watched one is kept and flagged as gone from the source.
+    expect(subOnly.episodes.filter((e) => e.variant === 'Dub').map((e) => [e.id, e.sourceMissing])).toEqual([
+      [watchedDub.id, true],
+    ]);
     await setPref('example', 'showDub', true);
   });
 

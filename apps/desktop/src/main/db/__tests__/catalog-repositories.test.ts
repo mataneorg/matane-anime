@@ -183,8 +183,10 @@ describe('EpisodesRepository.sync', () => {
     });
   });
 
-  it('marks episodes that dropped out as missing, and restores them if they return', () => {
+  it('marks episodes that dropped out as missing (when something hangs on them), and restores them if they return', () => {
     episodeRepo.sync(animeId, [ep(2), ep(1)], 100);
+    // Episode 1 has a saved position, so it is kept (UPD-5 has the full matrix in updates.test.ts).
+    episodeRepo.saveProgress(episodeRepo.list(animeId).find((e) => e.number === 1)!.id, 5000, null);
     expect(episodeRepo.sync(animeId, [ep(2)], 200)).toMatchObject({ added: 0, missing: 1 });
     expect(episodeRepo.list(animeId).map((e) => [e.number, e.sourceMissing])).toEqual([
       [2, false],
@@ -197,7 +199,13 @@ describe('EpisodesRepository.sync', () => {
   it('changes nothing when the source returns an empty list', () => {
     episodeRepo.sync(animeId, [ep(1)], 100);
     emitted.length = 0;
-    expect(episodeRepo.sync(animeId, [], 200)).toEqual({ added: 0, missing: 0, latestUploadedAt: undefined });
+    expect(episodeRepo.sync(animeId, [], 200)).toEqual({
+      added: 0,
+      addedIds: [],
+      missing: 0,
+      removed: 0,
+      latestUploadedAt: undefined,
+    });
     expect(episodeRepo.list(animeId).map((e) => e.sourceMissing)).toEqual([false]);
     expect(emitted).toEqual([]);
   });

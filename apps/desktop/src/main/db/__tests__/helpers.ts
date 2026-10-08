@@ -12,6 +12,7 @@ import { ExtensionStore } from '../repositories/extension-store';
 import { HistoryRepository } from '../repositories/history';
 import { LibraryRepository } from '../repositories/library';
 import { SettingsRepository } from '../repositories/settings';
+import { UpdatesRepository } from '../repositories/updates';
 import { WatchSessionsRepository } from '../repositories/watch-sessions';
 
 const migrationsFolder = resolve(__dirname, '../../../../drizzle');
@@ -42,6 +43,7 @@ export interface TestDb {
   library: LibraryRepository;
   sessions: WatchSessionsRepository;
   settings: SettingsRepository;
+  updates: UpdatesRepository;
   close(): void;
 }
 
@@ -68,6 +70,7 @@ export async function createTestDb(): Promise<TestDb> {
     library: new LibraryRepository(connection.db, changes),
     sessions: new WatchSessionsRepository(connection.db),
     settings: new SettingsRepository(connection.db),
+    updates: new UpdatesRepository(connection.db, changes),
     close() {
       connection.sqlite.close();
       rmSync(dir, { recursive: true, force: true });

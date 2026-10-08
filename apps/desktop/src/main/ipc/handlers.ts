@@ -87,6 +87,7 @@ export function createHandlers({
     'settings.set': (patch) => {
       const updated = settings.updateAppSettings(patch);
       broadcast('settings.changed', updated);
+      if (patch.updateIntervalHours !== undefined) updates.reschedule();
       return updated;
     },
     'dialog.pickFolder': async (_input, event) => {

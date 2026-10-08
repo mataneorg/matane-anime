@@ -21,6 +21,8 @@ import { DownloadService } from './downloads/service';
 import { LibraryCovers } from './library/covers';
 import { MigrationService } from './library/migration';
 import { LibraryService } from './library/service';
+import { UpdatesRepository } from './db/repositories/updates';
+import { isWindowFocused, showUpdateNotification } from './updates/notify';
 import { UpdateService } from './updates/service';
 import { WatchService } from './watch/service';
 import { ExtensionStore } from './db/repositories/extension-store';
@@ -159,7 +161,28 @@ if (!app.requestSingleInstanceLock()) {
           if (row.inLibrary && row.thumbnailUrl !== previousThumbnail) void covers.ensure(row.id, true);
         },
       });
-      const updateService = new UpdateService();
+      const updateService = new UpdateService({
+        repo: new UpdatesRepository(connection.db, changes),
+        settings,
+        extensions: service,
+        requests,
+        emitStatus: (status) => broadcast('updates.status', status),
+        autoDownload: async (episodeIds) => {
+          if (episodeIds.length > 0) await downloadService.enqueue({ episodeIds }, { reason: 'auto' });
+        },
+        notify: showUpdateNotification,
+        navigate: () => {
+          const [window] = BrowserWindow.getAllWindows();
+          if (window?.isMinimized()) window.restore();
+          window?.focus();
+          broadcast('app.navigate', { to: '/updates' });
+        },
+        isWindowFocused,
+        systemLocale: () => app.getLocale(),
+        isOnline: () => network.status.isOnline,
+        onOnlineChange: (listener) => network.onOnlineChange(listener),
+        log: { warn: (message, error) => log.warn(message, error) },
+      });
       const sourceMigration = new MigrationService({
         anime: animeRepo,
         episodes: episodeRepo,
@@ -170,7 +193,11 @@ if (!app.requestSingleInstanceLock()) {
           void covers.remove(fromId);
         },
       });
-      const registryReady = registry.init();
+      const registryReady = registry
+        .init()
+        .catch((error: unknown) => log.error('extension registry failed to start', error));
+      // The schedule starts once the extensions are loaded: a check before that would fail every anime.
+      void registryReady.then(() => updateService.start());
 
       const sessions = new SessionStore();
       const fetchUpstream = createSessionUpstream(fetcherFor);
@@ -261,6 +288,7 @@ if (!app.requestSingleInstanceLock()) {
       // `quit`, not `before-quit`: windows still save their geometry while they close.
       app.on('quit', () => {
         downloadService.shutdown();
+        updateService.stop();
         playback.closeAll();
         registry.dispose();
         network.status.stop();

@@ -4,7 +4,7 @@ import {
   type SourceBackend,
   SourceClient,
 } from '@matane-anime/extension-runtime/client';
-import type { FilterState, Preference, Stream } from '@matane-anime/extension-sdk';
+import type { FilterState, Preference, Stream, UrlKind } from '@matane-anime/extension-sdk';
 import {
   AppError,
   type AnimeDetail,
@@ -189,22 +189,75 @@ export class ExtensionService {
 
   /** Details and the episode list from the source. On failure nothing is written, so old data survives. */
   async refresh(animeId: number, requestId?: string): Promise<RefreshResult> {
+    return (await this.refreshAnime(animeId, (work) => this.run(requestId, work))).result;
+  }
+
+  /**
+   * `refresh` for the update checker: cancelled through a signal rather than a request id, and it also
+   * reports which episodes were new this time (UPD-4), so the checker can notify and download only those.
+   */
+  async refreshForUpdate(animeId: number, signal?: AbortSignal): Promise<{ addedEpisodeIds: number[] }> {
+    const { addedEpisodeIds } = await this.refreshAnime(animeId, (work) =>
+      signal ? abortable(this.guard(work), signal) : this.guard(work),
+    );
+    return { addedEpisodeIds };
+  }
+
+  private async refreshAnime(
+    animeId: number,
+    run: <T>(work: () => Promise<T>) => Promise<T>,
+  ): Promise<{ result: RefreshResult; addedEpisodeIds: number[] }> {
     const row = this.requireAnime(animeId);
     const { client } = this.resolve(row.sourceId);
     const options = this.options(row.sourceId);
     const summary = { url: row.url, title: row.title, ...(row.thumbnailUrl && { thumbnailUrl: row.thumbnailUrl }) };
-    const [details, episodes] = await this.run(requestId, () =>
+    const [details, episodes] = await run(() =>
       Promise.all([client.getAnimeDetails(summary, options), client.getEpisodes(summary, options)]),
     );
-    const sync = this.deps.episodes.sync(animeId, episodes);
+    // Read again: the anime may have joined the library while the site was answering. If its first fetch ever
+    // lands after that, the list is what it had when it was added, not news (UPD-4).
+    const current = this.requireAnime(animeId);
+    const baselineAt =
+      current.inLibrary && current.addedAt !== null && current.lastUpdateCheckAt === null ? current.addedAt : undefined;
+    const sync = this.deps.episodes.sync(animeId, episodes, Date.now(), baselineAt);
     this.deps.anime.saveDetails(animeId, details, Date.now(), sync.latestUploadedAt);
     this.deps.store.touchSource(row.sourceId);
     const saved = this.requireAnime(animeId);
     this.deps.onRefreshed?.(saved, row.thumbnailUrl);
     return {
-      anime: this.detail(saved, await this.webUrlOf(saved)),
-      episodes: this.deps.episodes.list(animeId).map(toEpisode),
+      result: {
+        anime: this.detail(saved, await this.webUrlOf(saved)),
+        episodes: this.deps.episodes.list(animeId).map(toEpisode),
+      },
+      addedEpisodeIds: sync.addedIds,
     };
+  }
+
+  // ------------------------------------------------------------------ url migration (UPD-6)
+
+  /** Versions of the extensions that are loaded, by extension id. */
+  extensionVersions(): Record<string, string> {
+    const versions: Record<string, string> = {};
+    for (const info of this.deps.registry.list()) {
+      if (info.status === 'ready' && info.version) versions[info.id] = info.version;
+    }
+    return versions;
+  }
+
+  /** Whether the source's extension can rewrite stored urls (`migrateUrl`). False if it is not loaded. */
+  async supportsMigrateUrl(sourceId: string): Promise<boolean> {
+    try {
+      const { client } = this.resolve(sourceId);
+      return await this.guard(() => client.supports('migrateUrl'));
+    } catch {
+      return false;
+    }
+  }
+
+  /** The new form of a url written by `fromVersion` of the extension, or null to keep it. */
+  async migrateUrl(sourceId: string, url: string, kind: UrlKind, fromVersion: string): Promise<string | null> {
+    const { client } = this.resolve(sourceId);
+    return this.guard(() => client.migrateUrl(url, kind, fromVersion, this.options(sourceId)));
   }
 
   // ------------------------------------------------------------------ streams

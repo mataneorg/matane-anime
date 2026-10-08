@@ -1,5 +1,5 @@
 import type { Category, ContinueTarget, LibraryItem, LibraryQuery } from '@matane-anime/shared';
-import { asc, eq, inArray, sql } from 'drizzle-orm';
+import { and, asc, eq, gt, inArray, sql } from 'drizzle-orm';
 import type { AppDatabase } from '../client';
 import { anime, animeCategories, categories, episodes, history } from '../schema';
 import type { MigrationPlan } from '../../library/match';
@@ -244,10 +244,17 @@ export class LibraryRepository {
         .run();
       for (const categoryId of categoryIds) tx.insert(animeCategories).values({ animeId: toAnimeId, categoryId }).run();
 
+      // The new anime inherits the old date added, so the episodes it already has would all look new (UPD-4,
+      // they were fetched after that date). They are what the user had, not updates: pull them back to it.
+      const addedAt = from.addedAt ?? to.addedAt ?? now;
+      tx.update(episodes)
+        .set({ fetchedAt: addedAt })
+        .where(and(eq(episodes.animeId, toAnimeId), gt(episodes.fetchedAt, addedAt)))
+        .run();
       tx.update(anime)
         .set({
           inLibrary: true,
-          addedAt: from.addedAt ?? to.addedAt ?? now,
+          addedAt,
           customCoverPath: from.customCoverPath ?? to.customCoverPath,
           updatedAt: now,
         })

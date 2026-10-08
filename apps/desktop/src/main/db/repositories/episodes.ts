@@ -7,8 +7,14 @@ import type { ChangeEmitter } from './changes';
 export type EpisodeRecord = typeof episodes.$inferSelect;
 
 export interface SyncResult {
+  /** Rows inserted, including ones that arrived already watched because another variant of the number was. */
   added: number;
+  /** Ids of the inserted rows that are still unwatched: what the update checker reports as new. */
+  addedIds: number[];
+  /** Episodes that just dropped out of the source and were kept (flagged `sourceMissing`). */
   missing: number;
+  /** Episodes that dropped out of the source and were deleted (UPD-5). */
+  removed: number;
   latestUploadedAt: number | undefined;
 }
 
@@ -35,16 +41,23 @@ export class EpisodesRepository {
   /**
    * Brings the stored episodes in line with the list the source returned. New urls are inserted (and are
    * the only ones that get `fetchedAt = now`, which is what makes an episode "new" later, UPD-4); known
-   * ones keep their progress. Episodes that dropped out are marked `sourceMissing`, not deleted: whether
-   * to delete them depends on progress and downloads (UPD-5, phase 3). An **empty list changes nothing**,
-   * since a site that fails to render must not wipe a library.
+   * ones keep their progress. Episodes that dropped out are deleted unless something of the user's hangs
+   * on them (UPD-5): watched, a saved position, a download, a history entry or a watch session. Those stay,
+   * flagged `sourceMissing`. An **empty list changes nothing**, since a site that fails to render must not
+   * wipe a library.
+   *
+   * `baselineAt` is for an anime that is already in the library but was never fetched: its first episode list
+   * is what existed when it was added, so those rows get `fetchedAt <= baselineAt` and never count as new.
    */
-  sync(animeId: number, list: Episode[], now = Date.now()): SyncResult {
-    if (list.length === 0) return { added: 0, missing: 0, latestUploadedAt: undefined };
+  sync(animeId: number, list: Episode[], now = Date.now(), baselineAt?: number): SyncResult {
+    if (list.length === 0) return { added: 0, addedIds: [], missing: 0, removed: 0, latestUploadedAt: undefined };
     // A url listed twice counts once, at its first (newest) position.
     const unique = list.filter((episode, index) => list.findIndex((other) => other.url === episode.url) === index);
+    const fetchedAt = baselineAt === undefined ? now : Math.min(now, baselineAt);
+    const addedIds: number[] = [];
     let added = 0;
     let missing = 0;
+    let removed = 0;
     this.db.transaction((tx) => {
       const existing = new Map(
         tx
@@ -75,26 +88,49 @@ export class EpisodesRepository {
           existing.delete(episode.url);
         } else {
           const inherited = episode.number !== undefined && watchedNumbers.has(episode.number);
-          tx.insert(episodes)
+          const { id } = tx
+            .insert(episodes)
             .values({
               animeId,
               url: episode.url,
-              fetchedAt: now,
+              fetchedAt,
               ...fields,
               ...(inherited && { watched: true, watchedAt: now }),
             })
-            .run();
+            .returning({ id: episodes.id })
+            .get();
           added++;
+          if (!inherited) addedIds.push(id);
         }
       });
-      for (const gone of existing.values()) {
-        if (!gone.sourceMissing) missing++;
-        tx.update(episodes).set({ sourceMissing: true }).where(eq(episodes.id, gone.id)).run();
+      const gone = [...existing.values()];
+      const kept = this.referenced(gone.filter((row) => !row.watched && row.positionMs === 0).map((row) => row.id));
+      for (const row of gone) {
+        if (row.watched || row.positionMs > 0 || kept.has(row.id)) {
+          if (!row.sourceMissing) missing++;
+          tx.update(episodes).set({ sourceMissing: true }).where(eq(episodes.id, row.id)).run();
+        } else {
+          tx.delete(episodes).where(eq(episodes.id, row.id)).run();
+          removed++;
+        }
       }
     });
-    this.changes.emit(`episodes:${animeId}`);
+    this.changes.emit(`episodes:${animeId}`, ...(added + missing + removed > 0 ? ['updates'] : []));
     const uploaded = unique.map((episode) => episode.uploadedAt).filter((at): at is number => at !== undefined);
-    return { added, missing, latestUploadedAt: uploaded.length ? Math.max(...uploaded) : undefined };
+    return { added, addedIds, missing, removed, latestUploadedAt: uploaded.length ? Math.max(...uploaded) : undefined };
+  }
+
+  /** Which of these episodes a download, the history or a watch session points at. Read-only (ADR 0015). */
+  private referenced(ids: number[]): Set<number> {
+    if (ids.length === 0) return new Set();
+    const rows = this.db.$client
+      .prepare(
+        `SELECT episode_id AS id FROM downloads WHERE episode_id IN (SELECT value FROM json_each(@ids))
+         UNION SELECT episode_id FROM history WHERE episode_id IN (SELECT value FROM json_each(@ids))
+         UNION SELECT episode_id FROM watch_sessions WHERE episode_id IN (SELECT value FROM json_each(@ids))`,
+      )
+      .all({ ids: JSON.stringify(ids) }) as { id: number }[];
+    return new Set(rows.map((row) => row.id));
   }
 
   // ------------------------------------------------------------------ progress (written only by WatchService, PRG-9)
