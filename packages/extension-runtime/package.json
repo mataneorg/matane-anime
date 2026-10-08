@@ -1,22 +1,61 @@
 {
   "name": "@matane-anime/extension-runtime",
-  "version": "0.0.0",
-  "private": true,
-  "description": "QuickJS sandbox host for Matane Anime extensions (phase 1)",
+  "version": "0.1.0",
+  "description": "QuickJS sandbox that runs Matane Anime extensions",
   "license": "MIT",
   "type": "module",
-  "exports": {
-    ".": "./src/index.ts",
-    "./client": "./src/client.ts"
+  "keywords": [
+    "matane-anime",
+    "anime",
+    "extension",
+    "sandbox",
+    "quickjs"
+  ],
+  "homepage": "https://github.com/SukunDev/matane-anime/tree/main/packages/extension-runtime#readme",
+  "bugs": {
+    "url": "https://github.com/SukunDev/matane-anime/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SukunDev/matane-anime.git",
+    "directory": "packages/extension-runtime"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "matane-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "matane-source": "./src/client.ts",
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.build.json",
+    "prepack": "pnpm run build",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run"
   },
   "dependencies": {
     "@matane-anime/extension-sdk": "workspace:*",
-    "cheerio": "1.2.0",
-    "quickjs-emscripten": "0.32.0",
-    "zod": "4.6.5"
+    "cheerio": "^1.2.0",
+    "quickjs-emscripten": "^0.32.0",
+    "zod": "^4.6.5"
   }
 }

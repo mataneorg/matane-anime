@@ -1,4 +1,4 @@
-export * from './errors';
+export * from './errors.js';
 export {
   type CallOptions,
   type CreateRuntimeOptions,
@@ -8,6 +8,6 @@ export {
   type LogLevel,
   type RuntimeLimits,
   aesDecrypt,
-} from './runtime';
-export * from './results';
-export { type SourceBackend, SourceClient, runtimeBackend } from './source-client';
+} from './runtime.js';
+export * from './results.js';
+export { type SourceBackend, SourceClient, runtimeBackend } from './source-client.js';

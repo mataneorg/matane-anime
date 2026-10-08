@@ -18,6 +18,7 @@
     }
   },
   "scripts": {
+    "prepare": "pnpm --filter @matane-anime/extension-sdk --filter @matane-anime/extension-cli build",
     "dev": "pnpm --filter @matane-anime/desktop dev",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
@@ -25,6 +26,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm -r test",
+    "verify:packages": "node scripts/verify-packages.mjs",
     "e2e": "pnpm --filter @matane-anime/desktop e2e",
     "dist": "pnpm --filter @matane-anime/desktop dist",
     "smoke:packaged": "pnpm --filter @matane-anime/desktop smoke:packaged"

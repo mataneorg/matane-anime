@@ -1,32 +1,62 @@
 {
   "name": "@matane-anime/extension-cli",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "ma-ext: create, build, test and benchmark Matane Anime extensions",
   "license": "MIT",
   "type": "module",
+  "keywords": [
+    "matane-anime",
+    "anime",
+    "extension",
+    "cli",
+    "ma-ext"
+  ],
+  "homepage": "https://github.com/SukunDev/matane-anime/tree/main/packages/extension-cli#readme",
+  "bugs": {
+    "url": "https://github.com/SukunDev/matane-anime/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SukunDev/matane-anime.git",
+    "directory": "packages/extension-cli"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "ma-ext": "bin/ma-ext.js"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "matane-source": "./src/index.ts"
+    },
+    "./package.json": "./package.json"
   },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "prepare": "node scripts/build.mjs",
     "build": "node scripts/build.mjs",
+    "prepack": "pnpm run build",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "pnpm --filter @matane-anime/extension-sdk build && vitest run"
   },
   "dependencies": {
-    "@matane-anime/extension-runtime": "workspace:*",
-    "@matane-anime/extension-sdk": "workspace:*",
-    "cheerio": "1.2.0",
-    "commander": "15.0.0",
-    "esbuild": "0.28.2",
-    "quickjs-emscripten": "0.32.0",
-    "zod": "4.6.5"
+    "cheerio": "^1.2.0",
+    "commander": "^15.0.0",
+    "esbuild": "^0.28.2",
+    "quickjs-emscripten": "^0.32.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@matane-anime/extension-runtime": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*",
     "@matane-anime/test-site": "workspace:*"
   }
 }

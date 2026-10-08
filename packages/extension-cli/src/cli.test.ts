@@ -1,4 +1,5 @@
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { TestSite } from '@matane-anime/test-site';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
@@ -6,6 +7,7 @@ import { percentile } from './bench';
 import { BuildError, buildExtension } from './build';
 import { scaffold } from './create';
 import { runTest } from './test-command';
+import { VERSION } from './version';
 
 const ROOT = resolve(import.meta.dirname, '../../..');
 const EXAMPLE = join(ROOT, 'extensions/example');
@@ -79,6 +81,26 @@ describe('build', () => {
     expect(result.manifest).toMatchObject({ id: 'my-site', type: 'anime', sources: [{ key: 'id', lang: 'id' }] });
     await expect(scaffold({ id: 'my-site', dir: target })).rejects.toThrow(/already exists/);
     await expect(scaffold({ id: 'Bad_Id', dir: join(base, 'bad') })).rejects.toThrow(/id/);
+  });
+});
+
+describe('scaffold dependencies', () => {
+  const devDependencies = async (target: string): Promise<Record<string, string>> =>
+    (JSON.parse(await readFile(join(target, 'package.json'), 'utf8')) as { devDependencies: Record<string, string> })
+      .devDependencies;
+
+  it("links the workspace packages inside the repository and this CLI's version outside it", async () => {
+    await mkdir(SCRATCH, { recursive: true });
+    const inside = await mkdtemp(join(SCRATCH, 'link-'));
+    const outside = await mkdtemp(join(tmpdir(), 'ma-ext-link-'));
+    dirs.push(inside, outside);
+
+    const linked = { '@matane-anime/extension-cli': 'workspace:*', '@matane-anime/extension-sdk': 'workspace:*' };
+    expect(await devDependencies(await scaffold({ id: 'a', dir: join(inside, 'a') }))).toEqual(linked);
+
+    const published = { '@matane-anime/extension-cli': `^${VERSION}`, '@matane-anime/extension-sdk': `^${VERSION}` };
+    expect(await devDependencies(await scaffold({ id: 'a', dir: join(outside, 'a') }))).toEqual(published);
+    expect(VERSION).toMatch(/^\d+\.\d+\.\d+/);
   });
 });
 

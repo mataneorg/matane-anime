@@ -12,9 +12,9 @@ import {
   newVariant,
   shouldInterruptAfterDeadline,
 } from 'quickjs-emscripten';
-import { ExtensionRuntimeError, HostError, type SerializedError, serializeError } from './errors';
-import { HtmlStore } from './html-store';
-import { PRELUDE } from './prelude';
+import { ExtensionRuntimeError, HostError, type SerializedError, serializeError } from './errors.js';
+import { HtmlStore } from './html-store.js';
+import { PRELUDE } from './prelude.js';
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 

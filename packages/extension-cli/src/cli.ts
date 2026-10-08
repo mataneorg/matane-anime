@@ -4,6 +4,7 @@ import { printRows, runChain, runSynthetic } from './bench';
 import { scaffold } from './create';
 import { bold, dim, fail, ok, warn } from './log';
 import { runTest } from './test-command';
+import { VERSION } from './version';
 
 const collect = (value: string, previous: string[]): string[] => [...previous, value];
 const integer = (value: string): number => {
@@ -15,7 +16,7 @@ const integer = (value: string): number => {
 const program = new Command()
   .name('ma-ext')
   .description('Create, build, test and benchmark Matane Anime extensions')
-  .version('0.0.0');
+  .version(VERSION);
 
 program
   .command('create <id>')

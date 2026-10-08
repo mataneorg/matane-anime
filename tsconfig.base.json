@@ -4,6 +4,8 @@
     "lib": ["ES2023"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    // The extension-* packages export their TypeScript sources under this condition; `dist` is for npm consumers.
+    "customConditions": ["matane-source"],
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,

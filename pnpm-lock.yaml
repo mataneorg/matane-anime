@@ -350,28 +350,28 @@ importers:
 
   packages/extension-cli:
     dependencies:
+      cheerio:
+        specifier: ^1.2.0
+        version: 1.2.0
+      commander:
+        specifier: ^15.0.0
+        version: 15.0.0
+      esbuild:
+        specifier: ^0.28.2
+        version: 0.28.2
+      quickjs-emscripten:
+        specifier: ^0.32.0
+        version: 0.32.0
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
+    devDependencies:
       '@matane-anime/extension-runtime':
         specifier: workspace:*
         version: link:../extension-runtime
       '@matane-anime/extension-sdk':
         specifier: workspace:*
         version: link:../extension-sdk
-      cheerio:
-        specifier: 1.2.0
-        version: 1.2.0
-      commander:
-        specifier: 15.0.0
-        version: 15.0.0
-      esbuild:
-        specifier: 0.28.2
-        version: 0.28.2
-      quickjs-emscripten:
-        specifier: 0.32.0
-        version: 0.32.0
-      zod:
-        specifier: 4.6.5
-        version: 4.6.5
-    devDependencies:
       '@matane-anime/test-site':
         specifier: workspace:*
         version: link:../test-site
@@ -394,19 +394,19 @@ importers:
         specifier: workspace:*
         version: link:../extension-sdk
       cheerio:
-        specifier: 1.2.0
+        specifier: ^1.2.0
         version: 1.2.0
       quickjs-emscripten:
-        specifier: 0.32.0
+        specifier: ^0.32.0
         version: 0.32.0
       zod:
-        specifier: 4.6.5
+        specifier: ^4.6.5
         version: 4.6.5
 
   packages/extension-sdk:
     dependencies:
       zod:
-        specifier: 4.6.5
+        specifier: ^4.6.5
         version: 4.6.5
 
   packages/shared:

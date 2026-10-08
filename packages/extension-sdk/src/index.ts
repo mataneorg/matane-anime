@@ -1,4 +1,4 @@
-export type * from './types';
-export type * from './host';
-export * from './errors';
-export { defineExtension } from './define';
+export type * from './types.js';
+export type * from './host.js';
+export * from './errors.js';
+export { defineExtension } from './define.js';

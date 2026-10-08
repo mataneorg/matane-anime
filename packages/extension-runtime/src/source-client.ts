@@ -10,7 +10,7 @@ import type {
   UrlKind,
 } from '@matane-anime/extension-sdk';
 import { z } from 'zod';
-import { ExtensionRuntimeError } from './errors';
+import { ExtensionRuntimeError } from './errors.js';
 import {
   animeDetailsSchema,
   animePageSchema,
@@ -19,8 +19,8 @@ import {
   filterListSchema,
   preferenceListSchema,
   streamListSchema,
-} from './results';
-import type { CallOptions, ExtensionRuntime } from './runtime';
+} from './results.js';
+import type { CallOptions, ExtensionRuntime } from './runtime.js';
 
 /**
  * Where a source's calls go. Locally that is an `ExtensionRuntime`; in the app it is the extension host

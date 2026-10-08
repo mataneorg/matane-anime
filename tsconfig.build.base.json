@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  // Emit for npm: JS and declarations side by side. Sibling packages resolve through their published `dist`
+  // (no custom condition), so a package is built after the ones it depends on.
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "customConditions": [],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  }
+}

@@ -7,8 +7,13 @@ import { defineConfig } from 'electron-vite';
 // Workspace packages ship TypeScript sources, so they must be bundled instead of externalized.
 const bundledWorkspaceDeps = ['@matane-anime/shared', '@matane-anime/extension-runtime', '@matane-anime/extension-sdk'];
 
+// The extension-* packages export their sources under this condition; `dist` is what npm consumers get.
+const sourceResolve = { conditions: ['matane-source'] };
+
 export default defineConfig({
   main: {
+    resolve: sourceResolve,
+    ssr: { resolve: sourceResolve },
     build: {
       externalizeDeps: { exclude: bundledWorkspaceDeps },
       rollupOptions: {
@@ -21,6 +26,8 @@ export default defineConfig({
     },
   },
   preload: {
+    resolve: sourceResolve,
+    ssr: { resolve: sourceResolve },
     // Sandboxed preloads cannot require node_modules, so bundle everything. There is a single
     // entry, so no code splitting happens (`isolatedEntries` is unnecessary and crashes on non-TTY output).
     build: { externalizeDeps: false },
@@ -29,6 +36,7 @@ export default defineConfig({
     // Main and preload stay unminified for readable stack traces; the renderer ships minified.
     build: { minify: true },
     resolve: {
+      ...sourceResolve,
       alias: { '@renderer': resolve(__dirname, 'src/renderer/src') },
     },
     plugins: [

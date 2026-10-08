@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { API_VERSION, manifestSchema } from '@matane-anime/extension-sdk/manifest';
+import { VERSION } from './version';
 
 const SOURCE_TEMPLATE = `import '@matane-anime/extension-sdk/globals';
 import {
@@ -94,7 +95,8 @@ export async function scaffold(options: ScaffoldOptions): Promise<string> {
     throw new Error(parsed.error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`).join('; '));
   }
 
-  const link = inWorkspace(target) ? 'workspace:*' : '^0.1.0';
+  // The three packages are released together, so the CLI's version is also the SDK's.
+  const link = inWorkspace(target) ? 'workspace:*' : `^${VERSION}`;
   await mkdir(join(target, 'src'), { recursive: true });
   await Promise.all([
     writeFile(join(target, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`),

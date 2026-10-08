@@ -3,7 +3,7 @@
 //     import '@matane-anime/extension-sdk/globals';
 //
 // There is no `require`, `fetch`, `process` or file access.
-import type { HtmlElement, HtmlLoadOptions, HttpRequest, HttpResponse } from './host';
+import type { HtmlElement, HtmlLoadOptions, HttpRequest, HttpResponse } from './host.js';
 
 declare global {
   const http: {

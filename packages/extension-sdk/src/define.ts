@@ -1,4 +1,4 @@
-import type { ExtensionDefinition } from './types';
+import type { ExtensionDefinition } from './types.js';
 
 /**
  * The default export of an extension's entry file:

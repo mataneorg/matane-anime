@@ -1,20 +1,63 @@
 {
   "name": "@matane-anime/extension-sdk",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Types and helpers for writing Matane Anime extensions",
   "license": "MIT",
   "type": "module",
-  "exports": {
-    ".": "./src/index.ts",
-    "./manifest": "./src/manifest.ts",
-    "./globals": "./src/globals.ts"
+  "keywords": [
+    "matane-anime",
+    "anime",
+    "extension",
+    "sdk",
+    "typescript"
+  ],
+  "homepage": "https://github.com/SukunDev/matane-anime/tree/main/packages/extension-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/SukunDev/matane-anime/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SukunDev/matane-anime.git",
+    "directory": "packages/extension-sdk"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "matane-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./manifest": {
+      "matane-source": "./src/manifest.ts",
+      "types": "./dist/manifest.d.ts",
+      "default": "./dist/manifest.js"
+    },
+    "./globals": {
+      "matane-source": "./src/globals.ts",
+      "types": "./dist/globals.d.ts",
+      "default": "./dist/globals.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
+    "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.build.json",
+    "prepack": "pnpm run build",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run"
   },
   "dependencies": {
-    "zod": "4.6.5"
+    "zod": "^4.6.5"
   }
 }
