@@ -16,6 +16,7 @@ import { EpisodesRepository } from './db/repositories/episodes';
 import { HistoryRepository } from './db/repositories/history';
 import { LibraryRepository } from './db/repositories/library';
 import { WatchSessionsRepository } from './db/repositories/watch-sessions';
+import { createDownloadUpstream, createStreamSource } from './downloads/adapters';
 import { DownloadService } from './downloads/service';
 import { LibraryCovers } from './library/covers';
 import { MigrationService } from './library/migration';
@@ -158,7 +159,6 @@ if (!app.requestSingleInstanceLock()) {
           if (row.inLibrary && row.thumbnailUrl !== previousThumbnail) void covers.ensure(row.id, true);
         },
       });
-      const downloadService = new DownloadService({ downloads: downloadsRepo });
       const updateService = new UpdateService();
       const sourceMigration = new MigrationService({
         anime: animeRepo,
@@ -170,10 +170,27 @@ if (!app.requestSingleInstanceLock()) {
           void covers.remove(fromId);
         },
       });
-      void registry.init();
+      const registryReady = registry.init();
 
       const sessions = new SessionStore();
       const fetchUpstream = createSessionUpstream(fetcherFor);
+      const downloadService = new DownloadService({
+        downloads: downloadsRepo,
+        episodes: episodeRepo,
+        anime: animeRepo,
+        settings,
+        sourceName: (sourceId) => store.getSource(sourceId)?.name ?? null,
+        assertAvailable: (sourceId) => service.assertAvailable(sourceId),
+        streamsFor: createStreamSource({ episodes: episodeRepo, anime: animeRepo, settings, extensions: service }),
+        upstream: createDownloadUpstream(fetchUpstream),
+        defaultFolder: () => join(app.getPath('documents'), 'Matane Anime'),
+        isOnline: () => network.status.isOnline,
+        onOnlineChange: (listener) => network.onOnlineChange(listener),
+        emitProgress: (items) => broadcast('downloads.progress', items),
+        ready: registryReady,
+        log: (message, error) => log.warn(message, error),
+      });
+      downloadService.start();
       handleAnimeScheme({
         sessions,
         fetchUpstream,
@@ -243,6 +260,7 @@ if (!app.requestSingleInstanceLock()) {
       });
       // `quit`, not `before-quit`: windows still save their geometry while they close.
       app.on('quit', () => {
+        downloadService.shutdown();
         playback.closeAll();
         registry.dispose();
         network.status.stop();

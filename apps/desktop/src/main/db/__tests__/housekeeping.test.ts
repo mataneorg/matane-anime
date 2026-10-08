@@ -63,6 +63,20 @@ describe('purgeBrowseRows', () => {
     expect(ids()).toEqual(['InHistory', 'Session', 'Started', 'Watched']);
   });
 
+  it('keeps an anime that has a download, whatever its status', () => {
+    const downloaded = browse('Downloaded', 30);
+    db.connection.sqlite
+      .prepare(
+        `INSERT INTO downloads (episode_id, status, queue_order, kind, created_at) VALUES (?, 'queued', 1, 'hls', 1)`,
+      )
+      .run(db.episodes.list(downloaded)[0]!.id);
+    browse('Plain', 30);
+    db.connection.sqlite.prepare('UPDATE anime SET updated_at = ?').run(NOW - 30 * DAY);
+    expect(purgeBrowseRows(db.connection.sqlite, NOW).deleted).toBe(1);
+    expect(ids()).toEqual(['Downloaded']);
+    expect(db.downloads.list()).toHaveLength(1);
+  });
+
   it('reports the covers of what it deleted, and does nothing when there is nothing to do', () => {
     const id = browse('WithCover', 40);
     db.anime.setCoverPath(id, '/tmp/cover.jpg');
