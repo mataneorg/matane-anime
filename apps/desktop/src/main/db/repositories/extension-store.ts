@@ -10,6 +10,8 @@ export interface SourceRow {
   key: string;
   name: string;
   lang: string;
+  /** Whether the extension was 18+ when it last loaded (kept after it is uninstalled). */
+  nsfw: boolean;
   pinned: boolean;
   lastUsedAt: number | null;
 }
@@ -98,8 +100,12 @@ export class ExtensionStore {
             key: source.key,
             name: source.name,
             lang: source.lang,
+            nsfw: manifest.nsfw,
           })
-          .onConflictDoUpdate({ target: sources.id, set: { name: source.name, lang: source.lang } })
+          .onConflictDoUpdate({
+            target: sources.id,
+            set: { name: source.name, lang: source.lang, nsfw: manifest.nsfw },
+          })
           .run();
       }
     });

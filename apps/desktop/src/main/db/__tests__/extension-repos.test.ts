@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { type TestDb, createTestDb } from './helpers';
+import { type TestDb, createTestDb, manifest } from './helpers';
 
 let db: TestDb;
 beforeEach(async () => {
@@ -40,5 +40,21 @@ describe('extension repositories (migration 0004)', () => {
       origin: 'repo',
       repoId: null,
     });
+  });
+});
+
+describe('the 18+ flag of a source (migration 0005)', () => {
+  it('is kept with the source when the extension is deleted, and follows the manifest on every load', () => {
+    const adult = { ...manifest, id: 'adult', nsfw: true, sources: [{ key: 'en', lang: 'en', name: 'Adult (EN)' }] };
+    db.store.upsertExtension(adult, 2000);
+    expect(db.store.getSource('adult/en')?.nsfw).toBe(true);
+    expect(db.store.getSource('example/en')?.nsfw).toBe(false);
+
+    db.store.deleteExtension('adult');
+    expect(db.store.getExtension('adult')).toBeUndefined();
+    expect(db.store.getSource('adult/en')?.nsfw).toBe(true);
+
+    db.store.upsertExtension({ ...adult, nsfw: false }, 3000);
+    expect(db.store.getSource('adult/en')?.nsfw).toBe(false);
   });
 });

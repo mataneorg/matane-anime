@@ -77,6 +77,8 @@ export const sources = sqliteTable(
     key: text().notNull(),
     name: text().notNull(),
     lang: text().notNull(),
+    /** Whether the extension was 18+ when it last loaded: kept here so an uninstalled one stays hidden (EXT-15). */
+    nsfw: integer({ mode: 'boolean' }).notNull().default(false),
     pinned: integer({ mode: 'boolean' }).notNull().default(false),
     lastUsedAt: integer(),
   },

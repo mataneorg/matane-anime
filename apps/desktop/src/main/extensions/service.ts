@@ -129,7 +129,7 @@ export class ExtensionService {
     for (const row of store.listSources()) {
       const record = registry.byExtensionId(row.extensionId);
       const known = store.getExtension(row.extensionId);
-      const nsfw = record?.manifest?.nsfw ?? known?.nsfw ?? false;
+      const nsfw = record?.manifest?.nsfw ?? known?.nsfw ?? row.nsfw;
       if (!allowsNsfw(preferences, nsfw) || !allowsLanguage(preferences.contentLanguages, row.lang)) continue;
       out.push({
         id: row.id,

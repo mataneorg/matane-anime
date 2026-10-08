@@ -36,6 +36,13 @@
       "when": 1791486626743,
       "tag": "0004_extension_repos",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1791502500668,
+      "tag": "0005_sources_nsfw",
+      "breakpoints": true
     }
   ]
 }
