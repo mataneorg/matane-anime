@@ -248,3 +248,87 @@ describe('notifications', () => {
     expect(db.emitted.flat()).toEqual(expect.arrayContaining([`episodes:${animeId}`, 'library', 'history']));
   });
 });
+
+describe('observers (download ahead, delete after watched)', () => {
+  it('announces a playback once, at its first play report', () => {
+    const { ids } = seed(2);
+    const started: { playbackId: string; episodeId: number }[] = [];
+    service.onPlayStarted((playback) => started.push(playback));
+    report('p', ids['1']!, 0, 'heartbeat');
+    expect(started).toEqual([]);
+    report('p', ids['1']!, 0, 'play');
+    report('p', ids['1']!, 5000, 'pause', 5000);
+    report('p', ids['1']!, 5000, 'play', 1000);
+    report('p', ids['1']!, 9000, 'heartbeat', 4000);
+    expect(started).toEqual([{ playbackId: 'p', episodeId: ids['1'] }]);
+    report('q', ids['2']!, 0, 'play');
+    expect(started).toHaveLength(2);
+  });
+
+  it('announces a close, and stops announcing after unsubscribing', () => {
+    const { ids } = seed(1);
+    const closed: string[] = [];
+    const stop = service.onPlayClosed(({ playbackId }) => closed.push(playbackId));
+    report('p', ids['1']!, 0, 'play');
+    report('p', ids['1']!, 1000, 'close', 1000);
+    stop();
+    report('q', ids['1']!, 0, 'play');
+    report('q', ids['1']!, 1000, 'close', 1000);
+    expect(closed).toEqual(['p']);
+  });
+
+  it('reports the episode that reached the threshold once, not every later heartbeat or an ended after it', () => {
+    const { ids } = seed(2);
+    const watched: number[][] = [];
+    service.onWatched((episodeIds) => watched.push(episodeIds));
+    report('p', ids['1']!, 0, 'play');
+    report('p', ids['1']!, 0.5 * DURATION, 'heartbeat', 5000);
+    expect(watched).toEqual([]);
+    report('p', ids['1']!, 0.9 * DURATION, 'heartbeat', 5000);
+    report('p', ids['1']!, 0.95 * DURATION, 'heartbeat', 5000);
+    report('p', ids['1']!, DURATION, 'ended', 5000);
+    expect(watched).toEqual([[ids['1']]]);
+  });
+
+  it('reports an episode that becomes watched by ending, with the threshold at 100%', () => {
+    const { ids } = seed(1);
+    db.settings.updateAppSettings({ playerWatchedThreshold: 100 });
+    const watched: number[][] = [];
+    service.onWatched((episodeIds) => watched.push(episodeIds));
+    report('p', ids['1']!, DURATION - 1000, 'heartbeat');
+    report('p', ids['1']!, DURATION, 'ended', 1000);
+    expect(watched).toEqual([[ids['1']]]);
+  });
+
+  it('reports only the episodes marking by hand really turned, never the unmarking', () => {
+    const { animeId, ids } = seed(4, ['Sub', 'Dub']);
+    const watched: number[][] = [];
+    service.onWatched((episodeIds) => watched.push([...episodeIds].sort((a, b) => a - b)));
+    service.markWatched([ids['1Sub']!], true);
+    expect(watched).toEqual([[ids['1Dub']!, ids['1Sub']!].sort((a, b) => a - b)]);
+    service.markWatched([ids['1Sub']!], true); // nothing new
+    expect(watched).toHaveLength(1);
+    service.markPrevious(ids['3Sub']!);
+    expect(watched[1]).toEqual([ids['2Dub']!, ids['2Sub']!].sort((a, b) => a - b));
+    service.markWatched([ids['3Sub']!], false);
+    expect(watched).toHaveLength(2);
+    service.markAnimeWatched([animeId], true);
+    expect(watched[2]).toEqual([ids['3Dub']!, ids['3Sub']!, ids['4Dub']!, ids['4Sub']!].sort((a, b) => a - b));
+  });
+
+  it('is not told about anything in incognito, and a throwing listener never breaks progress', () => {
+    const { ids } = seed(1);
+    const seen: string[] = [];
+    service.onPlayStarted(() => {
+      throw new Error('boom');
+    });
+    service.onWatched(() => seen.push('watched'));
+    incognito = true;
+    report('p', ids['1']!, 0.9 * DURATION, 'heartbeat');
+    expect(seen).toEqual([]);
+    incognito = false;
+    expect(() => report('q', ids['1']!, 0, 'play')).not.toThrow();
+    expect(report('q', ids['1']!, 0.9 * DURATION, 'heartbeat', 1000)).toEqual({ watched: true });
+    expect(seen).toEqual(['watched']);
+  });
+});

@@ -83,6 +83,13 @@
   },
   "settings": {
     "title": "Settings",
+    "system": {
+      "title": "System",
+      "runAtLogin": "Start with your computer",
+      "runAtLoginHint": "Lets update checks and downloads run in the background.",
+      "closeToTray": "Close to the system tray",
+      "closeToTrayHint": "The window hides instead of quitting. On Linux, the tray needs a desktop that supports AppIndicator."
+    },
     "sectionsLabel": "Settings sections",
     "sections": {
       "general": "General",

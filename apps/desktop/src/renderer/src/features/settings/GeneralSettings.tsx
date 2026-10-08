@@ -127,6 +127,38 @@ export function GeneralSettings() {
           </select>
         </div>
       </section>
+
+      <section className="flex flex-col gap-4 border-t pt-5" aria-labelledby="system-title">
+        <h2 id="system-title" className="text-[15px] leading-[22px] font-semibold">
+          {t('settings.system.title')}
+        </h2>
+        <div className="flex items-center gap-4">
+          <div className="flex-1">
+            <label htmlFor="run-at-login" className="block font-semibold">
+              {t('settings.system.runAtLogin')}
+            </label>
+            <div className="text-xs leading-4">{t('settings.system.runAtLoginHint')}</div>
+          </div>
+          <Switch
+            id="run-at-login"
+            checked={settings.runAtLogin}
+            onCheckedChange={(runAtLogin) => update.mutate({ runAtLogin })}
+          />
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex-1">
+            <label htmlFor="close-to-tray" className="block font-semibold">
+              {t('settings.system.closeToTray')}
+            </label>
+            <div className="text-xs leading-4">{t('settings.system.closeToTrayHint')}</div>
+          </div>
+          <Switch
+            id="close-to-tray"
+            checked={settings.closeToTray}
+            onCheckedChange={(closeToTray) => update.mutate({ closeToTray })}
+          />
+        </div>
+      </section>
     </div>
   );
 }

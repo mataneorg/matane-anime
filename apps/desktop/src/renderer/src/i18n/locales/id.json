@@ -83,6 +83,13 @@
   },
   "settings": {
     "title": "Pengaturan",
+    "system": {
+      "title": "Sistem",
+      "runAtLogin": "Jalankan saat komputer menyala",
+      "runAtLoginHint": "Pengecekan pembaruan dan unduhan tetap berjalan di latar belakang.",
+      "closeToTray": "Tutup ke system tray",
+      "closeToTrayHint": "Jendela disembunyikan, bukan ditutup. Di Linux, tray butuh desktop yang mendukung AppIndicator."
+    },
     "sectionsLabel": "Bagian pengaturan",
     "sections": {
       "general": "Umum",

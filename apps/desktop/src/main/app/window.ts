@@ -19,7 +19,14 @@ function readWindowState(settings: SettingsRepository): WindowState {
   return parsed.success ? parsed.data : DEFAULT_WINDOW_STATE;
 }
 
-export function createMainWindow(settings: SettingsRepository): BrowserWindow {
+export interface MainWindowOptions {
+  /** A start at login with a working tray: the window stays hidden until the tray opens it (UPD-9). */
+  startHidden?: boolean;
+  /** Closing hides the window instead of destroying it (close to tray). */
+  shouldHideOnClose?: () => boolean;
+}
+
+export function createMainWindow(settings: SettingsRepository, options: MainWindowOptions = {}): BrowserWindow {
   const saved = readWindowState(settings);
   const bounds = isVisibleOnSomeDisplay(saved)
     ? { x: saved.x, y: saved.y, width: saved.width, height: saved.height }
@@ -47,7 +54,9 @@ export function createMainWindow(settings: SettingsRepository): BrowserWindow {
   });
 
   if (saved.maximized) window.maximize();
-  window.once('ready-to-show', () => window.show());
+  window.once('ready-to-show', () => {
+    if (!options.startHidden) window.show();
+  });
 
   const saveState = (): void => {
     if (window.isDestroyed()) return;
@@ -62,6 +71,11 @@ export function createMainWindow(settings: SettingsRepository): BrowserWindow {
     settings.setValue(WINDOW_STATE_KEY, state);
   };
   window.on('close', saveState);
+  window.on('close', (event) => {
+    if (!options.shouldHideOnClose?.()) return;
+    event.preventDefault();
+    window.hide();
+  });
 
   window.on('maximize', () => broadcast('window.maximizeChanged', true));
   window.on('unmaximize', () => broadcast('window.maximizeChanged', false));

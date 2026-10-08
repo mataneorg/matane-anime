@@ -1,5 +1,5 @@
 import { mkdir } from 'node:fs/promises';
-import { AppError } from '@matane-anime/shared';
+import { AppError, type AppSettings } from '@matane-anime/shared';
 import { BrowserWindow, app, dialog, shell } from 'electron';
 import type { SettingsRepository } from '../db/repositories/settings';
 import type { ExtensionLogs } from '../extensions/logs';
@@ -31,6 +31,8 @@ export interface HandlerDeps {
   updates: UpdateService;
   libraryRepo: LibraryRepository;
   migration: MigrationService;
+  /** Applies `closeToTray` and `runAtLogin` (the tray and the login item). */
+  applySystemSettings(settings: AppSettings): void;
   /** Fills the library for performance checks (development only). */
   seedLibrary(anime: number, episodesPerAnime: number): void;
   /** Null unless the spike is switched on (development, or MATANE_SPIKE=1). */
@@ -51,6 +53,7 @@ export function createHandlers({
   updates,
   libraryRepo,
   migration,
+  applySystemSettings,
   seedLibrary,
   spike,
 }: HandlerDeps): IpcHandlers {
@@ -89,6 +92,7 @@ export function createHandlers({
       const updated = settings.updateAppSettings(patch);
       broadcast('settings.changed', updated);
       if (patch.updateIntervalHours !== undefined) updates.reschedule();
+      if (patch.closeToTray !== undefined || patch.runAtLogin !== undefined) applySystemSettings(updated);
       return updated;
     },
     'dialog.pickFolder': async (_input, event) => {

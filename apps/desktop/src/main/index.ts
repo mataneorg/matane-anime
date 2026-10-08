@@ -1,9 +1,14 @@
 import { mkdirSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { BrowserWindow, app, crashReporter } from 'electron';
+import type { AppSettings } from '@matane-anime/shared';
 import { autoUpdater } from 'electron-updater';
 import { createMainWindow } from './app/window';
+import { applyRunAtLogin } from './app/autostart';
+import { SystemIntegration, trayText } from './app/system';
+import { createElectronTray } from './app/tray';
 import { printSmokeReport, isSmokeRun, runSmoke } from './app/smoke';
 import { AppUpdater, type AutoUpdaterLike } from './app/updater';
 import { initLogging } from './app/log';
@@ -21,10 +26,12 @@ import { LibraryRepository } from './db/repositories/library';
 import { WatchSessionsRepository } from './db/repositories/watch-sessions';
 import { createDownloadUpstream, createStreamSource } from './downloads/adapters';
 import { DownloadService } from './downloads/service';
+import { WatchDownloads } from './downloads/watch-hooks';
 import { LibraryCovers } from './library/covers';
 import { MigrationService } from './library/migration';
 import { LibraryService } from './library/service';
 import { UpdatesRepository } from './db/repositories/updates';
+import { resolveLanguage } from './updates/messages';
 import { isWindowFocused, showUpdateNotification } from './updates/notify';
 import { UpdateService } from './updates/service';
 import { WatchService } from './watch/service';
@@ -54,12 +61,17 @@ crashReporter.start({ uploadToServer: false });
 // Before `ready`: the `anime://` scheme has to be privileged ahead of time.
 registerAnimeScheme();
 
+// Set once the tray exists: `window-all-closed` quits unless the tray keeps the app running (UPD-9).
+let keepsRunning = (): boolean => false;
+
 if (!app.requestSingleInstanceLock()) {
   app.quit();
 } else {
   app.on('second-instance', () => {
     const [window] = BrowserWindow.getAllWindows();
     if (!window) return;
+    // Launching again is how a user reaches an app hidden behind a tray that does not show (Linux, R14).
+    if (!window.isVisible()) window.show();
     if (window.isMinimized()) window.restore();
     window.focus();
   });
@@ -221,6 +233,68 @@ if (!app.requestSingleInstanceLock()) {
         log: (message, error) => log.warn(message, error),
       });
       downloadService.start();
+      // Download ahead and delete after watched follow what WatchService reports (DL-12, DL-13).
+      new WatchDownloads({
+        settings,
+        episodes: episodeRepo,
+        anime: animeRepo,
+        downloads: downloadsRepo,
+        categoryIdsOf: (animeId) => libraryRepo.categoryIdsOf(animeId),
+        enqueueAhead: (episodeIds) => downloadService.enqueue({ episodeIds }, { reason: 'ahead' }),
+        removeDownload: (id) => downloadService.remove(id),
+        log: (message, error) => log.warn(message, error),
+      }).attach(watch);
+
+      const openMainWindow = (): void => {
+        const [window] = BrowserWindow.getAllWindows();
+        if (!window) {
+          createMainWindow(settings, { shouldHideOnClose: () => system.shouldHideOnClose() });
+          return;
+        }
+        if (!window.isVisible()) window.show();
+        if (window.isMinimized()) window.restore();
+        window.focus();
+      };
+      const system: SystemIntegration = new SystemIntegration({
+        createTray: createElectronTray,
+        open: openMainWindow,
+        checkUpdates: () => updateService.check({ kind: 'all' }),
+        quit: () => app.quit(),
+        downloads: {
+          isPaused: () => {
+            const counts = downloadsRepo.counts();
+            return counts.paused > 0 && counts.downloading + counts.queued === 0;
+          },
+          pauseAll: () => downloadService.pauseAll(),
+          resumeAll: () => downloadService.resumeAll(),
+        },
+        text: () => trayText(resolveLanguage(settings.getAppSettings().language, app.getLocale())),
+        log: { warn: (message, error) => log.warn(message, error) },
+      });
+      keepsRunning = () => system.keepsRunning();
+      changes.subscribe(({ tags }) => {
+        if (tags.includes('downloads')) system.refresh();
+      });
+      // The tray and the login item follow `closeToTray` and `runAtLogin`, at startup and when they change.
+      const applySystemSettings = (current: AppSettings): void => {
+        system.apply(current.closeToTray);
+        // Not for a development run: it would register the bare Electron binary.
+        if (!app.isPackaged) return;
+        try {
+          applyRunAtLogin(current.runAtLogin, {
+            platform: process.platform,
+            setLoginItemSettings: (login) => app.setLoginItemSettings(login),
+            linux: {
+              dir: join(process.env['XDG_CONFIG_HOME'] || join(homedir(), '.config'), 'autostart'),
+              execPath: process.execPath,
+              appImage: process.env['APPIMAGE'],
+            },
+          });
+        } catch (error) {
+          log.warn('could not update the start-at-login entry', error);
+        }
+      };
+      applySystemSettings(settings.getAppSettings());
       handleAnimeScheme({
         sessions,
         fetchUpstream,
@@ -277,6 +351,7 @@ if (!app.requestSingleInstanceLock()) {
           updates: updateService,
           libraryRepo,
           migration: sourceMigration,
+          applySystemSettings,
           seedLibrary: (anime, episodesPerAnime) => {
             seedLibrary(connection.sqlite, anime, episodesPerAnime);
             changes.emit('library', 'categories');
@@ -284,7 +359,10 @@ if (!app.requestSingleInstanceLock()) {
           spike,
         }),
       );
-      const mainWindow = createMainWindow(settings);
+      const mainWindow = createMainWindow(settings, {
+        startHidden: system.shouldStartHidden(process.argv),
+        shouldHideOnClose: () => system.shouldHideOnClose(),
+      });
 
       const updater = new AppUpdater({
         app,
@@ -305,10 +383,12 @@ if (!app.requestSingleInstanceLock()) {
       }
 
       app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createMainWindow(settings);
+        if (BrowserWindow.getAllWindows().length === 0) openMainWindow();
       });
+      app.on('before-quit', () => system.markQuitting());
       // `quit`, not `before-quit`: windows still save their geometry while they close.
       app.on('quit', () => {
+        system.dispose();
         downloadService.shutdown();
         updateService.stop();
         playback.closeAll();
@@ -326,6 +406,6 @@ if (!app.requestSingleInstanceLock()) {
     });
 
   app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit();
+    if (process.platform !== 'darwin' && !keepsRunning()) app.quit();
   });
 }

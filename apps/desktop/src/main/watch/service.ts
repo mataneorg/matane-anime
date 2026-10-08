@@ -23,9 +23,18 @@ export interface WatchDeps {
 interface ActiveSession {
   sessionId: number;
   animeId: number;
+  episodeId: number;
   lastAt: number;
   activeMs: number;
   playing: boolean;
+  /** Whether `onPlayStarted` listeners were told about this playback. */
+  announced: boolean;
+}
+
+/** A playback, as the observers of `WatchService` see it. */
+export interface PlaybackRef {
+  playbackId: string;
+  episodeId: number;
 }
 
 export function toContinueDto(target: {
@@ -62,6 +71,9 @@ const asContinueEpisode = (row: EpisodeRecord): ContinueEpisode & { name: string
 export class WatchService {
   private readonly active = new Map<string, ActiveSession>();
   private readonly deps: WatchDeps;
+  private readonly watchedListeners = new Set<(episodeIds: number[]) => void>();
+  private readonly startedListeners = new Set<(playback: PlaybackRef) => void>();
+  private readonly closedListeners = new Set<(playback: PlaybackRef) => void>();
 
   constructor(deps: WatchDeps) {
     this.deps = deps;
@@ -75,6 +87,54 @@ export class WatchService {
 
   private threshold(): number {
     return this.deps.settings.getAppSettings().playerWatchedThreshold;
+  }
+
+  // ------------------------------------------------------------------ observers
+  // Hooks for features that react to watching (download ahead, delete after watched). They only observe: the
+  // progress, the watched flag and the history are still written here and nowhere else (docs/adr/0015).
+
+  /** Called with the episodes that just turned watched: by the threshold, an ending, or marking by hand. */
+  onWatched(listener: (episodeIds: number[]) => void): () => void {
+    this.watchedListeners.add(listener);
+    return () => this.watchedListeners.delete(listener);
+  }
+
+  /** Called once per playback, at its first `play` report. */
+  onPlayStarted(listener: (playback: PlaybackRef) => void): () => void {
+    this.startedListeners.add(listener);
+    return () => this.startedListeners.delete(listener);
+  }
+
+  /** Called when a playback reports `close`. */
+  onPlayClosed(listener: (playback: PlaybackRef) => void): () => void {
+    this.closedListeners.add(listener);
+    return () => this.closedListeners.delete(listener);
+  }
+
+  /** A listener that throws must never break progress saving. */
+  private notify<T>(listeners: Set<(value: T) => void>, value: T): void {
+    for (const listener of listeners) {
+      try {
+        listener(value);
+      } catch {
+        // observers handle their own errors
+      }
+    }
+  }
+
+  /** Runs a write that can mark episodes watched and tells the observers which ones it turned. */
+  private trackWatched(animeIds: number[], write: () => void): void {
+    const unwatched = () =>
+      this.deps.episodes
+        .forAnime(animeIds)
+        .filter((episode) => !episode.watched)
+        .map((episode) => episode.id);
+    const before = this.watchedListeners.size > 0 ? unwatched() : [];
+    write();
+    if (before.length === 0) return;
+    const still = new Set(unwatched());
+    const turned = before.filter((id) => !still.has(id));
+    if (turned.length > 0) this.notify(this.watchedListeners, turned);
   }
 
   /** Where playback of an episode starts (PRG-4). */
@@ -94,9 +154,11 @@ export class WatchService {
       session = {
         sessionId: sessions.start(episode.animeId, episode.id, now),
         animeId: episode.animeId,
+        episodeId: episode.id,
         lastAt: now,
         activeMs: 0,
         playing: false,
+        announced: false,
       };
       this.active.set(input.playbackId, session);
     }
@@ -118,6 +180,7 @@ export class WatchService {
     if (!watched && reachedThreshold(input.positionMs, duration, this.threshold(), ended)) {
       episodes.setWatched([episode.id], true, now);
       watched = true;
+      this.notify(this.watchedListeners, [episode.id]);
     }
 
     if (session.activeMs >= HISTORY_MIN_ACTIVE_MS) {
@@ -127,28 +190,42 @@ export class WatchService {
     if (input.reason !== 'heartbeat' && input.reason !== 'play') {
       changes.emit(`episodes:${episode.animeId}`, `anime:${episode.animeId}`, 'library', 'history');
     }
+    if (input.reason === 'play' && !session.announced) {
+      session.announced = true;
+      this.notify(this.startedListeners, { playbackId: input.playbackId, episodeId: episode.id });
+    }
     if (input.reason === 'close') {
       sessions.end(session.sessionId, now);
       this.active.delete(input.playbackId);
+      this.notify(this.closedListeners, { playbackId: input.playbackId, episodeId: episode.id });
     }
     return { watched };
   }
 
   markWatched(episodeIds: number[], watched: boolean): void {
-    this.deps.episodes.setWatched(episodeIds, watched, this.now());
+    const write = () => this.deps.episodes.setWatched(episodeIds, watched, this.now());
+    if (!watched) return void write();
+    const animeIds = [...new Set(episodeIds.flatMap((id) => this.deps.episodes.get(id)?.animeId ?? []))];
+    this.trackWatched(animeIds, write);
   }
 
   /** Every episode of these anime (the library's multi-select, LIB-5). */
   markAnimeWatched(animeIds: number[], watched: boolean): void {
-    this.deps.episodes.setWatched(
-      this.deps.episodes.forAnime(animeIds).map((episode) => episode.id),
-      watched,
-      this.now(),
-    );
+    const write = () =>
+      this.deps.episodes.setWatched(
+        this.deps.episodes.forAnime(animeIds).map((episode) => episode.id),
+        watched,
+        this.now(),
+      );
+    if (!watched) return void write();
+    this.trackWatched(animeIds, write);
   }
 
   markPrevious(episodeId: number): void {
-    this.deps.episodes.markPrevious(episodeId, this.now());
+    const animeId = this.deps.episodes.get(episodeId)?.animeId;
+    const write = () => this.deps.episodes.markPrevious(episodeId, this.now());
+    if (animeId === undefined) return void write();
+    this.trackWatched([animeId], write);
   }
 
   resetProgress(episodeId: number): void {
