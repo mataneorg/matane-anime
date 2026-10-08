@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { Download, Globe, Loader2, Play, RefreshCw } from 'lucide-react';
+import { ArrowRightLeft, Download, Globe, Loader2, Play, RefreshCw } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { countEpisodes } from '@matane-anime/shared';
@@ -11,6 +11,7 @@ import { Button, buttonVariants } from '@renderer/components/ui/button';
 import { Select } from '@renderer/components/ui/select';
 import { EpisodeList } from '@renderer/features/anime/EpisodeList';
 import { LibraryButton } from '@renderer/features/anime/LibraryButton';
+import { MigrateDialog } from '@renderer/features/anime/MigrateDialog';
 import { call } from '@renderer/lib/api';
 import { animeQuery, episodesQuery } from '@renderer/lib/catalog';
 import { continueQuery } from '@renderer/lib/library';
@@ -28,6 +29,7 @@ function AnimePage() {
   const target = useQuery(continueQuery(animeId));
   const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
   const [unwatchedOnly, setUnwatchedOnly] = useState(false);
+  const [migrating, setMigrating] = useState(false);
 
   const refresh = useMutation({
     mutationFn: () => call('anime.refresh', { animeId }),
@@ -172,6 +174,16 @@ function AnimePage() {
             >
               <Globe className="size-4" strokeWidth={1.75} aria-hidden />
             </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              className="size-10"
+              aria-label={t('migrate.title')}
+              title={t('migrate.title')}
+              onClick={() => setMigrating(true)}
+            >
+              <ArrowRightLeft className="size-4" strokeWidth={1.75} aria-hidden />
+            </Button>
           </div>
         </div>
       </header>
@@ -247,6 +259,7 @@ function AnimePage() {
           />
         )}
       </section>
+      <MigrateDialog anime={data} open={migrating} onOpenChange={setMigrating} />
     </div>
   );
 }

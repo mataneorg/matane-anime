@@ -235,3 +235,58 @@ describe('1,000 anime and 50,000 episodes (docs/PRD.md §10.1)', () => {
     expect(list({ sort: 'title', search: 'number 99' }).length).toBeGreaterThan(0);
   }, 60_000);
 });
+
+describe('migrate (BRW-8)', () => {
+  it('moves membership, categories, history and progress to the other anime', async () => {
+    const { planMigration } = await import('../../library/match');
+    const category = db.library.createCategory('Watching');
+    const from = seed('Old Source', [3, 2, 1]);
+    const to = seed('New Source', [3, 2, 1], { sourceId: 'example/id', inLibrary: false });
+    db.library.setCategories([from], [category.id]);
+    db.connection.sqlite.prepare('UPDATE anime SET added_at = 777 WHERE id = ?').run(from);
+    const old = db.episodes.list(from);
+    const one = old.find((e) => e.number === 1)!;
+    const two = old.find((e) => e.number === 2)!;
+    db.episodes.setWatched([one.id], true, 900);
+    db.episodes.saveProgress(two.id, 600_000, 1_440_000);
+    db.history.touch(from, two.id, 950);
+    const session = db.sessions.start(from, two.id, 940);
+
+    const plan = planMigration(
+      db.episodes.list(from).map((e) => ({
+        id: e.id,
+        number: e.number,
+        variant: e.variant,
+        name: e.name,
+        sourceOrder: e.sourceOrder,
+        watched: e.watched,
+        watchedAt: e.watchedAt,
+        positionMs: e.positionMs,
+        durationMs: e.durationMs,
+      })),
+      db.episodes
+        .list(to)
+        .map((e) => ({ id: e.id, number: e.number, variant: e.variant, name: e.name, sourceOrder: e.sourceOrder })),
+    );
+    expect(db.library.migrate(from, to, plan, 2000)).toBe(2);
+
+    const items = list();
+    expect(items.map((i) => i.title)).toEqual(['New Source']);
+    expect(items[0]).toMatchObject({ categoryIds: [category.id], total: 3, unwatched: 2 });
+    const target = db.episodes.list(to);
+    expect(target.find((e) => e.number === 1)).toMatchObject({ watched: true, watchedAt: 900 });
+    expect(target.find((e) => e.number === 2)).toMatchObject({
+      watched: false,
+      positionMs: 600_000,
+      durationMs: 1_440_000,
+    });
+    expect(db.anime.get(to)).toMatchObject({ inLibrary: true, addedAt: 777 });
+    expect(db.anime.get(from)).toMatchObject({ inLibrary: false, addedAt: null });
+    expect(db.library.categoryIdsOf(from)).toEqual([]);
+    // History follows to the matching episode, and the old anime keeps its watch session (statistics).
+    expect(db.history.get(from)).toBeUndefined();
+    expect(db.history.get(to)).toMatchObject({ episodeId: target.find((e) => e.number === 2)!.id, watchedAt: 950 });
+    expect(db.sessions.get(session)).toBeDefined();
+    expect(items[0]!.continue).toMatchObject({ reason: 'resume', number: 2 });
+  });
+});

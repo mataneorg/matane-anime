@@ -444,5 +444,21 @@
     "noSources": "Belum ada sumber untuk dicari. Muat extension dulu.",
     "offline": "Mencari butuh koneksi.",
     "hint": "Ketik judul lalu tekan Enter."
+  },
+  "migrate": {
+    "title": "Pindah ke sumber lain",
+    "description": "Cari \"{{title}}\" di sumber lain dan pertahankan apa yang sudah kamu tonton.",
+    "search": "Cari di sumber lain",
+    "noOtherSources": "Tidak ada sumber lain untuk dituju.",
+    "noMatch": "Tidak ditemukan.",
+    "pickedTitle": "Pindah ke \"{{title}}\"",
+    "checking": "Mengambil daftar episodenya…",
+    "summary": "{{matched}} dari {{total}} episode yang punya progres cocok berdasarkan nomor dan akan ikut pindah.",
+    "nothingToCarry": "Belum ada yang ditonton, jadi hanya entri pustaka yang pindah.",
+    "unmatched_one": "{{count}} episode yang punya progres tidak ada padanannya dan progresnya hilang:",
+    "unmatched_other": "{{count}} episode yang punya progres tidak ada padanannya dan progresnya hilang:",
+    "note": "Entri pustaka, kategori, dan riwayatmu pindah ke anime baru. Yang lama keluar dari pustakamu.",
+    "back": "Kembali",
+    "confirm": "Pindahkan"
   }
 }

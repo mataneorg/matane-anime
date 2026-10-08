@@ -6,6 +6,7 @@ import type { ExtensionRegistry } from '../extensions/registry';
 import type { ExtensionService } from '../extensions/service';
 import type { NetworkManager } from '../network/manager';
 import type { LibraryRepository } from '../db/repositories/library';
+import type { MigrationService } from '../library/migration';
 import type { LibraryService } from '../library/service';
 import type { PlaybackService } from '../playback/service';
 import type { WatchService } from '../watch/service';
@@ -24,6 +25,9 @@ export interface HandlerDeps {
   watch: WatchService;
   library: LibraryService;
   libraryRepo: LibraryRepository;
+  migration: MigrationService;
+  /** Fills the library for performance checks (development only). */
+  seedLibrary(anime: number, episodesPerAnime: number): void;
   /** Null unless the spike is switched on (development, or MATANE_SPIKE=1). */
   spike: SpikeApi | null;
 }
@@ -39,6 +43,8 @@ export function createHandlers({
   watch,
   library,
   libraryRepo,
+  migration,
+  seedLibrary,
   spike,
 }: HandlerDeps): IpcHandlers {
   const requireSpike = (): SpikeApi => {
@@ -107,6 +113,9 @@ export function createHandlers({
     'library.add': ({ animeId, categoryIds }) => library.add(animeId, categoryIds),
     'library.remove': ({ animeId }) => library.remove(animeId),
     'library.setCategories': ({ animeIds, categoryIds }) => libraryRepo.setCategories(animeIds, categoryIds),
+    'library.migratePreview': ({ fromAnimeId, toAnimeId, requestId }) =>
+      migration.preview(fromAnimeId, toAnimeId, requestId),
+    'library.migrate': ({ fromAnimeId, toAnimeId }) => migration.migrate(fromAnimeId, toAnimeId),
     'categories.list': () => libraryRepo.listCategories(),
     'categories.create': ({ name }) => libraryRepo.createCategory(name),
     'categories.rename': ({ id, name }) => libraryRepo.renameCategory(id, name),
@@ -125,6 +134,10 @@ export function createHandlers({
     'playback.switchStream': ({ playbackId, index, requestId }) => playback.switchStream(playbackId, index, requestId),
     'playback.close': ({ playbackId }) => playback.close(playbackId),
     'playback.keepAwake': ({ enabled }) => playback.keepAwake(enabled),
+    'dev.seedLibrary': ({ anime, episodesPerAnime }) => {
+      requireSpike();
+      seedLibrary(anime, episodesPerAnime);
+    },
     'spike.fixtures': () => requireSpike().fixtures(),
     'spike.start': ({ id }) => requireSpike().start(id),
     'spike.stats': () => requireSpike().stats(),

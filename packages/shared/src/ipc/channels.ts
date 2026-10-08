@@ -34,6 +34,8 @@ export const INVOKE_CHANNELS = [
   'library.add',
   'library.remove',
   'library.setCategories',
+  'library.migratePreview',
+  'library.migrate',
   'categories.list',
   'categories.create',
   'categories.rename',
@@ -53,6 +55,7 @@ export const INVOKE_CHANNELS = [
   'playback.close',
   'playback.keepAwake',
   // Playback spike (phase 0). Only answered when the app runs with MATANE_SPIKE=1 or in development.
+  'dev.seedLibrary',
   'spike.fixtures',
   'spike.start',
   'spike.stats',

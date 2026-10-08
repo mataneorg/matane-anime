@@ -1,7 +1,8 @@
 import type { Category, ContinueTarget, LibraryItem, LibraryQuery } from '@matane-anime/shared';
 import { asc, eq, inArray, sql } from 'drizzle-orm';
 import type { AppDatabase } from '../client';
-import { anime, animeCategories, categories } from '../schema';
+import { anime, animeCategories, categories, episodes, history } from '../schema';
+import type { MigrationPlan } from '../../library/match';
 import { type ContinueEpisode, continueTarget } from '../../watch/continue';
 import { countEpisodes } from '../../watch/rules';
 import type { ChangeEmitter } from './changes';
@@ -176,6 +177,93 @@ export class LibraryRepository {
 
   count(): number {
     return (this.db.$client.prepare('SELECT COUNT(*) AS n FROM anime WHERE in_library = 1').get() as { n: number }).n;
+  }
+
+  // ------------------------------------------------------------------ migration (BRW-8)
+
+  /**
+   * Moves an anime's place in the library to another anime (the same series on another source), in one
+   * transaction: the progress in `plan`, the history entry, the categories, the date it was added and its custom
+   * cover. The old rows stay as an ordinary cache entry (and keep their watch sessions); they just leave the
+   * library. Returns how many episodes carried progress.
+   */
+  migrate(fromAnimeId: number, toAnimeId: number, plan: MigrationPlan, now = Date.now()): number {
+    let carried = 0;
+    this.db.transaction((tx) => {
+      const from = tx.select().from(anime).where(eq(anime.id, fromAnimeId)).get();
+      const to = tx.select().from(anime).where(eq(anime.id, toAnimeId)).get();
+      if (!from || !to) throw new Error('Both anime must exist to migrate');
+
+      for (const transfer of plan.transfers) {
+        tx.update(episodes)
+          .set({
+            watched: transfer.state.watched,
+            watchedAt: transfer.state.watchedAt,
+            positionMs: transfer.state.positionMs,
+            ...(transfer.state.durationMs !== null && { durationMs: transfer.state.durationMs }),
+          })
+          .where(eq(episodes.id, transfer.to))
+          .run();
+        carried += transfer.from.length;
+      }
+
+      const lastWatched = tx.select().from(history).where(eq(history.animeId, fromAnimeId)).get();
+      if (lastWatched) {
+        const target = plan.transfers.find((transfer) => transfer.from.includes(lastWatched.episodeId));
+        const existing = tx.select().from(history).where(eq(history.animeId, toAnimeId)).get();
+        if (target && (!existing || existing.watchedAt < lastWatched.watchedAt)) {
+          tx.insert(history)
+            .values({ animeId: toAnimeId, episodeId: target.to, watchedAt: lastWatched.watchedAt })
+            .onConflictDoUpdate({
+              target: history.animeId,
+              set: { episodeId: target.to, watchedAt: lastWatched.watchedAt },
+            })
+            .run();
+        }
+        tx.delete(history).where(eq(history.animeId, fromAnimeId)).run();
+      }
+
+      const categoryIds = [
+        ...new Set([
+          ...tx
+            .select({ id: animeCategories.categoryId })
+            .from(animeCategories)
+            .where(eq(animeCategories.animeId, fromAnimeId))
+            .all()
+            .map((row) => row.id),
+          ...tx
+            .select({ id: animeCategories.categoryId })
+            .from(animeCategories)
+            .where(eq(animeCategories.animeId, toAnimeId))
+            .all()
+            .map((row) => row.id),
+        ]),
+      ];
+      tx.delete(animeCategories)
+        .where(inArray(animeCategories.animeId, [fromAnimeId, toAnimeId]))
+        .run();
+      for (const categoryId of categoryIds) tx.insert(animeCategories).values({ animeId: toAnimeId, categoryId }).run();
+
+      tx.update(anime)
+        .set({
+          inLibrary: true,
+          addedAt: from.addedAt ?? to.addedAt ?? now,
+          customCoverPath: from.customCoverPath ?? to.customCoverPath,
+          updatedAt: now,
+        })
+        .where(eq(anime.id, toAnimeId))
+        .run();
+      tx.update(anime).set({ inLibrary: false, addedAt: null, updatedAt: now }).where(eq(anime.id, fromAnimeId)).run();
+    });
+    this.changes.emit(
+      'library',
+      'categories',
+      'history',
+      `anime:${fromAnimeId}`,
+      `anime:${toAnimeId}`,
+      `episodes:${toAnimeId}`,
+    );
+    return carried;
   }
 
   // ------------------------------------------------------------------ the list

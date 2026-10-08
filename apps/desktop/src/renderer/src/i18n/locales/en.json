@@ -444,5 +444,21 @@
     "noSources": "There are no sources to search yet. Load an extension first.",
     "offline": "Searching needs a connection.",
     "hint": "Type a title and press Enter."
+  },
+  "migrate": {
+    "title": "Migrate to another source",
+    "description": "Find \"{{title}}\" on another source and keep what you watched.",
+    "search": "Search the other sources",
+    "noOtherSources": "There is no other source to migrate to.",
+    "noMatch": "Nothing found.",
+    "pickedTitle": "Move to \"{{title}}\"",
+    "checking": "Fetching its episodes…",
+    "summary": "{{matched}} of {{total}} episodes with progress match by number and will carry over.",
+    "nothingToCarry": "Nothing was watched yet, so only the library entry moves.",
+    "unmatched_one": "{{count}} episode with progress has no match and will lose it:",
+    "unmatched_other": "{{count}} episodes with progress have no match and will lose it:",
+    "note": "Your library entry, categories and history move to the new anime. The old one stays out of your library.",
+    "back": "Back",
+    "confirm": "Migrate"
   }
 }

@@ -101,3 +101,13 @@ export const historyEntrySchema = z.object({
   next: continueTargetSchema.nullable(),
 });
 export type HistoryEntry = z.infer<typeof historyEntrySchema>;
+
+export const migrationPreviewSchema = z.object({
+  /** Episodes of the current source that were watched or started: the ones worth carrying over. */
+  withProgress: z.number().int(),
+  /** How many of them the new source has. */
+  matched: z.number().int(),
+  /** The ones it does not have: their progress would be lost. */
+  unmatched: z.array(z.object({ episodeId: z.number().int(), number: z.number().nullable(), name: z.string() })),
+});
+export type MigrationPreview = z.infer<typeof migrationPreviewSchema>;

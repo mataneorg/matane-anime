@@ -1,9 +1,12 @@
 import { mkdirSync } from 'node:fs';
+import { rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { BrowserWindow, app, crashReporter } from 'electron';
 import { createMainWindow } from './app/window';
 import { initLogging } from './app/log';
 import { openDatabase } from './db/client';
+import { purgeBrowseRows } from './db/housekeeping';
+import { seedLibrary } from './db/seed';
 import { runMigrations } from './db/migrate';
 import { HostError } from '@matane-anime/extension-runtime/client';
 import { AnimeRepository } from './db/repositories/anime';
@@ -13,6 +16,7 @@ import { HistoryRepository } from './db/repositories/history';
 import { LibraryRepository } from './db/repositories/library';
 import { WatchSessionsRepository } from './db/repositories/watch-sessions';
 import { LibraryCovers } from './library/covers';
+import { MigrationService } from './library/migration';
 import { LibraryService } from './library/service';
 import { WatchService } from './watch/service';
 import { ExtensionStore } from './db/repositories/extension-store';
@@ -64,6 +68,10 @@ if (!app.requestSingleInstanceLock()) {
       });
       log.info(`database ready (${migration.applied} migration(s) applied, backup: ${migration.backupPath ?? 'none'})`);
       const settings = new SettingsRepository(connection.db);
+      // Rows that only exist because a listing showed them are cache: drop the old ones (docs/adr/0016).
+      const purged = purgeBrowseRows(connection.sqlite, Date.now());
+      if (purged.deleted > 0) log.info(`removed ${purged.deleted} browse-only anime rows older than 14 days`);
+      for (const path of purged.coverPaths) void rm(path, { force: true });
 
       // Extensions: the host process runs their sandboxes; everything they touch goes through main.
       const changes = new ChangeEmitter();
@@ -146,6 +154,12 @@ if (!app.requestSingleInstanceLock()) {
           if (row.inLibrary && row.thumbnailUrl !== previousThumbnail) void covers.ensure(row.id, true);
         },
       });
+      const sourceMigration = new MigrationService({
+        anime: animeRepo,
+        episodes: episodeRepo,
+        library: libraryRepo,
+        refresh: (animeId, requestId) => service.refresh(animeId, requestId),
+      });
       void registry.init();
 
       const sessions = new SessionStore();
@@ -202,6 +216,11 @@ if (!app.requestSingleInstanceLock()) {
           watch,
           library: libraryService,
           libraryRepo,
+          migration: sourceMigration,
+          seedLibrary: (anime, episodesPerAnime) => {
+            seedLibrary(connection.sqlite, anime, episodesPerAnime);
+            changes.emit('library', 'categories');
+          },
           spike,
         }),
       );

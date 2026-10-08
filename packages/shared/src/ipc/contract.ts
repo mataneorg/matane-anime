@@ -22,6 +22,7 @@ import {
   historyEntrySchema,
   libraryItemSchema,
   libraryQuerySchema,
+  migrationPreviewSchema,
   progressInputSchema,
 } from '../library';
 import { playbackEventSchema, playbackSessionSchema, playbackUpdateSchema } from '../playback';
@@ -98,6 +99,18 @@ export const invokeContract = {
     z.object({ animeIds: z.array(z.number().int()), categoryIds: z.array(z.number().int()) }),
     z.void(),
   ),
+  /**
+   * Fetches the other anime's episodes and says what would carry over (docs/PRD.md BRW-8). Nothing changes yet.
+   */
+  'library.migratePreview': invoke(
+    z.object({ fromAnimeId: z.number().int(), toAnimeId: z.number().int(), requestId: z.string().optional() }),
+    migrationPreviewSchema,
+  ),
+  /** Moves library membership, categories, history and episode progress to the other anime, by episode number. */
+  'library.migrate': invoke(
+    z.object({ fromAnimeId: z.number().int(), toAnimeId: z.number().int() }),
+    z.object({ animeId: z.number().int(), carried: z.number().int() }),
+  ),
   'categories.list': invoke(z.void(), z.array(categorySchema)),
   'categories.create': invoke(z.object({ name: z.string() }), categorySchema),
   'categories.rename': invoke(z.object({ id: z.number().int(), name: z.string() }), z.void()),
@@ -133,6 +146,11 @@ export const invokeContract = {
   'playback.close': invoke(z.object({ playbackId: z.string() }), z.void()),
   /** Keeps the screen on while video plays (PLY-8). */
   'playback.keepAwake': invoke(z.object({ enabled: z.boolean() }), z.void()),
+  /** Fills the library with test data for performance checks. Only in development or with MATANE_SPIKE=1. */
+  'dev.seedLibrary': invoke(
+    z.object({ anime: z.number().int().min(1).max(5000), episodesPerAnime: z.number().int().min(1).max(200) }),
+    z.void(),
+  ),
   'spike.fixtures': invoke(z.void(), z.array(spikeFixtureSchema)),
   'spike.start': invoke(z.object({ id: z.string() }), spikeStartResultSchema),
   /** Every request the fake site has served since the last reset (to check `Range` and `Referer`). */
