@@ -41,7 +41,7 @@ describe('cover handler', () => {
   it('asks for the image lane, so covers do not queue behind page requests', async () => {
     const { requestBytes, instance } = fetcher();
     await createCoverHandler({ fetcherFor: () => instance })(request());
-    expect(requestBytes).toHaveBeenCalledWith(expect.anything(), { lane: 'image' });
+    expect(requestBytes).toHaveBeenCalledWith(expect.objectContaining({ timeoutMs: 10_000 }), { lane: 'image' });
   });
 
   it('shares one fetch between overlapping requests', async () => {

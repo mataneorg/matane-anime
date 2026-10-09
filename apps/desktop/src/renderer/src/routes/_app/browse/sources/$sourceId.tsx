@@ -11,7 +11,14 @@ import { Input } from '@renderer/components/ui/input';
 import { Select } from '@renderer/components/ui/select';
 import { AnimeCard, AnimeCardSkeleton } from '@renderer/features/browse/AnimeCard';
 import { FilterPanel, cleanFilters } from '@renderer/features/browse/FilterPanel';
-import { browseQuery, capabilitiesQuery, filtersQuery, networkStatusQuery, sourcesQuery } from '@renderer/lib/catalog';
+import {
+  browseCachedQuery,
+  browseQuery,
+  capabilitiesQuery,
+  filtersQuery,
+  networkStatusQuery,
+  sourcesQuery,
+} from '@renderer/lib/catalog';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
 import { cn } from '@renderer/lib/utils';
 import { useNetworkStore } from '@renderer/stores/network';
@@ -53,12 +60,18 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   const kind = searching ? 'search' : tab;
   const params = { sourceId, kind, query: query.trim(), filters } as const;
   const feed = useInfiniteQuery(browseQuery(params, source?.available === true && online));
+  // What the source showed last time, on screen until the real page arrives (or when it cannot: offline, a failure).
+  const { data: remembered } = useQuery(browseCachedQuery(params, source?.available === true));
   const { data: filterList = [] } = useQuery({
     ...filtersQuery(sourceId),
     enabled: source?.available === true && capabilities?.filters === true,
   });
 
-  const items = useMemo(() => feed.data?.pages.flatMap((page) => page.items) ?? [], [feed.data]);
+  const showingRemembered = feed.data === undefined && remembered != null;
+  const items = useMemo(
+    () => (feed.data ? feed.data.pages.flatMap((page) => page.items) : (remembered?.items ?? [])),
+    [feed.data, remembered],
+  );
 
   const sentinel = useRef<HTMLDivElement>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage, isError } = feed;
@@ -178,9 +191,9 @@ function BrowseView({ sourceId }: { sourceId: string }) {
           </p>
         ) : null}
 
-        {!online ? (
+        {!online && !showingRemembered ? (
           <EmptyState icon={WifiOff} title={t('browse.offline.title')} description={t('browse.offline.description')} />
-        ) : feed.isPending ? (
+        ) : feed.isPending && !showingRemembered ? (
           <Grid>
             {Array.from({ length: 12 }, (_, index) => (
               <AnimeCardSkeleton key={index} />
@@ -206,7 +219,12 @@ function BrowseView({ sourceId }: { sourceId: string }) {
               ))}
             </Grid>
             <div ref={sentinel} className="flex min-h-10 items-center justify-center gap-2">
-              {isFetchingNextPage ? (
+              {showingRemembered && feed.isFetching ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" aria-hidden />
+                  {t('browse.refreshing')}
+                </>
+              ) : isFetchingNextPage ? (
                 <>
                   <Loader2 className="size-4 animate-spin" aria-hidden />
                   {t('browse.loadingMore')}

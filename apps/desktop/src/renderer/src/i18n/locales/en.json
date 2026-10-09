@@ -357,6 +357,7 @@
       "any": "Any",
       "none": "This source has no filters."
     },
+    "refreshing": "Updating the list…",
     "loadingMore": "Loading more",
     "end": "That is everything",
     "empty": {

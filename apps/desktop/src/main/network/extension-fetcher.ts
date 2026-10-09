@@ -32,6 +32,9 @@ export interface FetcherOptions {
   isOnline: () => boolean;
 }
 
+/** A cover that fails once is tried once more; the image is a nicety, so it does not get the full backoff. */
+const IMAGE_RETRIES = 1;
+
 export interface Raw {
   status: number;
   url: string;
@@ -58,7 +61,7 @@ export class ExtensionFetcher {
   }
 
   async request(request: HttpRequest): Promise<HttpResult> {
-    const raw = await this.execute(request);
+    const raw = await this.execute(request, this.pages, MAX_RETRIES);
     return {
       status: raw.status,
       url: raw.url,
@@ -77,10 +80,12 @@ export class ExtensionFetcher {
    * covers, which wait in their own queue instead of the one page requests use.
    */
   requestBytes(request: HttpRequest, options: { lane?: 'page' | 'image' } = {}): Promise<Raw> {
-    return this.execute(request, options.lane === 'image' ? this.images : this.pages);
+    return options.lane === 'image'
+      ? this.execute(request, this.images, IMAGE_RETRIES)
+      : this.execute(request, this.pages, MAX_RETRIES);
   }
 
-  private async execute(request: HttpRequest, bucket: TokenBucket = this.pages): Promise<Raw> {
+  private async execute(request: HttpRequest, bucket: TokenBucket, maxRetries: number): Promise<Raw> {
     const idempotent = (request.method ?? 'GET') !== 'POST';
     let solved = false;
     for (let attempt = 0; ; attempt++) {
@@ -89,7 +94,7 @@ export class ExtensionFetcher {
       try {
         raw = await this.once(request);
       } catch (error) {
-        const wait = idempotent ? retryDelayMs(attempt, undefined) : null;
+        const wait = idempotent && attempt < maxRetries ? retryDelayMs(attempt, undefined) : null;
         if (wait === null || error instanceof HostError) throw this.offlineAware(error);
         await new Promise((resolve) => setTimeout(resolve, wait));
         continue;
@@ -109,7 +114,7 @@ export class ExtensionFetcher {
       }
       if (isRetryableStatus(raw.status)) {
         const wait = idempotent ? retryDelayMs(attempt, raw.headers['retry-after']) : null;
-        if (wait !== null && attempt < MAX_RETRIES) {
+        if (wait !== null && attempt < maxRetries) {
           await new Promise((resolve) => setTimeout(resolve, wait));
           continue;
         }

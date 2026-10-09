@@ -25,6 +25,7 @@ import { type RequestRegistry, abortable } from '../ipc/requests';
 import type { NetworkManager } from '../network/manager';
 import { allowsLanguage, allowsNsfw } from './content-filter';
 import { toAppError } from './errors';
+import type { BrowseCache } from '../browse/cache';
 import type { ExtensionHostClient } from './host-client';
 import type { ExtensionRecord, ExtensionRegistry } from './registry';
 
@@ -40,6 +41,8 @@ export interface ServiceDeps {
   requests: RequestRegistry;
   /** Called after a refresh stored new details; the library keeps its permanent cover up to date with it. */
   onRefreshed?(row: AnimeRow, previousThumbnail: string | null): void;
+  /** First pages of Popular and Latest kept between runs; without it Browse always waits for the site. */
+  browseCache?: BrowseCache;
   /** The library categories an anime is in. */
   categoryIdsOf(animeId: number): number[];
 }
@@ -59,6 +62,10 @@ const toCatalog = (row: AnimeRow): CatalogAnime => ({
   thumbnailUrl: row.thumbnailUrl,
   inLibrary: row.inLibrary,
 });
+
+/** What a listing is remembered under: the first page of Popular or Latest. Searches and later pages are not. */
+const listingKey = (input: BrowseInput): string | null =>
+  input.page === 1 && input.kind !== 'search' ? `${input.sourceId}|${input.kind}` : null;
 
 const toEpisode = (row: EpisodeRecord): EpisodeRow => ({
   id: row.id,
@@ -189,7 +196,33 @@ export class ExtensionService {
     });
     const rows = this.deps.anime.upsertSummaries(input.sourceId, page.items);
     this.deps.store.touchSource(input.sourceId);
+    const key = listingKey(input);
+    // A failed write only means the next start has nothing to show early.
+    if (key && rows.length > 0) {
+      void this.deps.browseCache
+        ?.put(
+          key,
+          rows.map((row) => row.id),
+          page.hasNextPage,
+        )
+        .catch(() => undefined);
+    }
     return { items: rows.map(toCatalog), hasNextPage: page.hasNextPage };
+  }
+
+  /**
+   * The first page of Popular or Latest as it was last seen, for showing while the real one loads. Null when
+   * there is none (never seen, too old, a search, or rows that have since been purged).
+   */
+  async cachedBrowse(input: BrowseInput): Promise<CatalogPage | null> {
+    const key = listingKey(input);
+    if (!key || !this.deps.browseCache) return null;
+    const { record } = this.resolve(input.sourceId);
+    this.assertBrowsable(input.sourceId, record.manifest?.nsfw ?? false);
+    const listing = await this.deps.browseCache.get(key);
+    if (!listing) return null;
+    const rows = listing.ids.flatMap((id) => this.deps.anime.get(id) ?? []);
+    return rows.length > 0 ? { items: rows.map(toCatalog), hasNextPage: listing.hasNextPage } : null;
   }
 
   async resolveUrl(sourceId: string, url: string): Promise<CatalogAnime | null> {

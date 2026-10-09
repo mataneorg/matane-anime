@@ -45,6 +45,8 @@ export const INVOKE_CHANNELS = [
   'sources.capabilities',
   'sources.filters',
   'sources.browse',
+  /** The first page of Popular or Latest as last seen, to show while the real one loads; null when none. */
+  'sources.browseCached',
   'sources.resolveUrl',
   'sources.setPinned',
   'anime.get',

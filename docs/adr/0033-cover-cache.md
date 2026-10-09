@@ -1,4 +1,4 @@
-# 33. Disk cache for browse covers
+# 33. Disk cache for browse covers, and what Browse shows while it loads
 
 Status: Accepted (2026-10-09). Not yet seen running in the app; the order of lookups and the separate queue are covered by unit tests only.
 
@@ -15,8 +15,13 @@ Browse and search covers lived only in a 64 MB in-memory cache in the `anime://c
 - **Separate rate-limit lane.** `ExtensionFetcher` has an `images` bucket at the manifest rate, next to `pages` and `media`. `requestBytes(request, { lane: 'image' })` uses it, for browse covers and for the permanent copy of a library cover. It is not the `media` bucket: that one carries HLS segments, and covers would compete with a playing video. The rate is not raised, so a site is not hit harder than before; covers only stop queuing behind other requests.
 - **Backup** already drops `image_cache` ([0030](0030-backup-restore.md)); the files in `cache/images` are not part of a backup either.
 
+- **Cover timeouts.** A browse cover is requested with a 10 second timeout and one retry (the `image` lane retries once instead of twice, and the 5xx path follows the same limit). Before, a dead cover kept an empty box for about a minute (20 s, then two retries with backoff); now it shows its placeholder after about 21 s at worst.
+- **Browse remembers its first page** (`main/browse/cache.ts`, `userData/cache/browse`). After a successful page 1 of Popular or Latest, the anime ids in order and `hasNextPage` are written to one small JSON file per `(source, kind)`, with a write-then-rename. Searches and later pages are not kept. `sources.browseCached` returns the listing rebuilt from the `anime` rows, so titles, covers and `inLibrary` are current; rows purged since (browse rows leave after 14 days, [0016](0016-library-queries.md)) are skipped, and a listing older than 7 days is ignored. The 18+ rule is checked again on read. It is not part of the database, `image_cache` or a backup.
+- **Browse shows it first.** The renderer asks for the remembered page next to the real query. While the real one is pending the remembered items are on screen with an "Updating the list…" line, and they stay when the real request fails or the machine is offline (the offline empty state shows only when there is nothing remembered). The real page replaces them when it arrives. This is a head start, not a second source of truth: nothing is shown as fresh that was not fetched.
+
 ## Consequences
 - After the first visit a listing shows its covers without touching the site, also after a restart or while the site is slow.
 - The memory cache stays in front of the disk, so scrolling back is still free. Clear cache empties the disk only; covers already in memory stay until the app closes.
 - Cached covers have no age limit, only the size limit. A cover that the site replaces under the same URL stays old until it is evicted or cleared.
+- A cold start of Browse shows the last Popular or Latest at once, also offline; a source's list can be up to 7 days old until the real one lands (a few seconds, usually).
 - The cache is not shared with the library: removing an anime from the library does not touch it.

@@ -107,6 +107,19 @@ export const browseQuery = (params: BrowseParams, enabled = true) =>
     enabled,
   });
 
+/**
+ * The first page of Popular or Latest as last seen (main keeps it between runs). Browse shows it while the real
+ * page loads, so opening a source is not a blank grid. Never retried: it is only a head start.
+ */
+export const browseCachedQuery = (params: BrowseParams, enabled = true) =>
+  queryOptions({
+    queryKey: ['browse-cached', params.sourceId, params.kind],
+    queryFn: () => call('sources.browseCached', { ...params, page: 1 }),
+    staleTime: Infinity,
+    retry: false,
+    enabled: enabled && params.kind !== 'search',
+  });
+
 const UPDATES_DEBOUNCE_MS = 300;
 const updatesTimers = new WeakMap<QueryClient, ReturnType<typeof setTimeout>>();
 

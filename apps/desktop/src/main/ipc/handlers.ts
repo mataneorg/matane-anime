@@ -186,6 +186,7 @@ export function createHandlers({
     'sources.capabilities': ({ sourceId }) => service.capabilities(sourceId),
     'sources.filters': ({ sourceId, requestId }) => service.filters(sourceId, requestId),
     'sources.browse': (input) => service.browse(input),
+    'sources.browseCached': (input) => service.cachedBrowse(input),
     'sources.resolveUrl': ({ sourceId, url }) => service.resolveUrl(sourceId, url),
     'sources.setPinned': ({ sourceId, pinned }) => service.setPinned(sourceId, pinned),
     'anime.get': ({ animeId }) => service.getAnime(animeId),

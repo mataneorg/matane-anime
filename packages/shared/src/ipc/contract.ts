@@ -136,6 +136,7 @@ export const invokeContract = {
   'sources.capabilities': invoke(z.object({ sourceId: z.string() }), sourceCapabilitiesSchema),
   'sources.filters': invoke(z.object({ sourceId: z.string(), requestId: z.string().optional() }), filterListSchema),
   'sources.browse': invoke(browseInputSchema, animePageSchema),
+  'sources.browseCached': invoke(browseInputSchema, animePageSchema.nullable()),
   'sources.resolveUrl': invoke(z.object({ sourceId: z.string(), url: z.string() }), catalogAnimeSchema.nullable()),
   'sources.setPinned': invoke(z.object({ sourceId: z.string(), pinned: z.boolean() }), z.void()),
   'anime.get': invoke(z.object({ animeId: z.number().int() }), animeDetailSchema),

@@ -9,6 +9,8 @@ export function coverUrl(encodedSourceId: string, encodedImageUrl: string): stri
 }
 
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+/** A cover that has not come in this long shows its placeholder instead of an empty box for a minute. */
+const COVER_TIMEOUT_MS = 10_000;
 const MAX_CACHE_BYTES = 64 * 1024 * 1024;
 
 interface Cached {
@@ -106,6 +108,7 @@ export function createCoverHandler(deps: CoverDeps): (request: Request) => Promi
         {
           url: imageUrl,
           headers: { Referer: `${new URL(imageUrl).origin}/`, Accept: 'image/*' },
+          timeoutMs: COVER_TIMEOUT_MS,
         },
         { lane: 'image' },
       );
