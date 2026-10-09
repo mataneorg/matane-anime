@@ -47,7 +47,6 @@ const GENRES: [slug: string, label: string][] = [
   ['drama', 'Drama'],
   ['ecchi', 'Ecchi'],
   ['educational', 'Educational'],
-  ['erotica', 'Erotica'],
   ['fantasy', 'Fantasy'],
   ['gag-humor', 'Gag Humor'],
   ['girls-love', 'Girls Love'],
