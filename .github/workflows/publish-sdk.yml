@@ -36,8 +36,8 @@ jobs:
           node-version-file: .node-version
           cache: pnpm
           registry-url: https://registry.npmjs.org
-      # Only the SDK packages and what they depend on (no Electron app).
-      - run: pnpm install --frozen-lockfile --filter "@matane-anime/extension-cli..."
+      # Only the SDK packages and what they depend on (no Electron app). The CLI tests build extensions/example.
+      - run: pnpm install --frozen-lockfile --filter "@matane-anime/extension-cli..." --filter "@matane-anime/example-extension..."
       - name: Package versions agree (and the tag, when there is one)
         run: |
           version=$(node -p "require('./packages/extension-sdk/package.json').version")
