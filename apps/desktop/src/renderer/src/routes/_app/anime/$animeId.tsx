@@ -1,27 +1,42 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { ArrowRightLeft, Download, Globe, Loader2, Play, RefreshCw } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowRightLeft, ChevronDown, ChevronUp, Download, Globe, Loader2, Play, RefreshCw } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { countEpisodes } from '@matane-anime/shared';
 import { Cover } from '@renderer/components/Cover';
 import { ErrorState } from '@renderer/components/ErrorState';
 import { Badge } from '@renderer/components/ui/badge';
 import { Button, buttonVariants } from '@renderer/components/ui/button';
-import { Select } from '@renderer/components/ui/select';
 import { Skeleton } from '@renderer/components/ui/skeleton';
+import { CoverPreview } from '@renderer/features/anime/CoverPreview';
+import { EpisodeSortMenu, JumpBox, nearestEpisodeIndex } from '@renderer/features/anime/EpisodeControls';
 import { EpisodeList } from '@renderer/features/anime/EpisodeList';
+import { useEpisodeView } from '@renderer/features/anime/useEpisodeView';
+import { EpisodeSelectionBar } from '@renderer/features/anime/EpisodeSelectionBar';
 import { LibraryButton } from '@renderer/features/anime/LibraryButton';
 import { MigrateDialog } from '@renderer/features/anime/MigrateDialog';
+import {
+  EMPTY_SELECTION,
+  type PickEvent,
+  type Selection,
+  select,
+  selectAll,
+  visibleSelection,
+} from '@renderer/features/library/selection';
+import { useSelectionKeys } from '@renderer/features/library/useSelectionKeys';
 import { DownloadMenu } from '@renderer/features/downloads/DownloadMenu';
 import { call } from '@renderer/lib/api';
-import { animeQuery, episodesQuery, refreshAnime } from '@renderer/lib/catalog';
+import { animeQuery, coverSrc, episodesQuery, refreshAnime } from '@renderer/lib/catalog';
 import { useDownloadMap } from '@renderer/lib/downloads';
-import { continueQuery } from '@renderer/lib/library';
+import { relativeTime } from '@renderer/lib/dates';
+import { continueQuery, localCoverSrc } from '@renderer/lib/library';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
+import { useScrollRestoration } from '@renderer/lib/scroll';
+import { useNow } from '@renderer/lib/useNow';
 import { cn } from '@renderer/lib/utils';
 
-export const Route = createFileRoute('/_app/anime/$animeId')({ component: AnimePage });
+export const Route = createFileRoute('/_app/anime/$animeId')({ component: AnimeRoute });
 
 const STATUS_VARIANT = {
   ongoing: 'success',
@@ -31,17 +46,26 @@ const STATUS_VARIANT = {
   unknown: 'outline',
 } as const;
 
-function AnimePage() {
-  const { t } = useTranslation();
+function AnimeRoute() {
   const animeId = Number(Route.useParams().animeId);
+  // Another anime starts from scratch (selection, filters, scroll).
+  return <AnimePage key={animeId} animeId={animeId} />;
+}
+
+function AnimePage({ animeId }: { animeId: number }) {
+  const { t, i18n } = useTranslation();
+  const now = useNow();
   const queryClient = useQueryClient();
   const anime = useQuery(animeQuery(animeId));
   const episodes = useQuery(episodesQuery(animeId));
   const target = useQuery(continueQuery(animeId));
-  const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
-  const [unwatchedOnly, setUnwatchedOnly] = useState(false);
-  const [downloadedOnly, setDownloadedOnly] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [coverOpen, setCoverOpen] = useState(false);
+  const [selection, setSelection] = useState<Selection>(EMPTY_SELECTION);
+  const [jump, setJump] = useState<{ index: number; token: number } | null>(null);
   const downloads = useDownloadMap();
+  // The sort and filters stay with the anime: they come back next time this page opens (and after a restart).
+  const [{ sort, unwatchedOnly, downloadedOnly }, setView] = useEpisodeView(animeId, anime.data?.episodeView);
   const [migrating, setMigrating] = useState(false);
 
   const refresh = useMutation({
@@ -68,6 +92,24 @@ function AnimePage() {
     return sort === 'newest' ? rows : [...rows].reverse();
   }, [episodes.data, sort, unwatchedOnly, downloadedOnly, downloads]);
   const counts = useMemo(() => countEpisodes(episodes.data ?? []), [episodes.data]);
+  useScrollRestoration(anime.data !== undefined && episodes.data !== undefined);
+
+  // Ctrl+A selects the episodes listed, Escape lets go (not while typing, nor over a dialog or menu).
+  const order = useMemo(() => list.map((episode) => episode.id), [list]);
+  const selected = useMemo(() => new Set(visibleSelection(selection, order)), [selection, order]);
+  const clearSelection = useCallback(() => setSelection(EMPTY_SELECTION), []);
+  useSelectionKeys(order, setSelection, clearSelection);
+  // A plain click opens the episode; with Ctrl/Shift, or while selecting, it changes the selection instead.
+  const pick = (event: PickEvent, episodeId: number): void => {
+    const mode = event.shiftKey ? 'range' : event.ctrlKey || event.metaKey || selected.size > 0 ? 'toggle' : null;
+    if (!mode) return;
+    event.preventDefault();
+    setSelection((current) => select(current, order, episodeId, mode));
+  };
+  const jumpTo = (number: number): void => {
+    const index = nearestEpisodeIndex(list, number);
+    if (index !== null) setJump({ index, token: Date.now() });
+  };
 
   if (anime.isError) {
     return (
@@ -97,113 +139,172 @@ function AnimePage() {
       : counts.total > 0 && counts.unwatched === 0
         ? t('anime.watchAgain')
         : t('anime.start');
+  const backdrop = data.inLibrary ? localCoverSrc(data.animeId) : coverSrc(data.sourceId, data.thumbnailUrl);
+  const lastUpload = episodes.data?.reduce<number | null>(
+    (latest, episode) =>
+      episode.uploadedAt !== null && (latest === null || episode.uploadedAt > latest) ? episode.uploadedAt : latest,
+    null,
+  );
   const facts = [data.type?.toUpperCase(), data.year?.toString(), data.studio, data.sourceName].filter(
     (fact): fact is string => Boolean(fact),
   );
 
   return (
     <div className="flex flex-col">
-      <header className="flex gap-8 border-b bg-card/40 px-6 py-6">
-        <Cover
-          sourceId={data.sourceId}
-          url={data.thumbnailUrl}
-          localAnimeId={data.inLibrary ? data.animeId : undefined}
-          className="aspect-[2/3] w-52 shrink-0 self-start rounded-xl border shadow-2xl shadow-black/40"
-        />
-        <div className="flex min-w-0 flex-1 flex-col gap-3">
-          {data.status !== 'unknown' || facts.length > 0 ? (
-            <div className="flex flex-wrap gap-1.5">
-              {data.status !== 'unknown' ? (
-                <Badge variant={STATUS_VARIANT[data.status]}>{t(`anime.status.${data.status}`)}</Badge>
-              ) : null}
-              {facts.map((fact) => (
-                <Badge key={fact} variant="outline">
-                  {fact}
-                </Badge>
-              ))}
-            </div>
-          ) : null}
-          <div>
-            <h1 className="text-3xl leading-tight font-bold tracking-tight select-text">{data.title}</h1>
-            {data.altTitles.length > 0 ? (
-              <p className="mt-1 text-xs text-muted-foreground select-text">{data.altTitles.join(' · ')}</p>
+      <header className="relative shrink-0 overflow-hidden border-b">
+        {/* The cover, blurred, as a tinted backdrop. */}
+        {backdrop ? (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 scale-110 bg-cover bg-center opacity-20 blur-2xl"
+            style={{ backgroundImage: `url("${backdrop}")` }}
+          />
+        ) : null}
+        <div aria-hidden className="absolute inset-0 bg-linear-to-b from-background/40 to-background" />
+        <div className="relative flex gap-8 px-6 py-6">
+          <button
+            type="button"
+            aria-label={t('anime.viewCover')}
+            title={t('anime.viewCover')}
+            onClick={() => setCoverOpen(true)}
+            className="shrink-0 cursor-zoom-in self-start rounded-xl"
+          >
+            <Cover
+              sourceId={data.sourceId}
+              url={data.thumbnailUrl}
+              localAnimeId={data.inLibrary ? data.animeId : undefined}
+              className="aspect-[2/3] w-52 rounded-xl border shadow-2xl shadow-black/40"
+            />
+          </button>
+          <CoverPreview
+            title={data.title}
+            sourceId={data.sourceId}
+            url={data.thumbnailUrl}
+            localAnimeId={data.inLibrary ? data.animeId : undefined}
+            open={coverOpen}
+            onOpenChange={setCoverOpen}
+          />
+          <div className="flex min-w-0 flex-1 flex-col gap-3">
+            {data.status !== 'unknown' || facts.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {data.status !== 'unknown' ? (
+                  <Badge variant={STATUS_VARIANT[data.status]}>{t(`anime.status.${data.status}`)}</Badge>
+                ) : null}
+                {facts.map((fact) => (
+                  <Badge key={fact} variant="outline">
+                    {fact}
+                  </Badge>
+                ))}
+              </div>
             ) : null}
-          </div>
-          {data.genres.length > 0 ? (
-            <div className="flex flex-wrap gap-1.5">
-              {data.genres.map((genre) => (
-                <span key={genre} className="rounded-md border border-input px-2 py-0.5 text-xs">
-                  {genre}
-                </span>
-              ))}
+            <div>
+              <h1 className="text-3xl leading-tight font-bold tracking-tight select-text">{data.title}</h1>
+              {data.altTitles.length > 0 ? (
+                <p className="mt-1 text-xs text-muted-foreground select-text">{data.altTitles.join(' · ')}</p>
+              ) : null}
             </div>
-          ) : null}
-          {data.description ? (
-            <p className="line-clamp-4 max-w-4xl leading-relaxed text-muted-foreground select-text">
-              {data.description}
+            {data.genres.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {data.genres.map((genre) => (
+                  <span key={genre} className="rounded-md border border-input px-2 py-0.5 text-xs">
+                    {genre}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+            <p className="text-xs text-muted-foreground">
+              <span className="font-semibold text-foreground">{t('library.episodes', { count: counts.total })}</span>
+              {lastUpload ? ` · ${t('anime.lastUpdate', { when: relativeTime(lastUpload, now, i18n.language) })}` : ''}
             </p>
-          ) : null}
-          <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
-            {playTarget ? (
-              <Link
-                to="/watch/$episodeId"
-                params={{ episodeId: String(playTarget.id) }}
-                className={buttonVariants({ size: 'lg' })}
-              >
-                <Play className="size-4" strokeWidth={1.75} aria-hidden />
-                {playLabel}
-              </Link>
-            ) : (
-              <Button size="lg" disabled>
-                <Play className="size-4" strokeWidth={1.75} aria-hidden />
-                {t('anime.start')}
-              </Button>
-            )}
-            <LibraryButton anime={data} />
-            {episodes.data && episodes.data.length > 0 ? (
-              <DownloadMenu episodes={episodes.data} />
-            ) : (
-              <Button variant="secondary" size="lg" disabled>
-                <Download className="size-4" strokeWidth={1.75} aria-hidden />
-                {t('anime.download')}
-              </Button>
-            )}
-            <Button
-              variant="secondary"
-              size="icon"
-              className="size-10"
-              aria-label={t('anime.refresh')}
-              title={t('anime.refresh')}
-              disabled={refresh.isPending}
-              onClick={() => refresh.mutate()}
-            >
-              {refresh.isPending ? (
-                <Loader2 className="size-4 animate-spin" aria-hidden />
+            {data.description ? (
+              <div className="max-w-4xl">
+                <p
+                  className={cn(
+                    'leading-relaxed whitespace-pre-line text-muted-foreground select-text',
+                    !expanded && 'line-clamp-3',
+                  )}
+                >
+                  {data.description}
+                </p>
+                {data.description.length > 240 ? (
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    onClick={() => setExpanded((value) => !value)}
+                    className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary-text hover:underline"
+                  >
+                    {expanded ? t('anime.showLess') : t('anime.showMore')}
+                    {expanded ? (
+                      <ChevronUp className="size-3" aria-hidden />
+                    ) : (
+                      <ChevronDown className="size-3" aria-hidden />
+                    )}
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+            <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
+              {playTarget ? (
+                <Link
+                  to="/watch/$episodeId"
+                  params={{ episodeId: String(playTarget.id) }}
+                  className={buttonVariants({ size: 'lg' })}
+                >
+                  <Play className="size-4" strokeWidth={1.75} aria-hidden />
+                  {playLabel}
+                </Link>
               ) : (
-                <RefreshCw className="size-4" strokeWidth={1.75} aria-hidden />
+                <Button size="lg" disabled>
+                  <Play className="size-4" strokeWidth={1.75} aria-hidden />
+                  {t('anime.start')}
+                </Button>
               )}
-            </Button>
-            <Button
-              variant="secondary"
-              size="icon"
-              className="size-10"
-              aria-label={t('anime.openInBrowser')}
-              title={t('anime.openInBrowser')}
-              disabled={!data.webUrl}
-              onClick={() => data.webUrl && void call('app.openExternal', data.webUrl)}
-            >
-              <Globe className="size-4" strokeWidth={1.75} aria-hidden />
-            </Button>
-            <Button
-              variant="secondary"
-              size="icon"
-              className="size-10"
-              aria-label={t('migrate.title')}
-              title={t('migrate.title')}
-              onClick={() => setMigrating(true)}
-            >
-              <ArrowRightLeft className="size-4" strokeWidth={1.75} aria-hidden />
-            </Button>
+              <LibraryButton anime={data} />
+              {episodes.data && episodes.data.length > 0 ? (
+                <DownloadMenu episodes={episodes.data} />
+              ) : (
+                <Button variant="secondary" size="lg" disabled>
+                  <Download className="size-4" strokeWidth={1.75} aria-hidden />
+                  {t('anime.download')}
+                </Button>
+              )}
+              <Button
+                variant="secondary"
+                size="icon"
+                className="size-10"
+                aria-label={t('anime.refresh')}
+                title={t('anime.refresh')}
+                disabled={refresh.isPending}
+                onClick={() => refresh.mutate()}
+              >
+                {refresh.isPending ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden />
+                ) : (
+                  <RefreshCw className="size-4" strokeWidth={1.75} aria-hidden />
+                )}
+              </Button>
+              <Button
+                variant="secondary"
+                size="icon"
+                className="size-10"
+                aria-label={t('anime.openInBrowser')}
+                title={t('anime.openInBrowser')}
+                disabled={!data.webUrl}
+                onClick={() => data.webUrl && void call('app.openExternal', data.webUrl)}
+              >
+                <Globe className="size-4" strokeWidth={1.75} aria-hidden />
+              </Button>
+              <Button
+                variant="secondary"
+                size="icon"
+                className="size-10"
+                aria-label={t('migrate.title')}
+                title={t('migrate.title')}
+                onClick={() => setMigrating(true)}
+              >
+                <ArrowRightLeft className="size-4" strokeWidth={1.75} aria-hidden />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -221,7 +322,7 @@ function AnimePage() {
             <button
               type="button"
               aria-pressed={unwatchedOnly}
-              onClick={() => setUnwatchedOnly((on) => !on)}
+              onClick={() => setView({ unwatchedOnly: !unwatchedOnly })}
               className={cn(
                 'inline-flex h-8 items-center rounded-lg border border-input px-3 text-xs transition-colors hover:border-foreground/40',
                 unwatchedOnly && 'border-primary bg-primary/15 text-primary-text',
@@ -232,7 +333,7 @@ function AnimePage() {
             <button
               type="button"
               aria-pressed={downloadedOnly}
-              onClick={() => setDownloadedOnly((on) => !on)}
+              onClick={() => setView({ downloadedOnly: !downloadedOnly })}
               className={cn(
                 'inline-flex h-8 items-center rounded-lg border border-input px-3 text-xs transition-colors hover:border-foreground/40',
                 downloadedOnly && 'border-primary bg-primary/15 text-primary-text',
@@ -240,15 +341,8 @@ function AnimePage() {
             >
               {t('anime.downloaded')}
             </button>
-            <Select
-              aria-label={t('anime.sort.newest')}
-              value={sort}
-              onChange={(event) => setSort(event.target.value as 'newest' | 'oldest')}
-              className="h-8 text-xs"
-            >
-              <option value="newest">{t('anime.sort.newest')}</option>
-              <option value="oldest">{t('anime.sort.oldest')}</option>
-            </Select>
+            <JumpBox onJump={jumpTo} />
+            <EpisodeSortMenu sort={sort} onSort={(next) => setView({ sort: next })} />
           </div>
         </div>
 
@@ -283,10 +377,24 @@ function AnimePage() {
               sourceId={data.sourceId}
               thumbnailUrl={data.thumbnailUrl}
               localCoverId={data.inLibrary ? data.animeId : undefined}
+              selected={selected}
+              onPick={pick}
+              onToggle={(event, episodeId) =>
+                setSelection((current) => select(current, order, episodeId, event.shiftKey ? 'range' : 'toggle'))
+              }
+              jump={jump}
             />
           )}
         </div>
       </section>
+      {selected.size > 0 ? (
+        <EpisodeSelectionBar
+          ids={[...selected]}
+          total={order.length}
+          onSelectAll={() => setSelection(selectAll(order))}
+          onClear={() => setSelection(EMPTY_SELECTION)}
+        />
+      ) : null}
       <MigrateDialog anime={data} open={migrating} onOpenChange={setMigrating} />
     </div>
   );

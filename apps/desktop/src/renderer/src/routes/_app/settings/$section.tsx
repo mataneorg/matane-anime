@@ -1,7 +1,6 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { SlidersHorizontal } from 'lucide-react';
+import { Link, createFileRoute, redirect } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { EmptyState } from '@renderer/components/EmptyState';
+import { SETTINGS_SECTIONS, isSettingsSection } from '@renderer/components/shell/nav';
 import { AdvancedSettings } from '@renderer/features/settings/AdvancedSettings';
 import { DataSettings } from '@renderer/features/settings/DataSettings';
 import { DownloadsSettings } from '@renderer/features/settings/DownloadsSettings';
@@ -10,29 +9,25 @@ import { LibrarySettings } from '@renderer/features/settings/LibrarySettings';
 import { NetworkSettings } from '@renderer/features/settings/NetworkSettings';
 import { PlayerSettings } from '@renderer/features/settings/PlayerSettings';
 
-export const Route = createFileRoute('/_app/settings/$section')({ component: SettingsPage });
-
-const SECTIONS = [
-  'general',
-  'library',
-  'player',
-  'downloads',
-  'extensions',
-  'network',
-  'data',
-  'advanced',
-  'about',
-] as const;
+export const Route = createFileRoute('/_app/settings/$section')({
+  // A section that has no page (an old link, a typo) goes to the first one instead of showing a dead end.
+  beforeLoad: ({ params }) => {
+    if (!isSettingsSection(params.section)) {
+      throw redirect({ to: '/settings/$section', params: { section: 'general' }, replace: true });
+    }
+  },
+  component: SettingsPage,
+});
 
 function SettingsPage() {
   const { t } = useTranslation();
   const { section } = Route.useParams();
-  const active = (SECTIONS as readonly string[]).includes(section) ? section : 'general';
+  const active = isSettingsSection(section) ? section : 'general';
 
   return (
     <div className="flex min-h-full flex-wrap">
-      <nav aria-label={t('settings.sectionsLabel')} className="flex w-50 shrink-0 flex-col gap-0.5 border-r px-3 py-6">
-        {SECTIONS.map((name) => (
+      <nav aria-label={t('settings.sectionsLabel')} className="flex w-56 shrink-0 flex-col gap-0.5 border-r px-3 py-6">
+        {SETTINGS_SECTIONS.map((name) => (
           <Link
             key={name}
             to="/settings/$section"
@@ -58,14 +53,8 @@ function SettingsPage() {
           <NetworkSettings />
         ) : active === 'data' ? (
           <DataSettings />
-        ) : active === 'advanced' ? (
-          <AdvancedSettings />
         ) : (
-          <EmptyState
-            icon={SlidersHorizontal}
-            title={t('settings.unavailable.title')}
-            description={t('settings.unavailable.description')}
-          />
+          <AdvancedSettings />
         )}
       </div>
     </div>

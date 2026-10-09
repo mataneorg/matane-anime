@@ -1,24 +1,42 @@
 import type { HistoryEntry } from '@matane-anime/shared';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { Check, EyeOff, History as HistoryIcon, Play, Trash2, X } from 'lucide-react';
+import { Check, EyeOff, History as HistoryIcon, Play, SearchX, Trash2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ConfirmDialog } from '@renderer/components/ConfirmDialog';
 import { Cover } from '@renderer/components/Cover';
 import { EmptyState } from '@renderer/components/EmptyState';
+import { ErrorState } from '@renderer/components/ErrorState';
+import { SearchField } from '@renderer/components/SearchField';
 import { Button, buttonVariants } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
 import { episodeTitle } from '@renderer/features/anime/EpisodeList';
 import { call } from '@renderer/lib/api';
 import { dayKey, dayLabel, formatClock } from '@renderer/lib/dates';
 import { useIncognito, useSetIncognito } from '@renderer/lib/incognito';
 import { historyQuery } from '@renderer/lib/library';
+import { useScrollRestoration } from '@renderer/lib/scroll';
+import { useDebounced } from '@renderer/lib/useDebounced';
 
 export const Route = createFileRoute('/_app/history')({ component: HistoryPage });
 
 function HistoryPage() {
   const { t, i18n } = useTranslation();
-  const { data: entries = [], isPending } = useQuery(historyQuery);
+  const list = useQuery(historyQuery);
+  const { isPending } = list;
+  const allEntries = useMemo(() => list.data ?? [], [list.data]);
+  const [query, setQuery] = useState('');
+  const needle = useDebounced(query.trim().toLowerCase(), 200);
+  const entries = useMemo(
+    () =>
+      needle === ''
+        ? allEntries
+        : allEntries.filter((entry) =>
+            [entry.title, entry.episodeName, entry.sourceName].some((text) => text?.toLowerCase().includes(needle)),
+          ),
+    [allEntries, needle],
+  );
+  useScrollRestoration(list.isSuccess);
   const [confirming, setConfirming] = useState(false);
   // Day headings are relative to when the page was opened.
   const [now] = useState(() => Date.now());
@@ -38,7 +56,7 @@ function HistoryPage() {
     return out;
   }, [entries, i18n.language, now]);
 
-  if (!isPending && entries.length === 0 && !incognito) {
+  if (!isPending && !list.isError && allEntries.length === 0 && !incognito) {
     return (
       <EmptyState icon={HistoryIcon} title={t('empty.history.title')} description={t('empty.history.description')} />
     );
@@ -48,27 +66,49 @@ function HistoryPage() {
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-6 py-5">
       <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b pb-5">
         <h1 className="text-xl font-semibold">{t('nav.history')}</h1>
-        <Button variant="destructive" className="ml-auto" onClick={() => setConfirming(true)}>
-          <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
-          {t('history.clearAll')}
-        </Button>
-      </header>
-      {incognito ? (
-        <div
-          role="status"
-          className="flex items-center gap-3 rounded-xl border border-primary/40 bg-primary/10 px-4 py-3 text-xs"
-        >
-          <EyeOff className="size-5 shrink-0 text-primary-text" strokeWidth={1.75} aria-hidden />
-          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-            <span className="text-sm font-semibold text-foreground">{t('incognito.on')}</span>
-            <span className="text-muted-foreground">{t('incognito.body')}</span>
-          </div>
-          <Button variant="secondary" onClick={() => setIncognito.mutate(false)}>
-            {t('incognito.turnOff')}
+        <div className="ml-auto flex items-center gap-2">
+          <SearchField value={query} onChange={setQuery} placeholder={t('history.search')} className="w-64" />
+          <Button variant="destructive" size="sm" onClick={() => setConfirming(true)}>
+            <Trash2 aria-hidden />
+            {t('history.clearAll')}
           </Button>
         </div>
-      ) : null}
+      </header>
+      {/* Always shown, so it is clear whether what is watched now is being recorded. */}
+      <div
+        role="status"
+        className={
+          incognito
+            ? 'flex items-center gap-3 rounded-xl border border-primary/40 bg-primary/10 px-4 py-3 text-xs'
+            : 'flex items-center gap-3 rounded-xl border bg-card/40 px-4 py-3 text-xs'
+        }
+      >
+        <EyeOff
+          className={incognito ? 'size-5 shrink-0 text-primary-text' : 'size-5 shrink-0 text-muted-foreground'}
+          strokeWidth={1.75}
+          aria-hidden
+        />
+        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className="text-sm font-semibold text-foreground">
+            {incognito ? t('incognito.on') : t('incognito.off')}
+          </span>
+          <span className="text-muted-foreground">{incognito ? t('incognito.body') : t('incognito.offBody')}</span>
+        </div>
+        <Button variant="secondary" size="sm" onClick={() => setIncognito.mutate(!incognito)}>
+          {incognito ? t('incognito.turnOff') : t('incognito.turnOn')}
+        </Button>
+      </div>
       <p className="text-xs text-muted-foreground">{t('history.explainer')}</p>
+
+      {list.isError ? (
+        <ErrorState error={list.error} onRetry={() => void list.refetch()} />
+      ) : needle !== '' && entries.length === 0 ? (
+        <EmptyState
+          icon={SearchX}
+          title={t('history.noResults.title')}
+          description={t('history.noResults.description')}
+        />
+      ) : null}
 
       {groups.map((group) => (
         <section key={group.key} className="flex flex-col gap-2.5" aria-label={group.label}>
@@ -81,28 +121,14 @@ function HistoryPage() {
         </section>
       ))}
 
-      <Dialog open={confirming} onOpenChange={setConfirming}>
-        <DialogContent
-          title={t('history.clearTitle')}
-          description={t('history.clearBody')}
-          closeLabel={t('common.close')}
-        >
-          <div className="flex justify-end gap-2">
-            <Button variant="secondary" onClick={() => setConfirming(false)}>
-              {t('common.cancel')}
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                clear.mutate();
-                setConfirming(false);
-              }}
-            >
-              {t('history.clearAll')}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={confirming}
+        onOpenChange={setConfirming}
+        title={t('history.clearTitle')}
+        description={t('history.clearBody')}
+        confirmLabel={t('history.clearAll')}
+        onConfirm={() => clear.mutate()}
+      />
     </div>
   );
 }
@@ -158,7 +184,7 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
           {[title, entry.sourceName].filter(Boolean).join(' · ')}
         </span>
         <div className="h-1 overflow-hidden rounded-full bg-muted" aria-hidden>
-          <div className="h-full bg-primary" style={{ width: `${share}%` }} />
+          <div className={entry.watched ? 'h-full bg-ctp-green' : 'h-full bg-primary'} style={{ width: `${share}%` }} />
         </div>
       </div>
       <div className="flex w-32 shrink-0 flex-col items-end text-xs text-muted-foreground">
@@ -168,12 +194,15 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
             {t('anime.watched')}
           </span>
         ) : entry.durationMs ? (
-          <span className="text-foreground tabular-nums">
-            {t('history.position', {
-              position: formatClock(entry.positionMs),
-              duration: formatClock(entry.durationMs),
-            })}
-          </span>
+          <>
+            <span className="text-foreground tabular-nums">{`${Math.round(share)}%`}</span>
+            <span className="tabular-nums">
+              {t('history.position', {
+                position: formatClock(entry.positionMs),
+                duration: formatClock(entry.durationMs),
+              })}
+            </span>
+          </>
         ) : null}
         <span>{time}</span>
       </div>

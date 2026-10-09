@@ -6,6 +6,9 @@ export type PaletteGroup = 'continue' | 'library' | 'navigate' | 'actions' | 'so
 /** The order the groups are drawn in. */
 export const GROUP_ORDER: readonly PaletteGroup[] = ['continue', 'library', 'navigate', 'actions', 'sources'];
 
+/** How many "continue watching" targets are listed (the most recent history entries). */
+export const CONTINUE_LIMIT = 5;
+
 /** How many library matches are listed; the Library page is the place for the rest. */
 export const LIBRARY_LIMIT = 6;
 
@@ -80,8 +83,8 @@ export function rankEntries<A>(query: string, entries: readonly PaletteEntry<A>[
 
 export interface PaletteSources<A> {
   query: string;
-  /** The top history entry's "continue" target, when there is one. */
-  continueWatching: PaletteEntry<A> | null;
+  /** The "continue" targets of the latest history entries, newest first. */
+  continueWatching: readonly PaletteEntry<A>[];
   /** Library anime the search already found; it also matches alternative titles, so they are not filtered here. */
   library: readonly PaletteEntry<A>[];
   navigate: readonly PaletteEntry<A>[];
@@ -94,7 +97,7 @@ export interface PaletteSources<A> {
 export function buildSections<A>(input: PaletteSources<A>): PaletteSection<A>[] {
   const query = input.query.trim();
   const byGroup: Record<PaletteGroup, PaletteEntry<A>[]> = {
-    continue: input.continueWatching ? rankEntries(query, [input.continueWatching]) : [],
+    continue: rankEntries(query, input.continueWatching).slice(0, CONTINUE_LIMIT),
     // Titles the search found come first when the typed text is most of the title.
     library: (query === '' ? [] : [...input.library])
       .map((entry, index) => ({ entry, index, score: matchScore(query, entry.label) }))

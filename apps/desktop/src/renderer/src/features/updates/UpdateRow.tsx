@@ -19,7 +19,8 @@ export function UpdateRow({
   entry: UpdateEntry;
   now: number;
   selected: boolean;
-  onSelect: () => void;
+  /** `range` when Shift was held: select from the last box clicked. */
+  onSelect: (range: boolean) => void;
   onDownload: () => void;
   onWatched: () => void;
   busy: boolean;
@@ -29,12 +30,15 @@ export function UpdateRow({
   const meta = [entry.sourceName, foundAt(entry.fetchedAt, now, i18n.language)].filter(Boolean).join(' · ');
 
   return (
-    <li className="flex items-center gap-4 rounded-xl border bg-card/40 p-2 pr-3 transition-colors hover:border-input hover:bg-card/70">
+    <div
+      role="listitem"
+      className="flex items-center gap-4 rounded-xl border bg-card/40 p-2 pr-3 transition-colors hover:border-input hover:bg-card/70"
+    >
       <input
         type="checkbox"
         className="ml-1 size-4 shrink-0 accent-primary"
         checked={selected}
-        onChange={onSelect}
+        onChange={(event) => onSelect((event.nativeEvent as MouseEvent).shiftKey)}
         aria-label={t('updates.select', { title: entry.animeTitle, episode: title })}
       />
       <Link
@@ -96,7 +100,7 @@ export function UpdateRow({
       >
         <Check className="size-4" strokeWidth={1.75} aria-hidden />
       </Button>
-    </li>
+    </div>
   );
 }
 

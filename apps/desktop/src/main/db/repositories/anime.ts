@@ -1,4 +1,5 @@
 import type { AnimeDetails, AnimeSummary } from '@matane-anime/extension-sdk';
+import { type EpisodeView, episodeViewSchema } from '@matane-anime/shared';
 import { and, eq, inArray } from 'drizzle-orm';
 import type { AppDatabase } from '../client';
 import { anime } from '../schema';
@@ -39,6 +40,27 @@ export class AnimeRepository {
     } catch {
       return null;
     }
+  }
+
+  /** The episode sort and filters the user left on this anime's page; null when none were saved or they are unreadable. */
+  episodeView(row: AnimeRow): EpisodeView | null {
+    if (!row.episodeViewJson) return null;
+    try {
+      const parsed = episodeViewSchema.safeParse(JSON.parse(row.episodeViewJson));
+      return parsed.success ? parsed.data : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /** Saves the view of one anime's episode list; null forgets it (back to the default). */
+  setEpisodeView(id: number, view: EpisodeView | null): void {
+    this.db
+      .update(anime)
+      .set({ episodeViewJson: view ? JSON.stringify(view) : null })
+      .where(eq(anime.id, id))
+      .run();
+    this.changes.emit(`anime:${id}`);
   }
 
   savePlaybackPrefs(id: number, prefs: { server: string; quality: number | null }): void {

@@ -1,5 +1,6 @@
 import type { Filter, Preference } from '@matane-anime/extension-sdk';
 import { z } from 'zod';
+import { episodeViewSchema } from './view-settings';
 
 // What crosses IPC about extensions, sources, anime and episodes. Extension output is validated in main
 // (packages/extension-runtime/src/results.ts) before it is stored; these describe what the renderer gets.
@@ -115,6 +116,8 @@ export const animeDetailSchema = z.object({
   /** When the details were last fetched from the source; null if only the listing entry is known. */
   detailsFetchedAt: z.number().nullable(),
   webUrl: z.string().nullable(),
+  /** The episode sort and filters picked on this anime's page; null until something was changed. */
+  episodeView: episodeViewSchema.nullable(),
 });
 export type AnimeDetail = z.infer<typeof animeDetailSchema>;
 

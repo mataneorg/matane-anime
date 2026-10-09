@@ -1,13 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { useRouter, useRouterState } from '@tanstack/react-router';
+import { useCanGoBack, useRouter, useRouterState } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, Search, WifiOff } from 'lucide-react';
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DownloadActivity } from '@renderer/features/downloads/DownloadActivity';
 import { animeQuery, networkStatusQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
 import { Button } from '@renderer/components/ui/button';
+import { cn } from '@renderer/lib/utils';
 import { usePaletteStore } from '@renderer/stores/palette';
-import { IncognitoPill } from './IncognitoPill';
+import { IncognitoToggle } from '@renderer/components/IncognitoToggle';
+import { useCrumbStore } from '@renderer/stores/crumbs';
+import { ActivityIndicator } from './ActivityIndicator';
 import { WindowControls } from './WindowControls';
 
 /** The key hint on the search button (mockup 01); the palette itself listens for both Ctrl and Cmd. */
@@ -37,27 +40,39 @@ function crumbsFor(pathname: string): string[] {
 export function TitleBar() {
   const { t } = useTranslation();
   const router = useRouter();
+  const canGoBack = useCanGoBack();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: info } = useQuery(appInfoQuery);
   const { data: network } = useQuery(networkStatusQuery);
-  // An anime page ends in the anime's own title (mockup 02); the others are fixed translation keys.
+  // A page may add its own labels after the route's (a source's name, an anime's title) with `usePageCrumbs`.
+  const pageLabels = useCrumbStore((state) => state.labels);
+  // Until an anime page says its own title, the title bar looks it up so the crumb is never missing (mockup 02).
   const animeId = /^\/anime\/(\d+)/.exec(pathname)?.[1];
-  const { data: anime } = useQuery({ ...animeQuery(Number(animeId)), enabled: animeId !== undefined });
-  const crumbs: { text: string }[] = [
-    ...crumbsFor(pathname).map((key) => ({ text: t(key) })),
-    ...(animeId !== undefined && anime ? [{ text: anime.title }] : []),
+  const { data: anime } = useQuery({
+    ...animeQuery(Number(animeId)),
+    enabled: animeId !== undefined && pageLabels.length === 0,
+  });
+  const crumbs = [
+    ...crumbsFor(pathname).map((key) => t(key)),
+    ...(pageLabels.length > 0 ? pageLabels : animeId !== undefined && anime ? [anime.title] : []),
   ];
-  // macOS draws its traffic lights over the top-left corner of the frameless window.
-  const leftPadding = info?.platform === 'darwin' ? 'pl-20' : 'pl-3';
+  const isMac = info?.platform === 'darwin';
+  const paletteShortcut = isMac ? PALETTE_SHORTCUT.darwin : PALETTE_SHORTCUT.default;
 
   return (
-    <header className={`drag-region flex h-10 shrink-0 items-center gap-3 border-b bg-sidebar ${leftPadding}`}>
-      <div className="flex gap-0.5">
+    <header
+      className={cn(
+        'drag-region relative flex h-10 shrink-0 items-center border-b bg-sidebar',
+        // macOS draws its traffic lights over the top-left corner of the frameless window.
+        isMac ? 'pl-20' : 'pl-3',
+      )}
+    >
+      <div className="no-drag flex items-center gap-0.5">
         <Button
           variant="ghost"
           size="icon-sm"
-          className="no-drag"
           aria-label={t('titleBar.back')}
+          disabled={!canGoBack}
           onClick={() => router.history.back()}
         >
           <ChevronLeft strokeWidth={1.75} aria-hidden />
@@ -65,44 +80,49 @@ export function TitleBar() {
         <Button
           variant="ghost"
           size="icon-sm"
-          className="no-drag"
           aria-label={t('titleBar.forward')}
           onClick={() => router.history.forward()}
         >
           <ChevronRight strokeWidth={1.75} aria-hidden />
         </Button>
       </div>
-      <nav aria-label="Breadcrumb" className="text-xs leading-4 whitespace-nowrap text-muted-foreground">
-        {t('app.name')}
-        {crumbs.map(({ text }, index) => (
-          <span key={`${index}-${text}`}>
-            <span className="px-1.5">/</span>
-            <span className={index === crumbs.length - 1 ? 'text-foreground' : undefined}>{text}</span>
-          </span>
+      {/* Stops before the centred search box (w-80), whatever the window width. */}
+      <nav
+        aria-label="Breadcrumb"
+        className="ml-3 flex max-w-[calc(50%-14rem)] min-w-0 items-center gap-1.5 text-xs leading-4 whitespace-nowrap text-muted-foreground"
+      >
+        <span className="shrink-0">{t('app.name')}</span>
+        {crumbs.map((text, index) => (
+          <Fragment key={`${index}-${text}`}>
+            <span>/</span>
+            <span className={cn('truncate', index === crumbs.length - 1 && 'text-foreground')}>{text}</span>
+          </Fragment>
         ))}
       </nav>
-      <div className="flex min-w-0 flex-1 justify-center">
-        <button
-          type="button"
-          onClick={() => usePaletteStore.getState().setOpen(true)}
-          className="no-drag flex h-7 w-80 max-w-full items-center gap-2 rounded-lg border bg-background pr-2 pl-2.5 text-xs leading-4 text-muted-foreground transition-colors hover:border-input"
-        >
-          <Search className="size-3.5 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
-          <span className="flex-1 truncate text-left">{t('titleBar.searchHint')}</span>
-          <kbd className="rounded border bg-muted px-1.5 py-px font-mono text-[10px] leading-3.5 font-medium whitespace-nowrap">
-            {info?.platform === 'darwin' ? PALETTE_SHORTCUT.darwin : PALETTE_SHORTCUT.default}
-          </kbd>
-        </button>
+
+      <button
+        type="button"
+        onClick={() => usePaletteStore.getState().setOpen(true)}
+        className="no-drag absolute left-1/2 flex h-7 w-80 max-w-[calc(100%-32rem)] min-w-48 -translate-x-1/2 items-center gap-2 rounded-lg border bg-background pr-2 pl-2.5 text-xs leading-4 text-muted-foreground transition-colors hover:border-input"
+      >
+        <Search className="size-3.5 shrink-0" strokeWidth={1.75} aria-hidden />
+        <span className="flex-1 truncate text-left">{t('titleBar.searchHint')}</span>
+        <kbd className="rounded border bg-muted px-1.5 py-px font-mono text-[10px] leading-3.5 font-medium whitespace-nowrap">
+          {paletteShortcut}
+        </kbd>
+      </button>
+
+      <div className="ml-auto flex h-full items-center gap-1">
+        <ActivityIndicator />
+        {network?.online === false ? (
+          <span className="flex h-6 items-center gap-1.5 rounded-md border border-ctp-peach/40 bg-ctp-peach/10 px-2 text-xs leading-4 font-medium text-warning-text">
+            <WifiOff className="size-3.5" strokeWidth={1.75} aria-hidden />
+            {t('network.offline')}
+          </span>
+        ) : null}
+        <IncognitoToggle className="mr-1" />
+        <WindowControls />
       </div>
-      <DownloadActivity />
-      {network?.online === false ? (
-        <span className="flex h-6 items-center gap-1.5 rounded-md border border-ctp-peach/40 bg-ctp-peach/10 px-2 text-xs leading-4 font-medium text-warning-text">
-          <WifiOff className="size-3.5" strokeWidth={1.75} aria-hidden />
-          {t('network.offline')}
-        </span>
-      ) : null}
-      <IncognitoPill />
-      <WindowControls />
     </header>
   );
 }

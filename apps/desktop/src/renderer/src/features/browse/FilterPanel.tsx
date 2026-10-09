@@ -1,5 +1,5 @@
 import type { Filter, FilterState, FilterValue, SortValue } from '@matane-anime/extension-sdk';
-import { ArrowDownUp, Check, Minus } from 'lucide-react';
+import { ArrowDownUp, Check, Minus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
 import { Input } from '@renderer/components/ui/input';
@@ -17,10 +17,11 @@ interface PanelProps {
   onChange: (next: FilterState) => void;
   onApply: () => void;
   onReset: () => void;
+  onClose: () => void;
 }
 
 /** The filters an extension declares, drawn without the extension knowing anything about the UI (EXT-14). */
-export function FilterPanel({ filters, value, onChange, onApply, onReset }: PanelProps) {
+export function FilterPanel({ filters, value, onChange, onApply, onReset, onClose }: PanelProps) {
   const { t } = useTranslation();
   const set = (id: string, next: FilterValue | undefined): void => {
     const copy = { ...value };
@@ -29,22 +30,49 @@ export function FilterPanel({ filters, value, onChange, onApply, onReset }: Pane
     onChange(copy);
   };
 
+  const active = Object.keys(cleanFilters(value)).length;
+
   return (
-    <aside aria-label={t('browse.filters.title')} className="flex w-72 shrink-0 flex-col gap-4 border-l bg-sidebar p-5">
-      <div className="flex items-center justify-between">
+    <aside
+      aria-label={t('browse.filters.title')}
+      className="sticky top-0 flex h-[calc(100vh-2.5rem)] w-80 self-start shrink-0 flex-col border-l bg-sidebar"
+    >
+      <div className="flex items-center gap-2 border-b px-5 py-3">
         <h2 className="text-sm font-semibold">{t('browse.filters.title')}</h2>
-        <button type="button" onClick={onReset} className="text-xs font-medium text-primary-text hover:underline">
-          {t('browse.filters.reset')}
-        </button>
+        {active > 0 ? (
+          <span
+            className="rounded-md bg-primary/20 px-1.5 text-[11px] font-medium text-primary-text"
+            title={t('browse.filters.active', { count: active })}
+          >
+            {active}
+          </span>
+        ) : null}
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="ml-auto"
+          aria-label={t('browse.filters.close')}
+          title={t('browse.filters.close')}
+          onClick={onClose}
+        >
+          <X aria-hidden />
+        </Button>
       </div>
-      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-5">
         {filters.length === 0 ? (
-          <p>{t('browse.filters.none')}</p>
+          <p className="text-muted-foreground">{t('browse.filters.none')}</p>
         ) : (
           <FilterList filters={filters} value={value} set={set} />
         )}
       </div>
-      <Button onClick={onApply}>{t('browse.filters.apply')}</Button>
+      <div className="flex gap-2 border-t px-5 py-3">
+        <Button variant="secondary" className="flex-1" onClick={onReset}>
+          {t('browse.filters.reset')}
+        </Button>
+        <Button className="flex-1" onClick={onApply}>
+          {t('browse.filters.apply')}
+        </Button>
+      </div>
     </aside>
   );
 }

@@ -139,6 +139,40 @@ describe('AnimeRepository', () => {
     expect(saved).toMatchObject({ type: 'movie', lastUpdateCheckAt: 55, latestEpisodeAt: 777 });
     expect(emitted).toEqual([[`anime:${row!.id}`]]);
   });
+
+  it('remembers the episode view per anime, and forgets it again', () => {
+    const [a, b] = animeRepo.upsertSummaries('example/en', [
+      { url: '/a', title: 'A' },
+      { url: '/b', title: 'B' },
+    ]);
+    expect(animeRepo.episodeView(animeRepo.get(a!.id)!)).toBeNull();
+    emitted.length = 0;
+    animeRepo.setEpisodeView(a!.id, { sort: 'oldest', unwatchedOnly: true, downloadedOnly: false });
+    expect(emitted).toEqual([[`anime:${a!.id}`]]);
+    expect(animeRepo.episodeView(animeRepo.get(a!.id)!)).toEqual({
+      sort: 'oldest',
+      unwatchedOnly: true,
+      downloadedOnly: false,
+    });
+    expect(animeRepo.episodeView(animeRepo.get(b!.id)!)).toBeNull();
+    animeRepo.setEpisodeView(a!.id, null);
+    expect(animeRepo.episodeView(animeRepo.get(a!.id)!)).toBeNull();
+  });
+
+  it('repairs a stored episode view field by field and ignores one that is not JSON', () => {
+    const [row] = animeRepo.upsertSummaries('example/en', [{ url: '/a', title: 'A' }]);
+    const store = (json: string): void => {
+      connection.sqlite.prepare('UPDATE anime SET episode_view_json = ? WHERE id = ?').run(json, row!.id);
+    };
+    store('{"sort":"sideways","unwatchedOnly":true}');
+    expect(animeRepo.episodeView(animeRepo.get(row!.id)!)).toEqual({
+      sort: 'newest',
+      unwatchedOnly: true,
+      downloadedOnly: false,
+    });
+    store('{oops');
+    expect(animeRepo.episodeView(animeRepo.get(row!.id)!)).toBeNull();
+  });
 });
 
 describe('EpisodesRepository.sync', () => {

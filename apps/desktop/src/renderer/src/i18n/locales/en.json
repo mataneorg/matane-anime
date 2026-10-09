@@ -92,15 +92,10 @@
       "library": "Library",
       "player": "Player",
       "downloads": "Downloads",
-      "extensions": "Browse and extensions",
       "network": "Network",
       "data": "Data and storage",
       "advanced": "Advanced",
       "about": "About"
-    },
-    "unavailable": {
-      "title": "Not available yet",
-      "description": "This part of Settings arrives in a later phase."
     },
     "general": {
       "appearance": "Appearance",
@@ -337,7 +332,11 @@
       "notInstalled": "Extension not installed",
       "pin": "Pin source",
       "unpin": "Unpin source",
-      "browse": "Browse"
+      "browse": "Browse",
+      "subtitle_one": "{{count}} source",
+      "subtitle_other": "{{count}} sources",
+      "pinned": "Pinned",
+      "latest": "Latest"
     },
     "picker": "Source",
     "tabs": {
@@ -355,7 +354,10 @@
       "ascending": "Ascending",
       "descending": "Descending",
       "any": "Any",
-      "none": "This source has no filters."
+      "none": "This source has no filters.",
+      "close": "Close filters",
+      "active_one": "{{count}} filter on",
+      "active_other": "{{count}} filters on"
     },
     "refreshing": "Updating the list…",
     "loadingMore": "Loading more",
@@ -395,7 +397,6 @@
     "start": "Start watching",
     "addToLibrary": "Add to library",
     "download": "Download",
-    "comingSoon": "Coming soon",
     "refresh": "Refresh",
     "openInBrowser": "Open in browser",
     "episodes": "Episodes",
@@ -413,7 +414,6 @@
     "refreshFailed": "Could not refresh this anime",
     "showingSaved": "Showing what was saved earlier.",
     "loadFailed": "Could not load this anime",
-    "notFound": "This anime is not in the app any more.",
     "status": {
       "ongoing": "Ongoing",
       "completed": "Completed",
@@ -429,7 +429,18 @@
     "inLibrary": "In library",
     "watchAgain": "Watch again",
     "unwatchedCount_one": "{{count}} unwatched",
-    "unwatchedCount_other": "{{count}} unwatched"
+    "unwatchedCount_other": "{{count}} unwatched",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "lastUpdate": "latest episode {{when}}",
+    "viewCover": "View cover",
+    "jump": "Jump to episode",
+    "selectEpisode": "Select episode",
+    "deselectEpisode": "Deselect episode",
+    "selection": "Selected episodes",
+    "selected_one": "{{count}} selected",
+    "selected_other": "{{count}} selected",
+    "viewSaveFailed": "Could not save the sort and filters of this anime"
   },
   "extensions": {
     "title": "Extensions",
@@ -452,7 +463,8 @@
     "tabs": {
       "installed": "Installed",
       "available": "Available",
-      "repositories": "Repositories"
+      "repositories": "Repositories",
+      "updates": "Updates"
     },
     "filter": {
       "language": "Language",
@@ -593,6 +605,15 @@
       "repoRemoved": "{{name}} removed",
       "repoRemoveFailed": "Could not remove {{name}}",
       "trustFailed": "Could not change trust for {{name}}"
+    },
+    "search": "Search extensions",
+    "noUpdates": {
+      "title": "Everything is up to date",
+      "description": "When a repository offers a newer version of an installed extension, it shows up here."
+    },
+    "noMatches": {
+      "title": "Nothing matches",
+      "description": "Try another search."
     }
   },
   "network": {
@@ -666,7 +687,8 @@
       "lastWatched": "Last watched",
       "latestEpisode": "Latest episode",
       "added": "Date added",
-      "unwatched": "Unwatched"
+      "unwatched": "Unwatched",
+      "reverse": "Reverse order"
     },
     "filters": "Filters",
     "unwatchedOnly": "Only with unwatched episodes",
@@ -702,7 +724,25 @@
     "emptyCategory": {
       "title": "This category is empty",
       "description": "Add anime to it from an anime page or with Select."
-    }
+    },
+    "default": "Default",
+    "selectAll": "Select all",
+    "clearFilters": "Clear filters",
+    "sortLabel": "Sort: {{sort}}",
+    "badge_one": "{{count}} in the library",
+    "badge_other": "{{count}} in the library",
+    "display": {
+      "label": "Display",
+      "comfortable": "Comfortable grid",
+      "compact": "Compact grid",
+      "cover": "Covers only",
+      "list": "List"
+    },
+    "coverSize": "Cover size",
+    "downloadedOnly": "Only with downloaded episodes",
+    "filtersActive_one": "Filters ({{count}} active)",
+    "filtersActive_other": "Filters ({{count}} active)",
+    "viewSaveFailed": "Could not save how this list looks"
   },
   "history": {
     "clearAll": "Clear all history",
@@ -713,7 +753,12 @@
     "playEpisode": "Play Ep {{number}}",
     "playNext": "Play next",
     "open": "Open",
-    "remove": "Remove {{title}} from history"
+    "remove": "Remove {{title}} from history",
+    "search": "Search history",
+    "noResults": {
+      "title": "Nothing matches",
+      "description": "No entry in your history matches that search."
+    }
   },
   "globalSearch": {
     "title": "Global search",
@@ -733,7 +778,14 @@
     "retry": "Try again",
     "noSources": "There are no sources to search yet. Load an extension first.",
     "offline": "Searching needs a connection.",
-    "hint": "Type a title and press Enter."
+    "hint": "Type a title and press Enter.",
+    "clear": "Clear search",
+    "onlyWithResults": "Only with results",
+    "sourcesAll": "All sources",
+    "sourcesCustom_one": "{{count}} source",
+    "sourcesCustom_other": "{{count}} sources",
+    "noneWithResults": "No source has results for this search.",
+    "noScope": "There are no sources for this language or choice. Pick other sources or another language."
   },
   "migrate": {
     "title": "Migrate to another source",
@@ -870,7 +922,33 @@
       "title_other": "Download {{count}} episodes?",
       "body_one": "The unwatched episodes of {{count}} selected anime will be queued.",
       "body_other": "The unwatched episodes of {{count}} selected anime will be queued."
-    }
+    },
+    "tabs": {
+      "queue": "Queue",
+      "completed": "Completed",
+      "errors": "Errors"
+    },
+    "retryAll": "Retry all",
+    "empty": {
+      "queue": {
+        "title": "The queue is empty",
+        "description": "Episodes you download show up here while they wait or run."
+      },
+      "completed": {
+        "title": "Nothing downloaded yet",
+        "description": "Finished downloads stay here, ready to watch offline."
+      },
+      "errors": {
+        "title": "No errors",
+        "description": "Downloads that fail are listed here, with the reason."
+      }
+    },
+    "footer": {
+      "summary": "{{active}} active · {{waiting}} waiting",
+      "idle": "Idle"
+    },
+    "fold": "Hide the downloads of {{title}}",
+    "unfold": "Show the downloads of {{title}}"
   },
   "updates": {
     "count_one": "{{count}} new episode",
@@ -920,7 +998,11 @@
     "skipped_one": "{{count}} skipped",
     "skipped_other": "{{count}} skipped",
     "badge_one": "{{count}} update waiting",
-    "badge_other": "{{count}} updates waiting"
+    "badge_other": "{{count}} updates waiting",
+    "details": "Details",
+    "failedDetails": "These anime could not be reached in the last check.",
+    "downloadAll": "Download all",
+    "downloadAllOf": "Download all of {{day}}"
   },
   "palette": {
     "title": "Command palette",
@@ -958,7 +1040,8 @@
     "downloadsFailed": "Could not change the downloads",
     "incognitoKeywords": "private history",
     "incognitoOn": "Currently on",
-    "incognitoOff": "Currently off"
+    "incognitoOff": "Currently off",
+    "hintClose": "Close"
   },
   "onboarding": {
     "crumb": "Welcome",
@@ -1049,7 +1132,9 @@
     "body": "What you watch now is not saved to history, progress or watch time. Marking episodes as watched and managing your library still work.",
     "turnOff": "Turn off",
     "turnOn": "Turn on incognito",
-    "toggle": "Toggle incognito"
+    "toggle": "Toggle incognito",
+    "off": "Incognito is off",
+    "offBody": "What you watch is saved to history, progress and watch time."
   },
   "backup": {
     "description": "One file with your library, categories, progress, history and settings. It does not include downloaded episodes, extensions or sign-in tokens.",

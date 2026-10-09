@@ -11,13 +11,14 @@ import { call } from '@renderer/lib/api';
 import { sourcesQuery } from '@renderer/lib/catalog';
 import { cn } from '@renderer/lib/utils';
 import type { SourceInfo } from '@matane-anime/shared';
+import { languageName } from '@renderer/features/extensions/helpers';
 
 export const Route = createFileRoute('/_app/browse/sources/')({ component: SourcesPage });
 
 const hue = (text: string): number => [...text].reduce((sum, ch) => sum + ch.charCodeAt(0), 0) % 360;
 
 function SourcesPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: sources = [], isPending } = useQuery(sourcesQuery);
   const [language, setLanguage] = useState('all');
 
@@ -25,7 +26,12 @@ function SourcesPage() {
   const languages = useMemo(() => [...new Set(sources.map((source) => source.lang))].sort(), [sources]);
   const shown = sources
     .filter((source) => language === 'all' || source.lang === language)
-    .sort((a, b) => Number(b.pinned) - Number(a.pinned) || a.name.localeCompare(b.name));
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const pinned = shown.filter((source) => source.pinned);
+  const groups = groupByLanguage(
+    shown.filter((source) => !source.pinned),
+    i18n.language,
+  );
 
   if (!isPending && sources.length === 0) {
     return (
@@ -45,7 +51,10 @@ function SourcesPage() {
   return (
     <div className="flex min-h-full flex-col">
       <header className="flex shrink-0 flex-wrap items-center gap-4 border-b px-6 py-4">
-        <h1 className="mr-auto text-xl font-semibold">{t('browse.sources.title')}</h1>
+        <div className="mr-auto">
+          <h1 className="text-xl font-semibold">{t('browse.sources.title')}</h1>
+          <p className="text-xs text-muted-foreground">{t('browse.sources.subtitle', { count: sources.length })}</p>
+        </div>
         <OpenFromUrl sources={sources.filter((source) => source.available)} />
       </header>
 
@@ -69,13 +78,36 @@ function SourcesPage() {
           </div>
         ) : null}
 
-        <ul className="flex flex-col gap-2">
-          {shown.map((source) => (
-            <SourceRow key={source.id} source={source} />
-          ))}
-        </ul>
+        {pinned.length > 0 ? <SourceGroup title={t('browse.sources.pinned')} sources={pinned} /> : null}
+        {groups.map(([lang, list]) => (
+          <SourceGroup key={lang} title={languageName(lang, i18n.language)} sources={list} />
+        ))}
       </div>
     </div>
+  );
+}
+
+/** UI language first, then English, then the rest alphabetically. */
+function groupByLanguage(sources: SourceInfo[], uiLanguage: string): [string, SourceInfo[]][] {
+  const groups = new Map<string, SourceInfo[]>();
+  for (const source of sources) groups.set(source.lang, [...(groups.get(source.lang) ?? []), source]);
+  const rank = (lang: string): number => (lang === uiLanguage ? 0 : lang === 'en' ? 1 : 2);
+  return [...groups].sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
+}
+
+function SourceGroup({ title, sources }: { title: string; sources: SourceInfo[] }) {
+  return (
+    <section aria-label={title}>
+      <h2 className="mb-2 flex items-center gap-2 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+        {title}
+        <span className="rounded bg-muted px-1.5 font-normal text-foreground">{sources.length}</span>
+      </h2>
+      <ul className="flex flex-col gap-2">
+        {sources.map((source) => (
+          <SourceRow key={source.id} source={source} />
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -102,6 +134,16 @@ function SourceRow({ source }: { source: SourceInfo }) {
       <Badge>{source.lang.toUpperCase()}</Badge>
       {source.nsfw ? <Badge tone="warning">18+</Badge> : null}
       {!source.available ? <Badge tone="danger">{t('browse.sources.notInstalled')}</Badge> : null}
+      {source.available ? (
+        <Link
+          to="/browse/sources/$sourceId"
+          params={{ sourceId: source.id }}
+          search={{ tab: 'latest' }}
+          className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+        >
+          {t('browse.sources.latest')}
+        </Link>
+      ) : null}
       <Button
         variant="ghost"
         size="icon"

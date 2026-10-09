@@ -117,7 +117,9 @@ test('filters by text, sorts, and narrows to what is unwatched or started', asyn
   await page.getByRole('searchbox', { name: 'Filter library' }).fill('');
   await expect(card('Sky Harbor')).toBeVisible();
 
-  await page.getByLabel('Sort by').selectOption('title');
+  // Sort is a menu: the field as a radio item.
+  await page.getByRole('button', { name: /^Sort:/ }).click();
+  await page.getByRole('menuitemradio', { name: 'Title' }).click();
   await expect
     .poll(() =>
       page.locator('main a[aria-label]').evaluateAll((links) => links.map((link) => link.getAttribute('aria-label'))),
@@ -125,7 +127,7 @@ test('filters by text, sorts, and narrows to what is unwatched or started', asyn
     .toEqual(['Quiet Orchard', 'Sky Harbor', 'Two Voices']);
 
   await page.getByRole('button', { name: 'Filters' }).click();
-  await page.getByLabel('Only started').check();
+  await page.getByRole('checkbox', { name: 'Only started' }).check();
   await expect(page.getByText('Nothing matches')).toBeVisible();
   await page.getByRole('button', { name: 'Reset' }).click();
   await expect(card('Sky Harbor')).toBeVisible();

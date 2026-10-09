@@ -1,5 +1,13 @@
 import { z } from 'zod';
 import { ACCENTS, LANGUAGES, THEME_MODES } from './theme';
+import {
+  DEFAULT_BROWSE_SETTINGS,
+  DEFAULT_GLOBAL_SEARCH_SETTINGS,
+  DEFAULT_LIBRARY_SETTINGS,
+  browseSettingsSchema,
+  globalSearchSettingsSchema,
+  librarySettingsSchema,
+} from './view-settings';
 
 export const PLAYER_QUALITIES = ['highest', '1080', '720', '480', '360'] as const;
 export type PlayerQuality = (typeof PLAYER_QUALITIES)[number];
@@ -105,6 +113,12 @@ export const appSettingsSchema = z.object({
   // The proxy password is not a setting: it stays in main (`network.setProxyPassword`).
   /** Replaces the default User-Agent for every extension that does not set its own (NET-4); null keeps the default. */
   userAgent: z.string().max(512).nullable(),
+  /** How the library looks and what narrows it (display, cover size, sort, filters). */
+  library: librarySettingsSchema,
+  /** How a source's list in Browse looks. */
+  browse: browseSettingsSchema,
+  /** Global search: the sources asked and whether empty ones are hidden. */
+  globalSearch: globalSearchSettingsSchema,
   /** The first-run flow has been completed or skipped (UI-9). */
   onboardingDone: z.boolean(),
   /** The app version whose "What's new" the user has seen; null on a fresh install (UI-10). */
@@ -154,6 +168,9 @@ export const DEFAULT_SETTINGS: AppSettings = {
   proxyPort: null,
   proxyUser: '',
   userAgent: null,
+  library: DEFAULT_LIBRARY_SETTINGS,
+  browse: DEFAULT_BROWSE_SETTINGS,
+  globalSearch: DEFAULT_GLOBAL_SEARCH_SETTINGS,
   onboardingDone: false,
   lastSeenVersion: null,
 };

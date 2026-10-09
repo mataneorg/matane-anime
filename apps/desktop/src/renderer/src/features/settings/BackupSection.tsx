@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { BackupCounts, BackupPreview } from '@matane-anime/shared';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
-import { ConfirmDialog } from '@renderer/features/extensions/ConfirmDialog';
+import { ConfirmDialog } from '@renderer/components/ConfirmDialog';
 import { call } from '@renderer/lib/api';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';

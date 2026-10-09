@@ -19,6 +19,13 @@ export const libraryCountQuery = queryOptions({
   ...localQueryDefaults,
 });
 
+/** How many anime sit in no category: the number on the Default tab. */
+export const uncategorizedCountQuery = queryOptions({
+  queryKey: ['library', 'uncategorized-count'],
+  queryFn: () => call('library.uncategorizedCount'),
+  ...localQueryDefaults,
+});
+
 export const categoriesQuery = queryOptions({
   queryKey: ['categories'],
   queryFn: () => call('categories.list'),

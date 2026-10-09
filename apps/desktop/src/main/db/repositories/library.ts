@@ -213,6 +213,18 @@ export class LibraryRepository {
     return (this.db.$client.prepare('SELECT COUNT(*) AS n FROM anime WHERE in_library = 1').get() as { n: number }).n;
   }
 
+  /** Anime in the library that sit in no category: the "Default" tab. */
+  uncategorizedCount(): number {
+    return (
+      this.db.$client
+        .prepare(
+          `SELECT COUNT(*) AS n FROM anime a
+           WHERE a.in_library = 1 AND NOT EXISTS (SELECT 1 FROM anime_categories ac WHERE ac.anime_id = a.id)`,
+        )
+        .get() as { n: number }
+    ).n;
+  }
+
   // ------------------------------------------------------------------ migration (BRW-8)
 
   /**
@@ -319,19 +331,27 @@ export class LibraryRepository {
     if (query.category !== undefined) {
       where.push('EXISTS (SELECT 1 FROM anime_categories ac WHERE ac.anime_id = a.id AND ac.category_id = ?)');
       params.push(query.category);
+    } else if (query.uncategorized) {
+      where.push('NOT EXISTS (SELECT 1 FROM anime_categories ac WHERE ac.anime_id = a.id)');
     }
     const match = query.search ? ftsQuery(query.search) : null;
     if (match) {
       where.push('a.id IN (SELECT rowid FROM anime_fts WHERE anime_fts MATCH ?)');
       params.push(match);
     }
-    if (query.status) {
-      where.push('a.status = ?');
-      params.push(query.status);
+    if (query.status && query.status.length > 0) {
+      where.push(`a.status IN (${query.status.map(() => '?').join(', ')})`);
+      params.push(...query.status);
     }
-    if (query.sourceId) {
-      where.push('a.source_id = ?');
-      params.push(query.sourceId);
+    if (query.sourceIds && query.sourceIds.length > 0) {
+      where.push(`a.source_id IN (${query.sourceIds.map(() => '?').join(', ')})`);
+      params.push(...query.sourceIds);
+    }
+    if (query.downloadedOnly) {
+      where.push(
+        `EXISTS (SELECT 1 FROM downloads d JOIN episodes e ON e.id = d.episode_id
+                 WHERE e.anime_id = a.id AND d.status = 'done')`,
+      );
     }
 
     const rows = this.db.$client

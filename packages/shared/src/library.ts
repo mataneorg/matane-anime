@@ -5,6 +5,9 @@ import { z } from 'zod';
 export const LIBRARY_SORTS = ['title', 'lastWatched', 'latestEpisode', 'added', 'unwatched'] as const;
 export type LibrarySort = (typeof LIBRARY_SORTS)[number];
 
+export const ANIME_STATUSES = ['ongoing', 'completed', 'hiatus', 'cancelled', 'unknown'] as const;
+export type AnimeStatus = (typeof ANIME_STATUSES)[number];
+
 /** A category's mark for auto-download (DL-11): `null` follows the global setting. */
 export const autoDownloadModeSchema = z.enum(['include', 'exclude']);
 export type AutoDownloadMode = z.infer<typeof autoDownloadModeSchema>;
@@ -35,6 +38,8 @@ export type ContinueTarget = z.infer<typeof continueTargetSchema>;
 export const libraryQuerySchema = z.object({
   /** Absent means "All". */
   category: z.number().int().optional(),
+  /** Only anime in no category (the Default tab). Ignored when `category` is set. */
+  uncategorized: z.boolean().optional(),
   /** Matches titles and alternative titles (FTS5), by word prefix. */
   search: z.string().optional(),
   sort: z.enum(LIBRARY_SORTS),
@@ -42,8 +47,12 @@ export const libraryQuerySchema = z.object({
   unwatchedOnly: z.boolean().optional(),
   /** Only anime that were started (some episode watched or in progress). */
   startedOnly: z.boolean().optional(),
-  status: z.enum(['ongoing', 'completed', 'hiatus', 'cancelled', 'unknown']).optional(),
-  sourceId: z.string().optional(),
+  /** Only anime with at least one episode downloaded. */
+  downloadedOnly: z.boolean().optional(),
+  /** Any of these statuses; absent or empty means every status. */
+  status: z.array(z.enum(ANIME_STATUSES)).max(ANIME_STATUSES.length).optional(),
+  /** Any of these sources; absent or empty means every source. */
+  sourceIds: z.array(z.string().max(200)).max(200).optional(),
 });
 export type LibraryQuery = z.infer<typeof libraryQuerySchema>;
 

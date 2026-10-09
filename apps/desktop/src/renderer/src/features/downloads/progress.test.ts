@@ -2,10 +2,13 @@ import type { DownloadItem, DownloadProgress } from '@matane-anime/shared';
 import { describe, expect, it } from 'vitest';
 import {
   applyReorder,
+  groupByAnime,
   groupDownloads,
   mergeProgress,
   moveId,
+  moveWithinAnime,
   pendingCount,
+  stepWithinAnime,
   totalSpeed,
   withProgress,
 } from './progress';
@@ -139,5 +142,55 @@ describe('applyReorder', () => {
   it('ignores ids that are not in the list', () => {
     const items = [item(1, 'queued'), item(2, 'queued')];
     expect(applyReorder(items, [2, 99, 1]).map((row) => row.id)).toEqual([2, 1]);
+  });
+});
+
+describe('groupByAnime', () => {
+  it("makes one group per anime, in order of first appearance, keeping each anime's order", () => {
+    const items = [
+      item(1, 'queued', { animeId: 20, animeTitle: 'B' }),
+      item(2, 'queued', { animeId: 10, animeTitle: 'A' }),
+      item(3, 'error', { animeId: 20, animeTitle: 'B' }),
+    ];
+    const groups = groupByAnime(items);
+    expect(groups.map((group) => [group.animeId, group.title])).toEqual([
+      [20, 'B'],
+      [10, 'A'],
+    ]);
+    expect(groups[0]?.items.map((row) => row.id)).toEqual([1, 3]);
+  });
+  it('is empty for no downloads', () => {
+    expect(groupByAnime([])).toEqual([]);
+  });
+});
+
+describe('moveWithinAnime and stepWithinAnime', () => {
+  // Queue order: A1 B2 A3 B4 A5 (the page shows A's rows 1, 3, 5 and B's rows 2, 4).
+  const queued = [
+    item(1, 'queued', { animeId: 1 }),
+    item(2, 'queued', { animeId: 2 }),
+    item(3, 'queued', { animeId: 1 }),
+    item(4, 'queued', { animeId: 2 }),
+    item(5, 'queued', { animeId: 1 }),
+  ];
+  it('moves a row to the place of another row of the same anime', () => {
+    expect(moveWithinAnime(queued, 1, 5)).toEqual([2, 3, 4, 5, 1]);
+    expect(moveWithinAnime(queued, 5, 3)).toEqual([1, 2, 5, 3, 4]);
+  });
+  it('refuses a drop on another anime, on itself, or on a row that is not queued', () => {
+    expect(moveWithinAnime(queued, 1, 2)).toBeNull();
+    expect(moveWithinAnime(queued, 1, 1)).toBeNull();
+    expect(moveWithinAnime(queued, 1, 99)).toBeNull();
+    expect(moveWithinAnime(queued, 99, 1)).toBeNull();
+  });
+  it('steps past the other anime rows to the neighbour the page shows', () => {
+    expect(stepWithinAnime(queued, 3, -1)).toEqual([3, 1, 2, 4, 5]);
+    expect(stepWithinAnime(queued, 3, 1)).toEqual([1, 2, 4, 5, 3]);
+    expect(stepWithinAnime(queued, 2, 1)).toEqual([1, 3, 4, 2, 5]);
+  });
+  it('does nothing at the ends of an anime', () => {
+    expect(stepWithinAnime(queued, 1, -1)).toBeNull();
+    expect(stepWithinAnime(queued, 5, 1)).toBeNull();
+    expect(stepWithinAnime(queued, 99, 1)).toBeNull();
   });
 });

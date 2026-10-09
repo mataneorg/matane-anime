@@ -3,8 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import type { DownloadItem } from '@matane-anime/shared';
-import { Check, EllipsisVertical, Play } from 'lucide-react';
-import { useRef } from 'react';
+import { Check, Circle, CircleCheck, EllipsisVertical, Play } from 'lucide-react';
+import { type MouseEvent, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Cover } from '@renderer/components/Cover';
 import { Badge } from '@renderer/components/ui/badge';
@@ -41,11 +41,22 @@ export function EpisodeList({
   sourceId,
   thumbnailUrl,
   localCoverId,
+  selected,
+  onPick,
+  onToggle,
+  jump,
 }: {
   episodes: EpisodeRow[];
   sourceId: string;
   thumbnailUrl: string | null;
   localCoverId?: number | undefined;
+  selected: ReadonlySet<number>;
+  /** A click on a row: the page decides whether it opens the episode or changes the selection. */
+  onPick: (event: MouseEvent, episodeId: number) => void;
+  /** The round select button of a row; Shift extends the selection from the last row clicked. */
+  onToggle: (event: MouseEvent, episodeId: number) => void;
+  /** Scrolls to a row; a new `token` scrolls again to the same one. */
+  jump: { index: number; token: number } | null;
 }) {
   const { t, i18n } = useTranslation();
   const listRef = useRef<HTMLDivElement>(null);
@@ -59,7 +70,14 @@ export function EpisodeList({
     estimateSize: () => ROW,
     overscan: 8,
     scrollMargin: margin,
+    // The sticky toolbar covers the top of the page.
+    scrollPaddingStart: 56,
   });
+  useEffect(() => {
+    if (jump) virtualizer.scrollToIndex(jump.index, { align: 'start' });
+    // Only a new jump scrolls; the virtualizer object is the same for the life of the list.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jump?.token]);
   const dates = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' });
   const downloads = useDownloadMap();
 
@@ -81,6 +99,9 @@ export function EpisodeList({
               thumbnailUrl={thumbnailUrl}
               localCoverId={localCoverId}
               download={downloads.get(episode.id)}
+              selected={selected.has(episode.id)}
+              onPick={(event) => onPick(event, episode.id)}
+              onToggle={(event) => onToggle(event, episode.id)}
               date={episode.uploadedAt ? dates.format(episode.uploadedAt) : t('anime.episodeFallback')}
             />
           </div>
@@ -96,6 +117,9 @@ function EpisodeRowView({
   thumbnailUrl,
   localCoverId,
   download,
+  selected,
+  onPick,
+  onToggle,
   date,
 }: {
   episode: EpisodeRow;
@@ -103,6 +127,9 @@ function EpisodeRowView({
   thumbnailUrl: string | null;
   localCoverId: number | undefined;
   download: DownloadItem | undefined;
+  selected: boolean;
+  onPick: (event: MouseEvent) => void;
+  onToggle: (event: MouseEvent) => void;
   date: string;
 }) {
   const { t } = useTranslation();
@@ -118,7 +145,24 @@ function EpisodeRowView({
   const reset = useMutation({ mutationFn: () => call('episodes.resetProgress', { episodeId: episode.id }) });
 
   return (
-    <div className="relative flex h-16 items-center rounded-xl border bg-card/40 transition-colors hover:border-input hover:bg-card/70">
+    <div
+      className={cn(
+        'group relative flex h-16 items-center rounded-xl border bg-card/40 transition-colors hover:border-input hover:bg-card/70',
+        selected && 'border-primary bg-primary/10 hover:border-primary hover:bg-primary/15',
+      )}
+    >
+      <button
+        type="button"
+        aria-label={selected ? t('anime.deselectEpisode') : t('anime.selectEpisode')}
+        aria-pressed={selected}
+        onClick={onToggle}
+        className={cn(
+          'absolute top-1.5 left-1.5 z-10 flex size-6 items-center justify-center rounded-full bg-ctp-crust/70 text-ctp-text opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100',
+          selected && 'bg-primary text-primary-foreground opacity-100',
+        )}
+      >
+        {selected ? <CircleCheck className="size-4" aria-hidden /> : <Circle className="size-4" aria-hidden />}
+      </button>
       {downloadPercent !== null ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 overflow-hidden rounded-b-xl" aria-hidden>
           <div className="h-full bg-primary" style={{ width: `${downloadPercent}%` }} />
@@ -127,6 +171,7 @@ function EpisodeRowView({
       <Link
         to="/watch/$episodeId"
         params={{ episodeId: String(episode.id) }}
+        onClick={onPick}
         className="flex h-full min-w-0 flex-1 items-center gap-4 pr-2"
       >
         <div className="relative shrink-0">

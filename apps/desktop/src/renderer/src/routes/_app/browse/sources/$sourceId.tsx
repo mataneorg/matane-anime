@@ -1,15 +1,17 @@
 import type { Filter, FilterState } from '@matane-anime/extension-sdk';
+import type { LibraryDisplay } from '@matane-anime/shared';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Loader2, Search, SlidersHorizontal, WifiOff } from 'lucide-react';
 import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CoverViewControls } from '@renderer/components/CoverViewControls';
 import { EmptyState } from '@renderer/components/EmptyState';
 import { ErrorState } from '@renderer/components/ErrorState';
 import { Button } from '@renderer/components/ui/button';
 import { Input } from '@renderer/components/ui/input';
 import { Select } from '@renderer/components/ui/select';
-import { AnimeCard, AnimeCardSkeleton } from '@renderer/features/browse/AnimeCard';
+import { AnimeCard, AnimeCardSkeleton, gridStyle } from '@renderer/features/browse/AnimeCard';
 import { FilterPanel, cleanFilters } from '@renderer/features/browse/FilterPanel';
 import {
   browseCachedQuery,
@@ -20,14 +22,26 @@ import {
   sourcesQuery,
 } from '@renderer/lib/catalog';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
+import { useScrollRestoration } from '@renderer/lib/scroll';
 import { cn } from '@renderer/lib/utils';
+import { usePageCrumbs } from '@renderer/stores/crumbs';
 import { useNetworkStore } from '@renderer/stores/network';
+import { useBrowseView } from '@renderer/lib/viewSettings';
 
 export const Route = createFileRoute('/_app/browse/sources/$sourceId')({
+  // The tab, the search and the filters live in the address: Back from an anime brings the same listing back, and
   // `?q=` opens the source already searched (the "View all" of global search).
-  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
-    q: typeof search['q'] === 'string' && search['q'] !== '' ? search['q'] : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { q?: string; tab?: 'latest'; filters?: FilterState } => {
+    const filters = search['filters'];
+    return {
+      q: typeof search['q'] === 'string' && search['q'] !== '' ? search['q'] : undefined,
+      tab: search['tab'] === 'latest' ? 'latest' : undefined,
+      filters:
+        typeof filters === 'object' && filters !== null && !Array.isArray(filters) && Object.keys(filters).length > 0
+          ? (filters as FilterState)
+          : undefined,
+    };
+  },
   component: BrowsePage,
 });
 
@@ -47,16 +61,30 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   const { data: capabilities } = useQuery({ ...capabilitiesQuery(sourceId), enabled: source?.available === true });
   const { data: network } = useQuery(networkStatusQuery);
   const online = network?.online ?? true;
+  const [{ display, coverSize }, updateView] = useBrowseView();
 
-  const [tab, setTab] = useState<Kind>('popular');
-  const initialQuery = Route.useSearch().q ?? '';
-  const [draft, setDraft] = useState(initialQuery);
-  const [query, setQuery] = useState(initialQuery);
+  const search = Route.useSearch();
+  const query = search.q ?? '';
+  const filters = useMemo<FilterState>(() => search.filters ?? {}, [search.filters]);
+  // What the address says is applied; the box and the panel hold what is typed until it is submitted.
+  const [draft, setDraft] = useState(query);
   const [panelOpen, setPanelOpen] = useState(false);
-  const [filterDraft, setFilterDraft] = useState<FilterState>({});
-  const [filters, setFilters] = useState<FilterState>({});
+  const [filterDraft, setFilterDraft] = useState<FilterState>(filters);
+  const show = (patch: {
+    q?: string | undefined;
+    tab?: 'latest' | undefined;
+    filters?: FilterState | undefined;
+  }): void =>
+    void navigate({
+      to: '/browse/sources/$sourceId',
+      params: { sourceId },
+      search: { q: search.q, tab: search.tab, filters: search.filters, ...patch },
+      replace: true,
+    });
 
   const searching = query.trim() !== '' || Object.keys(filters).length > 0;
+  // A source without a Latest listing shows Popular, whatever the address says.
+  const tab: Kind = search.tab === 'latest' && capabilities?.latest !== false ? 'latest' : 'popular';
   const kind = searching ? 'search' : tab;
   const params = { sourceId, kind, query: query.trim(), filters } as const;
   const feed = useInfiniteQuery(browseQuery(params, source?.available === true && online));
@@ -73,6 +101,8 @@ function BrowseView({ sourceId }: { sourceId: string }) {
     [feed.data, remembered],
   );
 
+  useScrollRestoration(items.length > 0);
+  usePageCrumbs(source?.name);
   const sentinel = useRef<HTMLDivElement>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage, isError } = feed;
   useEffect(() => {
@@ -94,14 +124,12 @@ function BrowseView({ sourceId }: { sourceId: string }) {
 
   const submitSearch = (event: FormEvent): void => {
     event.preventDefault();
-    setQuery(draft);
+    show({ q: draft.trim() === '' ? undefined : draft });
   };
   const chooseTab = (next: Kind): void => {
-    setTab(next);
     setDraft('');
-    setQuery('');
     setFilterDraft({});
-    setFilters({});
+    show({ tab: next === 'latest' ? 'latest' : undefined, q: undefined, filters: undefined });
   };
 
   if (sources.length > 0 && !source?.available) {
@@ -133,7 +161,11 @@ function BrowseView({ sourceId }: { sourceId: string }) {
                 ))}
             </Select>
 
-            <form onSubmit={submitSearch} className="ml-auto flex w-full max-w-sm items-center gap-2">
+            <div className="ml-auto flex items-center gap-2">
+              <CoverViewControls display={display} coverSize={coverSize} onChange={updateView} />
+            </div>
+
+            <form onSubmit={submitSearch} className="flex w-full max-w-sm items-center gap-2">
               <div className="relative flex-1">
                 <Search
                   className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
@@ -204,9 +236,9 @@ function BrowseView({ sourceId }: { sourceId: string }) {
               description={t('browse.offline.description')}
             />
           ) : feed.isPending && !showingRemembered ? (
-            <Grid>
+            <Grid display={display} coverSize={coverSize}>
               {Array.from({ length: 12 }, (_, index) => (
-                <AnimeCardSkeleton key={index} />
+                <AnimeCardSkeleton key={index} display={display} />
               ))}
             </Grid>
           ) : feed.isError && items.length === 0 ? (
@@ -223,9 +255,9 @@ function BrowseView({ sourceId }: { sourceId: string }) {
             <EmptyState icon={Search} title={t('browse.empty.title')} description={t('browse.empty.description')} />
           ) : (
             <>
-              <Grid>
+              <Grid display={display} coverSize={coverSize}>
                 {items.map((anime) => (
-                  <AnimeCard key={anime.animeId} anime={anime} />
+                  <AnimeCard key={anime.animeId} anime={anime} display={display} />
                 ))}
               </Grid>
               <div ref={sentinel} className="flex min-h-10 items-center justify-center gap-2">
@@ -257,17 +289,33 @@ function BrowseView({ sourceId }: { sourceId: string }) {
           filters={filterList as Filter[]}
           value={filterDraft}
           onChange={setFilterDraft}
-          onApply={() => setFilters(cleanFilters(filterDraft))}
+          onApply={() => {
+            const applied = cleanFilters(filterDraft);
+            show({ filters: Object.keys(applied).length > 0 ? applied : undefined });
+          }}
           onReset={() => {
             setFilterDraft({});
-            setFilters({});
+            show({ filters: undefined });
           }}
+          onClose={() => setPanelOpen(false)}
         />
       ) : null}
     </div>
   );
 }
 
-function Grid({ children }: { children: React.ReactNode }) {
-  return <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-x-4 gap-y-5">{children}</div>;
+function Grid({
+  display,
+  coverSize,
+  children,
+}: {
+  display: LibraryDisplay;
+  coverSize: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid" style={gridStyle(display, coverSize)}>
+      {children}
+    </div>
+  );
 }

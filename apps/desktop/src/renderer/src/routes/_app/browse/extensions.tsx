@@ -1,10 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Info, Loader2, Package, Plus, RefreshCw, Server } from 'lucide-react';
+import { CircleCheck, Info, Loader2, Package, Plus, RefreshCw, SearchX, Server } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@renderer/components/EmptyState';
 import { ErrorState } from '@renderer/components/ErrorState';
+import { SearchField } from '@renderer/components/SearchField';
 import { Button } from '@renderer/components/ui/button';
 import { AddRepoDialog } from '@renderer/features/extensions/AddRepoDialog';
 import { AvailableList } from '@renderer/features/extensions/AvailableList';
@@ -21,8 +22,8 @@ import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
 
-type Tab = 'installed' | 'available' | 'repositories';
-const TABS: Tab[] = ['installed', 'available', 'repositories'];
+type Tab = 'installed' | 'available' | 'updates' | 'repositories';
+const TABS: Tab[] = ['installed', 'available', 'updates', 'repositories'];
 
 export const Route = createFileRoute('/_app/browse/extensions')({
   // `?add=true` opens the Add repository dialog (the library's first steps link here).
@@ -41,6 +42,7 @@ function ExtensionsPage() {
   const update = useUpdateSettings();
 
   const [tab, setTab] = useState<Tab>('installed');
+  const [search, setSearch] = useState('');
   const [adding, setAdding] = useState(wantsAdd);
   const [installing, setInstalling] = useState<InstallTarget | null>(null);
 
@@ -101,11 +103,21 @@ function ExtensionsPage() {
   if (extensions.isPending || repos.isPending) return null;
 
   const nothingYet = installed.length === 0 && repoList.length === 0;
+  const withUpdate = installed.filter((extension) => extension.updateAvailable && !extension.shadowed);
   const counts: Record<Tab, number> = {
     installed: installed.length,
     available: offered.length,
+    updates: withUpdate.length,
     repositories: repoList.length,
   };
+  // The search box narrows whichever list is open.
+  const needle = search.trim().toLowerCase();
+  const matches = (...texts: (string | null | undefined)[]): boolean =>
+    needle === '' || texts.some((text) => text?.toLowerCase().includes(needle));
+  const shownInstalled = installed.filter((extension) => matches(extension.name, extension.id));
+  const shownUpdates = withUpdate.filter((extension) => matches(extension.name, extension.id));
+  const shownOffered = offered.filter((entry) => matches(entry.name, entry.id));
+  const shownRepos = repoList.filter((repo) => matches(repo.name, repo.url));
 
   return (
     <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col gap-5 px-6 py-5">
@@ -174,46 +186,51 @@ function ExtensionsPage() {
             </div>
           ) : null}
 
-          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b">
-            <div role="tablist" aria-label={t('extensions.title')} className="flex gap-6">
-              {TABS.map((name) => (
-                <button
-                  key={name}
-                  role="tab"
-                  type="button"
-                  id={`tab-${name}`}
-                  aria-selected={tab === name}
-                  aria-controls="extensions-panel"
-                  onClick={() => setTab(name)}
+          <div role="tablist" aria-label={t('extensions.title')} className="flex gap-6 border-b">
+            {TABS.map((name) => (
+              <button
+                key={name}
+                role="tab"
+                type="button"
+                id={`tab-${name}`}
+                aria-selected={tab === name}
+                aria-controls="extensions-panel"
+                onClick={() => setTab(name)}
+                className={cn(
+                  '-mb-px flex h-9 items-center gap-2 border-b-2 border-transparent px-1 text-muted-foreground transition-colors hover:text-foreground',
+                  tab === name && 'border-primary font-semibold text-foreground',
+                )}
+              >
+                {t(`extensions.tabs.${name}`)}
+                <span
                   className={cn(
-                    '-mb-px flex h-9 items-center gap-2 border-b-2 border-transparent px-1 text-muted-foreground transition-colors hover:text-foreground',
-                    tab === name && 'border-primary font-semibold text-foreground',
+                    'rounded-md bg-muted px-1.5 text-[11px] font-medium text-foreground',
+                    tab === name && 'bg-primary/20 text-primary-text',
                   )}
                 >
-                  {t(`extensions.tabs.${name}`)}
-                  <span
-                    className={cn(
-                      'rounded-md bg-muted px-1.5 text-[11px] font-medium text-foreground',
-                      tab === name && 'bg-primary/20 text-primary-text',
-                    )}
-                  >
-                    {counts[name]}
-                  </span>
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-4 pb-1.5 text-xs">
-              <LanguageFilter />
-              <label className="flex cursor-pointer items-center gap-2">
-                <input
-                  type="checkbox"
-                  className="size-4 accent-primary"
-                  checked={settings?.showNsfw ?? false}
-                  onChange={(event) => update.mutate({ showNsfw: event.target.checked })}
-                />
-                {t('extensions.filter.nsfw')}
-              </label>
-            </div>
+                  {counts[name]}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-3 rounded-xl border bg-card/40 p-3">
+            <SearchField
+              value={search}
+              onChange={setSearch}
+              placeholder={t('extensions.search')}
+              className="min-w-48 flex-1"
+            />
+            <LanguageFilter />
+            <label className="flex cursor-pointer items-center gap-2 text-xs">
+              <input
+                type="checkbox"
+                className="size-4 accent-primary"
+                checked={settings?.showNsfw ?? false}
+                onChange={(event) => update.mutate({ showNsfw: event.target.checked })}
+              />
+              {t('extensions.filter.nsfw')}
+            </label>
           </div>
 
           <div id="extensions-panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
@@ -229,12 +246,14 @@ function ExtensionsPage() {
                     </Button>
                   }
                 />
+              ) : shownInstalled.length === 0 ? (
+                <NoMatches />
               ) : (
-                <InstalledList extensions={installed} available={offered} onReinstall={setInstalling} />
+                <InstalledList extensions={shownInstalled} available={offered} onReinstall={setInstalling} />
               )
             ) : tab === 'available' ? (
               available.isError ? (
-                <ErrorState title={t('errors.title')} description={describeError(available.error, t)} />
+                <ErrorState error={available.error} onRetry={() => void available.refetch()} />
               ) : offered.length === 0 ? (
                 <EmptyState
                   icon={Server}
@@ -243,8 +262,22 @@ function ExtensionsPage() {
                     repoList.length === 0 ? 'extensions.noRepos.description' : 'extensions.noneAvailable.description',
                   )}
                 />
+              ) : shownOffered.length === 0 ? (
+                <NoMatches />
               ) : (
-                <AvailableList entries={offered} onInstall={setInstalling} />
+                <AvailableList entries={shownOffered} onInstall={setInstalling} />
+              )
+            ) : tab === 'updates' ? (
+              withUpdate.length === 0 ? (
+                <EmptyState
+                  icon={CircleCheck}
+                  title={t('extensions.noUpdates.title')}
+                  description={t('extensions.noUpdates.description')}
+                />
+              ) : shownUpdates.length === 0 ? (
+                <NoMatches />
+              ) : (
+                <InstalledList extensions={shownUpdates} available={offered} onReinstall={setInstalling} />
               )
             ) : repoList.length === 0 ? (
               <EmptyState
@@ -252,8 +285,10 @@ function ExtensionsPage() {
                 title={t('extensions.noRepos.title')}
                 description={t('extensions.noRepos.description')}
               />
+            ) : shownRepos.length === 0 ? (
+              <NoMatches />
             ) : (
-              <RepositoriesList repos={repoList} />
+              <RepositoriesList repos={shownRepos} />
             )}
           </div>
         </>
@@ -276,5 +311,17 @@ function ExtensionsPage() {
         }}
       />
     </div>
+  );
+}
+
+/** A search that matches nothing in the open tab. */
+function NoMatches() {
+  const { t } = useTranslation();
+  return (
+    <EmptyState
+      icon={SearchX}
+      title={t('extensions.noMatches.title')}
+      description={t('extensions.noMatches.description')}
+    />
   );
 }

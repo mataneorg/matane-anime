@@ -191,6 +191,8 @@ export function invalidateForTags(queryClient: QueryClient, tags: string[]): voi
     }
     if (tag === 'downloads') {
       void queryClient.invalidateQueries({ queryKey: ['downloads'] });
+      // The library's "downloaded only" filter depends on what is on disk.
+      void queryClient.invalidateQueries({ queryKey: ['library', 'list'] });
       invalidateUpdates(queryClient);
       continue;
     }

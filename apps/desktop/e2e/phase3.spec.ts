@@ -123,7 +123,7 @@ async function checkOfflineApp(): Promise<void> {
   await expect(page.getByRole('navigation', { name: 'Breadcrumb' })).toContainText('History');
   await expect(page.getByRole('alert')).toHaveCount(0);
   await go('#/downloads');
-  await page.getByRole('button', { name: /^Completed/ }).click();
+  await page.getByRole('tab', { name: /^Completed/ }).click();
   await expect(page.locator('li[data-status="done"]').first()).toBeVisible();
 }
 
@@ -201,7 +201,7 @@ test('downloads an HLS and an MP4 episode from their anime pages; both end up in
   expect(await rowOf(orchard.episodes[1]!)).toMatchObject({ kind: 'mp4', status: 'done' });
 
   await go('#/downloads');
-  await page.getByRole('button', { name: 'Completed (2)' }).click();
+  await page.getByRole('tab', { name: /^Completed\s*2/ }).click();
   const done = page.locator('li[data-status="done"]');
   await expect(done).toHaveCount(2);
   await expect(done.filter({ hasText: 'Sky Harbor' })).toBeVisible();
@@ -268,7 +268,7 @@ test('with the site back, a check finds the new episode and auto-download fetche
 
 test('ends with three finished downloads, consistent storage, and the new episode leaves Updates once watched', async () => {
   await go('#/downloads');
-  await page.getByRole('button', { name: 'Completed (3)' }).click();
+  await page.getByRole('tab', { name: /^Completed\s*3/ }).click();
   const done = page.locator('li[data-status="done"]');
   await expect(done).toHaveCount(3);
   await expect(done.filter({ hasText: 'Sky Harbor' })).toHaveCount(2);

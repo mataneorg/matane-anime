@@ -18,6 +18,7 @@ import {
   sourceInfoSchema,
 } from '../catalog';
 import { changelogEntrySchema } from '../changelog';
+import { episodeViewSchema } from '../view-settings';
 import { networkTestInputSchema, networkTestResultSchema, proxyPasswordInfoSchema } from '../network';
 import {
   availableExtensionSchema,
@@ -145,8 +146,10 @@ export const invokeContract = {
     z.object({ animeId: z.number().int(), requestId: z.string().optional() }),
     refreshResultSchema,
   ),
+  'anime.setEpisodeView': invoke(z.object({ animeId: z.number().int(), view: episodeViewSchema.nullable() }), z.void()),
   'episodes.list': invoke(z.object({ animeId: z.number().int() }), z.array(episodeSchema)),
   'library.list': invoke(libraryQuerySchema, z.array(libraryItemSchema)),
+  'library.uncategorizedCount': invoke(z.void(), z.number().int()),
   /** How many anime the library holds (the "All" tab). */
   'library.count': invoke(z.void(), z.number().int()),
   /** Marks every episode of these anime watched or not. */

@@ -1,33 +1,33 @@
-import type { LibraryItem } from '@matane-anime/shared';
+import type { LibraryDisplay, LibraryItem } from '@matane-anime/shared';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useScroller } from '@renderer/lib/useScroller';
 import { LibraryCard } from './LibraryCard';
-
-const GAP = 16;
-const MIN_CARD = 170;
-const TEXT = 56; // title (two lines) and subtitle under the cover
+import { gridLayout } from './layout';
+import type { PickEvent } from './selection';
 
 /**
- * A grid of any size: only the rows in view are in the DOM (LIB-9). The column count follows the width, and
- * the row height follows the card width (a 2:3 cover plus its text), so no row has to be measured.
+ * A grid of any size: only the rows in view are in the DOM (LIB-9). The column count follows the width and the
+ * chosen cover size, and the row height follows the card width (see `gridLayout`), so no row has to be measured.
  */
 export function LibraryGrid({
   items,
+  display,
+  coverSize,
   selecting,
   selected,
-  onToggle,
+  onPick,
 }: {
   items: LibraryItem[];
+  display: LibraryDisplay;
+  coverSize: number;
   selecting: boolean;
   selected: Set<number>;
-  onToggle: (animeId: number) => void;
+  onPick: (event: PickEvent, animeId: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scroller, margin, width } = useScroller(ref);
-  const columns = Math.max(1, Math.floor((width + GAP) / (MIN_CARD + GAP)));
-  const cardWidth = columns > 0 && width > 0 ? (width - GAP * (columns - 1)) / columns : MIN_CARD;
-  const rowHeight = Math.round(cardWidth * 1.5 + TEXT + GAP);
+  const { columns, gap, rowHeight } = gridLayout(display, width, coverSize);
   const rowCount = Math.ceil(items.length / columns);
 
   // The compiler skips memoizing this component, which is fine: it only renders the rows in view.
@@ -40,6 +40,24 @@ export function LibraryGrid({
     scrollMargin: margin,
   });
 
+  // The virtualizer keeps the row sizes it computed, so a new layout (another display, cover size or width) needs
+  // them again. The first card in view stays in view: its row is found again in the new column count.
+  const layoutKey = `${columns}:${rowHeight}`;
+  const settled = useRef({ key: layoutKey, width, firstItem: 0 });
+  useLayoutEffect(() => {
+    const before = settled.current;
+    if (before.key === layoutKey) {
+      settled.current = { key: layoutKey, width, firstItem: (virtualizer.range?.startIndex ?? 0) * columns };
+      return;
+    }
+    virtualizer.measure();
+    // Not for the first measurement of the width: the page restores its own scroll position then.
+    if (before.width > 0 && width > 0 && before.firstItem > 0) {
+      virtualizer.scrollToIndex(Math.floor(before.firstItem / columns), { align: 'start' });
+    }
+    settled.current = { ...before, key: layoutKey, width };
+  });
+
   return (
     <div ref={ref} className="relative w-full" style={{ height: virtualizer.getTotalSize() }}>
       {width > 0
@@ -49,8 +67,8 @@ export function LibraryGrid({
               className="absolute top-0 left-0 grid w-full"
               style={{
                 gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-                gap: GAP,
-                height: rowHeight - GAP,
+                gap,
+                height: rowHeight - gap,
                 transform: `translateY(${row.start - virtualizer.options.scrollMargin}px)`,
               }}
             >
@@ -58,9 +76,10 @@ export function LibraryGrid({
                 <LibraryCard
                   key={item.animeId}
                   item={item}
+                  display={display}
                   selecting={selecting}
                   selected={selected.has(item.animeId)}
-                  onToggle={() => onToggle(item.animeId)}
+                  onPick={(event) => onPick(event, item.animeId)}
                 />
               ))}
             </div>

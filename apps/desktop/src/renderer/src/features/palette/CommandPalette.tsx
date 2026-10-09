@@ -14,7 +14,7 @@ import {
 import { type KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Cover } from '@renderer/components/Cover';
-import { BROWSE_NAV, DOWNLOADS_NAV, MAIN_NAV } from '@renderer/components/shell/nav';
+import { BROWSE_NAV, DOWNLOADS_NAV, MAIN_NAV, SETTINGS_SECTIONS } from '@renderer/components/shell/nav';
 import { Dialog, DialogBareContent } from '@renderer/components/ui/dialog';
 import { call } from '@renderer/lib/api';
 import { formatClock } from '@renderer/lib/dates';
@@ -24,7 +24,14 @@ import { historyQuery, libraryQuery } from '@renderer/lib/library';
 import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
 import { usePaletteStore } from '@renderer/stores/palette';
-import { type PaletteEntry, type PaletteGroup, buildSections, flattenSections, moveActive } from './rank';
+import {
+  CONTINUE_LIMIT,
+  type PaletteEntry,
+  type PaletteGroup,
+  buildSections,
+  flattenSections,
+  moveActive,
+} from './rank';
 
 /** What an entry does and how it is drawn; `rank.ts` does not look inside. */
 interface Payload {
@@ -41,7 +48,6 @@ type Entry = PaletteEntry<Payload>;
 
 /** Wait this long after the last keystroke before asking main for library matches. */
 const SEARCH_DELAY_MS = 120;
-const SETTINGS_SECTION = 'general';
 
 const KEY_ESC = 'Esc';
 const KEY_ENTER = 'Enter';
@@ -64,7 +70,7 @@ export function CommandPalette() {
         return;
       }
       // Another modal (a confirmation, say) is up: do not stack the palette on top of it. Our own may close itself.
-      if (document.querySelector('[role="dialog"]:not([data-palette])')) return;
+      if (document.querySelector('[role="dialog"]:not([data-palette]), [role="alertdialog"]')) return;
       event.preventDefault();
       const { open: isOpen, setOpen: set } = usePaletteStore.getState();
       set(!isOpen);
@@ -119,37 +125,37 @@ function PaletteBody({ close }: { close: () => void }) {
   });
 
   const sections = useMemo(() => {
-    const top = history[0];
-    const next = top?.next;
-    let continueWatching: Entry | null = null;
-    if (top && next) {
-      const left =
-        next.reason === 'resume' && next.episodeId === top.episodeId && top.durationMs
-          ? formatClock(Math.max(0, top.durationMs - top.positionMs))
-          : null;
-      let hint: string;
-      if (next.reason === 'resume') {
-        if (next.number === null) hint = t('library.continue');
-        else if (left) hint = t('palette.continueWithTime', { number: next.number, left });
-        else hint = t('palette.continueEpisode', { number: next.number });
-      } else {
-        hint = next.number !== null ? t('history.playEpisode', { number: next.number }) : t('history.playNext');
-      }
-      continueWatching = {
-        id: 'continue',
-        group: 'continue',
-        label: top.title,
-        action: {
-          run: () => void router.navigate({ to: '/watch/$episodeId', params: { episodeId: String(next.episodeId) } }),
-          hint,
-          cover: {
-            sourceId: top.sourceId,
-            url: top.thumbnailUrl,
-            localAnimeId: top.hasLocalCover ? top.animeId : undefined,
+    const continueWatching: Entry[] = history
+      .flatMap((item) => (item.next ? [{ item, next: item.next }] : []))
+      .slice(0, CONTINUE_LIMIT)
+      .map(({ item, next }): Entry => {
+        const left =
+          next.reason === 'resume' && next.episodeId === item.episodeId && item.durationMs
+            ? formatClock(Math.max(0, item.durationMs - item.positionMs))
+            : null;
+        let hint: string;
+        if (next.reason === 'resume') {
+          if (next.number === null) hint = t('library.continue');
+          else if (left) hint = t('palette.continueWithTime', { number: next.number, left });
+          else hint = t('palette.continueEpisode', { number: next.number });
+        } else {
+          hint = next.number !== null ? t('history.playEpisode', { number: next.number }) : t('history.playNext');
+        }
+        return {
+          id: `continue:${item.animeId}`,
+          group: 'continue',
+          label: item.title,
+          action: {
+            run: () => void router.navigate({ to: '/watch/$episodeId', params: { episodeId: String(next.episodeId) } }),
+            hint,
+            cover: {
+              sourceId: item.sourceId,
+              url: item.thumbnailUrl,
+              localAnimeId: item.hasLocalCover ? item.animeId : undefined,
+            },
           },
-        },
-      };
-    }
+        };
+      });
 
     const library: Entry[] = found.map((item) => ({
       id: `library:${item.animeId}`,
@@ -168,15 +174,20 @@ function PaletteBody({ close }: { close: () => void }) {
       label: t(`nav.${item.label}`),
       action: { run: () => void router.navigate({ to: item.to }), icon: item.icon },
     }));
-    navigate.push({
-      id: 'nav:settings',
-      group: 'navigate',
-      label: t('nav.settings'),
-      action: {
-        run: () => void router.navigate({ to: '/settings/$section', params: { section: SETTINGS_SECTION } }),
-        icon: Settings2,
-      },
-    });
+    // Settings itself, then one entry per section ("Settings · Network") so each is one search away.
+    for (const section of SETTINGS_SECTIONS) {
+      navigate.push({
+        id: `nav:settings:${section}`,
+        group: 'navigate',
+        label:
+          section === 'general' ? t('nav.settings') : `${t('nav.settings')} · ${t(`settings.sections.${section}`)}`,
+        keywords: t(`settings.sections.${section}`),
+        action: {
+          run: () => void router.navigate({ to: '/settings/$section', params: { section } }),
+          icon: Settings2,
+        },
+      });
+    }
 
     const failed = (title: string) => (error: unknown) => notify.error(title, describeError(error, t));
     const actions: Entry[] = [
@@ -412,6 +423,12 @@ function PaletteBody({ close }: { close: () => void }) {
             {KEY_TAB}
           </kbd>
           {t('palette.hintSources')}
+        </span>
+        <span className="ml-auto flex items-center gap-1.5">
+          <kbd aria-hidden className={kbd}>
+            {KEY_ESC}
+          </kbd>
+          {t('palette.hintClose')}
         </span>
       </div>
     </>

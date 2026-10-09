@@ -92,15 +92,10 @@
       "library": "Pustaka",
       "player": "Pemutar",
       "downloads": "Unduhan",
-      "extensions": "Jelajah dan extension",
       "network": "Jaringan",
       "data": "Data dan penyimpanan",
       "advanced": "Lanjutan",
       "about": "Tentang"
-    },
-    "unavailable": {
-      "title": "Belum tersedia",
-      "description": "Bagian pengaturan ini hadir di fase berikutnya."
     },
     "general": {
       "appearance": "Tampilan",
@@ -337,7 +332,11 @@
       "notInstalled": "Extension tidak terpasang",
       "pin": "Sematkan sumber",
       "unpin": "Lepas sematan",
-      "browse": "Jelajahi"
+      "browse": "Jelajahi",
+      "subtitle_one": "{{count}} sumber",
+      "subtitle_other": "{{count}} sumber",
+      "pinned": "Disematkan",
+      "latest": "Terbaru"
     },
     "picker": "Sumber",
     "tabs": {
@@ -355,7 +354,10 @@
       "ascending": "Naik",
       "descending": "Turun",
       "any": "Semua",
-      "none": "Sumber ini tidak punya filter."
+      "none": "Sumber ini tidak punya filter.",
+      "close": "Tutup filter",
+      "active_one": "{{count}} filter aktif",
+      "active_other": "{{count}} filter aktif"
     },
     "refreshing": "Memperbarui daftar…",
     "loadingMore": "Memuat lagi",
@@ -395,7 +397,6 @@
     "start": "Mulai nonton",
     "addToLibrary": "Tambah ke pustaka",
     "download": "Unduh",
-    "comingSoon": "Segera hadir",
     "refresh": "Segarkan",
     "openInBrowser": "Buka di browser",
     "episodes": "Episode",
@@ -413,7 +414,6 @@
     "refreshFailed": "Tidak bisa menyegarkan anime ini",
     "showingSaved": "Menampilkan data yang tersimpan sebelumnya.",
     "loadFailed": "Tidak bisa memuat anime ini",
-    "notFound": "Anime ini tidak ada lagi di app.",
     "status": {
       "ongoing": "Berjalan",
       "completed": "Tamat",
@@ -429,7 +429,18 @@
     "inLibrary": "Di pustaka",
     "watchAgain": "Tonton lagi",
     "unwatchedCount_one": "{{count}} belum ditonton",
-    "unwatchedCount_other": "{{count}} belum ditonton"
+    "unwatchedCount_other": "{{count}} belum ditonton",
+    "showMore": "Tampilkan lebih banyak",
+    "showLess": "Tampilkan lebih sedikit",
+    "lastUpdate": "episode terbaru {{when}}",
+    "viewCover": "Lihat sampul",
+    "jump": "Lompat ke episode",
+    "selectEpisode": "Pilih episode",
+    "deselectEpisode": "Batal pilih episode",
+    "selection": "Episode terpilih",
+    "selected_one": "{{count}} dipilih",
+    "selected_other": "{{count}} dipilih",
+    "viewSaveFailed": "Gagal menyimpan urutan dan filter anime ini"
   },
   "extensions": {
     "title": "Extension",
@@ -452,7 +463,8 @@
     "tabs": {
       "installed": "Terpasang",
       "available": "Tersedia",
-      "repositories": "Repositori"
+      "repositories": "Repositori",
+      "updates": "Pembaruan"
     },
     "filter": {
       "language": "Bahasa",
@@ -588,6 +600,15 @@
       "repoRemoved": "{{name}} dihapus",
       "repoRemoveFailed": "Gagal menghapus {{name}}",
       "trustFailed": "Gagal mengubah kepercayaan {{name}}"
+    },
+    "search": "Cari ekstensi",
+    "noUpdates": {
+      "title": "Semua sudah terbaru",
+      "description": "Saat repositori menawarkan versi lebih baru dari ekstensi yang terpasang, ia muncul di sini."
+    },
+    "noMatches": {
+      "title": "Tidak ada yang cocok",
+      "description": "Coba pencarian lain."
     }
   },
   "network": {
@@ -661,7 +682,8 @@
       "lastWatched": "Terakhir ditonton",
       "latestEpisode": "Episode terbaru",
       "added": "Tanggal ditambahkan",
-      "unwatched": "Belum ditonton"
+      "unwatched": "Belum ditonton",
+      "reverse": "Urutan terbalik"
     },
     "filters": "Filter",
     "unwatchedOnly": "Hanya yang ada episode belum ditonton",
@@ -697,7 +719,24 @@
     "emptyCategory": {
       "title": "Kategori ini kosong",
       "description": "Tambahkan anime dari halaman anime atau dengan Pilih."
-    }
+    },
+    "default": "Bawaan",
+    "selectAll": "Pilih semua",
+    "clearFilters": "Hapus filter",
+    "sortLabel": "Urut: {{sort}}",
+    "badge_other": "{{count}} di pustaka",
+    "display": {
+      "label": "Tampilan",
+      "comfortable": "Grid nyaman",
+      "compact": "Grid ringkas",
+      "cover": "Sampul saja",
+      "list": "Daftar"
+    },
+    "coverSize": "Ukuran sampul",
+    "downloadedOnly": "Hanya yang ada episode terunduh",
+    "filtersActive_one": "Filter ({{count}} aktif)",
+    "filtersActive_other": "Filter ({{count}} aktif)",
+    "viewSaveFailed": "Gagal menyimpan tampilan daftar ini"
   },
   "history": {
     "clearAll": "Hapus semua riwayat",
@@ -708,7 +747,12 @@
     "playEpisode": "Putar Eps {{number}}",
     "playNext": "Putar berikutnya",
     "open": "Buka",
-    "remove": "Hapus {{title}} dari riwayat"
+    "remove": "Hapus {{title}} dari riwayat",
+    "search": "Cari riwayat",
+    "noResults": {
+      "title": "Tidak ada yang cocok",
+      "description": "Tidak ada entri riwayat yang cocok dengan pencarian itu."
+    }
   },
   "globalSearch": {
     "title": "Pencarian global",
@@ -728,7 +772,14 @@
     "retry": "Coba lagi",
     "noSources": "Belum ada sumber untuk dicari. Muat extension dulu.",
     "offline": "Mencari butuh koneksi.",
-    "hint": "Ketik judul lalu tekan Enter."
+    "hint": "Ketik judul lalu tekan Enter.",
+    "clear": "Hapus pencarian",
+    "onlyWithResults": "Hanya yang ada hasil",
+    "sourcesAll": "Semua sumber",
+    "sourcesCustom_one": "{{count}} sumber",
+    "sourcesCustom_other": "{{count}} sumber",
+    "noneWithResults": "Tidak ada sumber yang punya hasil untuk pencarian ini.",
+    "noScope": "Tidak ada sumber untuk bahasa atau pilihan ini. Pilih sumber lain atau bahasa lain."
   },
   "migrate": {
     "title": "Pindah ke sumber lain",
@@ -858,7 +909,33 @@
       "none": "Semua yang belum ditonton sudah diunduh atau diantrekan.",
       "title_other": "Unduh {{count}} episode?",
       "body_other": "Episode yang belum ditonton dari {{count}} anime terpilih akan diantrekan."
-    }
+    },
+    "tabs": {
+      "queue": "Antrean",
+      "completed": "Selesai",
+      "errors": "Galat"
+    },
+    "retryAll": "Coba lagi semua",
+    "empty": {
+      "queue": {
+        "title": "Antrean kosong",
+        "description": "Episode yang kamu unduh muncul di sini saat menunggu atau berjalan."
+      },
+      "completed": {
+        "title": "Belum ada yang terunduh",
+        "description": "Unduhan yang selesai tersimpan di sini, siap ditonton offline."
+      },
+      "errors": {
+        "title": "Tidak ada galat",
+        "description": "Unduhan yang gagal dicatat di sini beserta alasannya."
+      }
+    },
+    "footer": {
+      "summary": "{{active}} aktif · {{waiting}} menunggu",
+      "idle": "Diam"
+    },
+    "fold": "Sembunyikan unduhan {{title}}",
+    "unfold": "Tampilkan unduhan {{title}}"
   },
   "updates": {
     "count_one": "{{count}} episode baru",
@@ -908,7 +985,11 @@
     "skipped_one": "{{count}} dilewati",
     "skipped_other": "{{count}} dilewati",
     "badge_one": "{{count}} pembaruan menunggu",
-    "badge_other": "{{count}} pembaruan menunggu"
+    "badge_other": "{{count}} pembaruan menunggu",
+    "details": "Rincian",
+    "failedDetails": "Anime ini tidak bisa dijangkau pada pengecekan terakhir.",
+    "downloadAll": "Unduh semua",
+    "downloadAllOf": "Unduh semua dari {{day}}"
   },
   "palette": {
     "title": "Palet perintah",
@@ -946,7 +1027,8 @@
     "downloadsFailed": "Unduhan tidak bisa diubah",
     "incognitoKeywords": "privat riwayat",
     "incognitoOn": "Sedang aktif",
-    "incognitoOff": "Sedang mati"
+    "incognitoOff": "Sedang mati",
+    "hintClose": "Tutup"
   },
   "onboarding": {
     "crumb": "Selamat datang",
@@ -1037,7 +1119,9 @@
     "body": "Yang kamu tonton sekarang tidak disimpan ke riwayat, progres, atau waktu tonton. Menandai episode ditonton dan mengelola pustaka tetap berfungsi.",
     "turnOff": "Matikan",
     "turnOn": "Aktifkan mode penyamaran",
-    "toggle": "Ubah mode penyamaran"
+    "toggle": "Ubah mode penyamaran",
+    "off": "Penyamaran mati",
+    "offBody": "Apa yang kamu tonton disimpan ke riwayat, progres, dan waktu menonton."
   },
   "backup": {
     "description": "Satu file berisi library, kategori, progres, riwayat, dan pengaturan Anda. Tidak mencakup episode terunduh, extension, atau token masuk.",

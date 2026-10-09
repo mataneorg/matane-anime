@@ -27,6 +27,10 @@ export class LibraryService {
     return this.deps.library.count();
   }
 
+  uncategorizedCount(): number {
+    return this.deps.library.uncategorizedCount();
+  }
+
   add(animeId: number, categoryIds: number[]): void {
     this.deps.library.add(animeId, categoryIds);
     void this.deps.covers.ensure(animeId);

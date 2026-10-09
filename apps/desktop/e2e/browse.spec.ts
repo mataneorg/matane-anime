@@ -156,7 +156,9 @@ test('shows an anime: details come in on their own, episodes are listed, errors 
   await expect(page.getByRole('button', { name: 'Add to library' })).toBeEnabled(); // the library arrived in phase 2
   await shot('detail');
 
-  await page.getByLabel('Newest first').selectOption('oldest');
+  // Sort is a menu whose button names the current order.
+  await page.getByRole('button', { name: 'Newest first' }).click();
+  await page.getByRole('menuitemradio', { name: 'Oldest first' }).click();
   await expect(page.getByRole('listitem').first()).toContainText('Episode 1');
 
   await invoke('extensions.setPreference', { extensionId: 'example', key: 'baseUrl', value: 'http://127.0.0.1:9' });

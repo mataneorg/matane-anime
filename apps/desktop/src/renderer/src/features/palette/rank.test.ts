@@ -79,7 +79,7 @@ describe('rankEntries', () => {
 
 describe('buildSections', () => {
   const base = {
-    continueWatching: entry('continue', 'continue', 'Tsuki no Shiori'),
+    continueWatching: [entry('continue', 'continue', 'Tsuki no Shiori')],
     library: [entry('l1', 'library', 'Another Tsuki'), entry('l2', 'library', 'Tsuki no Shiori')],
     navigate: [entry('n1', 'navigate', 'Library'), entry('n2', 'navigate', 'History')],
     actions: [entry('a1', 'actions', 'Check for updates'), entry('a2', 'actions', 'Pause all downloads')],
@@ -110,8 +110,14 @@ describe('buildSections', () => {
     expect(sections.find((section) => section.group === 'library')?.entries).toHaveLength(LIBRARY_LIMIT);
   });
 
+  it('lists at most five continue targets, newest first', () => {
+    const continueWatching = Array.from({ length: 8 }, (_, index) => entry(`c${index}`, 'continue', `Show ${index}`));
+    const sections = buildSections({ ...base, continueWatching, query: '' });
+    expect(sections[0]?.entries.map((item) => item.id)).toEqual(['c0', 'c1', 'c2', 'c3', 'c4']);
+  });
+
   it('still offers the sources search when nothing else matches', () => {
-    const sections = buildSections({ ...base, continueWatching: null, library: [], query: 'zzzz' });
+    const sections = buildSections({ ...base, continueWatching: [], library: [], query: 'zzzz' });
     expect(flattenSections(sections).map((item) => item.id)).toEqual(['sources']);
   });
 

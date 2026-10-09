@@ -47,7 +47,8 @@ test('opens a library of 1,000 anime quickly, and only renders the cards in view
   const cards = () => page.locator('main a[aria-label^="Anime number"]').count();
   expect(await cards()).toBeGreaterThan(0);
   expect(await cards()).toBeLessThan(120);
-  await page.getByLabel('Sort by').selectOption('title');
+  await page.getByRole('button', { name: /^Sort:/ }).click();
+  await page.getByRole('menuitemradio', { name: 'Title' }).click();
   await expect(page.getByRole('link', { name: 'Anime number 0', exact: true })).toBeVisible();
   await page.locator('main').evaluate((element) => element.scrollTo({ top: element.scrollHeight }));
   await expect(page.getByRole('link', { name: 'Anime number 999', exact: true })).toBeVisible();

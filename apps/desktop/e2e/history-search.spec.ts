@@ -79,10 +79,12 @@ test.afterAll(async () => {
 test.describe('global search (BRW-2)', () => {
   test('asks every source, shows each as it answers, and says which one failed', async () => {
     await setProbe(`${site.origin}/_t/status?code=500`);
+    // The title bar button opens the command palette; Tab on a typed query searches every source.
     await page.getByRole('button', { name: /Search library, sources, episodes/ }).click();
+    await page.getByRole('combobox', { name: 'Search the app' }).fill('sky');
+    await page.getByRole('combobox', { name: 'Search the app' }).press('Tab');
     await expect(page).toHaveURL(/browse\/global-search/);
-    await page.getByRole('searchbox', { name: 'Search every source' }).fill('sky');
-    await page.getByRole('searchbox', { name: 'Search every source' }).press('Enter');
+    await expect(page.getByRole('searchbox', { name: 'Search every source' })).toHaveValue('sky');
 
     await expect(page.getByRole('status').filter({ hasText: '3 of 3 sources done' })).toBeVisible({ timeout: 20_000 });
     const english = page.getByRole('listitem').filter({ hasText: 'Example Site (EN)' });

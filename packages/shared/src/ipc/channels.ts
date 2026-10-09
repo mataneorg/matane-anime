@@ -51,9 +51,13 @@ export const INVOKE_CHANNELS = [
   'sources.setPinned',
   'anime.get',
   'anime.refresh',
+  /** Saves the episode sort and filters of one anime; null goes back to the default view. */
+  'anime.setEpisodeView',
   'episodes.list',
   'library.list',
   'library.count',
+  /** How many anime are in no category (the "Default" tab). */
+  'library.uncategorizedCount',
   'library.markWatched',
   'library.add',
   'library.remove',

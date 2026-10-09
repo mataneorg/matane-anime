@@ -12,5 +12,6 @@ export * from './settings';
 export * from './spike';
 export * from './theme';
 export * from './updates';
+export * from './view-settings';
 export * from './ipc/channels';
 export * from './ipc/contract';

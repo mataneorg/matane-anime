@@ -3,13 +3,13 @@ import { useMutation } from '@tanstack/react-query';
 import { RefreshCw, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ConfirmDialog } from '@renderer/components/ConfirmDialog';
 import { Button } from '@renderer/components/ui/button';
 import { call } from '@renderer/lib/api';
 import { relativeTime } from '@renderer/lib/dates';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
 import { useNow } from '@renderer/lib/useNow';
-import { ConfirmDialog } from './ConfirmDialog';
 import { TrustBadge } from './TrustBadge';
 import { sortRepos } from './helpers';
 

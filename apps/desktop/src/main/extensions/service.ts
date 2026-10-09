@@ -12,6 +12,7 @@ import {
   type CatalogAnime,
   type CatalogPage,
   type EpisodeRow,
+  type EpisodeView,
   type PreferencesState,
   type RefreshResult,
   type SourceCapabilities,
@@ -245,6 +246,11 @@ export class ExtensionService {
   async getAnime(animeId: number): Promise<AnimeDetail> {
     const row = this.requireAnime(animeId);
     return this.detail(row, await this.webUrlOf(row));
+  }
+
+  setEpisodeView(animeId: number, view: EpisodeView | null): void {
+    this.requireAnime(animeId);
+    this.deps.anime.setEpisodeView(animeId, view);
   }
 
   listEpisodes(animeId: number): EpisodeRow[] {
@@ -490,6 +496,7 @@ export class ExtensionService {
       categoryIds: this.deps.categoryIdsOf(row.id),
       detailsFetchedAt: row.lastUpdateCheckAt,
       webUrl,
+      episodeView: this.deps.anime.episodeView(row),
     };
   }
 

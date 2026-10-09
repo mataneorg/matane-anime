@@ -76,6 +76,33 @@ export function moveId(ids: readonly number[], from: number, to: number): number
 }
 
 /**
+ * The queue after `id` was moved to where `targetId` stands, or null when that is not a move the page shows:
+ * the page lists the queue per anime, so a row only trades places with rows of its own anime (the other
+ * anime's rows in between keep their places).
+ */
+export function moveWithinAnime(queued: readonly DownloadItem[], id: number, targetId: number): number[] | null {
+  const from = queued.findIndex((row) => row.id === id);
+  const to = queued.findIndex((row) => row.id === targetId);
+  if (from < 0 || to < 0 || from === to || queued[from]?.animeId !== queued[to]?.animeId) return null;
+  return moveId(
+    queued.map((row) => row.id),
+    from,
+    to,
+  );
+}
+
+/** The queue after `id` moved one step up (-1) or down (1) among the queued rows of its own anime, or null. */
+export function stepWithinAnime(queued: readonly DownloadItem[], id: number, direction: -1 | 1): number[] | null {
+  const from = queued.findIndex((row) => row.id === id);
+  if (from < 0) return null;
+  const animeId = queued[from]?.animeId;
+  for (let index = from + direction; index >= 0 && index < queued.length; index += direction) {
+    if (queued[index]?.animeId === animeId) return moveWithinAnime(queued, id, (queued[index] as DownloadItem).id);
+  }
+  return null;
+}
+
+/**
  * The list as main will hold it after `downloads.reorder(ids)`: the listed downloads take, in that order,
  * the places the listed ones held. Used to move a row at once, before main answers.
  */
@@ -90,4 +117,21 @@ export function applyReorder(items: readonly DownloadItem[], ids: readonly numbe
     next[slot] = { ...(byId.get(id) as DownloadItem), queueOrder: (items[slot] as DownloadItem).queueOrder };
   });
   return next;
+}
+
+export interface AnimeDownloads {
+  animeId: number;
+  title: string;
+  items: DownloadItem[];
+}
+
+/** One group per anime, in the order each anime first appears, each keeping its downloads' order. */
+export function groupByAnime(items: readonly DownloadItem[]): AnimeDownloads[] {
+  const groups = new Map<number, AnimeDownloads>();
+  for (const item of items) {
+    const group = groups.get(item.animeId);
+    if (group) group.items.push(item);
+    else groups.set(item.animeId, { animeId: item.animeId, title: item.animeTitle, items: [item] });
+  }
+  return [...groups.values()];
 }

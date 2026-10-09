@@ -59,8 +59,9 @@ test.afterAll(async () => {
 
 test('finds an anime across the sources, adds it to the library and watches part of it', async () => {
   await page.getByRole('button', { name: /Search library, sources, episodes/ }).click();
-  await page.getByRole('searchbox', { name: 'Search every source' }).fill('Long Night');
-  await page.getByRole('searchbox', { name: 'Search every source' }).press('Enter');
+  await page.getByRole('combobox', { name: 'Search the app' }).fill('Long Night');
+  await page.getByRole('combobox', { name: 'Search the app' }).press('Tab');
+  await expect(page.getByRole('searchbox', { name: 'Search every source' })).toHaveValue('Long Night');
   const english = page.getByRole('listitem').filter({ hasText: 'Example Site (EN)' });
   await expect(english).toContainText('1 result', { timeout: 20_000 });
   await english.getByRole('link', { name: 'Long Night' }).click();

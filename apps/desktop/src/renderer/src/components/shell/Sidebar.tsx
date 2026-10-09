@@ -3,9 +3,11 @@ import { Link, useRouterState } from '@tanstack/react-router';
 import { ChevronDown, Compass, FlaskConical, PanelLeftClose, PanelLeftOpen, Play } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { usePendingDownloads } from '@renderer/features/downloads/DownloadActivity';
+import { usePendingDownloads } from '@renderer/features/downloads/usePendingDownloads';
 import { badgeText } from '@renderer/features/updates/helpers';
+import { availableQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
+import { libraryCountQuery } from '@renderer/lib/library';
 import { updatesCountQuery } from '@renderer/lib/updates';
 import { cn } from '@renderer/lib/utils';
 import { useUiStore } from '@renderer/stores/ui';
@@ -25,6 +27,7 @@ function NavLink({
   nested = false,
   badge = 0,
   badgeLabel = '',
+  dotLabel,
 }: {
   item: NavItem;
   collapsed: boolean;
@@ -33,6 +36,8 @@ function NavLink({
   /** A count shown as a pill; `badgeLabel` says what it counts, for screen readers. */
   badge?: number;
   badgeLabel?: string;
+  /** Something waits there (extension updates): a dot, named for screen readers. */
+  dotLabel?: string | undefined;
 }) {
   const { t } = useTranslation();
   const label = t(`nav.${item.label}`);
@@ -63,6 +68,14 @@ function NavLink({
           <span className="sr-only"> {badgeLabel}</span>
         </span>
       )}
+      {dotLabel ? (
+        <span
+          role="img"
+          aria-label={dotLabel}
+          title={dotLabel}
+          className={cn('size-1.5 shrink-0 rounded-full bg-primary', collapsed && 'absolute top-1.5 right-2.5')}
+        />
+      ) : null}
     </Link>
   );
 }
@@ -75,12 +88,20 @@ export function Sidebar() {
   const { data: info } = useQuery(appInfoQuery);
   const pendingDownloads = usePendingDownloads();
   const { data: updatesCount = 0 } = useQuery(updatesCountQuery);
+  const { data: libraryCount = 0 } = useQuery(libraryCountQuery);
+  const { data: available } = useQuery(availableQuery);
+  const extensionUpdates = available?.filter((entry) => entry.updateAvailable).length ?? 0;
   const [browseOpen, setBrowseOpen] = useState(true);
   const SettingsIcon = SETTINGS_ICON;
   const ToggleIcon = collapsed ? PanelLeftOpen : PanelLeftClose;
   const browseActive = BROWSE_NAV.some((item) => pathname.startsWith(item.to));
   // Every settings section highlights the link, not just the one it points at.
   const settingsActive = pathname.startsWith('/settings');
+
+  const dotFor = (item: NavItem): string | undefined =>
+    item.to === '/browse/extensions' && extensionUpdates > 0
+      ? t('extensions.updatesAvailable', { count: extensionUpdates })
+      : undefined;
 
   return (
     <aside
@@ -100,8 +121,14 @@ export function Sidebar() {
             key={item.to}
             item={item}
             collapsed={collapsed}
-            badge={item.to === '/updates' ? updatesCount : 0}
-            badgeLabel={item.to === '/updates' ? t('updates.badge', { count: updatesCount }) : ''}
+            badge={item.to === '/updates' ? updatesCount : item.to === '/library' ? libraryCount : 0}
+            badgeLabel={
+              item.to === '/updates'
+                ? t('updates.badge', { count: updatesCount })
+                : item.to === '/library'
+                  ? t('library.badge', { count: libraryCount })
+                  : ''
+            }
           />
         ))}
 
@@ -109,7 +136,7 @@ export function Sidebar() {
           <>
             <div className="my-1 border-t" />
             {BROWSE_NAV.map((item) => (
-              <NavLink key={item.to} item={item} collapsed />
+              <NavLink key={item.to} item={item} collapsed dotLabel={dotFor(item)} />
             ))}
             <div className="my-1 border-t" />
           </>
@@ -132,7 +159,7 @@ export function Sidebar() {
             {browseOpen && (
               <div className="ml-5 flex flex-col gap-0.5 border-l pl-2">
                 {BROWSE_NAV.map((item) => (
-                  <NavLink key={item.to} item={item} collapsed={false} nested />
+                  <NavLink key={item.to} item={item} collapsed={false} nested dotLabel={dotFor(item)} />
                 ))}
               </div>
             )}

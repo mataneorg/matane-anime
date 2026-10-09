@@ -194,8 +194,8 @@ describe('library list (LIB-2…4)', () => {
     expect(list({ search: 'SKY har' }).map((i) => i.title)).toEqual(['Sky Harbor']);
     expect(list({ search: 'nothing' })).toEqual([]);
     expect(list({ search: '"; DROP TABLE anime; --' })).toEqual([]);
-    expect(list({ status: 'completed' }).map((i) => i.title)).toEqual(['Quiet Orchard']);
-    expect(list({ sourceId: 'example/id' }).map((i) => i.title)).toEqual(['Quiet Orchard']);
+    expect(list({ status: ['completed'] }).map((i) => i.title)).toEqual(['Quiet Orchard']);
+    expect(list({ sourceIds: ['example/id'] }).map((i) => i.title)).toEqual(['Quiet Orchard']);
 
     expect(list({ startedOnly: true })).toEqual([]);
     const episode = db.episodes.list(a)[0]!;
@@ -206,6 +206,50 @@ describe('library list (LIB-2…4)', () => {
       true,
     );
     expect(list({ unwatchedOnly: true }).map((i) => i.title)).toEqual(['Quiet Orchard']);
+  });
+
+  it('filters by several statuses or sources at once, and by "no category"', () => {
+    const ongoing = seed('Sky Harbor', [1], { status: 'ongoing' });
+    seed('Quiet Orchard', [1], { sourceId: 'example/id', status: 'completed' });
+    seed('Third Light', [1], { status: 'hiatus' });
+    expect(list({ status: ['ongoing', 'hiatus'] }).map((i) => i.title)).toEqual(['Sky Harbor', 'Third Light']);
+    expect(list({ status: [] })).toHaveLength(3);
+    expect(list({ sourceIds: ['example/id', 'example/en'] })).toHaveLength(3);
+    expect(list({ sourceIds: [] })).toHaveLength(3);
+    expect(list({ status: ['completed', 'hiatus'], sourceIds: ['example/en'] }).map((i) => i.title)).toEqual([
+      'Third Light',
+    ]);
+
+    const category = db.library.createCategory('Watching');
+    db.library.setCategories([ongoing], [category.id]);
+    expect(list({ uncategorized: true }).map((i) => i.title)).toEqual(['Quiet Orchard', 'Third Light']);
+    expect(list({ category: category.id, uncategorized: true }).map((i) => i.title)).toEqual(['Sky Harbor']);
+  });
+
+  it('counts the anime in no category', () => {
+    const a = seed('Sky Harbor', [1]);
+    seed('Quiet Orchard', [1]);
+    seed('Not Mine', [1], { inLibrary: false });
+    expect(db.library.uncategorizedCount()).toBe(2);
+    db.library.setCategories([a], [db.library.createCategory('Watching').id]);
+    expect(db.library.uncategorizedCount()).toBe(1);
+    expect(db.library.count()).toBe(2);
+  });
+
+  it('keeps only anime with a finished download when asked', () => {
+    const a = seed('Sky Harbor', [2, 1]);
+    const b = seed('Quiet Orchard', [1]);
+    const insert = (episodeId: number, status: string): void => {
+      db.connection.sqlite
+        .prepare(`INSERT INTO downloads (episode_id, status, queue_order, kind, created_at) VALUES (?, ?, 1, 'hls', 1)`)
+        .run(episodeId, status);
+    };
+    insert(db.episodes.list(a)[0]!.id, 'queued');
+    insert(db.episodes.list(b)[0]!.id, 'done');
+    expect(list({ downloadedOnly: true }).map((i) => i.title)).toEqual(['Quiet Orchard']);
+    insert(db.episodes.list(a)[1]!.id, 'done');
+    expect(list({ downloadedOnly: true }).map((i) => i.title)).toEqual(['Quiet Orchard', 'Sky Harbor']);
+    expect(list()).toHaveLength(2);
   });
 
   it('follows a title change in the search index', () => {

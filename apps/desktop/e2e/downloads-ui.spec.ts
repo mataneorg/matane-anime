@@ -117,8 +117,8 @@ test('starts a download from an episode row and follows it to the end (DL-1, DL-
   await page.getByRole('button', { name: 'Resume all' }).click();
   await expect(page.locator('li[data-status="downloading"]')).toBeVisible();
 
-  // It finishes: the row moves to the collapsed Completed section.
-  const completed = page.getByRole('button', { name: 'Completed (1)' });
+  // It finishes: the row moves to the Completed tab.
+  const completed = page.getByRole('tab', { name: /^Completed\s*1/ });
   await expect(completed).toBeVisible({ timeout: 45_000 });
   await completed.click();
   const done = page.locator('li[data-status="done"]');
@@ -152,7 +152,7 @@ test('says why a download failed, and Retry finishes it (DL-7)', async () => {
 
   site.clearFaults();
   await failed.getByRole('button', { name: /^Retry / }).click();
-  await expect(page.getByRole('button', { name: 'Completed (2)' })).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByRole('tab', { name: /^Completed\s*2/ })).toBeVisible({ timeout: 45_000 });
   await expect(page.locator('li[data-status="error"]')).toHaveCount(0);
 });
 
@@ -183,7 +183,7 @@ test('shows every state on one page, reorders the queue and clears failed ones',
   await expect(page.locator('li[data-status="queued"]').first()).toContainText('Waiting for a free slot');
   await expect(page.getByText('1 downloading · 2 queued · 1 paused · 1 failed')).toBeVisible();
   await expect(downloadsLink()).toContainText('3 downloads running or waiting');
-  await page.getByRole('button', { name: /^Completed/ }).click();
+  await expect(page.getByRole('tab', { name: /^Completed/ })).toBeVisible();
   await expect(page.getByRole('progressbar', { name: 'Storage used by downloads' })).toBeVisible();
   await shots('downloads');
 
@@ -273,7 +273,7 @@ test('Settings → Downloads saves each control, and changing the folder can mov
 test('Settings → Data shows the storage of the downloaded episodes (DL-9)', async () => {
   await go('#/settings/data');
   await expect(page.getByRole('heading', { name: 'Data and storage', level: 1 })).toBeVisible();
-  await expect(page.getByText('Downloaded episodes')).toBeVisible();
+  await expect(page.getByText('Downloaded episodes', { exact: true })).toBeVisible();
   await expect(page.getByText(/% of the 25 GB limit/)).toBeVisible();
   await expect(page.getByRole('button', { name: 'Open folder' })).toBeEnabled();
   await shots('settings-data');
