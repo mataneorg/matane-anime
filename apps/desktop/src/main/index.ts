@@ -1,4 +1,4 @@
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
@@ -6,6 +6,8 @@ import { BrowserWindow, app, crashReporter, safeStorage, session } from 'electro
 import type { AppSettings } from '@matane-anime/shared';
 import { autoUpdater } from 'electron-updater';
 import { createMainWindow } from './app/window';
+import { BackupService } from './backup/service';
+import { applyPendingRestore } from './backup/restore';
 import { applyRunAtLogin } from './app/autostart';
 import { SystemIntegration, trayText } from './app/system';
 import { createElectronTray } from './app/tray';
@@ -15,7 +17,7 @@ import { initLogging } from './app/log';
 import { openDatabase } from './db/client';
 import { purgeBrowseRows } from './db/housekeeping';
 import { seedLibrary } from './db/seed';
-import { runMigrations } from './db/migrate';
+import { countBundledMigrations, runMigrations } from './db/migrate';
 import { HostError } from '@matane-anime/extension-runtime/client';
 import { AnimeRepository } from './db/repositories/anime';
 import { ChangeEmitter } from './db/repositories/changes';
@@ -90,9 +92,21 @@ if (!app.requestSingleInstanceLock()) {
       const userData = app.getPath('userData');
       mkdirSync(userData, { recursive: true });
 
+      const migrationsFolder = join(app.getAppPath(), 'drizzle');
+      // A restore chosen in the last run is applied before the database opens (it is never swapped under a live handle).
+      const restored = applyPendingRestore({
+        userData,
+        bundledMigrations: countBundledMigrations(migrationsFolder),
+        now: new Date(),
+        folderExists: existsSync,
+      });
+      if (restored.status === 'applied')
+        log.info(`backup restored (previous data kept at ${restored.safetyCopy ?? 'nowhere'})`);
+      else if (restored.status === 'failed') log.error(`backup could not be restored: ${restored.error}`);
+
       const connection = openDatabase(join(userData, 'data.db'));
       const migration = await runMigrations(connection, {
-        migrationsFolder: join(app.getAppPath(), 'drizzle'),
+        migrationsFolder,
         backupDir: join(userData, 'backups', 'db'),
       });
       log.info(`database ready (${migration.applied} migration(s) applied, backup: ${migration.backupPath ?? 'none'})`);
@@ -420,6 +434,18 @@ if (!app.requestSingleInstanceLock()) {
           updates: updateService,
           libraryRepo,
           migration: sourceMigration,
+          backup: new BackupService({
+            sqlite: connection.sqlite,
+            userData,
+            appVersion: app.getVersion(),
+            bundledMigrations: countBundledMigrations(migrationsFolder),
+            // After the answer reached the window; `quit` closes the database and saves the window first.
+            restart: () =>
+              setTimeout(() => {
+                app.relaunch();
+                app.quit();
+              }, 800),
+          }),
           applySystemSettings,
           seedLibrary: (anime, episodesPerAnime) => {
             seedLibrary(connection.sqlite, anime, episodesPerAnime);

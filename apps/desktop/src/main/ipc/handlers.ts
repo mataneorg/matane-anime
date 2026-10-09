@@ -1,6 +1,7 @@
 import { mkdir } from 'node:fs/promises';
 import { AppError, type AppSettings } from '@matane-anime/shared';
 import { BrowserWindow, app, dialog, shell } from 'electron';
+import type { BackupService } from '../backup/service';
 import type { SettingsRepository } from '../db/repositories/settings';
 import type { InstallService } from '../extensions/install';
 import type { ExtensionLogs } from '../extensions/logs';
@@ -43,6 +44,7 @@ export interface HandlerDeps {
   updates: UpdateService;
   libraryRepo: LibraryRepository;
   migration: MigrationService;
+  backup: BackupService;
   /** Applies `closeToTray` and `runAtLogin` (the tray and the login item). */
   applySystemSettings(settings: AppSettings): void;
   /** Fills the library for performance checks (development only). */
@@ -70,6 +72,7 @@ export function createHandlers({
   updates,
   libraryRepo,
   migration,
+  backup,
   applySystemSettings,
   seedLibrary,
   spike,
@@ -135,9 +138,28 @@ export function createHandlers({
     },
     'incognito.get': () => incognito.enabled,
     'incognito.set': (on) => incognito.set(on),
-    'backup.export': notYet('Backup'),
-    'backup.peek': notYet('Restore'),
-    'backup.import': notYet('Restore'),
+    'backup.export': async (_input, event) => {
+      const window = BrowserWindow.fromWebContents(event.sender);
+      const options = {
+        defaultPath: backup.defaultFileName(),
+        filters: [{ name: 'Matane Anime backup', extensions: ['zip'] }],
+      };
+      const result = window ? await dialog.showSaveDialog(window, options) : await dialog.showSaveDialog(options);
+      if (result.canceled || !result.filePath) return null;
+      await backup.exportTo(result.filePath);
+      return { path: result.filePath };
+    },
+    'backup.peek': async (_input, event) => {
+      const window = BrowserWindow.fromWebContents(event.sender);
+      const options = {
+        properties: ['openFile' as const],
+        filters: [{ name: 'Matane Anime backup', extensions: ['zip'] }],
+      };
+      const result = window ? await dialog.showOpenDialog(window, options) : await dialog.showOpenDialog(options);
+      const file = result.canceled ? undefined : result.filePaths[0];
+      return file ? backup.peek(file) : null;
+    },
+    'backup.import': ({ token }) => backup.import(token),
     'app.changelog': notYet('The changelog'),
     'requests.cancel': (requestId) => requests.cancel(requestId),
     'extensions.list': () => registry.list(),

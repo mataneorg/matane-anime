@@ -16,7 +16,7 @@ function countAppliedMigrations(connection: DatabaseConnection): number {
   return row.count;
 }
 
-function countBundledMigrations(migrationsFolder: string): number {
+export function countBundledMigrations(migrationsFolder: string): number {
   const journal = JSON.parse(readFileSync(join(migrationsFolder, 'meta/_journal.json'), 'utf8')) as {
     entries: unknown[];
   };

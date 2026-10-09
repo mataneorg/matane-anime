@@ -266,7 +266,8 @@
       "downloaded": "Episode terunduh",
       "openFolder": "Buka folder",
       "openFailed": "Folder tidak bisa dibuka",
-      "ofLimit": "{{percent}}% dari batas {{limit}}"
+      "ofLimit": "{{percent}}% dari batas {{limit}}",
+      "backup": "Backup dan pemulihan"
     },
     "network": {
       "intro": "Untuk sumber yang diblokir penyedia internet Anda. Perubahan langsung berlaku, tanpa memulai ulang.",
@@ -914,5 +915,27 @@
     "turnOn": "Aktifkan mode penyamaran",
     "toggle": "Ubah mode penyamaran"
   },
-  "backup": {}
+  "backup": {
+    "description": "Satu file berisi library, kategori, progres, riwayat, dan pengaturan Anda. Tidak mencakup episode terunduh, extension, atau token masuk.",
+    "create": "Buat backup",
+    "restore": "Pulihkan dari file",
+    "created": "Backup tersimpan",
+    "createFailed": "Backup tidak bisa dibuat",
+    "peekFailed": "Backup itu tidak bisa dibaca",
+    "restoreFailed": "Backup tidak bisa dipulihkan",
+    "restoreTitle": "Pulihkan backup ini?",
+    "restoreBody": "Library, progres, riwayat, dan pengaturan Anda saat ini diganti dengan backup ini, lalu Matane Anime dimulai ulang. Salinan data Anda saat ini tetap ada di folder data aplikasi.",
+    "restoreConfirm": "Ganti dan mulai ulang",
+    "restarting": "Memulihkan backup Anda",
+    "restartingBody": "Matane Anime sedang dimulai ulang.",
+    "madeOn": "Dibuat pada {{date}} dengan versi {{version}}",
+    "contents": "Isi backup ini",
+    "anime": "Anime",
+    "episodes": "Episode",
+    "categories": "Kategori",
+    "history": "Entri riwayat",
+    "covers": "Sampul",
+    "repositories": "Repositori extension",
+    "extensions": "Extension yang dipasang ulang"
+  }
 }

@@ -7,10 +7,11 @@ import { downloadStorageQuery } from '@renderer/lib/downloads';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
+import { BackupSection } from './BackupSection';
 
 /**
- * Settings → Data and storage (mockup 10f), the Storage part only: backup and restore, the cover cache and
- * clearing data arrive with phase 5.
+ * Settings → Data and storage (mockup 10f): backup and restore, and the Storage part. The cover cache, automatic
+ * backups and clearing data are not here yet.
  */
 export function DataSettings() {
   const { t, i18n } = useTranslation();
@@ -24,6 +25,7 @@ export function DataSettings() {
 
   return (
     <div className="flex max-w-190 flex-col gap-6">
+      <BackupSection />
       <section className="flex flex-col gap-4" aria-labelledby="storage-title">
         <h2 id="storage-title" className="text-[15px] leading-[22px] font-semibold">
           {t('settings.data.storage')}

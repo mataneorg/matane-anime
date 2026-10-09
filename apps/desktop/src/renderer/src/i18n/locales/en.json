@@ -266,7 +266,8 @@
       "downloaded": "Downloaded episodes",
       "openFolder": "Open folder",
       "openFailed": "Could not open the folder",
-      "ofLimit": "{{percent}}% of the {{limit}} limit"
+      "ofLimit": "{{percent}}% of the {{limit}} limit",
+      "backup": "Backup and restore"
     },
     "network": {
       "intro": "For sources your internet provider blocks. Changes apply right away, without restarting.",
@@ -926,5 +927,27 @@
     "turnOn": "Turn on incognito",
     "toggle": "Toggle incognito"
   },
-  "backup": {}
+  "backup": {
+    "description": "One file with your library, categories, progress, history and settings. It does not include downloaded episodes, extensions or sign-in tokens.",
+    "create": "Create backup",
+    "restore": "Restore from file",
+    "created": "Backup saved",
+    "createFailed": "Could not create the backup",
+    "peekFailed": "Could not read that backup",
+    "restoreFailed": "Could not restore the backup",
+    "restoreTitle": "Restore this backup?",
+    "restoreBody": "Your current library, progress, history and settings are replaced by this backup, and Matane Anime restarts. A copy of your current data stays in the app data folder.",
+    "restoreConfirm": "Replace and restart",
+    "restarting": "Restoring your backup",
+    "restartingBody": "Matane Anime is restarting.",
+    "madeOn": "Made on {{date}} with version {{version}}",
+    "contents": "This backup holds",
+    "anime": "Anime",
+    "episodes": "Episodes",
+    "categories": "Categories",
+    "history": "History entries",
+    "covers": "Covers",
+    "repositories": "Extension repositories",
+    "extensions": "Extensions to install again"
+  }
 }
