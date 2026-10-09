@@ -11,13 +11,13 @@
     "sdk",
     "typescript"
   ],
-  "homepage": "https://github.com/SukunDev/matane-anime/tree/main/packages/extension-sdk#readme",
+  "homepage": "https://github.com/mataneorg/matane-anime/tree/main/packages/extension-sdk#readme",
   "bugs": {
-    "url": "https://github.com/SukunDev/matane-anime/issues"
+    "url": "https://github.com/mataneorg/matane-anime/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SukunDev/matane-anime.git",
+    "url": "git+https://github.com/mataneorg/matane-anime.git",
     "directory": "packages/extension-sdk"
   },
   "engines": {

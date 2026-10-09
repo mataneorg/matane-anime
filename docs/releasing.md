@@ -29,6 +29,10 @@ Nobody has published these yet, and **nobody has checked whether the name `@mata
 
 6. **Look at what will be uploaded** once more: `pnpm pack --pack-destination /tmp/out` in each package folder and `tar -tzf` the result, or read the dry-run list.
 
+### Publish through CI
+
+`.github/workflows/publish-sdk.yml` publishes the three packages when you push a tag `sdk-v<version>` (for example `sdk-v0.1.0`; the `v*` tags belong to the app). It checks that the tag and the three `package.json` versions agree, runs typecheck, test and `verify:packages`, then publishes with npm provenance. It needs the `NPM_TOKEN` secret and waits in the `npm-publish` environment, so add a required reviewer there. A manual run from `main` can publish only the SDK. Provenance needs a public repository. The manual commands below do the same by hand.
+
 ### Publish
 
 Publish in dependency order, because the runtime depends on the SDK at the exact same version: **sdk → runtime → cli**. Each `prepack` rebuilds the package, and `publishConfig.access` is already `public`, so the scope is published publicly.

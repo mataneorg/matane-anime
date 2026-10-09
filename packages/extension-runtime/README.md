@@ -1,6 +1,6 @@
 # @matane-anime/extension-runtime
 
-The QuickJS sandbox that runs [Matane Anime](https://github.com/SukunDev/matane-anime) extensions. The desktop app
+The QuickJS sandbox that runs [Matane Anime](https://github.com/mataneorg/matane-anime) extensions. The desktop app
 and the `ma-ext` CLI use the same code, so an extension that passes `ma-ext test` behaves the same in the app.
 
 This is a library for embedders (tools that load extension bundles). To write an extension, use
@@ -8,7 +8,7 @@ This is a library for embedders (tools that load extension bundles). To write an
 
 ## Install
 
-> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so `npm install` will not find it until then. Until it is published, use the workspace of the [repository](https://github.com/SukunDev/matane-anime): see the quick start in [docs/extensions.md](https://github.com/SukunDev/matane-anime/blob/main/docs/extensions.md#quick-start).
+> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so `npm install` will not find it until then. Until it is published, use the workspace of the [repository](https://github.com/mataneorg/matane-anime): see the quick start in [docs/extensions.md](https://github.com/mataneorg/matane-anime/blob/main/docs/extensions.md#quick-start).
 
 Once it is published:
 

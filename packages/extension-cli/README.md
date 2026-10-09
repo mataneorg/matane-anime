@@ -1,10 +1,10 @@
 # @matane-anime/extension-cli
 
-`ma-ext`: create, build, test and benchmark extensions for [Matane Anime](https://github.com/SukunDev/matane-anime).
+`ma-ext`: create, build, test and benchmark extensions for [Matane Anime](https://github.com/mataneorg/matane-anime).
 
 ## Install
 
-> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so the commands below will not work until then. Until it is published, work from a checkout of the [repository](https://github.com/SukunDev/matane-anime): `pnpm install` builds the CLI, which you run as `node packages/extension-cli/bin/ma-ext.js`, and a project outside the checkout links the packages with `pnpm add -D link:/path/to/matane-anime/packages/extension-sdk link:/path/to/matane-anime/packages/extension-cli`. The steps are in [docs/extensions.md](../../docs/extensions.md#quick-start).
+> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so the commands below will not work until then. Until it is published, work from a checkout of the [repository](https://github.com/mataneorg/matane-anime): `pnpm install` builds the CLI, which you run as `node packages/extension-cli/bin/ma-ext.js`, and a project outside the checkout links the packages with `pnpm add -D link:/path/to/matane-anime/packages/extension-sdk link:/path/to/matane-anime/packages/extension-cli`. The steps are in [docs/extensions.md](../../docs/extensions.md#quick-start).
 
 Once it is published (Node 22 or newer):
 

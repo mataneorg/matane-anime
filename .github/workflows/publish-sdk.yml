@@ -1,0 +1,73 @@
+name: Publish SDK
+
+# Publishes @matane-anime/extension-sdk, -runtime and -cli to npm when a tag like sdk-v0.1.0 is pushed. The three
+# packages share one version, which must equal the tag. Needs the NPM_TOKEN secret; npm provenance links each
+# package to this run. The job waits in the `npm-publish` environment, so give that environment a required reviewer.
+# A manual run (from main) can publish only the SDK. Steps are in docs/releasing.md.
+on:
+  push:
+    tags: ['sdk-v*']
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: Which packages to publish
+        type: choice
+        options: [all, sdk-only]
+        default: sdk-only
+
+concurrency:
+  group: publish-sdk
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    if: github.ref_type == 'tag' || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4; version comes from "packageManager"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      # Only the SDK packages and what they depend on (no Electron app).
+      - run: pnpm install --frozen-lockfile --filter "@matane-anime/extension-cli..."
+      - name: Package versions agree (and the tag, when there is one)
+        run: |
+          version=$(node -p "require('./packages/extension-sdk/package.json').version")
+          for pkg in extension-sdk extension-runtime extension-cli; do
+            v=$(node -p "require('./packages/$pkg/package.json').version")
+            if [ "$v" != "$version" ]; then
+              echo "::error::packages/$pkg is $v, extension-sdk is $version"
+              exit 1
+            fi
+          done
+          if [ "$GITHUB_REF_TYPE" = "tag" ] && [ "${GITHUB_REF_NAME#sdk-v}" != "$version" ]; then
+            echo "::error::the tag says ${GITHUB_REF_NAME#sdk-v}, the packages are $version"
+            exit 1
+          fi
+      - run: pnpm --filter "@matane-anime/extension-cli..." typecheck
+      - run: pnpm --filter "@matane-anime/extension-cli..." test
+      # Packs the tarballs, installs them in an empty project and builds an extension there; publishes nothing.
+      - run: pnpm verify:packages
+      - name: Choose packages
+        id: pick
+        env:
+          PACKAGES: ${{ inputs.packages }}
+        run: |
+          if [ "$PACKAGES" = "sdk-only" ]; then
+            echo "filter=@matane-anime/extension-sdk" >> "$GITHUB_OUTPUT"
+          else
+            echo "filter=@matane-anime/extension-cli..." >> "$GITHUB_OUTPUT"
+          fi
+      # prepack builds dist/. In dependency order: sdk, runtime, cli.
+      - run: pnpm --filter "${{ steps.pick.outputs.filter }}" publish --no-git-checks --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
