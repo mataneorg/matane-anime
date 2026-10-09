@@ -1,15 +1,16 @@
 import type { Preference } from '@matane-anime/extension-sdk';
 import type { ExtensionInfo } from '@matane-anime/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ErrorState } from '@renderer/components/ErrorState';
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { Select } from '@renderer/components/ui/select';
 import { Switch } from '@renderer/components/ui/switch';
 import { call } from '@renderer/lib/api';
 import { preferencesQuery } from '@renderer/lib/catalog';
-import { describeError } from '@renderer/lib/errors';
 
 /** The settings an extension declares, as a form the app builds for it (docs/PRD.md EXT-13). */
 export function PreferencesDialog({
@@ -24,7 +25,11 @@ export function PreferencesDialog({
   const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent title={`${extension.name} · ${t('extensions.preferences')}`} closeLabel={t('extensions.save')}>
+      <DialogContent
+        title={`${extension.name} · ${t('extensions.preferences')}`}
+        description={t('extensions.preferencesHint')}
+        closeLabel={t('common.close')}
+      >
         {open ? <Form extension={extension} /> : null}
       </DialogContent>
     </Dialog>
@@ -45,26 +50,37 @@ function Form({ extension }: { extension: ExtensionInfo }) {
     },
   });
 
-  if (state.isPending) return <p>…</p>;
-  if (state.isError) return <p role="alert">{describeError(state.error, t)}</p>;
+  if (state.isPending) {
+    return (
+      <div role="status" className="flex justify-center p-8">
+        <Loader2
+          className="size-5 animate-spin text-primary-text"
+          strokeWidth={1.75}
+          aria-label={t('extensions.preferencesLoading')}
+        />
+      </div>
+    );
+  }
+  if (state.isError) return <ErrorState compact error={state.error} onRetry={() => void state.refetch()} />;
   const { preferences, values } = state.data;
-  if (preferences.length === 0) return <p>{t('extensions.noPreferences')}</p>;
+  if (preferences.length === 0) {
+    return <p className="p-6 text-center text-muted-foreground">{t('extensions.noPreferences')}</p>;
+  }
 
   return (
-    <div className="flex flex-col gap-5">
-      {preferences.map((preference) => (
-        <Field
-          key={preference.key}
-          preference={preference}
-          value={values[preference.key]}
-          onSave={(value) => save.mutate({ key: preference.key, value })}
-        />
-      ))}
-      {save.isError ? (
-        <p role="alert" className="text-xs leading-4 text-danger-text">
-          {describeError(save.error, t)}
-        </p>
-      ) : null}
+    <div className="flex flex-col gap-3">
+      <ul className="-my-4 divide-y">
+        {preferences.map((preference) => (
+          <li key={preference.key} className="py-4">
+            <Field
+              preference={preference}
+              value={values[preference.key]}
+              onSave={(value) => save.mutate({ key: preference.key, value })}
+            />
+          </li>
+        ))}
+      </ul>
+      {save.isError ? <ErrorState compact error={save.error} /> : null}
     </div>
   );
 }

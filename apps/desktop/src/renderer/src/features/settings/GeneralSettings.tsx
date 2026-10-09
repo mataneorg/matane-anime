@@ -13,7 +13,7 @@ import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@renderer/components/ui/select';
 import { Switch } from '@renderer/components/ui/switch';
-import { LanguageChips } from '@renderer/features/extensions/LanguageChips';
+import { LanguageChips } from '@renderer/features/extensions/ContentControls';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { cn } from '@renderer/lib/utils';
 import { usePrefersDark } from '@renderer/theme/ThemeProvider';

@@ -5,9 +5,9 @@ import {
   availableState,
   countUpdates,
   formatSize,
-  languageCodes,
   languageName,
   languageOptions,
+  reloadSequentially,
   shortHash,
   sortAvailable,
   sortInstalled,
@@ -90,9 +90,6 @@ describe('languages', () => {
     expect(languageName('id', 'en')).toBe('Indonesian');
     expect(languageName('multi', 'en')).toBe('multi');
     expect(languageName('not a code!', 'en')).toBe('not a code!');
-  });
-  it('lists the codes of sources once, upper-cased', () => {
-    expect(languageCodes([{ lang: 'en' }, { lang: 'id' }, { lang: 'en' }])).toBe('EN, ID');
   });
   it('offers the usual languages first, then what sources use and what is selected', () => {
     expect(languageOptions([], [])).toEqual(['en', 'id', 'ja', 'es']);
@@ -186,5 +183,39 @@ describe('sortRepos', () => {
   it('shows a failing repository first, then by name (or address)', () => {
     const sorted = sortRepos([repo(1, 'Zed'), repo(2, null), repo(3, 'Alpha'), repo(4, 'Mid', 'boom')]);
     expect(sorted.map((r) => r.id)).toEqual([4, 3, 2, 1]);
+  });
+});
+
+describe('reloadSequentially', () => {
+  it('reloads the folders one at a time, in order', async () => {
+    const log: string[] = [];
+    let running = 0;
+    const summary = await reloadSequentially(['a', 'b', 'c'], async (folder) => {
+      running += 1;
+      expect(running).toBe(1);
+      await Promise.resolve();
+      log.push(folder);
+      running -= 1;
+      return { name: folder, status: 'ready', error: null };
+    });
+    expect(log).toEqual(['a', 'b', 'c']);
+    expect(summary).toEqual({ reloaded: 3, failed: [] });
+  });
+  it('counts a folder that loads with status error, and one that throws, and keeps going', async () => {
+    const summary = await reloadSequentially(['ok', 'broken', 'gone', 'ok2'], async (folder) => {
+      if (folder === 'gone') throw new Error('no such folder');
+      if (folder === 'broken') return { name: 'Broken', status: 'error', error: 'bad manifest' };
+      return { name: folder, status: 'ready', error: null };
+    });
+    expect(summary).toEqual({
+      reloaded: 2,
+      failed: [
+        { name: 'Broken', message: 'bad manifest' },
+        { name: 'gone', message: 'no such folder' },
+      ],
+    });
+  });
+  it('does nothing for no folders', async () => {
+    expect(await reloadSequentially([], () => Promise.reject(new Error('never')))).toEqual({ reloaded: 0, failed: [] });
   });
 });

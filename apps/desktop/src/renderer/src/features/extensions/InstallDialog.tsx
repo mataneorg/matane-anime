@@ -8,8 +8,8 @@ import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dia
 import { call } from '@renderer/lib/api';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
-import { TrustBadge } from './TrustBadge';
-import { formatSize, hue, languageName, shortHash } from './helpers';
+import { formatSize, languageName, shortHash } from './helpers';
+import { ExtensionIcon, TrustLine } from './parts';
 
 export interface InstallTarget {
   repoId: number;
@@ -118,24 +118,18 @@ function InstallBody({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-3">
-        <span
-          aria-hidden
-          className="flex size-10 shrink-0 items-center justify-center rounded-lg font-bold text-black"
-          style={{ background: `hsl(${hue(extension.id)} 65% 75%)` }}
-        >
-          {extension.name.charAt(0).toUpperCase()}
-        </span>
-        <p className="text-xs leading-4 text-muted-foreground">
-          {t('extensions.installDialog.version')} <span className="font-mono">{extension.version}</span>{' '}
-          {t('extensions.installDialog.from', { repo: repo.name ?? t('extensions.installDialog.unnamed') })}
-          {reinstall ? ` · ${t('extensions.installDialog.installedNow', { version: data.installedVersion })}` : ''}
-        </p>
+        <ExtensionIcon id={extension.id} name={extension.name} className="size-11" />
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <p className="text-xs leading-4 text-muted-foreground">
+            {t('extensions.installDialog.version')} <span className="font-mono">{extension.version}</span>{' '}
+            {t('extensions.installDialog.from', { repo: repo.name ?? t('extensions.installDialog.unnamed') })}
+            {reinstall ? ` · ${t('extensions.installDialog.installedNow', { version: data.installedVersion })}` : ''}
+          </p>
+          <TrustLine trust={repo.trust} repoName={repo.name ?? t('extensions.installDialog.unnamed')} />
+        </div>
       </div>
 
       <dl className="flex flex-col">
-        <Row label={t('extensions.installDialog.repository')}>
-          <TrustBadge trust={repo.trust} className="font-semibold" />
-        </Row>
         <Row label={t('extensions.installDialog.api')}>
           <span className="font-mono">
             {extension.apiVersion} · {t('extensions.installDialog.compatible')}

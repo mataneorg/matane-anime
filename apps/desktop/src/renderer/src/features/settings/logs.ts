@@ -44,6 +44,33 @@ export function logLines(
   return [...failed, ...logged].filter((line) => filter.levels.has(line.level));
 }
 
+/** What identifies a log line: the log has no sequence number, and two lines never share time, level and text. */
+const entryKey = (entry: ExtensionLogEntry): string =>
+  `${entry.extensionId}|${entry.at}|${entry.level}|${entry.message}`;
+
+/**
+ * The log fetched from main together with the lines that arrived live meanwhile. A line can be in both (it was logged
+ * after main read its list but before the answer was applied, or the other way round); it is kept once. Oldest first,
+ * at most `limit` lines.
+ */
+export function mergeLogs(
+  fetched: readonly ExtensionLogEntry[],
+  live: readonly ExtensionLogEntry[],
+  limit = 500,
+): ExtensionLogEntry[] {
+  const seen = new Set(fetched.map(entryKey));
+  const extra = live.filter((entry) => {
+    const key = entryKey(entry);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  const merged = [...fetched, ...extra];
+  // Array.prototype.sort is stable, so lines at the same millisecond keep the order they came in.
+  merged.sort((a, b) => a.at - b.at);
+  return merged.slice(-limit);
+}
+
 /** The lines as plain text for the clipboard: `12:00:01 [error] [example] message`. */
 export function logText(lines: readonly LogLine[]): string {
   return lines

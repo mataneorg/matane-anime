@@ -1,29 +1,30 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { CircleCheck, Info, Loader2, Package, Plus, RefreshCw, SearchX, Server } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowUpCircle, CircleCheck, Info, Loader2, Package, Plus, RotateCw, SearchX, Server } from 'lucide-react';
+import { type KeyboardEvent, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@renderer/components/EmptyState';
 import { ErrorState } from '@renderer/components/ErrorState';
 import { SearchField } from '@renderer/components/SearchField';
+import { Badge } from '@renderer/components/ui/badge';
 import { Button } from '@renderer/components/ui/button';
 import { AddRepoDialog } from '@renderer/features/extensions/AddRepoDialog';
 import { AvailableList } from '@renderer/features/extensions/AvailableList';
 import { InstallDialog, type InstallTarget } from '@renderer/features/extensions/InstallDialog';
 import { InstalledList } from '@renderer/features/extensions/InstalledList';
-import { LanguageFilter } from '@renderer/features/extensions/LanguageChips';
+import { ContentLanguagePicker, NsfwToggle } from '@renderer/features/extensions/ContentControls';
 import { LoadFolderButton } from '@renderer/features/extensions/LoadFolderButton';
-import { RepositoriesList } from '@renderer/features/extensions/RepositoriesList';
-import { countUpdates } from '@renderer/features/extensions/helpers';
+import { RepositoriesPanel } from '@renderer/features/extensions/RepositoriesPanel';
+import { countUpdates, reloadSequentially } from '@renderer/features/extensions/helpers';
 import { call } from '@renderer/lib/api';
 import { availableQuery, extensionsQuery, reposQuery } from '@renderer/lib/catalog';
 import { describeError } from '@renderer/lib/errors';
-import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
+import { settingsQuery } from '@renderer/lib/ipc';
 import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
 
-type Tab = 'installed' | 'available' | 'updates' | 'repositories';
-const TABS: Tab[] = ['installed', 'available', 'updates', 'repositories'];
+type Tab = 'installed' | 'available' | 'updates';
+const TABS: Tab[] = ['installed', 'available', 'updates'];
 
 export const Route = createFileRoute('/_app/browse/extensions')({
   // `?add=true` opens the Add repository dialog (the library's first steps link here).
@@ -39,9 +40,9 @@ function ExtensionsPage() {
   const repos = useQuery(reposQuery);
   const available = useQuery(availableQuery);
   const { data: settings } = useQuery(settingsQuery);
-  const update = useUpdateSettings();
 
   const [tab, setTab] = useState<Tab>('installed');
+  const [panelOpen, setPanelOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [adding, setAdding] = useState(wantsAdd);
   const [installing, setInstalling] = useState<InstallTarget | null>(null);
@@ -56,20 +57,6 @@ function ExtensionsPage() {
     if (wantsAdd) void navigate({ to: '/browse/extensions', search: {}, replace: true });
   };
 
-  const check = useMutation({
-    mutationFn: () => call('repos.refresh', {}),
-    onSuccess: (result) => {
-      if (result.failed.length === 0) {
-        notify.success(t('extensions.toast.checked', { count: result.refreshed }));
-      } else {
-        notify.error(
-          t('extensions.toast.checkFailed', { count: result.failed.length }),
-          result.failed.map((failure) => failure.message).join('\n'),
-        );
-      }
-    },
-    onError: (error) => notify.error(t('extensions.toast.checkFailedAll'), describeError(error, t)),
-  });
   const updateAll = useMutation({
     mutationFn: () => call('extensions.updateAll'),
     onSuccess: (result) => {
@@ -80,6 +67,40 @@ function ExtensionsPage() {
     },
     onError: (error) => notify.error(t('extensions.toast.updateAllFailed'), describeError(error, t)),
   });
+  // The folders loaded for development; "Reload all" reads each of them again.
+  const devFolders = installed.flatMap((extension) =>
+    extension.origin === 'dev' && extension.folder !== null ? [extension.folder] : [],
+  );
+  const reloadAll = useMutation({
+    // One after the other: two folders can hold the same extension id.
+    mutationFn: () => reloadSequentially(devFolders, (folder) => call('extensions.reload', { folder })),
+    onSuccess: ({ reloaded, failed }) => {
+      if (failed.length === 0) notify.success(t('extensions.toast.reloadedAll', { count: reloaded }));
+      else {
+        notify.error(
+          t('extensions.toast.reloadPartial', { ok: reloaded, failed: failed.length }),
+          failed.map((failure) => `${failure.name}: ${failure.message}`).join('\n'),
+        );
+      }
+    },
+    onError: (error) => notify.error(t('extensions.toast.reloadAllFailed'), describeError(error, t)),
+  });
+
+  // The Repositories panel takes the focus when it opens and gives it back to its button when it closes.
+  const panelButton = useRef<HTMLButtonElement>(null);
+  const closePanel = (): void => {
+    setPanelOpen(false);
+    panelButton.current?.focus();
+  };
+  // Arrow keys move between the tabs, which are a single tab stop.
+  const moveTab = (event: KeyboardEvent, index: number): void => {
+    const step = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+    if (step === 0) return;
+    event.preventDefault();
+    const next = TABS[(index + step + TABS.length) % TABS.length] as Tab;
+    setTab(next);
+    document.getElementById(`tab-${next}`)?.focus();
+  };
 
   if (extensions.isError || repos.isError) {
     return (
@@ -108,7 +129,6 @@ function ExtensionsPage() {
     installed: installed.length,
     available: offered.length,
     updates: withUpdate.length,
-    repositories: repoList.length,
   };
   // The search box narrows whichever list is open.
   const needle = search.trim().toLowerCase();
@@ -117,189 +137,180 @@ function ExtensionsPage() {
   const shownInstalled = installed.filter((extension) => matches(extension.name, extension.id));
   const shownUpdates = withUpdate.filter((extension) => matches(extension.name, extension.id));
   const shownOffered = offered.filter((entry) => matches(entry.name, entry.id));
-  const shownRepos = repoList.filter((repo) => matches(repo.name, repo.url));
 
   return (
-    <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col gap-5 px-6 py-5">
-      <header className="flex flex-wrap items-center gap-x-6 gap-y-3">
-        <h1 className="text-xl font-semibold">{t('extensions.title')}</h1>
-        <div className="ml-auto flex items-center gap-2">
-          {settings?.devMode ? <LoadFolderButton variant="secondary" /> : null}
-          {nothingYet ? null : (
-            <>
-              <Button
-                variant="secondary"
-                disabled={check.isPending || repoList.length === 0}
-                onClick={() => check.mutate()}
-              >
-                {check.isPending ? (
-                  <Loader2 className="size-4 animate-spin" strokeWidth={1.75} aria-hidden />
-                ) : (
-                  <RefreshCw className="size-4" strokeWidth={1.75} aria-hidden />
-                )}
-                {t('extensions.check')}
-              </Button>
+    <div className="flex h-full min-h-0">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex shrink-0 flex-wrap items-center gap-3 px-8 pt-6 pb-4">
+          <h1 className="text-2xl font-semibold">{t('extensions.title')}</h1>
+          {updates > 0 ? (
+            <Badge variant="primary" role="status" className="rounded-full px-2.5 py-1">
+              {t('extensions.updatesAvailable', { count: updates })}
+            </Badge>
+          ) : null}
+          <span className="flex-1" />
+          {settings?.devMode ? <LoadFolderButton variant="ghost" size="sm" /> : null}
+          <Button
+            ref={panelButton}
+            variant="secondary"
+            aria-pressed={panelOpen}
+            onClick={() => (panelOpen ? closePanel() : setPanelOpen(true))}
+          >
+            <Server aria-hidden />
+            {t('extensions.tabs.repositories')}
+          </Button>
+          {updates > 0 ? (
+            <Button disabled={updateAll.isPending} onClick={() => updateAll.mutate()}>
+              {updateAll.isPending ? <Loader2 className="animate-spin" aria-hidden /> : <ArrowUpCircle aria-hidden />}
+              {t('extensions.updateAll')}
+            </Button>
+          ) : null}
+        </header>
+
+        {nothingYet ? (
+          <EmptyState
+            icon={Package}
+            title={t('extensions.emptyTitle')}
+            description={t('extensions.emptyDescription')}
+            action={
               <Button onClick={() => setAdding(true)}>
-                <Plus className="size-4" strokeWidth={1.75} aria-hidden />
+                <Plus aria-hidden />
                 {t('extensions.addRepository')}
               </Button>
-            </>
-          )}
-        </div>
-      </header>
-
-      {nothingYet ? (
-        <EmptyState
-          icon={Package}
-          title={t('extensions.emptyTitle')}
-          description={t('extensions.emptyDescription')}
-          action={
-            <Button onClick={() => setAdding(true)}>
-              <Plus className="size-4" strokeWidth={1.75} aria-hidden />
-              {t('extensions.addRepository')}
-            </Button>
-          }
-        >
-          <p className="flex max-w-lg items-start gap-2 text-left text-xs text-muted-foreground">
-            <Info className="mt-0.5 size-3.5 shrink-0 text-ctp-blue" strokeWidth={1.75} aria-hidden />
-            {t('extensions.addRepo.notice')}
-          </p>
-        </EmptyState>
-      ) : (
-        <>
-          {updates > 0 ? (
+            }
+          >
+            <p className="flex max-w-lg items-start gap-2 text-left text-xs text-muted-foreground">
+              <Info className="mt-0.5 size-3.5 shrink-0 text-ctp-blue" strokeWidth={1.75} aria-hidden />
+              {t('extensions.addRepo.notice')}
+            </p>
+          </EmptyState>
+        ) : (
+          <>
             <div
-              role="status"
-              className="flex items-center gap-3 rounded-xl border border-ctp-blue/40 bg-ctp-blue/10 px-4 py-3 text-foreground"
+              role="tablist"
+              aria-label={t('extensions.title')}
+              className="mx-8 flex shrink-0 items-end gap-6 border-b"
             >
-              <Info className="size-4 shrink-0 text-ctp-blue" strokeWidth={1.75} aria-hidden />
-              <p className="flex-1">
-                <span className="font-semibold">{t('extensions.updatesAvailable', { count: updates })}</span>{' '}
-                {t('extensions.updatesHint')}
-              </p>
-              <Button size="sm" disabled={updateAll.isPending} onClick={() => updateAll.mutate()}>
-                {updateAll.isPending ? (
-                  <Loader2 className="size-4 animate-spin" strokeWidth={1.75} aria-hidden />
-                ) : null}
-                {t('extensions.updateAll')}
-              </Button>
-            </div>
-          ) : null}
-
-          <div role="tablist" aria-label={t('extensions.title')} className="flex gap-6 border-b">
-            {TABS.map((name) => (
-              <button
-                key={name}
-                role="tab"
-                type="button"
-                id={`tab-${name}`}
-                aria-selected={tab === name}
-                aria-controls="extensions-panel"
-                onClick={() => setTab(name)}
-                className={cn(
-                  '-mb-px flex h-9 items-center gap-2 border-b-2 border-transparent px-1 text-muted-foreground transition-colors hover:text-foreground',
-                  tab === name && 'border-primary font-semibold text-foreground',
-                )}
-              >
-                {t(`extensions.tabs.${name}`)}
-                <span
+              {TABS.map((name, index) => (
+                <button
+                  key={name}
+                  role="tab"
+                  type="button"
+                  id={`tab-${name}`}
+                  aria-selected={tab === name}
+                  aria-controls="extensions-panel"
+                  tabIndex={tab === name ? 0 : -1}
+                  onClick={() => setTab(name)}
+                  onKeyDown={(event) => moveTab(event, index)}
                   className={cn(
-                    'rounded-md bg-muted px-1.5 text-[11px] font-medium text-foreground',
-                    tab === name && 'bg-primary/20 text-primary-text',
+                    '-mb-px flex items-center gap-2 border-b-2 border-transparent pb-2.5 text-muted-foreground transition-colors hover:text-foreground',
+                    tab === name && 'border-primary font-semibold text-foreground',
                   )}
                 >
-                  {counts[name]}
-                </span>
-              </button>
-            ))}
-          </div>
+                  {t(`extensions.tabs.${name}`)}
+                  <span
+                    className={cn(
+                      'rounded-md bg-muted px-1.5 text-[11px] font-semibold text-foreground',
+                      name === 'updates' && counts.updates > 0 && 'bg-primary/20 text-primary-text',
+                    )}
+                  >
+                    {counts[name]}
+                  </span>
+                </button>
+              ))}
+            </div>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-3 rounded-xl border bg-card/40 p-3">
-            <SearchField
-              value={search}
-              onChange={setSearch}
-              placeholder={t('extensions.search')}
-              className="min-w-48 flex-1"
-            />
-            <LanguageFilter />
-            <label className="flex cursor-pointer items-center gap-2 text-xs">
-              <input
-                type="checkbox"
-                className="size-4 accent-primary"
-                checked={settings?.showNsfw ?? false}
-                onChange={(event) => update.mutate({ showNsfw: event.target.checked })}
-              />
-              {t('extensions.filter.nsfw')}
-            </label>
-          </div>
+            <div className="min-h-0 flex-1 overflow-y-auto px-8 py-5">
+              <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border bg-card/40 p-3">
+                <SearchField
+                  value={search}
+                  onChange={setSearch}
+                  placeholder={t('extensions.search')}
+                  className="min-w-48 flex-1"
+                />
+                <ContentLanguagePicker />
+                <label
+                  htmlFor="extensions-nsfw"
+                  className="ml-auto flex items-center gap-2 text-sm text-muted-foreground"
+                >
+                  {t('extensions.filter.nsfw')}
+                  <NsfwToggle id="extensions-nsfw" />
+                </label>
+                {tab === 'installed' && devFolders.length > 0 ? (
+                  <Button variant="ghost" size="sm" disabled={reloadAll.isPending} onClick={() => reloadAll.mutate()}>
+                    <RotateCw className={cn(reloadAll.isPending && 'animate-spin')} aria-hidden />
+                    {t('extensions.reloadAll')}
+                  </Button>
+                ) : null}
+              </div>
 
-          <div id="extensions-panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
-            {tab === 'installed' ? (
-              installed.length === 0 ? (
-                <EmptyState
-                  icon={Package}
-                  title={t('extensions.noneInstalled.title')}
-                  description={t('extensions.noneInstalled.description')}
-                  action={
-                    <Button variant="secondary" onClick={() => setTab('available')}>
-                      {t('extensions.noneInstalled.action')}
-                    </Button>
-                  }
-                />
-              ) : shownInstalled.length === 0 ? (
-                <NoMatches />
-              ) : (
-                <InstalledList extensions={shownInstalled} available={offered} onReinstall={setInstalling} />
-              )
-            ) : tab === 'available' ? (
-              available.isError ? (
-                <ErrorState error={available.error} onRetry={() => void available.refetch()} />
-              ) : offered.length === 0 ? (
-                <EmptyState
-                  icon={Server}
-                  title={t(repoList.length === 0 ? 'extensions.noRepos.title' : 'extensions.noneAvailable.title')}
-                  description={t(
-                    repoList.length === 0 ? 'extensions.noRepos.description' : 'extensions.noneAvailable.description',
-                  )}
-                />
-              ) : shownOffered.length === 0 ? (
-                <NoMatches />
-              ) : (
-                <AvailableList entries={shownOffered} onInstall={setInstalling} />
-              )
-            ) : tab === 'updates' ? (
-              withUpdate.length === 0 ? (
-                <EmptyState
-                  icon={CircleCheck}
-                  title={t('extensions.noUpdates.title')}
-                  description={t('extensions.noUpdates.description')}
-                />
-              ) : shownUpdates.length === 0 ? (
-                <NoMatches />
-              ) : (
-                <InstalledList extensions={shownUpdates} available={offered} onReinstall={setInstalling} />
-              )
-            ) : repoList.length === 0 ? (
-              <EmptyState
-                icon={Server}
-                title={t('extensions.noRepos.title')}
-                description={t('extensions.noRepos.description')}
-              />
-            ) : shownRepos.length === 0 ? (
-              <NoMatches />
-            ) : (
-              <RepositoriesList repos={shownRepos} />
-            )}
-          </div>
-        </>
-      )}
+              <div id="extensions-panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
+                {tab === 'installed' ? (
+                  installed.length === 0 ? (
+                    <EmptyState
+                      icon={Package}
+                      title={t('extensions.noneInstalled.title')}
+                      description={t('extensions.noneInstalled.description')}
+                      action={
+                        <Button variant="secondary" onClick={() => setTab('available')}>
+                          {t('extensions.noneInstalled.action')}
+                        </Button>
+                      }
+                    />
+                  ) : shownInstalled.length === 0 ? (
+                    <NoMatches />
+                  ) : (
+                    <InstalledList extensions={shownInstalled} available={offered} onReinstall={setInstalling} />
+                  )
+                ) : tab === 'available' ? (
+                  available.isError ? (
+                    <ErrorState error={available.error} onRetry={() => void available.refetch()} />
+                  ) : offered.length === 0 ? (
+                    <EmptyState
+                      icon={Server}
+                      title={t(repoList.length === 0 ? 'extensions.noRepos.title' : 'extensions.noneAvailable.title')}
+                      description={t(
+                        repoList.length === 0
+                          ? 'extensions.noRepos.description'
+                          : 'extensions.noneAvailable.description',
+                      )}
+                      action={
+                        repoList.length === 0 ? (
+                          <Button onClick={() => setPanelOpen(true)}>{t('extensions.tabs.repositories')}</Button>
+                        ) : undefined
+                      }
+                    />
+                  ) : shownOffered.length === 0 ? (
+                    <NoMatches />
+                  ) : (
+                    <AvailableList entries={shownOffered} onInstall={setInstalling} />
+                  )
+                ) : withUpdate.length === 0 ? (
+                  <EmptyState
+                    icon={CircleCheck}
+                    title={t('extensions.noUpdates.title')}
+                    description={t('extensions.noUpdates.description')}
+                  />
+                ) : shownUpdates.length === 0 ? (
+                  <NoMatches />
+                ) : (
+                  <InstalledList extensions={shownUpdates} available={offered} onReinstall={setInstalling} />
+                )}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {panelOpen ? <RepositoriesPanel repos={repoList} onAdd={() => setAdding(true)} onClose={closePanel} /> : null}
 
       <AddRepoDialog
         open={adding}
         onOpenChange={(open) => (open ? setAdding(true) : closeAdd())}
         onAdded={(repo) => {
           closeAdd();
-          setTab(repo.extensionCount > 0 ? 'available' : 'repositories');
+          if (repo.extensionCount > 0) setTab('available');
+          else setPanelOpen(true);
         }}
       />
       <InstallDialog

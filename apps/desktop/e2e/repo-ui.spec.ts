@@ -94,14 +94,24 @@ function extras(): RepoPackageInput[] {
   ];
 }
 
-const addButton = () => page.getByRole('button', { name: 'Add repository' });
+// Repositories are a side panel (the Matane layout): opened from the header, it holds Add repository and Check.
+const panel = () => page.getByTestId('repositories-panel');
+async function openRepositories(): Promise<void> {
+  const toggle = page.getByRole('button', { name: 'Repositories', exact: true });
+  if ((await toggle.getAttribute('aria-pressed')) !== 'true') await toggle.click();
+  await expect(panel()).toBeVisible();
+}
+async function startAdd(): Promise<void> {
+  await openRepositories();
+  await panel().getByRole('button', { name: 'Add repository' }).click();
+}
 const dialog = () => page.getByRole('dialog');
 const tab = (name: string) => page.getByRole('tab', { name: new RegExp(`^${name}`) });
 const row = (id: string) => page.getByTestId(`extension-${id}`);
 const offer = (id: string) => page.getByTestId(`available-${id}`);
 
 async function addRepoThroughUi(options: { trust: boolean }): Promise<void> {
-  await addButton().click();
+  await startAdd();
   await dialog().getByLabel('Repository address').fill(site.repoUrl);
   await dialog().getByRole('button', { name: 'Check repository' }).click();
   if (options.trust)
@@ -114,7 +124,7 @@ async function addRepoThroughUi(options: { trust: boolean }): Promise<void> {
 
 async function removeEveryRepoThroughUi(): Promise<void> {
   await go('#/browse/extensions');
-  await tab('Repositories').click();
+  await openRepositories();
   while ((await page.getByTestId(/^repo-/).count()) > 0) {
     await page
       .getByRole('button', { name: /^Remove / })
@@ -172,7 +182,7 @@ test('an empty Extensions page explains the first step and suggests no repositor
 test('adding a repository: it is read first, the unverified key is shown, and trusting it is a choice', async () => {
   site.setRepo(first.files);
   await go('#/browse/extensions');
-  await addButton().click();
+  await startAdd();
   await dialog().getByLabel('Repository address').fill(site.repoUrl);
   await dialog().getByRole('button', { name: 'Check repository' }).click();
 
@@ -199,7 +209,7 @@ test('adding a repository: it is read first, the unverified key is shown, and tr
   await expect(tab('Available')).toContainText('2');
   await shots('available');
 
-  await tab('Repositories').click();
+  await openRepositories();
   const repoRow = page.getByTestId(/^repo-/).first();
   await expect(repoRow).toContainText('Example Repo');
   await expect(repoRow).toContainText(site.repoUrl);
@@ -211,7 +221,7 @@ test('adding a repository: it is read first, the unverified key is shown, and tr
 });
 
 test('adding the same address again, or one that is not a repository, says why', async () => {
-  await addButton().click();
+  await startAdd();
   await dialog().getByLabel('Repository address').fill(site.repoUrl);
   await dialog().getByRole('button', { name: 'Check repository' }).click();
   await dialog().getByRole('button', { name: 'Add repository' }).click();
@@ -247,7 +257,7 @@ test('install shows what is installed and where it comes from, then the extensio
   await expect(tab('Installed')).toHaveAttribute('aria-selected', 'true');
   await expect(row('example')).toContainText('Example Site');
   await expect(row('example')).toContainText('1.0.0');
-  await expect(row('example')).toContainText('EN, ID');
+  await expect(row('example')).toContainText(/EN\s*ID/); // its two language badges, side by side
   await expect(row('example')).toContainText('Example Repo');
   await expect(row('example')).toContainText('Trusted key');
   // Installed, so the offer no longer has an Install button.
@@ -267,16 +277,18 @@ test('the repository publishes 1.1.0: Check repositories finds it and Update all
   );
   await go('#/browse/extensions');
   await expect(row('example')).not.toContainText('Update to');
-  await page.getByRole('button', { name: 'Check repositories' }).click();
+  await openRepositories();
+  await panel().getByRole('button', { name: 'Check repositories' }).click();
   await expect(page.getByText('Checked 1 repository')).toBeVisible();
 
+  // The count is a pill next to the title, and Update all a button in the header (no banner any more).
   const banner = page.getByRole('status').filter({ hasText: 'update available' });
-  await expect(banner).toContainText('1 update available.');
+  await expect(banner).toContainText('1 update available');
   await expect(row('example')).toContainText('Update to 1.1.0');
   await expect(row('example').getByRole('button', { name: 'Update', exact: true })).toBeVisible();
   await shots('installed-update');
 
-  await banner.getByRole('button', { name: 'Update all' }).click();
+  await page.getByRole('button', { name: 'Update all' }).click();
   await expect(page.getByText('1 extension updated')).toBeVisible();
   await expect(banner).toBeHidden();
   await expect(row('example')).toContainText('1.1.0');
@@ -295,7 +307,8 @@ test('a single extension updates from its own button too', async () => {
       .files,
   );
   await go('#/browse/extensions');
-  await page.getByRole('button', { name: 'Check repositories' }).click();
+  await openRepositories();
+  await panel().getByRole('button', { name: 'Check repositories' }).click();
   await expect(row('example')).toContainText('Update to 1.2.0');
   await row('example').getByRole('button', { name: 'Update', exact: true }).click();
   await expect(row('example')).toContainText('1.2.0');
@@ -303,7 +316,8 @@ test('a single extension updates from its own button too', async () => {
 });
 
 test('uninstalling asks first, and the sources stay listed as not installed', async () => {
-  await row('example').getByRole('button', { name: 'Uninstall Example Site' }).click();
+  await row('example').getByRole('button', { name: 'More actions for Example Site' }).click();
+  await page.getByRole('menuitem', { name: 'Uninstall Example Site' }).click();
   await expect(dialog().getByRole('heading', { name: 'Uninstall Example Site?' })).toBeVisible();
   await expect(dialog()).toContainText('stay in your library');
   await shot('repo-ui-uninstall-mocha');
@@ -311,7 +325,8 @@ test('uninstalling asks first, and the sources stay listed as not installed', as
   await dialog().getByRole('button', { name: 'Cancel' }).click();
   await expect(row('example')).toBeVisible();
 
-  await row('example').getByRole('button', { name: 'Uninstall Example Site' }).click();
+  await row('example').getByRole('button', { name: 'More actions for Example Site' }).click();
+  await page.getByRole('menuitem', { name: 'Uninstall Example Site' }).click();
   await dialog().getByRole('button', { name: 'Uninstall', exact: true }).click();
   await expect(row('example')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Nothing installed yet' })).toBeVisible();
@@ -343,7 +358,7 @@ test('an unverified repository warns on every install, and installing from it is
   await expect(row('example')).toContainText('Unverified repository');
 
   // The repository can be trusted afterwards, from its row.
-  await tab('Repositories').click();
+  await openRepositories();
   await expect(page.getByTestId(/^repo-/).first()).toContainText('Unverified');
   await page.getByRole('button', { name: 'Trust this key' }).click();
   await expect(page.getByTestId(/^repo-/).first()).toContainText('Trusted key');
@@ -352,14 +367,14 @@ test('an unverified repository warns on every install, and installing from it is
 });
 
 test('removing a repository keeps what was installed from it', async () => {
-  await tab('Repositories').click();
+  await openRepositories();
   await page
     .getByRole('button', { name: /^Remove / })
     .first()
     .click();
   await expect(dialog()).toContainText('stay installed');
   await dialog().getByRole('button', { name: 'Remove', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'No repositories yet' })).toBeVisible();
+  await expect(panel()).toContainText('No repositories yet');
   await tab('Installed').click();
   await expect(row('example')).toContainText('Example Site');
   await invoke('extensions.uninstall', { extensionId: 'example' });
@@ -371,7 +386,7 @@ test('an unsigned repository gets its own warning and no key to trust', async ()
   site.setRepo(unsigned.files);
   await go('#/browse/extensions');
   await expect(page.getByRole('heading', { name: 'No extensions yet' })).toBeVisible();
-  await addButton().click();
+  await startAdd();
   await dialog().getByLabel('Repository address').fill(site.repoUrl);
   await dialog().getByRole('button', { name: 'Check repository' }).click();
   await expect(dialog()).toContainText('Unsigned repository');
@@ -382,7 +397,7 @@ test('an unsigned repository gets its own warning and no key to trust', async ()
   await offer('example').getByRole('button', { name: 'Install Example Site' }).click();
   await expect(dialog().getByRole('note').filter({ hasText: 'Unsigned repository' })).toBeVisible();
   await page.keyboard.press('Escape');
-  await tab('Repositories').click();
+  await openRepositories();
   await expect(page.getByTestId(/^repo-/).first()).toContainText('unsigned');
   await expect(page.getByRole('button', { name: 'Trust this key' })).toHaveCount(0);
 });
@@ -403,7 +418,7 @@ test('18+ and language filters narrow what is offered, and are the same settings
   await expect(offer('future')).toContainText('newer extension API');
   await expect(offer('future').getByRole('button', { name: 'Install Future Site' })).toBeDisabled();
 
-  const nsfw = page.getByRole('checkbox', { name: 'Show 18+ sources' });
+  const nsfw = page.getByRole('switch', { name: 'Show 18+ sources' });
   await nsfw.click();
   await expect(nsfw).toBeChecked();
   await expect(offer('adult')).toContainText('18+');
@@ -437,7 +452,7 @@ test('18+ and language filters narrow what is offered, and are the same settings
   await tab('Available').click();
   await expect(offer('example')).toBeVisible();
   await expect(offer('adult')).toHaveCount(0);
-  await expect(page.getByRole('checkbox', { name: 'Show 18+ sources' })).not.toBeChecked();
+  await expect(page.getByRole('switch', { name: 'Show 18+ sources' })).not.toBeChecked();
   await expect(page.getByRole('button', { name: /^Language/ })).toContainText('English');
 
   // Back to everything.

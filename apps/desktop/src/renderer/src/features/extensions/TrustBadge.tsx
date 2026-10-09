@@ -8,12 +8,10 @@ import { trustView } from './helpers';
 export function TrustBadge({
   trust,
   short = false,
-  className,
 }: {
   trust: RepoTrust | null;
   /** The wording of the repository list ("Unverified") instead of an extension's ("Unverified repository"). */
   short?: boolean;
-  className?: string;
 }) {
   const { t } = useTranslation();
   const view = trustView(trust);
@@ -21,7 +19,7 @@ export function TrustBadge({
   const ok = view.tone === 'ok';
   const Icon = ok ? ShieldCheck : TriangleAlert;
   return (
-    <Badge variant={ok ? 'success' : 'warning'} className={className}>
+    <Badge variant={ok ? 'success' : 'warning'}>
       <Icon strokeWidth={1.75} aria-hidden />
       {t(`extensions.${short ? 'repoTrust' : 'trust'}.${view.label}`)}
     </Badge>

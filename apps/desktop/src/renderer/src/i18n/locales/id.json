@@ -471,12 +471,9 @@
     "dev": "Dev",
     "failed": "Gagal dimuat",
     "reload": "Muat ulang",
-    "remove": "Hapus",
     "preferences": "Preferensi",
     "sources": "{{count}} sumber",
     "sources_other": "{{count}} sumber",
-    "folder": "Folder",
-    "save": "Tutup",
     "emptyTitle": "Belum ada extension",
     "emptyDescription": "Matane Anime tidak membawa sumber apa pun. Untuk mendapatkannya, tambahkan alamat repositori extension dari orang yang kamu percaya, lalu pasang extension yang kamu mau.",
     "noPreferences": "Extension ini tidak punya preferensi.",
@@ -490,12 +487,11 @@
       "updates": "Pembaruan"
     },
     "filter": {
-      "language": "Bahasa",
       "allLanguages": "Semua bahasa",
-      "nsfw": "Tampilkan sumber 18+"
+      "nsfw": "Tampilkan sumber 18+",
+      "languageValue": "Bahasa: {{langs}}"
     },
-    "updatesAvailable_other": "{{count}} pembaruan tersedia.",
-    "updatesHint": "Pembaruan langsung terpasang dan pustaka serta pengaturanmu tetap aman.",
+    "updatesAvailable_other": "{{count}} pembaruan tersedia",
     "updateAll": "Perbarui semua",
     "update": "Perbarui",
     "updating": "Memperbarui…",
@@ -583,7 +579,6 @@
       "from": "dari {{repo}}",
       "unnamed": "repositori tanpa nama",
       "installedNow": "terpasang: {{version}}",
-      "repository": "Repositori",
       "api": "Versi API",
       "compatible": "kompatibel",
       "languages": "Bahasa",
@@ -622,7 +617,12 @@
       "repoFailed": "Gagal memeriksa {{name}}",
       "repoRemoved": "{{name}} dihapus",
       "repoRemoveFailed": "Gagal menghapus {{name}}",
-      "trustFailed": "Gagal mengubah kepercayaan {{name}}"
+      "trustFailed": "Gagal mengubah kepercayaan {{name}}",
+      "reloadFailed": "Gagal memuat ulang {{name}}",
+      "reloadAllFailed": "Gagal memuat ulang extension",
+      "reloadedAll_one": "{{count}} extension dimuat ulang",
+      "reloadedAll_other": "{{count}} extension dimuat ulang",
+      "reloadPartial": "Dimuat ulang {{ok}}, gagal {{failed}}"
     },
     "search": "Cari ekstensi",
     "noUpdates": {
@@ -632,7 +632,33 @@
     "noMatches": {
       "title": "Tidak ada yang cocok",
       "description": "Coba pencarian lain."
-    }
+    },
+    "logs": {
+      "title": "Log {{name}}",
+      "description": "Yang dicatat extension ini, panggilan dan permintaan yang gagal. Baris baru muncul langsung.",
+      "filter": "Tampilkan dari level",
+      "levels": {
+        "all": "Semua",
+        "info": "Info",
+        "warn": "Peringatan",
+        "error": "Galat"
+      },
+      "lines": "Baris log",
+      "empty": "Belum ada yang dicatat.",
+      "copy": "Salin",
+      "copied": "Tersalin",
+      "copyFailed": "Log tidak bisa disalin",
+      "clear": "Bersihkan",
+      "open": "Log"
+    },
+    "preferencesHint": "Perubahan tersimpan saat Anda membuatnya.",
+    "preferencesLoading": "Memuat preferensi",
+    "reloadAll": "Muat ulang semua",
+    "more": "Aksi lainnya",
+    "moreOf": "Aksi lainnya untuk {{name}}",
+    "upToDate": "Sudah terbaru",
+    "removeFolder": "Hapus folder",
+    "repoRemoved": "Repositorinya sudah dihapus"
   },
   "network": {
     "offline": "Offline"

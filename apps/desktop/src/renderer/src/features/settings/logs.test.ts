@@ -1,6 +1,6 @@
 import type { ExtensionInfo, ExtensionLogEntry } from '@matane-anime/shared';
 import { describe, expect, it } from 'vitest';
-import { LEVELS, logLines, logText } from './logs';
+import { LEVELS, logLines, logText, mergeLogs } from './logs';
 
 const entry = (
   extensionId: string,
@@ -48,5 +48,37 @@ describe('logText', () => {
       { level: 'warn', source: 'a', message: 'slow', at: Date.UTC(2026, 0, 1) },
     ]);
     expect(text).toBe('ERROR [/dev/x] bad manifest\n2026-01-01T00:00:00.000Z WARN [a] slow');
+  });
+});
+
+describe('mergeLogs', () => {
+  it('keeps what was fetched and adds the lines that arrived live meanwhile', () => {
+    const merged = mergeLogs(
+      [entry('a', 'info', 1, 'one'), entry('a', 'info', 2, 'two')],
+      [entry('a', 'warn', 3, 'three')],
+    );
+    expect(merged.map((line) => line.message)).toEqual(['one', 'two', 'three']);
+  });
+
+  it('keeps a line once when it is both fetched and live', () => {
+    const shared = entry('a', 'info', 2, 'two');
+    const merged = mergeLogs([entry('a', 'info', 1, 'one'), shared], [{ ...shared }, entry('a', 'info', 3, 'three')]);
+    expect(merged.map((line) => line.message)).toEqual(['one', 'two', 'three']);
+  });
+
+  it('keeps identical lines that really happened twice in the fetched list', () => {
+    const twice = [entry('a', 'info', 1, 'same'), entry('a', 'info', 1, 'same')];
+    expect(mergeLogs(twice, [])).toHaveLength(2);
+  });
+
+  it('orders by time when a live line is older than the last fetched one, and keeps the newest `limit`', () => {
+    const merged = mergeLogs([entry('a', 'info', 5, 'late')], [entry('a', 'info', 4, 'early')]);
+    expect(merged.map((line) => line.message)).toEqual(['early', 'late']);
+    const many = Array.from({ length: 10 }, (_, i) => entry('a', 'info', i, `m${i}`));
+    expect(mergeLogs(many, [], 3).map((line) => line.message)).toEqual(['m7', 'm8', 'm9']);
+  });
+
+  it('is empty without lines', () => {
+    expect(mergeLogs([], [])).toEqual([]);
   });
 });

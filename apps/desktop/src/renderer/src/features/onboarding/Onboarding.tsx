@@ -10,7 +10,7 @@ import { Input } from '@renderer/components/ui/input';
 import { Switch } from '@renderer/components/ui/switch';
 import { ChangeFolderButton } from '@renderer/features/downloads/ChangeFolderButton';
 import { formatBytes } from '@renderer/features/downloads/format';
-import { LanguageChips } from '@renderer/features/extensions/LanguageChips';
+import { LanguageChips } from '@renderer/features/extensions/ContentControls';
 import { downloadStorageQuery } from '@renderer/lib/downloads';
 import { appInfoQuery, osLocaleQuery, settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { cn } from '@renderer/lib/utils';

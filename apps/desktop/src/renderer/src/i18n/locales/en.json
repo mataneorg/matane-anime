@@ -471,12 +471,9 @@
     "dev": "Dev",
     "failed": "Failed to load",
     "reload": "Reload",
-    "remove": "Remove",
     "preferences": "Preferences",
     "sources": "{{count}} source",
     "sources_other": "{{count}} sources",
-    "folder": "Folder",
-    "save": "Close",
     "emptyTitle": "No extensions yet",
     "emptyDescription": "Matane Anime ships with no sources. To get some, add the address of an extension repository from someone you trust, then install the extensions you want.",
     "noPreferences": "This extension has no preferences.",
@@ -490,13 +487,12 @@
       "updates": "Updates"
     },
     "filter": {
-      "language": "Language",
       "allLanguages": "All languages",
-      "nsfw": "Show 18+ sources"
+      "nsfw": "Show 18+ sources",
+      "languageValue": "Language: {{langs}}"
     },
-    "updatesAvailable_one": "{{count}} update available.",
-    "updatesAvailable_other": "{{count}} updates available.",
-    "updatesHint": "Updates install right away and keep your library and settings.",
+    "updatesAvailable_one": "{{count}} update available",
+    "updatesAvailable_other": "{{count}} updates available",
     "updateAll": "Update all",
     "update": "Update",
     "updating": "Updating…",
@@ -585,7 +581,6 @@
       "from": "from {{repo}}",
       "unnamed": "an unnamed repository",
       "installedNow": "installed: {{version}}",
-      "repository": "Repository",
       "api": "API version",
       "compatible": "compatible",
       "languages": "Languages",
@@ -627,7 +622,12 @@
       "repoFailed": "Could not check {{name}}",
       "repoRemoved": "{{name}} removed",
       "repoRemoveFailed": "Could not remove {{name}}",
-      "trustFailed": "Could not change trust for {{name}}"
+      "trustFailed": "Could not change trust for {{name}}",
+      "reloadFailed": "Could not reload {{name}}",
+      "reloadAllFailed": "Could not reload the extensions",
+      "reloadedAll_one": "{{count}} extension reloaded",
+      "reloadedAll_other": "{{count}} extensions reloaded",
+      "reloadPartial": "Reloaded {{ok}}, {{failed}} failed"
     },
     "search": "Search extensions",
     "noUpdates": {
@@ -637,7 +637,33 @@
     "noMatches": {
       "title": "Nothing matches",
       "description": "Try another search."
-    }
+    },
+    "logs": {
+      "title": "Log of {{name}}",
+      "description": "What this extension logged, its failed calls and requests. New lines appear as they come.",
+      "filter": "Show from level",
+      "levels": {
+        "all": "All",
+        "info": "Info",
+        "warn": "Warnings",
+        "error": "Errors"
+      },
+      "lines": "Log lines",
+      "empty": "Nothing logged yet.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "copyFailed": "Could not copy the log",
+      "clear": "Clear",
+      "open": "Logs"
+    },
+    "preferencesHint": "Changes are saved as you make them.",
+    "preferencesLoading": "Loading preferences",
+    "reloadAll": "Reload all",
+    "more": "More actions",
+    "moreOf": "More actions for {{name}}",
+    "upToDate": "Up to date",
+    "removeFolder": "Remove folder",
+    "repoRemoved": "Its repository was removed"
   },
   "network": {
     "offline": "Offline"

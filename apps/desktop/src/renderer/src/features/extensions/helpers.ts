@@ -42,11 +42,6 @@ export function languageName(code: string, locale: string): string {
   }
 }
 
-/** The distinct language codes of some sources, upper-cased and in order: `EN, ID`. */
-export function languageCodes(sources: readonly { lang: string }[]): string {
-  return [...new Set(sources.map((source) => source.lang.toUpperCase()))].join(', ');
-}
-
 /**
  * The chips for Content language: the usual languages, the ones installed and offered sources use, and anything
  * already selected (so a choice can always be undone). The usual ones come first, then the rest alphabetically.
@@ -133,4 +128,32 @@ export function sortRepos(repos: readonly RepoInfo[]): RepoInfo[] {
     (a, b) =>
       Number(b.lastError !== null) - Number(a.lastError !== null) || (a.name ?? a.url).localeCompare(b.name ?? b.url),
   );
+}
+
+export interface ReloadSummary {
+  reloaded: number;
+  /** One entry per folder that did not come back ready: the extension (or folder) and why. */
+  failed: { name: string; message: string }[];
+}
+
+/**
+ * Reads the dev folders again one after the other (two folders may hold the same extension id, and the registry
+ * handles one change at a time). A folder that fails to load is not an exception: it comes back as a result with
+ * status `error`, so both kinds are collected and the rest still reload.
+ */
+export async function reloadSequentially(
+  folders: readonly string[],
+  reload: (folder: string) => Promise<Pick<ExtensionInfo, 'name' | 'status' | 'error'>>,
+): Promise<ReloadSummary> {
+  const summary: ReloadSummary = { reloaded: 0, failed: [] };
+  for (const folder of folders) {
+    try {
+      const info = await reload(folder);
+      if (info.status === 'error') summary.failed.push({ name: info.name, message: info.error ?? folder });
+      else summary.reloaded += 1;
+    } catch (error) {
+      summary.failed.push({ name: folder, message: error instanceof Error ? error.message : String(error) });
+    }
+  }
+  return summary;
 }
