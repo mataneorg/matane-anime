@@ -58,6 +58,11 @@ describe('listings', () => {
     const { client } = await load(() => undefined);
     const filters = await client.getFilters();
     expect(filters[0]).toMatchObject({ type: 'select', id: 'genre' });
+    // The manifest is not nsfw, so the "+18" genre is not offered.
+    const genre = filters[0];
+    const slugs = genre?.type === 'select' ? genre.options.map((o) => o.value) : [];
+    expect(slugs).toContain('action');
+    expect(slugs).not.toContain('18');
   });
 });
 

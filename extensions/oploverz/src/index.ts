@@ -22,7 +22,6 @@ const EPISODE_PAGE_SIZE = 2000;
 const MAX_EPISODE_PAGES = 5;
 
 const GENRES: [slug: string, label: string][] = [
-  ['18', '+18'],
   ['action', 'Action'],
   ['adventure', 'Adventure'],
   ['cars', 'Cars'],
