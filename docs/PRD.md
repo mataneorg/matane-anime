@@ -711,7 +711,7 @@ Tiap butir punya **asumsi sementara** yang dipakai PRD ini sampai terbukti salah
 - [ ] **Referensi codec** yang dianggap didukung (tabel di dokumentasi). **Linux terisi** (H.264, Hi10P, VP8, VP9, AV1, Opus, FLAC jalan; HEVC hanya audio, tanpa gambar); kolom Windows dan macOS menunggu spike ([ADR 0009](adr/0009-codec-support.md)).
 - [ ] **Rendition audio terpisah di HLS (`EXT-X-MEDIA TYPE=AUDIO`)**: cara memilih grup audio saat mengunduh. *Asumsi:* grup audio `DEFAULT=YES` dari varian terpilih. **Diputuskan di Fase 3** dengan fixture HLS yang beragam.
 - [ ] **Angka default** paralelisme download (1 episode × 6 segmen) dan bucket media (30/detik). *Asumsi:* angka awal. **Disetel ulang dari benchmark Fase 3.**
-- [ ] **Ketersediaan nama**: scope npm `@matane-anime`, repo GitHub, dan paket AUR/Flathub. **Dicek sebelum publikasi pertama** (Fase 4–5); bila bentrok, nama dikembalikan ke pembahasan.
+- [ ] **Ketersediaan nama**: scope npm `@matane-anime`, repo GitHub, dan paket AUR/Flathub. **Scope npm `@matane-anime` terpakai: SDK, runtime dan CLI `0.1.0` terbit (9 Okt 2026).** Repo GitHub `mataneorg/matane-anime` ada; paket AUR/Flathub belum dicek (Fase 5).
 - [ ] **Tracker**: field tambahan apa yang dibutuhkan agar pencocokan otomatis akurat selain `altTitles`, `year`, dan `type`. **Diputuskan saat tracker masuk roadmap** (P2).
 
 ---

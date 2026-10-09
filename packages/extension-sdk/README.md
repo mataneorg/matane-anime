@@ -9,10 +9,6 @@ this package. The full author's guide is [docs/extensions.md](../../docs/extensi
 
 ## Install
 
-> **Not published on npm yet.** The package is prepared for npm (`0.1.0`, checked by `pnpm verify:packages`), but the maintainer has not published it, so `npm install` will not find it until then. Until it is published, use the workspace of the [repository](https://github.com/mataneorg/matane-anime): see the quick start in [docs/extensions.md](https://github.com/mataneorg/matane-anime/blob/main/docs/extensions.md#quick-start).
-
-Once it is published:
-
 ```sh
 npm install --save-dev @matane-anime/extension-sdk
 ```

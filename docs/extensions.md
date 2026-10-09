@@ -32,9 +32,19 @@ It runs inside a QuickJS sandbox, one per extension, with no network or file acc
 
 ## Quick start
 
-> **The packages are prepared for npm but not published yet.** `@matane-anime/extension-sdk`, `@matane-anime/extension-runtime` and `@matane-anime/extension-cli` have a `0.1.0` build, tarballs that are checked by `pnpm verify:packages`, and a publish checklist for the maintainer ([releasing.md](releasing.md)), but nobody has put them on the npm registry, and even whether the `@matane-anime` scope is free there has not been checked. Until the maintainer publishes them, use the workspace of this repository, as below.
+### From npm
 
-### Today: from a checkout of this repository
+```sh
+npx @matane-anime/extension-cli create my-site --name "My Site" --lang en
+cd my-site && npm install     # the scaffold already depends on the SDK and the CLI
+npm run build                 # ma-ext build
+```
+
+or, in an existing project: `npm i -D @matane-anime/extension-sdk @matane-anime/extension-cli`. Node 22 or newer.
+
+### From a checkout of this repository
+
+Use this to work on the app or the packages, or to try changes that are not released yet.
 
 Requirements: Node 24 and pnpm 12 (see the root README).
 
@@ -53,17 +63,7 @@ pnpm add -D link:/path/to/matane-anime/packages/extension-sdk \
 pnpm build          # runs `ma-ext build`
 ```
 
-(`ma-ext create` writes `^0.1.0` as the dependency range. That only resolves once the packages are on npm, which is why the `pnpm add` line replaces it with links.) Scaffolding _inside_ this repository's workspace writes `workspace:*` instead; that works for folders that the root `pnpm-workspace.yaml` lists.
-
-### Once the packages are published
-
-```sh
-npx @matane-anime/extension-cli create my-site --name "My Site" --lang en
-cd my-site && npm install     # the scaffold already depends on the SDK and the CLI
-npm run build                 # ma-ext build
-```
-
-or, in an existing project: `npm i -D @matane-anime/extension-sdk @matane-anime/extension-cli`. Node 22 or newer.
+(`ma-ext create` writes `^0.1.0` as the dependency range, which resolves from npm; the `pnpm add` line replaces it with links to your checkout.) Scaffolding _inside_ this repository's workspace writes `workspace:*` instead; that works for folders that the root `pnpm-workspace.yaml` lists.
 
 ### What `create` writes
 

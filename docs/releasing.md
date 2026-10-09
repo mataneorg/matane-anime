@@ -2,14 +2,14 @@
 
 Two things get released from this repository, and nothing here is automated end to end:
 
-1. **The npm packages** `@matane-anime/extension-sdk`, `@matane-anime/extension-runtime` and `@matane-anime/extension-cli` (MIT). They are _prepared_ but **not published**; publishing is a manual step for the owner. [Publishing the packages (manual)](#publishing-the-packages-manual).
+1. **The npm packages** `@matane-anime/extension-sdk`, `@matane-anime/extension-runtime` and `@matane-anime/extension-cli` (MIT). They are published to npm by `.github/workflows/publish-sdk.yml` (tag `sdk-v<version>`); `0.1.0` was the first release. [Publishing the packages (manual)](#publishing-the-packages-manual).
 2. **The app** (GPL-3.0), built by `.github/workflows/release.yml` into GitHub Releases. [Cutting an app beta](#cutting-an-app-beta).
 
 `packages/extension-repo` (the repository format library) is `private`: it is bundled into the CLI and the app and is never published on its own (docs/plans/fase-4, decision 13).
 
 ## Publishing the packages (manual)
 
-Nobody has published these yet, and **nobody has checked whether the name `@matane-anime` is available** on npm (PRD §15.2). That check is yours to do; nothing in this repository does it for you. Until then the docs say, truthfully, that the packages are not published.
+`0.1.0` is out, so the scope and the names are taken (by you). The checklist below is what to do for the next version, or if the scope ever has to change.
 
 ### Before the first publish
 
