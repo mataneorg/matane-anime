@@ -10,6 +10,7 @@ export * from './network';
 export * from './playback';
 export * from './settings';
 export * from './spike';
+export * from './stats';
 export * from './theme';
 export * from './updates';
 export * from './view-settings';

@@ -1,7 +1,10 @@
 import type { ChangelogEntry } from '@matane-anime/shared';
 
+/** The project's home. */
+export const REPOSITORY_URL = 'https://github.com/mataneorg/matane-anime';
+
 /** Where the release notes live. Same address as `RELEASES_URL` in main/app/updater.ts (the renderer cannot import main). */
-export const RELEASES_URL = 'https://github.com/mataneorg/matane-anime/releases';
+export const RELEASES_URL = `${REPOSITORY_URL}/releases`;
 
 interface ParsedVersion {
   core: [number, number, number];
@@ -54,6 +57,11 @@ export function compareVersions(a: string, b: string): number | null {
   return 0;
 }
 
+/** The changelog entry of exactly this version, or null when the release has none. */
+export function entryFor(entries: readonly ChangelogEntry[], version: string): ChangelogEntry | null {
+  return entries.find((entry) => compareVersions(entry.version, version) === 0) ?? null;
+}
+
 /** The entries to show: newer than the version last seen, and not newer than the one running. Newest first, as given. */
 export function entriesSince(entries: readonly ChangelogEntry[], lastSeen: string, current: string): ChangelogEntry[] {
   return entries.filter((entry) => {
@@ -72,8 +80,8 @@ export type WhatsNewDecision =
 
 /**
  * What the app does about "What's new" at start (UI-10). A first run (onboarding not done, or no version stored)
- * only remembers the version. An update shows the entries between the last seen version and this one; if the
- * changelog has none for it, it still remembers the version so the check is not repeated.
+ * only remembers the version. An update shows the notes of the running version; if the changelog has none for it,
+ * it still remembers the version so the check is not repeated.
  */
 export function whatsNewDecision(input: {
   onboardingDone: boolean;
@@ -87,6 +95,7 @@ export function whatsNewDecision(input: {
   const order = compareVersions(current, lastSeen);
   // A downgrade, or a version we cannot read: keep what is stored and stay quiet.
   if (order === null || order <= 0) return { kind: 'none' };
-  const shown = entriesSince(entries, lastSeen, current);
-  return shown.length > 0 ? { kind: 'show', entries: shown } : { kind: 'remember' };
+  // Only the running version is listed, even when several releases were skipped.
+  const running = entryFor(entriesSince(entries, lastSeen, current), current);
+  return running ? { kind: 'show', entries: [running] } : { kind: 'remember' };
 }

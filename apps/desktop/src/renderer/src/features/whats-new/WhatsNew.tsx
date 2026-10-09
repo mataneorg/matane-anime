@@ -8,7 +8,8 @@ import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dia
 import { call } from '@renderer/lib/api';
 import { appInfoQuery, settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { localQueryDefaults } from '@renderer/lib/query';
-import { RELEASES_URL, whatsNewDecision } from '@renderer/lib/version';
+import { RELEASES_URL, entryFor, whatsNewDecision } from '@renderer/lib/version';
+import { useWhatsNewStore } from '@renderer/stores/whatsNew';
 
 /** The changelog bundled with this version (the text is English; it ships with the app). */
 const changelogQuery = queryOptions({
@@ -18,8 +19,8 @@ const changelogQuery = queryOptions({
 });
 
 /**
- * "What's new" after an update (docs/PRD.md UI-10): once per version, listing the changelog entries newer than the
- * one last seen. The first run only stores the version. Closing the dialog stores it too.
+ * "What's new" after an update (docs/PRD.md UI-10): once per version, with the notes of the running version. The first
+ * run only stores the version. Closing the dialog stores it too. Settings → About opens it again on demand.
  */
 export function WhatsNew() {
   const { t, i18n } = useTranslation();
@@ -28,6 +29,8 @@ export function WhatsNew() {
   const { data: entries } = useQuery(changelogQuery);
   const { mutate: saveSettings } = useUpdateSettings();
   const [dismissed, setDismissed] = useState(false);
+  const requested = useWhatsNewStore((state) => state.open);
+  const setRequested = useWhatsNewStore((state) => state.setOpen);
   const remembered = useRef(false);
 
   const decision = useMemo(
@@ -50,9 +53,16 @@ export function WhatsNew() {
     saveSettings({ lastSeenVersion: current });
   }, [decision, current, saveSettings]);
 
-  if (decision?.kind !== 'show' || dismissed || !current) return null;
+  const automatic = decision?.kind === 'show' && !dismissed;
+  if ((!automatic && !requested) || !current) return null;
+  const shown: ChangelogEntry[] = requested
+    ? [entryFor(entries ?? [], current)].filter((entry): entry is ChangelogEntry => entry !== null)
+    : decision?.kind === 'show'
+      ? decision.entries
+      : [];
 
   const close = (): void => {
+    setRequested(false);
     setDismissed(true);
     saveSettings({ lastSeenVersion: current });
   };
@@ -72,7 +82,10 @@ export function WhatsNew() {
         className="w-[min(560px,calc(100vw-48px))]"
       >
         <div className="flex flex-col gap-5">
-          {decision.entries.map((entry: ChangelogEntry) => (
+          {shown.length === 0 ? (
+            <p className="text-muted-foreground">{t('whatsNew.none', { version: current })}</p>
+          ) : null}
+          {shown.map((entry: ChangelogEntry) => (
             <section key={entry.version} aria-label={t('whatsNew.version', { version: entry.version })}>
               <h3 className="flex items-baseline gap-2 text-sm leading-5 font-semibold text-foreground">
                 {t('whatsNew.version', { version: entry.version })}

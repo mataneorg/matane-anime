@@ -9,6 +9,7 @@ import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
 import { BackupSection } from './BackupSection';
 import { CoverCacheSection } from './CoverCacheSection';
+import { StatsSection } from './StatsSection';
 import { SettingsCard } from './parts';
 
 /**
@@ -29,6 +30,7 @@ export function DataSettings() {
     <div className="flex max-w-[880px] flex-col gap-6">
       <BackupSection />
       <CoverCacheSection />
+      <StatsSection />
       <SettingsCard id="storage-title" title={t('settings.data.storage')}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between gap-4">

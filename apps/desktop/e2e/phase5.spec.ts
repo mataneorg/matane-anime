@@ -155,6 +155,11 @@ test('backup: export, restore after a restart, and the library is back', async (
   await invoke('history.clear');
   expect(await invoke<unknown[]>('library.list', { sort: 'title' })).toEqual([]);
 
+  // The app asks the OS to start itself again after a restore. That second process would hold the single-instance
+  // lock of this profile and race the launch below, so the relaunch is switched off here; the test starts the app.
+  await app.evaluate(({ app: electronApp }) => {
+    electronApp.relaunch = () => undefined;
+  });
   const closed = app.waitForEvent('close', { timeout: 60_000 });
   await invoke('backup.import', { token: preview.token });
   await closed;

@@ -30,5 +30,10 @@ export const watchSessions = sqliteTable(
     endedAt: integer(),
     activeMs: integer().notNull().default(0),
   },
-  (t) => [index('watch_sessions_started_at_idx').on(t.startedAt)],
+  (t) => [
+    index('watch_sessions_started_at_idx').on(t.startedAt),
+    // Statistics, the purge of browse rows and episode sync ask which episodes and anime have a session.
+    index('watch_sessions_episode_idx').on(t.episodeId),
+    index('watch_sessions_anime_idx').on(t.animeId),
+  ],
 );

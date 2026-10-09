@@ -14,6 +14,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppDownloadsRouteImport } from './routes/_app/downloads'
 import { Route as AppHistoryRouteImport } from './routes/_app/history'
 import { Route as AppLibraryRouteImport } from './routes/_app/library'
+import { Route as AppStatisticsRouteImport } from './routes/_app/statistics'
 import { Route as AppUpdatesRouteImport } from './routes/_app/updates'
 import { Route as WatchEpisodeIdRouteImport } from './routes/watch/$episodeId'
 import { Route as AppAnimeAnimeIdRouteImport } from './routes/_app/anime/$animeId'
@@ -46,6 +47,11 @@ const AppHistoryRoute = AppHistoryRouteImport.update({
 const AppLibraryRoute = AppLibraryRouteImport.update({
   id: '/library',
   path: '/library',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStatisticsRoute = AppStatisticsRouteImport.update({
+  id: '/statistics',
+  path: '/statistics',
   getParentRoute: () => AppRoute,
 } as any)
 const AppUpdatesRoute = AppUpdatesRouteImport.update({
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/downloads': typeof AppDownloadsRoute
   '/history': typeof AppHistoryRoute
   '/library': typeof AppLibraryRoute
+  '/statistics': typeof AppStatisticsRoute
   '/updates': typeof AppUpdatesRoute
   '/watch/$episodeId': typeof WatchEpisodeIdRoute
   '/anime/$animeId': typeof AppAnimeAnimeIdRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/downloads': typeof AppDownloadsRoute
   '/history': typeof AppHistoryRoute
   '/library': typeof AppLibraryRoute
+  '/statistics': typeof AppStatisticsRoute
   '/updates': typeof AppUpdatesRoute
   '/watch/$episodeId': typeof WatchEpisodeIdRoute
   '/anime/$animeId': typeof AppAnimeAnimeIdRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/_app/downloads': typeof AppDownloadsRoute
   '/_app/history': typeof AppHistoryRoute
   '/_app/library': typeof AppLibraryRoute
+  '/_app/statistics': typeof AppStatisticsRoute
   '/_app/updates': typeof AppUpdatesRoute
   '/watch/$episodeId': typeof WatchEpisodeIdRoute
   '/_app/anime/$animeId': typeof AppAnimeAnimeIdRoute
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/downloads'
     | '/history'
     | '/library'
+    | '/statistics'
     | '/updates'
     | '/watch/$episodeId'
     | '/anime/$animeId'
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
     | '/downloads'
     | '/history'
     | '/library'
+    | '/statistics'
     | '/updates'
     | '/watch/$episodeId'
     | '/anime/$animeId'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/_app/downloads'
     | '/_app/history'
     | '/_app/library'
+    | '/_app/statistics'
     | '/_app/updates'
     | '/watch/$episodeId'
     | '/_app/anime/$animeId'
@@ -232,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/library'
       fullPath: '/library'
       preLoaderRoute: typeof AppLibraryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/statistics': {
+      id: '/_app/statistics'
+      path: '/statistics'
+      fullPath: '/statistics'
+      preLoaderRoute: typeof AppStatisticsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/updates': {
@@ -304,6 +323,7 @@ interface AppRouteChildren {
   AppDownloadsRoute: typeof AppDownloadsRoute
   AppHistoryRoute: typeof AppHistoryRoute
   AppLibraryRoute: typeof AppLibraryRoute
+  AppStatisticsRoute: typeof AppStatisticsRoute
   AppUpdatesRoute: typeof AppUpdatesRoute
   AppAnimeAnimeIdRoute: typeof AppAnimeAnimeIdRoute
   AppBrowseExtensionsRoute: typeof AppBrowseExtensionsRoute
@@ -318,6 +338,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDownloadsRoute: AppDownloadsRoute,
   AppHistoryRoute: AppHistoryRoute,
   AppLibraryRoute: AppLibraryRoute,
+  AppStatisticsRoute: AppStatisticsRoute,
   AppUpdatesRoute: AppUpdatesRoute,
   AppAnimeAnimeIdRoute: AppAnimeAnimeIdRoute,
   AppBrowseExtensionsRoute: AppBrowseExtensionsRoute,

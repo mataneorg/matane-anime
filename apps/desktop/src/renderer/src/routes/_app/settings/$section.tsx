@@ -1,6 +1,7 @@
 import { Link, createFileRoute, redirect } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { SETTINGS_SECTIONS, isSettingsSection } from '@renderer/components/shell/nav';
+import { AboutSettings } from '@renderer/features/settings/AboutSettings';
 import { AdvancedSettings } from '@renderer/features/settings/AdvancedSettings';
 import { DataSettings } from '@renderer/features/settings/DataSettings';
 import { DownloadsSettings } from '@renderer/features/settings/DownloadsSettings';
@@ -53,6 +54,8 @@ function SettingsPage() {
           <NetworkSettings />
         ) : active === 'data' ? (
           <DataSettings />
+        ) : active === 'about' ? (
+          <AboutSettings />
         ) : (
           <AdvancedSettings />
         )}

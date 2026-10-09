@@ -19,6 +19,7 @@ import type { MigrationService } from '../library/migration';
 import type { LibraryService } from '../library/service';
 import type { DownloadService } from '../downloads/service';
 import type { PlaybackService } from '../playback/service';
+import type { StatsService } from '../stats/service';
 import type { UpdateService } from '../updates/service';
 import type { IncognitoState } from '../watch/incognito';
 import type { WatchService } from '../watch/service';
@@ -47,6 +48,7 @@ export interface HandlerDeps {
   libraryRepo: LibraryRepository;
   migration: MigrationService;
   backup: BackupService;
+  stats: StatsService;
   /** The disk cache of browse covers. */
   imageCache: Pick<ImageCache, 'bytesOf' | 'clear' | 'setMaxBytes'>;
   /** Applies `closeToTray` and `runAtLogin` (the tray and the login item). */
@@ -77,6 +79,7 @@ export function createHandlers({
   libraryRepo,
   migration,
   backup,
+  stats,
   imageCache,
   applySystemSettings,
   seedLibrary,
@@ -161,6 +164,16 @@ export function createHandlers({
       return file ? backup.peek(file) : null;
     },
     'backup.import': ({ token }) => backup.import(token),
+    'backup.list': () => backup.list(),
+    'backup.create': () => backup.createNow(),
+    'backup.peekFile': ({ path }) => backup.peekListed(path),
+    'backup.folder': () => backup.folder(),
+    'backup.openFolder': async () => {
+      const { path } = backup.folder();
+      await mkdir(path, { recursive: true });
+      const failure = await shell.openPath(path);
+      if (failure) throw new AppError('internal', failure);
+    },
     'app.changelog': () => CHANGELOG,
     'requests.cancel': (requestId) => requests.cancel(requestId),
     'extensions.list': () => registry.list(),
@@ -244,6 +257,8 @@ export function createHandlers({
     },
     'storage.cacheSize': () => imageCache.bytesOf('browse_cover'),
     'storage.clearCache': () => imageCache.clear('browse_cover'),
+    'stats.overview': ({ range }) => stats.overview(range),
+    'stats.clear': () => stats.clear(),
     'updates.list': () => updates.list(),
     'updates.count': () => updates.count(),
     'updates.check': ({ scope, requestId }) => updates.check(scope, requestId),

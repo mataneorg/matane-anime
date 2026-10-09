@@ -1,9 +1,19 @@
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import type { BackupManifest } from '@matane-anime/shared';
+import { type BackupManifest, KEEP_AUTO_BACKUPS } from '@matane-anime/shared';
 import Database from 'better-sqlite3';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { openDatabase } from '../../db/client';
 import { countBundledMigrations, runMigrations } from '../../db/migrate';
 import { type TestDb, createTestDb, manifest as extensionManifest } from '../../db/__tests__/helpers';
@@ -294,6 +304,29 @@ describe('restore', () => {
     restored.close();
   });
 
+  it('drops a backup folder that does not exist on this machine (or is not absolute), keeps one that does', async () => {
+    const source = join(work, 'source');
+    populate(join(source, 'covers'));
+    const here = join(work, 'backups-here');
+    mkdirSync(here);
+    for (const [saved, kept] of [
+      [here, true],
+      [join(work, 'gone'), false],
+      ['relative/dir', false],
+    ] as const) {
+      db.settings.setValue('backupFolder', saved);
+      const { out } = await makeBackup(source);
+      const target = join(work, `target-${String(kept)}-${saved.length}`);
+      mkdirSync(target);
+      stageBackup(parseBackup(readFileSync(out), bundled), { userData: target, bundledMigrations: bundled });
+      applyPendingRestore({ userData: target, bundledMigrations: bundled, now: NOW, folderExists: existsSync });
+      const restored = new Database(join(target, 'data.db'), { readonly: true });
+      const row = restored.prepare("SELECT value_json AS v FROM settings WHERE key = 'backupFolder'").get();
+      restored.close();
+      expect(row).toEqual(kept ? { v: JSON.stringify(saved) } : undefined);
+    }
+  });
+
   it('does nothing without a pending restore, and leaves the current data when the staged one is broken', async () => {
     const target = join(work, 'target');
     await existingProfile(target, '/x');
@@ -365,5 +398,183 @@ describe('BackupService', () => {
     expect(restarts).toBe(1);
     expect(existsSync(join(target, 'restore-pending', 'data.db'))).toBe(true);
     expect(() => service.import(preview.token)).toThrow();
+  });
+
+  describe('automatic backups', () => {
+    let clock: Date;
+    let auto: 'off' | 'daily' | 'weekly';
+    let lastAuto: number | null;
+    let folder: string | null;
+    let userData: string;
+
+    function build(): BackupService {
+      return new BackupService({
+        sqlite: db.connection.sqlite,
+        userData,
+        appVersion: '1.2.3',
+        bundledMigrations: bundled,
+        restart: () => undefined,
+        now: () => clock,
+        config: () => ({ auto, folder }),
+        lastAuto: {
+          get: () => lastAuto,
+          set: (ms) => {
+            lastAuto = ms;
+          },
+        },
+      });
+    }
+
+    beforeEach(() => {
+      clock = new Date('2026-10-09T10:00:00.000Z');
+      auto = 'daily';
+      lastAuto = null;
+      folder = null;
+      userData = join(work, 'user');
+      mkdirSync(userData);
+    });
+
+    it('lists nothing before a backup exists, then the files newest first, ignoring other files', async () => {
+      const service = build();
+      expect(await service.list()).toEqual([]);
+      const first = await service.createNow();
+      clock = new Date('2026-10-09T10:00:05.000Z');
+      const second = await service.createNow(true);
+      writeFileSync(join(service.folder().path, 'notes.txt'), 'x');
+      writeFileSync(join(service.folder().path, 'matane-anime-backup-x.zip.part'), 'x');
+      expect(first.name).toBe('matane-anime-backup-2026-10-09T10-00-00.zip');
+      expect(second.name).toBe('matane-anime-auto-2026-10-09T10-00-05.zip');
+      const names = (await service.list()).map((file) => [file.name, file.auto]);
+      expect(names).toHaveLength(2);
+      expect(names).toContainEqual([first.name, false]);
+      expect(names).toContainEqual([second.name, true]);
+      expect(service.peek(second.path).manifest.format).toBe(1);
+    });
+
+    it('writes into the chosen folder when there is one', async () => {
+      folder = join(work, 'elsewhere');
+      const service = build();
+      expect(service.folder()).toEqual({ path: folder, isDefault: false });
+      const file = await service.createNow();
+      expect(file.path.startsWith(folder)).toBe(true);
+    });
+
+    it('runs when due, waits the interval, and does nothing when off', async () => {
+      const service = build();
+      expect(service.isAutoDue()).toBe(true);
+      expect(await service.runAutoIfDue()).not.toBeNull();
+      expect(service.isAutoDue()).toBe(false);
+      clock = new Date('2026-10-10T09:00:00.000Z');
+      expect(service.isAutoDue()).toBe(false);
+      clock = new Date('2026-10-10T10:00:01.000Z');
+      expect(service.isAutoDue()).toBe(true);
+      auto = 'weekly';
+      expect(service.isAutoDue()).toBe(false);
+      clock = new Date('2026-10-16T10:00:01.000Z');
+      expect(service.isAutoDue()).toBe(true);
+      auto = 'off';
+      expect(service.isAutoDue()).toBe(false);
+      expect(await service.runAutoIfDue()).toBeNull();
+    });
+
+    it('keeps the newest automatic backups and never removes the ones made by hand', async () => {
+      const service = build();
+      const manual = await service.createNow();
+      for (let day = 0; day < KEEP_AUTO_BACKUPS + 3; day++) {
+        clock = new Date(Date.UTC(2026, 9, 10 + day, 10));
+        await service.runAutoIfDue();
+      }
+      const files = await service.list();
+      expect(files.filter((file) => file.auto)).toHaveLength(KEEP_AUTO_BACKUPS);
+      expect(files.some((file) => file.path === manual.path)).toBe(true);
+      expect(files.filter((file) => file.auto).some((file) => file.name.includes('2026-10-10T'))).toBe(false);
+    });
+
+    it('only previews files of the backup list: inside the folder, named like ours, plain files', async () => {
+      const service = build();
+      const file = await service.createNow();
+      expect(service.peekListed(file.path).fileName).toBe(file.name);
+
+      const folderPath = service.folder().path;
+      const outside = join(work, 'matane-anime-backup-outside.zip');
+      copyFileSync(file.path, outside);
+      expect(() => service.peekListed(outside)).toThrow(/not in the backup folder/);
+      expect(() => service.peekListed(join(folderPath, '..', 'matane-anime-backup-outside.zip'))).toThrow(
+        /not in the backup folder/,
+      );
+      expect(() => service.peekListed(join(folderPath, 'sub', '..', '..', file.name))).toThrow(
+        /not in the backup folder/,
+      );
+      const renamed = join(folderPath, 'notes.zip');
+      copyFileSync(file.path, renamed);
+      expect(() => service.peekListed(renamed)).toThrow(/not in the backup folder/);
+      const link = join(folderPath, 'matane-anime-backup-link.zip');
+      symlinkSync(outside, link);
+      expect(() => service.peekListed(link)).toThrow(/not a usable backup/);
+      const dir = join(folderPath, 'matane-anime-backup-dir.zip');
+      mkdirSync(dir);
+      expect(() => service.peekListed(dir)).toThrow(/not a usable backup/);
+      expect(() => service.peekListed(join(folderPath, 'matane-anime-backup-missing.zip'))).toThrow(
+        /could not be read/,
+      );
+    });
+
+    it('treats a last automatic backup in the future as due', () => {
+      const service = build();
+      lastAuto = clock.getTime() + 3 * 24 * 60 * 60 * 1000;
+      expect(service.isAutoDue()).toBe(true);
+    });
+
+    it('does not write where the folder cannot be created, and tries again at the next look', async () => {
+      folder = join(work, 'a-file');
+      writeFileSync(folder, 'not a folder');
+      const service = build();
+      await expect(service.createNow()).rejects.toThrow();
+      await expect(service.runAutoIfDue()).rejects.toThrow();
+      expect(lastAuto).toBeNull();
+      expect(service.isAutoDue()).toBe(true);
+      expect(await service.list()).toEqual([]);
+    });
+
+    it('falls back to the default folder for a relative path', () => {
+      folder = 'relative/backups';
+      expect(build().folder().isDefault).toBe(true);
+    });
+
+    it('starts and stops the schedule once, logs a failed run, and stops for good', async () => {
+      vi.useFakeTimers();
+      try {
+        folder = join(work, 'a-file');
+        writeFileSync(folder, 'not a folder');
+        const logged: string[] = [];
+        const service = new BackupService({
+          sqlite: db.connection.sqlite,
+          userData,
+          appVersion: '1.2.3',
+          bundledMigrations: bundled,
+          restart: () => undefined,
+          now: () => clock,
+          config: () => ({ auto, folder }),
+          lastAuto: { get: () => lastAuto, set: () => undefined },
+          log: (message) => logged.push(message),
+        });
+        service.startSchedule();
+        service.startSchedule();
+        expect(vi.getTimerCount()).toBe(2);
+        await vi.advanceTimersByTimeAsync(61_000);
+        expect(logged).toHaveLength(1);
+        expect(logged[0]).toMatch(/automatic backup failed/);
+        service.stopSchedule();
+        service.stopSchedule();
+        expect(vi.getTimerCount()).toBe(0);
+        await vi.advanceTimersByTimeAsync(2 * 60 * 60 * 1000);
+        expect(logged).toHaveLength(1);
+        service.startSchedule();
+        expect(vi.getTimerCount()).toBe(2);
+        service.stopSchedule();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 });

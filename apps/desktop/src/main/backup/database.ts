@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { BackupCounts } from '@matane-anime/shared';
+import { type BackupCounts, isAbsolutePath } from '@matane-anime/shared';
 import type Database from 'better-sqlite3';
 import { purgeBrowseRows } from '../db/housekeeping';
 import { isCoverFile } from './archive';
@@ -8,6 +8,9 @@ import { isCoverFile } from './archive';
 const MACHINE_SETTINGS_SQL = `DELETE FROM settings
   WHERE key IN ('window.state', 'extensions.devFolders')
      OR lower(key) LIKE '%password%' OR lower(key) LIKE '%secret%' OR lower(key) LIKE '%token%'`;
+
+/** Settings that hold a folder of this machine. */
+const FOLDER_SETTINGS = ['downloadFolder', 'backupFolder'];
 
 /** Tables that are cache, queues, or hold credentials; none of them is the user's own data. */
 const DROPPED_TABLES = ['downloads', 'image_cache', 'tracker_accounts', 'tracker_queue', 'extension_storage'];
@@ -127,17 +130,19 @@ export function prepareRestoredDatabase(
     for (const row of rows) {
       update.run(isCoverFile(row.coverPath) ? join(options.coversDir, row.coverPath) : null, row.id);
     }
-    const folder = sqlite.prepare("SELECT value_json AS value FROM settings WHERE key = 'downloadFolder'").get() as
-      { value: string } | undefined;
-    if (folder) {
+    // Folders are machine state too: one that does not exist here is dropped, so the default is used.
+    for (const key of FOLDER_SETTINGS) {
+      const row = sqlite.prepare('SELECT value_json AS value FROM settings WHERE key = ?').get(key) as
+        { value: string } | undefined;
+      if (!row) continue;
       let path: unknown = null;
       try {
-        path = JSON.parse(folder.value);
+        path = JSON.parse(row.value);
       } catch {
         // an unreadable value is treated like a missing folder
       }
-      if (typeof path !== 'string' || !options.folderExists(path)) {
-        sqlite.prepare("DELETE FROM settings WHERE key = 'downloadFolder'").run();
+      if (typeof path !== 'string' || !isAbsolutePath(path) || !options.folderExists(path)) {
+        sqlite.prepare('DELETE FROM settings WHERE key = ?').run(key);
       }
     }
   })();

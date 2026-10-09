@@ -30,6 +30,7 @@ function crumbsFor(pathname: string): string[] {
     case 'library':
     case 'updates':
     case 'history':
+    case 'statistics':
     case 'downloads':
       return [`nav.${first}`];
     default:

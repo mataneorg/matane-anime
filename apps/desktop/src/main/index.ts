@@ -51,6 +51,7 @@ import { ExtensionRegistry } from './extensions/registry';
 import { RepoService } from './extensions/repos';
 import { ExtensionService } from './extensions/service';
 import { createHandlers } from './ipc/handlers';
+import { StatsService } from './stats/service';
 import { broadcast, registerIpcHandlers } from './ipc/register';
 import { RequestRegistry } from './ipc/requests';
 import { NetworkApplier } from './network/apply';
@@ -432,6 +433,29 @@ if (!app.requestSingleInstanceLock()) {
           })
         : null;
 
+      const backupService = new BackupService({
+        sqlite: connection.sqlite,
+        userData,
+        appVersion: app.getVersion(),
+        bundledMigrations: countBundledMigrations(migrationsFolder),
+        // After the answer reached the window; `quit` closes the database and saves the window first.
+        restart: () =>
+          setTimeout(() => {
+            app.relaunch();
+            app.quit();
+          }, 800),
+        config: () => {
+          const { backupAuto, backupFolder } = settings.getAppSettings();
+          return { auto: backupAuto, folder: backupFolder };
+        },
+        lastAuto: {
+          get: () => settings.getValue<number | null>('backup.lastAuto', null),
+          set: (ms) => settings.setValue('backup.lastAuto', ms),
+        },
+        log: (message) => log.warn(message),
+      });
+      backupService.startSchedule();
+
       registerIpcHandlers(
         createHandlers({
           settings,
@@ -453,18 +477,8 @@ if (!app.requestSingleInstanceLock()) {
           libraryRepo,
           imageCache,
           migration: sourceMigration,
-          backup: new BackupService({
-            sqlite: connection.sqlite,
-            userData,
-            appVersion: app.getVersion(),
-            bundledMigrations: countBundledMigrations(migrationsFolder),
-            // After the answer reached the window; `quit` closes the database and saves the window first.
-            restart: () =>
-              setTimeout(() => {
-                app.relaunch();
-                app.quit();
-              }, 800),
-          }),
+          stats: new StatsService(connection.sqlite),
+          backup: backupService,
           applySystemSettings,
           seedLibrary: (anime, episodesPerAnime) => {
             seedLibrary(connection.sqlite, anime, episodesPerAnime);
@@ -505,6 +519,7 @@ if (!app.requestSingleInstanceLock()) {
         system.dispose();
         downloadService.shutdown();
         updateService.stop();
+        backupService.stopSchedule();
         playback.closeAll();
         registry.dispose();
         network.status.stop();

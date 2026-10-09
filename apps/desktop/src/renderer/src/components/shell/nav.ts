@@ -1,4 +1,5 @@
 import {
+  ChartColumn,
   Download,
   Globe,
   History,
@@ -15,12 +16,13 @@ export interface NavItem {
     | '/library'
     | '/updates'
     | '/history'
+    | '/statistics'
     | '/browse/sources'
     | '/browse/extensions'
     | '/browse/global-search'
     | '/downloads';
   /** Key under `nav.*` in the locale files. */
-  label: 'library' | 'updates' | 'history' | 'sources' | 'extensions' | 'globalSearch' | 'downloads';
+  label: 'library' | 'updates' | 'history' | 'statistics' | 'sources' | 'extensions' | 'globalSearch' | 'downloads';
   icon: LucideIcon;
 }
 
@@ -28,6 +30,7 @@ export const MAIN_NAV: NavItem[] = [
   { to: '/library', label: 'library', icon: LibraryBig },
   { to: '/updates', label: 'updates', icon: RefreshCw },
   { to: '/history', label: 'history', icon: History },
+  { to: '/statistics', label: 'statistics', icon: ChartColumn },
 ];
 
 export const BROWSE_NAV: NavItem[] = [
@@ -41,7 +44,16 @@ export const DOWNLOADS_NAV: NavItem = { to: '/downloads', label: 'downloads', ic
 export const SETTINGS_ICON = Settings2;
 
 /** The Settings sections that have a page, in the order of the sub-nav. Anything else in the URL goes to the first. */
-export const SETTINGS_SECTIONS = ['general', 'library', 'player', 'downloads', 'network', 'data', 'advanced'] as const;
+export const SETTINGS_SECTIONS = [
+  'general',
+  'library',
+  'player',
+  'downloads',
+  'network',
+  'data',
+  'advanced',
+  'about',
+] as const;
 export type SettingsSection = (typeof SETTINGS_SECTIONS)[number];
 
 export const isSettingsSection = (value: string): value is SettingsSection =>

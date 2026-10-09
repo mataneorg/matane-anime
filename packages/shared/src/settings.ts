@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BACKUP_AUTO_MODES, isAbsolutePath } from './backup';
 import { ACCENTS, LANGUAGES, THEME_MODES } from './theme';
 import {
   DEFAULT_BROWSE_SETTINGS,
@@ -113,6 +114,10 @@ export const appSettingsSchema = z.object({
   // The proxy password is not a setting: it stays in main (`network.setProxyPassword`).
   /** Replaces the default User-Agent for every extension that does not set its own (NET-4); null keeps the default. */
   userAgent: z.string().max(512).nullable(),
+  /** Automatic backups: how often one is written to the backup folder; the newest few are kept. */
+  backupAuto: z.enum(BACKUP_AUTO_MODES),
+  /** Where backups are written; null means `backups/files` in the app data folder. */
+  backupFolder: z.string().min(1).max(4096).refine(isAbsolutePath).nullable(),
   /** How the library looks and what narrows it (display, cover size, sort, filters). */
   library: librarySettingsSchema,
   /** How a source's list in Browse looks. */
@@ -168,6 +173,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   proxyPort: null,
   proxyUser: '',
   userAgent: null,
+  backupAuto: 'weekly',
+  backupFolder: null,
   library: DEFAULT_LIBRARY_SETTINGS,
   browse: DEFAULT_BROWSE_SETTINGS,
   globalSearch: DEFAULT_GLOBAL_SEARCH_SETTINGS,

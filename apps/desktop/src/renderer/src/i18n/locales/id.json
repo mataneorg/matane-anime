@@ -14,7 +14,8 @@
     "settings": "Pengaturan",
     "spike": "Spike pemutaran",
     "collapse": "Ciutkan sidebar",
-    "expand": "Perluas sidebar"
+    "expand": "Perluas sidebar",
+    "statistics": "Statistik"
   },
   "titleBar": {
     "back": "Kembali",
@@ -268,7 +269,15 @@
       "coverCacheLimit": "Batas ukuran",
       "coverCacheUsed": "{{size}} terpakai",
       "clearCache": "Hapus cache",
-      "clearCacheFailed": "Cache tidak bisa dihapus"
+      "clearCacheFailed": "Cache tidak bisa dihapus",
+      "statistics": "Statistik",
+      "statisticsHint": "Waktu menonton dan rentetan tetap tersimpan walau riwayat dihapus. Menghapusnya tidak menyentuh pustaka, progres, atau riwayat.",
+      "clearStats": "Hapus statistik",
+      "clearStatsTitle": "Hapus semua statistik?",
+      "clearStatsBody": "Waktu menonton, rentetan, dan grafik dimulai dari awal. Pustaka, episode yang sudah ditonton, dan riwayat tetap ada.",
+      "clearStatsConfirm": "Hapus statistik",
+      "statsCleared": "Statistik dihapus",
+      "clearStatsFailed": "Statistik tidak bisa dihapus"
     },
     "network": {
       "intro": "Untuk sumber yang diblokir penyedia internet Anda. Perubahan langsung berlaku, tanpa memulai ulang.",
@@ -319,6 +328,20 @@
       "ms": "{{ms}} ms",
       "withSettings": "dengan pengaturan di atas",
       "testFailed": "Tes tidak bisa dijalankan."
+    },
+    "about": {
+      "version": "Versi {{version}}",
+      "runtime": "Electron {{electron}} · Chromium {{chrome}} · Node {{node}} · {{platform}}",
+      "whatsNew": "Yang baru",
+      "runSetup": "Jalankan penyiapan lagi",
+      "links": "Tautan",
+      "releases": "Catatan rilis",
+      "repository": "Kode sumber",
+      "issues": "Laporkan masalah",
+      "license": "Lisensi",
+      "licenseBody": "Matane Anime adalah perangkat lunak bebas di bawah GNU General Public License versi 3. Anda boleh menggunakan, mempelajari, membagikan, dan mengubahnya sesuai ketentuan lisensi itu. Tanpa jaminan apa pun.",
+      "licenseText": "Baca lisensi",
+      "licenseName": "GNU GPL versi 3"
     }
   },
   "browse": {
@@ -1107,10 +1130,11 @@
   },
   "whatsNew": {
     "title": "Yang baru",
-    "description": "Ini yang berubah sejak terakhir kamu melihat.",
+    "description": "Perubahan pada versi yang Anda jalankan.",
     "version": "Versi {{version}}",
     "notes": "Baca catatan rilis lengkap",
-    "gotIt": "Mengerti"
+    "gotIt": "Mengerti",
+    "none": "Belum ada catatan rilis untuk versi {{version}}."
   },
   "incognito": {
     "pill": "Penyamaran",
@@ -1125,7 +1149,7 @@
   },
   "backup": {
     "description": "Satu file berisi library, kategori, progres, riwayat, dan pengaturan Anda. Tidak mencakup episode terunduh, extension, atau token masuk.",
-    "create": "Buat backup",
+    "create": "Simpan ke file",
     "restore": "Pulihkan dari file",
     "created": "Backup tersimpan",
     "createFailed": "Backup tidak bisa dibuat",
@@ -1144,6 +1168,95 @@
     "history": "Entri riwayat",
     "covers": "Sampul",
     "repositories": "Repositori extension",
-    "extensions": "Extension yang dipasang ulang"
+    "extensions": "Extension yang dipasang ulang",
+    "now": "Backup sekarang",
+    "openFailed": "Folder backup tidak bisa dibuka",
+    "auto": {
+      "label": "Backup otomatis",
+      "hint_other": "Ditulis ke folder backup selama aplikasi berjalan. {{count}} terbaru disimpan; backup buatan Anda sendiri tidak pernah dihapus.",
+      "off": "Mati",
+      "daily": "Harian",
+      "weekly": "Mingguan"
+    },
+    "folder": "Folder backup",
+    "defaultFolder": "bawaan",
+    "changeFolder": "Ganti folder",
+    "resetFolder": "Pakai bawaan",
+    "recent": "Backup di folder",
+    "noneYet": "Belum ada backup. Pakai Backup sekarang, atau nyalakan backup otomatis.",
+    "automatic": "Otomatis",
+    "restoreThis": "Pulihkan",
+    "restoreFile": "Pulihkan {{name}}",
+    "openFolderButton": "Buka folder backup"
+  },
+  "stats": {
+    "incognitoNote": "Sesi penyamaran tidak pernah dihitung.",
+    "range": {
+      "label": "Periode",
+      "week": "7 hari",
+      "month": "30 hari",
+      "year": "12 bulan",
+      "all": "Semua waktu"
+    },
+    "hoursShort": "j",
+    "minutesShort": "mnt",
+    "days_other": "hari",
+    "episodesShort_other": "{{count}} episode",
+    "noneInRange": "Belum ada yang ditonton pada periode ini.",
+    "empty": {
+      "title": "Belum ada statistik",
+      "description": "Tonton satu episode di pemutar, lalu waktu, rentetan, dan favoritmu muncul di sini."
+    },
+    "tiles": {
+      "episodes": "Episode ditonton",
+      "time": "Waktu menonton",
+      "library": "Pustaka",
+      "streak": "Rentetan",
+      "perDay": "{{minutes}} mnt per hari",
+      "watching_other": "{{count}} sedang ditonton",
+      "best_other": "Terbaik: {{count}} hari",
+      "in": {
+        "week": "Dalam 7 hari terakhir",
+        "month": "Dalam 30 hari terakhir",
+        "year": "Dalam 12 bulan terakhir",
+        "all": "Sejak episode pertama"
+      }
+    },
+    "activity": {
+      "metric": "Ukuran",
+      "table": "Tampilkan sebagai tabel",
+      "metrics": {
+        "episodes": "Episode",
+        "time": "Waktu"
+      },
+      "period": {
+        "day": "Hari",
+        "month": "Bulan"
+      },
+      "episodes": {
+        "day": "Episode per hari",
+        "month": "Episode per bulan"
+      },
+      "time": {
+        "day": "Waktu menonton per hari",
+        "month": "Waktu menonton per bulan"
+      }
+    },
+    "genres": {
+      "title": "Genre",
+      "description": "Porsi episode yang ditonton",
+      "other_other": "{{count}} episode di genre lain"
+    },
+    "top": {
+      "title": "Paling sering ditonton",
+      "description": "Menurut waktu menonton",
+      "rank": "#{{rank}}"
+    },
+    "sources": {
+      "title": "Sumber",
+      "description": "Asal episode yang ditonton",
+      "other": "Lainnya",
+      "watched_other": "{{count}} episode ditonton"
+    }
   }
 }

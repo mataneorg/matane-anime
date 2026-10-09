@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { backupPreviewSchema, backupRestoreResultSchema } from '../backup';
+import { backupFileSchema, backupFolderInfoSchema, backupPreviewSchema, backupRestoreResultSchema } from '../backup';
 import {
   animeDetailSchema,
   animePageSchema,
@@ -48,6 +48,7 @@ import {
 import { playbackEventSchema, playbackSessionSchema, playbackUpdateSchema } from '../playback';
 import { appSettingsSchema, settingsPatchSchema } from '../settings';
 import { updateCheckResultSchema, updateScopeSchema, updateStatusSchema, updatesListSchema } from '../updates';
+import { statsOverviewSchema, statsRangeSchema } from '../stats';
 import { spikeFixtureSchema, spikeRequestLogSchema, spikeResultSchema, spikeStartResultSchema } from '../spike';
 import type { EventChannel, InvokeChannel } from './channels';
 
@@ -94,6 +95,11 @@ export const invokeContract = {
   /** Asks for a backup file and reads what it holds without applying it; null when cancelled. */
   'backup.peek': invoke(z.void(), backupPreviewSchema.nullable()),
   'backup.import': invoke(z.object({ token: z.string() }), backupRestoreResultSchema),
+  'backup.list': invoke(z.void(), z.array(backupFileSchema)),
+  'backup.create': invoke(z.void(), backupFileSchema),
+  'backup.peekFile': invoke(z.object({ path: z.string().min(1).max(4096) }), backupPreviewSchema),
+  'backup.folder': invoke(z.void(), backupFolderInfoSchema),
+  'backup.openFolder': invoke(z.void(), z.void()),
   /** The changelog bundled with this version, newest release first. */
   'app.changelog': invoke(z.void(), z.array(changelogEntrySchema)),
   /** Aborts the call that was started with this `requestId`. Unknown ids are ignored. */
@@ -234,6 +240,8 @@ export const invokeContract = {
   'downloads.openFolder': invoke(z.void(), z.void()),
   'storage.cacheSize': invoke(z.void(), z.number().int()),
   'storage.clearCache': invoke(z.void(), z.void()),
+  'stats.overview': invoke(z.object({ range: statsRangeSchema }), statsOverviewSchema),
+  'stats.clear': invoke(z.void(), z.void()),
   'updates.list': invoke(z.void(), updatesListSchema),
   /** How many new episodes are waiting: the sidebar badge (UPD-8). */
   'updates.count': invoke(z.void(), z.number().int()),

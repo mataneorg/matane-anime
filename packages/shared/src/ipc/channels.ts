@@ -20,6 +20,14 @@ export const INVOKE_CHANNELS = [
   'backup.export',
   'backup.peek',
   'backup.import',
+  /** The backup files in the backup folder, newest first. */
+  'backup.list',
+  /** Writes a backup into the backup folder right now (no dialog). */
+  'backup.create',
+  /** Reads a backup file from the list without applying it. */
+  'backup.peekFile',
+  'backup.folder',
+  'backup.openFolder',
   'app.changelog',
   'requests.cancel',
   'extensions.list',
@@ -103,6 +111,9 @@ export const INVOKE_CHANNELS = [
   'storage.cacheSize',
   /** Empties the cover cache; the library's permanent covers stay. */
   'storage.clearCache',
+  'stats.overview',
+  /** Forgets every watch session (Settings → Data). Progress, watched marks and history stay. */
+  'stats.clear',
   'updates.list',
   'updates.count',
   'updates.check',

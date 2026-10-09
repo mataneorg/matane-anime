@@ -14,7 +14,8 @@
     "settings": "Settings",
     "spike": "Playback spike",
     "collapse": "Collapse sidebar",
-    "expand": "Expand sidebar"
+    "expand": "Expand sidebar",
+    "statistics": "Statistics"
   },
   "titleBar": {
     "back": "Back",
@@ -268,7 +269,15 @@
       "coverCacheLimit": "Size limit",
       "coverCacheUsed": "{{size}} used",
       "clearCache": "Clear cache",
-      "clearCacheFailed": "Could not clear the cache"
+      "clearCacheFailed": "Could not clear the cache",
+      "statistics": "Statistics",
+      "statisticsHint": "Watch time and streaks are kept even when you clear the history. Clearing them does not touch your library, progress or history.",
+      "clearStats": "Clear statistics",
+      "clearStatsTitle": "Clear all statistics?",
+      "clearStatsBody": "Your watch time, streak and charts start over. Your library, watched episodes and history stay.",
+      "clearStatsConfirm": "Clear statistics",
+      "statsCleared": "Statistics cleared",
+      "clearStatsFailed": "Could not clear the statistics"
     },
     "network": {
       "intro": "For sources your internet provider blocks. Changes apply right away, without restarting.",
@@ -319,6 +328,20 @@
       "ms": "{{ms}} ms",
       "withSettings": "with the settings above",
       "testFailed": "The test could not run."
+    },
+    "about": {
+      "version": "Version {{version}}",
+      "runtime": "Electron {{electron}} · Chromium {{chrome}} · Node {{node}} · {{platform}}",
+      "whatsNew": "What’s new",
+      "runSetup": "Run setup again",
+      "links": "Links",
+      "releases": "Release notes",
+      "repository": "Source code",
+      "issues": "Report a problem",
+      "license": "License",
+      "licenseBody": "Matane Anime is free software under the GNU General Public License, version 3. You may use, study, share and change it under the terms of that license. It comes without any warranty.",
+      "licenseText": "Read the license",
+      "licenseName": "GNU GPL version 3"
     }
   },
   "browse": {
@@ -1120,10 +1143,11 @@
   },
   "whatsNew": {
     "title": "What’s new",
-    "description": "Here is what changed since you last looked.",
+    "description": "What changed in the version you are running.",
     "version": "Version {{version}}",
     "notes": "Read the full release notes",
-    "gotIt": "Got it"
+    "gotIt": "Got it",
+    "none": "There are no release notes for version {{version}} yet."
   },
   "incognito": {
     "pill": "Incognito",
@@ -1138,7 +1162,7 @@
   },
   "backup": {
     "description": "One file with your library, categories, progress, history and settings. It does not include downloaded episodes, extensions or sign-in tokens.",
-    "create": "Create backup",
+    "create": "Save to a file",
     "restore": "Restore from file",
     "created": "Backup saved",
     "createFailed": "Could not create the backup",
@@ -1157,6 +1181,102 @@
     "history": "History entries",
     "covers": "Covers",
     "repositories": "Extension repositories",
-    "extensions": "Extensions to install again"
+    "extensions": "Extensions to install again",
+    "now": "Back up now",
+    "openFailed": "Could not open the backup folder",
+    "auto": {
+      "label": "Automatic backups",
+      "hint_one": "Written to the backup folder while the app runs. The newest {{count}} are kept; backups you make yourself are never removed.",
+      "hint_other": "Written to the backup folder while the app runs. The newest {{count}} are kept; backups you make yourself are never removed.",
+      "off": "Off",
+      "daily": "Daily",
+      "weekly": "Weekly"
+    },
+    "folder": "Backup folder",
+    "defaultFolder": "default",
+    "changeFolder": "Change folder",
+    "resetFolder": "Use default",
+    "recent": "Backups in the folder",
+    "noneYet": "No backups yet. Use Back up now, or turn on automatic backups.",
+    "automatic": "Automatic",
+    "restoreThis": "Restore",
+    "restoreFile": "Restore {{name}}",
+    "openFolderButton": "Open backup folder"
+  },
+  "stats": {
+    "incognitoNote": "Incognito sessions are never counted.",
+    "range": {
+      "label": "Period",
+      "week": "7 days",
+      "month": "30 days",
+      "year": "12 months",
+      "all": "All time"
+    },
+    "hoursShort": "h",
+    "minutesShort": "min",
+    "days_one": "day",
+    "days_other": "days",
+    "episodesShort_one": "{{count}} episode",
+    "episodesShort_other": "{{count}} episodes",
+    "noneInRange": "Nothing watched in this period.",
+    "empty": {
+      "title": "No statistics yet",
+      "description": "Watch an episode in the player and your time, streak and favourites show up here."
+    },
+    "tiles": {
+      "episodes": "Episodes watched",
+      "time": "Watch time",
+      "library": "Library",
+      "streak": "Streak",
+      "perDay": "{{minutes}} min per day",
+      "watching_one": "{{count}} in progress",
+      "watching_other": "{{count}} in progress",
+      "best_one": "Best: {{count}} day",
+      "best_other": "Best: {{count}} days",
+      "in": {
+        "week": "In the last 7 days",
+        "month": "In the last 30 days",
+        "year": "In the last 12 months",
+        "all": "Since the first episode"
+      }
+    },
+    "activity": {
+      "metric": "Measure",
+      "table": "Show as a table",
+      "metrics": {
+        "episodes": "Episodes",
+        "time": "Time"
+      },
+      "period": {
+        "day": "Day",
+        "month": "Month"
+      },
+      "episodes": {
+        "day": "Episodes per day",
+        "month": "Episodes per month"
+      },
+      "time": {
+        "day": "Watch time per day",
+        "month": "Watch time per month"
+      }
+    },
+    "genres": {
+      "title": "Genres",
+      "description": "Share of the episodes watched",
+      "other_one": "{{count}} episode in other genres",
+      "other_other": "{{count}} episodes in other genres"
+    },
+    "top": {
+      "title": "Most watched",
+      "description": "By watch time",
+      "rank": "#{{rank}}"
+    },
+    "sources": {
+      "title": "Sources",
+      "description": "Where the episodes came from",
+      "other": "Other",
+      "watched_one": "{{count}} episode watched",
+      "watched_other": "{{count}} episodes watched"
+    }
   }
 }
