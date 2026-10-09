@@ -87,7 +87,7 @@ describe('listings', () => {
     const values = genre?.type === 'select' ? genre.options.map((o) => o.value) : [];
     expect(values).toContain('action');
     expect(values).not.toContain('adventrue');
-    expect(values.length).toBe(91);
+    expect(values.length).toBe(90);
   });
 });
 
