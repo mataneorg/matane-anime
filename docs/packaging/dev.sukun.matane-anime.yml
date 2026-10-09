@@ -1,0 +1,67 @@
+# UNVERIFIED draft: needs Flathub submission by the owner. Never built, never run.
+#
+# Flatpak manifest for Matane Anime that repackages the .deb from a GitHub release (the usual way to ship an
+# Electron app on Flathub). Before this can go to Flathub, the owner has to:
+#   1. Decide the app id. Flathub wants an id under a domain or a code-hosting namespace the submitter controls
+#      (for GitHub: io.github.<owner>.<repo>); `dev.sukun.matane-anime` is the electron-builder appId, not
+#      necessarily acceptable there. If it changes, rename this file, the metainfo and the desktop/icon names.
+#   2. Fill in the real url and sha256 of the .deb of a published release (and keep them current).
+#   3. Build it locally (see README.md), then open the Flathub submission pull request. Flathub reviews the
+#      manifest, the metainfo and the permissions below.
+#
+# The file names inside the deb (the executable `matane-anime`, the desktop file, the icon sizes) are what
+# electron-builder is expected to write; check them against the deb you build.
+app-id: dev.sukun.matane-anime
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '24.08'
+command: matane-anime
+separate-locales: false
+
+finish-args:
+  # Window, input and rendering
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --device=dri
+  # Sound for the player
+  - --socket=pulseaudio
+  # Sources, update notices and extension repositories (all http/https)
+  - --share=network
+  # Desktop notifications for new episodes; the screen stays awake while playing
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.ScreenSaver
+  # Tray icon (the optional "close to tray")
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # The default download folder is Documents/Matane Anime
+  - --filesystem=xdg-documents
+  - --env=TMPDIR=/var/tmp
+
+modules:
+  - name: matane-anime
+    buildsystem: simple
+    build-commands:
+      - ar x matane-anime.deb data.tar.xz
+      - tar -xf data.tar.xz
+      - mkdir -p /app/main
+      - cp -a "opt/Matane Anime/." /app/main/
+      - install -Dm755 matane-anime-wrapper.sh /app/bin/matane-anime
+      - install -Dm644 usr/share/applications/matane-anime.desktop /app/share/applications/dev.sukun.matane-anime.desktop
+      - desktop-file-edit --set-icon=dev.sukun.matane-anime /app/share/applications/dev.sukun.matane-anime.desktop
+      - for size in 16 32 48 64 128 256 512; do [ -f usr/share/icons/hicolor/${size}x${size}/apps/matane-anime.png ] && install -Dm644 usr/share/icons/hicolor/${size}x${size}/apps/matane-anime.png /app/share/icons/hicolor/${size}x${size}/apps/dev.sukun.matane-anime.png; done; true
+      - install -Dm644 dev.sukun.matane-anime.metainfo.xml /app/share/metainfo/dev.sukun.matane-anime.metainfo.xml
+    sources:
+      - type: file
+        # UNVERIFIED: replace with the real release asset (named as electron-builder names it) and its checksum.
+        url: https://github.com/mataneorg/matane-anime/releases/download/v0.1.0-beta.1/matane-anime-0.1.0-beta.1-linux-amd64.deb
+        sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+        dest-filename: matane-anime.deb
+      - type: file
+        path: dev.sukun.matane-anime.metainfo.xml
+      - type: script
+        dest-filename: matane-anime-wrapper.sh
+        commands:
+          # zypak runs Electron's sandbox inside the Flatpak sandbox (it comes with the Electron BaseApp).
+          - exec zypak-wrapper /app/main/matane-anime "$@"

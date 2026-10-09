@@ -81,6 +81,9 @@ function brief(value: unknown): string {
 export function canInstallUpdates(platform: NodeJS.Platform, env: Record<string, string | undefined>): boolean {
   if (platform === 'darwin') return false;
   if (platform === 'linux') return Boolean(env['APPIMAGE']);
+  // The Windows portable build (electron-builder sets this variable) is not installed, so an NSIS update
+  // cannot replace it: it only announces the new version.
+  if (platform === 'win32' && env['PORTABLE_EXECUTABLE_FILE']) return false;
   return true;
 }
 

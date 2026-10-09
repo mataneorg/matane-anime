@@ -1,6 +1,7 @@
-# Packaging for the beta (docs/plans/fase-3-download-update-beta.md, milestone 3h). Run through
-# `pnpm pack` (unpacked folder) and `pnpm dist` (AppImage on Linux); CI publishes with .github/workflows/release.yml.
-# Only the AppImage is verified so far; the NSIS and dmg targets are configured but untested.
+# Packaging for the beta (docs/plans/fase-3-download-update-beta.md, milestone 3h; the extra packages are
+# docs/plans/fase-5-polish-rilis-v1.md, milestone 5f). Run through `pnpm pack` (unpacked folder) and `pnpm dist`
+# (AppImage on Linux); CI publishes with .github/workflows/release.yml.
+# Only the AppImage is verified so far; the NSIS, portable, deb, rpm and dmg targets are configured but untested.
 appId: dev.sukun.matane-anime
 productName: Matane Anime
 executableName: matane-anime
@@ -53,7 +54,16 @@ linux:
   target:
     - target: AppImage
       arch: x64
+    - target: deb
+      arch: x64
+    - target: rpm
+      arch: x64
   icon: icon.png
+  # deb and rpm are built with fpm and need a maintainer; the app's package.json has no author email, and none is
+  # invented here. The dependency lists are electron-builder's defaults for Electron apps (GTK, NSS, libnotify, ...),
+  # on purpose: they track the distribution package names better than a hand-written list would.
+  maintainer: Matane Anime maintainers
+  vendor: mataneorg
   category: AudioVideo
   synopsis: Open-source desktop anime player
   description: Open-source desktop anime player with a sandboxed extension system.
@@ -67,6 +77,8 @@ win:
   target:
     - target: nsis
       arch: x64
+    - target: portable
+      arch: x64
   icon: icon-1024.png
 
 nsis:
@@ -75,6 +87,12 @@ nsis:
   allowToChangeInstallationDirectory: true
   # The library lives in %APPDATA%\Matane Anime: uninstalling must not delete it.
   deleteAppDataOnUninstall: false
+
+# A single .exe that runs without installing. It has no updater: the app only announces new versions
+# (canInstallUpdates in src/main/app/updater.ts looks at PORTABLE_EXECUTABLE_FILE, which this target sets).
+portable:
+  # Both Windows targets produce an .exe: this name keeps the NSIS installer's file from being overwritten.
+  artifactName: matane-anime-${version}-win-${arch}-portable.${ext}
 
 mac:
   target:

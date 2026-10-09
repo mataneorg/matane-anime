@@ -1,0 +1,46 @@
+# UNVERIFIED draft: needs AUR submission by the owner. Never built with makepkg and not checked with namcap.
+#
+# Maintainer: (the owner: put your name and address here before submitting)
+#
+# matane-anime-bin repackages the .deb of a GitHub release for Arch Linux (the AUR convention for the "-bin"
+# suffix). Before submitting to the AUR the owner has to:
+#   1. Publish a release, then set _pkgver and the real checksum (`updpkgsums`).
+#   2. Check the .deb file name in the release (the architecture part may be amd64 or x64) and the paths inside
+#      it (`bsdtar -tf <deb>`).
+#   3. Build with `makepkg -si` (a clean chroot is better), run `namcap`, and generate .SRCINFO
+#      (`makepkg --printsrcinfo > .SRCINFO`).
+#
+# The app updates itself only when it is an AppImage: an installed package is updated by pacman, and the app
+# only tells the user that a new version exists.
+pkgname=matane-anime-bin
+_pkgver=0.1.0-beta.1
+# pkgver may not contain a hyphen.
+pkgver=${_pkgver//-/}
+pkgrel=1
+pkgdesc='Open-source desktop anime player with a sandboxed extension system (binary release)'
+arch=('x86_64')
+url='https://github.com/mataneorg/matane-anime'
+license=('GPL-3.0-only')
+# Electron's runtime libraries, as in the deb's own dependency list.
+depends=('gtk3' 'nss' 'libnotify' 'libxss' 'libxtst' 'xdg-utils' 'at-spi2-core' 'util-linux-libs' 'libsecret')
+provides=('matane-anime')
+conflicts=('matane-anime')
+options=('!strip' '!debug')
+noextract=("matane-anime-${_pkgver}.deb")
+source=("matane-anime-${_pkgver}.deb::${url}/releases/download/v${_pkgver}/matane-anime-${_pkgver}-linux-amd64.deb")
+sha256sums=('SKIP') # UNVERIFIED: replace with the real checksum
+
+package() {
+  cd "${srcdir}"
+  bsdtar -xf "matane-anime-${_pkgver}.deb" 'data.tar.*'
+  bsdtar -xf data.tar.* -C "${pkgdir}"
+
+  # The deb installs the app in /opt/Matane Anime (with a space); link the executable into the PATH.
+  install -d "${pkgdir}/usr/bin"
+  ln -s '/opt/Matane Anime/matane-anime' "${pkgdir}/usr/bin/matane-anime"
+
+  # Chromium's sandbox helper must be setuid root when user namespaces are not available to unprivileged users.
+  if [ -f "${pkgdir}/opt/Matane Anime/chrome-sandbox" ]; then
+    chmod 4755 "${pkgdir}/opt/Matane Anime/chrome-sandbox"
+  fi
+}

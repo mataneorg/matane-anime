@@ -6,7 +6,10 @@ name: Release
 # (`v0.1.0-beta.1`) becomes a GitHub pre-release: that is the beta channel.
 #
 # Not verified yet: the repository did not exist when this was written (milestone 3h). Only the Linux
-# AppImage was built and smoke-tested, locally. NSIS, dmg and publishing are untested.
+# AppImage was built and smoke-tested, locally. NSIS, the portable .exe, deb, rpm, dmg and publishing are untested.
+# Several targets in one electron-builder run are uploaded by the same `--publish always`. Check after the first run
+# that latest.yml / latest-linux.yml point at the NSIS installer and the AppImage, not at the portable .exe or the
+# deb/rpm (docs/packaging/README.md).
 on:
   push:
     tags: ['v*']
@@ -75,13 +78,13 @@ jobs:
         include:
           - name: linux
             os: ubuntu-latest
-            args: --linux AppImage
+            args: --linux AppImage deb rpm
             cache: |
               ~/.cache/electron
               ~/.cache/electron-builder
           - name: windows
             os: windows-latest
-            args: --win nsis
+            args: --win nsis portable
             cache: |
               ~\AppData\Local\electron\Cache
               ~\AppData\Local\electron-builder\Cache
@@ -105,6 +108,10 @@ jobs:
           key: electron-${{ matrix.name }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: electron-${{ matrix.name }}-
       - run: pnpm install --frozen-lockfile
+      # electron-builder's fpm calls rpmbuild for the rpm target; the Ubuntu runner does not have it.
+      - name: Install rpm tooling
+        if: matrix.name == 'linux'
+        run: sudo apt-get update && sudo apt-get install -y rpm
       - name: Build
         run: pnpm --filter @matane-anime/desktop build
       - name: Package (and publish when releasing)
@@ -131,6 +138,8 @@ jobs:
           name: installers-${{ matrix.name }}
           path: |
             apps/desktop/release/*.AppImage
+            apps/desktop/release/*.deb
+            apps/desktop/release/*.rpm
             apps/desktop/release/*.exe
             apps/desktop/release/*.dmg
             apps/desktop/release/*.blockmap

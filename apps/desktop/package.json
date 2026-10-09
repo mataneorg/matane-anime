@@ -6,6 +6,7 @@
   "private": true,
   "description": "Open-source desktop anime player",
   "author": "SukunDev",
+  "homepage": "https://github.com/mataneorg/matane-anime",
   "license": "GPL-3.0-only",
   "main": "./out/main/index.js",
   "scripts": {

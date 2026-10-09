@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  UNVERIFIED draft: needs Flathub submission by the owner. Not validated with `appstreamcli validate`
+  or `flatpak-builder-lint`. Flathub needs real screenshots (hosted URLs), a content rating that is correct
+  for the app, and a release entry per published version.
+-->
+<component type="desktop-application">
+  <id>dev.sukun.matane-anime</id>
+  <name>Matane Anime</name>
+  <summary>Open-source desktop anime player with a sandboxed extension system</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <url type="homepage">https://github.com/mataneorg/matane-anime</url>
+  <url type="bugtracker">https://github.com/mataneorg/matane-anime/issues</url>
+  <description>
+    <p>
+      Matane Anime is a desktop app for watching anime from sources you choose: a library with categories,
+      watch progress and history, downloads for offline viewing, and alerts for new episodes.
+    </p>
+    <p>
+      The app does not host, store or distribute any content and ships with no sources. Sources come from
+      extensions that you add yourself from repositories you decide to trust. The developers are not
+      affiliated with anything that third-party extensions provide.
+    </p>
+  </description>
+  <launchable type="desktop-id">dev.sukun.matane-anime.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>Player</category>
+  </categories>
+  <content_rating type="oars-1.1" />
+  <!-- TODO(owner): add <screenshots> with hosted image URLs. -->
+  <!-- TODO(owner): one <release version="..." date="..."/> per published version, with the real date. -->
+  <releases />
+
+</component>

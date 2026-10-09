@@ -91,6 +91,7 @@ function setup(
 describe('canInstallUpdates', () => {
   it('only installs where the app can replace itself', () => {
     expect(canInstallUpdates('win32', {})).toBe(true);
+    expect(canInstallUpdates('win32', { PORTABLE_EXECUTABLE_FILE: 'C:\\Matane.exe' })).toBe(false);
     expect(canInstallUpdates('linux', { APPIMAGE: '/tmp/Matane.AppImage' })).toBe(true);
     expect(canInstallUpdates('linux', {})).toBe(false);
     expect(canInstallUpdates('darwin', {})).toBe(false);
