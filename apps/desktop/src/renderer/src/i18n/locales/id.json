@@ -267,7 +267,8 @@
       "openFolder": "Buka folder",
       "openFailed": "Folder tidak bisa dibuka",
       "ofLimit": "{{percent}}% dari batas {{limit}}"
-    }
+    },
+    "network": {}
   },
   "browse": {
     "sources": {
@@ -851,5 +852,10 @@
     "skipped_other": "{{count}} dilewati",
     "badge_one": "{{count}} pembaruan menunggu",
     "badge_other": "{{count}} pembaruan menunggu"
-  }
+  },
+  "palette": {},
+  "onboarding": {},
+  "whatsNew": {},
+  "incognito": {},
+  "backup": {}
 }

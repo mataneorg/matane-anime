@@ -3,8 +3,8 @@ import type { UpdateChannel } from '@matane-anime/shared';
 // Self-update through electron-updater against GitHub Releases. This is the only traffic the app sends
 // besides the sources: no telemetry (docs/PRD.md §10.3). Nothing here runs in development.
 
-/** Where release pages live. TODO: replace the placeholder when the repository exists; keep it in sync with `publish` in electron-builder.yml. */
-export const RELEASES_URL = 'https://github.com/SukunDev/matane-anime/releases';
+/** Where release pages live. Keep it in sync with `publish` in electron-builder.yml. */
+export const RELEASES_URL = 'https://github.com/mataneorg/matane-anime/releases';
 
 /** Shortly after start, so the check does not compete with the window and the library loading. */
 export const FIRST_CHECK_DELAY_MS = 15_000;

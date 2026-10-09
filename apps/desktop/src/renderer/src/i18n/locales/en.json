@@ -267,7 +267,8 @@
       "openFolder": "Open folder",
       "openFailed": "Could not open the folder",
       "ofLimit": "{{percent}}% of the {{limit}} limit"
-    }
+    },
+    "network": {}
   },
   "browse": {
     "sources": {
@@ -863,5 +864,10 @@
     "skipped_other": "{{count}} skipped",
     "badge_one": "{{count}} update waiting",
     "badge_other": "{{count}} updates waiting"
-  }
+  },
+  "palette": {},
+  "onboarding": {},
+  "whatsNew": {},
+  "incognito": {},
+  "backup": {}
 }

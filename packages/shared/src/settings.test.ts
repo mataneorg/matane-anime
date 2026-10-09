@@ -80,6 +80,41 @@ describe('settingsPatchSchema', () => {
   });
 });
 
+describe('network and first-run settings', () => {
+  it('defaults to the system proxy, no DoH, the default User-Agent and a fresh profile', () => {
+    expect(DEFAULT_SETTINGS).toMatchObject({
+      dohMode: 'off',
+      proxyMode: 'system',
+      proxyPort: null,
+      userAgent: null,
+      onboardingDone: false,
+      lastSeenVersion: null,
+    });
+  });
+
+  it('keeps a valid proxy and falls back per key for a bad port or DoH mode', () => {
+    const result = settingsFromStored(
+      stored({ proxyMode: '"socks5"', proxyHost: '"127.0.0.1"', proxyPort: '70000', dohMode: '"sometimes"' }),
+    );
+    expect(result.proxyMode).toBe('socks5');
+    expect(result.proxyHost).toBe('127.0.0.1');
+    expect(result.proxyPort).toBeNull();
+    expect(result.dohMode).toBe('off');
+  });
+
+  it('never has a proxy password among the settings', () => {
+    expect(Object.keys(DEFAULT_SETTINGS).some((key) => /password/i.test(key))).toBe(false);
+  });
+
+  it('takes a partial patch for the new keys', () => {
+    expect(settingsPatchSchema.parse({ onboardingDone: true, lastSeenVersion: '0.1.0' })).toEqual({
+      onboardingDone: true,
+      lastSeenVersion: '0.1.0',
+    });
+    expect(settingsPatchSchema.safeParse({ proxyPort: 0 }).success).toBe(false);
+  });
+});
+
 describe('windowStateSchema', () => {
   it('accepts a saved geometry and the default', () => {
     expect(windowStateSchema.safeParse(DEFAULT_WINDOW_STATE).success).toBe(true);

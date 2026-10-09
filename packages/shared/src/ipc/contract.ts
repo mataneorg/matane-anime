@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { backupPreviewSchema, backupRestoreResultSchema } from '../backup';
 import {
   animeDetailSchema,
   animePageSchema,
@@ -16,6 +17,8 @@ import {
   sourceCapabilitiesSchema,
   sourceInfoSchema,
 } from '../catalog';
+import { changelogEntrySchema } from '../changelog';
+import { networkTestInputSchema, networkTestResultSchema, proxyPasswordInfoSchema } from '../network';
 import {
   availableExtensionSchema,
   installPreparationSchema,
@@ -78,6 +81,20 @@ export const invokeContract = {
   /** Opens the system folder picker; null when cancelled. */
   'dialog.pickFolder': invoke(z.void(), z.string().nullable()),
   'network.getStatus': invoke(z.void(), networkStatusSchema),
+  'network.testConnection': invoke(networkTestInputSchema, networkTestResultSchema),
+  'network.proxyPasswordInfo': invoke(z.void(), proxyPasswordInfoSchema),
+  /** Stores the proxy password (encrypted when the system keyring exists); null removes it. It is never sent back. */
+  'network.setProxyPassword': invoke(z.object({ password: z.string().nullable() }), proxyPasswordInfoSchema),
+  /** Incognito (PRG-11): while on, nothing is recorded as watched. Kept in memory, off after a restart. */
+  'incognito.get': invoke(z.void(), z.boolean()),
+  'incognito.set': invoke(z.boolean(), z.boolean()),
+  /** Asks where to save, then writes a backup of the user's data; null when cancelled. */
+  'backup.export': invoke(z.void(), z.object({ path: z.string() }).nullable()),
+  /** Asks for a backup file and reads what it holds without applying it; null when cancelled. */
+  'backup.peek': invoke(z.void(), backupPreviewSchema.nullable()),
+  'backup.import': invoke(z.object({ token: z.string() }), backupRestoreResultSchema),
+  /** The changelog bundled with this version, newest release first. */
+  'app.changelog': invoke(z.void(), z.array(changelogEntrySchema)),
   /** Aborts the call that was started with this `requestId`. Unknown ids are ignored. */
   'requests.cancel': invoke(z.string(), z.void()),
   'extensions.list': invoke(z.void(), z.array(extensionInfoSchema)),
@@ -237,6 +254,7 @@ export const eventContract = {
   'settings.changed': appSettingsSchema,
   'db.changed': dbChangedSchema,
   'network.status': networkStatusSchema,
+  'incognito.changed': z.boolean(),
   'extensions.log': extensionLogEntrySchema,
   'cloudflare.status': cloudflareStatusSchema,
   'downloads.progress': z.array(downloadProgressSchema),

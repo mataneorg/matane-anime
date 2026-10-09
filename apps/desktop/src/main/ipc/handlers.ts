@@ -63,6 +63,11 @@ export function createHandlers({
   seedLibrary,
   spike,
 }: HandlerDeps): IpcHandlers {
+  // Phase 5 channels whose service arrives in a later milestone: refused until then, like the repos in phase 4a.
+  const notYet = (what: string) => (): never => {
+    throw new AppError('unsupported', `${what} is not available yet`);
+  };
+
   const requireSpike = (): SpikeApi => {
     if (!spike)
       throw new AppError('disabled', 'The playback spike is only available in development or with MATANE_SPIKE=1');
@@ -108,6 +113,15 @@ export function createHandlers({
       return result.canceled ? null : (result.filePaths[0] ?? null);
     },
     'network.getStatus': () => ({ online: network.status.isOnline }),
+    'network.testConnection': notYet('The connection test'),
+    'network.proxyPasswordInfo': notYet('The proxy password'),
+    'network.setProxyPassword': notYet('The proxy password'),
+    'incognito.get': notYet('Incognito'),
+    'incognito.set': notYet('Incognito'),
+    'backup.export': notYet('Backup'),
+    'backup.peek': notYet('Restore'),
+    'backup.import': notYet('Restore'),
+    'app.changelog': notYet('The changelog'),
     'requests.cancel': (requestId) => requests.cancel(requestId),
     'extensions.list': () => registry.list(),
     'extensions.loadDevFolder': ({ folder }) => registry.loadFolder(folder),

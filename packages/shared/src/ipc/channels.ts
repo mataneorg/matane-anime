@@ -11,6 +11,16 @@ export const INVOKE_CHANNELS = [
   'settings.set',
   'dialog.pickFolder',
   'network.getStatus',
+  /** Loads a ping endpoint with the network settings (NET-8). */
+  'network.testConnection',
+  'network.proxyPasswordInfo',
+  'network.setProxyPassword',
+  'incognito.get',
+  'incognito.set',
+  'backup.export',
+  'backup.peek',
+  'backup.import',
+  'app.changelog',
   'requests.cancel',
   'extensions.list',
   'extensions.loadDevFolder',
@@ -102,6 +112,7 @@ export const EVENT_CHANNELS = [
   /** A write touched these entities: queries tagged with them are stale. */
   'db.changed',
   'network.status',
+  'incognito.changed',
   'extensions.log',
   'cloudflare.status',
   /** Progress of the active downloads, a few times a second. */

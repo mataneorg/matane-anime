@@ -41,10 +41,10 @@ npmRebuild: false
 asarUnpack:
   - '**/node_modules/better-sqlite3/**'
 
-# TODO: placeholder until the GitHub repository exists. Keep RELEASES_URL in src/main/app/updater.ts in sync.
+# Keep RELEASES_URL in src/main/app/updater.ts in sync.
 publish:
   provider: github
-  owner: SukunDev
+  owner: mataneorg
   repo: matane-anime
   # Not a draft: electron-updater only sees published releases. CI sets EP_PRE_RELEASE for -beta tags.
   releaseType: release

@@ -15,7 +15,7 @@ Two things get released from this repository, and nothing here is automated end 
 
 1. **Check the scope and names on npmjs.com** (website or `npm view`, as you prefer). You need `@matane-anime` to be a scope or organisation you control, and `extension-sdk`, `extension-runtime` and `extension-cli` to be free under it. If the scope is taken, pick another name and change it everywhere in one go: the three `package.json` files (`name`, and the SDK/runtime dependency ranges), the imports (`@matane-anime/extension-sdk/…` in the app, the CLI, the test site, `extensions/example`, the scaffold template in `packages/extension-cli/src/create.ts`), `scripts/verify-packages.mjs` (`SCOPE`), the READMEs and the docs. Then run the whole suite.
 2. **Create the npm organisation/user and log in** (`npm login`; turn on two-factor authentication for publishing).
-3. **Make the repository metadata real.** Each package's `homepage`, `bugs` and `repository` point to `https://github.com/SukunDev/matane-anime`, which is a placeholder until that repository exists. Fix them to the real address (they show on the npm page), and keep them consistent with `publish` in `apps/desktop/electron-builder.yml`.
+3. **Check the repository metadata.** Each package's `homepage`, `bugs` and `repository` point to `https://github.com/mataneorg/matane-anime`. They show on the npm page, so keep them consistent with `publish` in `apps/desktop/electron-builder.yml`.
 4. **Pick the version.** The three packages are versioned together (`0.1.0` today) and `verify:packages` fails if they differ; the CLI's `--version` and the dependency range in newly scaffolded projects (`^<version>`) come from the CLI's own version. Bump all three `package.json` files (and keep `extension-runtime`'s dependency on the SDK in step, `verify:packages` checks it), commit.
 5. **Run the checks.**
 
@@ -86,7 +86,7 @@ The release is created as a normal (not draft) release, because the updater only
 From ADR 0020 and the files themselves; none of this has been exercised:
 
 - **`release.yml` itself.** It was written before the GitHub repository existed and has never run. Only the Linux AppImage was built and smoke-tested, locally.
-- **Placeholders.** `publish.owner`/`repo` in `electron-builder.yml` and `RELEASES_URL` in `apps/desktop/src/main/app/updater.ts` say `SukunDev/matane-anime`, marked TODO. They must match the real repository, and each other.
+- **Repository address.** `publish.owner`/`repo` in `electron-builder.yml` and `RELEASES_URL` in `apps/desktop/src/main/app/updater.ts` say `mataneorg/matane-anime`. They must match the real repository, and each other; the first real release is the proof.
 - **NSIS (Windows) and dmg (macOS) builds**, an unsigned arm64 macOS build (it may need ad-hoc signing), and **auto-update end to end** (from one published beta to the next).
 - The **three-OS playback spike** (`spike.yml`, [ADR 0008](adr/0008-media-transport.md), [0009](adr/0009-codec-support.md)) must be green before a public beta.
 - Windows and macOS builds are unsigned (PRD R13); expect SmartScreen/Gatekeeper warnings.

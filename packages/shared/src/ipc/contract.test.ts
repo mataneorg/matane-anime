@@ -44,6 +44,21 @@ describe('IPC contract', () => {
     expect(schema.safeParse({ ...ok, ttffMs: 'fast' }).success).toBe(false);
   });
 
+  it('checks the unsaved form values that the connection test takes', () => {
+    const schema = invokeContract['network.testConnection'].input;
+    expect(schema.safeParse({}).success).toBe(true);
+    expect(schema.safeParse({ settings: { proxyMode: 'http', proxyPort: 8080 }, proxyPassword: 'x' }).success).toBe(
+      true,
+    );
+    expect(schema.safeParse({ settings: { proxyMode: 'carrier-pigeon' } }).success).toBe(false);
+  });
+
+  it('never returns the proxy password to the renderer', () => {
+    const output = invokeContract['network.proxyPasswordInfo'].output;
+    expect(output.safeParse({ stored: true, encrypted: true }).success).toBe(true);
+    expect(Object.keys(output.shape)).toEqual(['stored', 'encrypted']);
+  });
+
   it('uses the default settings as a valid settings.changed payload', () => {
     expect(eventContract['settings.changed'].safeParse(DEFAULT_SETTINGS).success).toBe(true);
   });

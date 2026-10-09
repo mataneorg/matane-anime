@@ -15,6 +15,17 @@ export type DownloadQuality = (typeof DOWNLOAD_QUALITIES)[number];
 export const UPDATE_CHANNELS = ['stable', 'beta'] as const;
 export type UpdateChannel = (typeof UPDATE_CHANNELS)[number];
 
+/** DNS over HTTPS (docs/PRD.md NET-6): `auto` uses it when the system resolver fails, `always` uses nothing else. */
+export const DOH_MODES = ['off', 'auto', 'always'] as const;
+export type DohMode = (typeof DOH_MODES)[number];
+
+/** The presets; `custom` uses `dohCustomUrl`. The URLs live in main (`network/config.ts`). */
+export const DOH_PROVIDERS = ['cloudflare', 'google', 'quad9', 'adguard', 'custom'] as const;
+export type DohProvider = (typeof DOH_PROVIDERS)[number];
+
+export const PROXY_MODES = ['system', 'none', 'http', 'socks5'] as const;
+export type ProxyMode = (typeof PROXY_MODES)[number];
+
 /** App-wide settings. Stored one key per row in the `settings` table (value as JSON). */
 export const appSettingsSchema = z.object({
   theme: z.enum(THEME_MODES),
@@ -80,6 +91,22 @@ export const appSettingsSchema = z.object({
   contentLanguages: z.array(z.string().regex(/^[a-z]{2,3}(-[A-Za-z]{2,4})?$/)),
   /** Shows the developer tools: loading an extension from a folder and the extended log (EXT-10). */
   devMode: z.boolean(),
+  /** DNS over HTTPS for every request the app makes (NET-6). */
+  dohMode: z.enum(DOH_MODES),
+  dohProvider: z.enum(DOH_PROVIDERS),
+  /** Used when `dohProvider` is `custom`; must be an https URL (checked in main). */
+  dohCustomUrl: z.string().max(2048),
+  proxyMode: z.enum(PROXY_MODES),
+  proxyHost: z.string().max(255),
+  proxyPort: z.number().int().min(1).max(65535).nullable(),
+  proxyUser: z.string().max(255),
+  // The proxy password is not a setting: it stays in main (`network.setProxyPassword`).
+  /** Replaces the default User-Agent for every extension that does not set its own (NET-4); null keeps the default. */
+  userAgent: z.string().max(512).nullable(),
+  /** The first-run flow has been completed or skipped (UI-9). */
+  onboardingDone: z.boolean(),
+  /** The app version whose "What's new" the user has seen; null on a fresh install (UI-10). */
+  lastSeenVersion: z.string().max(64).nullable(),
 });
 export type AppSettings = z.infer<typeof appSettingsSchema>;
 
@@ -116,6 +143,16 @@ export const DEFAULT_SETTINGS: AppSettings = {
   updateChannel: 'beta',
   contentLanguages: [],
   devMode: false,
+  dohMode: 'off',
+  dohProvider: 'cloudflare',
+  dohCustomUrl: '',
+  proxyMode: 'system',
+  proxyHost: '',
+  proxyPort: null,
+  proxyUser: '',
+  userAgent: null,
+  onboardingDone: false,
+  lastSeenVersion: null,
 };
 
 /** A change to some settings. No defaults here: a patch must never overwrite what it does not name. */
