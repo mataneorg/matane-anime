@@ -34,6 +34,7 @@ import { UpdatesRepository } from './db/repositories/updates';
 import { resolveLanguage } from './updates/messages';
 import { isWindowFocused, showUpdateNotification } from './updates/notify';
 import { UpdateService } from './updates/service';
+import { IncognitoState } from './watch/incognito';
 import { WatchService } from './watch/service';
 import { RepoStore } from './db/repositories/extension-repos';
 import { ExtensionStore } from './db/repositories/extension-store';
@@ -177,6 +178,8 @@ if (!app.requestSingleInstanceLock()) {
         (message, error) => log.warn(message, error),
       );
       const libraryService = new LibraryService({ library: libraryRepo, history: historyRepo, settings, covers });
+      const incognito = new IncognitoState();
+      incognito.subscribe((on) => broadcast('incognito.changed', on));
       const watch = new WatchService({
         episodes: episodeRepo,
         anime: animeRepo,
@@ -184,6 +187,7 @@ if (!app.requestSingleInstanceLock()) {
         sessions: new WatchSessionsRepository(connection.db),
         settings,
         changes,
+        isIncognito: () => incognito.enabled,
       });
       const service = new ExtensionService({
         registry,
@@ -401,6 +405,7 @@ if (!app.requestSingleInstanceLock()) {
           requests,
           playback,
           watch,
+          incognito,
           library: libraryService,
           downloads: downloadService,
           updates: updateService,

@@ -856,6 +856,14 @@
   "palette": {},
   "onboarding": {},
   "whatsNew": {},
-  "incognito": {},
+  "incognito": {
+    "pill": "Penyamaran",
+    "pillHint": "Mode penyamaran aktif. Klik untuk mematikan.",
+    "on": "Mode penyamaran aktif",
+    "body": "Yang kamu tonton sekarang tidak disimpan ke riwayat, progres, atau waktu tonton. Menandai episode ditonton dan mengelola pustaka tetap berfungsi.",
+    "turnOff": "Matikan",
+    "turnOn": "Aktifkan mode penyamaran",
+    "toggle": "Ubah mode penyamaran"
+  },
   "backup": {}
 }

@@ -1,7 +1,7 @@
 import type { HistoryEntry } from '@matane-anime/shared';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link, createFileRoute } from '@tanstack/react-router';
-import { Check, History as HistoryIcon, Play, Trash2, X } from 'lucide-react';
+import { Check, EyeOff, History as HistoryIcon, Play, Trash2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Cover } from '@renderer/components/Cover';
@@ -11,6 +11,7 @@ import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
 import { episodeTitle } from '@renderer/features/anime/EpisodeList';
 import { call } from '@renderer/lib/api';
 import { dayKey, dayLabel, formatClock } from '@renderer/lib/dates';
+import { useIncognito, useSetIncognito } from '@renderer/lib/incognito';
 import { historyQuery } from '@renderer/lib/library';
 
 export const Route = createFileRoute('/_app/history')({ component: HistoryPage });
@@ -22,6 +23,8 @@ function HistoryPage() {
   // Day headings are relative to when the page was opened.
   const [now] = useState(() => Date.now());
   const clear = useMutation({ mutationFn: () => call('history.clear') });
+  const incognito = useIncognito();
+  const setIncognito = useSetIncognito();
 
   // One heading per day, newest first (the list arrives in that order).
   const groups = useMemo(() => {
@@ -35,7 +38,7 @@ function HistoryPage() {
     return out;
   }, [entries, i18n.language, now]);
 
-  if (!isPending && entries.length === 0) {
+  if (!isPending && entries.length === 0 && !incognito) {
     return (
       <EmptyState icon={HistoryIcon} title={t('empty.history.title')} description={t('empty.history.description')} />
     );
@@ -50,6 +53,21 @@ function HistoryPage() {
           {t('history.clearAll')}
         </Button>
       </header>
+      {incognito ? (
+        <div
+          role="status"
+          className="flex items-center gap-3 rounded-xl border border-accent bg-accent/16 px-4 py-3 text-xs leading-4"
+        >
+          <EyeOff className="size-5 shrink-0 text-accent" strokeWidth={1.75} aria-hidden />
+          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+            <span className="text-sm font-semibold text-foreground">{t('incognito.on')}</span>
+            <span>{t('incognito.body')}</span>
+          </div>
+          <Button variant="secondary" onClick={() => setIncognito.mutate(false)}>
+            {t('incognito.turnOff')}
+          </Button>
+        </div>
+      ) : null}
       <p className="text-xs leading-4">{t('history.explainer')}</p>
 
       {groups.map((group) => (

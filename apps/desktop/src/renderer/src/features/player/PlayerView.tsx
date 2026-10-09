@@ -4,6 +4,7 @@ import { useNavigate, useRouter } from '@tanstack/react-router';
 import { Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IncognitoPill } from '@renderer/components/shell/IncognitoPill';
 import { call } from '@renderer/lib/api';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { cn } from '@renderer/lib/utils';
@@ -473,6 +474,7 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
         </div>
       ) : null}
 
+      <IncognitoPill className="absolute top-16 left-4 z-10" />
       <TopBar session={session} actions={actions} visible={!hidden} />
       <BottomBar session={session} actions={actions} visible={!hidden} volume={volume} muted={muted} speed={speed} />
 

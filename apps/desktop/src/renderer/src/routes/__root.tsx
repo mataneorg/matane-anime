@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Toaster } from '@renderer/components/Toaster';
 import { DownloadsHost } from '@renderer/features/downloads/DownloadsHost';
 import { invalidateForTags, networkStatusQuery } from '@renderer/lib/catalog';
+import { incognitoQuery } from '@renderer/lib/incognito';
 import { osLocaleQuery, receiveSettings, settingsQuery, useIpcEvent } from '@renderer/lib/ipc';
 import { useNetworkStore } from '@renderer/stores/network';
 import { useUpdatesStore } from '@renderer/stores/updates';
@@ -31,6 +32,10 @@ function RootLayout() {
   useIpcEvent(
     'network.status',
     useCallback((status) => queryClient.setQueryData(networkStatusQuery.queryKey, status), [queryClient]),
+  );
+  useIpcEvent(
+    'incognito.changed',
+    useCallback((on) => queryClient.setQueryData(incognitoQuery.queryKey, on), [queryClient]),
   );
   useIpcEvent('cloudflare.status', useNetworkStore.getState().setCloudflare);
   useIpcEvent('updates.status', useUpdatesStore.getState().setStatus);

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { DownloadActivity } from '@renderer/features/downloads/DownloadActivity';
 import { animeQuery, networkStatusQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
+import { IncognitoPill } from './IncognitoPill';
 import { WindowControls } from './WindowControls';
 
 /** The command palette arrives in phase 5; the hint is shown from the start (mockup 01). */
@@ -98,6 +99,7 @@ export function TitleBar() {
           {t('network.offline')}
         </span>
       ) : null}
+      <IncognitoPill />
       <WindowControls />
     </header>
   );

@@ -14,6 +14,7 @@ import type { LibraryService } from '../library/service';
 import type { DownloadService } from '../downloads/service';
 import type { PlaybackService } from '../playback/service';
 import type { UpdateService } from '../updates/service';
+import type { IncognitoState } from '../watch/incognito';
 import type { WatchService } from '../watch/service';
 import type { SpikeApi } from '../playback/spike/api';
 import { type IpcHandlers, broadcast } from './register';
@@ -30,6 +31,7 @@ export interface HandlerDeps {
   requests: RequestRegistry;
   playback: PlaybackService;
   watch: WatchService;
+  incognito: IncognitoState;
   library: LibraryService;
   downloads: DownloadService;
   updates: UpdateService;
@@ -54,6 +56,7 @@ export function createHandlers({
   requests,
   playback,
   watch,
+  incognito,
   library,
   downloads,
   updates,
@@ -116,8 +119,8 @@ export function createHandlers({
     'network.testConnection': notYet('The connection test'),
     'network.proxyPasswordInfo': notYet('The proxy password'),
     'network.setProxyPassword': notYet('The proxy password'),
-    'incognito.get': notYet('Incognito'),
-    'incognito.set': notYet('Incognito'),
+    'incognito.get': () => incognito.enabled,
+    'incognito.set': (on) => incognito.set(on),
     'backup.export': notYet('Backup'),
     'backup.peek': notYet('Restore'),
     'backup.import': notYet('Restore'),

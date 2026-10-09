@@ -868,6 +868,14 @@
   "palette": {},
   "onboarding": {},
   "whatsNew": {},
-  "incognito": {},
+  "incognito": {
+    "pill": "Incognito",
+    "pillHint": "Incognito is on. Click to turn it off.",
+    "on": "Incognito is on",
+    "body": "What you watch now is not saved to history, progress or watch time. Marking episodes as watched and managing your library still work.",
+    "turnOff": "Turn off",
+    "turnOn": "Turn on incognito",
+    "toggle": "Toggle incognito"
+  },
   "backup": {}
 }
