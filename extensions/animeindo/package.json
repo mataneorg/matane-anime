@@ -1,0 +1,19 @@
+{
+  "name": "@matane-anime/animeindo-extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Extension for anime-indo.lol (Indonesian subtitles): listings, search, details, episodes and the xtwap, mp4upload and yourupload players.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "ma-ext build",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:live": "LIVE=1 vitest run test/live.test.ts"
+  },
+  "devDependencies": {
+    "@matane-anime/extension-cli": "workspace:*",
+    "@matane-anime/extension-runtime": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*"
+  }
+}

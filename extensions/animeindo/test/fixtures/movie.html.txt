@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html lang="id-ID">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Movie - Animeindo</title>
+<meta name="description" content="List Anime Movie Di Animeindo Kualitas 240p 360p 480p 720p HD" />
+<meta name="keywords" content="animeindo movie" />
+<meta name="robots" content="index, follow">
+<meta name="revisit-after" content="1 days">
+<meta name="author" content="Animeindo" />
+<meta name="DC.title" content="Movie - Animeindo" />
+<meta name="geo.placename" content="Indonesia" />
+<meta name="geo.region" content="ID" />
+<link rel="canonical" href="https://anime-indo.lol/movie/" />
+<link rel="shortcut icon" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/favicon.png" />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:image" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Movie - Animeindo" />
+<meta property="og:description" content="List Anime Movie Di Animeindo Kualitas 240p 360p 480p 720p HD" />
+<meta property="og:url" content="https://anime-indo.lol/movie/" />
+<meta property="og:site_name" content="Animeindo" />
+<meta name="google" content="notranslate" />
+<meta name="robots" content="noarchive" />
+<style>ins.adsbygoogle[data-ad-status=unfilled]{display:none!important}.quickfilter{padding:8px 4px}.quickfilter .filters{position:relative}.quickfilter .filters .filter{width:50%;float:left;box-sizing:border-box;padding:6px;margin:0;display:inline-block;position:relative;border-radius:2px}.quickfilter .filters .filter.submit{float:none;width:100%}.quickfilter .filters .filter.submit button{background:#168CCC;color:#fff;border:1px solid #168CCC}.quickfilter .filters .filter button{font-size:14px;width:100%;color:#555;padding:6px;border-radius:4px;background-color:#f1f1f1;display:inline-block;margin-bottom:0;font-weight:400;text-align:center;vertical-align:middle;touch-action:manipulation;-webkit-appearance:button;cursor:pointer;background-image:none;border:0 solid #279DDD;overflow:visible;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-family:inherit}.quickfilter .filters .filter button:hover{color:#333;background-color:#d0d0d0;border-color:#d0d0d0}.quickfilter .filters .filter.submit button:hover{background:#279DDD!important;color:#FFF!important;border-color:#279DDD!important}.menu .quickfilter .filters .filter ul{right:0;left:0;top:auto;width:auto}.quickfilter .filters .filter ul{width:500px;margin-top:1px!important;padding:10px!important;font-size:13px;position:absolute;display:none;width:auto;z-index:2;min-width:160px;text-align:left;background-color:#fff;border:1px solid rgba(0,0,0,.15);border-radius:3px;box-shadow:0 6px 12px rgb(0 0 0 / 18%);background-clip:padding-box;list-style:none}.quickfilter .filters .filter ul.dropdown-menu.c1 li{width:50%;padding-bottom:8px;float:left}.quickfilter .filters .filter.open ul{display:block}.pag{font-size: 13px;text-align: center;padding: 8px 8px 16px 8px;background: #FFF;}.pag span.cur{background: #279ddd;color: #fff;}.pag span {color: #999;padding: 5px 10px;display: inline-block;background: #eee;}.pag a {padding: 5px 10px;background: #eee;color: #279DDD;display: inline-block;margin: 2px;text-decoration: none;}.pag a:hover {color: #fff;background: #279DDD;}.kaki1 {font-size: 13px;background:#279ddd;padding:7px;color:#ffffff;text-align:center;}.kaki1 a {color:#ffffff;}
+li,ol,p,tr,ul{margin:0}.tableup td,.tableupmati td{vertical-align:middle}.kotakcari,.tableup,.tableupmati{text-align:center}.otable{table-layout:fixed}.ztable{border-bottom: 1px solid #f5f5f5;overflow: hidden;}.notd:hover,.tableup img:hover,input[type=text]{transition:all .5s ease 0s}.list-anime,.videsc{word-wrap:break-word}.detail,.pilih a,p.des{overflow:hidden}.ep a,.pilih a,a{text-decoration:none}.anime-list li,.ep li,.navs li{list-style-type:none}body{background:#E5E5E5;font-family:"Open Sans",sans-serif;font-size:14px;color:#000;margin:0 auto}@media screen and (min-width:1000px){body{background:url(/backg.png)}}a{color:#279DDD}#header{box-shadow:0 0 6px #000;background:#279DDD;height:40px;position:fixed;top:0;width:100%;z-index:100}.logo img{width:150px;height:40px;background-size:150px 40px}li,ol,ul{padding:0;list-style:none}#wasu{margin-top:40px}#content-wrap{max-width:1000px;background:#f6f6f6;margin:auto;padding-bottom:2px;-webkit-box-shadow:0 13px 13px 0 rgba(0,0,0,.4);-moz-box-shadow:0 13px 13px 0 rgba(0,0,0,.4);box-shadow:0 13px 13px 0 rgba(0,0,0,.4)}.tableup a:link,.tableup td a{color:#fff}.tableupmati{margin:auto;width:100%}.tableup td{width:25%;padding:8px}.tableup img:hover{transform:scale(1.1)}.tableup{height:53px;background:#444;border-collapse:collapse;width:100%;padding-top:3px}.tableup td div{padding-top:2px}td.vithumb img{width:90px;height:120px}.videsc b{color:#c00}.otable td{background-color:#fff;padding:8px;color:#000;vertical-align:top}.otable td a,.otable td:link,.ztable td:link{color:#279DDD}.otable td a{font-size:14px;font-weight: bold;}.notd:hover{background:#282828;text-transform:uppercase;opacity:.9}.kotakcari{background:#279DDD;color:#fff;padding:10px}.ztable td{background-color:#fff;font-size:small;padding:4px;color:#333;vertical-align:top}.ztable td a,h2{font-size:13px;font-weight: bold;}.info,.list-anime img,.title{vertical-align:middle}td.zvidesc{padding-top:6px}td.videsc{padding-top:4px}.ztable td a{color:#279DDD}td.zvithumb img{padding:1px 0;border:2px solid #fff;width:50px;height:52px;border-radius:6px}h2,p.des{padding:0;margin:0}p.des{text-overflow:ellipsis;display:-webkit-box;display:-moz-box;display:box;-webkit-line-clamp:5;-moz-line-clamp:3;-line-clamp:3;-webkit-box-orient:vertical}input[type=text]{width:70%;height:34px;padding-left:6px;border-radius:10px 0 0 10px;color:#000;border-left:2px solid #168CCC;border-top:2px solid #168CCC;border-bottom:2px solid #168CCC;border-right:0;background:rgba(255,255,255,.3);margin-bottom:2px}input[type=text]:focus{background:rgba(255,255,255,.5);transition:all .5s ease .5s}input[type=submit]{padding:0 8px;height:40px;background:#168CCC;color:#fff;border:0;cursor:pointer;border-radius:0 5px 5px 0}input[type=submit]:hover{background:#168CCC;transition:all .1s ease .1s}.menu{background-color:#fff;margin-bottom:2px;padding:6px;color:#000}.list-anime{position:relative;padding:12px;background:#fff;margin-top:1px;margin-bottom:3px;width:130px;display:inline-table}.list-anime p,.list-anime span{position:absolute;text-align:center}.list-anime img{background:#f5f5f5;width:130px;height:183px}.list-anime p{display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;background:-moz-linear-gradient(top,rgba(0,0,0,0) 0,rgba(0,0,0,.65) 51%,rgba(0,0,0,.65) 100%);background:-webkit-linear-gradient(top,rgba(0,0,0,0) 0,rgba(0,0,0,.65) 51%,rgba(0,0,0,.65) 100%);background:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.65) 51%,rgba(0,0,0,.65) 100%);left:0;bottom:0;color:#FFF;text-shadow:-1px -1px 5px #000, 1px -1px 5px #000, -1px 1px 5px #000, 0 3px 2px #000;padding:5px;margin:12px;width:120px;border-bottom:.25rem solid #168CCC!important}.detail li,.detail li a,.title{color:#fff}.list-anime span{overflow:hidden;background:#279ddd;right:12px;color:#fff;padding:0 7px;line-height:28px;font-size:11px;font-weight:800;transition:.3s;}.list-anime img:hover{opacity:.7}@media screen and (min-width:720px){.menu{margin:0 8px 8px;-moz-border-radius:0 0 10px 10px;-webkit-border-radius:0 0 10px 10px;border-radius:0 0 10px 10px;border:1px solid #168CCC}.title{margin:8px 8px 0;-moz-border-radius:10px 10px 0 0;-webkit-border-radius:10px 10px 0 0;border-radius:10px 10px 0 0}.quickfilter .filters .filter{width:20%;}.quickfilter .filters .filter.submit{float:left;width:20%;}}@media screen and (max-width:719px){.menu,h1.title,h2.title{margin:0}}.title{font-weight:400;background:#168CCC;background-image:linear-gradient(to bottom,#168ccc,#279ddd);padding:13px;font-size:16px}.detail{padding:2px}.detail img{float:left;display:block;margin:4px 6px 0 0;width:95px;height:135px}.detail li,.ep a{display:inline-block}.detail li{background:#168ccc;padding:3px;margin:2px 0;border-radius:3px}.detail li:hover{background:#279ddd}.detail p{margin:4px 4px 0 0}.ep{padding:4px;text-align:center}.ep a{padding:6px;margin:4px;background:#fff;border:3px solid #279ddd;color:#555;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px}.letter,.pilih a{background:#279ddd}.ep a:hover{opacity:.6;border:3px solid #92a1aa}.ep li a,.ep li a:hover{border:0;padding:5px}.ep strong{display:block;margin-bottom:10px}.ep li{text-align:left;margin:5px 10px}#footer,.navi a,.pilih,.server{text-align:center}.ep li a{color:#279ddd}.letter{margin-top:5px;color:#fff;font-weight:700;padding:8px 4px}.anime-list li{padding:6px;color:#444;border-bottom:1px dotted #dbdbdb}.list-genre a,.pilih a{color:#fff;margin:2px;display:inline-block}.pilih{padding:6px}.pilih a{padding:4px 8px;border:2px solid #279ddd;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px}.pilih a:hover{background:#168ccc;border:2px solid #168ccc}.list-genre a{background:#279ddd;padding:3px;border:1px solid #279ddd;border-radius:3px}.list-genre a:hover{background:#168ccc}.bungkus{margin:10px 0}.info{padding:8px;color:#00529B;margin:6px 0;border:2px solid #279DDD;background-color:#BDE5F8}.servers{padding:2px}.servers a{color:#fff}.server.cur{min-width:60px;padding:5px;border:0 solid orange;background:#FDB813}.server,input.server{min-width:60px;padding:5px;background:#279ddd;display:inline-block;color:#fff}.server.cur a{color:#fff}form{display:block}input.server{margin:2px;height:29px;-webkit-appearance:none;-webkit-border-radius:0}.server{margin:1px}input{font-size:14px;border:0}.nav{margin-top:6px}.label,.labels,.navi a{border-radius:6px;margin:2px 0}.navi a{padding:6px;color:#fff;background:#168ccc;display:block}.navi a:hover{background:#279ddd}.navs li{padding:5px 15px;color:#444}.label,.labels{font-size:small;background:#168CCC;display:inline-block;padding:2px 3px;color:#fff}.label:hover,.labels:hover{background:#279DDD}#footer{background:#168CCC;padding:7px;color:#fff}.nonton{overflow: hidden;position: relative;max-width: 100%;height: 0;padding-bottom: 57.4%;margin-bottom: 6px;}#tontonin {background: url(https://3.bp.blogspot.com/-_j2femVzAgs/VsjUZLtusTI/AAAAAAAAAIE/o_TAz6lia-o/s120/ajax-loader2.gif) center;background-repeat: no-repeat;background-size: 5%;}#tontonin {z-index: 99;position: absolute;border: none;width: 100%!important;height: 100%!important;top: 0;left: 0;margin: 0;padding: 0;}@media screen and (min-width:1000px){.nganan,.ngiri{display:table-cell}.nganan{margin-left:14px;width:35%;vertical-align:top}.ngiri{width:65%}}</style>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/lazyload.min.js"></script>
+<script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var z=window,t="d846c31cb6bd1da27bed9edcc0721183",q=[["siteId",664+448*397-262-22+4905288],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],p=["d3d3LmludGVsbGlwb3B1cC5jb20vcHZpZGVvanMtY2hyb21lY2FzdC5taW4uY3Nz","ZDNtcjd5MTU0ZDJxZzUuY2xvdWRmcm9udC5uZXQvZ0txREl4L25wdWJzdWIubWluLmpz","d3d3LmVocGpjamJxb3BsZ21tLmNvbS9ydmlkZW9qcy1jaHJvbWVjYXN0Lm1pbi5jc3M=","d3d3Lm9xaGJneHZrLmNvbS9UV0VFZy9pcHVic3ViLm1pbi5qcw=="],i=-1,d,o,v=function(){clearTimeout(o);i++;if(p[i]&&!(1816270617000<(new Date).getTime()&&1<i)){d=z.document.createElement("script");d.type="text/javascript";d.async=!0;var k=z.document.getElementsByTagName("script")[0];d.src="https://"+atob(p[i]);d.crossOrigin="anonymous";d.onerror=v;d.onload=function(){clearTimeout(o);z[t.slice(0,16)+t.slice(0,16)]||v()};o=setTimeout(v,5E3);k.parentNode.insertBefore(d,k)}};if(!z[t]){try{Object.freeze(z[t]=q)}catch(e){}v()}})();
+/*]]>/* */
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5TEYKRYQF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Q5TEYKRYQF');
+</script>
+</head>
+<body>
+<div id="header"><div class="logo"><a href="/"><img src="/logos.png" alt="animeindo"></a></div></div>
+<div id="wasu">
+<div id="content-wrap">
+<table border="0" class="tableup"><tbody><tr><td class="notd">
+<a href="/anime-list/"> <div style="height:100%;width:100%">
+<img src="/list.png" alt="anime list" height="32px"><br>List</div></a></td><td class="notd"> <a href="/list-genre/">
+<div style="height:100%;width:100%">
+ <img src="/tv.png" alt="genre list" height="32px"><br>Genre</div></a></td>  <td class="notd"> <a href="/movie/"> <div style="height:100%;width:100%">
+<img src="/video.png" alt="anime movi" height="32px"><br>Movie</div></a></td><td class="notd"> <a href="/jadwal/"> <div style="height:100%;width:100%">
+<img src="/jadwal.png" alt="jadwal rilis anime" height="32px"><br> Jadwal</div></a></td></tr></tbody></table>
+<div class="kotakcari">
+    <form action="/search.php" style="display:block;">
+            <input type="text" name="q" autocomplete="off"><input type="submit" value="Search"><br>
+    </form>
+</div>
+<div class="title">Movie</div>
+<div class="menu"><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/boku-no-hero-academia-ua-heroes-battle/"><img src="/img/138734l.jpg"></a></td>
+<td class="videsc"><a href="/anime/boku-no-hero-academia-ua-heroes-battle/"> Boku no Hero Academia: UA Heroes Battle </a><br> <span class="label">Movie </span> <span class="label"> Unknown </span> <span class="label"> 2023 </span><br/>
+<p class="des">Panggung kali ini adalah asrama UA sebelum arc Endeavour Internship season 5! Di tengah musim dingin, pertarungan dingin yang panas dan berangin kencang terjadi di Heights Alliance!
+Siswa kelas tiga Mirio Togata tiba-tiba muncul saat siswa tahun pertama di Kelas A merasa bosan karena dilarang keluar rumah. Dia membawa serta permainan kartu “Pertempuran Pahlawan Yuuei”, yang dibuat oleh kelas pendukung. Saat setiap siswa mengambil kartu dan bergabung dalam pertarungan sengit, tampaknya ada lebih banyak hal dalam permainan daripada yang terlihat. Pada akhirnya, siapa yang akan keluar sebagai pemenang?</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/seishun-buta-yarou-wa-odekake-sister-no-yume-wo-minai/"><img src="/img/134808l.jpg"></a></td>
+<td class="videsc"><a href="/anime/seishun-buta-yarou-wa-odekake-sister-no-yume-wo-minai/"> Seishun Buta Yarou wa Odekake Sister no Yume wo Minai </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 13 min. </span> <span class="label"> 2023 </span><br/>
+<p class="des">Apa yang diperlukan untuk mewujudkan keinginannya?
+Setelah bulan Desember yang melelahkan, Sakuta segera mendekati akhir tahun kedua sekolah menengahnya. Karena Mai adalah siswa tahun ketiga, mereka tidak punya banyak waktu tersisa bersama sebelum kelulusan tiba. Sementara itu, adiknya, Kaede, perlahan tapi pasti kembali bertualang di luar ruangan. Saat dia mulai menemukan pijakannya, dia mengumumkan tujuan paling ambisiusnya—menghadiri sekolah menengah kakaknya! Sakuta tahu lebih baik dari siapa pun betapa sulitnya hal ini bagi Kaede, dan dia siap mendukungnya semampunya. Dia hanya tidak yakin apakah itu yang terbaik untuknya…atau apa yang sebenarnya dia inginkan…</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/black-clover-mahou-tei-no-ken/"><img src="/img/bx131680-gjs8mMQPmkOQ.png"></a></td>
+<td class="videsc"><a href="/anime/black-clover-mahou-tei-no-ken/"> Black Clover: Mahou Tei no Ken </a><br> <span class="label">Movie </span> <span class="label"> 1 hour, 53 mins </span> <span class="label"> 2023 </span><br/>
+<p class="des">Sebagai anak laki-laki berhati singa yang tidak bisa menggunakan sihir berjuang untuk gelar Raja Penyihir, empat Raja Penyihir yang dibuang kembali untuk menghancurkan Kerajaan Semanggi.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/sword-art-online-progressive-kuraki-yuuyami-no-scherzo/"><img src="/img/bx140999-8nRYAPkywhbl.jpg"></a></td>
+<td class="videsc"><a href="/anime/sword-art-online-progressive-kuraki-yuuyami-no-scherzo/"> Sword Art Online: Progressive – Kuraki Yuuyami no Scherzo </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 40 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Setelah mengalahkan bos lain dan melangkah melewati gerbang lantai lima, duo Kazuto “Kirito” Kirigaya dan Asuna Yuuki disambut dengan pemandangan indah reruntuhan yang runtuh dan bangunan bawah tanah yang penuh dengan misteri. Namun, petualangan indah ini berlangsung lama. Ketegangan antara Brigade Ksatria Naga dan Pasukan Pembebasan Aincrad—dua guild terkemuka yang berfokus untuk menyelesaikan Sword Art Online—terus meningkat dan mengancam stabilitas yang rapuh dari kelompok penyerang garis depan.
+Kirito dan Asuna terpaksa bertindak cepat, membuat pertaruhan beresiko tinggi dan mengumpulkan sejumlah kecil rekan untuk misi berbahaya. Akibatnya, Asuna dan Misumi “Mito” Tozawa harus berdamai dengan hubungan mereka setelah “tragedi yang hampir terjadi” yang memaksa mereka berpisah di lantai pertama.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/boku-ga-aishita-subete-no-kimi-e/"><img src="/img/123760l.jpg"></a></td>
+<td class="videsc"><a href="/anime/boku-ga-aishita-subete-no-kimi-e/"> Boku ga Aishita Subete no Kimi e </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 42 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Sebuah dunia di mana orang-orang secara rutin berpindah-pindah di antara dunia paralel yang sedikit berbeda…
+Koyomi Takasaki, yang tinggal bersama ibunya setelah perceraian orang tuanya, mendaftar di sekolah persiapan universitas setempat. Karena suasana yang terkonsentrasi pada pelajaran dan kecanggungan sosialnya, Koyomi tidak dapat berteman. Suatu hari, dia tiba-tiba didekati oleh teman sekelasnya Kazune Takigawa, yang memberitahunya bahwa dia telah melakukan perjalanan dari dunia ke-85 di mana dia dan Koyomi adalah sepasang kekasih.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/kimi-wo-aishita-hitori-no-boku-e/"><img src="/img/123761l.jpg"></a></td>
+<td class="videsc"><a href="/anime/kimi-wo-aishita-hitori-no-boku-e/"> Kimi wo Aishita Hitori no Boku e </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 38 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Dunia di mana telah ditetapkan bahwa orang secara rutin berayun di antara dunia paralel yang sedikit berbeda …
+Koyomi Hidaka, yang tinggal bersama ayahnya setelah perceraian orang tuanya, bertemu dengan seorang gadis bernama Shiori Satou di lembaga penelitian tempat ayahnya bekerja. Mereka berdua sedikit naksir satu sama lain, tetapi semuanya berubah ketika orang tua mereka menikah lagi. Koyomi dan Shiori, yakin bahwa mereka tidak akan pernah bersama, mencoba melompat ke dunia lain di mana mereka tidak akan menjadi saudara tiri … Tidak ada artinya di dunia tanpa dia.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/natsu-e-no-tunnel-sayonara-no-deguchi/"><img src="/img/125317l.jpg"></a></td>
+<td class="videsc"><a href="/anime/natsu-e-no-tunnel-sayonara-no-deguchi/"> Natsu e no Tunnel, Sayonara no Deguchi </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 22 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Natsu e no Tunnel, Sayonara no Deguchi – Kaoru Tono mendengar desas-desus: Hukum ruang dan waktu tidak ada artinya bagi Terowongan Urashima. Jika Anda menemukannya, berjalanlah dan Anda akan menemukan keinginan hati Anda di sisi lain… sebagai ganti tahun hidup Anda sendiri. Suatu malam, Kaoru kebetulan menemukan dirinya berdiri di depan sebuah terowongan yang terlihat mencurigakan seperti yang dijelaskan oleh rumor tersebut. Dia mendapati dirinya memikirkan Karen, saudari yang hilang dalam kecelakaan lima tahun lalu.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-film-red/"><img src="/img/124722l.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-film-red/"> One Piece Film: Red </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 55 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Uta, seorang penyanyi terkenal yang merahasiakan identitasnya. Suatu hari, konser live akan diadakan di mana ia akan muncul di hadapan dunia untuk pertama kali. Acaranya menjadi topik hangat yang diperbincangkan oleh bajak laut, maupun angkatan laut, dan tentu saja Luffy bersama teman-temannya. Hari pertunjukan live tiba, suara Uta menggema di seluruh penjuru dunia…</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/yuru-camp%e2%96%b3-movie/"><img src="/img/123863l.jpg"></a></td>
+<td class="videsc"><a href="/anime/yuru-camp%e2%96%b3-movie/"> Yuru Camp△ Movie </a><br> <span class="label">Movie </span> <span class="label"> 2 hr. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Menampilkan karakter yang sudah dikenal dari waralaba yang sekarang sudah dewasa, dan bersatu kembali untuk membangun tempat perkemahan.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/dragon-ball-super-super-hero/"><img src="/img/122797l.jpg"></a></td>
+<td class="videsc"><a href="/anime/dragon-ball-super-super-hero/"> Dragon Ball Super: Super Hero </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 39 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Aksi pertempuran yang gemuruh dari pahlawan super yang benar-benar baru dari penulis aslinya, Akira Toriyama dimulai!
+Sudah empat tahun sejak panayangan Dragon Ball Super: Broly. Film terbaru dari seri “Dragon Ball Super” berlanjut!. Organisasi jahat Red Ribbon Army yang pernah dihancurkan oleh Son Goku bangkit kembali. Android terkuat baru lahir, Gamma No. 1 dan 2. Mereka menyebut diri mereka “pahlawan super” dan mulai menyerang Piccolo, Gohan, dan lainnya… Apa tujuan sebenarnya Red Ribbon Army?</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/karakai-jouzu-no-takagi-san-movie/"><img src="/img/123398l.jpg"></a></td>
+<td class="videsc"><a href="/anime/karakai-jouzu-no-takagi-san-movie/"> Karakai Jouzu no Takagi-san Movie </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 13 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Ini adalah kisah remaja yang lembut pada musim panas.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/inu-ou/"><img src="/img/121461l.jpg"></a></td>
+<td class="videsc"><a href="/anime/inu-ou/"> Inu-Ou </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 38 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Inu-Oh terlahir dengan fisik yang aneh. Dia menutupi setiap inci tubuhnya dengan pakaian, termasuk topeng di wajahnya. Suatu hari, dia bertemu dengan seorang anak laki-laki bernama Tomona, seorang pemain biwa buta, dan saat Tomona memainkan lagu halus tentang takdir yang kusut, Inu-Oh menemukan kemampuan menari yang luar biasa.
+Inu-Oh dan Tomona menjadi rekan dan teman yang tak terpisahkan, menggunakan bakat kreatif mereka untuk bertahan hidup di pinggiran masyarakat, karena lagu demi lagu membuat mereka terkenal dan mendorong mereka menjadi bintang. Melalui lagu-lagunya, Inu-Oh memukau penontonnya di atas panggung, dan secara bertahap mulai berubah menjadi seseorang dengan ketampanan tiada tara.
+Tapi mengapa Tomona buta? Mengapa Inu-Oh lahir dengan fisik yang aneh? Ini adalah kisah tentang persahabatan Inu-Oh dan Tomona, yang menari dan bernyanyi untuk mendapatkan kebenaran dan mematahkan kutukan satu sama lain.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/5-toubun-no-hanayome-movie/"><img src="/img/121402l.jpg"></a></td>
+<td class="videsc"><a href="/anime/5-toubun-no-hanayome-movie/"> 5-toubun no Hanayome Movie </a><br> <span class="label">Movie </span> <span class="label"> 2 hr. 16 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Fuutarou Uesugi telah memutuskan untuk membimbing lima gadis cantik yang malas belajar dan “diambang kegagalan” hingga mereka lulus. Upaya sejauh ini telah membuahkan hasil, kembar lima mampu melanjutkan sekolah mereka hingga kelas tiga. Masing-masing dari mereka menatap masa depan menuju “kelulusan”. Kembar lima menyadari cinta mereka pada Fuutarou yang banyak menghabiskan waktu bersama.Bagaimana perkembangan cinta si kembar lima dan Fuutarou? Siapa sebenarnya pengantin yang mendampingi Fuutarou di pelaminan?
+Kisah komedi romantis kembar lima mencapai babak final.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/detective-conan-movie-25-halloween-no-hanayome/"><img src="/img/120789l.jpg"></a></td>
+<td class="videsc"><a href="/anime/detective-conan-movie-25-halloween-no-hanayome/"> Detective Conan Movie 25: Halloween no Hanayome </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 50 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Shibuya, Tokyo ramai dengan pernak-pernik Halloween.
+Di Sibuya Hikarie sedang ada acara pernikahan. Pengatinnya adalah Detektif Satou dari Departemen Kepolisian Metropolitan. Conan dan yang lainnya datang sebagai tamu undangan. Tiba-tiba orang misterius menyerang, detektif Takagi yang berusaha melindungi orang-orang berada dalam bahaya!?.
+Pada saat yang sama, pelaku kasus pengeboman melarikan diri dari penjara. Apakah ini hanya kebetulan?. Rei Furuya (Tooru Amuro) dari kepolisian segera bertindak. Namun, orang dengan kostum misterius muncul dengan bom.
+Conan datang ke tempat perlindungan bawah tanah tempat Amuro bersembunyi untuk menangani bom.
+Perayaan Halloween berubah menjadi situasi yang tak dibayangkan sebelumnya.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/blue-thermal/"><img src="/img/120217l.jpg"></a></td>
+<td class="videsc"><a href="/anime/blue-thermal/"> Blue Thermal </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 43 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Tamaki Tsuru, mahasiswa baru di Universitas Aonagi. Saat masih SMA dia aktif di klub voli. Namun, memasuki kuliah, ia bergabung dengan klub tenis. Suatu hari, bola tenis yang dipukulnya tak sengaja mengenai Daisuke saat membawa glider dan membuatnya rusak. Tamaki harus menanggung biaya perbaikan sebesar dua juta yen, tetapi karena tak memiliki uang sebanyak itu, sebagai gantinya dia bergabung ke klub penerbangan sebagai pembantu.</p>
+</td></tr></tbody></table></div>
+<div class="pag"><span>«</span> <span class='cur'>1</span><a href='https://anime-indo.lol/movie/page/2/'>2</a><a href='https://anime-indo.lol/movie/page/3/'>3</a>...<a href='https://anime-indo.lol/movie/page/41/'>41</a><a href='https://anime-indo.lol/movie/page/2/'>»</a></div></div>
+</div>
+<div class="kaki1"><a href="/dcma.php">Disclaimer</a> - <a href="/privacy-police.php">Privacy Police</a> </div>
+<div id="footer">© 2026 <strong>Animeindo</strong></div>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4300415,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4300415&101" alt="web site hit counter" border="0"></a></noscript>
+<!-- Histats.com  END  -->
+<script>
+$(document).ready(function() {
+    window.defaultLazyLoadInstance = new LazyLoad({
+        elements_selector: ".lazy",
+        data_src: "original"
+    }), new LazyLoad({
+        elements_selector: ".lazy1",
+        data_src: "original"
+    });
+});
+</script>
+<script data-cfasync="false" async type="text/javascript" src="//qj.brigsgunster.com/rIEOLhqrRjq2Fz6v5/36400"></script>
+</body>
+</html>
