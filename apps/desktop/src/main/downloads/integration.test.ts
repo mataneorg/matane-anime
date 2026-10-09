@@ -62,6 +62,24 @@ function expectSelfContained(folder: string, playlistFile = 'playlist.m3u8'): vo
   }
 }
 
+/**
+ * Waits until the site has stopped logging requests. A download that failed has aborted the segments still in
+ * flight, but the site may be a moment behind in handling them (slow disks do this), and a request logged after
+ * the test took its mark would be counted as the retry's.
+ */
+async function siteQuiet(quietMs = 150, maxMs = 5000): Promise<void> {
+  const deadline = Date.now() + maxMs;
+  let seen = -1;
+  let since = Date.now();
+  while (Date.now() < deadline) {
+    if (site.log.length !== seen) {
+      seen = site.log.length;
+      since = Date.now();
+    } else if (Date.now() - since >= quietMs) return;
+    await new Promise((resolve) => setTimeout(resolve, 20));
+  }
+}
+
 const segmentRequests = (since = 0): string[] =>
   site.log
     .slice(since)
@@ -410,6 +428,7 @@ describe('expired links (R5)', () => {
     site.addFault({ pattern: 'seg_001.ts', status: 403 });
     const { service, row } = await download('Recover403', () => cdnStream(site, '/media/hls-ts/master.m3u8'));
     expect(row.status).toBe('error');
+    await siteQuiet();
     const kept = readdirSync(`${row.path}.tmp`).filter((n) => n.endsWith('.ts')).length;
     site.clearFaults();
     const mark = site.log.length;
