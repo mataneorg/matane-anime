@@ -1,4 +1,5 @@
 import { Outlet } from '@tanstack/react-router';
+import { CommandPalette } from '@renderer/features/palette/CommandPalette';
 import { Sidebar } from './Sidebar';
 import { TitleBar } from './TitleBar';
 
@@ -12,6 +13,7 @@ export function AppShell() {
           <Outlet />
         </main>
       </div>
+      <CommandPalette />
     </div>
   );
 }

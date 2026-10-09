@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { DownloadActivity } from '@renderer/features/downloads/DownloadActivity';
 import { animeQuery, networkStatusQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
+import { usePaletteStore } from '@renderer/stores/palette';
 import { IncognitoPill } from './IncognitoPill';
 import { WindowControls } from './WindowControls';
 
-/** The command palette arrives in phase 5; the hint is shown from the start (mockup 01). */
-const PALETTE_SHORTCUT = 'Ctrl K';
+/** The key hint on the search button (mockup 01); the palette itself listens for both Ctrl and Cmd. */
+const PALETTE_SHORTCUT = { default: 'Ctrl K', darwin: '\u2318 K' } as const;
 
 /** The breadcrumb for a path, as translation keys. */
 function crumbsFor(pathname: string): string[] {
@@ -82,13 +83,13 @@ export function TitleBar() {
       <div className="flex min-w-0 flex-1 justify-center">
         <button
           type="button"
-          onClick={() => void router.navigate({ to: '/browse/global-search' })}
+          onClick={() => usePaletteStore.getState().setOpen(true)}
           className="no-drag flex h-7 w-80 max-w-full items-center gap-2 rounded-lg border border-border-strong bg-input pr-2 pl-2.5 text-xs leading-4 text-foreground"
         >
           <Search className="size-3.5 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
           <span className="flex-1 truncate text-left">{t('titleBar.searchHint')}</span>
           <kbd className="rounded-sm bg-card px-1.5 py-px font-mono text-[11px] leading-3.5 font-medium">
-            {PALETTE_SHORTCUT}
+            {info?.platform === 'darwin' ? PALETTE_SHORTCUT.darwin : PALETTE_SHORTCUT.default}
           </kbd>
         </button>
       </div>

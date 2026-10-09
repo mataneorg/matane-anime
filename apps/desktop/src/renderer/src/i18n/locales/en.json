@@ -915,9 +915,126 @@
     "badge_one": "{{count}} update waiting",
     "badge_other": "{{count}} updates waiting"
   },
-  "palette": {},
-  "onboarding": {},
-  "whatsNew": {},
+  "palette": {
+    "title": "Command palette",
+    "label": "Search the app",
+    "placeholder": "Search your library, jump to a page, or run an action",
+    "groups": {
+      "continue": "Continue watching",
+      "library": "Library",
+      "navigate": "Go to",
+      "actions": "Actions",
+      "sources": "Sources"
+    },
+    "continueEpisode": "Continue Ep {{number}}",
+    "continueWithTime": "Continue Ep {{number}} · {{left}} left",
+    "openDetails": "Open details",
+    "searchSources": "Search \"{{query}}\" in all sources",
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "hintMove": "Move",
+    "hintOpen": "Open",
+    "hintSources": "Search sources",
+    "checkUpdates": "Check for updates",
+    "checkUpdatesKeywords": "new episodes refresh",
+    "checking": "Checking for new episodes…",
+    "checkedNew_one": "{{count}} new episode",
+    "checkedNew_other": "{{count}} new episodes",
+    "checkedNone": "No new episodes",
+    "checkFailed": "The check did not finish",
+    "pauseDownloads": "Pause all downloads",
+    "pauseDownloadsKeywords": "stop",
+    "resumeDownloads": "Resume all downloads",
+    "resumeDownloadsKeywords": "start continue",
+    "paused": "Downloads paused",
+    "resumed": "Downloads resumed",
+    "downloadsFailed": "Could not change the downloads",
+    "incognitoKeywords": "private history",
+    "incognitoOn": "Currently on",
+    "incognitoOff": "Currently off"
+  },
+  "onboarding": {
+    "crumb": "Welcome",
+    "stepOf": "Step {{current}} of {{total}}",
+    "stepsLabel": "Setup steps",
+    "saved": "Each choice is saved as you go. You can change all of it later in Settings.",
+    "skip": "Skip setup",
+    "back": "Back",
+    "next": "Next",
+    "finish": "Start watching",
+    "steps": {
+      "language": "Language and theme",
+      "content": "Content language",
+      "folder": "Download folder",
+      "player": "Player controls"
+    },
+    "language": {
+      "title": "Make it yours",
+      "description": "Pick the language of the app and how it looks. You can change both at any time.",
+      "appLanguage": "App language",
+      "followsSystem": "Follows your system",
+      "options": {
+        "en": {
+          "title": "English",
+          "name": "English"
+        },
+        "id": {
+          "title": "Bahasa Indonesia",
+          "name": "Indonesian"
+        }
+      },
+      "theme": "Theme",
+      "themes": {
+        "mocha": {
+          "name": "Mocha",
+          "hint": "Dark"
+        },
+        "latte": {
+          "name": "Latte",
+          "hint": "Light"
+        },
+        "system": {
+          "name": "System",
+          "hint": "Mocha or Latte"
+        }
+      }
+    },
+    "content": {
+      "title": "Which languages do you watch in?",
+      "description": "Sources and extensions in other languages stay hidden, so lists and search stay short. Change this any time in Settings, General.",
+      "noSources": "Matane Anime comes with no sources. This only filters the ones you add yourself."
+    },
+    "folder": {
+      "title": "Where should downloads go?",
+      "description": "Episodes you download are saved here so you can watch them offline. A single episode can take several hundred megabytes.",
+      "free": "{{size}} free on this drive",
+      "limit": "Limit downloads to",
+      "limitHint": "Automatic downloads stop at this size. You can change it in Settings, Downloads.",
+      "layout": "How files are organised",
+      "source": "Example Source",
+      "anime": "Anime title",
+      "episode": "Episode 1"
+    },
+    "player": {
+      "title": "Your keyboard is the remote",
+      "description": "These shortcuts work in the player. You can change how far the arrow keys jump in Settings, Player.",
+      "shortcutsLabel": "Player shortcuts",
+      "playPause": "Play or pause",
+      "jump": "Jump {{count}} seconds",
+      "fullscreen": "Fullscreen",
+      "nextEpisode": "Next episode",
+      "speed": "Slower, faster",
+      "thresholdAt": "Episodes count as watched at <strong>{{percent}}%</strong>, so you can skip the credits. You always pick up where you stopped.",
+      "thresholdEnd": "Episodes count as watched when they end. You always pick up where you stopped."
+    }
+  },
+  "whatsNew": {
+    "title": "What’s new",
+    "description": "Here is what changed since you last looked.",
+    "version": "Version {{version}}",
+    "notes": "Read the full release notes",
+    "gotIt": "Got it"
+  },
   "incognito": {
     "pill": "Incognito",
     "pillHint": "Incognito is on. Click to turn it off.",

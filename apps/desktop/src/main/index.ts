@@ -8,6 +8,7 @@ import { autoUpdater } from 'electron-updater';
 import { createMainWindow } from './app/window';
 import { BackupService } from './backup/service';
 import { applyPendingRestore } from './backup/restore';
+import { markExistingProfileOnboarded } from './app/onboarding';
 import { applyRunAtLogin } from './app/autostart';
 import { SystemIntegration, trayText } from './app/system';
 import { createElectronTray } from './app/tray';
@@ -192,6 +193,13 @@ if (!app.requestSingleInstanceLock()) {
       const downloadsRepo = new DownloadsRepository(connection.db, changes);
       const historyRepo = new HistoryRepository(connection.db, changes);
       const libraryRepo = new LibraryRepository(connection.db, changes);
+      // A profile from before the first-run flow existed does not get it (UI-9).
+      markExistingProfileOnboarded(
+        settings,
+        () =>
+          libraryRepo.count() > 0 ||
+          (connection.sqlite.prepare('SELECT COUNT(*) AS n FROM history').get() as { n: number }).n > 0,
+      );
       const covers = new LibraryCovers(
         join(userData, 'covers'),
         animeRepo,

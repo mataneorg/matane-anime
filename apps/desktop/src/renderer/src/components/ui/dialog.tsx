@@ -49,3 +49,31 @@ export function DialogContent({
     </DialogPrimitive.Portal>
   );
 }
+
+/**
+ * A modal without the header and close button, for content that draws its own (the command palette). `title` is
+ * only for screen readers.
+ */
+export function DialogBareContent({
+  title,
+  children,
+  className,
+  ...props
+}: Omit<ComponentProps<typeof DialogPrimitive.Content>, 'title'> & { title: string }) {
+  return (
+    <DialogPrimitive.Portal>
+      <DialogPrimitive.Overlay className="fixed inset-0 z-40 bg-black/50" />
+      <DialogPrimitive.Content
+        aria-describedby={undefined}
+        className={cn(
+          'fixed top-24 left-1/2 z-50 flex max-h-[min(560px,calc(100vh-128px))] w-[min(640px,calc(100vw-48px))] -translate-x-1/2 flex-col overflow-hidden rounded-2xl border bg-popover shadow-xl',
+          className,
+        )}
+        {...props}
+      >
+        <DialogPrimitive.Title className="sr-only">{title}</DialogPrimitive.Title>
+        {children}
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  );
+}

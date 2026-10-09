@@ -63,7 +63,11 @@ export function GeneralSettings() {
                   title={t(`settings.general.accents.${accent}`)}
                   onClick={() => update.mutate({ accent })}
                   style={{ background: `var(--catppuccin-color-${accent})` }}
-                  className={cn('size-7 rounded-full', selected && 'outline-2 outline-offset-3 outline-foreground')}
+                  className={cn(
+                    'size-7 rounded-full',
+                    // The selected one is outlined already; keyboard focus turns that outline to the ring color.
+                    selected && 'outline-2 outline-offset-3 outline-foreground focus-visible:outline-ring',
+                  )}
                 />
               );
             })}

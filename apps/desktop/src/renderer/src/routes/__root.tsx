@@ -5,6 +5,8 @@ import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Toaster } from '@renderer/components/Toaster';
 import { DownloadsHost } from '@renderer/features/downloads/DownloadsHost';
+import { Onboarding } from '@renderer/features/onboarding/Onboarding';
+import { WhatsNew } from '@renderer/features/whats-new/WhatsNew';
 import { invalidateForTags, networkStatusQuery } from '@renderer/lib/catalog';
 import { incognitoQuery } from '@renderer/lib/incognito';
 import { osLocaleQuery, receiveSettings, settingsQuery, useIpcEvent } from '@renderer/lib/ipc';
@@ -58,10 +60,20 @@ function RootLayout() {
 
   // Wait for the stored settings so the first paint already has the right theme and language.
   if (!settings || (settings.language === 'system' && locale === undefined)) return null;
+  // A new profile starts with the setup flow (UI-9); `main` marks profiles that already have data as done.
+  if (!settings.onboardingDone) {
+    return (
+      <>
+        <Onboarding />
+        <Toaster />
+      </>
+    );
+  }
   return (
     <>
       <Outlet />
       <DownloadsHost />
+      <WhatsNew />
       <Toaster />
     </>
   );

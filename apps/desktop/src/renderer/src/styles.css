@@ -100,6 +100,25 @@
   [data-accent='lavender'] {
     --app-accent: var(--catppuccin-color-lavender);
   }
+  /*
+   * `base` on a Latte accent only reaches AA (4.5:1) for mauve and red (blue is 4.3:1). The lighter accents get
+   * the Mocha crust, which is 4.7 to 7.2:1 on them (UI-3: keep the contrast).
+   */
+  .latte:is(
+    [data-accent='rosewater'],
+    [data-accent='flamingo'],
+    [data-accent='pink'],
+    [data-accent='maroon'],
+    [data-accent='peach'],
+    [data-accent='yellow'],
+    [data-accent='green'],
+    [data-accent='teal'],
+    [data-accent='sky'],
+    [data-accent='sapphire'],
+    [data-accent='lavender']
+  ) {
+    --app-on-accent: #11111b;
+  }
   .amoled {
     --catppuccin-color-base: #000000;
     --catppuccin-color-mantle: #000000;

@@ -903,9 +903,126 @@
     "badge_one": "{{count}} pembaruan menunggu",
     "badge_other": "{{count}} pembaruan menunggu"
   },
-  "palette": {},
-  "onboarding": {},
-  "whatsNew": {},
+  "palette": {
+    "title": "Palet perintah",
+    "label": "Cari di aplikasi",
+    "placeholder": "Cari library, pindah halaman, atau jalankan aksi",
+    "groups": {
+      "continue": "Lanjut nonton",
+      "library": "Library",
+      "navigate": "Buka halaman",
+      "actions": "Aksi",
+      "sources": "Source"
+    },
+    "continueEpisode": "Lanjut Ep {{number}}",
+    "continueWithTime": "Lanjut Ep {{number}} · sisa {{left}}",
+    "openDetails": "Buka detail",
+    "searchSources": "Cari \"{{query}}\" di semua source",
+    "results_one": "{{count}} hasil",
+    "results_other": "{{count}} hasil",
+    "hintMove": "Pindah",
+    "hintOpen": "Buka",
+    "hintSources": "Cari di source",
+    "checkUpdates": "Cek pembaruan",
+    "checkUpdatesKeywords": "episode baru segarkan",
+    "checking": "Mengecek episode baru…",
+    "checkedNew_one": "{{count}} episode baru",
+    "checkedNew_other": "{{count}} episode baru",
+    "checkedNone": "Tidak ada episode baru",
+    "checkFailed": "Pengecekan tidak selesai",
+    "pauseDownloads": "Jeda semua unduhan",
+    "pauseDownloadsKeywords": "berhenti",
+    "resumeDownloads": "Lanjutkan semua unduhan",
+    "resumeDownloadsKeywords": "mulai lanjut",
+    "paused": "Unduhan dijeda",
+    "resumed": "Unduhan dilanjutkan",
+    "downloadsFailed": "Unduhan tidak bisa diubah",
+    "incognitoKeywords": "privat riwayat",
+    "incognitoOn": "Sedang aktif",
+    "incognitoOff": "Sedang mati"
+  },
+  "onboarding": {
+    "crumb": "Selamat datang",
+    "stepOf": "Langkah {{current}} dari {{total}}",
+    "stepsLabel": "Langkah pengaturan",
+    "saved": "Setiap pilihan langsung tersimpan. Kamu bisa mengubah semuanya nanti di Setelan.",
+    "skip": "Lewati pengaturan",
+    "back": "Kembali",
+    "next": "Lanjut",
+    "finish": "Mulai nonton",
+    "steps": {
+      "language": "Bahasa dan tema",
+      "content": "Bahasa konten",
+      "folder": "Folder unduhan",
+      "player": "Kontrol pemutar"
+    },
+    "language": {
+      "title": "Atur sesukamu",
+      "description": "Pilih bahasa aplikasi dan tampilannya. Keduanya bisa kamu ubah kapan saja.",
+      "appLanguage": "Bahasa aplikasi",
+      "followsSystem": "Mengikuti sistemmu",
+      "options": {
+        "en": {
+          "title": "English",
+          "name": "Inggris"
+        },
+        "id": {
+          "title": "Bahasa Indonesia",
+          "name": "Indonesia"
+        }
+      },
+      "theme": "Tema",
+      "themes": {
+        "mocha": {
+          "name": "Mocha",
+          "hint": "Gelap"
+        },
+        "latte": {
+          "name": "Latte",
+          "hint": "Terang"
+        },
+        "system": {
+          "name": "Sistem",
+          "hint": "Mocha atau Latte"
+        }
+      }
+    },
+    "content": {
+      "title": "Kamu nonton dalam bahasa apa?",
+      "description": "Source dan extension berbahasa lain disembunyikan, supaya daftar dan pencarian tetap ringkas. Bisa diubah kapan saja di Setelan, Umum.",
+      "noSources": "Matane Anime tidak membawa source apa pun. Ini hanya menyaring source yang kamu tambahkan sendiri."
+    },
+    "folder": {
+      "title": "Mau simpan unduhan di mana?",
+      "description": "Episode yang kamu unduh disimpan di sini supaya bisa ditonton offline. Satu episode bisa makan beberapa ratus megabita.",
+      "free": "{{size}} kosong di drive ini",
+      "limit": "Batasi unduhan sampai",
+      "limitHint": "Unduhan otomatis berhenti di ukuran ini. Bisa kamu ubah di Setelan, Unduhan.",
+      "layout": "Cara file ditata",
+      "source": "Contoh Source",
+      "anime": "Judul anime",
+      "episode": "Episode 1"
+    },
+    "player": {
+      "title": "Keyboardmu adalah remotenya",
+      "description": "Pintasan ini bekerja di pemutar. Kamu bisa mengubah lompatan tombol panah di Setelan, Pemutar.",
+      "shortcutsLabel": "Pintasan pemutar",
+      "playPause": "Putar atau jeda",
+      "jump": "Lompat {{count}} detik",
+      "fullscreen": "Layar penuh",
+      "nextEpisode": "Episode berikutnya",
+      "speed": "Lebih lambat, lebih cepat",
+      "thresholdAt": "Episode dianggap ditonton pada <strong>{{percent}}%</strong>, jadi kamu bisa melewati kredit. Kamu selalu lanjut dari tempat terakhir.",
+      "thresholdEnd": "Episode dianggap ditonton saat selesai. Kamu selalu lanjut dari tempat terakhir."
+    }
+  },
+  "whatsNew": {
+    "title": "Yang baru",
+    "description": "Ini yang berubah sejak terakhir kamu melihat.",
+    "version": "Versi {{version}}",
+    "notes": "Baca catatan rilis lengkap",
+    "gotIt": "Mengerti"
+  },
   "incognito": {
     "pill": "Penyamaran",
     "pillHint": "Mode penyamaran aktif. Klik untuk mematikan.",
