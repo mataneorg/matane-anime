@@ -230,6 +230,7 @@ Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pad
 | LIB-5 | Multi-select: pindah kategori, tandai ditonton, download, hapus | P0 |
 | LIB-6 | Pintasan "Lanjut nonton" pada kartu | P0 |
 | LIB-7 | Cover library disimpan **permanen** di disk (tidak kena LRU), diperbarui saat metadata di-refresh | P0 |
+| LIB-7a | Cover browse dan search disimpan di **cache disk LRU** (default 1 GB, bisa diatur 100 MB sampai 50 GB, bisa dikosongkan dari Pengaturan) agar tampil tanpa menunggu situs setelah restart ([ADR 0033](adr/0033-cover-cache.md)) | P0 |
 | LIB-8 | Cover kustom | P1 |
 | LIB-9 | Library 1.000+ anime dan 50.000 episode tetap lancar (virtualisasi grid) | P0 |
 
@@ -434,7 +435,7 @@ Aturan kontrak:
 Renderer tidak boleh meminta video langsung ke situs sumber: banyak sumber mewajibkan `Referer`/`Origin` yang tidak boleh diatur dari renderer, dan CORS akan menolaknya. Main yang mengambil.
 
 Skema privileged didaftarkan sebelum `ready`:
-- `anime://cover/<animeId>`: cover kustom → cover permanen → cache → fetch.
+- `anime://cover/library/<animeId>`: cover permanen library (file lokal). `anime://cover/<source>/<image>`: cover browse dan search, urutan memori (64 MB) → cache disk → fetch lewat extension; request yang sama dan bersamaan digabung ([ADR 0033](adr/0033-cover-cache.md)).
 - `anime://play/<sessionId>/…`: sesi pemutaran, baik **proxy** (streaming) maupun **lokal** (unduhan). Satu kode jalur di renderer.
 
 CSP: `media-src anime:`; `img-src anime: data:`; `connect-src 'self' anime:` (hls.js memakai fetch/XHR ke `anime://`).
@@ -532,7 +533,7 @@ Seluruh skema dibuat sejak Fase 0 (termasuk tabel tracker dan sesi tontonan) aga
 | `history` | Satu baris per anime: `anime_id`, `episode_id`, `watched_at` |
 | `watch_sessions` | `anime_id`, `episode_id`, `started_at`, `ended_at`, `active_ms` (statistik pasca-v1; terpisah dari `history` sehingga menghapus history tidak menghapusnya) |
 | `downloads` | `episode_id` (unik), `status` (`queued`/`downloading`/`paused`/`error`/`done`), `queue_order`, `kind` (`hls`/`mp4`), `segments_done`, `segments_total`, `bytes_done`, `size_bytes`, `quality`, `server`, `error`, `path`, `created_at`, `completed_at` |
-| `image_cache` | `key`, `kind` (`browse_cover`), `path`, `size_bytes`, `content_type`, `last_access_at` (LRU, default 1 GB) |
+| `image_cache` | `key`, `kind` (`browse_cover`), `path`, `size_bytes`, `content_type`, `last_access_at` (LRU, default 1 GB, diatur di Pengaturan → Data dan penyimpanan lewat `imageCacheSizeMb`; hanya cover browse, cover library tidak termasuk) |
 | `tracker_accounts`, `anime_tracks`, `tracker_queue` | Disiapkan untuk pasca-v1 (token disimpan lewat `safeStorage`) |
 | `settings` | `key` → `value_json` |
 

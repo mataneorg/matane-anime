@@ -3,7 +3,7 @@
 Status: Accepted (2026-10-08)
 
 ## Context
-Browse covers are fetched from the site every time and may be cached for a while. A library entry must keep its cover when the site is down, the extension is removed, or the image moves (docs/PRD.md LIB-7).
+Browse covers are fetched from the site and cached for a while ([0033](0033-cover-cache.md)). A library entry must keep its cover when the site is down, the extension is removed, or the image moves (docs/PRD.md LIB-7).
 
 ## Decision
 - Adding an anime to the library downloads its cover **once** into `userData/covers/<animeId>.<ext>` through the extension's own network layer (rate limit, headers, Cloudflare handling apply). Only `image/*` answers with status 200 and at most 10 MB are kept. The path is stored in `anime.cover_path`. Removing the anime from the library deletes the file, unless it still has a history entry.

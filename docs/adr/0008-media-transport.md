@@ -33,7 +33,7 @@ Per-OS tables: `pnpm --filter @matane-anime/desktop spike:report <spike-results.
 ## Update (phase 1)
 - The Referer/Origin bridge moved to `network/header-bridge.ts` and is installed **per session**, because each extension has its own ([0012](0012-network-layer.md)).
 - Playback sessions carry the id of their extension. Upstream requests for them go through that extension's session with `session.fetch` (streaming, cookies included) and its media rate limit; only sessions without an extension, such as the spike's, use `net.fetch` on the default session ([0014](0014-playback-service.md)).
-- `anime://cover/<source>/<image>` is a second handler on the same scheme: main fetches covers through the extension's session and keeps them in a small in-memory cache. The permanent covers of library entries (LIB-7) come with phase 2.
+- `anime://cover/<source>/<image>` is a second handler on the same scheme: main fetches covers through the extension's session and keeps them in a small in-memory cache (a disk cache sits behind it since [0033](0033-cover-cache.md)). The permanent covers of library entries (LIB-7) come with phase 2.
 
 ## Alternative kept in reserve
 A custom hls.js loader that asks main over IPC and receives an `ArrayBuffer`. Not built: the proxy passed. It would still be needed for MP4 progressive playback, which has no loader hook, so it is a fallback only for HLS.
