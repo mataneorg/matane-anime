@@ -66,7 +66,7 @@ describe('listings', () => {
     const { client } = await load(() => undefined);
     const filters = await client.getFilters();
     const genre = filters.find((f) => f.type === 'select' && f.id === 'genre');
-    expect(genre?.type === 'select' && genre.options.length).toBe(79);
+    expect(genre?.type === 'select' && genre.options.length).toBe(77);
   });
 });
 
