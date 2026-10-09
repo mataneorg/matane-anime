@@ -66,7 +66,10 @@ describe('listings', () => {
     const { client } = await load(() => undefined);
     const filters = await client.getFilters();
     const genre = filters.find((f) => f.type === 'select' && f.id === 'genre');
-    expect(genre?.type === 'select' && genre.options.length).toBe(78);
+    expect(genre?.type === 'select' && genre.options.length).toBe(76);
+    const slugs = genre?.type === 'select' ? genre.options.map((o) => o.value) : [];
+    expect(slugs).not.toContain('hentai');
+    expect(slugs).not.toContain('erotica');
   });
 });
 
