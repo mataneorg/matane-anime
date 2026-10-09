@@ -1,6 +1,7 @@
-import type { BrowseInput } from '@matane-anime/shared';
+import type { BrowseInput, RefreshResult } from '@matane-anime/shared';
 import { type QueryClient, infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 import { call } from './api';
+import { createPrefetcher } from './prefetch';
 import { localQueryDefaults } from './query';
 
 // Query keys and options for extensions, sources, anime and episodes. Local data (what main stored) never
@@ -73,6 +74,36 @@ export const episodesQuery = (animeId: number) =>
     queryFn: () => call('episodes.list', { animeId }),
     ...localQueryDefaults,
   });
+
+const refreshing = new Map<number, Promise<RefreshResult>>();
+
+/**
+ * Fetches an anime's details and episodes from the source and puts them in the query cache. A second call for
+ * the same anime while one is running joins it, so a prefetch from hovering and the page opened a moment later
+ * do not ask the site twice.
+ */
+export function refreshAnime(queryClient: QueryClient, animeId: number): Promise<RefreshResult> {
+  let pending = refreshing.get(animeId);
+  if (!pending) {
+    pending = call('anime.refresh', { animeId })
+      .then((result) => {
+        queryClient.setQueryData(animeQuery(animeId).queryKey, result.anime);
+        queryClient.setQueryData(episodesQuery(animeId).queryKey, result.episodes);
+        return result;
+      })
+      .finally(() => refreshing.delete(animeId));
+    refreshing.set(animeId, pending);
+  }
+  return pending;
+}
+
+let prefetcher: ReturnType<typeof createPrefetcher> | undefined;
+
+/** Fetches ahead of a click (a card the pointer rests on). Quiet: a failure is left for the page to show. */
+export function prefetchAnime(queryClient: QueryClient, animeId: number): void {
+  prefetcher ??= createPrefetcher((id) => refreshAnime(queryClient, id));
+  prefetcher.request(animeId);
+}
 
 /** Tells main to stop waiting for a call when TanStack Query aborts it (a new search, leaving the page). */
 function cancelOnAbort(signal: AbortSignal): string {

@@ -61,6 +61,8 @@ const toCatalog = (row: AnimeRow): CatalogAnime => ({
   title: row.title,
   thumbnailUrl: row.thumbnailUrl,
   inLibrary: row.inLibrary,
+  // `lastUpdateCheckAt` doubles as "details last fetched" (see `saveDetails`).
+  detailsFetched: row.lastUpdateCheckAt !== null,
 });
 
 /** What a listing is remembered under: the first page of Popular or Latest. Searches and later pages are not. */
@@ -170,11 +172,15 @@ export class ExtensionService {
 
   async capabilities(sourceId: string): Promise<SourceCapabilities> {
     const { client } = this.resolve(sourceId);
-    return this.guard(async () => ({
-      latest: await client.supports('getLatest'),
-      filters: await client.supports('getFilters'),
-      resolveUrl: await client.supports('resolveUrl'),
-    }));
+    return this.guard(async () => {
+      // Three questions to the same process, none depending on another.
+      const [latest, filters, resolveUrl] = await Promise.all([
+        client.supports('getLatest'),
+        client.supports('getFilters'),
+        client.supports('resolveUrl'),
+      ]);
+      return { latest, filters, resolveUrl };
+    });
   }
 
   async filters(sourceId: string, requestId?: string) {

@@ -14,7 +14,7 @@ import { LibraryButton } from '@renderer/features/anime/LibraryButton';
 import { MigrateDialog } from '@renderer/features/anime/MigrateDialog';
 import { DownloadMenu } from '@renderer/features/downloads/DownloadMenu';
 import { call } from '@renderer/lib/api';
-import { animeQuery, episodesQuery } from '@renderer/lib/catalog';
+import { animeQuery, episodesQuery, refreshAnime } from '@renderer/lib/catalog';
 import { useDownloadMap } from '@renderer/lib/downloads';
 import { continueQuery } from '@renderer/lib/library';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
@@ -36,11 +36,8 @@ function AnimePage() {
   const [migrating, setMigrating] = useState(false);
 
   const refresh = useMutation({
-    mutationFn: () => call('anime.refresh', { animeId }),
-    onSuccess: (result) => {
-      queryClient.setQueryData(animeQuery(animeId).queryKey, result.anime);
-      queryClient.setQueryData(episodesQuery(animeId).queryKey, result.episodes);
-    },
+    // Joins a fetch started by hovering the card, and fills the query cache itself.
+    mutationFn: () => refreshAnime(queryClient, animeId),
   });
 
   // The first time an anime is opened its details and episodes are fetched once, on their own (BRW-6).

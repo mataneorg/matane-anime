@@ -69,6 +69,8 @@ export const catalogAnimeSchema = z.object({
   title: z.string(),
   thumbnailUrl: z.string().nullable(),
   inLibrary: z.boolean(),
+  /** The detail page and episode list were fetched at least once (a card can then skip fetching ahead). */
+  detailsFetched: z.boolean(),
 });
 export type CatalogAnime = z.infer<typeof catalogAnimeSchema>;
 

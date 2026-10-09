@@ -181,7 +181,7 @@ Prioritas: **P0** = wajib di v1.0 · **P1** = diusahakan di v1.0, boleh bergeser
 | BRW-3 | "Buka dari URL": tempel URL situs, `resolveUrl` memetakannya ke anime | P0 |
 | BRW-4 | Halaman detail: cover, judul, judul alternatif, deskripsi, genre, status, tipe, tahun, studio, daftar episode, tombol tambah ke library, "Mulai/Lanjut nonton", refresh, buka di browser | P0 |
 | BRW-5 | Daftar episode: sort, filter (belum ditonton, terunduh), tandai ditonton/belum, "tandai semua sebelumnya", indikator unduhan dan progress mini per baris | P0 |
-| BRW-6 | Detail pertama kali: ambil detail dan episode sekali otomatis; kegagalan menampilkan error + coba lagi tanpa menghilangkan data lama | P0 |
+| BRW-6 | Detail pertama kali: ambil detail dan episode sekali otomatis, atau lebih awal saat pointer berhenti ±0,35 detik di kartu anime yang belum pernah diambil ([ADR 0035](adr/0035-prefetch-on-hover.md)); kegagalan menampilkan error + coba lagi tanpa menghilangkan data lama | P0 |
 | BRW-7 | Saat offline: Browse menampilkan daftar terakhir yang pernah dilihat bila ada (BRW-10), selain itu dinonaktifkan dengan keterangan; global search dinonaktifkan; library, history, downloads tetap jalan | P0 |
 | BRW-8 | Migrasi source: pindahkan anime ke source lain, membawa status ditonton per nomor episode | P1 |
 | BRW-10 | Halaman pertama Popular dan Latest tiap source diingat antar sesi (urutan id anime; berlaku 7 hari) dan ditampilkan langsung selagi halaman sebenarnya dimuat, dengan keterangan "memperbarui". Search dan halaman berikutnya tidak diingat ([ADR 0033](adr/0033-cover-cache.md)) | P0 |
