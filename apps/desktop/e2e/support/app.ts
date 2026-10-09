@@ -11,11 +11,12 @@ export interface LaunchedApp {
 
 /**
  * Starts the built app (`out/`, so run `pnpm e2e`, which builds first) with a throwaway profile.
+ * Pass `onboarding: true` to see the first-run flow instead of skipping it.
  * `--no-sandbox` is for CI runners that forbid user namespaces; local runs do not need it.
  */
 export async function launchApp(
   env: Record<string, string> = {},
-  options: { userData?: string } = {},
+  options: { userData?: string; onboarding?: boolean } = {},
 ): Promise<LaunchedApp> {
   // Pass the `userData` of an earlier launch to start the app again on the same profile (restart tests).
   const userData = options.userData ?? mkdtempSync(join(tmpdir(), 'matane-anime-e2e-'));
@@ -29,5 +30,13 @@ export async function launchApp(
   });
   const page = await app.firstWindow();
   await page.waitForLoadState('domcontentloaded');
+  // A fresh profile starts with the first-run flow (phase 5); the specs that are not about it mark it done.
+  if (!options.onboarding) {
+    await page.evaluate(() =>
+      (window as unknown as { api: { invoke(c: string, i?: unknown): Promise<unknown> } }).api.invoke('settings.set', {
+        onboardingDone: true,
+      }),
+    );
+  }
   return { app, page, userData };
 }

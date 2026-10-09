@@ -657,7 +657,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Mode dev (hot reload, panel log), `ma-ext repo keygen|build|verify`.
 - `migrateUrl`; publikasi SDK ke npm; panduan membuat extension.
 
-**Fase 5: Polish dan rilis v1.0**
+**Fase 5: Polish dan rilis v1.0** *(dibangun 9 Okt 2026 di branch `development`, belum diuji di Electron; rencana dan penyimpangannya di [docs/plans/fase-5-polish-rilis-v1.md](plans/fase-5-polish-rilis-v1.md))*
 - Setting jaringan (DoH, proxy, UA), tes koneksi.
 - Command palette, onboarding, What's new, tema AMOLED + aksen, incognito (P1).
 - Backup/restore (P1; selambatnya v1.1).

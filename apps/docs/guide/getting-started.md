@@ -27,6 +27,6 @@ The builds are not code-signed yet, so the first run triggers a warning from you
 
 ## First launch
 
-The app starts empty on purpose: it has **no sources**. To watch something you add an extension, which needs a repository address from someone who publishes one. [Extensions and repositories](/guide/extensions) explains the steps. A short onboarding asks for the interface language and theme, the content language, the download folder and shows the player controls.
+The app starts empty on purpose: it has **no sources**. To watch something you add an extension, which needs a repository address from someone who publishes one. [Extensions and repositories](/guide/extensions) explains the steps. A short onboarding asks for the interface language and theme, the content language, the download folder and shows the player controls. After an update, a **What's new** dialog lists what changed since the version you last used.
 
 Your data (library, progress, settings) lives in the app's user data folder, and downloads in the download folder, which defaults to `Documents/Matane Anime`. Neither is deleted when you uninstall.

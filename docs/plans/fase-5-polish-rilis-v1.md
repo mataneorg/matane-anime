@@ -1,8 +1,20 @@
 # Plan: Fase 5 (Polish dan rilis v1.0) Matane Anime
 
-> **Status: sedang dikerjakan di branch `development`** (dimulai 9 Okt 2026). Bagian "Penyimpangan" dan daftar "Belum" diisi setelah fase selesai, seperti Fase 1–4. Dikerjakan di kantor tanpa menjalankan Electron: e2e, `pnpm build`, `pnpm dist` dan `smoke:packaged` diuji pemilik produk di rumah.
+> **Status: dibangun (9 Okt 2026) di branch `development`, belum diuji di Electron.** Satu commit per milestone (5a sampai 5h), dikerjakan di kantor tanpa menjalankan Electron: tidak ada e2e, `pnpm build`, `pnpm dist`, `smoke:packaged` atau `verify:packages` yang dijalankan. Yang lolos: lint, format, tiga typecheck desktop (node, web, e2e) dan unit test per milestone. Hasil nyata menunggu uji di rumah ([Daftar uji rumah](#daftar-uji-rumah)).
 >
-> **Penyimpangan sejauh ini (5a):** migrasi baris lama `network.userAgent` ke setting `userAgent` dikerjakan di 5b (bersama pembaca barunya), bukan 5a. Pemeriksaan lokal memakai `node node_modules/<alat>` langsung karena `pnpm` 11 di mesin ini tidak sama dengan `packageManager` (12.5.1) dan menggantung.
+> **Penyimpangan dari rencana:**
+> - **Urutan.** 5a, lalu 5c (incognito) dikerjakan langsung; 5b, 5e, dan 5f+5g paralel di worktree; 5d menyusul. Dua worktree dibuat dari `main`, bukan `development`, jadi hasilnya digabung dengan `merge --squash` dan konflik kecil di `handlers.ts`, `index.ts` dan berkas i18n diselesaikan tangan.
+> - **Migrasi `network.userAgent`** dikerjakan di 5b (bersama pembaca barunya), bukan 5a.
+> - **Zip backup memakai kode sendiri** di atas `node:zlib` (`main/backup/zip.ts`), bukan `fflate`: `fflate` hanya dependensi `extension-repo` dan menambah dependensi mengubah lockfile ([ADR 0030](../adr/0030-backup-restore.md)).
+> - **Restore lewat staging dan relaunch**, bukan menukar DB yang terbuka; `backup.import` mengembalikan `reloaded: true` yang berarti "app dimulai ulang".
+> - **DoH `auto`** berarti mode otomatis Chromium (DoH dulu, lalu resolver sistem), kebalikan dari kata-kata awal PRD ([ADR 0028](../adr/0028-network-settings.md)).
+> - **Updater:** `canInstallUpdates` kini false untuk build portable (`PORTABLE_EXECUTABLE_FILE`), perubahan kecil di luar daftar rencana ([ADR 0031](../adr/0031-extra-packages.md)).
+> - **Tema:** audit menemukan satu celah nyata (kontras teks di atas 11 aksen Latte, 2,3 sampai 3,5:1) dan memperbaikinya; selebihnya sudah ada ([ADR 0032](../adr/0032-onboarding-and-whats-new.md)).
+> - **ADR 0028–0032** ditulis (jaringan, incognito, backup, paket tambahan, onboarding/What's new/palet).
+> - **e2e:** `launchApp` kini menandai onboarding selesai kecuali spec meminta `onboarding: true`, supaya spec lama tidak berhenti di layar onboarding; `phase5.spec.ts` ditulis dan hanya di-typecheck.
+> - **Dokumentasi:** teks `apps/docs` dicocokkan dengan kode setelah merge (DoH otomatis, SOCKS5 dengan login, restore dan pemasangan ulang extension, What's new).
+>
+> **Belum:** hasil e2e (termasuk `phase5.spec.ts`), `pnpm build`, `pnpm dist` dan build portable/deb/rpm; `vitepress build` dan tautan situs dokumen; `release.yml` yang belum pernah jalan dan auto-update; `latest.yml`/`latest-linux.yml` dengan target baru; nama variabel `PORTABLE_EXECUTABLE_FILE`; DoH/proxy/`safeStorage`/dialog backup/relaunch di Electron nyata; spike 3-OS (ADR 0008/0009); Flatpak dan AUR (hanya draf); dialog What's new tanpa mockup; kontak untuk laporan perilaku dan keamanan (belum ada alamat); langkah manual rilis v1.0 (versi, tag, merge `development` ke `main`).
 
 ## Context
 
@@ -125,3 +137,28 @@ Dipakai ulang: `network/policy.ts` (pola modul murni), `RepoHttp`/`RepoFetcher`,
 ## Gerbang keluar Fase 5
 
 Selesai bila: semua checkpoint 5a–5h ter-push di `development`; lint/format/typecheck/unit hijau; spec e2e Fase 5 ada. **Belum (dicatat di dokumen plan):** hasil e2e dan build paket di rumah, verifikasi `release.yml` dan auto-update, spike 3-OS (ADR 0008/0009), Flatpak/AUR, What's new tanpa mockup, serta langkah manual rilis v1.0 (versi, tag, merge `development` → `main`).
+
+---
+
+## Daftar uji rumah
+
+Urutan yang disarankan, dari yang paling murah:
+
+1. `git switch development && corepack pnpm@12.5.1 install` (Electron dan `better-sqlite3` dibangun ulang), lalu `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test`.
+2. `xvfb-run -a pnpm e2e` (di Linux tanpa layar) atau `pnpm e2e` (dengan layar). Spec baru: `e2e/phase5.spec.ts`. Spec lama kini melewati onboarding lewat `launchApp`.
+3. `pnpm dev` dan jalankan tangan:
+   - **Onboarding:** profil baru (hapus folder data atau pakai `--user-data-dir`); pratinjau bahasa dan tema langsung; profil lama tidak melihatnya.
+   - **Palet:** `Ctrl+K` di mana saja kecuali pemutar; panah, Enter, Tab, Esc; "Lanjut nonton", pencarian library, tiap aksi.
+   - **Incognito:** pil di title bar dan di pemutar, banner di Riwayat; tidak ada riwayat/progress saat aktif; mati lagi setelah restart.
+   - **Jaringan:** proxy HTTP dengan dan tanpa login, Test connection dengan nilai yang belum disimpan; DoH Always lalu Off; alamat `http://` ditolak; peringatan kata sandi polos tanpa keyring; User-Agent kustom.
+   - **Backup:** buat backup, hapus data, restore; library, progres, riwayat dan cover kembali; extension berstatus "perlu dipasang ulang"; ada `backups/db/pre-restore-*.db`; zip rusak dan zip dari versi lebih baru ditolak.
+   - **What's new:** ubah `lastSeenVersion` ke versi lebih lama lalu mulai ulang.
+   - **Tema:** putar semua aksen di Latte dan perhatikan teks tombol; AMOLED nonaktif di Latte.
+4. `pnpm build`, `pnpm dist` dan `pnpm smoke:packaged`; `pnpm dist` di tiap OS membangun target yang tertulis di `electron-builder.yml` (portable di Windows; deb dan rpm di Linux, dengan paket `rpm` terpasang). Pasang deb dan rpm di mesin bersih.
+5. Di GitHub: jalankan `release.yml` lewat `workflow_dispatch` **tanpa** publish; unduh artefak dan periksa `latest.yml` dan `latest-linux.yml`.
+6. `pnpm --filter @matane-anime/docs docs:build` dan periksa tautan mati.
+7. Setelah semuanya hijau: naikkan versi, merge `development` ke `main`, tag.
+
+## Gerbang keluar Fase 5
+
+Fase ini selesai untuk **dibangun** bila: semua milestone ter-push di `development` dan lint, format, typecheck, unit test dan dokumen sinkron dengan kode (terpenuhi 9 Okt 2026). Fase ini selesai untuk **dirilis** hanya setelah daftar uji rumah di atas hijau dan daftar "Belum" di atas kosong atau dicatat sebagai keputusan.

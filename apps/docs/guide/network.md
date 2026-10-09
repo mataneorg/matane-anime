@@ -6,11 +6,11 @@ Every request to a source goes through the app, one separate session per extensi
 
 ## DNS over HTTPS
 
-Off, automatic or always. You can use a preset (Cloudflare, Google, Quad9, AdGuard) or your own `https` address. Use it when your provider blocks a site by DNS.
+Off, automatic or always. **Automatic** tries the DoH server first and falls back to your system's resolver if it fails; **always** uses only DoH. You can use a preset (Cloudflare, Google, Quad9, AdGuard) or your own `https` address (plain `http` is refused). Use it when your provider blocks a site by DNS.
 
 ## Proxy
 
-Use the system proxy, none, an HTTP proxy or a SOCKS5 proxy, with host and port and an optional user name and password. The password is stored encrypted with the operating system's keyring and is never shown again; if no keyring is available, it is stored in plain text and the page warns you.
+Use the system proxy, none, an HTTP proxy or a SOCKS5 proxy, with host and port and an optional user name and password. The password is stored encrypted with the operating system's keyring and is never shown again; if no keyring is available, it is stored in plain text and the page warns you. A proxy without a valid host and port is ignored and the system proxy is used. SOCKS5 proxies that ask for a user name and password do not work, because the browser engine cannot send them.
 
 ## User-Agent
 
@@ -18,7 +18,7 @@ By default the app presents itself as a regular Chrome without the "Electron" to
 
 ## Test connection
 
-**Test connection** loads a small test address (`https://www.gstatic.com/generate_204`) with the settings currently on the page, **even before you save them**, and tells you whether it worked and how long it took. Use it to check a proxy or DoH choice.
+**Test connection** loads a small test address (`https://www.gstatic.com/generate_204`) with the settings currently on the page, **even before you save them**, and tells you whether it worked and how long it took. Use it to check a proxy or DoH choice. While a test runs, the app's DNS settings are switched to the ones on the page for a few seconds and then put back.
 
 ## Cloudflare challenges
 
