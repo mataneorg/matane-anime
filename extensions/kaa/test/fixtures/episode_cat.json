@@ -1,0 +1,38 @@
+{
+  "title": "Hyouken no Majutsushi ga Sekai wo Suberu II",
+  "title_en": "The Iceblade Sorcerer Shall Rule the World II",
+  "synopsis": "Second season of Hyouken no Majutsushi ga Sekai wo Suberu.",
+  "episode_title": "The World's Strongest Sorcerer Boy Joins a Large-Scale Magic Battle",
+  "episode_number": 1,
+  "episode_string": "1",
+  "language": "ja-JP",
+  "thumbnail": {
+    "formats": ["jpeg", "webp"],
+    "sm": "6a10f73c0ab0757bbecee06e/ep-1-178b-sm",
+    "aspectRatio": 1.77,
+    "hq": "6a10f73c0ab0757bbecee06e/ep-1-178b-hq"
+  },
+  "poster": {
+    "formats": ["jpeg", "webp"],
+    "sm": "the-iceblade-sorcerer-shall-rule-the-world-ii-8948-sm",
+    "aspectRatio": 0.71,
+    "hq": "the-iceblade-sorcerer-shall-rule-the-world-ii-8948-hq"
+  },
+  "broadcast_day": "thursday",
+  "broadcast_time": "16:28",
+  "slug": "2de543",
+  "show_slug": "the-iceblade-sorcerer-shall-rule-the-world-ii-04ef",
+  "type": "tv",
+  "servers": [
+    {
+      "name": "VidStreaming",
+      "shortName": "Vid",
+      "src": "https://krussdomi.com/cat-player/player?id=6ac7d1af402141b0cb0f3900&source=vidstream&ln=ja-JP"
+    },
+    {
+      "name": "CatStream",
+      "shortName": "Cat",
+      "src": "https://krussdomi.com/cat-player/player?id=OGI5M2Q4NmZjNzI5ZDJlZDg3Mzg3OTFmYTNjMGRlNGE6YjZiZGQwMjRkODMxYjkyMzc4N2FjNjE4Yjk3ZmVmZjg&type=hls&source=catstream"
+    }
+  ]
+}

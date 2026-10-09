@@ -1,0 +1,50 @@
+{
+  "current_page": 1,
+  "pages": [{ "number": 1, "from": "01", "to": "04", "eps": [1, 2, 3, 4] }],
+  "result": [
+    {
+      "slug": "79bb12",
+      "episode_number": 1,
+      "episode_string": "1",
+      "thumbnail": {
+        "formats": ["jpeg", "webp"],
+        "sm": "67fafeb73f9d7063074e2c6c/ep-1-0fb6-sm",
+        "aspectRatio": 1.77,
+        "hq": "67fafeb73f9d7063074e2c6c/ep-1-0fb6-hq"
+      }
+    },
+    {
+      "slug": "c8ca0c",
+      "episode_number": 2,
+      "episode_string": "2",
+      "thumbnail": {
+        "formats": ["jpeg", "webp"],
+        "sm": "67fafeb73f9d7063074e2c6c/ep-2-5dd7-sm",
+        "aspectRatio": 1.77,
+        "hq": "67fafeb73f9d7063074e2c6c/ep-2-5dd7-hq"
+      }
+    },
+    {
+      "slug": "5c8fa9",
+      "episode_number": 3,
+      "episode_string": "3",
+      "thumbnail": {
+        "formats": ["jpeg", "webp"],
+        "sm": "67fafeb73f9d7063074e2c6c/ep-3-2d46-sm",
+        "aspectRatio": 1.77,
+        "hq": "67fafeb73f9d7063074e2c6c/ep-3-2d46-hq"
+      }
+    },
+    {
+      "slug": "e98afc",
+      "episode_number": 4,
+      "episode_string": "4",
+      "thumbnail": {
+        "formats": ["jpeg", "webp"],
+        "sm": "67fafeb73f9d7063074e2c6c/ep-4-89a6-sm",
+        "aspectRatio": 1.77,
+        "hq": "67fafeb73f9d7063074e2c6c/ep-4-89a6-hq"
+      }
+    }
+  ]
+}
