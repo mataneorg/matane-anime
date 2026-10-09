@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    
+      Watch Otakudesu DDD 720p
+        
+  </title>
+    <META NAME="description" CONTENT="Otakudesu net DDD--01 720p">
+    <META NAME="keywords" CONTENT="Otakudesu net DDD--01 720p">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#FFF">
+  
+    <meta name="og:image" content="https://pixibay.cc/3p12xx48geo4.jpg">
+  
+  <link rel="apple-touch-icon" href="/static/images/favicon/apple-touch-icon.png" sizes="180x180">
+  <link rel="icon" href="/static/images/favicon/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" href="/static/images/favicon/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/static/images/favicon/manifest.json">
+  <link rel="icon" href="/static/images/favicon/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="/static/css/style.css?" rel="stylesheet">
+
+  <script src="/static/js/jquery-3.2.1.min.js?"></script>
+  <script src="/static/js/bootstrap.bundle.min.js?"></script>
+  <script src="/static/js/app.js?"></script>
+  <script src="/static/js/xupload.js?"></script>
+
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-48ZJD1VPGZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-48ZJD1VPGZ');
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+  ym(93381808, "init", {
+       clickmap:true,
+       trackLinks:true,
+       accurateTrackBounce:true,
+       webvisor:true
+  });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/93381808" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="row align-items-center flex-nowrap">
+        <div class="col-auto flex-grow-1 flex-shrink-1">
+          <div class="row align-items-center">
+
+            <div class="col-auto" style="margin: 0 auto;">
+              <a href="/" class="logo">
+                
+                    <img src="/static/images/logo.svg" alt="">
+                
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </header>
+
+
+  <main>
+	<section class="section">
+		<div class="container">
+			<div class="videoplayer mb-5">
+
+				<script src="/js/jquery.cookie.js"></script>
+				<script>
+					$.cookie('file_id', '16401768', { expires: 10 });
+			$.cookie('aff', '4822', { expires: 10 });
+			
+
+				var pickDirect = function(idads,link) {
+		var d = document.createElement('script');
+							d.textContent  =  `var  __directlink${idads}={
+								init:function() {
+									var link = '${link}';
+									var div = document.createElement('div');
+									var h = window.innerHeight, w = window.innerWidth;
+									div.setAttribute('style', 'position:fixed;inset:0px;z-index:2147483647;background:black;opacity:0.01;height:'+h+'px;width:'+w+'px;cursor:pointer');
+									div.onclick = function () {
+										this.parentNode.removeChild(this);
+										window.open(link, '_blank');
+									};
+									document.body.appendChild(div);
+								}
+							};
+							__directlink${idads}.init();`;
+							document.body.appendChild(d);
+	}
+	
+				</script>
+
+				
+
+				
+				<div class="videoplayer-embed mb-4">
+					
+
+						<div id="play_limit_box" style="display:none;">
+							<a href="/premium.html">
+								Upgrade your account
+							</a>
+							to watch videos with no limits!
+						</div>
+
+						
+
+						<div style="width: 100%;height: 100%;position: absolute;left: 0;top: 0;">
+							<script>localStorage.setItem('jwplayer.captionLabel', 'Off');</script><script type='text/javascript' src='/player/jw8/jwplayer.js?v=6'></script>
+                <script type="text/javascript">jwplayer.key="ITWMv7t88JGzI0xPwW8I0+LveiXX9SWbfdmt0ArUSyc=";</script>
+                <script src="/js/localstorage-slim.js"></script><script src="/ad?type=45286931772"></script>
+                <div id='vplayer' style="width:100%;height:100%;text-align:center;"><img src="https://pixibay.cc/3p12xx48geo4_xt.jpg" style="width:100%;height:100%;"></div>
+                <style>
+                .jw-icon-display, .jw-text, .jw-button-color, .jw-time-tip {color:#FFFFFF !important;}
+                .jw-time-tip span {background:#FFFFFF !important; color: #fff !important;}
+                .jw-featured, .jw-rightclick {display:none !important;}
+                div.jw-icon-rewind {display:none;xdisplay: inherit;}
+                .jw-display-icon-container .jw-icon-inline { display: none; }
+                </style>
+                
+
+
+								
+						</div>
+
+						
+
+
+					
+
+					
+				</div>
+
+				<div class="row align-items-center flex-lg-nowrap">
+					<div class="col-12 col-lg-auto flex-grow-1 flex-shrink-1 mb-4">
+						<div class="row align-items-center flex-nowrap">
+							
+							<div class="col-auto flex-grow-1 flex-shrink-1">
+								<h1 class="h5">
+									Otakudesu net DDD--01 720p
+								</h1>
+								<div class="xsmall text-muted">
+									<span class="me-2">
+										on
+											Dec 31, 2024
+									</span>
+									<span class="me-2">&bull;</span>
+									<span class="me-2">
+										1735 views
+									</span>
+								</div>
+							</div>
+							<div class="col-auto pe-0">
+								<div class="dropdown">
+									<button class="btn icon-btn" data-bs-toggle="dropdown" data-bs-offset="-12, 4">
+										<svg xmlns="http://www.w3.org/2000/svg" width="5" height="16">
+											<path fill-rule="evenodd" fill="currentColor"
+												d="M2.37 9.846C1.297 9.846.424 9.018.424 8c0-1.018.873-1.846 1.946-1.846 1.072 0 1.946.828 1.946 1.846 0 1.018-.874 1.846-1.946 1.846Zm0-6.154c-1.073 0-1.946-.828-1.946-1.846C.424.828 1.297 0 2.37 0c1.072 0 1.946.828 1.946 1.846 0 1.018-.874 1.846-1.946 1.846Zm0 8.615c1.072 0 1.946.829 1.946 1.847S3.442 16 2.37 16c-1.073 0-1.946-.828-1.946-1.846 0-1.018.873-1.847 1.946-1.847Z">
+											</path>
+										</svg>
+									</button>
+									<div class="dropdown-menu dropdown-menu-end">
+										
+										
+										<a class="dropdown-item" href="#" data-bs-toggle="modal"
+											data-bs-target="#modal-flag">Flag video</a>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-auto mb-4 ms-auto">
+						<div class="rating">
+							<button class="btn rating-plus vote_up"
+								onclick="return jah('/?op=vote&file_code=3p12xx48geo4&v=up')"
+								title="Like">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" class="me-2">
+									<path fill-rule="evenodd"
+										d="m15.843 5.892-.815 6.409c-.121.957-.952 1.683-1.934 1.687H1.557A1.407 1.407 0 0 1 .14 12.595V6.72c0-.768.636-1.392 1.417-1.392h2.718L6.749.461a.874.874 0 0 1 .781-.474c1.679 0 3.046 1.343 3.046 2.995v.743h3.332c1.073 0 1.948.859 1.952 1.915 0 .086-.006.169-.017.252ZM3.942 7.045H1.887v5.226h2.055V7.045Zm9.965-1.602H9.702a.866.866 0 0 1-.873-.859V2.982a1.28 1.28 0 0 0-.807-1.183l-2.334 4.59v5.882h7.402a.21.21 0 0 0 .205-.182l.816-6.41c.002-.145-.091-.236-.204-.236Z">
+									</path>
+								</svg>
+								<span id="likes_num">
+									0
+								</span></button>
+							<button class="btn rating-minus vote_down"
+								onclick="return jah('/?op=vote&file_code=3p12xx48geo4&v=down')"
+								title="Don&#39;t Like">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" class="me-2">
+									<path fill-rule="evenodd"
+										d="M13.908 10.275h-3.332v.743c0 1.652-1.366 2.995-3.046 2.995a.874.874 0 0 1-.781-.474L4.275 8.672H1.557C.776 8.672.14 8.047.14 7.28V1.405C.14.637.776.012 1.557.012H13.094c.982.004 1.813.73 1.934 1.687l.816 6.409c.01.083.016.166.016.252-.004 1.056-.879 1.915-1.952 1.915ZM1.887 6.955h2.055V1.729H1.887v5.226Zm11.408-5.044a.21.21 0 0 0-.205-.182H5.688v5.882l2.334 4.59a1.28 1.28 0 0 0 .807-1.183V9.416c0-.474.391-.859.873-.859h4.205c.113 0 .206-.091.204-.237l-.816-6.409Z">
+									</path>
+								</svg>
+								<span id="dislikes_num">
+									0
+								</span></button>
+						</div>
+					</div>
+				</div>
+
+				
+				
+
+				
+					<div class="download text-center mb-5">
+						<div class="dropdown">
+
+
+							<a class="btn btn-gradient submit-btn py-3" href="/download/3p12xx48geo4">
+								<svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+									<path fill-rule="evenodd" fill="currentColor"
+										d="M10 20C4.486 20 0 15.514 0 10S4.486 0 10 0s10 4.486 10 10-4.486 10-10 10Zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8Zm0 13h-.003a.988.988 0 0 1-.704-.293l-3-3a.999.999 0 1 1 1.414-1.414L9 11.586V6a1 1 0 0 1 2 0v5.586l1.293-1.293a.999.999 0 1 1 1.414 1.414l-3 3a.993.993 0 0 1-.704.293H10Z" />
+								</svg>
+								<small>Download</small>
+							</a>
+
+
+						</div>
+					</div>
+
+				
+
+				<div>
+				
+							
+								
+								
+									<!--Banner Anime 0%-->
+									<script data-cfasync="false" async type="text/javascript"
+										src="https://cv.genipspillion.com/t3tc529QzY73Jsb/62124"></script>
+								
+								
+								
+						
+
+					</div>
+					<br /> <br />
+					<div class="nav tabs" role="tablist">
+    <a href="#tab_watch" data-bs-toggle="tab" class="nav-link active">Watch Page</a>
+    <a href="#tab_embed_link" data-bs-toggle="tab" class="nav-link">Embed Link</a>
+    <a href="#tab_down_link" data-bs-toggle="tab" class="nav-link">Download Links</a>
+    <a href="#tab_code_bb" data-bs-toggle="tab" class="nav-link">Forum BB code</a>
+    <a href="#tab_html_info" data-bs-toggle="tab" class="nav-link">HTML code</a>
+    <a href="#tab_code_embed" data-bs-toggle="tab" class="nav-link">Embed code</a>
+
+  </div>
+
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="tab_watch">
+							<textarea class="form-control" rows="5">https://odvidhide.com/file/3p12xx48geo4</textarea>
+						</div>
+
+						<div class="tab-pane fade" id="tab_embed_link">
+							<textarea class="form-control" rows="5">https://odvidhide.com/embed/3p12xx48geo4</textarea>
+						</div>
+
+						<div class="tab-pane fade" id="tab_down_link">
+							<textarea class="form-control" rows="5">https://odvidhide.com/download/3p12xx48geo4</textarea>
+						</div>
+
+						<div class="tab-pane fade" id="tab_code_bb">
+							<textarea class="form-control" rows="5">[URL=https://odvidhide.com/download/3p12xx48geo4][IMG]https://pixibay.cc/3p12xx48geo4_t.jpg[/IMG]
+Otakudesu net DDD--01 720p[/URL] [1280x720, 23:57]</textarea>
+						</div>
+						<div class="tab-pane fade" id="tab_html_info">
+							<textarea class="form-control"
+								rows="5"><a href="https://odvidhide.com/download/3p12xx48geo4"><img src="https://pixibay.cc/3p12xx48geo4_t.jpg" border=0><br>Otakudesu net DDD--01 720p</a><br>[1280x720, 23:57]</textarea>
+						</div>
+						<div class="tab-pane fade" id="tab_code_embed">
+							<div class="mb-3">Embed size: <input
+									class="form-control form-control-sm d-inline-block py-2" style="width: 80px;"
+									type="text" id="iew" value="640" size=3><span class="p-2">x</span><input
+									class="form-control form-control-sm d-inline-block py-2" style="width: 80px;"
+									type="text" id="ieh" value="360"></div>
+							<textarea id="iet" class="form-control" rows="5"><IFRAME SRC="https://odvidhide.com/embed/3p12xx48geo4" FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=640 HEIGHT=360 allowfullscreen></IFRAME></textarea>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="modal fade" id="modal-download" tabindex="-1">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header pb-0">
+								<h5 class="modal-title">
+									Download video
+								</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								
+									<a class="btn btn-dark w-100 mb-2"
+													href="/download/3p12xx48geo4_h">
+
+									<svg class="me-3" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+										<defs>
+											<linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="0%">
+												<stop offset="0%" stop-color="#4949E7" />
+												<stop offset="100%" stop-color="#51E3C0" />
+											</linearGradient>
+										</defs>
+										<path fill="none"
+											d="M10 20C4.486 20 0 15.514 0 10S4.486 0 10 0s10 4.486 10 10-4.486 10-10 10Zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8Zm0 13h-.003a.988.988 0 0 1-.704-.293l-3-3a.999.999 0 1 1 1.414-1.414L9 11.586V6a1 1 0 0 1 2 0v5.586l1.293-1.293a.999.999 0 1 1 1.414 1.414l-3 3a.993.993 0 0 1-.704.293H10Z" />
+										<path fill="url(#a)"
+											d="M10 20C4.486 20 0 15.514 0 10S4.486 0 10 0s10 4.486 10 10-4.486 10-10 10Zm0-18c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8Zm0 13h-.003a.988.988 0 0 1-.704-.293l-3-3a.999.999 0 1 1 1.414-1.414L9 11.586V6a1 1 0 0 1 2 0v5.586l1.293-1.293a.999.999 0 1 1 1.414 1.414l-3 3a.993.993 0 0 1-.704.293H10Z" />
+									</svg>
+
+									<b class="text-white flex-grow-1 text-start">
+										UHD quality
+									</b>
+									<span class="small text-muted">
+										1280x720, 215.6 MB
+									</span>
+									</a>
+									
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="modal-flag" tabindex="-1">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header pb-0">
+								<h5 class="modal-title">
+									Flag
+								</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body" id="id_flag">
+								<form method="POST" action="/"
+									onsubmit="$.post('/',$(this).serialize(),function(code){ eval(code); } );return false;">
+									<input type="hidden" name="op" value="report_file">
+									<input type="hidden" name="file_code" value="3p12xx48geo4">
+									<div class="form-group mb-3">
+										<label class="form-label">
+											Reason
+										</label>
+										<select name="report_type" class="form-select">
+											<option>
+												Broken video
+											</option>
+											<option>
+												Wrong title/description
+											</option>
+											<option>
+												Copyright restriction
+											</option>
+											<option>
+												Other
+											</option>
+										</select>
+									</div>
+									<div class="form-group mb-3">
+										<textarea name="report_info" class="form-control" rows="2"
+											placeholder="Details"></textarea>
+									</div>
+									<div class="text-center">
+										<button class="btn btn-gradient submit-btn" type="submit" name="add">
+											Send Report<i
+													class="icon icon-send icon-size-20 ms-2"></i>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+
+				<script type='text/javascript'>eval(function(p,a,c,k,e,d){while(c--)if(k[c])p=p.replace(new RegExp('\\b'+c.toString(a)+'\\b','g'),k[c]);return p}('b 8e=[];b o={"1q":"1g://gk.gj-gi.22/1q/7t/gh/gg/8j.8i?t=gf&s=3w&e=ge&f=2n&gd=5i&i=0.4&gc=6l&gb=5i&ga=5i&g9=","1i":"/52/g8/g7/g6/2n/8j.8i"};1l("g5").g4({g3:[{1u:o.1i||o.1m||o.1q,3i:"3h"}],g2:"1g://8g.cc/g1.8f",4t:"5h%",4s:"5h%",g0:"fz",fy:"8h.11",fx:\'fw\',fv:\'6b\',fu:{ft:{35:"#2r",fs:"#2r"},fr:{fq:"#2r"},fp:{35:"#2r"}},fo:"u",r:[{1u:"/dl?3x=fn&1t=8h&fm=1g://8g.cc/fl.8f",fk:"fj"}],5r:{fi:1,fh:\'#fg\',ff:5h,fe:\'fd\',fc:\'fb\',fa:0,},"f9":{"f8":"8c","f7":"f6"},\'f5\':{"f4":"f3"},f2:"f1",f0:"1g://ez.22",ey:{1u:"1g://ex.22/ew-2m/ev.eu","3y":q,1e:"1g://et.es",1o:"er-eq",ep:"5",3y:q},eo:u,5q:[0.25,0.5,0.75,1,1.25,1.5,2]});b 5c,5g;b en=0,em=0,el=0;b k=1l();b 42=0,34=0,ek=0,p=0;$.ej({ei:{\'eh-eg\':\'ef-ee\'}});k.1k(\'8d\',j(x){a(5>0&&x.1o>=5&&5g!=1){5g=1;$(\'1n.ed\').ec(\'eb\')}b 5d=0;8e.ea(1c=>{a(1c.8d<=x.1o&&1c.86==0){a(1c.8a==\'8c\'){a(1c.1e.2o(\'1g://\')){k.8b(1c.1e)}1d{b 45=40 5f().5e(1c.1e,"35/33");1c.1e="2m:e9/e8;e7,"+e6(e5(e4(45.e3.2l)));k.8b(1c.1e)}}1d a(1c.8a==\'e2\'){e1(5d,1c.1e)}1d{b 1s=40 5f().5e(1c.1e,"35/33").2z.2l;b 1f=1r.3v(\'1f\');a(1s.2o(\'1g://\')||1s.2o(\'2s://\')||1s.2o(\'//\')){1f.26=1s.2o(\'//\')?2d.89.88+1s:1s;1f.87=u}1d{b 45=40 5f().5e(1s,"35/33");b 28=45.e0(\'1f\');a(28){a(28.26){1f.26=28.26.2o(\'//\')?2d.89.88+28.26:28.26;1f.87=u}1d{1f.2l=28.2l}}1d{1f.2l=1s}}1r.2z.3s(1f)}1c.86=1}5d++});a(x.1o>=p+5||x.1o<p){p=x.1o;1v.dz(\'2h\',dy.dx(p),{dw:60*60*24*7})}a(1){dt=x.1o-42;a(dt>5)dt=1;34+=dt}42=x.1o;a(34>=60){$.dv(\'1g://du.ds.22/dl\',{3x:\'dr\',5b:\'2n-3w-5a\',dq:53(34),dp:2n,do:\'39\'},j(){},"dn");34=0}});k.1k(\'2g\',j(x){42=x.1o});k.1k(\'4w\',j(x){84(x)});k.1k(\'dm\',j(){$(\'1n.83\').dk();1v.dj(\'2h\')});k.1k(\'di\',j(x){});j dh(2p,85,3o){b 3z=40 6u();3z.dg(3z.df()+(3o*6w));1r.de=2p+"="+85+"; dd="+3z.dc()+"; db=.da.22; 2f=/; d9=d8; d7"}j 84(x){$(\'1n.83\').3y();$(\'#d6\').3y();a(5c)29;5c=1;7q 31=1r.3v(\'1f\');31.26=\'1g://d5.d4.22/82/d3/d2.82\';31.d1=()=>{$.2i(\'/dl?3x=81&80=39&5b=2n-3w-5a&7z=&7y=&7x=1&1i=1\',j(2m){$(\'#7w\').33(2m)})};31.d0=()=>{$.2i(\'/dl?3x=81&80=39&5b=2n-3w-5a&7z=&7y=&7x=0&1i=1\',j(2m){$(\'#7w\').33(2m)})};1r.2z.3s(31);b p=1v.2i(\'2h\');a(p>0){1l().2g(p)}}j cz(){b r=k.4a(7u);4y.4x(r);a(r.1t>1){5l(i=0;i<r.1t;i++){a(r[i].2p==7u){4y.4x(\'!!=\'+i);k.5j(i)}}}}j 56(3t,1e,59){b d=1r.3v(\'1f\');d.2l=`b 7p${3t}={7o:j(){b 1e=\'${1e}\';b 1n=1r.3v(\'1n\');b h=2d.cy,w=2d.cx;1n.cw(\'6c\',\'1o:cv;cu:ct;z-cs:cr;cq:cp;6a:0.7t;4s:\'+h+\'7s;4t:\'+w+\'7s;co:cn\');1n.cm=j(){7r.cl.ck(7r);2d.37(1e,\'5t\');7q 3u=${3t}+1;a(3u<2y.1t){1y(j(){56(3u,2y[3u],${59})},${59})}};1r.2z.3s(1n)}};7p${3t}.7o();`;1r.2z.3s(d)}k.1k(\'6i\',j(){1l().38(\'<y 3g="2s://3f.3e.3d/4u/y" 7a="n-y-2k n-y-2k-cj" 4r="0 0 3q 3q" 79="q"><2f d="m 25.ci,57.ch v cg.3 c 0.cf,2.ce 2.cd,4.cb 4.8,4.8 h 62.7 v -19.3 h -48.2 v -96.4 7n ca.c9 v 19.3 c 0,5.3 3.6,7.2 8,4.3 l 41.8,-27.9 c 2.c8,-1.c7 4.c6,-5.c5 2.7,-8 -0.c4,-1.c3 -1.c2,-2.c1 -2.7,-2.7 l -41.8,-27.9 c -4.4,-2.9 -8,-1 -8,4.3 v 19.3 7n 30.c0 c -2.bz,0.by -4.bx,2.bw -4.9,4.9 z m bv.bu,73.bt c -3.7m,-6.7k -10.7j,-10.7i -17.7,-10.6 -7.7h,0.7g -13.7f,4.7e -17.7,10.6 -8.3r,14.7d -8.3r,32.7c 0,46.3 3.7m,6.7k 10.7j,10.7i 17.7,10.6 7.7h,-0.7g 13.7f,-4.7e 17.7,-10.6 8.3r,-14.7d 8.3r,-32.7c 0,-46.3 z m -17.7,47.2 c -7.8,0 -14.4,-11 -14.4,-24.1 0,-13.1 6.6,-24.1 14.4,-24.1 7.8,0 14.4,11 14.4,24.1 0,13.1 -6.5,24.1 -14.4,24.1 z m -47.bs,9.br v -51 l -4.8,4.8 -6.8,-6.8 13,-12.bq c 3.bp,-3.bo 8.bn,-0.bm 8.2,3.4 v 62.bl z"></2f></y>\',"bk 10 3o",j(){1l().2g(1l().71()+10)},"7b");$("1n[70=7b]").6y().6x(\'.n-2k-58\');1l().38(\'<y 3g="2s://3f.3e.3d/4u/y" 7a="n-y-2k n-y-2k-58" 4r="0 0 3q 3q" 79="q"><2f d="bj.2,bi.bh.1x,21.1x,0,0,0-17.7-10.6,21.1x,21.1x,0,0,0-17.7,10.6,44.3p,44.3p,0,0,0,0,46.3,21.1x,21.1x,0,0,0,17.7,10.6,21.1x,21.1x,0,0,0,17.7-10.6,44.3p,44.3p,0,0,0,0-46.bg-17.7,47.2c-7.8,0-14.4-11-14.4-24.bf.6-24.1,14.4-24.1,14.4,11,14.4,24.be.4,78.bd,95.5,78.bc-43.4,9.7v-bb-4.8,4.8-6.8-6.8,13-ba.8,4.8,0,0,1,8.2,3.b9.7l-9.6-.b8-b7.b6.b5.77,4.77,0,0,1-4.8,4.b4.6v-19.b3.2v-96.b2.b1.b0,5.3-3.6,7.2-8,4.3l-41.8-27.az.76,6.76,0,0,1-2.7-8,5.74,5.74,0,0,1,2.7-2.ay.8-27.ax.4-2.9,8-1,8,4.aw.av.au.72,4.72,0,0,1,at.1,57.as"></2f></y>\',"ar 10 3o",j(){b 3n=1l().71()-10;a(3n<0)3n=0;1l().2g(3n)},"6z");$("1n[70=6z]").6y().6x(\'.n-2k-58\');a(2y&&2y.1t>0){1y(j(){56(0,2y[0],6w)},5n)}});b 3m=0;b 55=0;b 3j=q;k.1k(\'aq\',j(1z){b 54=6u.ap();a(54-55<ao){3m++;a(3m>3){29 q}}1d{3m=0}55=54;b 1w=1z.an||0;b 2x=(1z.am||\'\').al();b 2j=q;a(4z 1w===\'ak\'){1w=53(1w,10)}a(1w>=6o&&1w<=6n){2j=u}1d a(1w>=6q&&1w<=6p){2j=u}1d a(2x.23(\'aj\')!==-1||2x.23(\'ai\')!==-1){2j=u}1d a(2x.6t(/6s+(d{6})/)){b 6r=2x.6t(/6s+(d{6})/);b 2w=53(6r[1],10);a((2w>=6q&&2w<=6p)||(2w>=6o&&2w<=6n)){2j=u}}a(!2j){29 q}ah{b 1j=k.6h().1u;b 6m=k.ag().r||[];b 2u=af;b 3k=q,50=q;a(o.1i&&1j){3k=(1j===o.1i)||(1j.23(\'/52/\')===0&&o.1i.23(\'/52/\')===0)||(1j.23(\'1i\')!==-1)}a(o.1m&&1j&&!3k){50=(1j===o.1m)||(1j.23(o.1m)!==-1)||(1j.23(\'1m\')!==-1)}a(3k){2u=o.1m||o.1q}1d a(50){2u=o.1q}a(2u&&!3j){3j=u;k.4v([{1u:2u,3i:\'3h\',r:6m}]);b 2t=q;b ae=1v.2i(\'2h\');k.6k(\'ad\',j(){a(!2t&&4z 1v!==\'6j\'){2t=u;1y(j(){b p=1v.2i(\'2h\');a(p&&p>0){k.2g(p)}},6l)}});k.6k(\'4w\',j(){a(!2t&&4z 1v!==\'6j\'){2t=u;1y(j(){b p=1v.2i(\'2h\');4y.4x(\'p ac ab\',p);a(p&&p>0){k.2g(p)}},aa)}});1y(j(){k.4w()},a9);1y(j(){3j=q},a8);29 u}}6f(a7){}});k.1k(\'6i\',j(){b 1j=k.6h().1u;a(o.1i&&1j===o.1i){a6(o.1i,{a5:\'a4\'}).a3(6g=>{a(!6g.a2&&(o.1m||o.1q)){k.6e();k.4v([{1u:o.1m||o.1q,3i:"3h"}])}}).6f(()=>{a(o.1m||o.1q){k.6e();k.4v([{1u:o.1m||o.1q,3i:"3h"}])}})}});1l().38(\'<y 3g="2s://3f.3e.3d/4u/y" 3g:6d="2s://3f.3e.3d/a1/6d" 4t="a0" 4s="9z" 4r="0 0 20 21" 9y="1.1"><g 9x="9w"><2f 6c=" 9v:6b;4q-9u:9t;4q:#2r;4q-6a:1;" d="4h 18.64 20.2q 1h 1.68 20.2q 1b 0.69 20.2q 0 20.65 0 19.66 1h 0 14 1b 0 13.3c 0.69 12.2e 1.68 12.2e 1b 2.9s 12.2e 2.4p 13.3c 2.4p 14 1h 2.4p 18.67 1h 17.4o 18.67 1h 17.4o 14 1b 17.4o 13.3c 17.9r 12.2e 18.3b 12.2e 1b 19.4n 12.2e 19.3a 13.3c 19.3a 14 1h 19.3a 19.66 1b 20.9q 20.65 19.9p 20.2q 18.64 20.2q 5v 4h 10.5u 12.4g 1b 10.4l 13.63 9.9o 13.63 9.9n 12.4g 1h 4.5z 8.9m 1b 4.61 8.9l 4.61 7.4i 4.5z 7.4n 1b 5.9k 6.4j 5.9j 6.9i 6.9h 7.4n 1h 8.3b 9.9g 1h 8.3b 1.4l 1b 8.3b 0.5y 9.9f 0.4m 9.3a 0.4m 1b 10.9e 0.4m 11.4k 0.5y 11.4k 1.4l 1h 11.4k 9.9d 1h 13.9c 7.5x 1b 14.9b 6.4j 14.9a 6.4j 15.5w 7.5x 1b 15.4i 7.99 15.4i 8.98 15.5w 8.97 5v 4h 10.5u 12.4g "/></g></y>\',"94 93",j(){b 5s=2d.37(\'1g://92.22/91/39\',\'5t\');5s.90()},"8z");k.1k("1p",j(1z){b r=k.4a();a(r.1t<2)29;$(\'.n-1a-8y-8x\').8w(j(){$(\'#n-1a-16-1p\').4d(\'n-1a-16-36\');$(\'.n-16-1p\').2b(\'2a-4e\',\'q\')});k.38("/8v/8u.y","8t 8s",j(){$(\'.n-5p\').8r(\'n-1a-37\');$(\'.n-1a-5r, .n-1a-5q\').2b(\'2a-4f\',\'q\');a($(\'.n-5p\').8q(\'n-1a-37\')){$(\'.n-16-1p\').2b(\'2a-4f\',\'u\');$(\'.n-16-1p\').2b(\'2a-4e\',\'u\');$(\'.n-1a-16-8p\').4d(\'n-1a-16-36\');$(\'.n-1a-16-1p\').8o(\'n-1a-16-36\')}1d{$(\'.n-16-1p\').2b(\'2a-4f\',\'q\');$(\'.n-16-1p\').2b(\'2a-4e\',\'q\');$(\'.n-1a-16-1p\').4d(\'n-1a-16-36\')}},"8n");k.1k("8m",j(1z){4c.8l(\'4b\',1z.r[1z.8k].2p)});a(4c.5o(\'4b\')){1y("5m(4c.5o(\'4b\'));",5n)}});b 49;j 5m(5k){b r=k.4a();a(r.1t>1){5l(i=0;i<r.1t;i++){a(r[i].2p==5k){a(i==49){29}49=i;k.5j(i)}}}}',36,597,'||||||||||if|var||||||||function|player|||jw|links|lastt|false|tracks|||true||||svg||||||||submenu||||settings|C|item|else|link|script|https|L|hls4|currentFile|on|jwplayer|hls3|div|position|audioTracks|hls2|document|decodedLink|length|file|ls|errorCode|589|setTimeout|event|||com|indexOf|||src||scriptTag|return|aria|attr||window|617188|path|seek|tt3p12xx48geo4|get|shouldSwitch|icon|textContent|data|16401768|startsWith|name|976562|FFFFFF|http|seekDone|newFile||codeFromMessage|errorMessage|direct_premium|body||ggima||html|tott|text|active|open|addButton|3p12xx48geo4|980469|5625|222656|org|w3|www|xmlns|hls|type|switchedLink|isHLS4||errorCount|tt|sec|769|240|60009|appendChild|idads|nextIndex|createElement|1791559897|op|hide|date|new||prevt|||doc||||current_audio|getAudioTracks|default_audio|localStorage|removeClass|expanded|checked|953125|M|816406|894531|394531|40625|0234375|355469|144531|832031|fill|viewBox|height|width|2000|load|play|log|console|typeof|isHLS3||stream|parseInt|currentTime|lastErrorTime|createLayer||rewind|timeout|20aff0ec51e11fea79df4bb34c99dcb0|hash|vvplay|itads|parseFromString|DOMParser|vvad|100|KurDwBvf3IESNvT|setCurrentAudioTrack|audio_name|for|audio_set|300|getItem|controls|playbackRates|captions|win|_blank|902344|Z|320312|335938|628906|636719||140625||390625|625|371094|59375|191406|417969|621094|opacity|none|style|xlink|stop|catch|res|getPlaylistItem|ready|undefined|once|500|currentTracks|233999|232000|202999|202000|codeMatch|Errors|match|Date||1000|insertAfter|detach|ff00|button|getPosition|974||887||013|867|178|focusable|class|ff11|06475|23525|29374|97928|30317|31579|29683|38421|30626||72072|H|init|__directlink|const|this|px|01|track_name||fviews|adb|referer|embed|file_code|view|js|video_ad|doPlay|value|loaded|async|protocol|location|xtype|playAd|vast|time|uas|jpg|pixibay|1437|m3u8|master|currentTrack|setItem|audioTrackChanged|dualSound|addClass|quality|hasClass|toggleClass|Track|Audio|dualy|images|mousedown|buttons|topbar|download11|focus|download|odvidhide|Video|Download|||929688|46875|777344|808594|011719|519531|242188|773438|183594|261719|4375|917969|921875|128906|507812|949219|097656|613281|421875|042969|769531|210938|nonzero|rule|stroke|surface1|id|version|21px|20px|1999|ok|then|HEAD|method|fetch|err|10000|200|800|done|change|firstFrame|lastt1|null|getConfig|try|networkError|fragLoadError|string|toString|message|code|3000|now|error|Rewind|778Z|214|2A4|3H209|3v19|9c4|7l41|9a6|3c0|1v19|4H79|3h48|8H146|3a4|2v125|130|1Zm162|4v62|13a4|51l|278Zm|278|1S103|1s6|3Zm|078a21|131|M113|Forward|69999|88605|21053|03598|02543|99999|72863|77056|04577|422413|163|210431|860275|03972|689569|893957|124979|52502|174985|57502|04363|13843|480087|93574|99396|160|76396||164107|63589|03604|125|778|993957|rewind2|removeChild|parentNode|onclick|pointer|cursor|black|background|2147483647|index|0px|inset|fixed|setAttribute|innerWidth|innerHeight|set_audio_track|onload|onerror|ima3|sdkloader|googleapis|imasdk|over_player_msg|Secure|None|SameSite|callistanise|domain|toGMTString|expires|cookie|getTime|setTime|createCookieSec|pause|remove|show||complete|jsonp|file_real|file_id|ss|view4|mosevura||logs|post|ttl|round|Math|set|querySelector|pickDirect|direct|documentElement|encodeURIComponent|unescape|btoa|base64|xml|application|forEach|slow|fadeIn|video_ad_fadein|cache|no|Cache|Content|headers|ajaxSetup|v2done|pop3done|vastdone2|vastdone1|playbackRateControls|margin|right|top|net|otakudesu|png|logo_4822|upload|earnvids|logo|vidhide|aboutlink|VidHide|abouttext|720p|1249|qualityLabels|insecure|vpaidmode|client|advertising|backgroundOpacity|transparent|backgroundColor|Tahoma|fontFamily|fontOpacity|ffffff|color|userFontScale|thumbnails|kind|3p12xx48geo40000|url|get_slides|androidhls|menus|progress|timeslider|icons|controlbar|skin|fullscreenOrientationLock|auto|preload|duration|uniform|stretching|3p12xx48geo4_xt|image|sources|setup|vplayer|1791603097|hjkrhuihghfvu|zjIgELhBEflTemfG33G7rg|asn|p2|p1|sp|srv|129600|04gNMo0AzjWMdmKwhKzkmJegz86HavCp2TAl_Xd5cew|3p12xx48geo4_h|03280|cdn|acek|O5czhGNoHwluyZCb'.split('|')))
+</script>
+
+					<Script>
+						$("#embed_div textarea").focus(function () { $(this).select(); })
+						var tab_cookie = 'tab_down';
+
+						$('ul.tabs').on('click', 'li:not(.current)', function () {
+							$(this).addClass('current').siblings().removeClass('current')
+								.parents('div.section').find('div.box').eq($(this).index()).fadeIn(150).siblings('div.box').hide();
+						});
+
+						$("#iew,#ieh").change(function () {
+							var ww = $("#iew").val();
+							var hh = $("#ieh").val();
+							ww = ww.replace(/\D/g, '');
+							hh = hh.replace(/\D/g, '');
+							if (!ww) ww = 640;
+							if (!hh) hh = 360;
+							tt = $("#iet").val();
+							tt = tt.replace(/ WIDTH=\d+ HEIGHT=\d+ /, ' WIDTH=' + ww + ' HEIGHT=' + hh + ' ');
+							$("#iet").val(tt);
+						});
+
+						
+					</Script>
+					<script src="/js/tabber.js"></script>
+
+					
+					<Script>
+						$(function () {
+							
+						});
+					</Script>
+
+
+
+					
+						
+							
+							
+								<!--player anime-->
+								<script src="/assets/jquery/ev-player.js?type=mainstream&v=20260808043904"></script>
+							
+							
+
+							
+					
+
+
+					
+					
+					
+					
+
+					
+
+			</div>
+
+
+		</div>
+	</section>
+
+	
+</main>
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-xs-12">
+        <div class="mb-3 text-center">
+          <a href="#" class="logo">
+            
+                <img src="/static/images/logo.svg" alt="">
+            
+          </a>
+        </div>
+
+      </div>
+
+      <div class="col-lg-8 col-xs-12" style="position: relative">
+        <div class="mb-4 text-center">
+          <p class="text-muted ">
+            © 2025 Earnvids. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<style>
+  @media (min-width:481px) {
+    .text-muted {}
+  }
+
+  @media (min-width:961px) {
+    .text-muted {
+      position: absolute;
+      right: 0;
+      top: 15px
+    }
+  }
+</style>
+</body>
+
+</html>
