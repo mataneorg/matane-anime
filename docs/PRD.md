@@ -304,7 +304,7 @@ Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pad
 | ID | Persyaratan | Pri |
 |---|---|---|
 | NET-1 | Semua request lewat **main** dengan `net.request` dan **session terpisah per extension** (`persist:ext-<id>`). Skema dibatasi http(s), termasuk tiap redirect | P0 |
-| NET-2 | **Rate limit** token bucket per extension (dari manifest, default 10/detik). Segmen dan media memakai **bucket terpisah yang lebih longgar** (default 30/detik) agar HLS tidak menunggu | P0 |
+| NET-2 | **Rate limit** token bucket per extension (dari manifest, default 10/detik). Segmen dan media memakai **bucket terpisah yang lebih longgar** (default 30/detik) agar HLS tidak menunggu. Cover punya antrean sendiri dengan laju yang sama, agar sekumpulan cover tidak menunda request browse atau detail | P0 |
 | NET-3 | Timeout 20 detik per request (permintaan media mengikuti kebijakan sendiri); retry dengan backoff hanya untuk error jaringan dan 5xx/429, hormati `Retry-After` | P0 |
 | NET-4 | **User-Agent**: default Chrome Electron tanpa token "Electron". Prioritas: UA extension → UA global → default | P0 |
 | NET-5 | **Cloudflare**: deteksi challenge → `BrowserWindow` tersembunyi di partition extension dengan UA yang sama → tampilkan jendela bila ±10 detik belum selesai → ulangi request. Request lain yang kena challenge menunggu satu penyelesaian yang sama | P0 |

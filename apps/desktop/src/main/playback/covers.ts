@@ -102,10 +102,13 @@ export function createCoverHandler(deps: CoverDeps): (request: Request) => Promi
     const fetcher = deps.fetcherFor(sourceId);
     if (!fetcher) return { status: 404 };
     try {
-      const response = await fetcher.requestBytes({
-        url: imageUrl,
-        headers: { Referer: `${new URL(imageUrl).origin}/`, Accept: 'image/*' },
-      });
+      const response = await fetcher.requestBytes(
+        {
+          url: imageUrl,
+          headers: { Referer: `${new URL(imageUrl).origin}/`, Accept: 'image/*' },
+        },
+        { lane: 'image' },
+      );
       const type = response.headers['content-type'] ?? '';
       if (response.status !== 200) return { status: response.status === 404 ? 404 : 502 };
       if (!type.startsWith('image/')) return { status: 415 };

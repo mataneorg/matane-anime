@@ -46,10 +46,13 @@ export interface Raw {
  */
 export class ExtensionFetcher {
   private readonly pages: TokenBucket;
+  /** Covers have their own bucket at the same rate, so a grid of them never delays a browse or detail request. */
+  private readonly images: TokenBucket;
   readonly media: TokenBucket;
 
   constructor(private readonly options: FetcherOptions) {
     this.pages = new TokenBucket(options.perSecond);
+    this.images = new TokenBucket(options.perSecond);
     this.media = new TokenBucket(options.mediaPerSecond);
     installHeaderBridge(options.session);
   }
@@ -69,16 +72,19 @@ export class ExtensionFetcher {
     return this.options.session;
   }
 
-  /** The same request with the body as bytes: covers, keys, anything that is not text. */
-  requestBytes(request: HttpRequest): Promise<Raw> {
-    return this.execute(request);
+  /**
+   * The same request with the body as bytes: covers, keys, anything that is not text. `lane: 'image'` is for
+   * covers, which wait in their own queue instead of the one page requests use.
+   */
+  requestBytes(request: HttpRequest, options: { lane?: 'page' | 'image' } = {}): Promise<Raw> {
+    return this.execute(request, options.lane === 'image' ? this.images : this.pages);
   }
 
-  private async execute(request: HttpRequest): Promise<Raw> {
+  private async execute(request: HttpRequest, bucket: TokenBucket = this.pages): Promise<Raw> {
     const idempotent = (request.method ?? 'GET') !== 'POST';
     let solved = false;
     for (let attempt = 0; ; attempt++) {
-      await this.pages.take();
+      await bucket.take();
       let raw: Raw;
       try {
         raw = await this.once(request);

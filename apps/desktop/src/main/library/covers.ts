@@ -42,10 +42,13 @@ export class LibraryCovers {
     const fetcher = this.fetcherFor(row.sourceId);
     if (!fetcher) return;
     try {
-      const response = await fetcher.requestBytes({
-        url: row.thumbnailUrl,
-        headers: { Referer: `${new URL(row.thumbnailUrl).origin}/`, Accept: 'image/*' },
-      });
+      const response = await fetcher.requestBytes(
+        {
+          url: row.thumbnailUrl,
+          headers: { Referer: `${new URL(row.thumbnailUrl).origin}/`, Accept: 'image/*' },
+        },
+        { lane: 'image' },
+      );
       const type = (response.headers['content-type'] ?? '').split(';')[0]?.trim() ?? '';
       const extension = EXTENSIONS[type];
       if (response.status !== 200 || !extension || response.body.byteLength > MAX_BYTES) return;
