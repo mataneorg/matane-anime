@@ -1,0 +1,16 @@
+{
+  "sources": [
+    {
+      "url": "https://vault-69.aniwatchtv.site/i/01a0ed9a-e90d-718e-b1c3-ee969859b6f3/01a0ed9a-fb1b-72cc-b652-eea9fc9cba6d/s/deeznuts.txt?token=AWrJDIdLj7FNNqrxe5E64e4kqljMAAAAAAAAAAAAAP__cgwOAL0z5zGp3HHt-nhzRQmcc6dkUcKFxKVogw.O_siDV8R-_i2QgEoZ0fAiQR2jCEI2SbcWNXxSZRQ_YM",
+      "quality": "auto",
+      "type": "application/vnd.apple.mpegurl"
+    }
+  ],
+  "tracks": null,
+  "audio": null,
+  "chapters": [
+    { "title": "Intro", "start": 138, "end": 215 },
+    { "title": "Outro", "start": 1452, "end": 1542 }
+  ],
+  "headers": {}
+}

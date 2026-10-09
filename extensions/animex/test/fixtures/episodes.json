@@ -1,0 +1,29 @@
+[
+  {
+    "number": 1,
+    "titles": { "en": "Episode 1" },
+    "img": "https://cdn.anipixcdn.co/thumbnail/35e54cf5038f9c977d6b95227194eb97.jpg",
+    "isFiller": false,
+    "updatedAt": 1790324995000,
+    "hasDub": true,
+    "hasSub": true
+  },
+  {
+    "number": 2,
+    "titles": { "en": "Episode 2" },
+    "img": "https://cdn.anipixcdn.co/thumbnail/35e54cf5038f9c977d6b95227194eb97.jpg",
+    "isFiller": false,
+    "updatedAt": 1790928959000,
+    "hasDub": true,
+    "hasSub": true
+  },
+  {
+    "number": 3,
+    "titles": { "en": "Episode 3" },
+    "img": "https://cdn.anipixcdn.co/thumbnail/35e54cf5038f9c977d6b95227194eb97.jpg",
+    "isFiller": false,
+    "updatedAt": 1791533093000,
+    "hasDub": true,
+    "hasSub": true
+  }
+]

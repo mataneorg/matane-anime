@@ -1,0 +1,75 @@
+{
+  "sources": [{ "url": "https://hls.krussdomi.com/manifest/6a7f181428263f1860b1a1e7/master.m3u8", "quality": "auto" }],
+  "tracks": [
+    {
+      "id": "captions-1",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f18181e0bcc85ac82ad7f.vtt",
+      "lang": "eng",
+      "label": "English",
+      "kind": "captions",
+      "default": true
+    },
+    {
+      "id": "captions-2",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f18181e0bcc85ac82ad86.vtt",
+      "lang": "por",
+      "label": "Portuguese",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-3",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f18191e0bcc85ac82ada5.vtt",
+      "lang": "spa",
+      "label": "Spanish",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-4",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f181a1e0bcc85ac82adb4.vtt",
+      "lang": "ara",
+      "label": "Arabic",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-5",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f181a1e0bcc85ac82adbc.vtt",
+      "lang": "fre",
+      "label": "French",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-6",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f181b1e0bcc85ac82adc7.vtt",
+      "lang": "ger",
+      "label": "German",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-7",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f181c1e0bcc85ac82add2.vtt",
+      "lang": "ita",
+      "label": "Italian",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-8",
+      "url": "https://subst.krussdomi.com/6a7f181428263f1860b1a1e7/6a7f181c1e0bcc85ac82add9.vtt",
+      "lang": "rus",
+      "label": "Russian",
+      "kind": "captions",
+      "default": false
+    }
+  ],
+  "audio": null,
+  "chapters": [{ "title": "Outro", "start": 1215, "end": 1307 }],
+  "headers": {
+    "Referer": "https://kaa.lt/",
+    "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
+  }
+}
