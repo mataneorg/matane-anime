@@ -1,0 +1,19 @@
+{
+  "name": "@matane-anime/animeheaven-extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Extension for animeheaven.me (English sub, direct mp4): new episodes, popular, search, tags, details, episodes and streams.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "ma-ext build",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:live": "LIVE=1 vitest run test/live.test.ts"
+  },
+  "devDependencies": {
+    "@matane-anime/extension-cli": "workspace:*",
+    "@matane-anime/extension-runtime": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*"
+  }
+}
