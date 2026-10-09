@@ -27,6 +27,17 @@ describe('readHead', () => {
 });
 
 describe('probeStream (STR-2)', () => {
+  it('stops and says cancelled when its signal fires', async () => {
+    const hanging: UpstreamFetch = (_url, init) =>
+      new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')));
+      });
+    const stop = new AbortController();
+    const pending = probeStream(stream('https://x/a.m3u8'), hanging, session, 8000, stop.signal);
+    stop.abort();
+    expect(await pending).toEqual({ ok: false, reason: 'cancelled', httpStatus: null });
+  });
+
   it('accepts a playlist that is one', async () => {
     const result = await probeStream(stream('https://x/a.m3u8'), answering('#EXTM3U\n#EXT-X-VERSION:3\n'), session);
     expect(result).toEqual({ ok: true, kind: 'hls' });

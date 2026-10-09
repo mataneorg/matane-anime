@@ -22,6 +22,8 @@ interface Harness {
   episodeId: number;
   calls: string[];
   options: { available: boolean; streams: Stream[] };
+  /** What the fake upstream answers; replaced by the tests that need a slow or failing server. */
+  upstream: { handler: (url: string, init: RequestInit) => Promise<Response> };
 }
 
 let harness: Harness;
@@ -42,6 +44,7 @@ async function setup(): Promise<Harness> {
   ).id;
   const calls: string[] = [];
   const options = { available: true, streams: [STREAM] };
+  const upstream: Harness['upstream'] = { handler: async () => new Response('#EXTM3U\n', { status: 200 }) };
   const sessions = new SessionStore();
   const service = new PlaybackService({
     extensions: {
@@ -60,14 +63,15 @@ async function setup(): Promise<Harness> {
     store: db.store,
     sessions,
     downloads: db.downloads,
-    upstream: async () => {
+    upstream: async (url, init) => {
       calls.push('upstream');
-      return new Response('#EXTM3U\n', { status: 200 });
+      return upstream.handler(url, init ?? {});
     },
+    probeStaggerMs: 20,
     requests: new RequestRegistry(),
     resumeFor: () => 1234,
   });
-  return { db, service, sessions, folder, episodeId, calls, options };
+  return { db, service, sessions, folder, episodeId, calls, options, upstream };
 }
 
 /** A finished HLS download on disk and in the database. */
@@ -257,5 +261,104 @@ describe('PlaybackService: falling back to streaming', () => {
     h.options.available = false;
     await expect(h.service.start(h.episodeId)).rejects.toThrow('not installed');
     expect(h.db.downloads.byEpisode(h.episodeId)?.error).toBe(DOWNLOAD_FILE_MISSING);
+  });
+});
+
+describe('PlaybackService: probing streams (STR-2)', () => {
+  const server = (name: string, quality: number): Stream => ({
+    url: `http://${name}.test/index.m3u8`,
+    server: name,
+    quality,
+  });
+  const playlist = () => new Response('#EXTM3U\n', { status: 200 });
+  /** Never answers until the probe is abandoned. */
+  const hang = (init: RequestInit) =>
+    new Promise<Response>((_resolve, reject) => {
+      init.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')));
+    });
+
+  it('keeps the best-ranked stream when it answers within its head start', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    const seen: string[] = [];
+    h.upstream.handler = async (url) => {
+      seen.push(new URL(url).host);
+      return playlist();
+    };
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('a');
+    expect(seen).toEqual(['a.test']);
+  });
+
+  it('does not wait out a dead top server: the next one is probed beside it and wins', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    let abortedA = false;
+    h.upstream.handler = (url, init) => {
+      if (new URL(url).host === 'b.test') return Promise.resolve(playlist());
+      init.signal?.addEventListener('abort', () => (abortedA = true));
+      return hang(init);
+    };
+    const started = Date.now();
+    const dto = await h.service.start(h.episodeId);
+    expect(Date.now() - started).toBeLessThan(2000);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('b');
+    // The one that was still waiting was cancelled, not blamed.
+    expect(abortedA).toBe(true);
+    expect(dto.streams.find((s) => s.server === 'a')?.status).toBe('available');
+    expect(h.sessions.size).toBe(1);
+  });
+
+  it('a stream that fails fast is marked failed and the next one is used', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = async (url) =>
+      new URL(url).host === 'a.test' ? new Response('no', { status: 403 }) : playlist();
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('b');
+    expect(dto.streams.find((s) => s.server === 'a')?.status).toBe('failed');
+    expect(h.sessions.size).toBe(1);
+  });
+
+  it('prefers the better-ranked stream when both answer', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = async (url, init) => {
+      // The top one is a little slow, but inside its head start.
+      if (new URL(url).host === 'a.test') await new Promise((resolve) => setTimeout(resolve, 5));
+      init.signal?.throwIfAborted();
+      return playlist();
+    };
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('a');
+  });
+
+  it('probes at most three streams at once', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 1080), server('b', 900), server('c', 800), server('d', 700), server('e', 600)];
+    let inFlight = 0;
+    let peak = 0;
+    h.upstream.handler = async (url) => {
+      inFlight++;
+      peak = Math.max(peak, inFlight);
+      try {
+        // Four slow failures, then the last one answers.
+        await new Promise((resolve) => setTimeout(resolve, 60));
+        return new URL(url).host === 'e.test' ? playlist() : new Response('busy', { status: 503 });
+      } finally {
+        inFlight--;
+      }
+    };
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('e');
+    expect(peak).toBe(3);
+  });
+
+  it('reports the last reason and leaves no session behind when nothing answers', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = async () => new Response('gone', { status: 404 });
+    await expect(h.service.start(h.episodeId)).rejects.toThrow('No server answered (HTTP 404)');
+    expect(h.sessions.size).toBe(0);
   });
 });

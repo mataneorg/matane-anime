@@ -213,7 +213,7 @@ Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pad
 | ID | Persyaratan | Pri |
 |---|---|---|
 | STR-1 | **Urutan kandidat**: (1) pilihan manual terakhir untuk anime ini, (2) preferensi kualitas global (default "tertinggi yang tersedia"; alternatif tetap 1080/720/480/360 → yang terdekat di bawah, lalu terdekat di atas), (3) server yang terakhir berhasil untuk source ini, (4) urutan dari extension | P0 |
-| STR-2 | **Probe** kandidat sebelum diputar: ambil manifest atau `Range: bytes=0-1` dengan timeout ±8 detik. Gagal → kandidat berikutnya, tanpa ditampilkan ke pengguna | P0 |
+| STR-2 | **Probe** kandidat sebelum diputar: ambil manifest atau `Range: bytes=0-1` dengan timeout ±8 detik. Gagal → kandidat berikutnya, tanpa ditampilkan ke pengguna. Kandidat terbaik dicoba sendiri lebih dulu; bila belum menjawab dalam ±1,5 detik atau gagal, kandidat berikutnya ikut dicoba (maksimal 3 sekaligus), yang pertama menjawab dipakai dan sisanya dibatalkan tanpa ditandai gagal ([ADR 0034](adr/0034-parallel-stream-probe.md)) | P0 |
 | STR-3 | **Fallback saat memutar**: error fatal hls.js atau media error → pindah ke kandidat berikutnya, melanjutkan di posisi yang sama, notifikasi singkat ("Beralih ke server X"). Maksimal 3 percobaan, lalu error state dengan daftar untuk dipilih manual | P0 |
 | STR-4 | **Stream kedaluwarsa** (403/410 di tengah pemutaran): panggil ulang `getStreams` satu kali sebelum pindah server | P0 |
 | STR-5 | Pilihan manual di pemutar disimpan per anime (`anime.playback_prefs_json`). Server yang berhasil disimpan per source di setting. Hanya pilihan **manual** yang menjadi preferensi per anime | P0 |

@@ -42,12 +42,14 @@ const looksLikePlaylist = (head: Uint8Array): boolean =>
  * Checks that a stream answers before the player is pointed at it (docs/PRD.md STR-2): a playlist must be
  * a playlist, a file must answer a one-byte range. It goes through the same upstream the player will use,
  * so what the probe sees is what playback will get. A failed probe is silent: the next candidate is tried.
+ * `signal` stops a probe whose answer is no longer wanted (another stream already won); it reports `cancelled`.
  */
 export async function probeStream(
   stream: Stream,
   upstream: UpstreamFetch,
   session: PlaybackSession,
   timeoutMs = PROBE_TIMEOUT_MS,
+  signal?: AbortSignal,
 ): Promise<ProbeResult> {
   const guessed = guessKind(stream);
   const headers: Record<string, string> = { ...stream.headers };
@@ -56,8 +58,14 @@ export async function probeStream(
 
   let response: Response;
   try {
-    response = await upstream(stream.url, { method: 'GET', headers, signal: AbortSignal.timeout(timeoutMs) }, session);
+    const limit = AbortSignal.timeout(timeoutMs);
+    response = await upstream(
+      stream.url,
+      { method: 'GET', headers, signal: signal ? AbortSignal.any([limit, signal]) : limit },
+      session,
+    );
   } catch (error) {
+    if (signal?.aborted) return { ok: false, reason: 'cancelled', httpStatus: null };
     const timedOut = (error as Error).name === 'TimeoutError' || (error as Error).name === 'AbortError';
     return { ok: false, reason: timedOut ? 'timed out' : (error as Error).message || 'unreachable', httpStatus: null };
   }
@@ -80,6 +88,7 @@ export async function probeStream(
       ? { ok: true, kind: 'mp4' }
       : { ok: false, reason: `unrecognized (${type || 'no content type'})`, httpStatus: null };
   } catch (error) {
+    if (signal?.aborted) return { ok: false, reason: 'cancelled', httpStatus: null };
     return { ok: false, reason: (error as Error).message || 'the answer was cut off', httpStatus: null };
   }
 }

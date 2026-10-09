@@ -22,10 +22,13 @@ import { neighbors } from './neighbors';
 import { type ProbeResult, probeStream } from './probe';
 import type { UpstreamFetch } from './proxy';
 import { type Ranked, guessKind, rankStreams } from './ranking';
-import type { SessionStore } from './sessions';
+import type { PlaybackSession as ProbedSession, SessionStore } from './sessions';
 
 /** Playback errors tolerated before the player shows the error state (docs/PRD.md STR-3). */
 export const MAX_ATTEMPTS = 3;
+/** Streams probed at the same time, and how long the better-ranked ones get before the next is started too. */
+const PROBE_PARALLEL = 3;
+const PROBE_STAGGER_MS = 1500;
 const lastServerKey = (sourceId: string): string => `playback.lastServer.${sourceId}`;
 
 export interface PlaybackDeps {
@@ -41,6 +44,8 @@ export interface PlaybackDeps {
   downloads: Pick<DownloadsRepository, 'byEpisode' | 'update'>;
   /** Whether a regular file exists. Defaults to `fs.stat`; a test replaces it. */
   fileExists?(path: string): Promise<boolean>;
+  /** Head start of a better-ranked stream over the next one, in ms. Defaults to 1500; a test shortens it. */
+  probeStaggerMs?: number;
   /** Where playback of an episode starts (PRG-4). */
   resumeFor(episode: EpisodeRecord): number;
 }
@@ -340,39 +345,94 @@ export class PlaybackService {
     };
   }
 
-  /** Probes candidates in order and activates the first that answers. */
+  /**
+   * Probes candidates and activates the first that answers. The best-ranked one starts alone; if it has not
+   * answered after a short head start, or fails, the next starts beside it (up to `PROBE_PARALLEL` at once), so a
+   * dead server at the top costs about a second and a half instead of its whole timeout. The first success wins
+   * and the others are cancelled; only streams that really failed are marked failed.
+   */
   private async openFirstWorking(playback: Playback, order: number[]): Promise<void> {
+    const queue = order.filter((position) => playback.candidates[position] && !playback.failed.has(position));
+    const stagger = this.deps.probeStaggerMs ?? PROBE_STAGGER_MS;
+    const stop = new AbortController();
+    type Attempt = { position: number; result: ProbeResult };
+    const running = new Map<number, Promise<Attempt>>();
+    const sessions = new Map<number, ProbedSession>();
+    const TICK = Symbol('tick');
+    let next = 0;
     let last: ProbeResult | null = null;
-    for (const position of order) {
-      const candidate = playback.candidates[position];
-      if (!candidate || playback.failed.has(position)) continue;
+    let winner: { position: number; kind: 'hls' | 'mp4' } | null = null;
+
+    const begin = (): void => {
+      const position = queue[next++] as number;
+      const candidate = playback.candidates[position] as Ranked;
       const session = this.deps.sessions.create({
         entryUrl: candidate.stream.url,
         kind: guessKind(candidate.stream) === 'mp4' ? 'file' : 'hls',
         headers: candidate.stream.headers,
         extensionId: playback.extensionId,
       });
-      const result = await probeStream(candidate.stream, this.deps.upstream, session);
-      if (!result.ok) {
-        this.deps.sessions.delete(session.id);
-        playback.failed.add(position);
-        playback.tried.push(label(candidate));
-        last = result;
-        continue;
+      sessions.set(position, session);
+      running.set(
+        position,
+        probeStream(candidate.stream, this.deps.upstream, session, undefined, stop.signal).then((result) => ({
+          position,
+          result,
+        })),
+      );
+    };
+
+    try {
+      if (next < queue.length) begin();
+      while (running.size > 0) {
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const tick =
+          next < queue.length && running.size < PROBE_PARALLEL
+            ? new Promise<typeof TICK>((resolve) => {
+                timer = setTimeout(() => resolve(TICK), stagger);
+              })
+            : null;
+        const settled = await Promise.race(tick ? [...running.values(), tick] : [...running.values()]);
+        clearTimeout(timer);
+        if (settled === TICK) {
+          begin();
+          continue;
+        }
+        running.delete(settled.position);
+        if (settled.result.ok) {
+          winner = { position: settled.position, kind: settled.result.kind };
+          break;
+        }
+        const failed = playback.candidates[settled.position] as Ranked;
+        this.deps.sessions.delete((sessions.get(settled.position) as ProbedSession).id);
+        sessions.delete(settled.position);
+        playback.failed.add(settled.position);
+        playback.tried.push(label(failed));
+        last = settled.result;
+        if (next < queue.length && running.size < PROBE_PARALLEL) begin();
       }
-      // The probe may have found out what an unlabelled URL is.
-      session.kind = result.kind === 'mp4' ? 'file' : 'hls';
-      if (playback.sessionId) this.deps.sessions.delete(playback.sessionId);
-      playback.sessionId = session.id;
-      playback.active = position;
-      playback.kind = result.kind;
-      playback.url = `anime://play/${session.id}/${result.kind === 'hls' ? 'index.m3u8' : 'media.mp4'}`;
-      return;
+    } finally {
+      // Whoever lost, or was still waiting when the winner came in, is no longer wanted.
+      stop.abort();
+      for (const [position, session] of sessions) {
+        if (position !== winner?.position) this.deps.sessions.delete(session.id);
+      }
     }
-    throw new AppError('extension', last ? `No server answered (${last.reason})` : 'This episode has no streams', {
-      kind: 'no_stream',
-      ...(last && !last.ok && last.httpStatus !== null && { status: last.httpStatus }),
-    });
+
+    if (!winner) {
+      throw new AppError('extension', last ? `No server answered (${last.reason})` : 'This episode has no streams', {
+        kind: 'no_stream',
+        ...(last && !last.ok && last.httpStatus !== null && { status: last.httpStatus }),
+      });
+    }
+    const session = sessions.get(winner.position) as ProbedSession;
+    // The probe may have found out what an unlabelled URL is.
+    session.kind = winner.kind === 'mp4' ? 'file' : 'hls';
+    if (playback.sessionId) this.deps.sessions.delete(playback.sessionId);
+    playback.sessionId = session.id;
+    playback.active = winner.position;
+    playback.kind = winner.kind;
+    playback.url = `anime://play/${session.id}/${winner.kind === 'hls' ? 'index.m3u8' : 'media.mp4'}`;
   }
 
   private describe(playback: Playback): PlaybackSessionDto {
