@@ -7,6 +7,7 @@ import { DataSettings } from '@renderer/features/settings/DataSettings';
 import { DownloadsSettings } from '@renderer/features/settings/DownloadsSettings';
 import { GeneralSettings } from '@renderer/features/settings/GeneralSettings';
 import { LibrarySettings } from '@renderer/features/settings/LibrarySettings';
+import { NetworkSettings } from '@renderer/features/settings/NetworkSettings';
 import { PlayerSettings } from '@renderer/features/settings/PlayerSettings';
 
 export const Route = createFileRoute('/_app/settings/$section')({ component: SettingsPage });
@@ -53,6 +54,8 @@ function SettingsPage() {
           <PlayerSettings />
         ) : active === 'downloads' ? (
           <DownloadsSettings />
+        ) : active === 'network' ? (
+          <NetworkSettings />
         ) : active === 'data' ? (
           <DataSettings />
         ) : active === 'advanced' ? (

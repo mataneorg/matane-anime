@@ -1,7 +1,8 @@
 import type { CloudflareStatus } from '@matane-anime/shared';
-import { session } from 'electron';
+import { type Session, session } from 'electron';
 import type { SettingsRepository } from '../db/repositories/settings';
 import { CloudflareSolver } from './cloudflare';
+import { globalUserAgent } from './config';
 import { ExtensionFetcher } from './extension-fetcher';
 import { NetworkStatus } from './status';
 import { defaultUserAgent } from './user-agent';
@@ -13,13 +14,14 @@ export interface NetworkExtension {
   rateLimit?: { perSecond: number };
 }
 
-export const GLOBAL_USER_AGENT_KEY = 'network.userAgent';
 const DEFAULT_PER_SECOND = 10;
 const DEFAULT_MEDIA_PER_SECOND = 30;
 
 export interface NetworkEvents {
   onCloudflare(status: CloudflareStatus): void;
   onOnline(online: boolean): void;
+  /** A session was made for an extension, so it can be given the proxy. */
+  onSession?(session: Session): void;
 }
 
 /** One fetcher (session, rate limits) per extension, plus the online/offline status. */
@@ -31,7 +33,7 @@ export class NetworkManager {
 
   constructor(
     private readonly settings: SettingsRepository,
-    events: NetworkEvents,
+    private readonly events: NetworkEvents,
   ) {
     this.solver = new CloudflareSolver({
       emit: events.onCloudflare,
@@ -54,7 +56,7 @@ export class NetworkManager {
   private userAgentOf(extensionId: string): string {
     return (
       this.manifestAgents.get(extensionId) ??
-      this.settings.getValue<string | null>(GLOBAL_USER_AGENT_KEY, null) ??
+      globalUserAgent(this.settings.getAppSettings().userAgent) ??
       defaultUserAgent(session.fromPartition(`persist:ext-${extensionId}`))
     );
   }
@@ -63,9 +65,11 @@ export class NetworkManager {
     let fetcher = this.fetchers.get(extension.id);
     if (!fetcher) {
       this.manifestAgents.set(extension.id, extension.userAgent);
+      const extensionSession = session.fromPartition(`persist:ext-${extension.id}`);
+      this.events.onSession?.(extensionSession);
       fetcher = new ExtensionFetcher({
         extensionId: extension.id,
-        session: session.fromPartition(`persist:ext-${extension.id}`),
+        session: extensionSession,
         perSecond: extension.rateLimit?.perSecond ?? DEFAULT_PER_SECOND,
         mediaPerSecond: DEFAULT_MEDIA_PER_SECOND,
         userAgent: () => this.userAgentOf(extension.id),

@@ -268,7 +268,56 @@
       "openFailed": "Folder tidak bisa dibuka",
       "ofLimit": "{{percent}}% dari batas {{limit}}"
     },
-    "network": {}
+    "network": {
+      "intro": "Untuk sumber yang diblokir penyedia internet Anda. Perubahan langsung berlaku, tanpa memulai ulang.",
+      "doh": "DNS over HTTPS",
+      "dohModes": {
+        "off": "Mati",
+        "auto": "Otomatis",
+        "always": "Selalu"
+      },
+      "provider": "Penyedia",
+      "providers": {
+        "cloudflare": "Cloudflare",
+        "google": "Google",
+        "quad9": "Quad9",
+        "adguard": "AdGuard",
+        "custom": "Kustom"
+      },
+      "customUrl": "Alamat kustom (hanya HTTPS)",
+      "httpsOnly": "Alamat harus diawali https://",
+      "proxy": "Proxy",
+      "proxyType": "Jenis",
+      "proxyModes": {
+        "system": "Pengaturan sistem",
+        "none": "Tanpa proxy",
+        "http": "HTTP",
+        "socks5": "SOCKS5"
+      },
+      "systemHint": "Memakai proxy sistem Anda, bila ada.",
+      "host": "Host",
+      "port": "Port",
+      "portInvalid": "Port harus berupa angka dari 1 sampai 65535.",
+      "needsLogin": "Proxy memerlukan nama pengguna dan kata sandi",
+      "user": "Nama pengguna",
+      "password": "Kata sandi",
+      "passwordSaved": "Tersimpan",
+      "removePassword": "Hapus kata sandi",
+      "passwordFailed": "Kata sandi tidak bisa disimpan",
+      "socksLogin": "Chromium tidak bisa mengirim nama pengguna dan kata sandi ke proxy SOCKS5; pakai proxy HTTP bila proxy Anda memerlukan login.",
+      "passwordStorage": "Kata sandi disimpan di keyring sistem bila ada. Bila tidak ada, kata sandi disimpan sebagai teks biasa dan halaman ini memberi tahu.",
+      "plainWarning": "Di sini tidak ada keyring sistem, jadi kata sandi proxy disimpan sebagai teks biasa di database aplikasi.",
+      "userAgent": "User-Agent kustom",
+      "userAgentHint": "Secara bawaan, permintaan tampak seperti browser Chrome terbaru. Extension boleh menetapkan sendiri.",
+      "resetAgent": "Kembalikan ke bawaan",
+      "agentInvalid": "User-Agent hanya boleh memakai karakter ASCII yang bisa dicetak.",
+      "test": "Tes koneksi",
+      "testing": "Menguji...",
+      "connected": "Terhubung",
+      "ms": "{{ms}} ms",
+      "withSettings": "dengan pengaturan di atas",
+      "testFailed": "Tes tidak bisa dijalankan."
+    }
   },
   "browse": {
     "sources": {

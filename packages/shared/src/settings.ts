@@ -15,7 +15,7 @@ export type DownloadQuality = (typeof DOWNLOAD_QUALITIES)[number];
 export const UPDATE_CHANNELS = ['stable', 'beta'] as const;
 export type UpdateChannel = (typeof UPDATE_CHANNELS)[number];
 
-/** DNS over HTTPS (docs/PRD.md NET-6): `auto` uses it when the system resolver fails, `always` uses nothing else. */
+/** DNS over HTTPS (docs/PRD.md NET-6): `auto` tries it first and falls back to the system resolver (Chromium's automatic mode), `always` uses nothing else. */
 export const DOH_MODES = ['off', 'auto', 'always'] as const;
 export type DohMode = (typeof DOH_MODES)[number];
 

@@ -15,6 +15,7 @@ import {
   looksLikeChallenge,
   retryDelayMs,
 } from './policy';
+import { answerProxyLogin } from './proxy-auth';
 import { TokenBucket } from './token-bucket';
 
 export interface FetcherOptions {
@@ -149,6 +150,7 @@ export class ExtensionFetcher {
         timeoutMs,
       );
 
+      client.on('login', answerProxyLogin);
       client.on('redirect', (_status, _method, redirectUrl) => {
         let target: URL;
         try {

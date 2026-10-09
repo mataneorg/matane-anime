@@ -2,7 +2,7 @@ import { mkdirSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
-import { BrowserWindow, app, crashReporter, session } from 'electron';
+import { BrowserWindow, app, crashReporter, safeStorage, session } from 'electron';
 import type { AppSettings } from '@matane-anime/shared';
 import { autoUpdater } from 'electron-updater';
 import { createMainWindow } from './app/window';
@@ -48,7 +48,9 @@ import { ExtensionService } from './extensions/service';
 import { createHandlers } from './ipc/handlers';
 import { broadcast, registerIpcHandlers } from './ipc/register';
 import { RequestRegistry } from './ipc/requests';
-import { GLOBAL_USER_AGENT_KEY, NetworkManager } from './network/manager';
+import { NetworkApplier } from './network/apply';
+import { NetworkManager } from './network/manager';
+import { ProxyPasswordStore } from './network/proxy-password';
 import { RepoFetcher } from './network/repo-fetcher';
 import { defaultUserAgent } from './network/user-agent';
 import { PlaybackService } from './playback/service';
@@ -109,17 +111,22 @@ if (!app.requestSingleInstanceLock()) {
       const logs = new ExtensionLogs();
       logs.subscribe((entry) => broadcast('extensions.log', entry));
       const requests = new RequestRegistry();
+      const proxyPassword = new ProxyPasswordStore(settings, safeStorage);
+      const networkApplier = new NetworkApplier(settings, proxyPassword);
       const network = new NetworkManager(settings, {
+        onSession: (extensionSession) => networkApplier.track(extensionSession),
         onCloudflare: (status) => broadcast('cloudflare.status', status),
         onOnline: (online) => broadcast('network.status', { online }),
       });
       network.status.start();
+      // The proxy, DNS over HTTPS and the old User-Agent row (before the first request goes out).
+      networkApplier.start();
 
       // Extension repositories (EXT-5…9): fetched by their own session, never by an extension's fetcher.
       const repoSession = session.fromPartition('persist:repos');
       const repoHttp = new RepoFetcher({
         session: repoSession,
-        userAgent: () => settings.getValue<string | null>(GLOBAL_USER_AGENT_KEY, null) ?? defaultUserAgent(repoSession),
+        userAgent: () => networkApplier.userAgent() ?? defaultUserAgent(repoSession),
         isOnline: () => network.status.isOnline,
       });
       const repoService = new RepoService({
@@ -402,6 +409,8 @@ if (!app.requestSingleInstanceLock()) {
           installs: installService,
           logs,
           network,
+          networkApplier,
+          proxyPassword,
           requests,
           playback,
           watch,

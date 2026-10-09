@@ -7,7 +7,10 @@ import type { ExtensionLogs } from '../extensions/logs';
 import type { RepoService } from '../extensions/repos';
 import type { ExtensionRegistry } from '../extensions/registry';
 import type { ExtensionService } from '../extensions/service';
+import type { NetworkApplier } from '../network/apply';
+import { NETWORK_SETTING_KEYS } from '../network/config';
 import type { NetworkManager } from '../network/manager';
+import type { ProxyPasswordStore } from '../network/proxy-password';
 import type { LibraryRepository } from '../db/repositories/library';
 import type { MigrationService } from '../library/migration';
 import type { LibraryService } from '../library/service';
@@ -28,6 +31,9 @@ export interface HandlerDeps {
   installs: InstallService;
   logs: ExtensionLogs;
   network: NetworkManager;
+  /** Puts the proxy and DoH settings to work, and runs the connection test. */
+  networkApplier: NetworkApplier;
+  proxyPassword: ProxyPasswordStore;
   requests: RequestRegistry;
   playback: PlaybackService;
   watch: WatchService;
@@ -53,6 +59,8 @@ export function createHandlers({
   installs,
   logs,
   network,
+  networkApplier,
+  proxyPassword,
   requests,
   playback,
   watch,
@@ -107,6 +115,8 @@ export function createHandlers({
       broadcast('settings.changed', updated);
       if (patch.updateIntervalHours !== undefined) updates.reschedule();
       if (patch.closeToTray !== undefined || patch.runAtLogin !== undefined) applySystemSettings(updated);
+      if (NETWORK_SETTING_KEYS.some((key) => patch[key] !== undefined))
+        void networkApplier.apply().catch(() => undefined);
       return updated;
     },
     'dialog.pickFolder': async (_input, event) => {
@@ -116,9 +126,13 @@ export function createHandlers({
       return result.canceled ? null : (result.filePaths[0] ?? null);
     },
     'network.getStatus': () => ({ online: network.status.isOnline }),
-    'network.testConnection': notYet('The connection test'),
-    'network.proxyPasswordInfo': notYet('The proxy password'),
-    'network.setProxyPassword': notYet('The proxy password'),
+    'network.testConnection': (input) => networkApplier.test(input),
+    'network.proxyPasswordInfo': () => proxyPassword.info(),
+    'network.setProxyPassword': async ({ password }) => {
+      const info = proxyPassword.set(password);
+      await networkApplier.apply();
+      return info;
+    },
     'incognito.get': () => incognito.enabled,
     'incognito.set': (on) => incognito.set(on),
     'backup.export': notYet('Backup'),

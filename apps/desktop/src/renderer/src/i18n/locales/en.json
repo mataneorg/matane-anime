@@ -268,7 +268,56 @@
       "openFailed": "Could not open the folder",
       "ofLimit": "{{percent}}% of the {{limit}} limit"
     },
-    "network": {}
+    "network": {
+      "intro": "For sources your internet provider blocks. Changes apply right away, without restarting.",
+      "doh": "DNS over HTTPS",
+      "dohModes": {
+        "off": "Off",
+        "auto": "Automatic",
+        "always": "Always"
+      },
+      "provider": "Provider",
+      "providers": {
+        "cloudflare": "Cloudflare",
+        "google": "Google",
+        "quad9": "Quad9",
+        "adguard": "AdGuard",
+        "custom": "Custom"
+      },
+      "customUrl": "Custom address (HTTPS only)",
+      "httpsOnly": "The address must start with https://",
+      "proxy": "Proxy",
+      "proxyType": "Type",
+      "proxyModes": {
+        "system": "System settings",
+        "none": "No proxy",
+        "http": "HTTP",
+        "socks5": "SOCKS5"
+      },
+      "systemHint": "Uses the proxy of your system, if it has one.",
+      "host": "Host",
+      "port": "Port",
+      "portInvalid": "The port must be a number from 1 to 65535.",
+      "needsLogin": "The proxy needs a username and password",
+      "user": "Username",
+      "password": "Password",
+      "passwordSaved": "Saved",
+      "removePassword": "Remove password",
+      "passwordFailed": "Could not save the password",
+      "socksLogin": "Chromium cannot send a username and password to a SOCKS5 proxy; use an HTTP proxy if yours needs a login.",
+      "passwordStorage": "Passwords are stored in your system keyring when there is one. If there isn't, they are stored as plain text and this page says so.",
+      "plainWarning": "There is no system keyring here, so the proxy password is stored as plain text in the app's database.",
+      "userAgent": "Custom User-Agent",
+      "userAgentHint": "By default, requests look like a current Chrome browser. Extensions may set their own.",
+      "resetAgent": "Reset to default",
+      "agentInvalid": "The User-Agent can only use printable ASCII characters.",
+      "test": "Test connection",
+      "testing": "Testing...",
+      "connected": "Connected",
+      "ms": "{{ms}} ms",
+      "withSettings": "with the settings above",
+      "testFailed": "The test could not run."
+    }
   },
   "browse": {
     "sources": {

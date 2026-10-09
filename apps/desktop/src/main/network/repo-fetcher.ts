@@ -1,6 +1,7 @@
 import { type Session, net } from 'electron';
 import { type RepoHttp, RepoHttpError } from '../extensions/repo-http';
 import { MAX_REDIRECTS } from './policy';
+import { answerProxyLogin } from './proxy-auth';
 
 export const REPO_TIMEOUT_MS = 20_000;
 export const REPO_PARTITION = 'persist:repos';
@@ -70,6 +71,7 @@ export class RepoFetcher implements RepoHttp {
       );
       signal?.addEventListener('abort', onAbort, { once: true });
 
+      client.on('login', answerProxyLogin);
       client.on('redirect', (_status, _method, redirectUrl) => {
         let next: URL;
         try {
