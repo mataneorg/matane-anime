@@ -86,27 +86,25 @@ describe('getStreams', () => {
     expect(streams[0]?.headers).toEqual({ Referer: 'https://desustream.net/' });
     expect(streams[1]?.headers).toEqual({ Referer: 'https://odvidhide.com/' });
 
-    // One nonce for the whole episode; every embed call carries the id, index and quality of its button.
+    // One nonce for the whole episode, shared by the two mirrors asked together. Reading stops at three
+    // streams: the 4th 720p mirror and the lower qualities are never asked for.
     expect(mock.nonces).toHaveLength(1);
-    expect(mock.embeds.map((f) => `${f.get('i')}:${f.get('q')}`)).toEqual([
-      '0:720p',
-      '1:720p',
-      '2:720p',
-      '3:720p',
-      '0:480p',
-      '1:480p',
-      '2:480p',
-      '0:360p',
-      '1:360p',
-    ]);
-    // Mega is recognised from its iframe and never fetched; the 480p mirrors failed and were skipped.
+    expect(mock.embeds.map((f) => `${f.get('i')}:${f.get('q')}`)).toEqual(['0:720p', '1:720p', '2:720p']);
     expect(requests.some((r) => r.url.includes('mega.nz'))).toBe(false);
   });
 
-  it('keeps going when a mirror fails, and says so in the log', async () => {
-    const { client, logs } = await load(site().route);
-    await client.getStreams(EPISODE);
-    expect(logs.filter((l) => l.startsWith('warn:') && l.includes('480p'))).toHaveLength(3);
+  it('keeps going down the list when the best mirrors fail, and says so in the log', async () => {
+    const mock = site();
+    const { client, logs } = await load((request) =>
+      request.url === AJAX && typeof request.body === 'string' && request.body.includes('q=720p')
+        ? { status: 500, text: '' }
+        : mock.route(request),
+    );
+    const streams = await client.getStreams(EPISODE);
+    expect(streams.length).toBeGreaterThan(0);
+    const warned = (quality: string) => logs.filter((l) => l.startsWith('warn:') && l.includes(quality)).length;
+    expect(warned('720p')).toBe(4);
+    expect(warned('480p')).toBe(3); // no recording either: the site "failed" there too
   });
 
   it('asks for a fresh nonce once when the site rotates it', async () => {

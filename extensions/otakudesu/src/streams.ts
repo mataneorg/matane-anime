@@ -18,6 +18,13 @@ import { assertOk, base, fetchPage } from './site';
 const BUDGET_MS = 20_000;
 const AJAX_TIMEOUT_MS = 10_000;
 const IFRAME_TIMEOUT_MS = 15_000;
+/**
+ * Every mirror costs two requests, and the app only probes the first few streams anyway, so reading them all
+ * is time spent for nothing. Mirrors are read best quality first, a pair at a time (the manifest allows two
+ * requests a second), and reading stops once this many streams are in hand.
+ */
+const MAX_STREAMS = 3;
+const CONCURRENCY = 2;
 
 interface MirrorRequest {
   id: number;
@@ -175,7 +182,8 @@ function createAjax(config: AjaxConfig, pageUrl: string) {
       throwOnError: false,
     });
 
-  let nonce: string | undefined;
+  // One request for the whole episode, shared by mirrors that are asked at the same time.
+  let nonce: Promise<string> | undefined;
   const fetchNonce = async (): Promise<string> => {
     const reply = await post({ action: config.nonceAction });
     assertOk(reply, endpoint);
@@ -187,16 +195,23 @@ function createAjax(config: AjaxConfig, pageUrl: string) {
   /** The iframe URL of one mirror; `undefined` when the nonce was refused even after a fresh one. */
   return async (request: MirrorRequest): Promise<string | undefined> => {
     for (let attempt = 0; attempt < 2; attempt++) {
-      nonce ??= await fetchNonce();
+      const asked = (nonce ??= fetchNonce());
+      let token: string;
+      try {
+        token = await asked;
+      } catch (error) {
+        if (nonce === asked) nonce = undefined;
+        throw error;
+      }
       const reply = await post({
         id: String(request.id),
         i: String(request.i),
         q: request.q,
-        nonce,
+        nonce: token,
         action: config.embedAction,
       });
       if (reply.status === 403 && attempt === 0) {
-        nonce = undefined; // rotated; ask once more, never loop
+        if (nonce === asked) nonce = undefined; // rotated; ask once more, never loop
         continue;
       }
       if (reply.status === 400 || reply.status === 403) return undefined; // the protocol was refused
@@ -254,24 +269,31 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
   let failures = 0;
   let refused = false;
   if (embedFor) {
-    for (const mirror of mirrors) {
-      if (streams.length > 0 && Date.now() - startedAt > BUDGET_MS) {
-        log.warn('Out of time; leaving the remaining mirrors');
-        break;
-      }
+    const readMirror = async (mirror: Mirror): Promise<(() => void) | undefined> => {
       const label = `${mirror.label || 'mirror'} ${mirror.request.q}`.trim();
       try {
         const src = await embedFor(mirror.request);
         if (src === undefined) {
           refused = true;
-          continue;
+          return undefined;
         }
         const found = await resolveSrc(src);
-        if (found) add(found, new URL(src, pageUrl), label, mirror.quality);
+        return found ? () => add(found, new URL(src, pageUrl), label, mirror.quality) : undefined;
       } catch (error) {
         failures++;
         log.warn(`Mirror ${label} failed:`, (error as Error).message);
+        return undefined;
       }
+    };
+    for (let next = 0; next < mirrors.length && streams.length < MAX_STREAMS; ) {
+      if (streams.length > 0 && Date.now() - startedAt > BUDGET_MS) {
+        log.warn('Out of time; leaving the remaining mirrors');
+        break;
+      }
+      const batch = mirrors.slice(next, next + Math.min(CONCURRENCY, MAX_STREAMS - streams.length));
+      next += batch.length;
+      // Added in the buttons' order, not the order the answers came back, so the result does not depend on timing.
+      for (const commit of await Promise.all(batch.map(readMirror))) commit?.();
     }
   }
 
