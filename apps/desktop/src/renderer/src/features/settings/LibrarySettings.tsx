@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUp, Pencil, Plus, Trash2 } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { call } from '@renderer/lib/api';
 import { categoriesQuery } from '@renderer/lib/library';
@@ -47,16 +47,16 @@ export function LibrarySettings() {
   };
 
   return (
-    <div className="flex max-w-190 flex-col gap-8">
+    <div className="flex max-w-[880px] flex-col gap-6">
       <UpdateChecksSettings />
 
-      <section className="flex flex-col gap-4 border-t pt-5" aria-labelledby="categories-title">
+      <section className="flex flex-col gap-4 rounded-xl border bg-card/40 p-5" aria-labelledby="categories-title">
         <div className="flex items-center justify-between gap-4">
-          <h2 id="categories-title" className="text-[15px] leading-[22px] font-semibold">
+          <h2 id="categories-title" className="text-sm font-semibold">
             {t('settings.library.categories')}
           </h2>
         </div>
-        <p>{t('settings.library.categoriesHint')}</p>
+        <p className="text-muted-foreground">{t('settings.library.categoriesHint')}</p>
         <form onSubmit={submitNew} className="flex max-w-md gap-2">
           <Input
             value={name}
@@ -72,7 +72,7 @@ export function LibrarySettings() {
         </form>
         <ul className="flex flex-col gap-2">
           {categories.map((category, index) => (
-            <li key={category.id} className="flex items-center gap-2 rounded-xl bg-card px-3 py-2">
+            <li key={category.id} className="flex items-center gap-2 rounded-lg border bg-background px-3 py-2">
               {editing === category.id ? (
                 <form onSubmit={submitRename} className="flex flex-1 gap-2">
                   <Input
@@ -144,7 +144,7 @@ export function LibrarySettings() {
           description={t('settings.library.deleteBody')}
           closeLabel={t('common.close')}
         >
-          <div className="flex justify-end gap-2">
+          <DialogFooter>
             <Button variant="secondary" onClick={() => setDeleting(null)}>
               {t('common.cancel')}
             </Button>
@@ -157,7 +157,7 @@ export function LibrarySettings() {
             >
               {t('settings.library.delete', { name: deleting?.name ?? '' })}
             </Button>
-          </div>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

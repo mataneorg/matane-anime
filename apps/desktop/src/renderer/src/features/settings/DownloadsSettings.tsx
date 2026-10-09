@@ -61,15 +61,15 @@ export function DownloadsSettings() {
   const free = storage?.freeBytes != null ? formatBytes(storage.freeBytes, i18n.language) : null;
 
   return (
-    <div className="flex max-w-190 flex-col gap-6">
-      <section className="flex flex-col gap-2" aria-labelledby="dl-folder-title">
-        <h2 id="dl-folder-title" className="text-[15px] leading-[22px] font-semibold">
+    <div className="flex max-w-[880px] flex-col gap-6">
+      <section className="flex flex-col gap-2 rounded-xl border bg-card/40 p-5" aria-labelledby="dl-folder-title">
+        <h2 id="dl-folder-title" className="text-sm font-semibold">
           {t('settings.downloads.folder')}
         </h2>
         <div className="flex gap-2">
           <div
             aria-label={t('settings.downloads.folder')}
-            className="flex h-10 min-w-0 flex-1 items-center rounded-lg border border-border-strong bg-background px-3 font-mono text-foreground"
+            className="flex h-10 min-w-0 flex-1 items-center rounded-lg border border-input bg-background px-3 font-mono text-foreground"
           >
             <span className="truncate" title={folder}>
               {folder}
@@ -77,15 +77,15 @@ export function DownloadsSettings() {
           </div>
           <ChangeFolderButton size="lg" />
         </div>
-        <p className="text-xs leading-4">
+        <p className="text-xs leading-4 text-muted-foreground">
           {free ? `${t('settings.downloads.free', { size: free })} ` : ''}
           {t('settings.downloads.folderHint')}
         </p>
       </section>
 
-      <div className="grid grid-cols-1 gap-4 border-t pt-6 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 rounded-xl border bg-card/40 p-5 sm:grid-cols-3">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="dl-quality" className="font-semibold">
+          <label htmlFor="dl-quality" className="font-medium">
             {t('settings.downloads.quality')}
           </label>
           <Select
@@ -99,10 +99,10 @@ export function DownloadsSettings() {
               </option>
             ))}
           </Select>
-          <div className="text-xs leading-4">{t('settings.downloads.qualityHint')}</div>
+          <div className="text-xs leading-4 text-muted-foreground">{t('settings.downloads.qualityHint')}</div>
         </div>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="dl-episodes" className="font-semibold">
+          <label htmlFor="dl-episodes" className="font-medium">
             {t('settings.downloads.episodesAtOnce')}
           </label>
           <Select
@@ -116,10 +116,10 @@ export function DownloadsSettings() {
               </option>
             ))}
           </Select>
-          <div className="text-xs leading-4">{t('settings.downloads.episodesAtOnceHint')}</div>
+          <div className="text-xs leading-4 text-muted-foreground">{t('settings.downloads.episodesAtOnceHint')}</div>
         </div>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="dl-segments" className="font-semibold">
+          <label htmlFor="dl-segments" className="font-medium">
             {t('settings.downloads.segments')}
           </label>
           <Select
@@ -133,17 +133,20 @@ export function DownloadsSettings() {
               </option>
             ))}
           </Select>
-          <div className="text-xs leading-4">{t('settings.downloads.segmentsHint')}</div>
+          <div className="text-xs leading-4 text-muted-foreground">{t('settings.downloads.segmentsHint')}</div>
         </div>
       </div>
 
-      <section className="flex flex-col gap-5 border-t pt-6" aria-label={t('settings.downloads.automation')}>
+      <section
+        className="flex flex-col gap-5 rounded-xl border bg-card/40 p-5"
+        aria-label={t('settings.downloads.automation')}
+      >
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <label htmlFor="dl-ahead" className="block font-semibold">
+            <label htmlFor="dl-ahead" className="block font-medium">
               {t('settings.downloads.ahead')}
             </label>
-            <div className="text-xs leading-4">{t('settings.downloads.aheadHint')}</div>
+            <div className="text-xs leading-4 text-muted-foreground">{t('settings.downloads.aheadHint')}</div>
           </div>
           <Select
             aria-label={t('settings.downloads.aheadCount')}
@@ -165,10 +168,10 @@ export function DownloadsSettings() {
 
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <label htmlFor="dl-delete" className="block font-semibold">
+            <label htmlFor="dl-delete" className="block font-medium">
               {t('settings.downloads.deleteAfter')}
             </label>
-            <div className="text-xs leading-4">{t('settings.downloads.deleteAfterHint')}</div>
+            <div className="text-xs leading-4 text-muted-foreground">{t('settings.downloads.deleteAfterHint')}</div>
           </div>
           <Select
             aria-label={t('settings.downloads.deleteDelay')}
@@ -189,18 +192,18 @@ export function DownloadsSettings() {
         </div>
 
         {settings.deleteAfterWatched && categories.length > 0 ? (
-          <fieldset className="flex flex-col gap-2 rounded-xl bg-card p-4">
+          <fieldset className="flex flex-col gap-2 rounded-lg border bg-background p-4">
             <legend className="sr-only">{t('settings.downloads.keepCategories')}</legend>
-            <div className="font-semibold text-foreground" aria-hidden>
+            <div className="font-medium" aria-hidden>
               {t('settings.downloads.keepCategories')}
             </div>
-            <div className="text-xs leading-4">{t('settings.downloads.keepCategoriesHint')}</div>
+            <div className="text-xs leading-4 text-muted-foreground">{t('settings.downloads.keepCategoriesHint')}</div>
             <div className="flex flex-wrap gap-x-5 gap-y-2 pt-1">
               {categories.map((category) => (
                 <label key={category.id} className="flex cursor-pointer items-center gap-2">
                   <input
                     type="checkbox"
-                    className="size-4 accent-accent"
+                    className="size-4 accent-primary"
                     checked={excluded.has(category.id)}
                     onChange={() => toggleExcluded(category.id)}
                   />
@@ -212,8 +215,8 @@ export function DownloadsSettings() {
         ) : null}
       </section>
 
-      <section className="flex flex-col gap-2 border-t pt-6" aria-labelledby="dl-limit-title">
-        <h2 id="dl-limit-title" className="text-[15px] leading-[22px] font-semibold">
+      <section className="flex flex-col gap-2 rounded-xl border bg-card/40 p-5" aria-labelledby="dl-limit-title">
+        <h2 id="dl-limit-title" className="text-sm font-semibold">
           {t('settings.downloads.limit')}
         </h2>
         <div className="flex items-center gap-3">
@@ -236,7 +239,7 @@ export function DownloadsSettings() {
             </span>
           ) : null}
         </div>
-        <p className="text-xs leading-4">{t('settings.downloads.limitHint')}</p>
+        <p className="text-xs leading-4 text-muted-foreground">{t('settings.downloads.limitHint')}</p>
       </section>
     </div>
   );

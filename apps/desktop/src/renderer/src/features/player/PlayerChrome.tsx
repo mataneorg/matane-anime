@@ -118,7 +118,7 @@ export function TopBar({
       </button>
       <div className="min-w-0 flex-1">
         <div className="truncate font-semibold">{session?.animeTitle ?? ''}</div>
-        <div className="truncate text-xs leading-4 text-video-muted">
+        <div className="truncate text-xs text-video-muted">
           {session
             ? [
                 session.episodeNumber !== null ? t('anime.episodeNumber', { number: session.episodeNumber }) : null,
@@ -250,7 +250,7 @@ export function BottomBar({
       />
 
       <SeekBar onSeek={actions.seek} />
-      <span className="shrink-0 font-mono text-xs leading-4 text-video-muted">
+      <span className="shrink-0 font-mono text-xs text-video-muted">
         {formatTime(currentTime)} / {formatTime(duration)}
       </span>
       <button
@@ -282,13 +282,11 @@ export function ServerMenu({ session, onPick }: { session: PlaybackSession; onPi
     <div
       role="dialog"
       aria-label={t('player.servers')}
-      className="absolute top-16 right-4 z-20 flex w-80 flex-col gap-4 rounded-2xl border border-video-track bg-video-stage p-4 shadow-xl"
+      className="absolute top-16 right-4 z-20 flex w-80 flex-col gap-4 rounded-xl border border-video-track bg-video-stage p-4 shadow-xl"
     >
       {qualities.length > 0 ? (
         <div className="flex flex-col gap-2">
-          <h3 className="text-xs leading-4 font-semibold tracking-wide text-video-muted uppercase">
-            {t('player.quality')}
-          </h3>
+          <h3 className="text-[11px] font-semibold tracking-wider text-video-muted uppercase">{t('player.quality')}</h3>
           <div className="flex flex-wrap gap-2">
             {qualities.map((quality) => (
               <button
@@ -311,16 +309,14 @@ export function ServerMenu({ session, onPick }: { session: PlaybackSession; onPi
         </div>
       ) : null}
       <div className="flex flex-col gap-2">
-        <h3 className="text-xs leading-4 font-semibold tracking-wide text-video-muted uppercase">
-          {t('player.server')}
-        </h3>
+        <h3 className="text-[11px] font-semibold tracking-wider text-video-muted uppercase">{t('player.server')}</h3>
         <ul role="radiogroup" className="flex flex-col gap-1">
           {session.streams.map((stream) => (
             <ServerRow key={stream.index} stream={stream} onPick={() => onPick(stream.index)} />
           ))}
         </ul>
       </div>
-      <p className="flex gap-2 border-t border-video-track pt-3 text-xs leading-4 text-video-muted">
+      <p className="flex gap-2 border-t border-video-track pt-3 text-xs text-video-muted">
         <Info className="mt-0.5 size-3.5 shrink-0" strokeWidth={1.75} aria-hidden />
         {t('player.switchNote')}
       </p>
@@ -353,19 +349,19 @@ function ServerRow({ stream, onPick }: { stream: StreamOption; onPick: () => voi
         </span>
         <span className="flex min-w-0 flex-1 flex-col">
           <span className="truncate font-semibold">{stream.server}</span>
-          <span className="truncate text-xs leading-4 text-video-muted">
+          <span className="truncate text-xs text-video-muted">
             {[playing ? t('player.playingNow') : null, stream.quality ? `${stream.quality}p` : null]
               .filter(Boolean)
               .join(' · ')}
           </span>
         </span>
         {stream.status === 'failed' ? (
-          <span className="flex items-center gap-1 text-xs leading-4 text-warning">
+          <span className="flex items-center gap-1 text-xs text-ctp-peach">
             <TriangleAlert className="size-3" strokeWidth={1.75} aria-hidden />
             {t('player.failedEarlier')}
           </span>
         ) : stream.lastWorked ? (
-          <span className="text-xs leading-4 text-video-muted">{t('player.lastWorked')}</span>
+          <span className="text-xs text-video-muted">{t('player.lastWorked')}</span>
         ) : null}
       </button>
     </li>
@@ -386,7 +382,7 @@ export function EpisodePanel({
   return (
     <aside
       aria-label={t('player.episodes')}
-      className="absolute top-16 right-4 bottom-24 z-20 flex w-80 flex-col rounded-2xl border border-video-track bg-video-stage shadow-xl"
+      className="absolute top-16 right-4 bottom-24 z-20 flex w-80 flex-col rounded-xl border border-video-track bg-video-stage shadow-xl"
     >
       <h3 className="border-b border-video-track px-4 py-3 font-semibold">{t('anime.episodes')}</h3>
       <ul className="min-h-0 flex-1 overflow-y-auto p-2">
@@ -404,7 +400,7 @@ export function EpisodePanel({
               <span className="min-w-0 flex-1 truncate">
                 {episodeTitle(episode, (number) => t('anime.episodeNumber', { number }))}
               </span>
-              {episode.variant ? <span className="text-xs leading-4 text-video-muted">{episode.variant}</span> : null}
+              {episode.variant ? <span className="text-xs text-video-muted">{episode.variant}</span> : null}
               {episode.id === currentId ? (
                 <Check className="size-4 text-video-accent" strokeWidth={2} aria-hidden />
               ) : null}
@@ -432,12 +428,12 @@ export function ErrorCard({
   const { t } = useTranslation();
   return (
     <div role="alert" className="absolute inset-0 z-30 flex items-center justify-center bg-video-stage/80 p-6">
-      <div className="flex w-full max-w-120 flex-col items-center gap-4 rounded-2xl border border-video-track bg-video-stage p-8 text-center">
-        <TriangleAlert className="size-9 text-warning" strokeWidth={1.5} aria-hidden />
+      <div className="flex w-full max-w-120 flex-col items-center gap-4 rounded-xl border border-video-track bg-video-stage p-8 text-center">
+        <TriangleAlert className="size-9 text-ctp-peach" strokeWidth={1.5} aria-hidden />
         <h2 className="text-lg leading-6 font-semibold">{t(`player.error.${error.cause}.title`)}</h2>
         <p className="text-video-muted">{t(`player.error.${error.cause}.body`)}</p>
         {error.tried.length > 0 ? (
-          <div className="flex flex-wrap items-center justify-center gap-2 text-xs leading-4 text-video-muted">
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-video-muted">
             {t('player.tried')}
             {error.tried.map((name) => (
               <span key={name} className="rounded bg-video-track px-2 py-0.5 font-mono text-video-text">
@@ -450,7 +446,7 @@ export function ErrorCard({
           <button
             type="button"
             onClick={onRetry}
-            className="inline-flex h-10 items-center gap-2 rounded-lg bg-video-accent px-5 font-semibold text-video-on-accent hover:brightness-110"
+            className="inline-flex h-9 items-center gap-2 rounded-lg bg-video-accent px-4 font-medium text-video-on-accent hover:brightness-110"
           >
             <RefreshCw className="size-4" strokeWidth={1.75} aria-hidden />
             {t('player.retry')}
@@ -459,14 +455,14 @@ export function ErrorCard({
             <button
               type="button"
               onClick={onSwitch}
-              className="inline-flex h-10 items-center gap-2 rounded-lg border border-video-text/40 px-5 font-semibold hover:bg-video-track/50"
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-video-text/40 px-4 font-medium hover:bg-video-track/50"
             >
               <Server className="size-4" strokeWidth={1.75} aria-hidden />
               {t('player.switchServer')}
             </button>
           ) : null}
         </div>
-        <p className="font-mono text-xs leading-4 text-video-muted">{error.detail}</p>
+        <p className="font-mono text-xs text-video-muted">{error.detail}</p>
       </div>
     </div>
   );
@@ -487,24 +483,24 @@ export function AutoplayOverlay({
   return (
     <div
       role="status"
-      className="absolute right-6 bottom-28 z-20 flex w-80 flex-col gap-3 rounded-2xl border border-video-track bg-video-stage p-4 shadow-xl"
+      className="absolute right-6 bottom-28 z-20 flex w-80 flex-col gap-3 rounded-xl border border-video-track bg-video-stage p-4 shadow-xl"
     >
       <div>
-        <div className="text-xs leading-4 text-video-muted">{t('player.nextEpisodeIn', { count: seconds })}</div>
+        <div className="text-xs text-video-muted">{t('player.nextEpisodeIn', { count: seconds })}</div>
         <div className="font-semibold">{t('anime.episodeNumber', { number: label })}</div>
       </div>
       <div className="flex gap-2">
         <button
           type="button"
           onClick={onPlayNow}
-          className="h-9 flex-1 rounded-lg bg-video-accent font-semibold text-video-on-accent hover:brightness-110"
+          className="h-9 flex-1 rounded-lg bg-video-accent font-medium text-video-on-accent hover:brightness-110"
         >
           {t('player.playNow')}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="h-9 flex-1 rounded-lg border border-video-text/40 font-semibold hover:bg-video-track/50"
+          className="h-9 flex-1 rounded-lg border border-video-text/40 font-medium hover:bg-video-track/50"
         >
           {t('player.cancel')}
         </button>

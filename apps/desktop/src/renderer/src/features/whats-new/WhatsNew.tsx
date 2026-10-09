@@ -4,7 +4,7 @@ import { ExternalLink } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dialog';
 import { call } from '@renderer/lib/api';
 import { appInfoQuery, settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { localQueryDefaults } from '@renderer/lib/query';
@@ -74,26 +74,26 @@ export function WhatsNew() {
         <div className="flex flex-col gap-5">
           {decision.entries.map((entry: ChangelogEntry) => (
             <section key={entry.version} aria-label={t('whatsNew.version', { version: entry.version })}>
-              <h3 className="flex items-baseline gap-2 text-[15px] leading-[22px] font-semibold text-foreground">
+              <h3 className="flex items-baseline gap-2 text-sm leading-5 font-semibold text-foreground">
                 {t('whatsNew.version', { version: entry.version })}
                 <span className="font-mono text-xs leading-4 font-normal text-muted-foreground">
                   {formatDate(entry.date)}
                 </span>
               </h3>
-              <ul className="mt-2 flex list-disc flex-col gap-1.5 pl-5 marker:text-accent">
+              <ul className="mt-2 flex list-disc flex-col gap-1.5 pl-5 marker:text-primary-text">
                 {entry.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </section>
           ))}
-          <div className="flex flex-wrap justify-end gap-2 pt-1">
+          <DialogFooter className="flex-wrap">
             <Button variant="secondary" onClick={() => void call('app.openExternal', RELEASES_URL)}>
               <ExternalLink className="size-4" strokeWidth={1.75} aria-hidden />
               {t('whatsNew.notes')}
             </Button>
             <Button onClick={close}>{t('whatsNew.gotIt')}</Button>
-          </div>
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>

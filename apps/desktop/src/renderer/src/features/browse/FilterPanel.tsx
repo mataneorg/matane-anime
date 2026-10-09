@@ -32,8 +32,8 @@ export function FilterPanel({ filters, value, onChange, onApply, onReset }: Pane
   return (
     <aside aria-label={t('browse.filters.title')} className="flex w-72 shrink-0 flex-col gap-4 border-l bg-sidebar p-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-[15px] leading-[22px] font-semibold">{t('browse.filters.title')}</h2>
-        <button type="button" onClick={onReset} className="text-xs font-semibold text-accent hover:underline">
+        <h2 className="text-sm font-semibold">{t('browse.filters.title')}</h2>
+        <button type="button" onClick={onReset} className="text-xs font-medium text-primary-text hover:underline">
           {t('browse.filters.reset')}
         </button>
       </div>
@@ -44,9 +44,7 @@ export function FilterPanel({ filters, value, onChange, onApply, onReset }: Pane
           <FilterList filters={filters} value={value} set={set} />
         )}
       </div>
-      <Button size="lg" onClick={onApply}>
-        {t('browse.filters.apply')}
-      </Button>
+      <Button onClick={onApply}>{t('browse.filters.apply')}</Button>
     </aside>
   );
 }
@@ -67,7 +65,7 @@ function FilterList({
         switch (filter.type) {
           case 'header':
             return (
-              <h3 key={index} className="text-xs leading-4 font-semibold">
+              <h3 key={index} className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
                 {filter.label}
               </h3>
             );
@@ -75,7 +73,7 @@ function FilterList({
             return <hr key={index} className="border-border" />;
           case 'text':
             return (
-              <label key={filter.id} className="flex flex-col gap-1.5 text-xs leading-4 font-semibold">
+              <label key={filter.id} className="flex flex-col gap-1.5 text-xs font-medium text-muted-foreground">
                 {filter.label}
                 <Input
                   value={typeof value[filter.id] === 'string' ? (value[filter.id] as string) : ''}
@@ -86,7 +84,7 @@ function FilterList({
             );
           case 'select':
             return (
-              <label key={filter.id} className="flex flex-col gap-1.5 text-xs leading-4 font-semibold">
+              <label key={filter.id} className="flex flex-col gap-1.5 text-xs font-medium text-muted-foreground">
                 {filter.label}
                 <Select
                   value={typeof value[filter.id] === 'string' ? (value[filter.id] as string) : (filter.default ?? '')}
@@ -105,7 +103,7 @@ function FilterList({
               <label key={filter.id} className="flex cursor-pointer items-center gap-2">
                 <input
                   type="checkbox"
-                  className="size-4 accent-accent"
+                  className="size-4 accent-primary"
                   checked={value[filter.id] === true}
                   onChange={(event) => set(filter.id, event.target.checked)}
                 />
@@ -126,16 +124,16 @@ function FilterList({
               >
                 <span
                   className={cn(
-                    'flex size-4 items-center justify-center rounded-sm border border-border-strong',
-                    state === 'include' && 'border-accent bg-accent text-on-accent',
-                    state === 'exclude' && 'border-danger bg-danger text-on-accent',
+                    'flex size-4 items-center justify-center rounded-sm border border-input',
+                    state === 'include' && 'border-primary bg-primary text-primary-foreground',
+                    state === 'exclude' && 'border-destructive bg-destructive text-destructive-foreground',
                   )}
                 >
                   {state === 'include' ? <Check className="size-3" strokeWidth={3} aria-hidden /> : null}
                   {state === 'exclude' ? <Minus className="size-3" strokeWidth={3} aria-hidden /> : null}
                 </span>
                 <span className="flex-1">{filter.label}</span>
-                {state ? <span className="text-xs leading-4">{t(`browse.filters.${state}`)}</span> : null}
+                {state ? <span className="text-xs text-muted-foreground">{t(`browse.filters.${state}`)}</span> : null}
               </button>
             );
           }
@@ -144,7 +142,7 @@ function FilterList({
               filter.default ?? { value: filter.options[0]?.value ?? '', ascending: false };
             return (
               <div key={filter.id} className="flex flex-col gap-1.5">
-                <span className="text-xs leading-4 font-semibold">{filter.label}</span>
+                <span className="text-xs font-medium text-muted-foreground">{filter.label}</span>
                 <div className="flex gap-2">
                   <Select
                     className="min-w-0 flex-1"
@@ -174,7 +172,9 @@ function FilterList({
           case 'group':
             return (
               <fieldset key={filter.id} className="flex flex-col gap-2">
-                <legend className="pb-1 text-xs leading-4 font-semibold">{filter.label}</legend>
+                <legend className="pb-1 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+                  {filter.label}
+                </legend>
                 <FilterList filters={filter.filters} value={value} set={set} />
               </fieldset>
             );

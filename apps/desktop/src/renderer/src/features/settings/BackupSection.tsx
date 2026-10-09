@@ -7,6 +7,7 @@ import { ConfirmDialog } from '@renderer/features/extensions/ConfirmDialog';
 import { call } from '@renderer/lib/api';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
+import { SettingsCard } from './parts';
 
 const COUNT_ROWS = ['anime', 'episodes', 'categories', 'history', 'covers', 'repositories', 'extensions'] as const;
 
@@ -35,20 +36,14 @@ export function BackupSection() {
   const date = (iso: string) => new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' }).format(new Date(iso));
 
   return (
-    <section className="flex flex-col gap-4" aria-labelledby="backup-title">
-      <h2 id="backup-title" className="text-[15px] leading-[22px] font-semibold">
-        {t('settings.data.backup')}
-      </h2>
-      <div className="flex flex-col gap-3 rounded-lg border border-border bg-card p-4">
-        <p className="text-xs leading-4">{t('backup.description')}</p>
-        <div className="flex gap-2">
-          <Button disabled={busy} onClick={() => create.mutate()}>
-            {t('backup.create')}
-          </Button>
-          <Button variant="secondary" disabled={busy} onClick={() => peek.mutate()}>
-            {t('backup.restore')}
-          </Button>
-        </div>
+    <SettingsCard id="backup-title" title={t('settings.data.backup')} description={t('backup.description')}>
+      <div className="flex gap-2">
+        <Button disabled={busy} onClick={() => create.mutate()}>
+          {t('backup.create')}
+        </Button>
+        <Button variant="secondary" disabled={busy} onClick={() => peek.mutate()}>
+          {t('backup.restore')}
+        </Button>
       </div>
       <ConfirmDialog
         open={preview !== null}
@@ -86,6 +81,6 @@ export function BackupSection() {
           </div>
         ) : null}
       </ConfirmDialog>
-    </section>
+    </SettingsCard>
   );
 }

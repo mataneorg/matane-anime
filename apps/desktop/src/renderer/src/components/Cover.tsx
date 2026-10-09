@@ -20,7 +20,7 @@ export function Cover({
   const [failed, setFailed] = useState(false);
   const src = localAnimeId !== undefined ? localCoverSrc(localAnimeId) : coverSrc(sourceId, url);
   return (
-    <div className={cn('relative overflow-hidden bg-card', className)}>
+    <div className={cn('relative overflow-hidden bg-muted', className)}>
       {src && !failed ? (
         <img
           src={src}

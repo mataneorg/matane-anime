@@ -61,7 +61,7 @@ function Form({ extension }: { extension: ExtensionInfo }) {
         />
       ))}
       {save.isError ? (
-        <p role="alert" className="text-xs leading-4 text-danger">
+        <p role="alert" className="text-xs leading-4 text-danger-text">
           {describeError(save.error, t)}
         </p>
       ) : null}
@@ -81,10 +81,12 @@ function Field({
   const id = `pref-${preference.key}`;
   const label = (
     <>
-      <label htmlFor={id} className="block font-semibold">
+      <label htmlFor={id} className="block font-medium">
         {preference.label}
       </label>
-      {preference.description ? <div className="text-xs leading-4">{preference.description}</div> : null}
+      {preference.description ? (
+        <div className="text-xs leading-4 text-muted-foreground">{preference.description}</div>
+      ) : null}
     </>
   );
   switch (preference.type) {
@@ -128,7 +130,7 @@ function Field({
             <label key={option.value} className="flex cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
-                className="size-4 accent-accent"
+                className="size-4 accent-primary"
                 checked={selected.includes(option.value)}
                 onChange={(event) =>
                   onSave(

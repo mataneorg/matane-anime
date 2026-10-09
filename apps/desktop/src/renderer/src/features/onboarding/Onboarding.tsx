@@ -64,7 +64,7 @@ export function Onboarding() {
         <div className="grid w-full max-w-[1040px] grid-cols-1 items-center gap-12 md:grid-cols-[260px_1fr]">
           <aside className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-lg bg-accent text-on-accent">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                 <Play className="size-5 fill-current" strokeWidth={0} aria-hidden />
               </span>
               <span className="text-lg leading-6 font-semibold text-foreground">{t('app.name')}</span>
@@ -78,16 +78,16 @@ export function Onboarding() {
                     key={name}
                     aria-current={current ? 'step' : undefined}
                     className={cn(
-                      'flex h-11 items-center gap-3 rounded-lg px-3',
+                      'flex h-11 items-center gap-3 rounded-lg border-l-2 px-3',
                       current
-                        ? 'bg-accent/16 font-semibold text-foreground shadow-[inset_2px_0_0_var(--color-accent)]'
-                        : 'text-muted-foreground',
+                        ? 'border-primary bg-primary/15 font-semibold text-primary-text'
+                        : 'border-transparent text-muted-foreground',
                     )}
                   >
                     <span
                       className={cn(
-                        'flex size-6 shrink-0 items-center justify-center rounded-full border border-border-strong font-mono text-xs leading-4',
-                        (current || done) && 'border-accent bg-accent text-on-accent',
+                        'flex size-6 shrink-0 items-center justify-center rounded-full border border-input font-mono text-xs leading-4',
+                        (current || done) && 'border-primary bg-primary text-primary-foreground',
                       )}
                     >
                       {done ? <Check className="size-3.5" strokeWidth={2.5} aria-hidden /> : position + 1}
@@ -97,10 +97,10 @@ export function Onboarding() {
                 );
               })}
             </ol>
-            <p className="text-xs leading-4">{t('onboarding.saved')}</p>
+            <p className="text-xs leading-4 text-muted-foreground">{t('onboarding.saved')}</p>
           </aside>
 
-          <section aria-labelledby="onboarding-title" className="flex flex-col gap-6 rounded-2xl bg-card p-8">
+          <section aria-labelledby="onboarding-title" className="flex flex-col gap-6 rounded-xl border bg-card/40 p-8">
             <div className="flex flex-col gap-1.5">
               <span className="font-mono text-xs leading-4 text-muted-foreground">
                 {t('onboarding.stepOf', { current: index + 1, total: STEPS.length })}
@@ -109,11 +109,11 @@ export function Onboarding() {
                 id="onboarding-title"
                 ref={heading}
                 tabIndex={-1}
-                className="text-2xl leading-8 font-bold tracking-tight outline-none"
+                className="text-xl leading-7 font-semibold outline-none"
               >
                 {t(`onboarding.${step}.title`)}
               </h1>
-              <p className="text-sm">{t(`onboarding.${step}.description`)}</p>
+              <p className="text-sm text-muted-foreground">{t(`onboarding.${step}.description`)}</p>
             </div>
 
             {step === 'language' ? <LanguageStep /> : null}
@@ -129,17 +129,17 @@ export function Onboarding() {
               )}
               {last ? <span className="mr-auto" /> : null}
               {index > 0 ? (
-                <Button variant="secondary" size="lg" onClick={() => setIndex(index - 1)}>
+                <Button variant="secondary" onClick={() => setIndex(index - 1)}>
                   {t('onboarding.back')}
                 </Button>
               ) : null}
               {last ? (
-                <Button size="lg" onClick={finish}>
+                <Button onClick={finish}>
                   <Play className="size-4 fill-current" strokeWidth={0} aria-hidden />
                   {t('onboarding.finish')}
                 </Button>
               ) : (
-                <Button size="lg" onClick={() => setIndex(index + 1)}>
+                <Button onClick={() => setIndex(index + 1)}>
                   {t('onboarding.next')}
                   <ChevronRight className="size-4" strokeWidth={1.75} aria-hidden />
                 </Button>
@@ -158,14 +158,14 @@ function RadioCard({ value, children, preview }: { value: string; children: Reac
     <RadioGroupPrimitive.Item
       value={value}
       className={cn(
-        'flex cursor-pointer flex-col gap-3 rounded-xl border border-border-strong bg-background p-3 text-left transition-colors',
-        'data-[state=checked]:border-2 data-[state=checked]:border-accent data-[state=checked]:p-[11px]',
+        'flex cursor-pointer flex-col gap-3 rounded-xl border bg-background p-3 text-left transition-colors hover:border-input',
+        'data-[state=checked]:border-primary data-[state=checked]:ring-1 data-[state=checked]:ring-primary',
       )}
     >
       {preview}
       <span className="flex items-center gap-2.5">
-        <span className="flex size-4 shrink-0 items-center justify-center rounded-full border border-border-strong">
-          <RadioGroupPrimitive.Indicator className="size-2 rounded-full bg-accent" />
+        <span className="flex size-4 shrink-0 items-center justify-center rounded-full border border-input">
+          <RadioGroupPrimitive.Indicator className="size-2 rounded-full bg-primary" />
         </span>
         {children}
       </span>
@@ -231,7 +231,7 @@ function LanguageStep() {
             <RadioCard key={code} value={code}>
               <span className="flex flex-col">
                 <span className="font-semibold text-foreground">{t(`onboarding.language.options.${code}.title`)}</span>
-                <span className="text-xs leading-4">
+                <span className="text-xs leading-4 text-muted-foreground">
                   {followsSystem && code === language
                     ? t('onboarding.language.followsSystem')
                     : t(`onboarding.language.options.${code}.name`)}
@@ -260,7 +260,9 @@ function LanguageStep() {
             >
               <span className="flex items-baseline gap-2">
                 <span className="font-semibold text-foreground">{t(`onboarding.language.themes.${mode}.name`)}</span>
-                <span className="text-xs leading-4">{t(`onboarding.language.themes.${mode}.hint`)}</span>
+                <span className="text-xs leading-4 text-muted-foreground">
+                  {t(`onboarding.language.themes.${mode}.hint`)}
+                </span>
               </span>
             </RadioCard>
           ))}
@@ -279,12 +281,12 @@ function ContentStep() {
   return (
     <div className="flex flex-col gap-5">
       <LanguageChips />
-      <div className="flex items-center gap-4 rounded-xl bg-background px-4 py-3">
+      <div className="flex items-center gap-4 rounded-xl border bg-background px-4 py-3">
         <div className="flex-1">
           <label htmlFor="onboarding-nsfw" className="block font-semibold text-foreground">
             {t('settings.general.nsfw.title')}
           </label>
-          <div className="text-xs leading-4">{t('settings.general.nsfw.description')}</div>
+          <div className="text-xs leading-4 text-muted-foreground">{t('settings.general.nsfw.description')}</div>
         </div>
         <Switch
           id="onboarding-nsfw"
@@ -292,8 +294,8 @@ function ContentStep() {
           onCheckedChange={(showNsfw) => update.mutate({ showNsfw })}
         />
       </div>
-      <p className="flex items-center gap-2 text-xs leading-4">
-        <Info className="size-4 shrink-0 text-info" strokeWidth={1.75} aria-hidden />
+      <p className="flex items-center gap-2 text-xs leading-4 text-muted-foreground">
+        <Info className="size-4 shrink-0 text-ctp-blue" strokeWidth={1.75} aria-hidden />
         {t('onboarding.content.noSources')}
       </p>
     </div>
@@ -341,7 +343,7 @@ function FolderStep() {
           <div
             role="group"
             aria-labelledby="onboarding-folder"
-            className="flex h-10 min-w-0 flex-1 items-center rounded-lg border border-border-strong bg-background px-3 font-mono text-foreground"
+            className="flex h-10 min-w-0 flex-1 items-center rounded-lg border border-input bg-background px-3 font-mono text-foreground"
           >
             <span className="truncate" title={folder}>
               {folder}
@@ -350,19 +352,19 @@ function FolderStep() {
           <ChangeFolderButton size="lg" />
         </div>
         {free ? (
-          <p className="flex items-center gap-2 text-xs leading-4">
-            <Check className="size-3.5 text-success" strokeWidth={2.25} aria-hidden />
+          <p className="flex items-center gap-2 text-xs leading-4 text-muted-foreground">
+            <Check className="size-3.5 text-ctp-green" strokeWidth={2.25} aria-hidden />
             <span>{t('onboarding.folder.free', { size: free })}</span>
           </p>
         ) : null}
       </div>
 
-      <div className="flex items-center gap-4 rounded-xl bg-background px-4 py-3">
+      <div className="flex items-center gap-4 rounded-xl border bg-background px-4 py-3">
         <div className="flex-1">
           <label htmlFor="onboarding-limit" className="block font-semibold text-foreground">
             {t('onboarding.folder.limit')}
           </label>
-          <div className="text-xs leading-4">{t('onboarding.folder.limitHint')}</div>
+          <div className="text-xs leading-4 text-muted-foreground">{t('onboarding.folder.limitHint')}</div>
         </div>
         <Input
           id="onboarding-limit"
@@ -379,7 +381,7 @@ function FolderStep() {
         <span>{t('settings.downloads.gb')}</span>
       </div>
 
-      <div className="flex flex-col gap-2 rounded-xl bg-background px-4 py-3">
+      <div className="flex flex-col gap-2 rounded-xl border bg-background px-4 py-3">
         <h2 className="text-xs leading-4 font-semibold text-foreground">{t('onboarding.folder.layout')}</h2>
         <pre className="font-mono text-xs leading-[18px] text-foreground" translate="no">
           {[
@@ -418,12 +420,15 @@ function PlayerStep() {
         className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
       >
         {shortcuts.map((shortcut) => (
-          <li key={shortcut.keys.join('+')} className="flex items-center gap-3 rounded-xl bg-background px-3.5 py-3.5">
+          <li
+            key={shortcut.keys.join('+')}
+            className="flex items-center gap-3 rounded-xl border bg-background px-3.5 py-3.5"
+          >
             <span className="flex gap-1.5">
               {shortcut.keys.map((key) => (
                 <kbd
                   key={key}
-                  className="rounded-md border border-border-strong px-2 py-0.5 font-mono text-xs leading-4 font-medium text-foreground"
+                  className="rounded-md border border-input px-2 py-0.5 font-mono text-xs leading-4 font-medium text-foreground"
                 >
                   {key}
                 </kbd>
@@ -434,13 +439,13 @@ function PlayerStep() {
         ))}
       </ul>
 
-      <div className="flex flex-col gap-3 rounded-xl bg-background px-4 py-3">
+      <div className="flex flex-col gap-3 rounded-xl border bg-background px-4 py-3">
         <div className="flex items-center gap-4">
           <div className="flex-1">
             <label htmlFor="onboarding-autoplay" className="block font-semibold text-foreground">
               {t('settings.player.autoplay')}
             </label>
-            <div className="text-xs leading-4">{t('settings.player.autoplayHint')}</div>
+            <div className="text-xs leading-4 text-muted-foreground">{t('settings.player.autoplayHint')}</div>
           </div>
           <Switch
             id="onboarding-autoplay"
@@ -448,7 +453,7 @@ function PlayerStep() {
             onCheckedChange={(playerAutoplay) => update.mutate({ playerAutoplay })}
           />
         </div>
-        <p className="text-xs leading-4">
+        <p className="text-xs leading-4 text-muted-foreground">
           {settings.playerWatchedThreshold === 100 ? (
             t('onboarding.player.thresholdEnd')
           ) : (

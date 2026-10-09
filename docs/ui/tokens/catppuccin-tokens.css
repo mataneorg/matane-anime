@@ -1,4 +1,10 @@
-/* Matane Anime tokens as CSS variables. Mocha is the default; Latte replaces the palette and re-declares every alias. */
+/*
+ * Matane Anime tokens as CSS variables (reference values; the app derives them from @catppuccin/tailwindcss in
+ * apps/desktop/src/renderer/src/styles.css). Mocha is the default; Latte replaces the palette and re-declares the aliases.
+ * Names follow shadcn/ui, like the Matane reader app. `primary` is the user-chosen accent (Mauve here).
+ * Status colours have no solid alias (icons, borders and fills use the palette: green = success, peach = warning,
+ * blue = info, destructive = red), but their TEXT has a token: *-text, darkened on Latte for 4.5:1.
+ */
 :root, [data-theme="mocha"] {
   color-scheme: dark;
   --crust: #11111b; --mantle: #181825; --base: #1e1e2e;
@@ -9,11 +15,18 @@
   --red: #f38ba8; --maroon: #eba0ac; --peach: #fab387; --yellow: #f9e2af;
   --green: #a6e3a1; --teal: #94e2d5; --sky: #89dceb; --sapphire: #74c7ec;
   --blue: #89b4fa; --lavender: #b4befe;
-  --background: var(--base); --foreground: var(--text); --muted-foreground: var(--subtext0);
-  --sidebar: var(--mantle); --popover: var(--mantle); --card: var(--surface0);
-  --border: var(--surface0); --border-strong: var(--overlay0); --input: var(--surface1);
-  --accent: var(--mauve); --on-accent: var(--crust);
-  --success: var(--green); --warning: var(--peach); --danger: var(--red); --info: var(--sapphire);
+  --background: var(--base); --foreground: var(--text);
+  --sidebar: var(--mantle); --card: var(--surface0); --card-foreground: var(--text);
+  --popover: var(--mantle); --popover-foreground: var(--text);
+  --accent-choice: var(--mauve);
+  --primary: var(--accent-choice); --primary-foreground: var(--crust); --primary-text: var(--accent-choice);
+  --secondary: var(--surface0); --secondary-foreground: var(--text);
+  --muted: var(--surface0); --muted-foreground: var(--subtext0);
+  --accent: var(--surface0); --accent-foreground: var(--text);
+  --destructive: var(--red); --destructive-foreground: var(--crust);
+  --border: var(--surface0); --input: var(--surface1); --ring: var(--accent-choice);
+  --success-text: var(--green); --warning-text: var(--peach); --info-text: var(--blue); --danger-text: var(--red);
+  --ink: #11111b;
   --shadow-popover: 0 8px 24px rgba(0, 0, 0, 0.45);
   --shadow-dialog: 0 16px 48px rgba(0, 0, 0, 0.55);
 }
@@ -27,11 +40,15 @@
   --red: #d20f39; --maroon: #e64553; --peach: #fe640b; --yellow: #df8e1d;
   --green: #40a02b; --teal: #179299; --sky: #04a5e5; --sapphire: #209fb5;
   --blue: #1e66f5; --lavender: #7287fd;
-  --background: var(--base); --foreground: var(--text); --muted-foreground: var(--subtext1);
-  --sidebar: var(--mantle); --popover: var(--mantle); --card: var(--surface0);
-  --border: var(--surface0); --border-strong: var(--overlay2); --input: var(--surface1);
-  --accent: var(--mauve); --on-accent: var(--base);
-  --success: var(--green); --warning: var(--peach); --danger: var(--red); --info: var(--sapphire);
+  --muted-foreground: var(--subtext1);
+  /* base, except #11111b for the 11 pastel accents (all but mauve, red and blue); see styles.css. */
+  --primary-foreground: var(--base);
+  --primary-text: color-mix(in oklab, var(--accent-choice) 55%, #11111b);
+  --destructive-foreground: var(--base);
+  --success-text: color-mix(in oklab, var(--green) 55%, #11111b);
+  --warning-text: color-mix(in oklab, var(--peach) 55%, #11111b);
+  --info-text: color-mix(in oklab, var(--blue) 65%, #11111b);
+  --danger-text: color-mix(in oklab, var(--red) 75%, #11111b);
   --shadow-popover: 0 8px 24px rgba(76, 79, 105, 0.18);
   --shadow-dialog: 0 16px 48px rgba(76, 79, 105, 0.25);
 }
@@ -43,6 +60,6 @@
   --space-8: 32px; --space-10: 40px; --space-12: 48px;
   --titlebar-h: 40px; --sidebar-w: 224px; --sidebar-w-collapsed: 64px; --topbar-h: 56px; --bottombar-h: 64px;
   --radius-sm: 4px; --radius-md: 6px; --radius-lg: 8px; --radius-xl: 12px; --radius-full: 9999px;
-  --font-sans: "Figtree", "Noto Sans JP", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }

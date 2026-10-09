@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { call } from '@renderer/lib/api';
 import { categoriesQuery } from '@renderer/lib/library';
@@ -78,19 +78,19 @@ function Form({
 
   return (
     <div className="flex flex-col gap-4">
-      {categories.length === 0 ? <p>{t('library.noCategories')}</p> : null}
+      {categories.length === 0 ? <p className="text-muted-foreground">{t('library.noCategories')}</p> : null}
       <ul className="flex flex-col gap-1">
         {categories.map((category) => (
           <li key={category.id}>
-            <label className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2 hover:bg-input/40">
+            <label className="flex cursor-pointer items-center gap-3 rounded-lg px-2 py-2 hover:bg-accent">
               <input
                 type="checkbox"
-                className="size-4 accent-accent"
+                className="size-4 accent-primary"
                 checked={selected.includes(category.id)}
                 onChange={() => toggle(category.id)}
               />
               <span className="flex-1">{category.name}</span>
-              <span className="font-mono text-xs leading-4">{category.count}</span>
+              <span className="font-mono text-xs leading-4 text-muted-foreground">{category.count}</span>
             </label>
           </li>
         ))}
@@ -108,11 +108,11 @@ function Form({
           {t('library.addCategory')}
         </Button>
       </form>
-      <div className="flex items-center justify-between gap-2 border-t pt-4">
+      <DialogFooter className="justify-between">
         {onRemove ? (
           <Button
             variant="ghost"
-            className="text-danger"
+            className="text-danger-text"
             onClick={() => {
               onRemove();
               close();
@@ -131,7 +131,7 @@ function Form({
         >
           {confirmLabel}
         </Button>
-      </div>
+      </DialogFooter>
     </div>
   );
 }

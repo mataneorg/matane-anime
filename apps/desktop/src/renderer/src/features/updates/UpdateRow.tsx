@@ -29,10 +29,10 @@ export function UpdateRow({
   const meta = [entry.sourceName, foundAt(entry.fetchedAt, now, i18n.language)].filter(Boolean).join(' · ');
 
   return (
-    <li className="flex items-center gap-4 rounded-xl bg-card p-2 pr-3">
+    <li className="flex items-center gap-4 rounded-xl border bg-card/40 p-2 pr-3 transition-colors hover:border-input hover:bg-card/70">
       <input
         type="checkbox"
-        className="ml-1 size-4 shrink-0 accent-accent"
+        className="ml-1 size-4 shrink-0 accent-primary"
         checked={selected}
         onChange={onSelect}
         aria-label={t('updates.select', { title: entry.animeTitle, episode: title })}
@@ -55,18 +55,18 @@ export function UpdateRow({
         <Link
           to="/anime/$animeId"
           params={{ animeId: String(entry.animeId) }}
-          className="truncate font-semibold text-foreground"
+          className="truncate font-medium text-foreground hover:underline"
         >
           {entry.animeTitle}
         </Link>
         <span className="truncate">{title}</span>
-        <span className="truncate text-xs leading-4">{meta}</span>
+        <span className="truncate text-xs text-muted-foreground">{meta}</span>
       </div>
       <DownloadState status={entry.download?.status ?? null} />
       <Link
         to="/watch/$episodeId"
         params={{ episodeId: String(entry.episodeId) }}
-        className={buttonVariants({ size: 'md' })}
+        className={buttonVariants({ size: 'sm' })}
         aria-label={t('updates.playLabel', { title: entry.animeTitle, episode: title })}
       >
         <Play className="size-4 fill-current" strokeWidth={2} aria-hidden />
@@ -84,7 +84,7 @@ export function UpdateRow({
           <Download className="size-4" strokeWidth={1.75} aria-hidden />
         </Button>
       ) : (
-        <span className="size-9 shrink-0" aria-hidden />
+        <span className="size-8 shrink-0" aria-hidden />
       )}
       <Button
         variant="ghost"
@@ -106,16 +106,16 @@ function DownloadState({ status }: { status: DownloadStatus | null }) {
   if (status === null) return null;
   const view =
     status === 'done'
-      ? { Icon: Check, text: t('updates.state.done'), className: 'text-success' }
+      ? { Icon: Check, text: t('updates.state.done'), className: 'text-success-text' }
       : status === 'queued'
-        ? { Icon: Clock, text: t('updates.state.queued'), className: 'text-info' }
+        ? { Icon: Clock, text: t('updates.state.queued'), className: 'text-info-text' }
         : status === 'downloading'
-          ? { Icon: LoaderCircle, text: t('updates.state.downloading'), className: 'text-info' }
+          ? { Icon: LoaderCircle, text: t('updates.state.downloading'), className: 'text-info-text' }
           : status === 'paused'
             ? { Icon: Pause, text: t('updates.state.paused'), className: 'text-muted-foreground' }
-            : { Icon: CircleAlert, text: t('updates.state.error'), className: 'text-warning' };
+            : { Icon: CircleAlert, text: t('updates.state.error'), className: 'text-warning-text' };
   return (
-    <span className={`flex shrink-0 items-center gap-1 text-xs leading-4 ${view.className}`}>
+    <span className={`flex shrink-0 items-center gap-1 text-xs ${view.className}`}>
       <view.Icon className="size-3.5" strokeWidth={1.75} aria-hidden />
       {view.text}
     </span>

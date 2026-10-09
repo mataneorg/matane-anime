@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Select } from '@renderer/components/ui/select';
 import { Switch } from '@renderer/components/ui/switch';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
+import { SettingRow, SettingsCard } from './parts';
 
 const SEEK_STEPS = [5, 10, 15, 30];
 
@@ -15,84 +16,72 @@ export function PlayerSettings() {
   if (!settings) return null;
 
   return (
-    <section className="flex flex-col gap-6" aria-labelledby="playback-title">
-      <h2 id="playback-title" className="text-[15px] leading-[22px] font-semibold">
-        {t('settings.player.playback')}
-      </h2>
-
-      <div className="flex items-center gap-4">
-        <div className="flex-1">
-          <label htmlFor="autoplay" className="block font-semibold">
-            {t('settings.player.autoplay')}
-          </label>
-          <div className="text-xs leading-4">{t('settings.player.autoplayHint')}</div>
-        </div>
-        <Switch
-          id="autoplay"
-          checked={settings.playerAutoplay}
-          onCheckedChange={(playerAutoplay) => update.mutate({ playerAutoplay })}
-        />
-      </div>
-
-      <div className="flex max-w-72 flex-col gap-1.5">
-        <label htmlFor="player-quality" className="font-semibold">
-          {t('settings.player.quality')}
-        </label>
-        <Select
-          id="player-quality"
-          value={settings.playerQuality}
-          onChange={(event) => update.mutate({ playerQuality: event.target.value as PlayerQuality })}
-        >
-          {PLAYER_QUALITIES.map((quality) => (
-            <option key={quality} value={quality}>
-              {t(`settings.player.qualities.${quality}`)}
-            </option>
-          ))}
-        </Select>
-        <div className="text-xs leading-4">{t('settings.player.qualityHint')}</div>
-      </div>
-
-      <div className="flex max-w-md flex-col gap-1.5">
-        <label htmlFor="watched-threshold" className="font-semibold">
-          {t('settings.player.threshold')}
-        </label>
-        <div className="flex items-center gap-3">
-          <input
-            id="watched-threshold"
-            type="range"
-            min={50}
-            max={100}
-            step={5}
-            value={settings.playerWatchedThreshold}
-            onChange={(event) => update.mutate({ playerWatchedThreshold: Number(event.target.value) })}
-            className="flex-1 accent-accent"
+    <div className="flex max-w-[880px] flex-col gap-6">
+      <SettingsCard id="playback-title" title={t('settings.player.playback')}>
+        <SettingRow label={t('settings.player.autoplay')} hint={t('settings.player.autoplayHint')} htmlFor="autoplay">
+          <Switch
+            id="autoplay"
+            checked={settings.playerAutoplay}
+            onCheckedChange={(playerAutoplay) => update.mutate({ playerAutoplay })}
           />
-          <span className="w-28 text-right font-mono text-xs leading-4">
-            {settings.playerWatchedThreshold === 100
-              ? t('settings.player.thresholdEnd')
-              : t('settings.player.thresholdPercent', { percent: settings.playerWatchedThreshold })}
-          </span>
-        </div>
-        <div className="text-xs leading-4">{t('settings.player.thresholdHint')}</div>
-      </div>
+        </SettingRow>
 
-      <div className="flex max-w-72 flex-col gap-1.5">
-        <label htmlFor="seek-step" className="font-semibold">
-          {t('settings.player.seek')}
-        </label>
-        <Select
-          id="seek-step"
-          value={settings.playerSeekSeconds}
-          onChange={(event) => update.mutate({ playerSeekSeconds: Number(event.target.value) })}
+        <SettingRow
+          label={t('settings.player.quality')}
+          hint={t('settings.player.qualityHint')}
+          htmlFor="player-quality"
         >
-          {SEEK_STEPS.map((seconds) => (
-            <option key={seconds} value={seconds}>
-              {t('settings.player.seekSeconds', { count: seconds })}
-            </option>
-          ))}
-        </Select>
-        <div className="text-xs leading-4">{t('settings.player.seekHint')}</div>
-      </div>
-    </section>
+          <Select
+            id="player-quality"
+            value={settings.playerQuality}
+            onChange={(event) => update.mutate({ playerQuality: event.target.value as PlayerQuality })}
+          >
+            {PLAYER_QUALITIES.map((quality) => (
+              <option key={quality} value={quality}>
+                {t(`settings.player.qualities.${quality}`)}
+              </option>
+            ))}
+          </Select>
+        </SettingRow>
+
+        <SettingRow
+          label={t('settings.player.threshold')}
+          hint={t('settings.player.thresholdHint')}
+          htmlFor="watched-threshold"
+        >
+          <div className="flex w-72 items-center gap-3">
+            <input
+              id="watched-threshold"
+              type="range"
+              min={50}
+              max={100}
+              step={5}
+              value={settings.playerWatchedThreshold}
+              onChange={(event) => update.mutate({ playerWatchedThreshold: Number(event.target.value) })}
+              className="flex-1 accent-primary"
+            />
+            <span className="w-24 text-right font-mono text-xs leading-4">
+              {settings.playerWatchedThreshold === 100
+                ? t('settings.player.thresholdEnd')
+                : t('settings.player.thresholdPercent', { percent: settings.playerWatchedThreshold })}
+            </span>
+          </div>
+        </SettingRow>
+
+        <SettingRow label={t('settings.player.seek')} hint={t('settings.player.seekHint')} htmlFor="seek-step">
+          <Select
+            id="seek-step"
+            value={settings.playerSeekSeconds}
+            onChange={(event) => update.mutate({ playerSeekSeconds: Number(event.target.value) })}
+          >
+            {SEEK_STEPS.map((seconds) => (
+              <option key={seconds} value={seconds}>
+                {t('settings.player.seekSeconds', { count: seconds })}
+              </option>
+            ))}
+          </Select>
+        </SettingRow>
+      </SettingsCard>
+    </div>
   );
 }

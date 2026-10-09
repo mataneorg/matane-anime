@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { DownloadActivity } from '@renderer/features/downloads/DownloadActivity';
 import { animeQuery, networkStatusQuery } from '@renderer/lib/catalog';
 import { appInfoQuery } from '@renderer/lib/ipc';
+import { Button } from '@renderer/components/ui/button';
 import { usePaletteStore } from '@renderer/stores/palette';
 import { IncognitoPill } from './IncognitoPill';
 import { WindowControls } from './WindowControls';
@@ -49,33 +50,33 @@ export function TitleBar() {
   // macOS draws its traffic lights over the top-left corner of the frameless window.
   const leftPadding = info?.platform === 'darwin' ? 'pl-20' : 'pl-3';
 
-  const iconButton =
-    'no-drag flex size-7 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-input/50';
   return (
     <header className={`drag-region flex h-10 shrink-0 items-center gap-3 border-b bg-sidebar ${leftPadding}`}>
-      <div className="flex gap-1">
-        <button
-          type="button"
-          className={iconButton}
+      <div className="flex gap-0.5">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="no-drag"
           aria-label={t('titleBar.back')}
           onClick={() => router.history.back()}
         >
-          <ChevronLeft className="size-4" strokeWidth={1.75} aria-hidden />
-        </button>
-        <button
-          type="button"
-          className={iconButton}
+          <ChevronLeft strokeWidth={1.75} aria-hidden />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="no-drag"
           aria-label={t('titleBar.forward')}
           onClick={() => router.history.forward()}
         >
-          <ChevronRight className="size-4" strokeWidth={1.75} aria-hidden />
-        </button>
+          <ChevronRight strokeWidth={1.75} aria-hidden />
+        </Button>
       </div>
       <nav aria-label="Breadcrumb" className="text-xs leading-4 whitespace-nowrap text-muted-foreground">
         {t('app.name')}
         {crumbs.map(({ text }, index) => (
           <span key={`${index}-${text}`}>
-            <span className="px-1">/</span>
+            <span className="px-1.5">/</span>
             <span className={index === crumbs.length - 1 ? 'text-foreground' : undefined}>{text}</span>
           </span>
         ))}
@@ -84,18 +85,18 @@ export function TitleBar() {
         <button
           type="button"
           onClick={() => usePaletteStore.getState().setOpen(true)}
-          className="no-drag flex h-7 w-80 max-w-full items-center gap-2 rounded-lg border border-border-strong bg-input pr-2 pl-2.5 text-xs leading-4 text-foreground"
+          className="no-drag flex h-7 w-80 max-w-full items-center gap-2 rounded-lg border bg-background pr-2 pl-2.5 text-xs leading-4 text-muted-foreground transition-colors hover:border-input"
         >
           <Search className="size-3.5 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
           <span className="flex-1 truncate text-left">{t('titleBar.searchHint')}</span>
-          <kbd className="rounded-sm bg-card px-1.5 py-px font-mono text-[11px] leading-3.5 font-medium">
+          <kbd className="rounded border bg-muted px-1.5 py-px font-mono text-[10px] leading-3.5 font-medium whitespace-nowrap">
             {info?.platform === 'darwin' ? PALETTE_SHORTCUT.darwin : PALETTE_SHORTCUT.default}
           </kbd>
         </button>
       </div>
       <DownloadActivity />
       {network?.online === false ? (
-        <span className="flex h-6 items-center gap-1.5 rounded-full bg-warning/16 px-2.5 text-xs leading-4 font-medium text-foreground">
+        <span className="flex h-6 items-center gap-1.5 rounded-md border border-ctp-peach/40 bg-ctp-peach/10 px-2 text-xs leading-4 font-medium text-warning-text">
           <WifiOff className="size-3.5" strokeWidth={1.75} aria-hidden />
           {t('network.offline')}
         </span>

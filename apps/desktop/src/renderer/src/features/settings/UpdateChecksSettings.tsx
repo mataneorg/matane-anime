@@ -42,17 +42,17 @@ function ChecksSection() {
   };
 
   return (
-    <section className="flex flex-col gap-4" aria-labelledby="update-checks-title">
-      <h2 id="update-checks-title" className="text-[15px] leading-[22px] font-semibold">
+    <section className="flex flex-col gap-4 rounded-xl border bg-card/40 p-5" aria-labelledby="update-checks-title">
+      <h2 id="update-checks-title" className="text-sm font-semibold">
         {t('settings.library.updates')}
       </h2>
 
       <div className="flex items-center gap-4">
         <div className="flex-1">
-          <label htmlFor="update-interval" className="block font-semibold text-foreground">
+          <label htmlFor="update-interval" className="block font-medium">
             {t('settings.library.updatesEvery')}
           </label>
-          <div className="text-xs leading-4">{t('settings.library.updatesEveryHint')}</div>
+          <div className="text-xs leading-4 text-muted-foreground">{t('settings.library.updatesEveryHint')}</div>
         </div>
         <Select
           id="update-interval"
@@ -67,15 +67,15 @@ function ChecksSection() {
         </Select>
       </div>
 
-      <fieldset className="flex flex-col gap-3 rounded-xl bg-card p-4">
+      <fieldset className="flex flex-col gap-3 rounded-lg border bg-background p-4">
         <legend className="sr-only">{t('settings.library.updatesSkip')}</legend>
-        <div className="font-semibold text-foreground" aria-hidden>
+        <div className="font-medium" aria-hidden>
           {t('settings.library.updatesSkip')}
         </div>
         <label className="flex cursor-pointer items-center gap-3">
           <input
             type="checkbox"
-            className="size-4 accent-accent"
+            className="size-4 accent-primary"
             checked={settings.updateSkipCompleted}
             onChange={(event) => update.mutate({ updateSkipCompleted: event.target.checked })}
           />
@@ -84,7 +84,7 @@ function ChecksSection() {
         <label className="flex cursor-pointer items-center gap-3">
           <input
             type="checkbox"
-            className="size-4 accent-accent"
+            className="size-4 accent-primary"
             checked={settings.updateSkipNotStarted}
             onChange={(event) => update.mutate({ updateSkipNotStarted: event.target.checked })}
           />
@@ -94,7 +94,7 @@ function ChecksSection() {
           <input
             id="skip-unwatched"
             type="checkbox"
-            className="size-4 accent-accent"
+            className="size-4 accent-primary"
             checked={limit !== null}
             onChange={(event) =>
               update.mutate({
@@ -119,7 +119,7 @@ function ChecksSection() {
           />
           <span>{t('settings.library.skipUnwatchedAfter')}</span>
         </div>
-        <div className="text-xs leading-4">{t('settings.library.skipHint')}</div>
+        <div className="text-xs leading-4 text-muted-foreground">{t('settings.library.skipHint')}</div>
       </fieldset>
     </section>
   );
@@ -136,13 +136,13 @@ function AutoDownloadSection() {
   if (!settings) return null;
 
   return (
-    <section className="flex flex-col gap-4 border-t pt-5" aria-labelledby="auto-download-title">
+    <section className="flex flex-col gap-4 rounded-xl border bg-card/40 p-5" aria-labelledby="auto-download-title">
       <div className="flex items-center gap-4">
         <div className="flex-1">
-          <label id="auto-download-title" htmlFor="auto-download" className="block font-semibold text-foreground">
+          <label id="auto-download-title" htmlFor="auto-download" className="block font-medium">
             {t('settings.library.autoDownload')}
           </label>
-          <div className="text-xs leading-4">{t('settings.library.autoDownloadHint')}</div>
+          <div className="text-xs leading-4 text-muted-foreground">{t('settings.library.autoDownloadHint')}</div>
         </div>
         <Switch
           id="auto-download"
@@ -191,16 +191,16 @@ function CategoryMark({
         aria-label={category.name}
         onClick={() => onChange(nextAutoDownloadMode(mode))}
         className={cn(
-          'flex size-4 shrink-0 items-center justify-center rounded border border-border-strong bg-background text-on-accent',
-          mode === 'include' && 'border-accent bg-accent',
-          mode === 'exclude' && 'border-danger bg-danger',
+          'flex size-4 shrink-0 items-center justify-center rounded border border-input bg-background text-primary-foreground',
+          mode === 'include' && 'border-primary bg-primary',
+          mode === 'exclude' && 'border-destructive bg-destructive',
         )}
       >
         {mode === 'include' ? <Check className="size-3" strokeWidth={3} aria-hidden /> : null}
         {mode === 'exclude' ? <Minus className="size-3" strokeWidth={3} aria-hidden /> : null}
       </button>
       <span className="flex-1 text-foreground">{category.name}</span>
-      <span className="text-xs leading-4">
+      <span className="text-xs leading-4 text-muted-foreground">
         {mode === null ? '' : t(mode === 'include' ? 'settings.library.include' : 'settings.library.exclude')}
       </span>
     </li>

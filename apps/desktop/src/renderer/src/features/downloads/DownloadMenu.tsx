@@ -31,7 +31,7 @@ export function DownloadMenu({ episodes }: { episodes: EpisodeRow[] }) {
           return (
             <DropdownMenuItem key={scope} disabled={ids.length === 0} onSelect={() => void enqueueEpisodes(ids)}>
               <span className="flex-1">{t(`downloads.menu.${scope}`, { count: NEXT_COUNT })}</span>
-              <span className="font-mono text-xs leading-4 text-muted-foreground">{ids.length}</span>
+              <span className="text-xs text-muted-foreground tabular-nums">{ids.length}</span>
             </DropdownMenuItem>
           );
         })}

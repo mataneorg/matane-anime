@@ -113,26 +113,61 @@ function BrowseView({ sourceId }: { sourceId: string }) {
 
   return (
     <div className="flex min-h-full">
-      <div className="flex min-w-0 flex-1 flex-col gap-5 p-6">
-        <div className="flex flex-wrap items-center gap-4">
-          <Select
-            aria-label={t('browse.picker')}
-            value={sourceId}
-            onChange={(event) =>
-              void navigate({ to: '/browse/sources/$sourceId', params: { sourceId: event.target.value } })
-            }
-            className="h-10 min-w-56 font-semibold"
-          >
-            {sources
-              .filter((candidate) => candidate.available)
-              .map((candidate) => (
-                <option key={candidate.id} value={candidate.id}>
-                  {candidate.name}
-                </option>
-              ))}
-          </Select>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-10 border-b bg-background/95 px-6 pt-4 backdrop-blur">
+          <div className="flex flex-wrap items-center gap-3">
+            <Select
+              aria-label={t('browse.picker')}
+              value={sourceId}
+              onChange={(event) =>
+                void navigate({ to: '/browse/sources/$sourceId', params: { sourceId: event.target.value } })
+              }
+              className="min-w-56 text-base font-semibold"
+            >
+              {sources
+                .filter((candidate) => candidate.available)
+                .map((candidate) => (
+                  <option key={candidate.id} value={candidate.id}>
+                    {candidate.name}
+                  </option>
+                ))}
+            </Select>
 
-          <div role="tablist" className="flex gap-1">
+            <form onSubmit={submitSearch} className="ml-auto flex w-full max-w-sm items-center gap-2">
+              <div className="relative flex-1">
+                <Search
+                  className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+                  strokeWidth={1.75}
+                  aria-hidden
+                />
+                <Input
+                  type="search"
+                  value={draft}
+                  disabled={!online}
+                  onChange={(event) => setDraft(event.target.value)}
+                  placeholder={t('browse.search')}
+                  aria-label={t('browse.search')}
+                  className="pl-9"
+                />
+              </div>
+              {filtersSupported ? (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  className="size-9"
+                  aria-pressed={panelOpen}
+                  aria-label={t('browse.filters.toggle')}
+                  title={t('browse.filters.toggle')}
+                  onClick={() => setPanelOpen((open) => !open)}
+                >
+                  <SlidersHorizontal className="size-4" strokeWidth={1.75} aria-hidden />
+                </Button>
+              ) : null}
+            </form>
+          </div>
+
+          <div role="tablist" className="mt-3 flex gap-6">
             {(['popular', ...(latestSupported ? (['latest'] as const) : [])] as Kind[]).map((name) => (
               <button
                 key={name}
@@ -141,104 +176,80 @@ function BrowseView({ sourceId }: { sourceId: string }) {
                 aria-selected={tab === name && !searching}
                 onClick={() => chooseTab(name)}
                 className={cn(
-                  'h-10 border-b-2 border-transparent px-3 text-muted-foreground transition-colors hover:text-foreground',
-                  tab === name && !searching && 'border-accent font-semibold text-foreground',
+                  '-mb-px h-9 border-b-2 border-transparent px-1 text-muted-foreground transition-colors hover:text-foreground',
+                  tab === name && !searching && 'border-primary font-semibold text-foreground',
                 )}
               >
                 {t(`browse.tabs.${name}`)}
               </button>
             ))}
           </div>
+        </header>
 
-          <form onSubmit={submitSearch} className="ml-auto flex w-full max-w-sm items-center gap-2">
-            <div className="relative flex-1">
-              <Search
-                className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-                strokeWidth={1.75}
-                aria-hidden
-              />
-              <Input
-                type="search"
-                value={draft}
-                disabled={!online}
-                onChange={(event) => setDraft(event.target.value)}
-                placeholder={t('browse.search')}
-                aria-label={t('browse.search')}
-                className="h-10 pl-9"
-              />
-            </div>
-            {filtersSupported ? (
-              <Button
-                type="button"
-                variant="secondary"
-                size="icon"
-                className="size-10"
-                aria-pressed={panelOpen}
-                aria-label={t('browse.filters.toggle')}
-                title={t('browse.filters.toggle')}
-                onClick={() => setPanelOpen((open) => !open)}
-              >
-                <SlidersHorizontal className="size-4" strokeWidth={1.75} aria-hidden />
-              </Button>
-            ) : null}
-          </form>
-        </div>
+        <div className="flex flex-col gap-5 p-6">
+          {verifying ? (
+            <p
+              role="status"
+              className="flex items-center gap-2 rounded-lg border border-ctp-blue/40 bg-ctp-blue/10 px-3 py-2"
+            >
+              <Loader2 className="size-4 animate-spin" aria-hidden />
+              {t('browse.verifying')}
+            </p>
+          ) : null}
 
-        {verifying ? (
-          <p role="status" className="flex items-center gap-2 rounded-lg bg-info/16 px-3 py-2">
-            <Loader2 className="size-4 animate-spin" aria-hidden />
-            {t('browse.verifying')}
-          </p>
-        ) : null}
-
-        {!online && !showingRemembered ? (
-          <EmptyState icon={WifiOff} title={t('browse.offline.title')} description={t('browse.offline.description')} />
-        ) : feed.isPending && !showingRemembered ? (
-          <Grid>
-            {Array.from({ length: 12 }, (_, index) => (
-              <AnimeCardSkeleton key={index} />
-            ))}
-          </Grid>
-        ) : feed.isError && items.length === 0 ? (
-          <ErrorState
-            title={t('errors.title')}
-            description={describeError(feed.error, t)}
-            action={
-              <Button onClick={() => void feed.refetch()}>
-                {isCloudflare(feed.error) ? t('browse.verify') : t('browse.retry')}
-              </Button>
-            }
-          />
-        ) : items.length === 0 ? (
-          <EmptyState icon={Search} title={t('browse.empty.title')} description={t('browse.empty.description')} />
-        ) : (
-          <>
+          {!online && !showingRemembered ? (
+            <EmptyState
+              icon={WifiOff}
+              title={t('browse.offline.title')}
+              description={t('browse.offline.description')}
+            />
+          ) : feed.isPending && !showingRemembered ? (
             <Grid>
-              {items.map((anime) => (
-                <AnimeCard key={anime.animeId} anime={anime} />
+              {Array.from({ length: 12 }, (_, index) => (
+                <AnimeCardSkeleton key={index} />
               ))}
             </Grid>
-            <div ref={sentinel} className="flex min-h-10 items-center justify-center gap-2">
-              {showingRemembered && feed.isFetching ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" aria-hidden />
-                  {t('browse.refreshing')}
-                </>
-              ) : isFetchingNextPage ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" aria-hidden />
-                  {t('browse.loadingMore')}
-                </>
-              ) : feed.isError ? (
-                <Button variant="secondary" size="sm" onClick={() => void fetchNextPage()}>
-                  {t('browse.retry')}
+          ) : feed.isError && items.length === 0 ? (
+            <ErrorState
+              title={t('errors.title')}
+              description={describeError(feed.error, t)}
+              action={
+                <Button onClick={() => void feed.refetch()}>
+                  {isCloudflare(feed.error) ? t('browse.verify') : t('browse.retry')}
                 </Button>
-              ) : !hasNextPage ? (
-                <span className="text-xs leading-4">{t('browse.end')}</span>
-              ) : null}
-            </div>
-          </>
-        )}
+              }
+            />
+          ) : items.length === 0 ? (
+            <EmptyState icon={Search} title={t('browse.empty.title')} description={t('browse.empty.description')} />
+          ) : (
+            <>
+              <Grid>
+                {items.map((anime) => (
+                  <AnimeCard key={anime.animeId} anime={anime} />
+                ))}
+              </Grid>
+              <div ref={sentinel} className="flex min-h-10 items-center justify-center gap-2">
+                {showingRemembered && feed.isFetching ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" aria-hidden />
+                    {t('browse.refreshing')}
+                  </>
+                ) : isFetchingNextPage ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" aria-hidden />
+                    {t('browse.loadingMore')}
+                  </>
+                ) : feed.isError ? (
+                  <Button variant="secondary" size="sm" onClick={() => void fetchNextPage()}>
+                    {t('browse.retry')}
+                  </Button>
+                ) : !hasNextPage ? (
+                  <span className="text-xs text-muted-foreground">{t('browse.end')}</span>
+                ) : null}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {panelOpen && filtersSupported ? (

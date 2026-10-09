@@ -1,5 +1,4 @@
-import '@fontsource-variable/figtree';
-import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource-variable/inter';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 import log from 'electron-log/renderer';

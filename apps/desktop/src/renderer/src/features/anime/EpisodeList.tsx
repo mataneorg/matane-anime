@@ -118,41 +118,41 @@ function EpisodeRowView({
   const reset = useMutation({ mutationFn: () => call('episodes.resetProgress', { episodeId: episode.id }) });
 
   return (
-    <div className="relative flex h-16 items-center rounded-xl bg-card transition-colors hover:bg-input/60">
+    <div className="relative flex h-16 items-center rounded-xl border bg-card/40 transition-colors hover:border-input hover:bg-card/70">
       {downloadPercent !== null ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 overflow-hidden rounded-b-xl" aria-hidden>
-          <div className="h-full bg-accent" style={{ width: `${downloadPercent}%` }} />
+          <div className="h-full bg-primary" style={{ width: `${downloadPercent}%` }} />
         </div>
       ) : null}
       <Link
         to="/watch/$episodeId"
         params={{ episodeId: String(episode.id) }}
-        className="flex h-16 min-w-0 flex-1 items-center gap-4 pr-2"
+        className="flex h-full min-w-0 flex-1 items-center gap-4 pr-2"
       >
         <div className="relative shrink-0">
           <Cover
             sourceId={sourceId}
             url={thumbnailUrl}
             localAnimeId={localCoverId}
-            className={cn('h-16 w-28 rounded-l-xl', episode.watched && 'opacity-60')}
+            className={cn('h-[62px] w-28 rounded-l-xl', episode.watched && 'opacity-60')}
           />
           {progress > 0 ? (
-            <div className="absolute inset-x-0 bottom-0 h-1 bg-black/40" aria-hidden>
-              <div className="h-full bg-accent" style={{ width: `${progress}%` }} />
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-ctp-crust/60" aria-hidden>
+              <div className="h-full bg-primary" style={{ width: `${progress}%` }} />
             </div>
           ) : null}
         </div>
         <div className={cn('flex min-w-0 flex-1 flex-col', episode.watched && 'opacity-70')}>
-          <span className="truncate font-semibold text-foreground">
+          <span className={cn('truncate text-foreground', !episode.watched && 'font-semibold')}>
             {episodeTitle(episode, (number) => t('anime.episodeNumber', { number }))}
           </span>
-          <span className="truncate text-xs leading-4">{date}</span>
+          <span className="truncate text-xs text-muted-foreground">{date}</span>
         </div>
         {episode.variant ? <Badge>{episode.variant}</Badge> : null}
         {episode.sourceMissing ? <Badge tone="warning">{t('anime.missing')}</Badge> : null}
         {download?.status === 'done' ? <DownloadedChip /> : null}
         {episode.watched ? (
-          <span className="flex items-center gap-1 text-xs leading-4 text-success">
+          <span className="flex items-center gap-1 text-xs text-success-text">
             <Check className="size-3.5" strokeWidth={2} aria-hidden />
             {t('anime.watched')}
           </span>
@@ -166,7 +166,7 @@ function EpisodeRowView({
       <DropdownMenu>
         <DropdownMenuTrigger
           aria-label={t('anime.episodeActions')}
-          className="mr-2 flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-input/60"
+          className="mr-2 flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
         >
           <EllipsisVertical className="size-4" strokeWidth={1.75} aria-hidden />
         </DropdownMenuTrigger>

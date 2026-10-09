@@ -1,6 +1,8 @@
 # Mockup UI Matane Anime
 
-> Status: Draft 1, 6 Okt 2026. Indeks mockup UI, mengikuti pola `docs/ui/MOCKUP_PLAN.md` di Matane.
+> **Status (9 Okt 2026): historis.** UI sekarang mengikuti Matane ([ADR 0036](../adr/0036-ui-follows-matane.md), menggantikan ADR 0006). Mockup dan PNG di `docs/ui/screens/` menunjukkan tampilan lama (Figtree, `accent`/`on-accent`, `border-strong`) dan **belum dibuat ulang**; rujukan UI saat ini adalah `design-system.md`, `tokens/`, dan aplikasinya sendiri. Brief di bawah dipertahankan apa adanya sebagai sejarah.
+>
+> Status lama: Draft 1, 6 Okt 2026. Indeks mockup UI, mengikuti pola `docs/ui/MOCKUP_PLAN.md` di Matane.
 > Mockup dibuat di Claude Design dengan tema **Catppuccin**. **Artifact di Claude Design adalah sumber kebenaran UI**; berkas ini hanya indeksnya.
 
 ## Tautan

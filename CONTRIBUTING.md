@@ -46,7 +46,7 @@ Run `pnpm lint`, `pnpm format:check`, `pnpm typecheck` and `pnpm test` before yo
 ## Code conventions
 
 - **i18n**: every user-visible string goes through i18next and lives in **both** `apps/desktop/src/renderer/src/i18n/locales/en.json` **and** `id.json`. A lint rule rejects string literals in JSX. Dates, numbers and relative times use `Intl`.
-- **UI source of truth**: the mockups in [docs/ui](docs/ui) ([ADR 0006](docs/adr/0006-ui-mockups-source-of-truth.md)). Match them; if you need to differ, say why in the pull request.
+- **UI source of truth**: [docs/ui/design-system.md](docs/ui/design-system.md) and the tokens beside it, in the visual language of the Matane reader app ([ADR 0036](docs/adr/0036-ui-follows-matane.md), which superseded [ADR 0006](docs/adr/0006-ui-mockups-source-of-truth.md); the mockup PNGs are historical). Match them; if you need to differ, say why in the pull request.
 - **Typed IPC**: renderer and main talk through the contract in `packages/shared` ([ADR 0003](docs/adr/0003-typed-ipc-contract.md)). The renderer has no internet access and no Node.
 - **Decisions**: a change that settles an architectural question gets an ADR in `docs/adr/` (next number, same format as the others).
 - **Extensions never ship with the app**: nothing in this repository adds, names or points to a real source, repository or key.

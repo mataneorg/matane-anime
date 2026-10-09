@@ -45,10 +45,10 @@ function HistoryPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-6">
-      <header className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('nav.history')}</h1>
-        <Button variant="secondary" onClick={() => setConfirming(true)}>
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-6 py-5">
+      <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b pb-5">
+        <h1 className="text-xl font-semibold">{t('nav.history')}</h1>
+        <Button variant="destructive" className="ml-auto" onClick={() => setConfirming(true)}>
           <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
           {t('history.clearAll')}
         </Button>
@@ -56,23 +56,23 @@ function HistoryPage() {
       {incognito ? (
         <div
           role="status"
-          className="flex items-center gap-3 rounded-xl border border-accent bg-accent/16 px-4 py-3 text-xs leading-4"
+          className="flex items-center gap-3 rounded-xl border border-primary/40 bg-primary/10 px-4 py-3 text-xs"
         >
-          <EyeOff className="size-5 shrink-0 text-accent" strokeWidth={1.75} aria-hidden />
+          <EyeOff className="size-5 shrink-0 text-primary-text" strokeWidth={1.75} aria-hidden />
           <div className="flex min-w-0 flex-1 flex-col gap-0.5">
             <span className="text-sm font-semibold text-foreground">{t('incognito.on')}</span>
-            <span>{t('incognito.body')}</span>
+            <span className="text-muted-foreground">{t('incognito.body')}</span>
           </div>
           <Button variant="secondary" onClick={() => setIncognito.mutate(false)}>
             {t('incognito.turnOff')}
           </Button>
         </div>
       ) : null}
-      <p className="text-xs leading-4">{t('history.explainer')}</p>
+      <p className="text-xs text-muted-foreground">{t('history.explainer')}</p>
 
       {groups.map((group) => (
-        <section key={group.key} className="flex flex-col gap-2" aria-label={group.label}>
-          <h2 className="pt-2 text-[15px] leading-[22px] font-semibold text-foreground">{group.label}</h2>
+        <section key={group.key} className="flex flex-col gap-2.5" aria-label={group.label}>
+          <h2 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">{group.label}</h2>
           <ul className="flex flex-col gap-2">
             {group.entries.map((entry) => (
               <HistoryRow key={entry.animeId} entry={entry} />
@@ -132,7 +132,7 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
   const next = entry.next;
 
   return (
-    <li className="flex items-center gap-4 rounded-xl bg-card p-2 pr-3">
+    <li className="flex items-center gap-4 rounded-xl border bg-card/40 p-2 pr-3 transition-colors hover:border-input hover:bg-card/70">
       <Link
         to="/anime/$animeId"
         params={{ animeId: String(entry.animeId) }}
@@ -150,23 +150,25 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
         <Link
           to="/anime/$animeId"
           params={{ animeId: String(entry.animeId) }}
-          className="truncate font-semibold text-foreground"
+          className="truncate font-medium text-foreground hover:underline"
         >
           {entry.title}
         </Link>
-        <span className="truncate text-xs leading-4">{[title, entry.sourceName].filter(Boolean).join(' · ')}</span>
-        <div className="h-1 overflow-hidden rounded-full bg-input" aria-hidden>
-          <div className="h-full bg-accent" style={{ width: `${share}%` }} />
+        <span className="truncate text-xs text-muted-foreground">
+          {[title, entry.sourceName].filter(Boolean).join(' · ')}
+        </span>
+        <div className="h-1 overflow-hidden rounded-full bg-muted" aria-hidden>
+          <div className="h-full bg-primary" style={{ width: `${share}%` }} />
         </div>
       </div>
-      <div className="flex w-32 shrink-0 flex-col items-end text-xs leading-4">
+      <div className="flex w-32 shrink-0 flex-col items-end text-xs text-muted-foreground">
         {entry.watched ? (
-          <span className="flex items-center gap-1 text-success">
+          <span className="flex items-center gap-1 text-success-text">
             <Check className="size-3.5" strokeWidth={2} aria-hidden />
             {t('anime.watched')}
           </span>
         ) : entry.durationMs ? (
-          <span className="font-mono text-foreground">
+          <span className="text-foreground tabular-nums">
             {t('history.position', {
               position: formatClock(entry.positionMs),
               duration: formatClock(entry.durationMs),
@@ -179,7 +181,7 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
         <Link
           to="/watch/$episodeId"
           params={{ episodeId: String(next.episodeId) }}
-          className={buttonVariants({ size: 'md' })}
+          className={buttonVariants({ size: 'sm' })}
         >
           <Play className="size-4" strokeWidth={2} aria-hidden />
           {next.reason === 'resume'
@@ -192,7 +194,7 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
         <Link
           to="/anime/$animeId"
           params={{ animeId: String(entry.animeId) }}
-          className={buttonVariants({ size: 'md', variant: 'secondary' })}
+          className={buttonVariants({ size: 'sm', variant: 'secondary' })}
         >
           {t('history.open')}
         </Link>

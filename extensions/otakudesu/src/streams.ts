@@ -285,7 +285,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
         return undefined;
       }
     };
-    for (let next = 0; next < mirrors.length && streams.length < MAX_STREAMS; ) {
+    for (let next = 0; next < mirrors.length && streams.length < MAX_STREAMS;) {
       if (streams.length > 0 && Date.now() - startedAt > BUDGET_MS) {
         log.warn('Out of time; leaving the remaining mirrors');
         break;

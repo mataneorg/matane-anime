@@ -6,8 +6,8 @@ export function Select({ className, ...props }: ComponentProps<'select'>) {
   return (
     <select
       className={cn(
-        'h-9 rounded-lg border border-border-strong bg-background px-2 text-foreground',
-        'focus-visible:border-accent focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+        'h-9 rounded-lg border border-input bg-background px-2 text-foreground',
+        'focus-visible:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
         className,
       )}
       {...props}

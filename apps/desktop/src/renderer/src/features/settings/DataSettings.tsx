@@ -9,6 +9,7 @@ import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
 import { BackupSection } from './BackupSection';
 import { CoverCacheSection } from './CoverCacheSection';
+import { SettingsCard } from './parts';
 
 /**
  * Settings → Data and storage (mockup 10f): backup and restore, and the Storage part. Automatic backups and clearing
@@ -25,16 +26,13 @@ export function DataSettings() {
   const { percent, over } = usageShare(storage.usedBytes, storage.limitBytes);
 
   return (
-    <div className="flex max-w-190 flex-col gap-6">
+    <div className="flex max-w-[880px] flex-col gap-6">
       <BackupSection />
       <CoverCacheSection />
-      <section className="flex flex-col gap-4" aria-labelledby="storage-title">
-        <h2 id="storage-title" className="text-[15px] leading-[22px] font-semibold">
-          {t('settings.data.storage')}
-        </h2>
+      <SettingsCard id="storage-title" title={t('settings.data.storage')}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between gap-4">
-            <span className="font-semibold text-foreground">{t('settings.data.downloaded')}</span>
+            <span className="font-medium">{t('settings.data.downloaded')}</span>
             <div className="flex items-center gap-3">
               <span className="font-mono text-xs leading-4 text-foreground">
                 {formatBytes(storage.usedBytes, i18n.language)}
@@ -52,16 +50,16 @@ export function DataSettings() {
             aria-valuenow={Math.round(percent)}
             className="h-1.5 overflow-hidden rounded-full bg-input"
           >
-            <div className={cn('h-full', over ? 'bg-warning' : 'bg-accent')} style={{ width: `${percent}%` }} />
+            <div className={cn('h-full', over ? 'bg-ctp-peach' : 'bg-primary')} style={{ width: `${percent}%` }} />
           </div>
-          <p className="text-xs leading-4">
+          <p className="text-xs leading-4 text-muted-foreground">
             {t('settings.data.ofLimit', {
               percent: Math.round(percent),
               limit: formatBytes(storage.limitBytes, i18n.language),
             })}
           </p>
         </div>
-      </section>
+      </SettingsCard>
     </div>
   );
 }

@@ -31,21 +31,21 @@ function SettingsPage() {
 
   return (
     <div className="flex min-h-full flex-wrap">
-      <nav aria-label={t('settings.sectionsLabel')} className="flex w-50 shrink-0 flex-col gap-0.5 px-3 py-6">
+      <nav aria-label={t('settings.sectionsLabel')} className="flex w-50 shrink-0 flex-col gap-0.5 border-r px-3 py-6">
         {SECTIONS.map((name) => (
           <Link
             key={name}
             to="/settings/$section"
             params={{ section: name }}
-            className="flex h-8 items-center rounded-lg px-3 text-muted-foreground transition-colors hover:bg-input/50"
-            activeProps={{ className: 'bg-accent/16 font-semibold text-foreground', 'aria-current': 'page' }}
+            className="flex h-8 items-center rounded-lg border-l-2 border-transparent px-3 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground data-[status=active]:border-primary data-[status=active]:bg-primary/15 data-[status=active]:font-semibold data-[status=active]:text-primary-text data-[status=active]:hover:bg-primary/15 data-[status=active]:hover:text-primary-text"
+            activeProps={{ 'aria-current': 'page' }}
           >
             {t(`settings.sections.${name}`)}
           </Link>
         ))}
       </nav>
-      <div className="min-w-0 flex-1 basis-120 py-6 pr-8 pl-3">
-        <h1 className="mb-6 text-2xl leading-8 font-bold tracking-tight">{t(`settings.sections.${active}`)}</h1>
+      <div className="min-w-0 flex-1 basis-120 px-8 py-6">
+        <h1 className="mb-6 text-xl leading-7 font-semibold">{t(`settings.sections.${active}`)}</h1>
         {active === 'general' ? (
           <GeneralSettings />
         ) : active === 'library' ? (

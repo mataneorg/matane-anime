@@ -43,36 +43,38 @@ function SourcesPage() {
   }
 
   return (
-    <div className="flex flex-col gap-6 p-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('browse.sources.title')}</h1>
+    <div className="flex min-h-full flex-col">
+      <header className="flex shrink-0 flex-wrap items-center gap-4 border-b px-6 py-4">
+        <h1 className="mr-auto text-xl font-semibold">{t('browse.sources.title')}</h1>
         <OpenFromUrl sources={sources.filter((source) => source.available)} />
       </header>
 
-      {languages.length > 1 ? (
-        <div className="flex flex-wrap gap-2" role="group" aria-label={t('browse.sources.allLanguages')}>
-          {['all', ...languages].map((code) => (
-            <button
-              key={code}
-              type="button"
-              aria-pressed={language === code}
-              onClick={() => setLanguage(code)}
-              className={cn(
-                'h-8 rounded-full border border-border-strong px-3 text-[13px] transition-colors',
-                language === code && 'border-accent bg-accent/16 font-semibold text-foreground',
-              )}
-            >
-              {code === 'all' ? t('browse.sources.allLanguages') : code.toUpperCase()}
-            </button>
-          ))}
-        </div>
-      ) : null}
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 p-6">
+        {languages.length > 1 ? (
+          <div className="flex flex-wrap gap-2" role="group" aria-label={t('browse.sources.allLanguages')}>
+            {['all', ...languages].map((code) => (
+              <button
+                key={code}
+                type="button"
+                aria-pressed={language === code}
+                onClick={() => setLanguage(code)}
+                className={cn(
+                  'inline-flex h-8 items-center rounded-lg border border-input px-3 text-xs transition-colors hover:border-foreground/40',
+                  language === code && 'border-primary bg-primary/15 text-primary-text',
+                )}
+              >
+                {code === 'all' ? t('browse.sources.allLanguages') : code.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        ) : null}
 
-      <ul className="flex flex-col gap-2">
-        {shown.map((source) => (
-          <SourceRow key={source.id} source={source} />
-        ))}
-      </ul>
+        <ul className="flex flex-col gap-2">
+          {shown.map((source) => (
+            <SourceRow key={source.id} source={source} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
@@ -85,7 +87,7 @@ function SourceRow({ source }: { source: SourceInfo }) {
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: sourcesQuery.queryKey }),
   });
   return (
-    <li className="flex items-center gap-4 rounded-xl bg-card p-3">
+    <li className="flex items-center gap-4 rounded-xl border bg-card/40 p-3 transition-colors hover:border-input hover:bg-card/70">
       <span
         aria-hidden
         className="flex size-10 shrink-0 items-center justify-center rounded-lg font-bold text-black"
@@ -95,7 +97,7 @@ function SourceRow({ source }: { source: SourceInfo }) {
       </span>
       <div className="flex min-w-0 flex-1 flex-col">
         <span className="truncate font-semibold text-foreground">{source.name}</span>
-        <span className="truncate text-xs leading-4">{source.extensionName}</span>
+        <span className="truncate text-xs text-muted-foreground">{source.extensionName}</span>
       </div>
       <Badge>{source.lang.toUpperCase()}</Badge>
       {source.nsfw ? <Badge tone="warning">18+</Badge> : null}
@@ -103,6 +105,7 @@ function SourceRow({ source }: { source: SourceInfo }) {
       <Button
         variant="ghost"
         size="icon"
+        className={cn(source.pinned && 'text-primary-text')}
         aria-pressed={source.pinned}
         aria-label={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
         title={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
@@ -118,12 +121,12 @@ function SourceRow({ source }: { source: SourceInfo }) {
         <Link
           to="/browse/sources/$sourceId"
           params={{ sourceId: source.id }}
-          className={buttonVariants({ variant: 'secondary', size: 'md' })}
+          className={buttonVariants({ variant: 'secondary', size: 'sm' })}
         >
           {t('browse.sources.browse')}
         </Link>
       ) : (
-        <Button variant="secondary" disabled>
+        <Button variant="secondary" size="sm" disabled>
           {t('browse.sources.browse')}
         </Button>
       )}
@@ -167,7 +170,7 @@ function OpenFromUrl({ sources }: { sources: SourceInfo[] }) {
         </Button>
       </div>
       {open.isSuccess && open.data === null ? (
-        <p role="status" className="text-xs leading-4 text-warning">
+        <p role="status" className="text-xs text-warning-text">
           {t('browse.sources.notRecognized')}
         </p>
       ) : null}

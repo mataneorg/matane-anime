@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dialog';
 
 /** "Are you sure?" for the things that take something away: a title, what stays, and the destructive button. */
 export function ConfirmDialog({
@@ -26,7 +26,7 @@ export function ConfirmDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent title={title} description={description} closeLabel={t('common.close')}>
         {children}
-        <div className="flex justify-end gap-2">
+        <DialogFooter>
           <Button variant="secondary" onClick={() => onOpenChange(false)}>
             {t('common.cancel')}
           </Button>
@@ -39,7 +39,7 @@ export function ConfirmDialog({
           >
             {confirmLabel}
           </Button>
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

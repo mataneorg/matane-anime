@@ -28,7 +28,9 @@ export function LanguageChips() {
   const { options, selected } = useLanguageOptions();
   return (
     <fieldset className="flex flex-col gap-1.5">
-      <legend className="pb-1.5 text-xs leading-4 font-semibold">{t('settings.general.contentLanguage.title')}</legend>
+      <legend className="pb-1.5 text-xs font-medium text-muted-foreground">
+        {t('settings.general.contentLanguage.title')}
+      </legend>
       <div className="flex flex-wrap gap-2">
         {options.map((code) => {
           const on = selected.includes(code);
@@ -39,8 +41,8 @@ export function LanguageChips() {
               aria-pressed={on}
               onClick={() => update.mutate({ contentLanguages: toggleLanguage(selected, code) })}
               className={cn(
-                'inline-flex h-8 items-center gap-1.5 rounded-full border border-border-strong px-3 text-[13px] transition-colors',
-                on && 'border-accent bg-accent/16 font-semibold text-foreground',
+                'inline-flex h-8 items-center gap-1.5 rounded-lg border border-input px-3 text-xs transition-colors hover:border-foreground/40',
+                on && 'border-primary bg-primary/15 text-primary-text',
               )}
             >
               {on ? <Check className="size-3.5" strokeWidth={2.25} aria-hidden /> : null}
@@ -49,7 +51,7 @@ export function LanguageChips() {
           );
         })}
       </div>
-      <span className="text-xs leading-4">
+      <span className="text-xs text-muted-foreground">
         {t(
           selected.length === 0
             ? 'settings.general.contentLanguage.hintAll'
@@ -71,13 +73,13 @@ export function LanguageFilter() {
       : selected.map((code) => languageName(code, i18n.language)).join(', ');
   return (
     <div className="flex items-center gap-2">
-      <span id="language-filter-label" className="text-xs leading-4">
+      <span id="language-filter-label" className="text-xs text-muted-foreground">
         {t('extensions.filter.language')}
       </span>
       <DropdownMenu>
         <DropdownMenuTrigger
           aria-labelledby="language-filter-label language-filter-value"
-          className="inline-flex h-9 max-w-64 items-center gap-2 rounded-lg border border-border-strong bg-background px-3 text-foreground hover:bg-input/30"
+          className="inline-flex h-8 max-w-64 items-center gap-2 rounded-lg border border-input bg-background px-3 text-xs text-foreground transition-colors hover:bg-accent"
         >
           <span id="language-filter-value" className="truncate">
             {summary}

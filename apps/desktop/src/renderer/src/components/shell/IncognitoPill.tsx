@@ -16,7 +16,7 @@ export function IncognitoPill({ className }: { className?: string }) {
       aria-label={t('incognito.pillHint')}
       onClick={() => set.mutate(false)}
       className={cn(
-        'no-drag flex h-6 items-center gap-1.5 rounded-full border border-accent bg-accent/16 px-2.5 text-xs leading-4 font-medium text-foreground',
+        'no-drag flex h-6 items-center gap-1.5 rounded-md border border-primary/40 bg-primary/15 px-2 text-xs leading-4 font-medium text-primary-text',
         className,
       )}
     >

@@ -16,8 +16,8 @@ import { type LogLine, LEVELS, logLines, logText } from './logs';
 const LEVEL_COLOR: Record<ExtensionLogEntry['level'], string> = {
   debug: 'text-muted-foreground',
   info: 'text-foreground',
-  warn: 'text-warning',
-  error: 'text-danger',
+  warn: 'text-warning-text',
+  error: 'text-danger-text',
 };
 
 /** Settings → Advanced: Developer mode and, with it on, the tools of docs/PRD.md EXT-10. */
@@ -29,16 +29,16 @@ export function AdvancedSettings() {
 
   return (
     <div className="flex max-w-[880px] flex-col gap-6">
-      <section className="flex flex-col gap-3" aria-labelledby="developer-title">
-        <h2 id="developer-title" className="text-[15px] leading-[22px] font-semibold">
+      <section className="flex flex-col gap-3 rounded-xl border bg-card/40 p-5" aria-labelledby="developer-title">
+        <h2 id="developer-title" className="text-sm font-semibold">
           {t('settings.advanced.developer')}
         </h2>
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <label htmlFor="dev-mode" className="block font-semibold">
+            <label htmlFor="dev-mode" className="block font-medium">
               {t('settings.advanced.devMode')}
             </label>
-            <div className="text-xs leading-4">{t('settings.advanced.devModeHint')}</div>
+            <div className="text-xs leading-4 text-muted-foreground">{t('settings.advanced.devModeHint')}</div>
           </div>
           <Switch id="dev-mode" checked={settings.devMode} onCheckedChange={(devMode) => update.mutate({ devMode })} />
         </div>
@@ -95,9 +95,9 @@ function LogPanel() {
   };
 
   return (
-    <section className="flex flex-col gap-3 border-t pt-5" aria-labelledby="logs-title">
+    <section className="flex flex-col gap-3 rounded-xl border bg-card/40 p-5" aria-labelledby="logs-title">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 id="logs-title" className="text-[15px] leading-[22px] font-semibold">
+        <h2 id="logs-title" className="text-sm font-semibold">
           {t('settings.advanced.logs')}
         </h2>
         <div className="flex flex-wrap items-center gap-2">
@@ -131,8 +131,8 @@ function LogPanel() {
             aria-pressed={levels.has(level)}
             onClick={() => toggle(level)}
             className={cn(
-              'h-7 rounded-full border border-border-strong px-3 text-xs leading-4 transition-colors',
-              levels.has(level) && 'border-accent bg-accent/16 font-semibold text-foreground',
+              'h-7 rounded-full border border-input px-3 text-xs leading-4 transition-colors',
+              levels.has(level) && 'border-primary bg-primary/15 font-semibold text-foreground',
             )}
           >
             {t(`settings.advanced.level.${level}`)}
@@ -140,7 +140,7 @@ function LogPanel() {
         ))}
       </div>
       <div
-        className="max-h-96 min-h-32 overflow-y-auto rounded-xl bg-card p-3 font-mono text-xs leading-5"
+        className="max-h-96 min-h-32 overflow-y-auto rounded-lg border bg-background p-3 font-mono text-xs leading-5"
         data-testid="log-panel"
       >
         {lines.length === 0 ? (

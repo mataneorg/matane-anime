@@ -49,11 +49,14 @@ function RepoRow({ repo }: { repo: RepoInfo }) {
   });
 
   return (
-    <li className="flex flex-col gap-2 rounded-xl bg-card px-4 py-3" data-testid={`repo-${repo.id}`}>
+    <li
+      className="flex flex-col gap-2 rounded-xl border bg-card/40 px-4 py-3.5 transition-colors hover:border-input hover:bg-card/70"
+      data-testid={`repo-${repo.id}`}
+    >
       <div className="flex items-center gap-4">
         <div className="flex min-w-0 flex-1 flex-col">
           <span className="truncate font-semibold text-foreground">{name}</span>
-          <span className="truncate font-mono text-xs leading-4">
+          <span className="truncate font-mono text-xs text-muted-foreground">
             {repo.url}
             {' · '}
             {repo.fingerprint ?? t('extensions.unsignedMark')}
@@ -69,7 +72,7 @@ function RepoRow({ repo }: { repo: RepoInfo }) {
             {t('extensions.stopTrusting')}
           </Button>
         ) : null}
-        <span className="text-xs leading-4">
+        <span className="text-xs text-muted-foreground">
           {repo.lastFetchedAt === null
             ? t('extensions.neverSynced')
             : t('extensions.synced', { when: relativeTime(repo.lastFetchedAt, now, i18n.language) })}
@@ -95,7 +98,10 @@ function RepoRow({ repo }: { repo: RepoInfo }) {
         </Button>
       </div>
       {repo.lastError ? (
-        <p role="alert" className="rounded-lg bg-danger/12 px-3 py-2 text-xs leading-4 text-foreground">
+        <p
+          role="alert"
+          className="rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-xs text-danger-text"
+        >
           {t('extensions.lastError', { message: repo.lastError })}
         </p>
       ) : null}

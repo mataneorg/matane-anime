@@ -4,7 +4,7 @@ import { Info, Loader2, TriangleAlert } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { call } from '@renderer/lib/api';
 import { describeError } from '@renderer/lib/errors';
@@ -72,7 +72,7 @@ function AddRepoForm({ onCancel, onAdded }: { onCancel: () => void; onAdded: (re
   return (
     <form onSubmit={submit} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="repo-url" className="text-xs leading-4 font-semibold">
+        <label htmlFor="repo-url" className="text-xs leading-4 font-medium">
           {t('extensions.addRepo.address')}
         </label>
         <Input
@@ -93,7 +93,10 @@ function AddRepoForm({ onCancel, onAdded }: { onCancel: () => void; onAdded: (re
       </div>
 
       {error ? (
-        <p role="alert" className="rounded-lg bg-danger/12 px-3 py-2 text-xs leading-4 text-foreground">
+        <p
+          role="alert"
+          className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs leading-4 text-danger-text"
+        >
           {describeError(error, t)}
         </p>
       ) : null}
@@ -106,9 +109,9 @@ function AddRepoForm({ onCancel, onAdded }: { onCancel: () => void; onAdded: (re
             {t('extensions.addRepo.count', { count: preview.extensionCount })}
           </p>
           {preview.trust === 'unverified' ? (
-            <div className="flex flex-col gap-3 rounded-xl border border-warning/50 bg-warning/10 p-4">
+            <div className="flex flex-col gap-3 rounded-xl border border-ctp-peach/40 bg-ctp-peach/10 p-4">
               <p className="flex items-center gap-2 font-semibold text-foreground">
-                <TriangleAlert className="size-4 shrink-0 text-warning" strokeWidth={1.75} aria-hidden />
+                <TriangleAlert className="size-4 shrink-0 text-ctp-peach" strokeWidth={1.75} aria-hidden />
                 {t('extensions.addRepo.unverifiedTitle')}
               </p>
               <p className="text-foreground">{t('extensions.addRepo.unverifiedBody')}</p>
@@ -119,20 +122,22 @@ function AddRepoForm({ onCancel, onAdded }: { onCancel: () => void; onAdded: (re
               <label className="flex cursor-pointer items-start gap-2">
                 <input
                   type="checkbox"
-                  className="mt-0.5 size-4 accent-accent"
+                  className="mt-0.5 size-4 accent-primary"
                   checked={trustKey}
                   onChange={(event) => setTrustKey(event.target.checked)}
                 />
                 <span className="flex flex-col">
                   <span className="font-semibold text-foreground">{t('extensions.addRepo.trustKey')}</span>
-                  <span className="text-xs leading-4">{t('extensions.addRepo.trustKeyHint')}</span>
+                  <span className="text-xs leading-4 text-muted-foreground">
+                    {t('extensions.addRepo.trustKeyHint')}
+                  </span>
                 </span>
               </label>
             </div>
           ) : (
-            <div className="flex flex-col gap-2 rounded-xl border border-warning/50 bg-warning/10 p-4">
+            <div className="flex flex-col gap-2 rounded-xl border border-ctp-peach/40 bg-ctp-peach/10 p-4">
               <p className="flex items-center gap-2 font-semibold text-foreground">
-                <TriangleAlert className="size-4 shrink-0 text-warning" strokeWidth={1.75} aria-hidden />
+                <TriangleAlert className="size-4 shrink-0 text-ctp-peach" strokeWidth={1.75} aria-hidden />
                 {t('extensions.addRepo.unsignedTitle')}
               </p>
               <p className="text-foreground">{t('extensions.addRepo.unsignedBody')}</p>
@@ -141,12 +146,12 @@ function AddRepoForm({ onCancel, onAdded }: { onCancel: () => void; onAdded: (re
         </section>
       ) : null}
 
-      <p className="flex items-start gap-2 text-xs leading-4">
-        <Info className="mt-0.5 size-3.5 shrink-0 text-info" strokeWidth={1.75} aria-hidden />
+      <p className="flex items-start gap-2 text-xs leading-4 text-muted-foreground">
+        <Info className="mt-0.5 size-3.5 shrink-0 text-info-text" strokeWidth={1.75} aria-hidden />
         {t('extensions.addRepo.notice')}
       </p>
 
-      <div className="flex justify-end gap-2">
+      <DialogFooter>
         <Button variant="secondary" onClick={onCancel}>
           {t('common.cancel')}
         </Button>
@@ -154,7 +159,7 @@ function AddRepoForm({ onCancel, onAdded }: { onCancel: () => void; onAdded: (re
           {busy ? <Loader2 className="size-4 animate-spin" strokeWidth={1.75} aria-hidden /> : null}
           {preview ? t('extensions.addRepo.add') : t('extensions.addRepo.check')}
         </Button>
-      </div>
+      </DialogFooter>
     </form>
   );
 }

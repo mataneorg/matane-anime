@@ -10,6 +10,7 @@ import { Badge } from '@renderer/components/ui/badge';
 import { Button } from '@renderer/components/ui/button';
 import { Input } from '@renderer/components/ui/input';
 import { Select } from '@renderer/components/ui/select';
+import { Skeleton } from '@renderer/components/ui/skeleton';
 import { MAX_PARALLEL, type SourceResult, useGlobalSearch } from '@renderer/features/search/useGlobalSearch';
 import { networkStatusQuery, sourcesQuery } from '@renderer/lib/catalog';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
@@ -56,11 +57,12 @@ function GlobalSearchPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('globalSearch.title')}</h1>
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 px-6 py-5">
+      <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b pb-5">
+        <h1 className="text-xl font-semibold">{t('globalSearch.title')}</h1>
         {languages.length > 1 ? (
           <Select
+            className="ml-auto"
             aria-label={t('globalSearch.scope')}
             value={language}
             onChange={(event) => setLanguage(event.target.value)}
@@ -89,11 +91,11 @@ function GlobalSearchPage() {
             onChange={(event) => setDraft(event.target.value)}
             placeholder={t('globalSearch.placeholder')}
             aria-label={t('globalSearch.placeholder')}
-            className="h-11 pl-9"
+            className="pl-9"
           />
         </div>
         {query !== '' && online ? (
-          <span role="status" className="flex items-center gap-2 text-xs leading-4">
+          <span role="status" className="flex items-center gap-2 text-xs text-muted-foreground">
             {done < scope.length ? <Loader2 className="size-3.5 animate-spin" aria-hidden /> : null}
             {t('globalSearch.progress', { done, total: scope.length })}
           </span>
@@ -103,7 +105,7 @@ function GlobalSearchPage() {
       {!online ? (
         <EmptyState icon={WifiOff} title={t('browse.offline.title')} description={t('globalSearch.offline')} />
       ) : query === '' ? (
-        <p>{t('globalSearch.hint')}</p>
+        <p className="py-10 text-center text-muted-foreground">{t('globalSearch.hint')}</p>
       ) : (
         <ul className="flex flex-col gap-3">
           {scope.map((source) => (
@@ -147,11 +149,11 @@ function SourceSection({
   if (result?.status === 'error') {
     const verify = isCloudflare(result.error);
     return (
-      <li className="flex items-center gap-3 rounded-xl bg-card px-4 py-3">
+      <li className="flex items-center gap-3 rounded-xl border bg-card/40 px-4 py-3.5">
         {avatar}
         <span className="font-semibold text-foreground">{source.name}</span>
-        <TriangleAlert className="size-4 shrink-0 text-warning" strokeWidth={1.75} aria-hidden />
-        <span className="min-w-0 flex-1 truncate">
+        <TriangleAlert className="size-4 shrink-0 text-ctp-peach" strokeWidth={1.75} aria-hidden />
+        <span className="min-w-0 flex-1 truncate text-muted-foreground">
           {verify ? t('globalSearch.verify') : describeError(result.error, t)}
         </span>
         <Button variant="secondary" size="sm" onClick={onRetry}>
@@ -162,22 +164,22 @@ function SourceSection({
   }
   if (result?.status === 'done' && result.items.length === 0) {
     return (
-      <li className="flex items-center gap-3 rounded-xl bg-card px-4 py-3">
+      <li className="flex items-center gap-3 rounded-xl border bg-card/40 px-4 py-3.5">
         {avatar}
         <span className="font-semibold text-foreground">{source.name}</span>
-        <span>{t('globalSearch.none', { query })}</span>
+        <span className="text-muted-foreground">{t('globalSearch.none', { query })}</span>
       </li>
     );
   }
   return (
-    <li className="flex flex-col gap-3 rounded-xl bg-card p-4">
+    <li className="flex flex-col gap-3 rounded-xl border bg-card/40 px-4 py-3.5">
       <div className="flex items-center gap-3">
         {avatar}
         <span className="font-semibold text-foreground">{source.name}</span>
         {result ? (
           <Badge>{t('globalSearch.results', { count: result.items.length })}</Badge>
         ) : (
-          <span className="flex items-center gap-1.5 text-xs leading-4">
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Loader2 className="size-3.5 animate-spin" aria-hidden />
             {t('globalSearch.searchingSource')}
           </span>
@@ -187,20 +189,20 @@ function SourceSection({
             to="/browse/sources/$sourceId"
             params={{ sourceId: source.id }}
             search={{ q: query }}
-            className="ml-auto flex items-center gap-1 text-xs font-semibold text-accent hover:underline"
+            className="ml-auto flex items-center gap-1 text-xs font-semibold text-primary-text hover:underline"
           >
             {t('globalSearch.viewAll')}
             <ChevronRight className="size-3.5" strokeWidth={1.75} aria-hidden />
           </Link>
         ) : null}
       </div>
-      <div className="flex gap-3 overflow-hidden">
+      <div className="-m-1 flex gap-3 overflow-hidden p-1">
         {result?.status === 'done'
           ? result.items.slice(0, SHOWN).map((anime) => <Result key={anime.animeId} anime={anime} />)
           : Array.from({ length: 6 }, (_, index) => (
-              <div key={index} className="flex w-24 shrink-0 animate-pulse flex-col gap-2" aria-hidden>
-                <div className="aspect-[2/3] rounded-lg bg-input" />
-                <div className="h-3 w-3/4 rounded bg-input" />
+              <div key={index} className="flex w-24 shrink-0 flex-col gap-2" aria-hidden>
+                <Skeleton className="aspect-[2/3] rounded-lg" />
+                <Skeleton className="h-3 w-3/4" />
               </div>
             ))}
       </div>
@@ -213,11 +215,15 @@ function Result({ anime }: { anime: CatalogAnime }) {
     <Link
       to="/anime/$animeId"
       params={{ animeId: String(anime.animeId) }}
-      className="flex w-24 shrink-0 flex-col gap-1.5"
+      className="group flex w-24 shrink-0 flex-col gap-1.5"
       title={anime.title}
     >
-      <Cover sourceId={anime.sourceId} url={anime.thumbnailUrl} className="aspect-[2/3] w-full rounded-lg" />
-      <span className="line-clamp-2 text-xs leading-4 font-semibold text-foreground">{anime.title}</span>
+      <div className="overflow-hidden rounded-lg border transition-colors group-hover:border-primary">
+        <Cover sourceId={anime.sourceId} url={anime.thumbnailUrl} className="aspect-[2/3] w-full" />
+      </div>
+      <span className="line-clamp-2 text-xs leading-snug font-semibold text-foreground transition-colors group-hover:text-primary-text">
+        {anime.title}
+      </span>
     </Link>
   );
 }

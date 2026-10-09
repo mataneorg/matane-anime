@@ -70,12 +70,14 @@ function SpikePage() {
 
   return (
     <div className="flex flex-col gap-4 p-6">
-      <h1 className="text-2xl leading-8 font-bold tracking-tight">Playback spike</h1>
-      <p className="max-w-3xl">
+      <h1 className="text-xl leading-7 font-semibold">Playback spike</h1>
+      <p className="max-w-3xl text-muted-foreground">
         Plays every fixture through the anime:// proxy with hls.js or a plain video element, and records the first-frame
         time, the seek time and what failed. Results are written to spike-results.json.
       </p>
-      {error && <p className="text-danger">{error}</p>}
+      {error && (
+        <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-danger-text">{error}</p>
+      )}
 
       <video ref={videoRef} controls muted className="aspect-video w-full max-w-xl rounded-xl bg-video-stage" />
 
@@ -89,7 +91,7 @@ function SpikePage() {
       </div>
 
       {checks && (
-        <pre className="max-w-3xl overflow-auto rounded-lg bg-card p-3 font-mono text-xs leading-4">
+        <pre className="max-w-3xl overflow-auto rounded-lg border bg-card/40 p-3 font-mono text-xs leading-4">
           {JSON.stringify(checks, null, 2)}
         </pre>
       )}
@@ -124,12 +126,12 @@ function SpikePage() {
                 <td className="pr-3">
                   {result &&
                     (result.error ? (
-                      <span className="text-danger">
+                      <span className="text-danger-text">
                         {result.error}
                         {result.errorCode ? ` (${result.errorCode})` : ''}
                       </span>
                     ) : result.played ? (
-                      <span className="text-success">plays</span>
+                      <span className="text-success-text">plays</span>
                     ) : (
                       'did not start'
                     ))}

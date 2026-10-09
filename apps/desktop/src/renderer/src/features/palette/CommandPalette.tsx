@@ -49,7 +49,8 @@ const KEY_TAB = 'Tab';
 const KEY_UP = '↑';
 const KEY_DOWN = '↓';
 
-const kbd = 'rounded-sm bg-card px-1.5 py-px font-mono text-[11px] leading-3.5 font-medium text-foreground';
+const kbd =
+  'rounded border bg-muted px-1.5 py-px font-mono text-[10px] leading-3.5 font-medium whitespace-nowrap text-foreground';
 
 /** The palette, mounted once in the app shell. Ctrl+K and the title bar's search button open it (UI-8). */
 export function CommandPalette() {
@@ -349,8 +350,8 @@ function PaletteBody({ close }: { close: () => void }) {
                     onMouseMove={() => position !== activeIndex && setActive(position)}
                     onClick={() => choose(entry)}
                     className={cn(
-                      'flex cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 text-foreground',
-                      isActive && 'bg-accent/16 shadow-[inset_2px_0_0_var(--color-accent)]',
+                      'flex cursor-pointer items-center gap-3 rounded-md px-2 py-1.5 text-foreground',
+                      isActive && 'bg-accent',
                     )}
                   >
                     {cover ? (

@@ -56,7 +56,10 @@ function AvailableRow({
   ].filter(Boolean);
 
   return (
-    <li className="flex flex-col gap-1 rounded-xl bg-card p-4" data-testid={`available-${entry.id}`}>
+    <li
+      className="flex flex-col gap-1 rounded-xl border bg-card/40 px-4 py-3.5 transition-colors hover:border-input hover:bg-card/70"
+      data-testid={`available-${entry.id}`}
+    >
       <div className="flex items-center gap-4">
         <span
           aria-hidden
@@ -68,13 +71,13 @@ function AvailableRow({
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex flex-wrap items-center gap-2">
             <span className="truncate font-semibold text-foreground">{entry.name}</span>
-            <span className="font-mono text-xs leading-4">{entry.version}</span>
+            <span className="text-xs text-muted-foreground">{entry.version}</span>
             {entry.nsfw ? <Badge tone="warning">18+</Badge> : null}
             {state.kind === 'update' ? (
               <Badge tone="accent">{t('extensions.updateTo', { version: entry.version })}</Badge>
             ) : null}
           </div>
-          <span className="truncate text-xs leading-4">{meta.join(' · ')}</span>
+          <span className="truncate text-xs text-muted-foreground">{meta.join(' · ')}</span>
         </div>
         <TrustBadge trust={entry.repoTrust} />
         {state.kind === 'install' ? (
@@ -104,7 +107,7 @@ function AvailableRow({
           </Button>
         )}
       </div>
-      {note ? <p className="pl-14 text-xs leading-4">{note}</p> : null}
+      {note ? <p className="pl-14 text-xs text-muted-foreground">{note}</p> : null}
     </li>
   );
 }

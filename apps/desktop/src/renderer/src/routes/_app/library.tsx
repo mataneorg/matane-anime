@@ -9,6 +9,7 @@ import { Button, buttonVariants } from '@renderer/components/ui/button';
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { Select } from '@renderer/components/ui/select';
+import { Skeleton } from '@renderer/components/ui/skeleton';
 import { pickEpisodes } from '@renderer/features/downloads/pick';
 import { CategoryDialog } from '@renderer/features/library/CategoryDialog';
 import { LibraryGrid } from '@renderer/features/library/LibraryGrid';
@@ -123,12 +124,14 @@ function LibraryPage() {
   if (count === 0 && !filtered && tab === 'all') return <LibraryEmpty />;
 
   return (
-    <div className="flex min-h-full flex-col gap-4 p-6">
-      <header className="flex flex-wrap items-center gap-3">
-        <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('nav.library')}</h1>
-        <span className="rounded-full bg-card px-2 py-0.5 text-xs leading-4 font-medium">
-          {t('empty.library.count', { count: count ?? 0 })}
-        </span>
+    <div className="flex min-h-full flex-col">
+      <header className="flex flex-wrap items-center gap-x-6 gap-y-3 px-6 pt-5">
+        <h1 className="flex items-center gap-3 text-xl font-semibold">
+          {t('nav.library')}
+          <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
+            {t('empty.library.count', { count: count ?? 0 })}
+          </span>
+        </h1>
         <div className="ml-auto flex flex-wrap items-center gap-2">
           <div className="relative">
             <Search
@@ -142,14 +145,13 @@ function LibraryPage() {
               onChange={(event) => setDraft(event.target.value)}
               placeholder={t('library.filter')}
               aria-label={t('library.filter')}
-              className="h-10 w-56 pl-9"
+              className="w-56 pl-9"
             />
           </div>
           <Select
             aria-label={t('library.sortBy')}
             value={sort}
             onChange={(event) => setSort(event.target.value as LibrarySort)}
-            className="h-10"
           >
             {LIBRARY_SORTS.map((name) => (
               <option key={name} value={name}>
@@ -160,7 +162,7 @@ function LibraryPage() {
           <Button
             variant="secondary"
             size="icon"
-            className="size-10"
+            className="size-9"
             aria-pressed={filtersOpen}
             aria-label={t('library.filters')}
             title={t('library.filters')}
@@ -171,8 +173,6 @@ function LibraryPage() {
           </Button>
           <Button
             variant={selecting ? 'default' : 'secondary'}
-            size="md"
-            className="h-10"
             aria-pressed={selecting}
             onClick={() => (selecting ? stopSelecting() : setSelecting(true))}
           >
@@ -182,7 +182,11 @@ function LibraryPage() {
         </div>
       </header>
 
-      <div role="tablist" aria-label={t('nav.library')} className="flex flex-wrap items-center gap-1 border-b">
+      <div
+        role="tablist"
+        aria-label={t('nav.library')}
+        className="mt-3 flex items-center gap-1 overflow-x-auto overflow-y-hidden border-b px-6"
+      >
         <TabButton active={tab === 'all'} onClick={() => setTab('all')} label={t('library.all')} count={count ?? 0} />
         {categories.map((category) => (
           <TabButton
@@ -198,113 +202,113 @@ function LibraryPage() {
           aria-label={t('library.addCategory')}
           title={t('library.addCategory')}
           onClick={() => setCreating(true)}
-          className="mb-1 ml-1 flex size-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-input/50"
+          className="ml-1 flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-offset-[-2px]"
         >
           <Plus className="size-4" strokeWidth={1.75} aria-hidden />
         </button>
       </div>
 
-      {filtersOpen ? (
-        <div className="flex flex-wrap items-center gap-4 rounded-xl bg-card px-4 py-3">
-          <label className="flex cursor-pointer items-center gap-2">
-            <input
-              type="checkbox"
-              className="size-4 accent-accent"
-              checked={unwatchedOnly}
-              onChange={(event) => setUnwatchedOnly(event.target.checked)}
-            />
-            {t('library.unwatchedOnly')}
-          </label>
-          <label className="flex cursor-pointer items-center gap-2">
-            <input
-              type="checkbox"
-              className="size-4 accent-accent"
-              checked={startedOnly}
-              onChange={(event) => setStartedOnly(event.target.checked)}
-            />
-            {t('library.startedOnly')}
-          </label>
-          <label className="flex items-center gap-2">
-            {t('library.status')}
-            <Select value={status} onChange={(event) => setStatus(event.target.value as typeof status)}>
-              <option value="">{t('browse.filters.any')}</option>
-              {STATUSES.map((value) => (
-                <option key={value} value={value}>
-                  {value === 'unknown' ? t('library.statusUnknown') : t(`anime.status.${value}`)}
-                </option>
-              ))}
-            </Select>
-          </label>
-          <label className="flex items-center gap-2">
-            {t('library.source')}
-            <Select value={sourceId} onChange={(event) => setSourceId(event.target.value)}>
-              <option value="">{t('browse.filters.any')}</option>
-              {sources.map((source) => (
-                <option key={source.id} value={source.id}>
-                  {source.name}
-                </option>
-              ))}
-            </Select>
-          </label>
-          <Button variant="ghost" size="sm" onClick={resetFilters} disabled={activeFilters === 0}>
-            {t('browse.filters.reset')}
-          </Button>
-        </div>
-      ) : null}
+      <div className="flex flex-1 flex-col gap-4 px-6 py-5">
+        {filtersOpen ? (
+          <div className="flex flex-wrap items-center gap-4 rounded-xl border bg-card/40 px-4 py-3">
+            <label className="flex cursor-pointer items-center gap-2">
+              <input
+                type="checkbox"
+                className="size-4 accent-primary"
+                checked={unwatchedOnly}
+                onChange={(event) => setUnwatchedOnly(event.target.checked)}
+              />
+              {t('library.unwatchedOnly')}
+            </label>
+            <label className="flex cursor-pointer items-center gap-2">
+              <input
+                type="checkbox"
+                className="size-4 accent-primary"
+                checked={startedOnly}
+                onChange={(event) => setStartedOnly(event.target.checked)}
+              />
+              {t('library.startedOnly')}
+            </label>
+            <label className="flex items-center gap-2">
+              {t('library.status')}
+              <Select value={status} onChange={(event) => setStatus(event.target.value as typeof status)}>
+                <option value="">{t('browse.filters.any')}</option>
+                {STATUSES.map((value) => (
+                  <option key={value} value={value}>
+                    {value === 'unknown' ? t('library.statusUnknown') : t(`anime.status.${value}`)}
+                  </option>
+                ))}
+              </Select>
+            </label>
+            <label className="flex items-center gap-2">
+              {t('library.source')}
+              <Select value={sourceId} onChange={(event) => setSourceId(event.target.value)}>
+                <option value="">{t('browse.filters.any')}</option>
+                {sources.map((source) => (
+                  <option key={source.id} value={source.id}>
+                    {source.name}
+                  </option>
+                ))}
+              </Select>
+            </label>
+            <Button variant="ghost" size="sm" onClick={resetFilters} disabled={activeFilters === 0}>
+              {t('browse.filters.reset')}
+            </Button>
+          </div>
+        ) : null}
 
-      {list.isPending ? null : items.length === 0 ? (
-        <EmptyState
-          icon={Search}
-          title={t(filtered ? 'library.noResults.title' : 'library.emptyCategory.title')}
-          description={t(filtered ? 'library.noResults.description' : 'library.emptyCategory.description')}
-        />
-      ) : (
-        <LibraryGrid items={items} selecting={selecting} selected={selected} onToggle={toggle} />
-      )}
+        {list.isPending ? (
+          <GridSkeleton />
+        ) : items.length === 0 ? (
+          <EmptyState
+            icon={Search}
+            title={t(filtered ? 'library.noResults.title' : 'library.emptyCategory.title')}
+            description={t(filtered ? 'library.noResults.description' : 'library.emptyCategory.description')}
+          />
+        ) : (
+          <LibraryGrid items={items} selecting={selecting} selected={selected} onToggle={toggle} />
+        )}
 
-      {selecting ? (
-        <div
-          role="toolbar"
-          aria-label={t('library.selection')}
-          className="sticky bottom-4 z-20 mt-auto flex flex-wrap items-center gap-2 self-center rounded-2xl border bg-popover px-4 py-3 shadow-xl"
-        >
-          <span className="mr-2 font-semibold text-foreground">{t('library.selected', { count: selected.size })}</span>
-          <Button variant="secondary" size="sm" disabled={selected.size === 0} onClick={() => setMoving(true)}>
-            {t('library.moveToCategory')}
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            disabled={selected.size === 0 || markWatched.isPending}
-            onClick={() => markWatched.mutate()}
+        {selecting ? (
+          <div
+            role="toolbar"
+            aria-label={t('library.selection')}
+            className="sticky bottom-4 z-20 mt-auto flex flex-wrap items-center gap-2 self-center rounded-xl border bg-popover px-4 py-3 text-popover-foreground shadow-xl"
           >
-            <Check className="size-4" strokeWidth={1.75} aria-hidden />
-            {t('library.markWatched')}
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            disabled={selected.size === 0 || prepareDownload.isPending}
-            onClick={() => prepareDownload.mutate()}
-          >
-            <Download className="size-4" strokeWidth={1.75} aria-hidden />
-            {t('anime.download')}
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            className="text-danger"
-            disabled={selected.size === 0}
-            onClick={() => setRemoving(true)}
-          >
-            <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
-            {t('library.removeFromLibrary')}
-          </Button>
-          <Button variant="ghost" size="icon-sm" aria-label={t('common.cancel')} onClick={stopSelecting}>
-            <X className="size-4" strokeWidth={1.75} aria-hidden />
-          </Button>
-        </div>
-      ) : null}
+            <span className="mr-2 font-semibold text-foreground">
+              {t('library.selected', { count: selected.size })}
+            </span>
+            <Button variant="secondary" size="sm" disabled={selected.size === 0} onClick={() => setMoving(true)}>
+              {t('library.moveToCategory')}
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              disabled={selected.size === 0 || markWatched.isPending}
+              onClick={() => markWatched.mutate()}
+            >
+              <Check className="size-4" strokeWidth={1.75} aria-hidden />
+              {t('library.markWatched')}
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              disabled={selected.size === 0 || prepareDownload.isPending}
+              onClick={() => prepareDownload.mutate()}
+            >
+              <Download className="size-4" strokeWidth={1.75} aria-hidden />
+              {t('anime.download')}
+            </Button>
+            <Button variant="destructive" size="sm" disabled={selected.size === 0} onClick={() => setRemoving(true)}>
+              <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
+              {t('library.removeFromLibrary')}
+            </Button>
+            <Button variant="ghost" size="icon-sm" aria-label={t('common.cancel')} onClick={stopSelecting}>
+              <X className="size-4" strokeWidth={1.75} aria-hidden />
+            </Button>
+          </div>
+        ) : null}
+      </div>
 
       <CategoryDialog
         open={moving}
@@ -382,12 +386,19 @@ function TabButton({
       aria-selected={active}
       onClick={onClick}
       className={cn(
-        '-mb-px flex h-10 items-center gap-1.5 border-b-2 border-transparent px-3 text-muted-foreground transition-colors hover:text-foreground',
-        active && 'border-accent font-semibold text-foreground',
+        '-mb-px flex h-9 shrink-0 items-center gap-2 border-b-2 border-transparent px-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-offset-[-2px]',
+        active && 'border-primary font-semibold text-foreground',
       )}
     >
-      {label}
-      <span className="font-mono text-xs leading-4">{count}</span>
+      <span className="max-w-48 truncate">{label}</span>
+      <span
+        className={cn(
+          'rounded-md bg-muted px-1.5 text-[11px] font-medium text-foreground',
+          active && 'bg-primary/20 text-primary-text',
+        )}
+      >
+        {count}
+      </span>
     </button>
   );
 }
@@ -432,11 +443,13 @@ function LibraryEmpty() {
   const { t } = useTranslation();
   return (
     <div className="flex min-h-full flex-col">
-      <header className="flex items-center gap-3 px-6 pt-6">
-        <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('nav.library')}</h1>
-        <span className="rounded-full bg-card px-2 py-0.5 text-xs leading-4 font-medium">
-          {t('empty.library.count', { count: 0 })}
-        </span>
+      <header className="flex items-center gap-3 px-6 pt-5">
+        <h1 className="flex items-center gap-3 text-xl font-semibold">
+          {t('nav.library')}
+          <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-foreground">
+            {t('empty.library.count', { count: 0 })}
+          </span>
+        </h1>
       </header>
       <div className="flex flex-1 flex-col">
         <EmptyState
@@ -457,8 +470,8 @@ function LibraryEmpty() {
         >
           <ol className="grid w-full max-w-[720px] grid-cols-1 gap-3 text-left sm:grid-cols-3">
             {STEPS.map((step, index) => (
-              <li key={step} className="flex flex-col gap-2 rounded-xl bg-card p-4">
-                <span className="flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-on-accent">
+              <li key={step} className="flex flex-col gap-2 rounded-xl border bg-card/40 px-4 py-3.5">
+                <span className="flex size-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                   {index + 1}
                 </span>
                 <h3 className="text-sm leading-5 font-semibold">{t(`empty.library.steps.${step}.title`)}</h3>
@@ -467,11 +480,25 @@ function LibraryEmpty() {
             ))}
           </ol>
           <p className="flex items-center gap-2 text-xs leading-4">
-            <Info className="size-3.5 shrink-0 text-info" strokeWidth={1.75} aria-hidden />
+            <Info className="size-3.5 shrink-0 text-ctp-blue" strokeWidth={1.75} aria-hidden />
             {t('empty.library.notice')}
           </p>
         </EmptyState>
       </div>
+    </div>
+  );
+}
+
+/** The grid's shape while the library loads (same columns as LibraryGrid). */
+function GridSkeleton() {
+  return (
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(170px,1fr))] gap-4" aria-busy>
+      {Array.from({ length: 12 }, (_, index) => (
+        <div key={index} className="flex flex-col gap-2">
+          <Skeleton className="aspect-[2/3] w-full rounded-xl" />
+          <Skeleton className="h-4 w-3/4" />
+        </div>
+      ))}
     </div>
   );
 }

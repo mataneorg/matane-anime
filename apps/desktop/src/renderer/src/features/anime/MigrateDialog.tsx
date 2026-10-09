@@ -6,7 +6,7 @@ import { type FormEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Cover } from '@renderer/components/Cover';
 import { Button } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dialog';
 import { Input } from '@renderer/components/ui/input';
 import { useGlobalSearch } from '@renderer/features/search/useGlobalSearch';
 import { call } from '@renderer/lib/api';
@@ -89,7 +89,10 @@ function Flow({ anime, close }: { anime: AnimeDetail; close: () => void }) {
             {t('migrate.checking')}
           </p>
         ) : preview.isError ? (
-          <p role="alert" className="text-danger">
+          <p
+            role="alert"
+            className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs leading-4 text-danger-text"
+          >
             {describeError(preview.error, t)}
           </p>
         ) : data ? (
@@ -100,11 +103,11 @@ function Flow({ anime, close }: { anime: AnimeDetail; close: () => void }) {
                 : t('migrate.summary', { matched: data.matched, total: data.withProgress })}
             </p>
             {data.unmatched.length > 0 ? (
-              <div className="rounded-xl bg-warning/10 p-3">
+              <div className="rounded-xl border border-ctp-peach/40 bg-ctp-peach/10 p-3">
                 <p className="font-semibold text-foreground">
                   {t('migrate.unmatched', { count: data.unmatched.length })}
                 </p>
-                <p className="text-xs leading-4">
+                <p className="text-xs leading-4 text-muted-foreground">
                   {data.unmatched
                     .slice(0, 8)
                     .map((episode) =>
@@ -115,22 +118,25 @@ function Flow({ anime, close }: { anime: AnimeDetail; close: () => void }) {
                 </p>
               </div>
             ) : null}
-            <p className="text-xs leading-4">{t('migrate.note')}</p>
+            <p className="text-xs leading-4 text-muted-foreground">{t('migrate.note')}</p>
           </div>
         ) : null}
         {migrate.isError ? (
-          <p role="alert" className="text-danger">
+          <p
+            role="alert"
+            className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs leading-4 text-danger-text"
+          >
             {describeError(migrate.error, t)}
           </p>
         ) : null}
-        <div className="flex justify-end gap-2 border-t pt-4">
+        <DialogFooter>
           <Button variant="secondary" onClick={() => setPicked(null)} disabled={migrate.isPending}>
             {t('migrate.back')}
           </Button>
           <Button disabled={!data || migrate.isPending} onClick={() => migrate.mutate(picked)}>
             {t('migrate.confirm')}
           </Button>
-        </div>
+        </DialogFooter>
       </div>
     );
   }
@@ -153,7 +159,7 @@ function Flow({ anime, close }: { anime: AnimeDetail; close: () => void }) {
         />
       </form>
       {others.length === 0 ? (
-        <p>{t('migrate.noOtherSources')}</p>
+        <p className="text-muted-foreground">{t('migrate.noOtherSources')}</p>
       ) : (
         <>
           <p role="status" className="flex items-center gap-2 text-xs leading-4">
@@ -185,11 +191,11 @@ function SourceChoices({
     <li className="flex flex-col gap-2">
       <span className="text-xs leading-4 font-semibold text-foreground">{source.name}</span>
       {!result ? (
-        <span className="text-xs leading-4">{t('globalSearch.searchingSource')}</span>
+        <span className="text-xs leading-4 text-muted-foreground">{t('globalSearch.searchingSource')}</span>
       ) : result.status === 'error' ? (
-        <span className="text-xs leading-4 text-warning">{describeError(result.error, t)}</span>
+        <span className="text-xs leading-4 text-warning-text">{describeError(result.error, t)}</span>
       ) : result.items.length === 0 ? (
-        <span className="text-xs leading-4">{t('migrate.noMatch')}</span>
+        <span className="text-xs leading-4 text-muted-foreground">{t('migrate.noMatch')}</span>
       ) : (
         <div className="flex flex-col gap-1">
           {result.items.slice(0, 5).map((item) => (
@@ -197,7 +203,7 @@ function SourceChoices({
               key={item.animeId}
               type="button"
               onClick={() => onPick(item)}
-              className="flex items-center gap-3 rounded-lg px-2 py-1.5 text-left hover:bg-input/50"
+              className="flex items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 text-left hover:border-input hover:bg-card/70"
             >
               <Cover sourceId={item.sourceId} url={item.thumbnailUrl} className="h-12 w-8 shrink-0 rounded" />
               <span className="min-w-0 flex-1 truncate font-semibold text-foreground">{item.title}</span>

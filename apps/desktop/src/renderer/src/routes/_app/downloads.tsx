@@ -8,6 +8,7 @@ import { EmptyState } from '@renderer/components/EmptyState';
 import { ErrorState } from '@renderer/components/ErrorState';
 import { Button } from '@renderer/components/ui/button';
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Skeleton } from '@renderer/components/ui/skeleton';
 import { useDownloadActions } from '@renderer/features/downloads/actions';
 import {
   ActiveRow,
@@ -77,7 +78,15 @@ function DownloadsPage() {
       />
     );
   }
-  if (list.isPending) return null;
+  if (list.isPending) {
+    return (
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-6 py-5" aria-busy>
+        {Array.from({ length: 4 }, (_, index) => (
+          <Skeleton key={index} className="h-[74px] rounded-xl" />
+        ))}
+      </div>
+    );
+  }
   if (list.data.length === 0) {
     return (
       <EmptyState icon={Download} title={t('empty.downloads.title')} description={t('empty.downloads.description')} />
@@ -93,18 +102,18 @@ function DownloadsPage() {
   const running = groups.active.length + groups.queued.length > 0;
 
   return (
-    <div className="flex flex-col gap-4 p-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-6 py-5">
+      <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b pb-5">
         <div className="flex flex-wrap items-baseline gap-3">
-          <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('nav.downloads')}</h1>
-          <p className="font-mono text-xs leading-4" aria-live="polite">
+          <h1 className="text-xl font-semibold">{t('nav.downloads')}</h1>
+          <p className="text-xs text-muted-foreground" aria-live="polite">
             {counts
               .filter(([, count]) => count > 0)
               .map(([name, count]) => t(`downloads.counts.${name}`, { count }))
               .join(' · ')}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2">
           {groups.paused.length > 0 ? (
             <Button variant="secondary" onClick={() => actions.resumeAll.mutate()}>
               <Play className="size-4" strokeWidth={1.75} aria-hidden />
@@ -152,7 +161,7 @@ function DownloadsPage() {
             aria-expanded={showDone}
             aria-controls="completed-downloads"
             onClick={() => setShowDone((open) => !open)}
-            className="flex h-8 w-fit items-center gap-2 rounded-lg px-2 text-muted-foreground hover:text-foreground"
+            className="flex h-8 w-fit items-center gap-2 rounded-lg px-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase transition-colors hover:text-foreground"
           >
             {showDone ? (
               <ChevronDown className="size-4" strokeWidth={1.75} aria-hidden />

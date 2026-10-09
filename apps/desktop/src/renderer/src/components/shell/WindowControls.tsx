@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Minus, Square, X } from 'lucide-react';
+import { Copy, Minus, Square, X } from 'lucide-react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appInfoQuery, ipc, useIpcEvent, windowMaximizedQuery } from '@renderer/lib/ipc';
@@ -19,7 +19,7 @@ export function WindowControls() {
   if (info?.platform === 'darwin') return null;
 
   const buttonClass =
-    'no-drag flex h-10 w-[46px] items-center justify-center text-muted-foreground transition-colors hover:bg-input/50';
+    'no-drag flex h-10 w-[46px] items-center justify-center text-muted-foreground transition-colors hover:bg-accent hover:text-foreground';
   return (
     <div className="flex">
       <button
@@ -36,11 +36,15 @@ export function WindowControls() {
         aria-label={maximized ? t('titleBar.restore') : t('titleBar.maximize')}
         onClick={() => void ipc.invoke('window.toggleMaximize')}
       >
-        <Square className="size-3" strokeWidth={1.75} aria-hidden />
+        {maximized ? (
+          <Copy className="size-3.5" strokeWidth={1.75} aria-hidden />
+        ) : (
+          <Square className="size-3" strokeWidth={1.75} aria-hidden />
+        )}
       </button>
       <button
         type="button"
-        className={`${buttonClass} hover:bg-danger hover:text-on-accent`}
+        className={`${buttonClass} hover:bg-destructive hover:text-destructive-foreground`}
         aria-label={t('titleBar.close')}
         onClick={() => void ipc.invoke('window.close')}
       >

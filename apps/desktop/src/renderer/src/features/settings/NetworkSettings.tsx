@@ -152,11 +152,11 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
   };
 
   return (
-    <div className="flex max-w-190 flex-col gap-6">
-      <p>{t('settings.network.intro')}</p>
+    <div className="flex max-w-[880px] flex-col gap-6">
+      <p className="text-muted-foreground">{t('settings.network.intro')}</p>
 
-      <section className="flex flex-col gap-3" aria-labelledby="doh-title">
-        <h2 id="doh-title" className="text-[15px] leading-[22px] font-semibold">
+      <section className="flex flex-col gap-3 rounded-xl border bg-card/40 p-5" aria-labelledby="doh-title">
+        <h2 id="doh-title" className="text-sm font-semibold">
           {t('settings.network.doh')}
         </h2>
         <RadioGroup
@@ -172,7 +172,7 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
         </RadioGroup>
         <div className="flex flex-wrap gap-4">
           <div className="flex w-62 flex-col gap-1">
-            <label htmlFor="doh-provider" className="text-xs leading-4 font-semibold">
+            <label htmlFor="doh-provider" className="text-xs leading-4 font-medium">
               {t('settings.network.provider')}
             </label>
             <Select
@@ -189,7 +189,7 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
             </Select>
           </div>
           <div className="flex w-62 flex-col gap-1">
-            <label htmlFor="doh-url" className="text-xs leading-4 font-semibold">
+            <label htmlFor="doh-url" className="text-xs leading-4 font-medium">
               {t('settings.network.customUrl')}
             </label>
             <Input
@@ -204,7 +204,7 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
               onKeyDown={onEnter(commitDohUrl)}
             />
             {dohUrlInvalid ? (
-              <p role="alert" className="text-xs leading-4 text-danger">
+              <p role="alert" className="text-xs leading-4 text-danger-text">
                 {t('settings.network.httpsOnly')}
               </p>
             ) : null}
@@ -212,13 +212,13 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
         </div>
       </section>
 
-      <section className="flex flex-col gap-3 border-t pt-5" aria-labelledby="proxy-title">
-        <h2 id="proxy-title" className="text-[15px] leading-[22px] font-semibold">
+      <section className="flex flex-col gap-3 rounded-xl border bg-card/40 p-5" aria-labelledby="proxy-title">
+        <h2 id="proxy-title" className="text-sm font-semibold">
           {t('settings.network.proxy')}
         </h2>
         <div className="flex flex-wrap gap-4">
           <div className="flex w-45 flex-col gap-1">
-            <label htmlFor="proxy-type" className="text-xs leading-4 font-semibold">
+            <label htmlFor="proxy-type" className="text-xs leading-4 font-medium">
               {t('settings.network.proxyType')}
             </label>
             <Select
@@ -236,7 +236,7 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
           {hasProxy ? (
             <>
               <div className="flex w-60 flex-col gap-1">
-                <label htmlFor="proxy-host" className="text-xs leading-4 font-semibold">
+                <label htmlFor="proxy-host" className="text-xs leading-4 font-medium">
                   {t('settings.network.host')}
                 </label>
                 <Input
@@ -250,7 +250,7 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
                 />
               </div>
               <div className="flex w-30 flex-col gap-1">
-                <label htmlFor="proxy-port" className="text-xs leading-4 font-semibold">
+                <label htmlFor="proxy-port" className="text-xs leading-4 font-medium">
                   {t('settings.network.port')}
                 </label>
                 <Input
@@ -269,19 +269,19 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
           ) : null}
         </div>
         {portInvalid && hasProxy ? (
-          <p role="alert" className="text-xs leading-4 text-danger">
+          <p role="alert" className="text-xs leading-4 text-danger-text">
             {t('settings.network.portInvalid')}
           </p>
         ) : null}
         {settings.proxyMode === 'system' ? (
-          <p className="text-xs leading-4">{t('settings.network.systemHint')}</p>
+          <p className="text-xs leading-4 text-muted-foreground">{t('settings.network.systemHint')}</p>
         ) : null}
         {hasProxy ? (
           <>
             <label className="flex w-fit cursor-pointer items-center gap-2">
               <input
                 type="checkbox"
-                className="size-4 accent-accent"
+                className="size-4 accent-primary"
                 checked={needsLogin}
                 onChange={(event) => toggleLogin(event.target.checked)}
               />
@@ -290,7 +290,7 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
             {needsLogin ? (
               <div className="flex flex-wrap gap-4">
                 <div className="flex w-60 flex-col gap-1">
-                  <label htmlFor="proxy-user" className="text-xs leading-4 font-semibold">
+                  <label htmlFor="proxy-user" className="text-xs leading-4 font-medium">
                     {t('settings.network.user')}
                   </label>
                   <Input
@@ -303,7 +303,7 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
                   />
                 </div>
                 <div className="flex w-60 flex-col gap-1">
-                  <label htmlFor="proxy-password" className="text-xs leading-4 font-semibold">
+                  <label htmlFor="proxy-password" className="text-xs leading-4 font-medium">
                     {t('settings.network.password')}
                   </label>
                   <Input
@@ -330,26 +330,26 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
               </div>
             ) : null}
             {settings.proxyMode === 'socks5' && needsLogin ? (
-              <p className="text-xs leading-4">{t('settings.network.socksLogin')}</p>
+              <p className="text-xs leading-4 text-muted-foreground">{t('settings.network.socksLogin')}</p>
             ) : null}
           </>
         ) : null}
-        <p className="max-w-[640px] text-xs leading-4">{t('settings.network.passwordStorage')}</p>
+        <p className="max-w-[640px] text-xs leading-4 text-muted-foreground">{t('settings.network.passwordStorage')}</p>
         {needsLogin && passwordInfo && !passwordInfo.encrypted ? (
-          <p role="alert" className="flex max-w-[640px] items-start gap-2 text-xs leading-4 text-warning">
+          <p role="alert" className="flex max-w-[640px] items-start gap-2 text-xs leading-4 text-warning-text">
             <TriangleAlert className="mt-px size-3.5 shrink-0" strokeWidth={1.75} aria-hidden />
             {t('settings.network.plainWarning')}
           </p>
         ) : null}
       </section>
 
-      <section className="flex flex-col gap-3 border-t pt-5" aria-labelledby="agent-title">
+      <section className="flex flex-col gap-3 rounded-xl border bg-card/40 p-5" aria-labelledby="agent-title">
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <h2 id="agent-title" className="text-[15px] leading-[22px] font-semibold">
+            <h2 id="agent-title" className="text-sm font-semibold">
               {t('settings.network.userAgent')}
             </h2>
-            <div className="text-xs leading-4">{t('settings.network.userAgentHint')}</div>
+            <div className="text-xs leading-4 text-muted-foreground">{t('settings.network.userAgentHint')}</div>
           </div>
           <Switch checked={customAgent} onCheckedChange={toggleAgent} aria-labelledby="agent-title" />
         </div>
@@ -371,13 +371,16 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
           </div>
         ) : null}
         {agentInvalid ? (
-          <p role="alert" className="text-xs leading-4 text-danger">
+          <p role="alert" className="text-xs leading-4 text-danger-text">
             {t('settings.network.agentInvalid')}
           </p>
         ) : null}
       </section>
 
-      <section className="flex flex-wrap items-center gap-4 border-t pt-5" aria-label={t('settings.network.test')}>
+      <section
+        className="flex flex-wrap items-center gap-4 rounded-xl border bg-card/40 p-5"
+        aria-label={t('settings.network.test')}
+      >
         <Button size="lg" onClick={() => test.mutate()} disabled={test.isPending}>
           <Globe className="size-4" strokeWidth={1.75} aria-hidden />
           {test.isPending ? t('settings.network.testing') : t('settings.network.test')}
@@ -385,15 +388,15 @@ function NetworkForm({ settings }: { settings: AppSettings }) {
         {result ? (
           result.ok ? (
             <p role="status" className="flex items-center gap-2">
-              <Check className="size-4 text-success" strokeWidth={2} aria-hidden />
-              <span className="font-semibold">{t('settings.network.connected')}</span>
-              <span className="rounded-md bg-input px-1.5 font-mono text-xs leading-5">
+              <Check className="size-4 text-ctp-green" strokeWidth={2} aria-hidden />
+              <span className="font-medium">{t('settings.network.connected')}</span>
+              <span className="rounded-md border bg-muted px-1.5 font-mono text-xs leading-5">
                 {t('settings.network.ms', { ms: result.ms ?? 0 })}
               </span>
-              <span className="text-xs leading-4">{t('settings.network.withSettings')}</span>
+              <span className="text-xs leading-4 text-muted-foreground">{t('settings.network.withSettings')}</span>
             </p>
           ) : (
-            <p role="alert" className="flex items-center gap-2 text-danger">
+            <p role="alert" className="flex items-center gap-2 text-danger-text">
               <X className="size-4" strokeWidth={2} aria-hidden />
               <span>{result.error ?? t('settings.network.testFailed')}</span>
             </p>

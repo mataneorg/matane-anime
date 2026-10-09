@@ -12,13 +12,13 @@ import { describeDownloadError } from './errors';
 import { percentDone } from './format';
 
 const button =
-  'flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-input/60 hover:text-foreground';
+  'flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground';
 
 /** "✓ Downloaded", next to "Watched" in an episode row. */
 export function DownloadedChip() {
   const { t } = useTranslation();
   return (
-    <span className="flex items-center gap-1 text-xs leading-4 text-success">
+    <span className="flex items-center gap-1 text-xs text-success-text">
       <Check className="size-3.5" strokeWidth={2} aria-hidden />
       {t('anime.downloaded')}
     </span>
@@ -70,7 +70,7 @@ export function EpisodeDownloadControl({
     return (
       <button
         type="button"
-        className={`${button} text-danger`}
+        className={`${button} text-danger-text`}
         aria-label={t('downloads.episode.retry')}
         title={`${reason}. ${t('downloads.episode.retry')}`}
         onClick={() => retry.mutate(download.id)}
@@ -92,7 +92,7 @@ export function EpisodeDownloadControl({
       title={label}
     >
       {status === 'downloading' ? (
-        <span className="font-mono text-foreground">{Math.round(percent ?? percentDone(download) ?? 0)}%</span>
+        <span className="text-foreground tabular-nums">{Math.round(percent ?? percentDone(download) ?? 0)}%</span>
       ) : (
         <Icon className="size-4" strokeWidth={1.75} aria-hidden />
       )}

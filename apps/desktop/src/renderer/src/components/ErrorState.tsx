@@ -12,13 +12,13 @@ export function ErrorState({
   action?: ReactNode;
 }) {
   return (
-    <div role="alert" className="flex flex-col items-center gap-4 p-10 text-center">
-      <div className="flex size-14 items-center justify-center rounded-2xl bg-card">
-        <TriangleAlert className="size-6 text-warning" strokeWidth={1.75} aria-hidden />
+    <div role="alert" className="flex flex-col items-center gap-4 p-8 text-center">
+      <div className="flex size-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
+        <TriangleAlert className="size-7" strokeWidth={1.75} aria-hidden />
       </div>
-      <div className="flex max-w-md flex-col gap-1">
-        <h2 className="text-lg leading-6 font-semibold">{title}</h2>
-        {description ? <p>{description}</p> : null}
+      <div className="flex max-w-md flex-col gap-1.5">
+        <h2 className="text-base font-semibold">{title}</h2>
+        {description ? <p className="text-muted-foreground">{description}</p> : null}
       </div>
       {action}
     </div>

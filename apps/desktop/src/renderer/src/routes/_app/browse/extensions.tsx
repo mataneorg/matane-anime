@@ -108,10 +108,10 @@ function ExtensionsPage() {
   };
 
   return (
-    <div className="flex flex-col gap-5 p-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('extensions.title')}</h1>
-        <div className="flex items-center gap-2">
+    <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col gap-5 px-6 py-5">
+      <header className="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <h1 className="text-xl font-semibold">{t('extensions.title')}</h1>
+        <div className="ml-auto flex items-center gap-2">
           {settings?.devMode ? <LoadFolderButton variant="secondary" /> : null}
           {nothingYet ? null : (
             <>
@@ -142,14 +142,14 @@ function ExtensionsPage() {
           title={t('extensions.emptyTitle')}
           description={t('extensions.emptyDescription')}
           action={
-            <Button size="lg" onClick={() => setAdding(true)}>
+            <Button onClick={() => setAdding(true)}>
               <Plus className="size-4" strokeWidth={1.75} aria-hidden />
               {t('extensions.addRepository')}
             </Button>
           }
         >
-          <p className="flex max-w-lg items-start gap-2 text-left text-xs leading-4">
-            <Info className="mt-0.5 size-3.5 shrink-0 text-info" strokeWidth={1.75} aria-hidden />
+          <p className="flex max-w-lg items-start gap-2 text-left text-xs text-muted-foreground">
+            <Info className="mt-0.5 size-3.5 shrink-0 text-ctp-blue" strokeWidth={1.75} aria-hidden />
             {t('extensions.addRepo.notice')}
           </p>
         </EmptyState>
@@ -158,9 +158,9 @@ function ExtensionsPage() {
           {updates > 0 ? (
             <div
               role="status"
-              className="flex items-center gap-3 rounded-xl border border-info/40 bg-info/10 px-4 py-3 text-foreground"
+              className="flex items-center gap-3 rounded-xl border border-ctp-blue/40 bg-ctp-blue/10 px-4 py-3 text-foreground"
             >
-              <Info className="size-4 shrink-0 text-info" strokeWidth={1.75} aria-hidden />
+              <Info className="size-4 shrink-0 text-ctp-blue" strokeWidth={1.75} aria-hidden />
               <p className="flex-1">
                 <span className="font-semibold">{t('extensions.updatesAvailable', { count: updates })}</span>{' '}
                 {t('extensions.updatesHint')}
@@ -186,21 +186,28 @@ function ExtensionsPage() {
                   aria-controls="extensions-panel"
                   onClick={() => setTab(name)}
                   className={cn(
-                    '-mb-px flex h-10 items-center gap-1.5 border-b-2 border-transparent text-muted-foreground transition-colors hover:text-foreground',
-                    tab === name && 'border-accent font-semibold text-foreground',
+                    '-mb-px flex h-9 items-center gap-2 border-b-2 border-transparent px-1 text-muted-foreground transition-colors hover:text-foreground',
+                    tab === name && 'border-primary font-semibold text-foreground',
                   )}
                 >
                   {t(`extensions.tabs.${name}`)}
-                  <span className="text-xs leading-4">{counts[name]}</span>
+                  <span
+                    className={cn(
+                      'rounded-md bg-muted px-1.5 text-[11px] font-medium text-foreground',
+                      tab === name && 'bg-primary/20 text-primary-text',
+                    )}
+                  >
+                    {counts[name]}
+                  </span>
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-4 pb-1.5">
+            <div className="flex items-center gap-4 pb-1.5 text-xs">
               <LanguageFilter />
               <label className="flex cursor-pointer items-center gap-2">
                 <input
                   type="checkbox"
-                  className="size-4 accent-accent"
+                  className="size-4 accent-primary"
                   checked={settings?.showNsfw ?? false}
                   onChange={(event) => update.mutate({ showNsfw: event.target.checked })}
                 />

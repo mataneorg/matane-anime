@@ -31,12 +31,17 @@ export function LibraryCard({
 
   return (
     <div className="group relative flex flex-col gap-2">
-      <div className="relative">
+      <div
+        className={cn(
+          'relative overflow-hidden rounded-lg border transition-colors group-hover:border-primary',
+          selected && 'border-primary ring-2 ring-primary',
+        )}
+      >
         <Cover
           sourceId={item.sourceId}
           url={item.thumbnailUrl}
           localAnimeId={item.hasLocalCover ? item.animeId : undefined}
-          className={cn('aspect-[2/3] w-full rounded-xl', selected && 'outline-2 outline-offset-2 outline-accent')}
+          className="aspect-[2/3] w-full"
         />
         {selecting ? (
           <button
@@ -45,19 +50,19 @@ export function LibraryCard({
             aria-checked={selected}
             aria-label={item.title}
             onClick={onToggle}
-            className="absolute inset-0 z-10 rounded-xl"
+            className="absolute inset-0 z-10 focus-visible:outline-offset-[-2px]"
           />
         ) : (
           <Link
             to="/anime/$animeId"
             params={{ animeId: String(item.animeId) }}
             aria-label={item.title}
-            className="absolute inset-0 rounded-xl"
+            className="absolute inset-0 focus-visible:outline-offset-[-2px]"
           />
         )}
         {item.unwatched > 0 ? (
           <span
-            className="absolute top-2 left-2 flex h-6 min-w-6 items-center justify-center rounded-full bg-accent px-1.5 text-xs leading-4 font-bold text-on-accent"
+            className="absolute top-1.5 left-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-semibold text-primary-foreground"
             title={t('library.unwatched', { count: item.unwatched })}
           >
             {item.unwatched}
@@ -67,24 +72,21 @@ export function LibraryCard({
           <span
             aria-hidden
             className={cn(
-              'absolute top-2 right-2 z-20 flex size-6 items-center justify-center rounded-full border-2 border-white/80 bg-black/50',
-              selected && 'border-accent bg-accent text-on-accent',
+              'absolute top-1.5 right-1.5 z-20 flex size-6 items-center justify-center rounded-full border-2 border-ctp-text/80 bg-ctp-crust/60',
+              selected && 'border-primary bg-primary text-primary-foreground',
             )}
           >
             {selected ? <Check className="size-3.5" strokeWidth={3} /> : null}
           </span>
         ) : null}
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1 overflow-hidden rounded-b-xl bg-black/40"
-          aria-hidden
-        >
-          <div className="h-full bg-accent" style={{ width: `${watchedShare}%` }} />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-ctp-crust/60" aria-hidden>
+          <div className="h-full bg-primary" style={{ width: `${watchedShare}%` }} />
         </div>
         {!selecting && item.continue ? (
           <Link
             to="/watch/$episodeId"
             params={{ episodeId: String(item.continue.episodeId) }}
-            className="absolute right-2 bottom-3 left-2 z-10 flex h-9 items-center justify-center gap-1.5 rounded-lg bg-accent px-2 text-[13px] font-semibold text-on-accent opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
+            className="absolute right-2 bottom-3 left-2 z-10 flex h-9 items-center justify-center gap-1.5 rounded-lg bg-primary px-2 text-xs font-medium text-primary-foreground opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
           >
             <Play className="size-3.5" strokeWidth={2} aria-hidden />
             {item.continue.number !== null
@@ -94,8 +96,10 @@ export function LibraryCard({
         ) : null}
       </div>
       <div className="min-w-0">
-        <div className="line-clamp-2 text-[13px] leading-[18px] font-semibold text-foreground">{item.title}</div>
-        <div className="truncate text-xs leading-4">{subtitle}</div>
+        <div className="line-clamp-2 text-[13px] leading-snug font-semibold text-foreground transition-colors group-hover:text-primary-text">
+          {item.title}
+        </div>
+        <div className="truncate text-xs text-muted-foreground">{subtitle}</div>
       </div>
     </div>
   );

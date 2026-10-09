@@ -70,7 +70,10 @@ function InstalledRow({
   const meta = [failed ? null : languageCodes(extension.sources), dev ? null : extension.repoName].filter(Boolean);
 
   return (
-    <li className="flex flex-col gap-2 rounded-xl bg-card p-4" data-testid={`extension-${extension.id}`}>
+    <li
+      className="flex flex-col gap-2 rounded-xl border bg-card/40 px-4 py-3.5 transition-colors hover:border-input hover:bg-card/70"
+      data-testid={`extension-${extension.id}`}
+    >
       <div className="flex items-center gap-4">
         <span
           aria-hidden
@@ -82,7 +85,7 @@ function InstalledRow({
         <div className="flex min-w-0 flex-1 flex-col">
           <div className="flex flex-wrap items-center gap-2">
             <span className="truncate font-semibold text-foreground">{extension.name}</span>
-            {extension.version ? <span className="font-mono text-xs leading-4">{extension.version}</span> : null}
+            {extension.version ? <span className="text-xs text-muted-foreground">{extension.version}</span> : null}
             {extension.updateAvailable && !shadowed ? (
               <Badge tone="accent">{t('extensions.updateTo', { version: extension.updateAvailable })}</Badge>
             ) : null}
@@ -90,13 +93,15 @@ function InstalledRow({
             {failed ? <Badge tone="danger">{t('extensions.failed')}</Badge> : null}
           </div>
           {dev ? (
-            <span className="truncate font-mono text-xs leading-4" title={extension.folder ?? undefined}>
+            <span className="truncate font-mono text-xs text-muted-foreground" title={extension.folder ?? undefined}>
               {extension.folder}
             </span>
           ) : null}
-          {meta.length > 0 ? <span className="truncate text-xs leading-4">{meta.join(' · ')}</span> : null}
+          {meta.length > 0 ? <span className="truncate text-xs text-muted-foreground">{meta.join(' · ')}</span> : null}
           {alsoFrom.length > 0 ? (
-            <span className="text-xs leading-4">{t('extensions.alsoOffered', { repos: alsoFrom.join(', ') })}</span>
+            <span className="text-xs text-muted-foreground">
+              {t('extensions.alsoOffered', { repos: alsoFrom.join(', ') })}
+            </span>
           ) : null}
         </div>
         <TrustBadge trust={extension.trust} />
@@ -163,14 +168,19 @@ function InstalledRow({
         )}
       </div>
       {shadowed ? (
-        <p className="rounded-lg bg-info/12 px-3 py-2 text-xs leading-4 text-foreground">{t('extensions.shadowed')}</p>
+        <p className="rounded-lg border border-ctp-blue/40 bg-ctp-blue/10 px-3 py-2 text-xs text-info-text">
+          {t('extensions.shadowed')}
+        </p>
       ) : null}
       {failed && extension.error ? (
-        <p role="alert" className="rounded-lg bg-danger/12 px-3 py-2 font-mono text-xs leading-4 text-foreground">
+        <p
+          role="alert"
+          className="rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 font-mono text-xs text-danger-text"
+        >
           {extension.error}
         </p>
       ) : null}
-      {failed && !dev ? <p className="text-xs leading-4">{t('extensions.reinstallHint')}</p> : null}
+      {failed && !dev ? <p className="text-xs text-muted-foreground">{t('extensions.reinstallHint')}</p> : null}
       <PreferencesDialog extension={extension} open={prefsOpen} onOpenChange={setPrefsOpen} />
       <ConfirmDialog
         open={confirming}

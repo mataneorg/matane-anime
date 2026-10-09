@@ -9,6 +9,7 @@ import { ErrorState } from '@renderer/components/ErrorState';
 import { Badge } from '@renderer/components/ui/badge';
 import { Button, buttonVariants } from '@renderer/components/ui/button';
 import { Select } from '@renderer/components/ui/select';
+import { Skeleton } from '@renderer/components/ui/skeleton';
 import { EpisodeList } from '@renderer/features/anime/EpisodeList';
 import { LibraryButton } from '@renderer/features/anime/LibraryButton';
 import { MigrateDialog } from '@renderer/features/anime/MigrateDialog';
@@ -21,6 +22,14 @@ import { describeError, isCloudflare } from '@renderer/lib/errors';
 import { cn } from '@renderer/lib/utils';
 
 export const Route = createFileRoute('/_app/anime/$animeId')({ component: AnimePage });
+
+const STATUS_VARIANT = {
+  ongoing: 'success',
+  completed: 'info',
+  hiatus: 'warning',
+  cancelled: 'danger',
+  unknown: 'outline',
+} as const;
 
 function AnimePage() {
   const { t } = useTranslation();
@@ -88,49 +97,53 @@ function AnimePage() {
       : counts.total > 0 && counts.unwatched === 0
         ? t('anime.watchAgain')
         : t('anime.start');
-  const facts = [
-    data.type?.toUpperCase(),
-    data.year?.toString(),
-    data.status !== 'unknown' ? t(`anime.status.${data.status}`) : null,
-    data.studio,
-    data.sourceName,
-  ].filter((fact): fact is string => Boolean(fact));
+  const facts = [data.type?.toUpperCase(), data.year?.toString(), data.studio, data.sourceName].filter(
+    (fact): fact is string => Boolean(fact),
+  );
 
   return (
     <div className="flex flex-col">
-      <header className="flex gap-6 bg-card/40 p-6">
+      <header className="flex gap-8 border-b bg-card/40 px-6 py-6">
         <Cover
           sourceId={data.sourceId}
           url={data.thumbnailUrl}
           localAnimeId={data.inLibrary ? data.animeId : undefined}
-          className="aspect-[2/3] w-48 shrink-0 rounded-xl"
+          className="aspect-[2/3] w-52 shrink-0 self-start rounded-xl border shadow-2xl shadow-black/40"
         />
-        <div className="flex min-w-0 flex-col gap-3">
-          <div>
-            <h1 className="text-2xl leading-8 font-bold tracking-tight">{data.title}</h1>
-            {data.altTitles.length > 0 ? <p className="text-xs leading-4">{data.altTitles.join(' · ')}</p> : null}
-          </div>
-          {facts.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-3">
+          {data.status !== 'unknown' || facts.length > 0 ? (
+            <div className="flex flex-wrap gap-1.5">
+              {data.status !== 'unknown' ? (
+                <Badge variant={STATUS_VARIANT[data.status]}>{t(`anime.status.${data.status}`)}</Badge>
+              ) : null}
               {facts.map((fact) => (
-                <span
-                  key={fact}
-                  className="rounded-lg border border-border-strong px-2.5 py-0.5 text-xs leading-5 text-foreground"
-                >
+                <Badge key={fact} variant="outline">
                   {fact}
+                </Badge>
+              ))}
+            </div>
+          ) : null}
+          <div>
+            <h1 className="text-3xl leading-tight font-bold tracking-tight select-text">{data.title}</h1>
+            {data.altTitles.length > 0 ? (
+              <p className="mt-1 text-xs text-muted-foreground select-text">{data.altTitles.join(' · ')}</p>
+            ) : null}
+          </div>
+          {data.genres.length > 0 ? (
+            <div className="flex flex-wrap gap-1.5">
+              {data.genres.map((genre) => (
+                <span key={genre} className="rounded-md border border-input px-2 py-0.5 text-xs">
+                  {genre}
                 </span>
               ))}
             </div>
           ) : null}
-          {data.genres.length > 0 ? (
-            <div className="flex flex-wrap gap-1.5">
-              {data.genres.map((genre) => (
-                <Badge key={genre}>{genre}</Badge>
-              ))}
-            </div>
+          {data.description ? (
+            <p className="line-clamp-4 max-w-4xl leading-relaxed text-muted-foreground select-text">
+              {data.description}
+            </p>
           ) : null}
-          {data.description ? <p className="line-clamp-4 max-w-3xl">{data.description}</p> : null}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
             {playTarget ? (
               <Link
                 to="/watch/$episodeId"
@@ -195,11 +208,11 @@ function AnimePage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-3 p-6" aria-labelledby="episodes-title">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 id="episodes-title" className="text-lg leading-6 font-semibold">
-            {t('anime.episodes')}{' '}
-            <span className="font-mono text-xs leading-4 font-normal">
+      <section className="flex flex-col" aria-labelledby="episodes-title">
+        <div className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 border-b bg-background/95 px-6 py-2.5 backdrop-blur">
+          <h2 id="episodes-title" className="flex items-center gap-2 font-semibold">
+            {t('anime.episodes')}
+            <span className="rounded-md bg-primary/15 px-1.5 text-xs font-normal text-primary-text">
               {t('anime.total', { count: counts.total })}
               {counts.unwatched > 0 ? ` · ${t('anime.unwatchedCount', { count: counts.unwatched })}` : ''}
             </span>
@@ -210,8 +223,8 @@ function AnimePage() {
               aria-pressed={unwatchedOnly}
               onClick={() => setUnwatchedOnly((on) => !on)}
               className={cn(
-                'h-9 rounded-full border border-border-strong px-3 text-[13px] transition-colors',
-                unwatchedOnly && 'border-accent bg-accent/16 font-semibold text-foreground',
+                'inline-flex h-8 items-center rounded-lg border border-input px-3 text-xs transition-colors hover:border-foreground/40',
+                unwatchedOnly && 'border-primary bg-primary/15 text-primary-text',
               )}
             >
               {t('anime.unwatched')}
@@ -221,8 +234,8 @@ function AnimePage() {
               aria-pressed={downloadedOnly}
               onClick={() => setDownloadedOnly((on) => !on)}
               className={cn(
-                'h-9 rounded-full border border-border-strong px-3 text-[13px] transition-colors',
-                downloadedOnly && 'border-accent bg-accent/16 font-semibold text-foreground',
+                'inline-flex h-8 items-center rounded-lg border border-input px-3 text-xs transition-colors hover:border-foreground/40',
+                downloadedOnly && 'border-primary bg-primary/15 text-primary-text',
               )}
             >
               {t('anime.downloaded')}
@@ -231,6 +244,7 @@ function AnimePage() {
               aria-label={t('anime.sort.newest')}
               value={sort}
               onChange={(event) => setSort(event.target.value as 'newest' | 'oldest')}
+              className="h-8 text-xs"
             >
               <option value="newest">{t('anime.sort.newest')}</option>
               <option value="oldest">{t('anime.sort.oldest')}</option>
@@ -238,36 +252,40 @@ function AnimePage() {
           </div>
         </div>
 
-        {refresh.isError ? (
-          <div
-            role="alert"
-            className="flex flex-wrap items-center gap-3 rounded-xl border border-danger/40 bg-danger/10 px-4 py-3"
-          >
-            <div className="min-w-0 flex-1">
-              <div className="font-semibold text-foreground">{t('anime.refreshFailed')}</div>
-              <div className="text-xs leading-4">
-                {describeError(refresh.error, t)}{' '}
-                {episodes.data && episodes.data.length > 0 ? t('anime.showingSaved') : ''}
+        <div className="flex flex-col gap-3 px-6 pt-3 pb-6">
+          {refresh.isError ? (
+            <div
+              role="alert"
+              className="flex flex-wrap items-center gap-3 rounded-xl border border-ctp-red/40 bg-ctp-red/10 px-4 py-3"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold text-foreground">{t('anime.refreshFailed')}</div>
+                <div className="text-xs text-muted-foreground">
+                  {describeError(refresh.error, t)}{' '}
+                  {episodes.data && episodes.data.length > 0 ? t('anime.showingSaved') : ''}
+                </div>
               </div>
+              <Button variant="secondary" size="sm" onClick={() => refresh.mutate()}>
+                {isCloudflare(refresh.error) ? t('browse.verify') : t('browse.retry')}
+              </Button>
             </div>
-            <Button variant="secondary" size="sm" onClick={() => refresh.mutate()}>
-              {isCloudflare(refresh.error) ? t('browse.verify') : t('browse.retry')}
-            </Button>
-          </div>
-        ) : null}
+          ) : null}
 
-        {refresh.isPending && list.length === 0 ? (
-          <RowSkeletons />
-        ) : list.length === 0 && !refresh.isError ? (
-          <p>{downloadedOnly ? t('downloads.noneDownloaded') : t('anime.noEpisodes')}</p>
-        ) : (
-          <EpisodeList
-            episodes={list}
-            sourceId={data.sourceId}
-            thumbnailUrl={data.thumbnailUrl}
-            localCoverId={data.inLibrary ? data.animeId : undefined}
-          />
-        )}
+          {refresh.isPending && list.length === 0 ? (
+            <RowSkeletons />
+          ) : list.length === 0 && !refresh.isError ? (
+            <p className="py-10 text-center text-muted-foreground">
+              {downloadedOnly ? t('downloads.noneDownloaded') : t('anime.noEpisodes')}
+            </p>
+          ) : (
+            <EpisodeList
+              episodes={list}
+              sourceId={data.sourceId}
+              thumbnailUrl={data.thumbnailUrl}
+              localCoverId={data.inLibrary ? data.animeId : undefined}
+            />
+          )}
+        </div>
       </section>
       <MigrateDialog anime={data} open={migrating} onOpenChange={setMigrating} />
     </div>
@@ -276,12 +294,13 @@ function AnimePage() {
 
 function HeaderSkeleton() {
   return (
-    <div className="flex animate-pulse gap-6 p-6" aria-hidden>
-      <div className="aspect-[2/3] w-48 rounded-xl bg-card" />
+    <div className="flex gap-8 p-6" aria-hidden>
+      <Skeleton className="aspect-[2/3] w-52 rounded-xl" />
       <div className="flex flex-1 flex-col gap-3">
-        <div className="h-8 w-1/2 rounded bg-card" />
-        <div className="h-4 w-1/3 rounded bg-card" />
-        <div className="h-16 w-3/4 rounded bg-card" />
+        <Skeleton className="h-5 w-40" />
+        <Skeleton className="h-9 w-2/3" />
+        <Skeleton className="h-4 w-1/3" />
+        <Skeleton className="h-16 w-full max-w-3xl" />
       </div>
     </div>
   );
@@ -289,9 +308,9 @@ function HeaderSkeleton() {
 
 function RowSkeletons() {
   return (
-    <div className="flex animate-pulse flex-col gap-2" aria-hidden>
+    <div className="flex flex-col gap-2" aria-hidden>
       {Array.from({ length: 6 }, (_, index) => (
-        <div key={index} className="h-16 rounded-xl bg-card" />
+        <Skeleton key={index} className="h-16 rounded-xl" />
       ))}
     </div>
   );

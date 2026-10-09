@@ -5,32 +5,44 @@
  * Theme model (docs/ui/design-system.md, docs/PRD.md UI-3):
  * - flavor: one of .latte/.frappe/.macchiato/.mocha on <html> (palette variables from @catppuccin/tailwindcss)
  * - .amoled: dark flavors with pure black surfaces
- * - data-accent: one of the 14 Catppuccin accents; text on the accent is `on-accent`
- * The semantic names below are the Design System's, so a screen built from its tokens maps one to one.
+ * - data-accent: one of the 14 Catppuccin accents, exposed as `primary`; text on it is `primary-foreground`
+ * Semantic tokens follow shadcn/ui naming (the same set as the Matane reader app). Status colours have no token of
+ * their own: use the `ctp-*` palette utilities, e.g. `border-ctp-peach/40 bg-ctp-peach/10 text-ctp-peach`.
  */
 
 @custom-variant amoled (&:where(.amoled, .amoled *));
 
 @theme inline {
-  --font-sans: 'Figtree Variable', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 
   --color-background: var(--catppuccin-color-base);
   --color-foreground: var(--catppuccin-color-text);
-  --color-muted-foreground: var(--app-muted);
   --color-sidebar: var(--catppuccin-color-mantle);
-  --color-popover: var(--catppuccin-color-mantle);
   --color-card: var(--catppuccin-color-surface0);
+  --color-card-foreground: var(--catppuccin-color-text);
+  --color-popover: var(--catppuccin-color-mantle);
+  --color-popover-foreground: var(--catppuccin-color-text);
+  --color-primary: var(--app-accent);
+  --color-primary-foreground: var(--app-on-accent);
+  /* Accent-coloured text: the accent itself on the dark flavors, darkened on Latte to keep 4.5:1 (see --app-accent-text). */
+  --color-primary-text: var(--app-accent-text);
+  --color-success-text: var(--app-success-text);
+  --color-warning-text: var(--app-warning-text);
+  --color-info-text: var(--app-info-text);
+  --color-danger-text: var(--app-danger-text);
+  --color-secondary: var(--catppuccin-color-surface0);
+  --color-secondary-foreground: var(--catppuccin-color-text);
+  --color-muted: var(--catppuccin-color-surface0);
+  --color-muted-foreground: var(--app-muted);
+  --color-accent: var(--catppuccin-color-surface0);
+  --color-accent-foreground: var(--catppuccin-color-text);
+  --color-destructive: var(--catppuccin-color-red);
+  --color-destructive-foreground: var(--app-on-destructive);
   --color-border: var(--catppuccin-color-surface0);
-  --color-border-strong: var(--app-border-strong);
   --color-input: var(--catppuccin-color-surface1);
-  --color-accent: var(--app-accent);
-  --color-on-accent: var(--app-on-accent);
-  --color-success: var(--catppuccin-color-green);
-  --color-warning: var(--catppuccin-color-peach);
-  --color-danger: var(--catppuccin-color-red);
-  --color-info: var(--catppuccin-color-sapphire);
   --color-ring: var(--app-accent);
+  /* Fixed near-black for marks drawn on a raw palette colour (the accent swatches), whatever the flavor. */
+  --color-ink: #11111b;
 
   /* The player stays dark in every theme (Design System: video-*). */
   --color-video-stage: #11111b;
@@ -48,15 +60,34 @@
     color-scheme: dark;
     --app-accent: var(--catppuccin-color-mauve);
     --app-on-accent: var(--catppuccin-color-crust);
+    --app-on-destructive: var(--catppuccin-color-crust);
+    --app-accent-text: var(--app-accent);
+    --app-success-text: var(--catppuccin-color-green);
+    --app-warning-text: var(--catppuccin-color-peach);
+    --app-info-text: var(--catppuccin-color-blue);
+    --app-danger-text: var(--catppuccin-color-red);
     /* subtext0 reads at 7:1 or better on the dark flavors, but only 4.4:1 on Latte (Design System note). */
     --app-muted: var(--catppuccin-color-subtext0);
-    --app-border-strong: var(--catppuccin-color-overlay0);
   }
   .latte {
     color-scheme: light;
     --app-on-accent: var(--catppuccin-color-base);
+    /* `base` on Latte red is 4.8:1, while the lighter on-accent override below would only give 3.45:1. */
+    --app-on-destructive: var(--catppuccin-color-base);
+    /*
+     * Accent text on Latte: the pastel accents are 2.3 to 3.5:1 on base, so mix them with the Mocha crust. At 55% every
+     * one of the 14 accents is 4.8:1 or better on base, mantle and the 15% accent tint (checked per accent).
+     */
+    --app-accent-text: color-mix(in oklab, var(--app-accent) 55%, #11111b);
+    /*
+     * Status text on Latte, darkened like the accent text. Each is 4.8:1 or better on base, mantle, card and a 10-15%
+     * tint of its own colour (plain: green 2.7, peach 2.4, blue 3.8, red 4.1 on the tint).
+     */
+    --app-success-text: color-mix(in oklab, var(--catppuccin-color-green) 55%, #11111b);
+    --app-warning-text: color-mix(in oklab, var(--catppuccin-color-peach) 55%, #11111b);
+    --app-info-text: color-mix(in oklab, var(--catppuccin-color-blue) 65%, #11111b);
+    --app-danger-text: color-mix(in oklab, var(--catppuccin-color-red) 75%, #11111b);
     --app-muted: var(--catppuccin-color-subtext1);
-    --app-border-strong: var(--catppuccin-color-overlay2);
   }
   [data-accent='rosewater'] {
     --app-accent: var(--catppuccin-color-rosewater);

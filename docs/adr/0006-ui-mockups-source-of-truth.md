@@ -1,6 +1,6 @@
 # 6. UI mockups are the source of truth
 
-Status: Accepted (2026-10-06)
+Status: Superseded by [ADR 0036](0036-ui-follows-matane.md) (2026-10-09). The mockups and their PNGs are now historical.
 
 ## Context
 The screens were designed before any code, as 30 Catppuccin artboards in Claude Design, with a Design System holding the tokens.

@@ -1,4 +1,4 @@
-Matane Anime is a desktop app for watching anime from sources the user adds themselves. Its look is Catppuccin: calm, dark by default (Mocha), with a light flavour (Latte) that is checked for legibility. Build every screen from the tokens in `tokens.json`; never write a hex value into a screen.
+Matane Anime is a desktop app for watching anime from sources the user adds themselves. Its look is Catppuccin, in the same visual language as the Matane reader app: calm, dark by default (Mocha), with a light flavour (Latte) that is checked for legibility. The original Phase 0 mockups used another vocabulary (Figtree, `accent`/`on-accent`, `border-strong`); [ADR 0036](../adr/0036-ui-follows-matane.md) replaced it. Build every screen from the tokens in `tokens.json`; never write a hex value into a screen (the only fixed hexes are the player's `video-*` tokens and `ink`).
 
 ## Content fundamentals
 
@@ -10,39 +10,59 @@ Matane Anime is a desktop app for watching anime from sources the user adds them
 
 ## Visual foundations
 
-**Surfaces.** The ladder from lowest to highest is `crust`, `mantle`, `base`, `surface0`, `surface1`, `surface2`. Use the semantic names: `background` for the page, `sidebar` for the sidebar, title bar and bars outside the player, `popover` for menus and dialogs, `card` for rows and tiles, `input` for fills of fields and tracks.
+The visual language follows the Matane reader app ([ADR 0036](../adr/0036-ui-follows-matane.md)). Token names are the shadcn/ui ones; the values are Catppuccin. `tokens.json` lists them all.
 
-**Text.** `foreground` for primary text; `muted-foreground` for metadata, only on `background`, `sidebar` and `popover`. On a `card`, secondary text stays `foreground` at `small`. Never use `subtext0`, `overlay*` as text in Latte.
+**Type.** Inter Variable (bundled with `@fontsource-variable/inter`) for everything; the monospace face is the platform's (`font-mono`), used for counts, versions, paths, shortcuts and times. Page title `text-xl font-semibold`; card and section headings `text-sm font-semibold`; body `text-sm`; hints `text-xs text-muted-foreground`; badges `text-[11px]`.
 
-**Accent.** `accent` (Mauve) is the one accent. It fills primary buttons, marks the active nav item (a 2px `accent` bar plus a tinted background), selects rows, draws the progress fill, and is the focus ring (solid 2px, offset 2px). Text on an accent fill is `on-accent`. One primary button per view. The user may pick another of the 14 Catppuccin accents later: change only the `accent` alias.
+**Surfaces.** `background` for the page, `sidebar` for the sidebar, title bar and bars outside the player, `popover` for menus, dialogs and toasts. Lists and settings groups are `rounded-xl border bg-card/40`; an interactive one goes to `hover:border-input hover:bg-card/70`. Solid `card` is for covers and small tiles. `muted` fills count chips, skeletons and empty-state tiles.
 
-**Borders.** `border` is a 1px hairline for dividers on `background`, `sidebar` and `popover`; it is decorative and never the only boundary of a control. Fields, checkboxes and toggles get a 1px `border-strong` outline and sit on `background`, `sidebar` or `popover`, never on a `card`.
+**Text.** `foreground` for primary text; `muted-foreground` for metadata and hints. Accent-coloured text is `text-primary-text`, never `text-primary` (see Themes and legibility).
 
-**Radius.** `radius-lg` for buttons and fields, `radius-xl` for cards, dialogs and cover thumbnails, `radius-md` for menu rows, `radius-sm` for badges, `radius-full` for count pills and progress tracks.
+**Primary (the accent).** `primary` is the user's accent, one of the 14 Catppuccin colours set through `data-accent` (Mauve by default). It fills the primary button, switches, progress fills and the focus ring (solid 2px, offset 2px). Text on a solid fill is `primary-foreground`. One primary button per view. Active navigation is `border-l-2 border-primary bg-primary/15 font-semibold text-primary-text`.
 
-**Spacing.** Use the `space-*` steps only. Page padding `space-6`; gap between grid cells `space-4`; row padding `space-3`.
+**Accent vs `accent`.** The shadcn `accent` token is *not* the brand colour: it is `surface0`, the hover and highlight background (`hover:bg-accent`, menu `data-[highlighted]:bg-accent`). It equals `card`, `muted` and `secondary`, so a hover on those solid fills is invisible; put hoverable rows on `bg-card/40` instead.
 
-**Shell.** Title bar `titlebar-h` (40px) in `sidebar` with a `border` bottom hairline: back and forward, breadcrumb, a centred 320px search field with a `Ctrl K` hint, activity and offline indicators, window controls. Sidebar `sidebar-w` (224px), or `sidebar-w-collapsed` (64px) icon-only, with Library, Updates, History, Browse (Sources, Extensions, Global search), Downloads (with a count pill), then Settings pinned to the bottom. The player is full screen without the sidebar.
+**Borders.** `border` is the 1px hairline for dividers and card outlines. `input` (surface1) outlines fields, checkboxes, switches and secondary buttons (`border-input`); a field sits on `background`, with `border-primary` on focus.
 
-**Translucency.** Bars over content use their surface at 90-95% opacity with a 12px backdrop blur. Inside the player use `video-scrim`.
+**Status colours.** There are no solid `success`/`warning`/`info` tokens. Borders, fills and icons use the palette utilities (`border-ctp-green/40 bg-ctp-green/10`, `ctp-peach` for warning, `ctp-blue` for info) and `destructive` for errors (`border-destructive/40 bg-destructive/10`). The *text* uses the matching text token: `text-success-text`, `text-warning-text`, `text-info-text`, `text-danger-text` (never `text-ctp-*` or `text-destructive` for text). Status is still a word plus an icon.
 
-**Shadow.** Only floating layers cast one: `shadow-popover` for menus and toasts, `shadow-dialog` for dialogs and the command palette. Cards in the flow have no shadow.
+**Radius.** `rounded-lg` for buttons, fields and menus; `rounded-md` for badges and menu rows; `rounded-xl` for cards, dialogs and settings groups; `rounded-2xl` for empty and error tiles; `rounded-full` for accent swatches, avatars and progress tracks.
 
-**Covers.** Cover thumbnails are 2:3, `radius-xl`, with no border. Cards over a cover carry a count badge at top-left (`accent` fill, `on-accent` text, `caption`) and a 3px progress bar flush at the bottom edge. In mockups, covers are abstract compositions built from palette accents (two or three flat shapes), never pictures of characters.
+**Spacing.** Page header `px-6 pt-5` (or `px-6 py-4` with `border-b`) with `h1 text-xl font-semibold` and the toolbar pushed right with `ml-auto`. Gap between grid cells 16px; card padding `px-4 py-3.5` for rows, `p-5` for settings groups.
 
-**States.** Hover on a row is `input` at 50%; pressed is `input`. Disabled controls drop to 50% opacity and keep their label. Every list has an empty state (an icon, one line of explanation, one action) and an error state (what failed, source name, Retry). Loading is skeleton blocks in `card`, not spinners, except for video buffering.
+**Shell.** Title bar `h-10` in `sidebar` with a `border-b`: back and forward (ghost icon buttons), breadcrumb, a centred 320px search button with a `Ctrl K` hint, activity and offline indicators, window controls. Sidebar `w-56` (or `w-16` icon-only) with a logo block above a `border-b`, Library, Updates, History, a collapsible Browse group (Sources, Extensions, Global search; open by default, children indented under a `border-l`), Downloads (with a count pill), then Settings and the collapse toggle pinned under a `border-t`. The player is full screen without the sidebar.
+
+**Tabs.** Underline tabs: `border-b-2`, the active one `border-primary text-foreground`; a count chip is `bg-muted`, and `bg-primary/20 text-primary-text` when active.
+
+**Buttons.** `font-medium`, sizes `default h-9`, `sm h-8 text-xs`, `icon size-8`, `icon-sm size-7` (`md` and `lg` remain as aliases). `default` is solid `primary`; `secondary` is `border-input bg-secondary`; `ghost` is muted text with `hover:bg-accent`; `destructive` is an outline in red. `asChild` renders a router link with button styling.
+
+**Badges.** `rounded-md border px-1.5 py-0.5 text-[11px]`; variants `default`, `outline`, `primary`, `success`, `warning`, `danger`, `info`.
+
+**Dialogs and menus.** The overlay is `bg-ctp-crust/70 backdrop-blur-sm`; the dialog is `rounded-xl border bg-popover shadow-2xl` with a `border-b px-5 py-4` header, a scrolling `px-5 py-4` body and a `border-t px-5 py-4` footer (`DialogFooter`). Menus and popovers are `rounded-lg border bg-popover p-1 shadow-xl`, items `h-8 rounded-md px-2` with `data-[highlighted]:bg-accent`.
+
+**Settings.** Each group is a `SettingsCard` (`rounded-xl border bg-card/40 p-5`, `h2 text-sm font-semibold`) of `SettingRow`s (label and hint left, control right, divided by hairlines). Switches are `h-6 w-11`. The theme picker shows a mini swatch per flavor; the accent picker is 14 `size-8` circles with a ring and a check on the selected one.
+
+**Translucency and shadow.** Bars over content use their surface at 90-95% opacity with a 12px backdrop blur; inside the player use `video-scrim`. Only floating layers cast a shadow: `shadow-xl` for menus and toasts, `shadow-2xl` for dialogs and the palette. Cards in the flow have none.
+
+**Covers.** Cover thumbnails are 2:3 with no border and a `bg-muted` placeholder. A card over a cover carries a count badge at top-left (`primary` fill) and a thin progress bar flush at the bottom edge; hovering a cover card turns its border `primary`. In mockups, covers are abstract compositions built from palette accents, never pictures of characters.
+
+**States.** Disabled controls drop to 50% opacity and keep their label. Every list has an empty state (a `size-14 rounded-2xl bg-muted text-primary-text` tile, one line of explanation, one action) and an error state (a red tile, what failed, "Try again"). Loading is `Skeleton` blocks (`animate-pulse bg-muted`), not spinners, except for video buffering.
 
 ## Themes and legibility
 
-Mocha is the default; Latte is the second theme. Text pairs pass 4.5:1 in both themes when you follow the rules above. The pairs that do not, kept exact from the palette and noted on each token:
+Mocha is the default; Latte is the second theme (Frappé, Macchiato and AMOLED exist too). Text pairs pass 4.5:1 in Mocha when you follow the rules above. On Latte, a few Catppuccin pairs do not, and they are fixed with variables in `styles.css` rather than by changing the palette:
 
-- Latte `subtext0` on base is 4.37:1: `muted-foreground` uses `subtext1` in Latte instead.
-- Latte pastel accents (green 2.96:1, peach 2.64:1, sapphire 2.78:1, yellow 2.31:1) fail as text and sit under 3:1 as marks. `success`, `warning`, `info` therefore always appear with an icon and a word set in `foreground`.
-- Latte `text` on `input` (surface1) is 4.39:1: keep text inside an input short and never use a `subtext` colour there.
+- **`muted-foreground`** is `subtext0` on the dark flavors and `subtext1` on Latte (`--app-muted`): Latte `subtext0` on base is 4.37:1. This is the one deliberate difference from the Matane reader app.
+- **`primary-text`** (`--app-accent-text`) is the accent itself on the dark flavors and, on Latte, the accent mixed 55% with `#11111b`. Plain Latte accents are only 2.3 to 3.5:1 as text on base or on a `primary/15` tint; the mix lifts all 14 to 4.79:1 or better.
+- **`primary-foreground`** (`--app-on-accent`) is crust on the dark flavors, base on Latte, and `#11111b` on the 11 Latte accents where base would fail. Blue with base is 4.34:1 and is accepted.
+- **`destructive-foreground`** (`--app-on-destructive`) is separate from `primary-foreground` so a pastel accent never changes it: base on Latte red is 4.80:1.
+- **Status text** (`success-text`, `warning-text`, `info-text`, `danger-text`; `--app-*-text`) is the palette colour on the dark flavors and, on Latte, the colour mixed with `#11111b` (green 55%, peach 55%, blue 65%, red 75%). Plain Latte green, peach, blue and red measure 2.7, 2.4, 3.8 and 4.1:1 on their own 10% tint; the mixes are 4.79:1 or better on base, mantle, `card` and the tints. Icons, borders and fills keep the plain colour.
+- Latte `text` on `input` (surface1) is 4.39:1: keep text inside an input short.
+- Marks drawn on a raw accent colour (the swatch check) use `ink` (`#11111b`, 3.45 to 7.17:1 across the 14).
 
 ## Iconography
 
-Icons are stroke icons in the Lucide style: 24px grid, 1.75px stroke, round caps and joins, `currentColor`, drawn inline as SVG (never an icon font, never emoji). 16px in rows and menus, 20px in toolbars and the player. Icon-only buttons are at least 36px square on desktop (44px in the player) and carry an `aria-label`. Unfilled icons are `muted-foreground`; the active nav icon is `accent`.
+Icons are stroke icons in the Lucide style: 24px grid, 1.75px stroke, round caps and joins, `currentColor`, drawn inline as SVG (never an icon font, never emoji). 16px in rows and menus, 20px in toolbars and the player. Icon-only buttons are at least 36px square on desktop (44px in the player) and carry an `aria-label`. Unfilled icons are `muted-foreground`; the active nav icon is `primary-text`.
 
 ## Player chrome
 
@@ -57,7 +77,7 @@ The player lives on `video-stage` in both themes; it does not follow Latte. Top 
 
 ## Patterns
 
-- **Lists** are `card` rows `space-3` apart, a leading 16:9 thumbnail, `section` title, `small` metadata in `foreground`, trailing status and one icon button.
-- **Dialogs** are `popover` with `radius-xl` and `shadow-dialog`, a `title`, one paragraph, then a right-aligned button pair (secondary, primary). A destructive primary is a `danger` fill with `on-accent` text (8.10:1 in Mocha, 4.80:1 in Latte).
-- **Progress** uses `accent` on `input`; downloads show segments and bytes in `mono-small`.
-- **Warnings about trust** (an unverified repository) use `warning` with an icon and the word "Unverified"; trusted repositories show `success` with "Trusted key".
+- **Lists** are `rounded-xl border bg-card/40` rows with a leading 16:9 thumbnail, a `text-sm font-semibold` title, `text-xs text-muted-foreground` metadata, trailing status and one icon button.
+- **Dialogs** use the structure above (header, body, `DialogFooter`) with a right-aligned button pair (secondary, primary). A destructive confirmation is an outline `destructive` button.
+- **Progress** uses `primary` on an `input` track; downloads show segments and bytes in the monospace face.
+- **Warnings about trust** (an unverified repository) use the `ctp-peach` badge with an icon and the word "Unverified"; trusted repositories show the `ctp-green` badge with "Trusted key".

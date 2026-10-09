@@ -11,14 +11,14 @@ export function RadioOption({ className, children, ...props }: ComponentProps<ty
   return (
     <RadioGroupPrimitive.Item
       className={cn(
-        'flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-border-strong bg-background px-3.5 transition-colors',
-        'data-[state=checked]:border-2 data-[state=checked]:border-accent data-[state=checked]:px-[13px]',
+        'flex h-9 cursor-pointer items-center gap-2 rounded-lg border border-input bg-background px-3.5 transition-colors',
+        'data-[state=checked]:border-2 data-[state=checked]:border-primary data-[state=checked]:px-[13px]',
         className,
       )}
       {...props}
     >
-      <span className="flex size-4 items-center justify-center rounded-full border border-border-strong data-[state=checked]:border-accent">
-        <RadioGroupPrimitive.Indicator className="size-2 rounded-full bg-accent" />
+      <span className="flex size-4 items-center justify-center rounded-full border border-input data-[state=checked]:border-primary">
+        <RadioGroupPrimitive.Indicator className="size-2 rounded-full bg-primary" />
       </span>
       {children}
     </RadioGroupPrimitive.Item>

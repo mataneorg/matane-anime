@@ -4,7 +4,7 @@ import { Check, Info, Loader2, TriangleAlert } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
-import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter } from '@renderer/components/ui/dialog';
 import { call } from '@renderer/lib/api';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
@@ -98,15 +98,18 @@ function InstallBody({
   if (prepared.isError || !data) {
     return (
       <div className="flex flex-col gap-4">
-        <p role="alert" className="rounded-lg bg-danger/12 px-3 py-2 text-xs leading-4 text-foreground">
+        <p
+          role="alert"
+          className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs leading-4 text-danger-text"
+        >
           {describeError(prepared.error, t)}
         </p>
-        <div className="flex justify-end gap-2">
+        <DialogFooter>
           <Button variant="secondary" onClick={onClose}>
             {t('common.cancel')}
           </Button>
           <Button onClick={retry}>{t('extensions.installDialog.retry')}</Button>
-        </div>
+        </DialogFooter>
       </div>
     );
   }
@@ -122,7 +125,7 @@ function InstallBody({
         >
           {extension.name.charAt(0).toUpperCase()}
         </span>
-        <p className="text-xs leading-4">
+        <p className="text-xs leading-4 text-muted-foreground">
           {t('extensions.installDialog.version')} <span className="font-mono">{extension.version}</span>{' '}
           {t('extensions.installDialog.from', { repo: repo.name ?? t('extensions.installDialog.unnamed') })}
           {reinstall ? ` · ${t('extensions.installDialog.installedNow', { version: data.installedVersion })}` : ''}
@@ -146,7 +149,7 @@ function InstallBody({
         </Row>
         <Row label={t('extensions.installDialog.integrity')}>
           <span className="inline-flex items-center gap-1.5 font-mono" title={extension.sha256}>
-            <Check className="size-3.5 text-success" strokeWidth={2.25} aria-hidden />
+            <Check className="size-3.5 text-ctp-green" strokeWidth={2.25} aria-hidden />
             {t('extensions.installDialog.verified')} · {shortHash(extension.sha256)}
           </span>
         </Row>
@@ -154,18 +157,21 @@ function InstallBody({
 
       <Warnings warnings={data.warnings} fingerprint={repo.fingerprint} />
 
-      <p className="flex items-start gap-2 rounded-xl bg-card p-3 text-xs leading-4 text-foreground">
-        <Info className="mt-0.5 size-3.5 shrink-0 text-info" strokeWidth={1.75} aria-hidden />
+      <p className="flex items-start gap-2 rounded-xl border bg-card/40 p-3 text-xs leading-4 text-foreground">
+        <Info className="mt-0.5 size-3.5 shrink-0 text-info-text" strokeWidth={1.75} aria-hidden />
         {t('extensions.installDialog.sandbox')}
       </p>
 
       {install.isError ? (
-        <p role="alert" className="rounded-lg bg-danger/12 px-3 py-2 text-xs leading-4 text-foreground">
+        <p
+          role="alert"
+          className="rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs leading-4 text-danger-text"
+        >
           {describeError(install.error, t)}
         </p>
       ) : null}
 
-      <div className="flex justify-end gap-2">
+      <DialogFooter>
         <Button variant="secondary" onClick={onClose}>
           {t('common.cancel')}
         </Button>
@@ -177,7 +183,7 @@ function InstallBody({
             {reinstall ? t('extensions.reinstall') : t('extensions.install')}
           </Button>
         )}
-      </div>
+      </DialogFooter>
     </div>
   );
 }
@@ -185,7 +191,7 @@ function InstallBody({
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex items-center justify-between gap-4 border-b py-2.5 first:pt-0">
-      <dt>{label}</dt>
+      <dt className="text-muted-foreground">{label}</dt>
       <dd className="text-right text-foreground">{children}</dd>
     </div>
   );
@@ -201,10 +207,10 @@ function Warnings({ warnings, fingerprint }: { warnings: InstallPreparation['war
         <div
           key={warning}
           role="note"
-          className="flex flex-col gap-1 rounded-xl border border-warning/50 bg-warning/10 p-3 text-foreground"
+          className="flex flex-col gap-1 rounded-xl border border-ctp-peach/40 bg-ctp-peach/10 p-3 text-foreground"
         >
           <p className="flex items-center gap-2 font-semibold">
-            <TriangleAlert className="size-4 shrink-0 text-warning" strokeWidth={1.75} aria-hidden />
+            <TriangleAlert className="size-4 shrink-0 text-ctp-peach" strokeWidth={1.75} aria-hidden />
             {t(`extensions.installDialog.warnings.${warning}.title`)}
           </p>
           <p className="text-xs leading-4">

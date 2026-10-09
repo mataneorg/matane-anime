@@ -100,14 +100,14 @@ function UpdatesPage() {
       : when;
 
   return (
-    <div className="flex min-h-full flex-col gap-4 p-6">
-      <header className="flex flex-wrap items-center gap-x-4 gap-y-2">
+    <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col gap-5 px-6 py-5">
+      <header className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b pb-5">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl leading-8 font-bold tracking-tight">{t('nav.updates')}</h1>
+          <h1 className="text-xl font-semibold">{t('nav.updates')}</h1>
           {entries.length > 0 ? <Badge>{t('updates.count', { count: entries.length })}</Badge> : null}
         </div>
         <div className="flex-1" />
-        <p role="status" className="text-xs leading-4">
+        <p role="status" className="text-xs text-muted-foreground">
           {statusLine}
         </p>
         {checking && requestId !== null ? (
@@ -129,9 +129,9 @@ function UpdatesPage() {
       {failed.length > 0 ? (
         <div
           role="alert"
-          className="flex items-center gap-3 rounded-xl border border-warning/40 bg-warning/10 px-4 py-3 text-foreground"
+          className="flex items-center gap-3 rounded-xl border border-ctp-peach/40 bg-ctp-peach/10 px-4 py-3 text-foreground"
         >
-          <TriangleAlert className="size-5 shrink-0 text-warning" strokeWidth={1.75} aria-hidden />
+          <TriangleAlert className="size-5 shrink-0 text-ctp-peach" strokeWidth={1.75} aria-hidden />
           <p className="min-w-0 flex-1">
             <strong className="font-semibold">{t('updates.failed', { count: failed.length })}</strong>{' '}
             <span className="text-muted-foreground">
@@ -149,14 +149,14 @@ function UpdatesPage() {
       ) : null}
 
       {problem ? (
-        <p role="alert" className="text-warning">
+        <p role="alert" className="text-warning-text">
           {problem}
         </p>
       ) : null}
 
       {chosen.length > 0 ? (
         <div
-          className="flex flex-wrap items-center gap-2 rounded-xl bg-card px-4 py-2"
+          className="flex flex-wrap items-center gap-2 rounded-xl border bg-card/40 px-4 py-2"
           aria-label={t('updates.selection')}
         >
           <span className="mr-auto font-semibold text-foreground">
@@ -190,8 +190,8 @@ function UpdatesPage() {
         />
       ) : (
         groups.map((group) => (
-          <section key={group.key} className="flex flex-col gap-2" aria-label={group.label}>
-            <h2 className="pt-2 text-[15px] leading-[22px] font-semibold text-foreground">{group.label}</h2>
+          <section key={group.key} className="flex flex-col gap-2.5" aria-label={group.label}>
+            <h2 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">{group.label}</h2>
             <ul className="flex flex-col gap-2">
               {group.entries.map((entry) => (
                 <UpdateRow

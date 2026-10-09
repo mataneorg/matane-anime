@@ -9,16 +9,19 @@ import { formatBytes, usageShare } from './format';
 export function StorageCard() {
   const { t, i18n } = useTranslation();
   const { data: storage } = useQuery(downloadStorageQuery);
-  if (!storage) return <div className="h-[92px] animate-pulse rounded-xl bg-card" aria-hidden />;
+  if (!storage) return <div className="h-[92px] animate-pulse rounded-xl bg-muted" aria-hidden />;
   const { percent, over } = usageShare(storage.usedBytes, storage.limitBytes);
   const size = (bytes: number): string => formatBytes(bytes, i18n.language);
 
   return (
-    <section aria-label={t('downloads.storage.title')} className="flex items-stretch gap-6 rounded-xl bg-card p-4">
+    <section
+      aria-label={t('downloads.storage.title')}
+      className="flex items-stretch gap-6 rounded-xl border bg-card/40 px-4 py-3.5"
+    >
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="font-semibold text-foreground">{t('downloads.storage.title')}</h2>
-          <span className="font-mono text-xs leading-4 text-foreground">
+          <span className="text-xs text-foreground tabular-nums">
             {t('downloads.storage.usage', { used: size(storage.usedBytes), limit: size(storage.limitBytes) })}
           </span>
         </div>
@@ -28,26 +31,26 @@ export function StorageCard() {
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(percent)}
-          className="h-1.5 overflow-hidden rounded-full bg-input"
+          className="h-1.5 overflow-hidden rounded-full bg-muted"
         >
-          <div className={cn('h-full', over ? 'bg-warning' : 'bg-accent')} style={{ width: `${percent}%` }} />
+          <div className={cn('h-full', over ? 'bg-ctp-peach' : 'bg-primary')} style={{ width: `${percent}%` }} />
         </div>
-        <p className="text-xs leading-4">{t('downloads.storage.note')}</p>
+        <p className="text-xs text-muted-foreground">{t('downloads.storage.note')}</p>
       </div>
-      <div className="flex shrink-0 flex-col items-end gap-0.5 text-xs leading-4">
+      <div className="flex shrink-0 flex-col items-end gap-0.5 text-xs text-muted-foreground">
         {storage.freeBytes !== null ? (
           <span>
-            <span className="font-mono font-medium text-foreground">{size(storage.freeBytes)}</span>{' '}
+            <span className="font-medium text-foreground tabular-nums">{size(storage.freeBytes)}</span>{' '}
             {t('downloads.storage.free')}
           </span>
         ) : null}
-        <span className="max-w-72 truncate font-mono font-medium text-foreground" title={storage.folder}>
+        <span className="max-w-72 truncate font-medium text-foreground" title={storage.folder}>
           {storage.folder}
         </span>
         <ChangeFolderButton
           variant="ghost"
           size="sm"
-          className="h-auto px-0 py-0.5 text-xs font-normal text-accent hover:bg-transparent hover:underline"
+          className="h-auto px-0 py-0.5 text-xs font-normal text-primary-text hover:bg-transparent hover:underline"
         />
       </div>
     </section>

@@ -1,17 +1,17 @@
 # 5. Catppuccin theme
 
-Status: Accepted (2026-10-06)
+Status: Accepted (2026-10-06). Token names and fonts amended by [ADR 0036](0036-ui-follows-matane.md).
 
 ## Context
 The UI is designed in Catppuccin (docs/ui/design-system.md).
 
 ## Decision
-Tailwind v4 with `@catppuccin/tailwindcss`, which provides the four flavors (`mocha` default, `macchiato`, `frappe`, `latte`) as classes. The app only uses semantic tokens (`background`, `foreground`, `muted-foreground`, `card`, `border`, `border-strong`, `accent`, `on-accent`, `success`/`warning`/`danger`/`info`), mapped per flavor; `muted-foreground` is `subtext1` in Latte for contrast. The `video-*` tokens are the same in every flavor.
+Tailwind v4 with `@catppuccin/tailwindcss`, which provides the four flavors (`mocha` default, `macchiato`, `frappe`, `latte`) as classes. The app only uses semantic tokens, mapped per flavor (since ADR 0036 they are the shadcn/ui names: `background`, `foreground`, `card`, `popover`, `primary`, `primary-foreground`, `secondary`, `muted`, `accent`, `destructive`, `border`, `input`, `ring`; status colours come from `ctp-*`); `muted-foreground` is `subtext1` in Latte for contrast. The `video-*` tokens are the same in every flavor.
 
 - `amoled` is a class on top of a dark flavor and has no effect in Latte.
 - The accent is one of the 14 Catppuccin colors, set through `data-accent`.
 - `system` follows `prefers-color-scheme` (Mocha or Latte).
-- Fonts are Figtree and JetBrains Mono from `@fontsource`, bundled, so the app works offline and under the CSP.
+- The font is bundled from `@fontsource-variable/inter` (Figtree and JetBrains Mono before ADR 0036), so the app works offline and under the CSP.
 - The theme logic (`resolveFlavor`, `isAmoledActive`) lives in `packages/shared` and is unit tested.
 
 ## Consequences

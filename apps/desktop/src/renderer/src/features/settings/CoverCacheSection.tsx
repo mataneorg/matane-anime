@@ -8,6 +8,7 @@ import { describeError } from '@renderer/lib/errors';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { localQueryDefaults } from '@renderer/lib/query';
 import { notify } from '@renderer/lib/toast';
+import { SettingRow, SettingsCard } from './parts';
 
 const SIZES_MB = [256, 512, 1024, 2048, 5120];
 const cacheSizeQuery = {
@@ -34,33 +35,32 @@ export function CoverCacheSection() {
     : [...SIZES_MB, settings.imageCacheSizeMb].sort((a, b) => a - b);
 
   return (
-    <section className="flex flex-col gap-3" aria-labelledby="cover-cache-title">
-      <h2 id="cover-cache-title" className="text-[15px] leading-[22px] font-semibold">
-        {t('settings.data.coverCache')}
-      </h2>
-      <p className="text-xs leading-4">{t('settings.data.coverCacheHint')}</p>
-      <div className="flex flex-wrap items-center gap-3">
-        <label htmlFor="cover-cache-size" className="font-semibold">
-          {t('settings.data.coverCacheLimit')}
-        </label>
-        <Select
-          id="cover-cache-size"
-          value={settings.imageCacheSizeMb}
-          onChange={(event) => update.mutate({ imageCacheSizeMb: Number(event.target.value) })}
-        >
-          {sizes.map((mb) => (
-            <option key={mb} value={mb}>
-              {formatBytes(mb * 1024 * 1024, i18n.language)}
-            </option>
-          ))}
-        </Select>
-        <span className="font-mono text-xs leading-4 text-foreground">
-          {t('settings.data.coverCacheUsed', { size: formatBytes(used ?? 0, i18n.language) })}
-        </span>
-        <Button variant="secondary" size="sm" disabled={clear.isPending || !used} onClick={() => clear.mutate()}>
-          {t('settings.data.clearCache')}
-        </Button>
-      </div>
-    </section>
+    <SettingsCard
+      id="cover-cache-title"
+      title={t('settings.data.coverCache')}
+      description={t('settings.data.coverCacheHint')}
+    >
+      <SettingRow label={t('settings.data.coverCacheLimit')} htmlFor="cover-cache-size">
+        <div className="flex flex-wrap items-center gap-3">
+          <Select
+            id="cover-cache-size"
+            value={settings.imageCacheSizeMb}
+            onChange={(event) => update.mutate({ imageCacheSizeMb: Number(event.target.value) })}
+          >
+            {sizes.map((mb) => (
+              <option key={mb} value={mb}>
+                {formatBytes(mb * 1024 * 1024, i18n.language)}
+              </option>
+            ))}
+          </Select>
+          <span className="font-mono text-xs leading-4 text-foreground">
+            {t('settings.data.coverCacheUsed', { size: formatBytes(used ?? 0, i18n.language) })}
+          </span>
+          <Button variant="secondary" size="sm" disabled={clear.isPending || !used} onClick={() => clear.mutate()}>
+            {t('settings.data.clearCache')}
+          </Button>
+        </div>
+      </SettingRow>
+    </SettingsCard>
   );
 }

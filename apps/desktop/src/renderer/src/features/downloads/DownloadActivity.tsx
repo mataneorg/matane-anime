@@ -22,11 +22,11 @@ export function DownloadActivity() {
   return (
     <Link
       to="/downloads"
-      className="no-drag flex h-6 items-center gap-1.5 rounded-full bg-accent/16 px-2.5 text-xs leading-4 font-medium text-foreground"
+      className="no-drag flex h-6 items-center gap-1.5 rounded-full bg-primary/15 px-2.5 text-xs font-medium text-foreground"
     >
-      <Download className="size-3.5 text-accent motion-safe:animate-pulse" strokeWidth={1.75} aria-hidden />
+      <Download className="size-3.5 text-primary-text motion-safe:animate-pulse" strokeWidth={1.75} aria-hidden />
       {t('downloads.activity', { count: running })}
-      {speed > 0 ? <span className="font-mono">{formatSpeed(speed, i18n.language)}</span> : null}
+      {speed > 0 ? <span className="tabular-nums">{formatSpeed(speed, i18n.language)}</span> : null}
     </Link>
   );
 }
