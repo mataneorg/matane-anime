@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest an improvement to the app
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Requests for a particular **site or source** do not belong here. Matane Anime ships no sources and does not suggest any; a source is an extension, and the request goes to the repository of the extension that provides it (or you can write one: see docs/extensions.md).
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that is hard or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: How you imagine it working. A sketch or a screenshot of something similar helps.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: This is not a request for a particular site or source.
+          required: true

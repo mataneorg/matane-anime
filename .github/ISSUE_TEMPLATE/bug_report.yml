@@ -1,0 +1,76 @@
+name: Bug report
+description: Something in the app does not work as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please do not report a vulnerability here (use the security link on the issue chooser), and do not ask for a particular site or source: requests for a source belong to the repository of the extension that provides it.
+
+        If the problem is that **one source does not work** (empty lists, no video), it is probably the extension, not the app: report it in that extension's repository.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what you got instead. Screenshots are welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: Settings, About.
+      placeholder: 0.1.0-beta.1
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows 10/11
+        - macOS (Apple silicon)
+        - macOS (Intel)
+        - Linux
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: package
+    attributes:
+      label: How you installed it
+      options:
+        - Windows installer
+        - Windows portable
+        - macOS dmg
+        - Linux AppImage
+        - Linux deb
+        - Linux rpm
+        - Built from source
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: debug
+    attributes:
+      label: Debug info
+      description: If the app offers "Copy debug info" (Settings), paste it here. Home folder, user name, URL queries and tokens are meant to be masked; please read it before posting.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you send
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: This is about the app, not about one particular source or extension.
+          required: true

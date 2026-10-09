@@ -54,7 +54,7 @@ pnpm --filter @matane-anime/extension-cli     publish --access public
 
 ## Cutting an app beta
 
-The decision record is [ADR 0020](adr/0020-beta-packaging.md). The pieces: `apps/desktop/electron-builder.yml` (targets: AppImage x64, NSIS x64, dmg arm64+x64; artifact names `matane-anime-<version>-<os>-<arch>.<ext>`), `.github/workflows/release.yml`, and `AppUpdater` (`apps/desktop/src/main/app/updater.ts`), which looks for updates in GitHub Releases from a packaged build, on the stable or the beta channel.
+The decision record is [ADR 0020](adr/0020-beta-packaging.md). The pieces: `apps/desktop/electron-builder.yml` (targets: AppImage, deb and rpm on Linux x64; NSIS and portable on Windows x64; dmg arm64+x64; artifact names `matane-anime-<version>-<os>-<arch>.<ext>`, the portable one ends in `-portable.exe`), `.github/workflows/release.yml`, and `AppUpdater` (`apps/desktop/src/main/app/updater.ts`), which looks for updates in GitHub Releases from a packaged build, on the stable or the beta channel.
 
 ### Build one locally (Linux)
 
@@ -76,7 +76,7 @@ pnpm --filter @matane-anime/desktop pack:dir   # an unpacked folder instead of a
    git push origin v0.1.0-beta.1
    ```
 
-   The `prepare` job fails the run if the tag does not match `apps/desktop/package.json`, creates the release once (`--generate-notes`, `--prerelease` for a pre-release version), and then three builds run in parallel: Linux (AppImage), Windows (NSIS) and macOS (dmg for arm64 and x64, from one runner). Each uploads to the release through `electron-builder --publish always` and keeps its installers as workflow artifacts for 14 days. The Linux job then smoke-tests the AppImage (`xvfb-run -a pnpm smoke:packaged`, after the upload: a red job there means pull the release, not that nothing was published).
+   The `prepare` job fails the run if the tag does not match `apps/desktop/package.json`, creates the release once (`--generate-notes`, `--prerelease` for a pre-release version), and then three builds run in parallel: Linux (AppImage, deb, rpm), Windows (NSIS and portable) and macOS (dmg for arm64 and x64, from one runner). Each uploads to the release through `electron-builder --publish always` and keeps its installers as workflow artifacts for 14 days. The Linux job then smoke-tests the AppImage (`xvfb-run -a pnpm smoke:packaged`, after the upload: a red job there means pull the release, not that nothing was published).
 4. A manual run of the workflow ("Run workflow", `workflow_dispatch`) only builds and keeps artifacts, unless you tick _publish_ (the release is then named after the version in `package.json`).
 
 The release is created as a normal (not draft) release, because the updater only sees published ones: **tagging publishes**. The macOS build is unsigned, so it cannot auto-update; it only tells the user a new version exists (PRD R13). AppImage and NSIS download in the background and install on quit.
@@ -87,8 +87,13 @@ From ADR 0020 and the files themselves; none of this has been exercised:
 
 - **`release.yml` itself.** It was written before the GitHub repository existed and has never run. Only the Linux AppImage was built and smoke-tested, locally.
 - **Repository address.** `publish.owner`/`repo` in `electron-builder.yml` and `RELEASES_URL` in `apps/desktop/src/main/app/updater.ts` say `mataneorg/matane-anime`. They must match the real repository, and each other; the first real release is the proof.
+- **The extra packages** (Windows portable, Linux deb and rpm; Fase 5, milestone 5f): never built. After the first CI run check that `latest.yml` points at the NSIS installer and `latest-linux.yml` at the AppImage, and install the deb and rpm on clean machines. The Flatpak manifest and the AUR `PKGBUILD` in [docs/packaging](packaging/README.md) are unverified drafts that need a Flathub/AUR submission by you. How each package updates is in that README.
 - **NSIS (Windows) and dmg (macOS) builds**, an unsigned arm64 macOS build (it may need ad-hoc signing), and **auto-update end to end** (from one published beta to the next).
 - The **three-OS playback spike** (`spike.yml`, [ADR 0008](adr/0008-media-transport.md), [0009](adr/0009-codec-support.md)) must be green before a public beta.
 - Windows and macOS builds are unsigned (PRD R13); expect SmartScreen/Gatekeeper warnings.
 
 A sensible first run once the repository exists: a `workflow_dispatch` build without _publish_, download the three artifacts and try them, then tag.
+
+## The docs site
+
+The user and author documentation is a VitePress site in `apps/docs` (workspace package `@matane-anime/docs`). It is not part of `pnpm build`, CI or the release workflow, and nothing deploys it yet: pick a host (and set `base` in `apps/docs/.vitepress/config.mts` if it is served from a sub-path) when you want it online. Build it by hand with `pnpm --filter @matane-anime/docs docs:build` (output in `apps/docs/.vitepress/dist`), or run `docs:dev` while writing. Before a release, re-read the pages for features that changed. The two author guides there are copies of `docs/extensions.md` and `docs/repositories.md`; keep them in step.

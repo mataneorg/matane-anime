@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Request a source or a site
+    url: https://github.com/mataneorg/matane-anime/blob/main/CONTRIBUTING.md#where-things-belong
+    about: Matane Anime ships no sources and does not suggest any. Requests for a particular site belong to the repository of the extension that provides it, not here.
+  - name: Report a security vulnerability
+    url: https://github.com/mataneorg/matane-anime/security/advisories/new
+    about: Private reporting. Please do not open a public issue for a vulnerability.

@@ -22,3 +22,6 @@ spike-results*.json
 
 # CodeGraph index (local)
 .codegraph/
+
+# VitePress cache (apps/docs)
+.vitepress/cache/
