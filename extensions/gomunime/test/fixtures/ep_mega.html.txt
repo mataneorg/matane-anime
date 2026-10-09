@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#a855f7">
+    
+            
+    
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHTBS5K64P"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        // Detect client type — pwa if launched from home screen, else web
+        var clientType = 'web';
+        try {
+            if (window.matchMedia('(display-mode: standalone)').matches
+                || window.navigator.standalone === true
+                || document.referrer.includes('android-app://')) {
+                clientType = 'pwa';
+            }
+        } catch (e) {}
+
+        gtag('config', "G-NHTBS5K64P", {
+            'client_type': clientType,
+            'send_page_view': true
+        });
+        // Also send as event param for filtering
+        gtag('event', 'page_view', { 'client_type': clientType });
+    </script>
+        <title>Boruto Naruto Next Generations Episode 18 | Gomunime</title>
+    <meta name="description" content="Nonton Anime Boruto Naruto Next Generations Episode 18 Sub Indo di Gomunime. TV Action/Shounen/Adventure rating 5.97 MAL. Streaming gratis HD subtitle Indone...">
+    <meta name="keywords" content="anime boruto naruto next generations, boruto naruto next generations episode 18, nonton anime boruto naruto next generations, boruto naruto next generations sub indo, gomunime, anime sub indo, nonton anime, streaming anime, anime action, anime shounen">
+            <link rel="canonical" href="https://gomunime.top/boruto-naruto-next-generations-episode-18">
+        <meta property="og:site_name" content="Gomunime">
+    <meta property="og:type" content="video.episode">
+    <meta property="og:title" content="Boruto Naruto Next Generations Episode 18 | Gomunime">
+    <meta property="og:description" content="Nonton Anime Boruto Naruto Next Generations Episode 18 Sub Indo di Gomunime. TV Action/Shounen/Adventure rating 5.97 MAL. Streaming gratis HD subtitle Indone...">
+    <meta property="og:url" content="https://gomunime.top/boruto-naruto-next-generations-episode-18">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image" content="https://gomunime.top/storage/posters/boruto-naruto-next-generations-banner.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Boruto Naruto Next Generations Episode 18 | Gomunime">
+    <meta name="twitter:description" content="Nonton Anime Boruto Naruto Next Generations Episode 18 Sub Indo di Gomunime. TV Action/Shounen/Adventure rating 5.97 MAL. Streaming gratis HD subtitle Indone...">
+    <meta name="twitter:image" content="https://gomunime.top/storage/posters/boruto-naruto-next-generations-banner.jpg">
+    <meta name="author" content="Gomunime">
+    <meta name="publisher" content="Gomunime">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://anime-indo.lol">
+    <link rel="dns-prefetch" href="https://anime-indo.lol">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gomunime">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Gomunime">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=gomu-real">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png?v=gomu-real">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png?v=gomu-real">
+
+    <link rel="preload" as="style" href="https://gomunime.top/build/assets/app-BtxMVlCx.css" /><link rel="modulepreload" href="https://gomunime.top/build/assets/app-CnUKscQ8.js" /><link rel="stylesheet" href="https://gomunime.top/build/assets/app-BtxMVlCx.css" data-navigate-track="reload" /><script type="module" src="https://gomunime.top/build/assets/app-CnUKscQ8.js" data-navigate-track="reload"></script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js?v=3', {updateViaCache: 'none'}).catch(() => {});
+            });
+        }
+    </script>
+
+        <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Gomunime","url":"https://gomunime.top","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://gomunime.top/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gomunime","url":"https://gomunime.top","logo":"https://gomunime.top/img/logo.png","sameAs":[]}</script>
+
+            <script type="application/ld+json">{"@context":"https://schema.org","@type":"TVEpisode","@id":"https://gomunime.top/boruto-naruto-next-generations-episode-18#tvepisode","name":"Boruto: Naruto Next Generations Episode 18","url":"https://gomunime.top/boruto-naruto-next-generations-episode-18","inLanguage":["id","ja"],"episodeNumber":18,"datePublished":"2025-02-23T02:58:03+07:00","image":"https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2","partOfSeries":{"@type":"TVSeries","@id":"https://gomunime.top/boruto-naruto-next-generations#tvseries","name":"Boruto Naruto Next Generations","url":"https://gomunime.top/boruto-naruto-next-generations","genre":["Anime","Action","Shounen","Adventure","Fantasy","Martial Arts"]},"keywords":"anime Boruto Naruto Next Generations, nonton anime Boruto Naruto Next Generations, Boruto Naruto Next Generations sub indo, gomunime, anime sub indo, nonton anime, anime indo, samehadaku, animeindo, oploverz"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoObject","name":"Nonton Anime Boruto Naruto Next Generations Episode 18 Sub Indo","description":"Nonton Anime Boruto Naruto Next Generations Episode 18 subtitle Indonesia gratis HD di Gomunime. Multi server anti buffering.","thumbnailUrl":"https://gomunime.top/storage/posters/boruto-naruto-next-generations-banner.jpg","uploadDate":"2025-02-23T02:58:03+07:00","inLanguage":["id","ja"],"isFamilyFriendly":true,"keywords":"anime Boruto Naruto Next Generations, nonton anime Boruto Naruto Next Generations sub indo, Boruto Naruto Next Generations episode 18, gomunime, anime indo, samehadaku, animeindo, oploverz","embedUrl":"https://mega.nz/embed/WYgjUCqQ#bUO3Qfzajce0KkCzfzGqydhdZMaq1Sem9ZVPeTjTPb0","duration":"PT23M","interactionStatistic":{"@type":"InteractionCounter","interactionType":{"@type":"WatchAction"},"userInteractionCount":138}}</script>
+            <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gomunime.top"},{"@type":"ListItem","position":2,"name":"Boruto Naruto Next Generations","item":"https://gomunime.top/boruto-naruto-next-generations"},{"@type":"ListItem","position":3,"name":"Episode 18","item":"https://gomunime.top/boruto-naruto-next-generations-episode-18"}]}</script>
+        </head>
+<body>
+    
+    <script>(function(){function inFab(t){return t&&t.closest&&t.closest('#support-fab');}['mousedown','pointerdown','touchstart','auxclick'].forEach(function(ev){window.addEventListener(ev,function(e){if(inFab(e.target))e.stopImmediatePropagation();},true);});})();</script>
+    <header class="sticky top-0 z-40 glass border-b border-white/5" x-data="{ open: false }">
+    <div class="container-x flex items-center gap-3 h-16">
+        <a href="https://gomunime.top" class="flex items-center shrink-0 group" aria-label="Gomunime">
+            <img src="https://gomunime.top/img/logo.png" alt="Gomunime — Nonton Anime Sub Indo" style="height:40px;width:auto" class="shrink-0">
+        </a>
+
+        <nav class="hidden md:flex items-center gap-0.5 text-sm ml-4">
+            <a href="https://gomunime.top" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Home</a>
+            <a href="https://gomunime.top/status/ongoing" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Ongoing</a>
+            <a href="https://gomunime.top/status/completed" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Tamat</a>
+            <a href="https://gomunime.top/type/movie" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">🎬 Movies</a>
+            <div class="relative" x-data="{ g: false }">
+                <button @click="g = !g" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition flex items-center gap-1">
+                    Genre
+                    <svg class="w-3 h-3 transition-transform" :class="g && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="g" @click.outside="g = false" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-72 rounded-2xl glass p-2 shadow-2xl">
+                    <div class="grid grid-cols-2 gap-0.5">
+                                                    <a href="https://gomunime.top/genre/action" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Action</a>
+                                                    <a href="https://gomunime.top/genre/adult-cast" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Adult Cast</a>
+                                                    <a href="https://gomunime.top/genre/adventure" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Adventure</a>
+                                                    <a href="https://gomunime.top/genre/anthropomorphic" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Anthropomorphic</a>
+                                                    <a href="https://gomunime.top/genre/avant-garde" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Avant Garde</a>
+                                                    <a href="https://gomunime.top/genre/award-winning" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Award Winning</a>
+                                                    <a href="https://gomunime.top/genre/cgdct" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">CGDCT</a>
+                                                    <a href="https://gomunime.top/genre/childcare" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Childcare</a>
+                                                    <a href="https://gomunime.top/genre/comedy" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Comedy</a>
+                                                    <a href="https://gomunime.top/genre/crossdressing" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Crossdressing</a>
+                                                    <a href="https://gomunime.top/genre/delinquents" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Delinquents</a>
+                                                    <a href="https://gomunime.top/genre/detective" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Detective</a>
+                                                    <a href="https://gomunime.top/genre/drama" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Drama</a>
+                                                    <a href="https://gomunime.top/genre/ecchi" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Ecchi</a>
+                                                    <a href="https://gomunime.top/genre/educational" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Educational</a>
+                                                    <a href="https://gomunime.top/genre/erotica" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Erotica</a>
+                                                    <a href="https://gomunime.top/genre/fantasy" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Fantasy</a>
+                                                    <a href="https://gomunime.top/genre/gag-humor" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Gag Humor</a>
+                                                    <a href="https://gomunime.top/genre/girls-love" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Girls Love</a>
+                                                    <a href="https://gomunime.top/genre/gore" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Gore</a>
+                                            </div>
+                </div>
+            </div>
+            <a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Top Rated</a>
+            <a href="https://gomunime.top/donasi" class="px-3 py-2 rounded-lg text-brand-300 hover:bg-brand-600 hover:text-white transition font-semibold flex items-center gap-1">💙 Dukung</a>
+                        <a href="https://gomunime.top/download" class="px-3 py-2 rounded-lg text-brand-300 hover:bg-brand-600 hover:text-white transition font-semibold flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+                Download App
+            </a>
+                    </nav>
+
+        <form action="https://gomunime.top/search" method="GET" class="flex-1 max-w-md ml-auto">
+            <div class="relative">
+                <input type="search" name="q" value="" placeholder="Cari anime..." autocomplete="off" class="w-full bg-ink-900/50 border-white/5 rounded-xl pl-10 pr-3 py-2 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 placeholder:text-ink-300">
+                <svg class="absolute left-3 top-2.5 w-5 h-5 text-ink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+        </form>
+
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-ink-200 hover:bg-white/5">
+            <svg x-show="!open" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg x-show="open" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    </div>
+
+    <div x-show="open" x-transition class="md:hidden border-t border-white/5 px-4 py-3 space-y-1">
+        <a href="https://gomunime.top" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Home</a>
+        <a href="https://gomunime.top/status/ongoing" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Ongoing</a>
+        <a href="https://gomunime.top/status/completed" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Tamat</a>
+        <a href="https://gomunime.top/type/movie" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">🎬 Movies</a>
+        <a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Top Rated</a>
+        <a href="https://gomunime.top/donasi" class="block px-3 py-2.5 rounded-lg text-brand-300 font-semibold hover:bg-brand-600 hover:text-white">💙 Dukung Kami</a>
+                <a href="https://gomunime.top/download" class="block px-3 py-2.5 rounded-lg text-brand-300 font-semibold hover:bg-brand-600 hover:text-white">📱 Download App</a>
+                <div class="pt-2 border-t border-white/5">
+            <p class="px-3 py-2 text-xs uppercase text-ink-300 tracking-wider">Genre Populer</p>
+            <div class="grid grid-cols-2 gap-1 mt-1">
+                                    <a href="https://gomunime.top/genre/fantasy" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Fantasy</a>
+                                    <a href="https://gomunime.top/genre/action" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Action</a>
+                                    <a href="https://gomunime.top/genre/comedy" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Comedy</a>
+                                    <a href="https://gomunime.top/genre/shounen" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Shounen</a>
+                                    <a href="https://gomunime.top/genre/romance" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Romance</a>
+                                    <a href="https://gomunime.top/genre/adventure" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Adventure</a>
+                                    <a href="https://gomunime.top/genre/school" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">School</a>
+                                    <a href="https://gomunime.top/genre/seinen" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Seinen</a>
+                                    <a href="https://gomunime.top/genre/isekai" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Isekai</a>
+                                    <a href="https://gomunime.top/genre/drama" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Drama</a>
+                            </div>
+        </div>
+    </div>
+</header>
+
+    <main class="min-h-[60vh] py-6 pb-20 md:pb-6">
+        <div class="container-x">
+
+    
+    <nav class="text-sm text-ink-300 mb-3 flex items-center gap-2 flex-wrap">
+        <a href="https://gomunime.top" class="hover:text-brand-300 transition">Home</a>
+        <span>›</span>
+                    <a href="https://gomunime.top/boruto-naruto-next-generations" class="hover:text-brand-300 transition truncate max-w-xs">Boruto Naruto Next Generations</a>
+            <span>›</span>
+                <span class="text-ink-100">Episode 18</span>
+    </nav>
+
+    <h1 class="text-xl md:text-2xl font-display font-bold text-white mb-4">Nonton Anime Boruto Naruto Next Generations Episode 18 Sub Indo</h1>
+
+    
+    
+        
+    <div x-data="{
+            active: 0,
+            maybeDown: false,
+            _timer: null,
+            show(i) {
+                this.active = i; this.maybeDown = false;
+                const tpl = this.$refs['emb' + i];
+                if (!tpl || !this.$refs.slot) return;
+                this.$refs.slot.innerHTML = tpl.innerHTML;
+                clearTimeout(this._timer);
+                const ifr = this.$refs.slot.querySelector('iframe');
+                if (ifr) {
+                    let loaded = false;
+                    ifr.addEventListener('load', () => { loaded = true; this.maybeDown = false; });
+                    this._timer = setTimeout(() => { if (!loaded) this.maybeDown = true; }, 9000);
+                }
+            },
+            hasNext() { return !!this.$refs['emb' + (this.active + 1)]; },
+            next() { if (this.hasNext()) this.show(this.active + 1); }
+        }"  x-init="show(0)"  class="card overflow-hidden ring-2 ring-brand-500/10">
+        <div class="aspect-video bg-black relative">
+                            <div x-ref="slot" class="absolute inset-0 [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0"></div>
+                                                            <template x-ref="emb0"><iframe width="640" height="360" frameborder="0" src="https://mega.nz/embed/WYgjUCqQ#bUO3Qfzajce0KkCzfzGqydhdZMaq1Sem9ZVPeTjTPb0" allowfullscreen ></iframe>
+</template>
+                                                                                <template x-ref="emb1"><iframe width="640" height="360" frameborder="0" src="https://mega.nz/embed/XdoVnIrR#M39Mg_gszI4fmc2Fz3h_4hvk0icpKWesRqlUnRZrKoM" allowfullscreen ></iframe>
+</template>
+                                                                                <template x-ref="emb2"><iframe width="640" height="360" frameborder="0" src="https://mega.nz/embed/XQ4BzKpQ#QQ_xxxD85fMI-oT5FIcXTX4rP344eXjv25SaEI3TRXE" allowfullscreen ></iframe>
+</template>
+                                                    <div x-show="maybeDown" x-cloak style="position:absolute;left:12px;right:12px;bottom:12px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:8px;background:rgba(0,0,0,.85);padding:8px 12px;font-size:12px;color:#fef3c7;border:1px solid rgba(251,191,36,.4)">
+                    <span>Server ini lambat/bermasalah? Coba server lain di bawah.</span>
+                    <button @click="next()" x-show="hasNext()" style="flex:none;border-radius:6px;background:#f59e0b;padding:4px 10px;font-weight:600;color:#000">Server berikutnya ›</button>
+                </div>
+            
+            
+                    </div>
+                    <div class="p-3 md:p-4 bg-ink-900/80 border-t border-white/5">
+                <div class="flex items-center gap-2 mb-2.5 text-xs text-ink-300">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    Pilih server lain kalau lag:
+                </div>
+                <div class="flex flex-wrap gap-2">
+                                            <button @click="show(0)" :class="active === 0 ? 'bg-brand-600 text-white shadow-glow-sm ring-brand-400' : 'bg-ink-800 text-ink-200 hover:bg-ink-700 ring-white/5'" class="btn text-xs ring-1">
+                            Mega 360p
+                        </button>
+                                            <button @click="show(1)" :class="active === 1 ? 'bg-brand-600 text-white shadow-glow-sm ring-brand-400' : 'bg-ink-800 text-ink-200 hover:bg-ink-700 ring-white/5'" class="btn text-xs ring-1">
+                            Mega 480p
+                        </button>
+                                            <button @click="show(2)" :class="active === 2 ? 'bg-brand-600 text-white shadow-glow-sm ring-brand-400' : 'bg-ink-800 text-ink-200 hover:bg-ink-700 ring-white/5'" class="btn text-xs ring-1">
+                            Mega 720p
+                        </button>
+                                    </div>
+            </div>
+            </div>
+
+    
+    
+    <div class="mt-4 grid grid-cols-2 gap-3">
+                    <a href="https://gomunime.top/boruto-naruto-next-generations-episode-17" class="btn-ghost justify-start group">
+                <svg class="w-4 h-4 group-hover:-translate-x-1 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                <span class="truncate">Prev: Episode 17</span>
+            </a>
+                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-19" class="btn-primary justify-end group">
+                <span class="truncate">Next: Episode 19</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </a>
+            </div>
+
+    
+    
+            <section class="card p-5 md:p-6 mt-6 grid md:grid-cols-[140px_1fr] gap-5 items-start">
+            <a href="https://gomunime.top/boruto-naruto-next-generations" class="block w-28 md:w-full mx-auto md:mx-0">
+                <div class="aspect-poster overflow-hidden rounded-xl ring-1 ring-white/10 hover:ring-brand-500/40 transition">
+                                            <img
+    src="https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Boruto Naruto Next Generations"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+                                    </div>
+            </a>
+            <div>
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span class="badge-brand">TV</span>                    <span class="badge-success">Ongoing</span>                    <span class="badge-warning">⭐ 5.97</span>                </div>
+                <h2 class="text-xl md:text-2xl font-display font-bold text-white">
+                    <a href="https://gomunime.top/boruto-naruto-next-generations" class="hover:text-brand-300 transition">Boruto Naruto Next Generations</a>
+                </h2>
+                                    <p class="mt-2 text-sm text-ink-100 line-clamp-3">Boruto Naruto Next Generations Following the successful end of the Fourth Shinobi World War, Konohagakure has been enjoying a period of peace, prosperity, and extraordinary technological advancement. This is all due to the efforts of the Allied Shinobi Forces and the village&#039;s Seventh Hokage, Naruto Uzumaki. Now resembling a modern metropolis, Konohagakure has changed, particularly the life of a shinobi. Under the watchful eye of Naruto and his old comrades, a new generation of shinobi has stepped up to learn the ways of the ninja. Boruto Uzumaki is often the center of attention as the son of the Seventh Hokage. Despite having inherited Naruto&#039;s boisterous and stubborn demeanor, Boruto is considered a prodigy and is able to unleash his potential with the help of supportive friends and family. Unfortunately, this has only worsened his arrogance and his desire to surpass Naruto which, along with his father&#039;s busy lifestyle, has strained their relationship. However, a sinister force brewing within the village may threaten Boruto&#039;s carefree life. New friends and familiar faces join Boruto as a new story begins. [Written by MAL Rewrite]</p>
+                                                    <div class="mt-3 flex flex-wrap gap-1.5">
+                                                    <a href="https://gomunime.top/genre/action" class="px-2 py-0.5 text-xs rounded-md bg-ink-800 ring-1 ring-white/5 text-ink-100 hover:bg-brand-600 hover:text-white transition">Action</a>
+                                                    <a href="https://gomunime.top/genre/shounen" class="px-2 py-0.5 text-xs rounded-md bg-ink-800 ring-1 ring-white/5 text-ink-100 hover:bg-brand-600 hover:text-white transition">Shounen</a>
+                                                    <a href="https://gomunime.top/genre/adventure" class="px-2 py-0.5 text-xs rounded-md bg-ink-800 ring-1 ring-white/5 text-ink-100 hover:bg-brand-600 hover:text-white transition">Adventure</a>
+                                                    <a href="https://gomunime.top/genre/fantasy" class="px-2 py-0.5 text-xs rounded-md bg-ink-800 ring-1 ring-white/5 text-ink-100 hover:bg-brand-600 hover:text-white transition">Fantasy</a>
+                                                    <a href="https://gomunime.top/genre/martial-arts" class="px-2 py-0.5 text-xs rounded-md bg-ink-800 ring-1 ring-white/5 text-ink-100 hover:bg-brand-600 hover:text-white transition">Martial Arts</a>
+                                            </div>
+                            </div>
+        </section>
+    
+    
+            <section class="card p-5 md:p-6 mt-6">
+            <h2 class="section-title mb-4">Pilih Episode Anime Boruto Naruto Next Generations Sub Indo</h2>
+            <style>
+    .eplist-desc .ept, .eplist-desc .eplist-chip { order: calc(var(--o) * -1); }
+    .ept { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: .5rem; background: #141414; color: #fafafa; box-shadow: inset 0 0 0 1px rgba(255,255,255,.05); transition: background .15s, color .15s; padding: .5rem .125rem; line-height: 1.15; }
+    .ept:hover { background: #003bff; color: #fff; }
+    .ept-c { aspect-ratio: 1; padding: 0; font-size: .875rem; font-weight: 700; }
+    .ept.cur { background: #003bff; color: #fff; box-shadow: inset 0 0 0 2px #92b4ff, 0 0 16px rgba(51,103,255,.4); }
+    .ept.last { box-shadow: inset 0 0 0 2px rgba(52,211,153,.7); }
+    .ept small { font-size: 9px; color: #808080; }
+    .ept.cur small, .ept:hover small { color: rgba(255,255,255,.8); }
+    .ept b { font-size: 1.125rem; }
+    .ept i { position: absolute; top: -4px; right: -4px; font-style: normal; background: #ef4444; color: #fff; font-size: 9px; font-weight: 700; line-height: 1rem; padding: 0 .25rem; border-radius: .25rem; }
+    .eplist-flash { animation: eplist-flash 1.4s ease-out; }
+    @keyframes eplist-flash { 0%, 40% { box-shadow: 0 0 0 3px #facc15; } 100% { box-shadow: inset 0 0 0 1px rgba(255,255,255,.05); } }
+</style>
+
+<div x-data="episodeList({ series: 617, range: 0, sort: 'asc', ranges: 3 })"
+     x-init="init()"
+     :class="sort === 'desc' ? 'eplist-desc' : ''"
+     class="space-y-3">
+
+    
+    <div class="flex flex-wrap items-center gap-2">
+        <a x-cloak x-show="false"
+           :href="last ? '/' + last.slug : '#'"
+           class="inline-flex items-center gap-1.5 rounded-lg bg-brand-600/20 ring-1 ring-brand-500/40 px-3 py-2 text-xs font-semibold text-brand-200 hover:bg-brand-600 hover:text-white transition">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <span>Lanjut <span x-text="last ? 'Ep ' + last.n : ''"></span></span>
+        </a>
+        <form @submit.prevent="jump(true)" class="flex-1 min-w-[140px] max-w-[220px]">
+            <label class="sr-only" for="eplist-jump-617">Cari nomor episode</label>
+            <input id="eplist-jump-617" x-model="q" @input.debounce.250ms="jump(false)"
+                   type="number" inputmode="numeric" min="0" placeholder="Cari episode…"
+                   class="w-full rounded-lg bg-ink-800 border-0 ring-1 ring-white/10 focus:ring-2 focus:ring-brand-500 px-3 py-2 text-sm text-white placeholder-ink-300">
+        </form>
+        <button type="button" @click="toggleSort()"
+                class="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-ink-800 ring-1 ring-white/10 px-3 py-2 text-xs font-semibold text-ink-100 hover:bg-ink-700 transition"
+                :aria-label="sort === 'desc' ? 'Urutkan dari episode pertama' : 'Urutkan dari episode terbaru'">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h13M3 12h9m-9 5h5m9-9v12m0 0l-3-3m3 3l3-3"/></svg>
+            <span x-text="sort === 'desc' ? 'Terbaru' : 'Terlama'">Terlama</span>
+        </button>
+    </div>
+
+    
+            <div class="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1" style="scrollbar-width: thin">
+                            <button type="button" @click="range = 0" style="--o: 0"
+                        :class="range === 0 ? 'bg-brand-600 text-white ring-brand-400' : 'bg-ink-800 text-ink-100 ring-white/10 hover:bg-ink-700'"
+                        class="eplist-chip shrink-0 rounded-full ring-1 px-3.5 py-1.5 text-xs font-semibold transition">
+                    1–100
+                </button>
+                            <button type="button" @click="range = 1" style="--o: 1"
+                        :class="range === 1 ? 'bg-brand-600 text-white ring-brand-400' : 'bg-ink-800 text-ink-100 ring-white/10 hover:bg-ink-700'"
+                        class="eplist-chip shrink-0 rounded-full ring-1 px-3.5 py-1.5 text-xs font-semibold transition">
+                    101–200
+                </button>
+                            <button type="button" @click="range = 2" style="--o: 2"
+                        :class="range === 2 ? 'bg-brand-600 text-white ring-brand-400' : 'bg-ink-800 text-ink-100 ring-white/10 hover:bg-ink-700'"
+                        class="eplist-chip shrink-0 rounded-full ring-1 px-3.5 py-1.5 text-xs font-semibold transition">
+                    201–293
+                </button>
+                    </div>
+    
+    
+            <div  x-show="range === 0"
+             class="grid gap-2 grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12">
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-1" data-n="1" style="--o:0" class="ept ept-c">1 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-2" data-n="2" style="--o:1" class="ept ept-c">2 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-3" data-n="3" style="--o:2" class="ept ept-c">3 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-4" data-n="4" style="--o:3" class="ept ept-c">4 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-5" data-n="5" style="--o:4" class="ept ept-c">5 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-6" data-n="6" style="--o:5" class="ept ept-c">6 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-7" data-n="7" style="--o:6" class="ept ept-c">7 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-8" data-n="8" style="--o:7" class="ept ept-c">8 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-9" data-n="9" style="--o:8" class="ept ept-c">9 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-10" data-n="10" style="--o:9" class="ept ept-c">10 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-11" data-n="11" style="--o:10" class="ept ept-c">11 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-12" data-n="12" style="--o:11" class="ept ept-c">12 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-13" data-n="13" style="--o:12" class="ept ept-c">13 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-14" data-n="14" style="--o:13" class="ept ept-c">14 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-15" data-n="15" style="--o:14" class="ept ept-c">15 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-16" data-n="16" style="--o:15" class="ept ept-c">16 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-17" data-n="17" style="--o:16" class="ept ept-c">17 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-18" data-n="18" style="--o:17" class="ept ept-c cur" aria-current="page">18 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-19" data-n="19" style="--o:18" class="ept ept-c">19 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-20" data-n="20" style="--o:19" class="ept ept-c">20 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-21" data-n="21" style="--o:20" class="ept ept-c">21 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-22" data-n="22" style="--o:21" class="ept ept-c">22 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-23" data-n="23" style="--o:22" class="ept ept-c">23 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-24" data-n="24" style="--o:23" class="ept ept-c">24 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-25" data-n="25" style="--o:24" class="ept ept-c">25 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-26" data-n="26" style="--o:25" class="ept ept-c">26 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-27" data-n="27" style="--o:26" class="ept ept-c">27 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-28" data-n="28" style="--o:27" class="ept ept-c">28 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-29" data-n="29" style="--o:28" class="ept ept-c">29 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-30" data-n="30" style="--o:29" class="ept ept-c">30 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-31" data-n="31" style="--o:30" class="ept ept-c">31 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-32" data-n="32" style="--o:31" class="ept ept-c">32 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-33" data-n="33" style="--o:32" class="ept ept-c">33 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-34" data-n="34" style="--o:33" class="ept ept-c">34 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-35" data-n="35" style="--o:34" class="ept ept-c">35 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-36" data-n="36" style="--o:35" class="ept ept-c">36 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-37" data-n="37" style="--o:36" class="ept ept-c">37 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-38" data-n="38" style="--o:37" class="ept ept-c">38 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-39" data-n="39" style="--o:38" class="ept ept-c">39 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-40" data-n="40" style="--o:39" class="ept ept-c">40 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-41" data-n="41" style="--o:40" class="ept ept-c">41 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-42" data-n="42" style="--o:41" class="ept ept-c">42 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-43" data-n="43" style="--o:42" class="ept ept-c">43 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-44" data-n="44" style="--o:43" class="ept ept-c">44 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-45" data-n="45" style="--o:44" class="ept ept-c">45 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-46" data-n="46" style="--o:45" class="ept ept-c">46 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-47" data-n="47" style="--o:46" class="ept ept-c">47 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-47-subtitle-indonesia-2" data-n="48" style="--o:47" class="ept ept-c">48 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-49" data-n="49" style="--o:48" class="ept ept-c">49 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-50" data-n="50" style="--o:49" class="ept ept-c">50 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-51" data-n="51" style="--o:50" class="ept ept-c">51 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-52" data-n="52" style="--o:51" class="ept ept-c">52 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-53" data-n="53" style="--o:52" class="ept ept-c">53 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-54" data-n="54" style="--o:53" class="ept ept-c">54 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-55" data-n="55" style="--o:54" class="ept ept-c">55 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-56" data-n="56" style="--o:55" class="ept ept-c">56 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-57" data-n="57" style="--o:56" class="ept ept-c">57 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-58" data-n="58" style="--o:57" class="ept ept-c">58 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-59" data-n="59" style="--o:58" class="ept ept-c">59 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-60" data-n="60" style="--o:59" class="ept ept-c">60 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-61" data-n="61" style="--o:60" class="ept ept-c">61 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-62" data-n="62" style="--o:61" class="ept ept-c">62 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-63" data-n="63" style="--o:62" class="ept ept-c">63 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-64" data-n="64" style="--o:63" class="ept ept-c">64 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-65" data-n="65" style="--o:64" class="ept ept-c">65 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-66" data-n="66" style="--o:65" class="ept ept-c">66 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-67" data-n="67" style="--o:66" class="ept ept-c">67 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-68" data-n="68" style="--o:67" class="ept ept-c">68 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-69" data-n="69" style="--o:68" class="ept ept-c">69 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-70subtitle-indonesia" data-n="70" style="--o:69" class="ept ept-c">70 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-71" data-n="71" style="--o:70" class="ept ept-c">71 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-72" data-n="72" style="--o:71" class="ept ept-c">72 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-73" data-n="73" style="--o:72" class="ept ept-c">73 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-74" data-n="74" style="--o:73" class="ept ept-c">74 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-75" data-n="75" style="--o:74" class="ept ept-c">75 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-76" data-n="76" style="--o:75" class="ept ept-c">76 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-77" data-n="77" style="--o:76" class="ept ept-c">77 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-78" data-n="78" style="--o:77" class="ept ept-c">78 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-79" data-n="79" style="--o:78" class="ept ept-c">79 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-80" data-n="80" style="--o:79" class="ept ept-c">80 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-81" data-n="81" style="--o:80" class="ept ept-c">81 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-82" data-n="82" style="--o:81" class="ept ept-c">82 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-83" data-n="83" style="--o:82" class="ept ept-c">83 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-84" data-n="84" style="--o:83" class="ept ept-c">84 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-85" data-n="85" style="--o:84" class="ept ept-c">85 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-86" data-n="86" style="--o:85" class="ept ept-c">86 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-87" data-n="87" style="--o:86" class="ept ept-c">87 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-88" data-n="88" style="--o:87" class="ept ept-c">88 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-89" data-n="89" style="--o:88" class="ept ept-c">89 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-90" data-n="90" style="--o:89" class="ept ept-c">90 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-91" data-n="91" style="--o:90" class="ept ept-c">91 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-92" data-n="92" style="--o:91" class="ept ept-c">92 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-93" data-n="93" style="--o:92" class="ept ept-c">93 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-94" data-n="94" style="--o:93" class="ept ept-c">94 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-95" data-n="95" style="--o:94" class="ept ept-c">95 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-96" data-n="96" style="--o:95" class="ept ept-c">96 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-97" data-n="97" style="--o:96" class="ept ept-c">97 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-98" data-n="98" style="--o:97" class="ept ept-c">98 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-99" data-n="99" style="--o:98" class="ept ept-c">99 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-100" data-n="100" style="--o:99" class="ept ept-c">100 </a>
+                    </div>
+            <div  style="display:none"  x-show="range === 1"
+             class="grid gap-2 grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12">
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-101" data-n="101" style="--o:0" class="ept ept-c">101 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-102" data-n="102" style="--o:1" class="ept ept-c">102 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-103" data-n="103" style="--o:2" class="ept ept-c">103 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-104" data-n="104" style="--o:3" class="ept ept-c">104 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-105" data-n="105" style="--o:4" class="ept ept-c">105 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-106" data-n="106" style="--o:5" class="ept ept-c">106 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-107" data-n="107" style="--o:6" class="ept ept-c">107 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-108" data-n="108" style="--o:7" class="ept ept-c">108 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-109" data-n="109" style="--o:8" class="ept ept-c">109 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-110" data-n="110" style="--o:9" class="ept ept-c">110 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-111" data-n="111" style="--o:10" class="ept ept-c">111 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-112" data-n="112" style="--o:11" class="ept ept-c">112 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-113" data-n="113" style="--o:12" class="ept ept-c">113 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-114" data-n="114" style="--o:13" class="ept ept-c">114 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-115" data-n="115" style="--o:14" class="ept ept-c">115 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-116" data-n="116" style="--o:15" class="ept ept-c">116 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-117" data-n="117" style="--o:16" class="ept ept-c">117 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-118" data-n="118" style="--o:17" class="ept ept-c">118 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-119" data-n="119" style="--o:18" class="ept ept-c">119 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-120" data-n="120" style="--o:19" class="ept ept-c">120 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-121" data-n="121" style="--o:20" class="ept ept-c">121 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-122" data-n="122" style="--o:21" class="ept ept-c">122 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-123" data-n="123" style="--o:22" class="ept ept-c">123 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-124" data-n="124" style="--o:23" class="ept ept-c">124 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-125" data-n="125" style="--o:24" class="ept ept-c">125 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-126" data-n="126" style="--o:25" class="ept ept-c">126 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-127" data-n="127" style="--o:26" class="ept ept-c">127 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-128" data-n="128" style="--o:27" class="ept ept-c">128 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-129" data-n="129" style="--o:28" class="ept ept-c">129 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-130" data-n="130" style="--o:29" class="ept ept-c">130 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-131" data-n="131" style="--o:30" class="ept ept-c">131 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-132" data-n="132" style="--o:31" class="ept ept-c">132 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-133" data-n="133" style="--o:32" class="ept ept-c">133 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-134" data-n="134" style="--o:33" class="ept ept-c">134 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-135" data-n="135" style="--o:34" class="ept ept-c">135 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-136" data-n="136" style="--o:35" class="ept ept-c">136 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-137" data-n="137" style="--o:36" class="ept ept-c">137 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-138" data-n="138" style="--o:37" class="ept ept-c">138 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-139" data-n="139" style="--o:38" class="ept ept-c">139 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-140" data-n="140" style="--o:39" class="ept ept-c">140 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-141" data-n="141" style="--o:40" class="ept ept-c">141 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-142" data-n="142" style="--o:41" class="ept ept-c">142 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-143" data-n="143" style="--o:42" class="ept ept-c">143 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-144" data-n="144" style="--o:43" class="ept ept-c">144 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-145" data-n="145" style="--o:44" class="ept ept-c">145 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-146" data-n="146" style="--o:45" class="ept ept-c">146 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-147" data-n="147" style="--o:46" class="ept ept-c">147 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-148" data-n="148" style="--o:47" class="ept ept-c">148 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-149" data-n="149" style="--o:48" class="ept ept-c">149 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-150" data-n="150" style="--o:49" class="ept ept-c">150 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-151" data-n="151" style="--o:50" class="ept ept-c">151 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-152" data-n="152" style="--o:51" class="ept ept-c">152 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-153" data-n="153" style="--o:52" class="ept ept-c">153 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-154" data-n="154" style="--o:53" class="ept ept-c">154 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-155" data-n="155" style="--o:54" class="ept ept-c">155 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-156" data-n="156" style="--o:55" class="ept ept-c">156 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-157" data-n="157" style="--o:56" class="ept ept-c">157 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-158" data-n="158" style="--o:57" class="ept ept-c">158 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-159" data-n="159" style="--o:58" class="ept ept-c">159 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-160" data-n="160" style="--o:59" class="ept ept-c">160 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-161" data-n="161" style="--o:60" class="ept ept-c">161 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-162" data-n="162" style="--o:61" class="ept ept-c">162 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-163" data-n="163" style="--o:62" class="ept ept-c">163 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-164" data-n="164" style="--o:63" class="ept ept-c">164 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-165" data-n="165" style="--o:64" class="ept ept-c">165 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-166" data-n="166" style="--o:65" class="ept ept-c">166 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-167" data-n="167" style="--o:66" class="ept ept-c">167 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-168" data-n="168" style="--o:67" class="ept ept-c">168 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-169" data-n="169" style="--o:68" class="ept ept-c">169 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-170" data-n="170" style="--o:69" class="ept ept-c">170 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-171" data-n="171" style="--o:70" class="ept ept-c">171 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-172" data-n="172" style="--o:71" class="ept ept-c">172 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-173" data-n="173" style="--o:72" class="ept ept-c">173 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-174" data-n="174" style="--o:73" class="ept ept-c">174 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-175" data-n="175" style="--o:74" class="ept ept-c">175 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-176" data-n="176" style="--o:75" class="ept ept-c">176 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-177" data-n="177" style="--o:76" class="ept ept-c">177 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-178" data-n="178" style="--o:77" class="ept ept-c">178 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-179" data-n="179" style="--o:78" class="ept ept-c">179 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-180" data-n="180" style="--o:79" class="ept ept-c">180 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-181" data-n="181" style="--o:80" class="ept ept-c">181 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-182" data-n="182" style="--o:81" class="ept ept-c">182 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-183" data-n="183" style="--o:82" class="ept ept-c">183 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-184" data-n="184" style="--o:83" class="ept ept-c">184 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-185" data-n="185" style="--o:84" class="ept ept-c">185 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-186" data-n="186" style="--o:85" class="ept ept-c">186 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-187" data-n="187" style="--o:86" class="ept ept-c">187 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-188" data-n="188" style="--o:87" class="ept ept-c">188 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-189" data-n="189" style="--o:88" class="ept ept-c">189 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-190" data-n="190" style="--o:89" class="ept ept-c">190 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-191" data-n="191" style="--o:90" class="ept ept-c">191 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-192" data-n="192" style="--o:91" class="ept ept-c">192 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-193" data-n="193" style="--o:92" class="ept ept-c">193 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-194" data-n="194" style="--o:93" class="ept ept-c">194 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-195" data-n="195" style="--o:94" class="ept ept-c">195 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-196" data-n="196" style="--o:95" class="ept ept-c">196 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-197" data-n="197" style="--o:96" class="ept ept-c">197 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-198" data-n="198" style="--o:97" class="ept ept-c">198 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-199" data-n="199" style="--o:98" class="ept ept-c">199 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-200" data-n="200" style="--o:99" class="ept ept-c">200 </a>
+                    </div>
+            <div  style="display:none"  x-show="range === 2"
+             class="grid gap-2 grid-cols-5 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12">
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-201" data-n="201" style="--o:0" class="ept ept-c">201 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-202" data-n="202" style="--o:1" class="ept ept-c">202 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-203" data-n="203" style="--o:2" class="ept ept-c">203 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-204" data-n="204" style="--o:3" class="ept ept-c">204 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-205" data-n="205" style="--o:4" class="ept ept-c">205 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-206" data-n="206" style="--o:5" class="ept ept-c">206 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-207" data-n="207" style="--o:6" class="ept ept-c">207 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-208" data-n="208" style="--o:7" class="ept ept-c">208 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-209" data-n="209" style="--o:8" class="ept ept-c">209 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-210" data-n="210" style="--o:9" class="ept ept-c">210 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-211" data-n="211" style="--o:10" class="ept ept-c">211 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-212" data-n="212" style="--o:11" class="ept ept-c">212 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-213" data-n="213" style="--o:12" class="ept ept-c">213 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-214" data-n="214" style="--o:13" class="ept ept-c">214 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-215" data-n="215" style="--o:14" class="ept ept-c">215 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-216" data-n="216" style="--o:15" class="ept ept-c">216 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-217" data-n="217" style="--o:16" class="ept ept-c">217 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-218" data-n="218" style="--o:17" class="ept ept-c">218 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-219" data-n="219" style="--o:18" class="ept ept-c">219 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-220" data-n="220" style="--o:19" class="ept ept-c">220 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-221" data-n="221" style="--o:20" class="ept ept-c">221 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-222" data-n="222" style="--o:21" class="ept ept-c">222 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-223" data-n="223" style="--o:22" class="ept ept-c">223 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-224" data-n="224" style="--o:23" class="ept ept-c">224 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-225" data-n="225" style="--o:24" class="ept ept-c">225 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-226" data-n="226" style="--o:25" class="ept ept-c">226 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-227" data-n="227" style="--o:26" class="ept ept-c">227 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-228" data-n="228" style="--o:27" class="ept ept-c">228 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-229" data-n="229" style="--o:28" class="ept ept-c">229 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-230" data-n="230" style="--o:29" class="ept ept-c">230 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-231" data-n="231" style="--o:30" class="ept ept-c">231 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-232" data-n="232" style="--o:31" class="ept ept-c">232 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-233" data-n="233" style="--o:32" class="ept ept-c">233 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-234" data-n="234" style="--o:33" class="ept ept-c">234 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-235" data-n="235" style="--o:34" class="ept ept-c">235 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-236" data-n="236" style="--o:35" class="ept ept-c">236 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-237" data-n="237" style="--o:36" class="ept ept-c">237 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-238" data-n="238" style="--o:37" class="ept ept-c">238 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-239" data-n="239" style="--o:38" class="ept ept-c">239 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-240" data-n="240" style="--o:39" class="ept ept-c">240 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-241" data-n="241" style="--o:40" class="ept ept-c">241 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-242" data-n="242" style="--o:41" class="ept ept-c">242 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-243" data-n="243" style="--o:42" class="ept ept-c">243 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-244" data-n="244" style="--o:43" class="ept ept-c">244 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-245" data-n="245" style="--o:44" class="ept ept-c">245 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-246" data-n="246" style="--o:45" class="ept ept-c">246 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-247" data-n="247" style="--o:46" class="ept ept-c">247 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-248" data-n="248" style="--o:47" class="ept ept-c">248 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-249" data-n="249" style="--o:48" class="ept ept-c">249 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-250" data-n="250" style="--o:49" class="ept ept-c">250 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-251" data-n="251" style="--o:50" class="ept ept-c">251 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-252" data-n="252" style="--o:51" class="ept ept-c">252 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-253" data-n="253" style="--o:52" class="ept ept-c">253 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-254" data-n="254" style="--o:53" class="ept ept-c">254 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-255" data-n="255" style="--o:54" class="ept ept-c">255 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-256" data-n="256" style="--o:55" class="ept ept-c">256 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-257" data-n="257" style="--o:56" class="ept ept-c">257 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-258" data-n="258" style="--o:57" class="ept ept-c">258 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-259" data-n="259" style="--o:58" class="ept ept-c">259 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-260" data-n="260" style="--o:59" class="ept ept-c">260 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-261" data-n="261" style="--o:60" class="ept ept-c">261 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-262" data-n="262" style="--o:61" class="ept ept-c">262 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-263" data-n="263" style="--o:62" class="ept ept-c">263 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-264" data-n="264" style="--o:63" class="ept ept-c">264 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-265" data-n="265" style="--o:64" class="ept ept-c">265 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-266" data-n="266" style="--o:65" class="ept ept-c">266 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-267" data-n="267" style="--o:66" class="ept ept-c">267 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-268" data-n="268" style="--o:67" class="ept ept-c">268 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-269" data-n="269" style="--o:68" class="ept ept-c">269 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-270" data-n="270" style="--o:69" class="ept ept-c">270 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-271" data-n="271" style="--o:70" class="ept ept-c">271 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-272" data-n="272" style="--o:71" class="ept ept-c">272 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-273" data-n="273" style="--o:72" class="ept ept-c">273 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-274" data-n="274" style="--o:73" class="ept ept-c">274 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-275" data-n="275" style="--o:74" class="ept ept-c">275 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-276" data-n="276" style="--o:75" class="ept ept-c">276 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-277" data-n="277" style="--o:76" class="ept ept-c">277 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-278" data-n="278" style="--o:77" class="ept ept-c">278 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-279" data-n="279" style="--o:78" class="ept ept-c">279 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-280" data-n="280" style="--o:79" class="ept ept-c">280 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-281" data-n="281" style="--o:80" class="ept ept-c">281 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-282" data-n="282" style="--o:81" class="ept ept-c">282 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-283" data-n="283" style="--o:82" class="ept ept-c">283 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-284" data-n="284" style="--o:83" class="ept ept-c">284 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-285" data-n="285" style="--o:84" class="ept ept-c">285 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-286" data-n="286" style="--o:85" class="ept ept-c">286 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-287" data-n="287" style="--o:86" class="ept ept-c">287 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-288" data-n="288" style="--o:87" class="ept ept-c">288 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-289" data-n="289" style="--o:88" class="ept ept-c">289 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-290" data-n="290" style="--o:89" class="ept ept-c">290 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-291" data-n="291" style="--o:90" class="ept ept-c">291 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-292" data-n="292" style="--o:91" class="ept ept-c">292 </a>
+                                            <a href="https://gomunime.top/boruto-naruto-next-generations-episode-293" data-n="293" style="--o:92" class="ept ept-c">293 </a>
+                    </div>
+    
+    <p x-cloak x-show="notFound" class="text-xs text-amber-300">Episode <span x-text="q"></span> belum tersedia.</p>
+</div>
+
+<script>
+    function episodeList(cfg) {
+        return {
+            range: cfg.range, sort: cfg.sort, q: '', notFound: false, last: null,
+            init() {
+                try { this.sort = localStorage.getItem('eplist_sort') || this.sort; } catch (e) {}
+                try { this.last = JSON.parse(localStorage.getItem('eplist_last_' + cfg.series) || 'null'); } catch (e) {}
+                const cur = this.$root.querySelector('[aria-current="page"]');
+                const slugOf = (a) => new URL(a.href).pathname.replace(/^\//, '');
+                if (cur) {
+                    try { localStorage.setItem('eplist_last_' + cfg.series, JSON.stringify({ slug: slugOf(cur), n: cur.dataset.n })); } catch (e) {}
+                } else if (this.last) {
+                    const a = Array.from(this.$root.querySelectorAll('.ept')).find(x => slugOf(x) === this.last.slug);
+                    if (a) {
+                        a.classList.add('last');
+                        const grids = [...new Set(Array.from(this.$root.querySelectorAll('.ept')).map(x => x.parentElement))];
+                        this.range = grids.indexOf(a.parentElement);
+                    }
+                }
+            },
+            toggleSort() {
+                this.sort = this.sort === 'desc' ? 'asc' : 'desc';
+                try { localStorage.setItem('eplist_sort', this.sort); } catch (e) {}
+            },
+            jump(go) {
+                this.notFound = false;
+                const v = String(this.q || '').trim();
+                if (!v) return;
+                const el = this.$root.querySelector('[data-n="' + CSS.escape(String(parseFloat(v))) + '"]');
+                if (!el) { this.notFound = true; return; }
+                if (go) { window.location.href = el.href; return; }
+                const grids = Array.from(this.$root.querySelectorAll('[data-n]')).map(a => a.parentElement);
+                this.range = [...new Set(grids)].indexOf(el.parentElement);
+                this.$nextTick(() => {
+                    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    el.classList.remove('eplist-flash'); void el.offsetWidth; el.classList.add('eplist-flash');
+                });
+            },
+        };
+    }
+</script>
+        </section>
+    
+    
+            <section class="card p-5 md:p-6 mt-6 text-sm text-ink-200 leading-relaxed">
+            <h2 class="section-title mb-3 text-base">Tentang Anime Boruto Naruto Next Generations Episode 18</h2>
+            <p>
+                Selamat menonton <strong>anime Boruto Naruto Next Generations Episode 18 sub Indo</strong> gratis kualitas HD di <a href="https://gomunime.top" class="text-brand-300 hover:text-brand-200">Gomunime</a>.
+                Tersedia subtitle Indonesia dengan multi server untuk antisipasi lag/buffering.
+                Tonton juga episode Episode 17 dan Episode 19 dari serial anime ini.
+            </p>
+        </section>
+    
+</div>
+    </main>
+
+    <footer class="relative mt-16 border-t border-white/5">
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent"></div>
+    <div class="container-x py-10 grid md:grid-cols-12 gap-8">
+
+        
+        <div class="md:col-span-3">
+            <img src="https://gomunime.top/img/logo.png" alt="Gomunime" style="height:44px;width:auto" class="mb-3">
+            <p class="text-ink-200 text-sm leading-relaxed">
+                Tempat <strong class="text-white">nonton anime sub Indo</strong> kualitas HD gratis. Anime Jepang terbaru, update tiap hari. Alternatif <strong class="text-brand-300">Samehadaku</strong>, <strong class="text-brand-300">Animeindo</strong> &amp; <strong class="text-brand-300">Oploverz</strong>.
+            </p>
+                            <a href="https://gomunime.top/download" class="inline-flex items-center gap-1.5 mt-4 text-xs text-brand-300 hover:text-brand-200">📱 Download APK Android</a>
+                        <div class="flex items-center gap-3 mt-4">
+            <a href="https://www.pinterest.com/gomunimeofficialid/" target="_blank" rel="nofollow noopener" aria-label="Pinterest" title="Pinterest" class="text-ink-300 hover:text-white transition">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.222.083.343-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.747 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+        </a>
+            <a href="https://www.facebook.com/gomunimeid/" target="_blank" rel="nofollow noopener" aria-label="Facebook" title="Facebook" class="text-ink-300 hover:text-white transition">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://gomunime.top/feed" target="_blank" rel="noopener" aria-label="RSS Feed" title="RSS Feed" class="text-ink-300 hover:text-white transition">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
+    </a>
+</div>
+        </div>
+
+        
+        <div class="md:col-span-2">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Jelajah</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top" class="hover:text-brand-400 transition">Home</a></li>
+                <li><a href="https://gomunime.top/status/ongoing" class="hover:text-brand-400 transition">Ongoing</a></li>
+                <li><a href="https://gomunime.top/status/completed" class="hover:text-brand-400 transition">Tamat</a></li>
+                <li><a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="hover:text-brand-400 transition">Top Rated</a></li>
+                <li><a href="https://gomunime.top/search" class="hover:text-brand-400 transition">Pencarian</a></li>
+            </ul>
+        </div>
+
+        
+        <div class="md:col-span-2">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Genre Populer</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top/genre/action" class="hover:text-brand-400 transition">Action</a></li>
+                <li><a href="https://gomunime.top/genre/fantasy" class="hover:text-brand-400 transition">Fantasy</a></li>
+                <li><a href="https://gomunime.top/genre/comedy" class="hover:text-brand-400 transition">Comedy</a></li>
+                <li><a href="https://gomunime.top/genre/adventure" class="hover:text-brand-400 transition">Adventure</a></li>
+                <li><a href="https://gomunime.top/genre/romance" class="hover:text-brand-400 transition">Romance</a></li>
+            </ul>
+        </div>
+
+        
+        <div class="md:col-span-2">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Info</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top/privacy" class="hover:text-brand-400 transition">Privasi</a></li>
+                <li><a href="https://gomunime.top/sitemap.xml" class="hover:text-brand-400 transition">Sitemap</a></li>
+            </ul>
+        </div>
+
+        
+        <div class="md:col-span-3">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Dukungan &amp; Komunitas</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top/donasi" class="hover:text-brand-400 transition">💙 Dukung Kami</a></li>
+                                                <li><a href="https://gomunime.top/pasang-iklan" class="hover:text-brand-400 transition">📢 Pasang Iklan</a></li>            </ul>
+
+            <h4 class="text-sm font-display font-bold mt-6 mb-3 text-white uppercase tracking-wider">Situs Kami</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://anichin.help" target="_blank" rel="noopener" class="hover:text-brand-400 transition">Anichin <span class="text-ink-400">— Nonton Donghua</span></a></li>
+                <li><a href="https://komikcast.top" target="_blank" rel="noopener" class="hover:text-brand-400 transition">Komikcast <span class="text-ink-400">— Baca Komik &amp; Novel</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="border-t border-white/5 bg-ink-950/50">
+        <div class="container-x py-4 text-xs text-ink-300 flex flex-wrap items-center justify-between gap-3">
+            <span>&copy; 2026 Gomunime. Dibuat dengan ❤️ untuk pecinta anime.</span>
+            <div class="flex items-center gap-2 text-ink-400">
+                <span>Anime</span><span class="w-1 h-1 rounded-full bg-ink-300"></span>
+                <span>Anime Jepang</span><span class="w-1 h-1 rounded-full bg-ink-300"></span>
+                <span>Sub Indo</span>
+            </div>
+        </div>
+        <div class="container-x pb-4 text-xs text-ink-400 leading-relaxed">
+            Semua konten video di-embed dari pihak ketiga. Gomunime tidak menyimpan file video di server. Hak cipta milik pemegang lisensi resmi.
+        </div>
+    </div>
+</footer>
+
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 glass border-t border-white/5 safe-area-bottom">
+    <div class="grid grid-cols-5 h-14">
+        <a href="https://gomunime.top" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span class="text-[10px]">Home</span>
+        </a>
+        <a href="https://gomunime.top/status/ongoing" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="text-[10px]">Ongoing</span>
+        </a>
+        <a href="https://gomunime.top/search" class="flex flex-col items-center justify-center -mt-6">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center shadow-glow ring-4 ring-ink-950">
+                <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+        </a>
+        <a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <span class="text-[10px]">Top</span>
+        </a>
+        <a href="https://gomunime.top/status/completed" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="text-[10px]">Tamat</span>
+        </a>
+    </div>
+</nav>
+
+    
+    
+            <script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var z=window,f="abc30c794d6f8a55145c8c6d59f5a301",e=[["siteId",515-683-184+536+5303136],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],g=["d3d3LmRpc3BsYXl2ZXJ0aXNpbmcuY29tL0lIblcvdWVkZHkuZG9tLmpz","ZDNtem9rdHk5NTFjNXcuY2xvdWRmcm9udC5uZXQvcS9xWlh3aS9xaWRlbnRpY29uLm1pbi5jc3M=","d3d3LmlseGZsb2JocGsuY29tL0ovYWVkZHkuZG9tLmpz","d3d3LmVuZ2t5bXpranF6ei5jb20vdFlKcy9CRnFXL3hpZGVudGljb24ubWluLmNzcw=="],w=-1,h,n,a=function(){clearTimeout(n);w++;if(g[w]&&!(1805847877000<(new Date).getTime()&&1<w)){h=z.document.createElement("script");h.type="text/javascript";h.async=!0;var q=z.document.getElementsByTagName("script")[0];h.src="https://"+atob(g[w]);h.crossOrigin="anonymous";h.onerror=a;h.onload=function(){clearTimeout(n);z[f.slice(0,16)+f.slice(0,16)]||a()};n=setTimeout(a,5E3);q.parentNode.insertBefore(h,q)}};if(!z[f]){try{Object.freeze(z[f]=e)}catch(e){}a()}})();
+/*]]>/* */
+</script>
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    <div id="support-fab" x-data="{ open: true }">
+    
+    <div class="sfab-stack" x-show="open" x-transition.origin.bottom>
+        <a class="sfab-item" href="https://gomunime.top/donasi">
+            <span>Dukung Kami</span><i style="background:#db2777">💛</i>
+        </a>
+                                <a class="sfab-item" href="https://gomunime.top/pasang-iklan">
+            <span>Pasang Iklan</span><i style="background:#d97706">📢</i>
+        </a>
+            </div>
+
+    
+    <button type="button" class="sfab-heart" @click="open = !open" aria-label="Buka / tutup dukungan">💛</button>
+</div>
+
+<style>
+#support-fab{position:fixed;right:16px;bottom:88px;z-index:9000;display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+@media(min-width:768px){#support-fab{bottom:24px}}
+
+.sfab-stack{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.sfab-item{display:flex;align-items:center;gap:9px;padding:7px 8px 7px 14px;border-radius:9999px;background:rgba(18,18,26,.97);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:600;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.45);white-space:nowrap}
+.sfab-item:hover{background:rgba(42,42,54,.99)}
+.sfab-item i{font-style:normal;width:31px;height:31px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+
+.sfab-heart{width:58px;height:58px;border-radius:9999px;border:none;cursor:pointer;background:linear-gradient(135deg,#ff5e8a,#ff2e63);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 10px 26px rgba(255,46,99,.5);animation:sfab-beat 1.3s ease-in-out infinite;transition:transform .12s}
+.sfab-heart:hover{transform:scale(1.08)}
+.sfab-heart:active{transform:scale(.92)}
+@keyframes sfab-beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.12)}60%{transform:scale(1)}}
+</style>
+
+    
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getMessaging, getToken, onMessage, isSupported } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging.js";
+
+    const fcmCfg = {"apiKey":"AIzaSyBKkqeYgR0uxOtvkh8tQ-Z3wlwKSi5ra7k","authDomain":"gomunime-app.firebaseapp.com","projectId":"gomunime-app","storageBucket":"gomunime-app.firebasestorage.app","messagingSenderId":"60183386668","appId":"1:60183386668:web:5bc860a1e15cad33ad4f89","measurementId":"G-NHTBS5K64P"};
+    const VAPID_KEY = "BGis5Za_gtOkdSvFeR-Rnj7_gXjeLKyrBPYW9B41YAs3UaDHPsmnRONPCRzV2Cu34BpwcvMkM9-b9TeZL_O4ghI";
+
+    const STORAGE = {
+        token: 'gomu_fcm_token_v2',
+        denied: 'gomu_push_denied_at',
+        promptShown: 'gomu_push_prompt_at',
+        pageViews: 'gomu_pv_count',
+    };
+
+    // Increment page view counter — drives engagement-based prompt timing.
+    try {
+        const pv = parseInt(localStorage.getItem(STORAGE.pageViews) || '0', 10) + 1;
+        localStorage.setItem(STORAGE.pageViews, String(pv));
+    } catch (_) {}
+
+    const URL_PARAMS = new URLSearchParams(location.search);
+    const DEBUG = URL_PARAMS.has('debug_push');
+    const INSTANT = URL_PARAMS.has('fcm_now');  // bypass all gates, request immediately
+    const log = (...a) => (DEBUG || INSTANT) && console.log('[FCM]', ...a);
+
+    (async () => {
+        log('init start, pv=' + localStorage.getItem(STORAGE.pageViews));
+        if (!('serviceWorker' in navigator) || !('Notification' in window)) { log('no SW or Notification API'); return; }
+        if (!(await isSupported().catch(() => false))) { log('isSupported returned false'); return; }
+
+        const app = initializeApp(fcmCfg);
+        const messaging = getMessaging(app);
+        log('Firebase initialized');
+
+        // Dedicated scope so the PWA service worker (sw.js at scope '/') can NEVER displace
+        // the FCM worker — both registering at '/' was last-writer-wins, and when the
+        // handler-less PWA SW won, pushes were silently swallowed.
+        const swReg = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+            scope: '/firebase-cloud-messaging-push-scope',
+        }).catch(e => {
+            console.warn('FCM SW register failed', e);
+            return null;
+        });
+        if (!swReg) { log('SW reg failed'); return; }
+        log('SW registered, scope=' + swReg.scope);
+
+        // Show OS notif when message arrives in foreground (tab visible).
+        // Use SW.showNotification() — `new Notification()` is unreliable in modern Chrome.
+        onMessage(messaging, (payload) => {
+            log('foreground message arrived', payload);
+            if (Notification.permission !== 'granted') return;
+            const t = payload.notification?.title || payload.data?.title || 'Gomunime';
+            const opts = {
+                body: payload.notification?.body || payload.data?.body || '',
+                icon: '/icons/icon-192.png',
+                badge: '/icons/icon-192.png',
+                data: payload.data || {},
+                tag: payload.data?.tag || 'gomunime-fg',
+            };
+            swReg.showNotification(t, opts).catch(e => console.warn('showNotification failed', e));
+        });
+
+        log('permission=' + Notification.permission);
+
+        // If user already granted permission, refresh token quietly.
+        if (Notification.permission === 'granted') {
+            await refreshAndSendToken(messaging, swReg);
+            return;
+        }
+
+        // Don't bother nagging users who explicitly blocked.
+        if (Notification.permission === 'denied') { log('permission denied, skip'); return; }
+
+        // permission === 'default' → minta izin NATIVE LANGSUNG begitu web dibuka (instan, no delay).
+        const denyAge = parseInt(localStorage.getItem(STORAGE.denied) || '0', 10);
+        if (!INSTANT && denyAge && (Date.now() - denyAge) < 7 * 86400000) { log('denied recently, back off 7d'); return; }
+        log('requesting permission immediately');
+        const perm = await Notification.requestPermission();
+        log('permission result=' + perm);
+        if (perm === 'granted') await refreshAndSendToken(messaging, swReg);
+        else localStorage.setItem(STORAGE.denied, String(Date.now()));
+    })().catch(e => console.warn('FCM init error', e));
+
+    async function refreshAndSendToken(messaging, swReg) {
+        try {
+            const token = await getToken(messaging, {
+                vapidKey: VAPID_KEY,
+                serviceWorkerRegistration: swReg,
+            });
+            if (!token) return;
+            const prev = localStorage.getItem(STORAGE.token);
+            if (token === prev) return; // already saved
+            await fetch('/api/v1/push/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ token, topic: 'gomunime_all' }),
+            });
+            localStorage.setItem(STORAGE.token, token);
+        } catch (e) {
+            console.warn('FCM getToken failed', e);
+        }
+    }
+
+    function showPrompt(messaging, swReg) {
+        const el = document.createElement('div');
+        el.id = 'gomu-push-prompt';
+        el.innerHTML = `
+            <div style="position:fixed;left:12px;right:12px;bottom:12px;max-width:380px;margin-left:auto;background:#0a0a0a;border:1px solid #003bff44;border-radius:14px;padding:14px 16px;box-shadow:0 12px 40px -8px rgba(0,59,255,.4);z-index:9999;color:#fff;font-family:Inter,system-ui,sans-serif">
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="font-size:24px;line-height:1">🔔</div>
+                <div style="flex:1;font-size:13px;line-height:1.45">
+                  <div style="font-weight:700;margin-bottom:2px">Aktifkan notifikasi episode baru?</div>
+                  <div style="opacity:.8">Dapat update episode anime favoritmu langsung di browser — bisa dimatikan kapan saja.</div>
+                  <div style="display:flex;gap:6px;margin-top:10px">
+                    <button data-act="ok" style="flex:1;background:#003bff;color:#fff;border:0;padding:7px 10px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">Aktifkan</button>
+                    <button data-act="no" style="background:transparent;color:#888;border:0;padding:7px 10px;font-size:12px;cursor:pointer">Nanti saja</button>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        document.body.appendChild(el);
+        localStorage.setItem(STORAGE.promptShown, String(Date.now()));
+
+        el.querySelector('[data-act="ok"]').onclick = async () => {
+            el.remove();
+            const perm = await Notification.requestPermission();
+            if (perm === 'granted') {
+                await refreshAndSendToken(messaging, swReg);
+            } else {
+                localStorage.setItem(STORAGE.denied, String(Date.now()));
+            }
+        };
+        el.querySelector('[data-act="no"]').onclick = () => {
+            el.remove();
+            localStorage.setItem(STORAGE.denied, String(Date.now()));
+        };
+    }
+</script>
+</body>
+</html>
