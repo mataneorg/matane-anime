@@ -267,7 +267,13 @@
       "openFolder": "Buka folder",
       "openFailed": "Folder tidak bisa dibuka",
       "ofLimit": "{{percent}}% dari batas {{limit}}",
-      "backup": "Backup dan pemulihan"
+      "backup": "Backup dan pemulihan",
+      "coverCache": "Cache cover",
+      "coverCacheHint": "Cover dari penjelajahan dan pencarian disimpan di disk supaya langsung tampil di lain waktu. Cover library disimpan terpisah dan tidak pernah dihapus.",
+      "coverCacheLimit": "Batas ukuran",
+      "coverCacheUsed": "{{size}} terpakai",
+      "clearCache": "Hapus cache",
+      "clearCacheFailed": "Cache tidak bisa dihapus"
     },
     "network": {
       "intro": "Untuk sumber yang diblokir penyedia internet Anda. Perubahan langsung berlaku, tanpa memulai ulang.",

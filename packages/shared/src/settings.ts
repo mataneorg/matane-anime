@@ -56,6 +56,8 @@ export const appSettingsSchema = z.object({
   downloadParallelSegments: z.number().int().min(1).max(16),
   /** Total size of downloaded episodes, in GB, after which auto-download stops (DL-10). */
   downloadSizeLimitGb: z.number().min(1).max(10_000),
+  /** Disk budget of the cover cache, in MB; the least recently used covers go first (PRD §15.2). */
+  imageCacheSizeMb: z.number().int().min(100).max(51_200),
   /** While watching, download the next episodes (DL-12). */
   downloadAhead: z.boolean(),
   downloadAheadCount: z.number().int().min(1).max(10),
@@ -128,6 +130,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   downloadParallelEpisodes: 1,
   downloadParallelSegments: 6,
   downloadSizeLimitGb: 20,
+  imageCacheSizeMb: 1024,
   downloadAhead: false,
   downloadAheadCount: 2,
   deleteAfterWatched: false,

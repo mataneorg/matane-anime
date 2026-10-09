@@ -2,6 +2,7 @@ import { mkdir } from 'node:fs/promises';
 import { AppError, type AppSettings } from '@matane-anime/shared';
 import { BrowserWindow, app, dialog, shell } from 'electron';
 import type { BackupService } from '../backup/service';
+import type { ImageCache } from '../images/cache';
 import { CHANGELOG } from '../app/changelog';
 import type { SettingsRepository } from '../db/repositories/settings';
 import type { InstallService } from '../extensions/install';
@@ -46,6 +47,8 @@ export interface HandlerDeps {
   libraryRepo: LibraryRepository;
   migration: MigrationService;
   backup: BackupService;
+  /** The disk cache of browse covers. */
+  imageCache: Pick<ImageCache, 'bytesOf' | 'clear' | 'setMaxBytes'>;
   /** Applies `closeToTray` and `runAtLogin` (the tray and the login item). */
   applySystemSettings(settings: AppSettings): void;
   /** Fills the library for performance checks (development only). */
@@ -74,6 +77,7 @@ export function createHandlers({
   libraryRepo,
   migration,
   backup,
+  imageCache,
   applySystemSettings,
   seedLibrary,
   spike,
@@ -113,6 +117,7 @@ export function createHandlers({
       const updated = settings.updateAppSettings(patch);
       broadcast('settings.changed', updated);
       if (patch.updateIntervalHours !== undefined) updates.reschedule();
+      if (patch.imageCacheSizeMb !== undefined) void imageCache.setMaxBytes(updated.imageCacheSizeMb * 1024 * 1024);
       if (patch.closeToTray !== undefined || patch.runAtLogin !== undefined) applySystemSettings(updated);
       if (NETWORK_SETTING_KEYS.some((key) => patch[key] !== undefined))
         void networkApplier.apply().catch(() => undefined);
@@ -234,6 +239,8 @@ export function createHandlers({
       const failure = await shell.openPath(folder);
       if (failure) throw new AppError('internal', failure);
     },
+    'storage.cacheSize': () => imageCache.bytesOf('browse_cover'),
+    'storage.clearCache': () => imageCache.clear('browse_cover'),
     'updates.list': () => updates.list(),
     'updates.count': () => updates.count(),
     'updates.check': ({ scope, requestId }) => updates.check(scope, requestId),

@@ -8,10 +8,11 @@ import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
 import { cn } from '@renderer/lib/utils';
 import { BackupSection } from './BackupSection';
+import { CoverCacheSection } from './CoverCacheSection';
 
 /**
- * Settings → Data and storage (mockup 10f): backup and restore, and the Storage part. The cover cache, automatic
- * backups and clearing data are not here yet.
+ * Settings → Data and storage (mockup 10f): backup and restore, and the Storage part. Automatic backups and clearing
+ * data are not here yet.
  */
 export function DataSettings() {
   const { t, i18n } = useTranslation();
@@ -26,6 +27,7 @@ export function DataSettings() {
   return (
     <div className="flex max-w-190 flex-col gap-6">
       <BackupSection />
+      <CoverCacheSection />
       <section className="flex flex-col gap-4" aria-labelledby="storage-title">
         <h2 id="storage-title" className="text-[15px] leading-[22px] font-semibold">
           {t('settings.data.storage')}

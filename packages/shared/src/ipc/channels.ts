@@ -93,6 +93,10 @@ export const INVOKE_CHANNELS = [
   'downloads.changeFolder',
   /** Opens the download folder in the file manager. */
   'downloads.openFolder',
+  /** Bytes the cover cache uses on disk. */
+  'storage.cacheSize',
+  /** Empties the cover cache; the library's permanent covers stay. */
+  'storage.clearCache',
   'updates.list',
   'updates.count',
   'updates.check',

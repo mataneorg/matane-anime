@@ -16,6 +16,7 @@ import { printSmokeReport, isSmokeRun, runSmoke } from './app/smoke';
 import { AppUpdater, type AutoUpdaterLike } from './app/updater';
 import { initLogging } from './app/log';
 import { openDatabase } from './db/client';
+import { ImageCache } from './images/cache';
 import { purgeBrowseRows } from './db/housekeeping';
 import { seedLibrary } from './db/seed';
 import { countBundledMigrations, runMigrations } from './db/migrate';
@@ -381,7 +382,14 @@ if (!app.requestSingleInstanceLock()) {
         }
       };
       applySystemSettings(settings.getAppSettings());
+      const imageCache = new ImageCache(
+        connection.db,
+        join(userData, 'cache', 'images'),
+        settings.getAppSettings().imageCacheSizeMb * 1024 * 1024,
+      );
+      void imageCache.evict().catch(() => undefined);
       handleAnimeScheme({
+        imageCache,
         sessions,
         fetchUpstream,
         fetcherFor: (sourceId) => fetcherFor(sourceId.split('/')[0] ?? ''),
@@ -441,6 +449,7 @@ if (!app.requestSingleInstanceLock()) {
           downloads: downloadService,
           updates: updateService,
           libraryRepo,
+          imageCache,
           migration: sourceMigration,
           backup: new BackupService({
             sqlite: connection.sqlite,

@@ -267,7 +267,13 @@
       "openFolder": "Open folder",
       "openFailed": "Could not open the folder",
       "ofLimit": "{{percent}}% of the {{limit}} limit",
-      "backup": "Backup and restore"
+      "backup": "Backup and restore",
+      "coverCache": "Cover cache",
+      "coverCacheHint": "Covers from browsing and search are kept on disk so they show at once the next time. Covers of your library are kept apart and never removed.",
+      "coverCacheLimit": "Size limit",
+      "coverCacheUsed": "{{size}} used",
+      "clearCache": "Clear cache",
+      "clearCacheFailed": "Could not clear the cache"
     },
     "network": {
       "intro": "For sources your internet provider blocks. Changes apply right away, without restarting.",

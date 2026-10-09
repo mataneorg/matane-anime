@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { decodeResource } from './m3u8';
+import type { ImageCache } from '../images/cache';
 import type { ExtensionFetcher } from '../network/extension-fetcher';
 
 /** `anime://cover/<base64url(sourceId)>/<base64url(image url)>` */
@@ -20,16 +21,23 @@ export interface CoverDeps {
   localCover?(animeId: number): { path: string; type: string } | null;
   /** The fetcher of the extension behind a source, or undefined when it is not installed. */
   fetcherFor(sourceId: string): ExtensionFetcher | undefined;
+  /** Browse covers kept on disk between runs, behind the in-memory LRU. */
+  imageCache?: Pick<ImageCache, 'read' | 'put'>;
 }
+
+/** What a fetch ends in: the image, or the status to answer with. */
+type Loaded = Cached | { status: number };
 
 /**
  * Serves covers to `<img>` (docs/PRD.md §8.3): the renderer may not fetch from sites, so main does, in the
- * extension's own session and rate limit. A small in-memory LRU keeps scrolling back cheap; permanent covers
- * for library entries come with phase 2 (LIB-7).
+ * extension's own session and rate limit. Lookup order is a small in-memory LRU, the disk cache (so a restart
+ * does not refetch everything), then the site; requests for one image that overlap share a single fetch.
+ * Permanent covers of library entries are served from their own file (LIB-7).
  */
 export function createCoverHandler(deps: CoverDeps): (request: Request) => Promise<Response> {
   const cache = new Map<string, Cached>();
   let cacheBytes = 0;
+  const inflight = new Map<string, Promise<Loaded>>();
 
   const remember = (key: string, value: Cached): void => {
     cache.set(key, value);
@@ -76,22 +84,39 @@ export function createCoverHandler(deps: CoverDeps): (request: Request) => Promi
       cache.set(key, hit);
       return ok(hit);
     }
+    let pending = inflight.get(key);
+    if (!pending) {
+      pending = load(key, sourceId, imageUrl).finally(() => inflight.delete(key));
+      inflight.set(key, pending);
+    }
+    const loaded = await pending;
+    return 'status' in loaded ? fail(loaded.status) : ok(loaded);
+  };
+
+  async function load(key: string, sourceId: string, imageUrl: string): Promise<Loaded> {
+    const onDisk = await deps.imageCache?.read(key).catch(() => undefined);
+    if (onDisk) {
+      remember(key, onDisk);
+      return onDisk;
+    }
     const fetcher = deps.fetcherFor(sourceId);
-    if (!fetcher) return fail(404);
+    if (!fetcher) return { status: 404 };
     try {
       const response = await fetcher.requestBytes({
         url: imageUrl,
         headers: { Referer: `${new URL(imageUrl).origin}/`, Accept: 'image/*' },
       });
       const type = response.headers['content-type'] ?? '';
-      if (response.status !== 200) return fail(response.status === 404 ? 404 : 502);
-      if (!type.startsWith('image/')) return fail(415);
-      if (response.body.byteLength > MAX_IMAGE_BYTES) return fail(413);
+      if (response.status !== 200) return { status: response.status === 404 ? 404 : 502 };
+      if (!type.startsWith('image/')) return { status: 415 };
+      if (response.body.byteLength > MAX_IMAGE_BYTES) return { status: 413 };
       const cached = { type, body: response.body };
       remember(key, cached);
-      return ok(cached);
+      // A failed write only costs a refetch next time.
+      await deps.imageCache?.put(key, 'browse_cover', cached.body, type).catch(() => undefined);
+      return cached;
     } catch {
-      return fail(502);
+      return { status: 502 };
     }
-  };
+  }
 }

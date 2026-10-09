@@ -228,6 +228,8 @@ export const invokeContract = {
   /** Changes where new downloads go; `move` also moves the finished ones and rewrites their paths. */
   'downloads.changeFolder': invoke(z.object({ folder: z.string().min(1), move: z.boolean() }), z.void()),
   'downloads.openFolder': invoke(z.void(), z.void()),
+  'storage.cacheSize': invoke(z.void(), z.number().int()),
+  'storage.clearCache': invoke(z.void(), z.void()),
   'updates.list': invoke(z.void(), updatesListSchema),
   /** How many new episodes are waiting: the sidebar badge (UPD-8). */
   'updates.count': invoke(z.void(), z.number().int()),
