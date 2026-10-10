@@ -46,6 +46,9 @@ export class RepoFetcher implements RepoHttp {
         redirect: 'manual',
       });
       client.setHeader('user-agent', userAgent());
+      // Hosts like GitHub Pages let a file be cached for ten minutes; a repository that was just published (or a
+      // check the user asked for) must see the current index. The ETag makes the revalidation a cheap 304.
+      client.setHeader('cache-control', 'no-cache');
       let settled = false;
       let hops = 0;
       let currentUrl = target.href;

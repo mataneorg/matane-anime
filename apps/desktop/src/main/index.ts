@@ -69,6 +69,9 @@ import { API_VERSION } from '@matane-anime/extension-sdk/manifest';
 
 const log = initLogging();
 
+/** How often the repositories are looked at while the app stays open (they are also read once at start). */
+const REPO_CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000;
+
 app.setName('Matane Anime');
 // Dumps stay on this machine: no telemetry (docs/PRD.md §10.3).
 crashReporter.start({ uploadToServer: false });
@@ -297,12 +300,17 @@ if (!app.requestSingleInstanceLock()) {
         .then(() => registry.init())
         .catch((error: unknown) => log.error('extension registry failed to start', error));
       void registryReady.then(() => updateService.start());
-      // Look at the repositories once at start, without holding anything up (needs the network).
-      void registryReady.then(() => {
+      // Look at the repositories once at start and then every few hours, without holding anything up (needs the
+      // network). New versions show as the dot on Extensions in the sidebar.
+      const checkRepos = (): void => {
         if (network.status.isOnline) {
           void repoService.refresh().catch((error: unknown) => log.warn('repository refresh failed', error));
         }
-      });
+      };
+      void registryReady.then(checkRepos);
+      const repoTimer = setInterval(checkRepos, REPO_CHECK_INTERVAL_MS);
+      repoTimer.unref();
+      app.on('quit', () => clearInterval(repoTimer));
 
       const sessions = new SessionStore();
       const fetchUpstream = createSessionUpstream(fetcherFor);
