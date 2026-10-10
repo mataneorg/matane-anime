@@ -6,6 +6,16 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.1.0-beta.4',
+    date: '2026-10-10',
+    items: [
+      'Sources: click a source’s card to open it, and extensions now show their own icon.',
+      'The player shows an animation while it looks for the stream, and keeps the video hidden until it has one.',
+      'Fixed streams from Blogger answering 403: playback now sends the same User-Agent as the extension that found the stream.',
+      'Extension updates: repositories are checked again every six hours, and a check no longer returns an outdated list from the cache.',
+    ],
+  },
+  {
     version: '0.1.0-beta.3',
     date: '2026-10-10',
     items: [
