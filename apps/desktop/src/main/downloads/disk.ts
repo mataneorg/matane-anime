@@ -30,4 +30,14 @@ export function exceedsLimit(committedBytes: number, needBytes: number | null, l
   return needBytes === null ? committedBytes >= limitBytes : committedBytes + needBytes > limitBytes;
 }
 
+/** Nothing a single episode needs comes near this, whatever the server claims. */
+export const ABSOLUTE_MAX_BYTES = 64 * GIB;
+/** An estimate is a guess from the server (a playlist's BANDWIDTH is a peak): three times it, or this much more. */
+const ESTIMATE_SLACK_BYTES = 256 * 1024 ** 2;
+
+/** The most a download with this estimate may write before it is stopped as runaway. */
+export function runawayCap(estimateBytes: number): number {
+  return Math.min(ABSOLUTE_MAX_BYTES, Math.max(estimateBytes * 3, estimateBytes + ESTIMATE_SLACK_BYTES));
+}
+
 export const gbToBytes = (gb: number): number => Math.round(gb * GIB);

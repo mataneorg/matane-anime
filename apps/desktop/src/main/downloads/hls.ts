@@ -9,6 +9,9 @@ import { qualityRank } from '../playback/ranking';
 
 export type HlsErrorCode = 'live' | 'unsupported_encryption' | 'invalid_playlist' | 'empty_playlist';
 
+/** A media playlist with more entries than this (about 17 hours at 2 s a segment) is not an episode. */
+export const MAX_SEGMENTS = 30_000;
+
 export class HlsError extends Error {
   constructor(
     readonly code: HlsErrorCode,
@@ -247,6 +250,7 @@ export function parseMediaPlaylist(text: string, baseUrl: string, dir = ''): Med
       out.push(local(resource('segment', line, range, pendingDuration, '.ts')));
       duration += pendingDuration;
       segmentCount++;
+      if (segmentCount > MAX_SEGMENTS) throw new HlsError('invalid_playlist', 'The playlist has too many segments');
       pendingDuration = 0;
       pendingRange = null;
       continue;

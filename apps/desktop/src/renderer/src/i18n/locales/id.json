@@ -958,6 +958,7 @@
       "disk_space": "Ruang kosong di drive tidak cukup.",
       "write_failed": "Tidak bisa menulis ke folder unduhan.",
       "disk_full": "Ruang drive habis.",
+      "too_large": "Unduhan membengkak jauh melebihi ukuran yang diumumkan dan dihentikan.",
       "expired": "Tautan stream kedaluwarsa dan tidak bisa diperbarui.",
       "network": "Koneksi terputus terlalu sering.",
       "unreachable": "Situs tidak bisa dijangkau.",

@@ -14,3 +14,6 @@ The `html` API is synchronous and chatty: every `select`, `text()` and `attr()` 
 ## Consequences
 - Main does no parsing of untrusted HTML: a hostile page can at worst stall the host, which is restartable.
 - Tests: the host is killed while the app runs and the next call succeeds; an extension dropped for idleness is reloaded transparently (`e2e/extensions.spec.ts`).
+
+## Amendment (2026-10-10)
+- The documents stay in the host's heap, outside the sandbox's memory limit, so `HtmlStore` has limits of its own: 200,000 handles and 32 MiB of parsed text per run of calls (both reset by `clear()`). Past them the call fails with an error the extension can see.

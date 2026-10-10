@@ -2,7 +2,15 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { GIB, UNKNOWN_SIZE_MIN_FREE, exceedsLimit, freeBytes, gbToBytes, hasEnoughSpace } from './disk';
+import {
+  ABSOLUTE_MAX_BYTES,
+  GIB,
+  UNKNOWN_SIZE_MIN_FREE,
+  exceedsLimit,
+  freeBytes,
+  gbToBytes,
+  hasEnoughSpace,
+} from './disk';
 import { SpeedMeter } from './progress';
 
 describe('free space (DL-9)', () => {
@@ -30,6 +38,16 @@ describe('free space (DL-9)', () => {
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
+  });
+});
+
+describe('runaway cap', () => {
+  it('gives an estimate three times its size or 256 MiB more, whichever is larger, and never passes the ceiling', async () => {
+    const { runawayCap } = await import('./disk');
+    const MIB = 1024 ** 2;
+    expect(runawayCap(600)).toBe(600 + 256 * MIB);
+    expect(runawayCap(500 * MIB)).toBe(1500 * MIB);
+    expect(runawayCap(40 * GIB)).toBe(ABSOLUTE_MAX_BYTES);
   });
 });
 

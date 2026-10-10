@@ -965,6 +965,7 @@
       "disk_space": "There is not enough free space on the drive.",
       "write_failed": "Could not write to the download folder.",
       "disk_full": "The drive ran out of space.",
+      "too_large": "The download grew far beyond its announced size and was stopped.",
       "expired": "The stream link expired and could not be renewed.",
       "network": "The connection dropped too many times.",
       "unreachable": "The site could not be reached.",

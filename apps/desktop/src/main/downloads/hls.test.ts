@@ -10,6 +10,7 @@ import {
   parseMediaPlaylist,
   pickAudio,
   pickVariant,
+  MAX_SEGMENTS,
 } from './hls';
 
 const MEDIA = resolve(__dirname, '../../../e2e/fixtures/media');
@@ -222,6 +223,13 @@ describe('media playlists', () => {
   it('accepts METHOD=NONE and leaves it alone', () => {
     const text = '#EXTM3U\n#EXT-X-KEY:METHOD=NONE\n#EXTINF:1,\na.ts\n#EXT-X-ENDLIST\n';
     expect(parseMediaPlaylist(text, `${CDN}/p.m3u8`).localText).toContain('#EXT-X-KEY:METHOD=NONE');
+  });
+
+  it('refuses a playlist with more segments than an episode can have', () => {
+    const segments = (n: number) =>
+      `#EXTM3U\n${Array.from({ length: n }, (_, i) => `#EXTINF:1,\ns${i}.ts`).join('\n')}\n#EXT-X-ENDLIST\n`;
+    expect(parseMediaPlaylist(segments(MAX_SEGMENTS), CDN).resources).toHaveLength(MAX_SEGMENTS);
+    expect(failure(() => parseMediaPlaylist(segments(MAX_SEGMENTS + 1), CDN)).code).toBe('invalid_playlist');
   });
 
   it('rejects what is not a media playlist, or has nothing to download', () => {

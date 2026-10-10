@@ -102,6 +102,17 @@ describe('fetchToFile', () => {
     });
   });
 
+  it('stops a ranged piece that keeps sending past its length, without retrying, and leaves nothing behind', async () => {
+    const h = harness(() => respond('0123456789', { status: 206, lengthHeader: null }));
+    const error = await fetchToFile(h.settings, 'https://cdn.example/a.mp4', join(dir, 'a.bin'), {
+      range: { offset: 0, length: 4 },
+      onBytes: () => undefined,
+    }).catch((e: unknown) => e);
+    expect(error).toMatchObject({ code: 'too_large', recoverable: false });
+    expect(h.calls).toHaveLength(1);
+    expect(readdirSync(dir)).toEqual([]);
+  });
+
   it('retries a 5xx with exponential backoff, then succeeds', async () => {
     const h = harness((_c, n) => (n < 3 ? respond('', { status: 503 }) : respond('ok')));
     await fetchToFile(h.settings, 'https://cdn.example/a.ts', join(dir, 'a.ts'), { onBytes: () => undefined });

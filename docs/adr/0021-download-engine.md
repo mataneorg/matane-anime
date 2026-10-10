@@ -47,3 +47,4 @@ Downloads must survive a closed app, a dropped network, an expiring stream URL a
 
 ## Amendment (2026-10-10)
 - Changing the download folder with "move" rewrites each row's path right after its files moved, not all at the end, so a crash leaves every row pointing at a place that exists. A copy across drives that fails removes what it wrote.
+- **Limits while transferring** (the size estimate and the free space were only checked once, from what the server said): a download stops with `too_large`, and its files are removed, once it has written more than three times its estimate or 256 MiB over it (at most 64 GiB; without an estimate, what the size limit leaves). A segment stops at 1 GiB, a ranged piece at its announced length. A media playlist with more than 30,000 segments is refused as `invalid_playlist`. Free space is not polled: a full drive already ends the download as `disk_full` and removes the file in flight.

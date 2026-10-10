@@ -8,6 +8,7 @@ const KNOWN = new Set([
   'disk_space',
   'write_failed',
   'disk_full',
+  'too_large',
   'expired',
   'network',
   'unreachable',

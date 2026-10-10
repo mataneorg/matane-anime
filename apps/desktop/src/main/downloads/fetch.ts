@@ -15,7 +15,7 @@ export interface UpstreamSource {
 }
 export type DownloadUpstream = (url: string, init: UpstreamInit, source: UpstreamSource) => Promise<Response>;
 
-export type FetchErrorCode = 'http' | 'network' | 'timeout' | 'truncated' | 'range' | 'redirect';
+export type FetchErrorCode = 'http' | 'network' | 'timeout' | 'truncated' | 'range' | 'redirect' | 'too_large';
 
 export class DownloadFetchError extends Error {
   constructor(
@@ -63,6 +63,8 @@ export const DEFAULT_RETRIES = 3;
 export const DEFAULT_BACKOFF_MS = 500;
 const MAX_RETRY_AFTER_MS = 30_000;
 const MAX_PLAYLIST_BYTES = 8 * 1024 * 1024;
+/** No media segment is anywhere near this; a server that keeps sending past it is not serving a segment. */
+export const MAX_SEGMENT_BYTES = 1024 ** 3;
 
 const defaultSleep = (ms: number, signal: AbortSignal): Promise<void> =>
   new Promise((resolve, reject) => {
@@ -316,6 +318,10 @@ export function fetchToFile(
           await handle.write(data);
           written += data.byteLength;
           options.onBytes(data.byteLength);
+          // A ranged piece is exactly as long as the playlist says; any other segment has a ceiling.
+          if (written > (range ? range.length : MAX_SEGMENT_BYTES)) {
+            throw new DownloadFetchError('too_large', 'The server sent more than a segment can hold', null, false);
+          }
         }
         return !(whole && range && seen >= range.offset + range.length);
       });

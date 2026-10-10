@@ -18,7 +18,14 @@ import type { AnimeRow } from '../db/repositories/anime';
 import type { DownloadRecord, DownloadsRepository } from '../db/repositories/downloads';
 import type { EpisodeRecord } from '../db/repositories/episodes';
 import { pathExists, pruneEmptyParents, removePath, treeSize } from './atomic';
-import { exceedsLimit, freeBytes as diskFreeBytes, gbToBytes, hasEnoughSpace } from './disk';
+import {
+  ABSOLUTE_MAX_BYTES,
+  exceedsLimit,
+  runawayCap,
+  freeBytes as diskFreeBytes,
+  gbToBytes,
+  hasEnoughSpace,
+} from './disk';
 import { DownloadAborted, DownloadFetchError, type DownloadUpstream, type FetchSettings } from './fetch';
 import { LOCAL_PLAYLIST } from './hls';
 import { episodePath, tempPath, uniquePath } from './layout';
@@ -37,6 +44,7 @@ export const DOWNLOAD_ERRORS = {
   sizeLimit: 'size_limit',
   diskSpace: 'disk_space',
   diskFull: 'disk_full',
+  tooLarge: 'too_large',
   writeFailed: 'write_failed',
   expired: 'expired',
   network: 'network',
@@ -99,6 +107,8 @@ class Job {
   segmentsDone = 0;
   segmentsTotal: number | null = null;
   bytesDone = 0;
+  /** Bytes this download may take before it is stopped as runaway; set when the transfer starts. */
+  byteCap = Number.POSITIVE_INFINITY;
   sizeBytes: number | null = null;
   network = 0;
   readonly meter = new SpeedMeter();
@@ -461,6 +471,8 @@ export class DownloadService {
         await this.transfer(id, plan, job, settings);
         break;
       } catch (error) {
+        const saved = this.deps.downloads.get(id)?.path;
+        if (saved && this.isRunaway(error)) await removePath(tempPath(saved, plan.kind));
         // The link died in the middle: ask the extension once for a new one and carry on with what is there.
         if (!(error instanceof DownloadFetchError && error.expired) || job.refreshes >= 1) throw error;
         plan = await this.resolve(row.episodeId, job.controller.signal, settings, job, true);
@@ -483,6 +495,14 @@ export class DownloadService {
     job.bytesDone = bytes;
     job.sizeBytes = bytes;
     return { type: 'done' };
+  }
+
+  /** A download stopped for writing far more than it announced leaves nothing worth resuming from. */
+  private isRunaway(error: unknown): boolean {
+    return (
+      (error instanceof RoomError && error.code === DOWNLOAD_ERRORS.tooLarge) ||
+      (error instanceof DownloadFetchError && error.code === 'too_large')
+    );
   }
 
   private assertRunning(job: Job): void {
@@ -542,6 +562,18 @@ export class DownloadService {
       throw new RoomError(DOWNLOAD_ERRORS.diskSpace);
   }
 
+  /**
+   * The most a download may write. The estimate comes from the server (a playlist's BANDWIDTH, a range
+   * probe), so it gets generous room; without one the size limit still applies, unless the user forced it.
+   */
+  private byteCap(id: number, plan: Plan, settings: AppSettings): number {
+    if (plan.estimateBytes !== null) return runawayCap(plan.estimateBytes);
+    if (this.forced.has(id)) return ABSOLUTE_MAX_BYTES;
+    const row = this.deps.downloads.get(id) as DownloadRecord;
+    const others = this.deps.downloads.committedBytes() - Math.max(row.bytesDone, row.sizeBytes ?? 0);
+    return Math.min(ABSOLUTE_MAX_BYTES, Math.max(gbToBytes(settings.downloadSizeLimitGb) - others, 0));
+  }
+
   /** Records what the plan turned out to be, and fixes the path of the files on the first run. */
   private prepare(id: number, plan: Plan, job: Job, settings: AppSettings): void {
     const row = this.deps.downloads.get(id) as DownloadRecord;
@@ -586,10 +618,13 @@ export class DownloadService {
     const final = this.deps.downloads.get(id)?.path as string;
     job.bytesDone = 0;
     job.segmentsDone = 0;
+    job.byteCap = this.byteCap(id, plan, settings);
     const progress: TransferProgress = {
       onBytes: (delta) => {
         job.bytesDone += delta;
         this.report(id, job);
+        // The estimate and the free space were checked once, from what the server said; this holds it to it.
+        if (job.bytesDone > job.byteCap) throw new RoomError(DOWNLOAD_ERRORS.tooLarge);
       },
       onSegment: () => {
         job.segmentsDone++;
@@ -709,6 +744,7 @@ export class DownloadService {
     if (error instanceof DownloadFetchError) {
       if (error.expired) return DOWNLOAD_ERRORS.expired;
       if (error.code === 'http') return `http_${error.status}`;
+      if (error.code === 'too_large') return DOWNLOAD_ERRORS.tooLarge;
       return error.code === 'redirect' ? 'redirect' : DOWNLOAD_ERRORS.network;
     }
     const code = (error as NodeJS.ErrnoException | undefined)?.code;
