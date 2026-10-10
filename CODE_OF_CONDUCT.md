@@ -36,7 +36,7 @@ This Code of Conduct applies within all community spaces, and also applies when 
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement privately, through GitHub: use [private vulnerability reporting](https://github.com/mataneorg/matane-anime/security/advisories/new) (the form is private to the maintainers; say in the title that it is a conduct report), or open a private issue to the maintainers if that is possible for you. Please do not report conduct problems in public issues or pull requests. A dedicated contact address has not been set up yet.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement privately, through GitHub: use [private vulnerability reporting](https://github.com/mataneorg/matane-anime/security/advisories/new) (the form is private to the maintainers; say in the title that it is a conduct report), or open a private issue to the maintainers if that is possible for you. Please do not report conduct problems in public issues or pull requests. This is the only official channel; there is no separate email address.
 
 All complaints will be reviewed and investigated promptly and fairly.
 

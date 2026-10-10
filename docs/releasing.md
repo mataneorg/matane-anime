@@ -88,7 +88,7 @@ State on 2026-10-11. `release.yml` has run for real: `v0.1.0-beta.4` was publish
 - **Installing and running** the Windows (NSIS, portable), macOS (dmg; the unsigned arm64 build may need ad-hoc signing) and Linux deb and rpm builds on clean machines. Only the AppImage has been installed and smoke-tested. Check that `latest.yml` points at the NSIS installer and `latest-linux.yml` at the AppImage.
 - **Auto-update end to end**, from one published beta to the next, on AppImage and NSIS. The `PORTABLE_EXECUTABLE_FILE` variable name used to detect the portable build comes from electron-builder's documentation.
 - **DoH, proxy, `safeStorage`, backup restore and relaunch** on a real Electron (the home test list at the end of `docs/plans/fase-5-polish-rilis-v1.md`).
-- The **three-OS playback spike** (`spike.yml`, [ADR 0008](adr/0008-media-transport.md), [0009](adr/0009-codec-support.md)): it has never been run. It must be green before v1.0.
+- The **three-OS playback spike** is green: run 38082320857 of `spike.yml` (2026-10-11, commit `d766451`) passed on Linux, Windows and macOS. A first run failed on Linux (the `__spike` bridge never appeared within 30 s) and on Windows (the `e2e` script redirected to `/dev/null`, fixed in `d766451`); the Linux failure did not repeat and its cause is unknown. The per-OS numbers for [ADR 0008](adr/0008-media-transport.md) and [0009](adr/0009-codec-support.md) are in the `spike-results-*` artifacts and are not copied into the ADRs yet.
 - The Flatpak manifest and the AUR `PKGBUILD` in [docs/packaging](packaging/README.md) are unverified drafts that need a Flathub/AUR submission by you. How each package updates is in that README.
 - Windows and macOS builds are unsigned (PRD R13); expect SmartScreen/Gatekeeper warnings.
 
@@ -96,11 +96,11 @@ State on 2026-10-11. `release.yml` has run for real: `v0.1.0-beta.4` was publish
 
 Do this only when the list above is green or each open item is written down as an accepted risk.
 
-1. Run **Playback spike** (Actions, "Run workflow") and read its three reports.
-2. Install the latest beta on Windows and macOS, play a video, then update to a newer beta once.
+1. ~~Run **Playback spike**~~ Done, green on all three OSes (see above).
+2. ~~Install the latest beta on Windows and macOS, play a video, then update to a newer beta once.~~ Skipped for v1.0 by the maintainer (2026-10-11): accepted risk, to be done on the first v1.0.x.
 3. Set `version` in `apps/desktop/package.json` to `1.0.0` (no pre-release part, so CI publishes a normal release and the stable channel sees it).
 4. Drop the beta wording that would be wrong afterwards: the notice in `README.md` ("is a **beta**", the latest version), `SECURITY.md` (Supported versions), `apps/docs/index.md` and `apps/docs/guide/getting-started.md` ("Releases are beta"), and the "beta" lines in `docs/PRD.md` §13 and §15.2.
-5. Decide the contact address for `SECURITY.md` and `CODE_OF_CONDUCT.md`, or keep GitHub private advisories as the one channel and delete the "not been set up yet" sentences.
+5. ~~Decide the contact address.~~ Done: GitHub private advisories are the one official channel, and `SECURITY.md` and `CODE_OF_CONDUCT.md` say so.
 6. `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build`, and `pnpm e2e` at home.
 7. Commit, tag exactly `v1.0.0`, push the tag, and watch `release.yml` and the smoke job. Tagging publishes.
 

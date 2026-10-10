@@ -15,7 +15,7 @@ Matane Anime is in **beta**. Only the latest release (and the latest beta, if it
 
 <https://github.com/mataneorg/matane-anime/security/advisories/new>
 
-Include what you found, how to reproduce it, the app version and operating system, and what you think the impact is. A proof of concept helps. You will get a reply in the advisory thread; this is a small, volunteer project, so please allow some time, and please give us a reasonable chance to fix the problem before you disclose it. A dedicated security contact address has not been set up yet.
+Include what you found, how to reproduce it, the app version and operating system, and what you think the impact is. A proof of concept helps. You will get a reply in the advisory thread; this is a small, volunteer project, so please allow some time, and please give us a reasonable chance to fix the problem before you disclose it. GitHub private vulnerability reporting is the only official channel; there is no separate email address.
 
 What is in scope: the app (`apps/desktop`), the extension sandbox and host API, the repository format and its verification, the installer and update path, and the published packages (`@matane-anime/extension-sdk`, `-runtime`, `-cli`). Sandbox escapes, signature or hash bypasses, path traversal in archives, and renderer access to things it should not have are exactly the reports we want.
 
