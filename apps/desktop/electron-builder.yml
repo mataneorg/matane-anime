@@ -47,8 +47,9 @@ publish:
   provider: github
   owner: mataneorg
   repo: matane-anime
-  # Not a draft: electron-updater only sees published releases. CI sets EP_PRE_RELEASE for -beta tags.
-  releaseType: release
+  # Uploads go to a draft: electron-updater only sees published releases, and release.yml publishes the draft
+  # after every build and the smoke test passed. CI sets EP_PRE_RELEASE for -beta tags.
+  releaseType: draft
 
 linux:
   target:

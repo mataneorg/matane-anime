@@ -2,7 +2,7 @@ import { existsSync, mkdirSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
-import { BrowserWindow, app, crashReporter, safeStorage, session } from 'electron';
+import { BrowserWindow, app, crashReporter, dialog, safeStorage, session } from 'electron';
 import type { AppSettings } from '@matane-anime/shared';
 import { autoUpdater } from 'electron-updater';
 import { createMainWindow } from './app/window';
@@ -20,7 +20,7 @@ import { openDatabase } from './db/client';
 import { ImageCache } from './images/cache';
 import { purgeBrowseRows } from './db/housekeeping';
 import { seedLibrary } from './db/seed';
-import { countBundledMigrations, runMigrations } from './db/migrate';
+import { DatabaseNewerError, countBundledMigrations, runMigrations } from './db/migrate';
 import { HostError } from '@matane-anime/extension-runtime/client';
 import { AnimeRepository } from './db/repositories/anime';
 import { ChangeEmitter } from './db/repositories/changes';
@@ -531,6 +531,12 @@ if (!app.requestSingleInstanceLock()) {
     .catch((error: unknown) => {
       // Without this a failed start is a silent process with no window.
       log.error('startup failed', error);
+      if (error instanceof DatabaseNewerError) {
+        dialog.showErrorBox(
+          'Matane Anime cannot open your library',
+          'Your library was last used by a newer version of Matane Anime. Install that version or a later one; nothing was changed.',
+        );
+      }
       app.exit(1);
     });
 

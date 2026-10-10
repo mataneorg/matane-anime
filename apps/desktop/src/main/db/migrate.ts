@@ -5,6 +5,17 @@ import type { DatabaseConnection } from './client';
 
 const KEPT_BACKUPS = 3;
 
+/** The database was written by a newer version of the app (a downgrade, or the other update channel). */
+export class DatabaseNewerError extends Error {
+  constructor(
+    readonly applied: number,
+    readonly bundled: number,
+  ) {
+    super(`The database has ${applied} migrations applied but this version only knows ${bundled}.`);
+    this.name = 'DatabaseNewerError';
+  }
+}
+
 function countAppliedMigrations(connection: DatabaseConnection): number {
   const table = connection.sqlite
     .prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name = '__drizzle_migrations'")
@@ -42,7 +53,10 @@ export async function runMigrations(
   const applied = countAppliedMigrations(connection);
   // No migration applied yet: a database created just now (a new profile).
   const fresh = applied === 0;
-  const pending = countBundledMigrations(options.migrationsFolder) - applied;
+  const bundled = countBundledMigrations(options.migrationsFolder);
+  // Older code on a newer schema fails queries or corrupts data without saying so: refuse to open it.
+  if (applied > bundled) throw new DatabaseNewerError(applied, bundled);
+  const pending = bundled - applied;
   if (pending <= 0) return { applied: 0, backupPath: null, fresh };
 
   let backupPath: string | null = null;

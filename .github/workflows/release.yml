@@ -5,6 +5,10 @@ name: Release
 # and keeps the files as workflow artifacts, unless "publish" is ticked. A tag with a prerelease part
 # (`v0.1.0-beta.1`) becomes a GitHub pre-release: that is the beta channel.
 #
+# Publishing is guarded twice. The commit has to be on `main` and its CI run has to have passed (`prepare`).
+# The release is created as a draft, which electron-updater does not see; the last job makes it public only
+# after every build, including the AppImage smoke test, went green. A red job leaves a draft to delete.
+#
 # Not verified yet: the repository did not exist when this was written (milestone 3h). Only the Linux
 # AppImage was built and smoke-tested, locally. NSIS, the portable .exe, deb, rpm, dmg and publishing are untested.
 # Several targets in one electron-builder run are uploaded by the same `--publish always`. Check after the first run
@@ -26,6 +30,7 @@ concurrency:
 
 permissions:
   contents: write # create the release and upload its files
+  actions: read # look up the CI run of the commit being released
 
 jobs:
   prepare:
@@ -36,7 +41,9 @@ jobs:
       prerelease: ${{ steps.meta.outputs.prerelease }}
       publish: ${{ steps.meta.outputs.publish }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0 # the main check below needs the history
       - name: Read the version
         id: meta
         run: |
@@ -55,12 +62,30 @@ jobs:
           echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
         env:
           PUBLISH_INPUT: ${{ inputs.publish }}
+      # Only a commit that is on main and went green in CI may be released, whether by tag or by a manual run.
+      - name: Check the commit is on main and CI passed
+        if: steps.meta.outputs.publish == 'true'
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::$GITHUB_SHA is not on main; merge it first, then tag the merge commit"
+            exit 1
+          fi
+          passed=$(gh run list --workflow ci.yml --commit "$GITHUB_SHA" --status success --json databaseId --jq length)
+          if [[ "$passed" == "0" ]]; then
+            echo "::error::no successful CI run for $GITHUB_SHA"
+            exit 1
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
       # Created once here: three jobs creating the same release at the same time would race.
+      # A draft: electron-updater only sees it once the `publish` job below has made it public.
       - name: Create the release
         if: steps.meta.outputs.publish == 'true'
         run: |
           if gh release view "$TAG" > /dev/null 2>&1; then exit 0; fi
-          flags=(--title "$TAG" --generate-notes)
+          flags=(--draft --title "$TAG" --generate-notes)
           if [[ "$PRERELEASE" == "true" ]]; then flags+=(--prerelease); fi
           gh release create "$TAG" "${flags[@]}"
         env:
@@ -96,9 +121,9 @@ jobs:
               ~/Library/Caches/electron
               ~/Library/Caches/electron-builder
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4 # version comes from "packageManager" in package.json
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4; version comes from "packageManager" in package.json
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version-file: .node-version
           cache: pnpm
@@ -122,7 +147,7 @@ jobs:
           EP_PRE_RELEASE: ${{ needs.prepare.outputs.prerelease }}
           # Unsigned builds for now (docs/PRD.md R13): do not go looking for a certificate in the keychain.
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      # Runs after the upload: a red job tells you to pull the release, nothing downloads it before the beta announcement.
+      # Runs after the upload, but the release is still a draft: a red job keeps it from ever going public.
       # Ubuntu 24.04 runners restrict unprivileged user namespaces (AppArmor), which Chromium's sandbox needs.
       - name: Allow user namespaces for the Chromium sandbox
         if: matrix.name == 'linux'
@@ -146,3 +171,17 @@ jobs:
             apps/desktop/release/latest*.yml
           if-no-files-found: error
           retention-days: 14
+
+  # The release becomes visible to electron-updater only here, when every build and the smoke test passed.
+  publish:
+    name: publish the release
+    needs: [prepare, build]
+    if: needs.prepare.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make the release public
+        run: gh release edit "$TAG" --draft=false
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ needs.prepare.outputs.tag }}

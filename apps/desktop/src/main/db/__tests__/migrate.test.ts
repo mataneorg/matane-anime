@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { DEFAULT_SETTINGS } from '@matane-anime/shared';
 import { afterEach, describe, expect, it } from 'vitest';
 import { openDatabase } from '../client';
-import { runMigrations } from '../migrate';
+import { DatabaseNewerError, runMigrations } from '../migrate';
 import { SettingsRepository } from '../repositories/settings';
 
 const migrationsFolder = resolve(__dirname, '../../../../drizzle');
@@ -171,6 +171,26 @@ describe('database migrations', () => {
     expect(result.applied).toBe(full.length - 1);
     expect(result.backupPath).not.toBeNull();
     expect(readdirSync(backupDir).filter((name) => name.endsWith('.db'))).toHaveLength(1);
+    connection.sqlite.close();
+  });
+
+  it('refuses a database that a newer version already migrated, and leaves it untouched', async () => {
+    const dir = tempDir();
+    const connection = openDatabase(join(dir, 'data.db'));
+    const backupDir = join(dir, 'backups');
+    await runMigrations(connection, { migrationsFolder, backupDir });
+    // An older build only knows the first migration of the folder.
+    const { cpSync, readFileSync, writeFileSync } = await import('node:fs');
+    const older = join(dir, 'older');
+    cpSync(migrationsFolder, older, { recursive: true });
+    const journal = JSON.parse(readFileSync(join(older, 'meta/_journal.json'), 'utf8')) as { entries: unknown[] };
+    journal.entries = journal.entries.slice(0, 1);
+    writeFileSync(join(older, 'meta/_journal.json'), JSON.stringify(journal));
+
+    await expect(runMigrations(connection, { migrationsFolder: older, backupDir })).rejects.toBeInstanceOf(
+      DatabaseNewerError,
+    );
+    expect(readdirSync(dir)).not.toContain('backups');
     connection.sqlite.close();
   });
 });
