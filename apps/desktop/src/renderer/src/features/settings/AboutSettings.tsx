@@ -66,11 +66,7 @@ export function AboutSettings() {
       </section>
 
       <SettingsCard id="about-updates-title" title={t('settings.about.updates')}>
-        <SettingRow
-          label={t('settings.about.channel')}
-          hint={t('settings.about.channelHint')}
-          htmlFor="update-channel"
-        >
+        <SettingRow label={t('settings.about.channel')} hint={t('settings.about.channelHint')} htmlFor="update-channel">
           <Select
             id="update-channel"
             data-testid="update-channel"
