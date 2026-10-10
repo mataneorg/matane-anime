@@ -15,6 +15,7 @@ import {
   looksLikeChallenge,
   retryDelayMs,
 } from './policy';
+import { isBlockedUrl, installPrivateNetworkGuard } from './private-network';
 import { answerProxyLogin } from './proxy-auth';
 import { TokenBucket } from './token-bucket';
 
@@ -58,6 +59,7 @@ export class ExtensionFetcher {
     this.images = new TokenBucket(options.perSecond);
     this.media = new TokenBucket(options.mediaPerSecond);
     installHeaderBridge(options.session);
+    installPrivateNetworkGuard(options.session);
   }
 
   async request(request: HttpRequest): Promise<HttpResult> {
@@ -132,6 +134,7 @@ export class ExtensionFetcher {
   private once(request: HttpRequest): Promise<Raw> {
     return new Promise<Raw>((resolve, reject) => {
       const method = request.method ?? 'GET';
+      if (isBlockedUrl(request.url)) return reject(blockedHost(request.url));
       const timeoutMs = Math.min(request.timeoutMs ?? DEFAULT_TIMEOUT_MS, MAX_TIMEOUT_MS);
       const client = net.request({
         method,
@@ -172,6 +175,7 @@ export class ExtensionFetcher {
         if (target.protocol !== 'http:' && target.protocol !== 'https:') {
           return fail(new HostError('NetworkError', `Refusing a redirect to ${target.protocol}`));
         }
+        if (isBlockedUrl(target.href)) return fail(blockedHost(target.href));
         if (++hops > MAX_REDIRECTS) return fail(new HostError('NetworkError', 'Too many redirects'));
         currentUrl = target.href;
         client.followRedirect();
@@ -204,6 +208,10 @@ export class ExtensionFetcher {
       client.end();
     });
   }
+}
+
+function blockedHost(url: string): HostError {
+  return new HostError('NetworkError', `Refusing to connect to a private network address (${new URL(url).host})`);
 }
 
 function lowerKeys(headers: Record<string, string> | undefined): Record<string, string> {

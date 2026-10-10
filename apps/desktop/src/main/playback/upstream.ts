@@ -1,5 +1,6 @@
 import { net, session } from 'electron';
 import { installHeaderBridge, withMarkers } from '../network/header-bridge';
+import { installPrivateNetworkGuard } from '../network/private-network';
 import type { ExtensionFetcher } from '../network/extension-fetcher';
 import type { UpstreamFetch } from './proxy';
 
@@ -59,6 +60,7 @@ export function createSessionUpstream(
     if (!fetcher) return selectUpstream()(url, init, playbackSession);
     await fetcher.media.take();
     installHeaderBridge(fetcher.session);
+    installPrivateNetworkGuard(fetcher.session);
     return fetcher.session.fetch(url, {
       method: init.method,
       headers: withMarkers(init.headers),

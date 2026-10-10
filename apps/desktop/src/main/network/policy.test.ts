@@ -4,6 +4,7 @@ import {
   MAX_RETRY_WAIT_MS,
   decodeBody,
   isBridgedHeader,
+  isPrivateHost,
   isRetryableStatus,
   joinHeaders,
   looksLikeChallenge,
@@ -11,6 +12,51 @@ import {
   sanitizeUserAgent,
 } from './policy';
 import { TokenBucket } from './token-bucket';
+
+describe('isPrivateHost', () => {
+  const host = (url: string) => new URL(url).hostname;
+
+  it('flags localhost, loopback, private, link-local and unique-local addresses', () => {
+    for (const url of [
+      'http://localhost/',
+      'http://app.localhost/',
+      'http://printer.local/',
+      'http://127.0.0.1:8080/',
+      'http://127.1/',
+      'http://0x7f.1/',
+      'http://2130706433/',
+      'http://0.0.0.0/',
+      'http://10.1.2.3/',
+      'http://172.16.0.1/',
+      'http://172.31.255.255/',
+      'http://192.168.1.1/',
+      'http://169.254.169.254/latest/meta-data',
+      'http://100.64.0.1/',
+      'http://[::1]/',
+      'http://[::]/',
+      'http://[fd12:3456::1]/',
+      'http://[fe80::1]/',
+      'http://[::ffff:127.0.0.1]/',
+      'http://[::ffff:10.0.0.1]/',
+    ])
+      expect(isPrivateHost(host(url)), url).toBe(true);
+  });
+
+  it('lets public hosts through, including look-alikes', () => {
+    for (const url of [
+      'https://example.com/',
+      'https://localhost.example.com/',
+      'https://8.8.8.8/',
+      'http://172.15.0.1/',
+      'http://172.32.0.1/',
+      'http://192.169.0.1/',
+      'http://100.63.0.1/',
+      'http://[2606:4700::1111]/',
+      'http://[::ffff:8.8.8.8]/',
+    ])
+      expect(isPrivateHost(host(url)), url).toBe(false);
+  });
+});
 
 describe('retry policy', () => {
   it('retries rate limits and server errors, not client errors or 501', () => {

@@ -26,7 +26,11 @@ export async function launchApp(
   if (process.env['MATANE_E2E_NO_SANDBOX'] === '1') args.push('--no-sandbox');
   const app = await electron.launch({
     args,
-    env: { ...process.env, ...env, ELECTRON_RENDERER_URL: '' } as Record<string, string>,
+    // The fake site is on 127.0.0.1, which the private network guard refuses in a real run.
+    env: { ...process.env, MATANE_ALLOW_PRIVATE_NETWORK: '1', ...env, ELECTRON_RENDERER_URL: '' } as Record<
+      string,
+      string
+    >,
   });
   const page = await app.firstWindow();
   await page.waitForLoadState('domcontentloaded');

@@ -36,6 +36,46 @@ export function looksLikeChallenge(status: number, headers: Record<string, strin
   return fromCloudflare && /just a moment|cf-chl|challenge-platform|attention required/i.test(bodyHead);
 }
 
+function isPrivateIpv4(parts: number[]): boolean {
+  const [a = 0, b = 0] = parts;
+  return (
+    a === 0 || // "this" network, 0.0.0.0
+    a === 10 ||
+    (a === 100 && b >= 64 && b <= 127) || // carrier-grade NAT
+    a === 127 ||
+    (a === 169 && b === 254) || // link-local, cloud metadata
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 168) ||
+    (a === 198 && (b === 18 || b === 19)) || // benchmarking
+    a >= 224 // multicast and reserved
+  );
+}
+
+/**
+ * True for a host that names this machine or a private network: `localhost`, loopback, RFC 1918, link-local
+ * and unique-local addresses, in the forms a URL normalizes them to (`new URL(…).hostname`, so IPv6 keeps its
+ * brackets and `0x7f.1` is already `127.0.0.1`). Only literals can be judged here; a name that resolves to a
+ * private address is not caught.
+ */
+export function isPrivateHost(hostname: string): boolean {
+  const host = hostname.toLowerCase().replace(/\.$/, '');
+  if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.local')) return true;
+  const v4 = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(host);
+  if (v4) return isPrivateIpv4(v4.slice(1).map(Number));
+  if (!host.startsWith('[')) return false;
+  const v6 = host.slice(1, -1);
+  if (v6 === '::' || v6 === '::1') return true;
+  // IPv4-mapped (::ffff:7f00:1): judged as the IPv4 address it carries.
+  const mapped = /^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/.exec(v6);
+  if (mapped) {
+    const high = Number.parseInt(mapped[1] as string, 16);
+    const low = Number.parseInt(mapped[2] as string, 16);
+    return isPrivateIpv4([high >> 8, high & 255, low >> 8, low & 255]);
+  }
+  const first = Number.parseInt(v6.split(':')[0] || '0', 16);
+  return (first & 0xfe00) === 0xfc00 || (first & 0xffc0) === 0xfe80; // fc00::/7 and fe80::/10
+}
+
 /** Header values arrive as strings or lists; extensions get one lower-case string each. */
 export function joinHeaders(raw: Record<string, string | string[] | undefined>): Record<string, string> {
   const out: Record<string, string> = {};
