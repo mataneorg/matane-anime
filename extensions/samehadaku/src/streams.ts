@@ -117,11 +117,14 @@ export function readEmbeds(doc: HtmlElement): string[] {
   return urls;
 }
 
+/** `host` is `name` or one of its subdomains. A bare `endsWith(name)` would also accept `evil${name}`. */
+const hostIs = (host: string, name: string): boolean => host === name || host.endsWith(`.${name}`);
+
 async function resolve(embed: URL): Promise<Stream[] | null> {
   const host = embed.hostname.toLowerCase();
-  if (host.endsWith('blogger.com')) return fromBlogger(embed);
-  if (host.endsWith('xtwap.top')) return fromXtwap(embed);
-  if (host.endsWith('vkspeed.com')) return fromVkspeed(embed);
+  if (hostIs(host, 'blogger.com')) return fromBlogger(embed);
+  if (hostIs(host, 'xtwap.top')) return fromXtwap(embed);
+  if (hostIs(host, 'vkspeed.com')) return fromVkspeed(embed);
   return null;
 }
 

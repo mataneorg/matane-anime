@@ -22,6 +22,19 @@ describe('getStreams', () => {
   const old = { url: 'one-piece/1', name: 'Episode 1', number: 1 };
   const next = { url: 'one-piece/1180', name: 'Episode 1180', number: 1180 };
 
+  it('does not follow an embed on a host that merely ends like a supported one', async () => {
+    const lookalike = fixture('episode_detail.json').replaceAll('//www.blogger.com/', '//evilblogger.com/');
+    expect(lookalike).toContain('evilblogger.com');
+    const { client, requests } = await load((r) => {
+      if (r.url === `${BASE}/series/one-piece/episodes/1`) return { status: 200, text: lookalike };
+      if (r.url === RPC) return { status: 200, text: fixture('blogger_rpc.txt') };
+      return undefined;
+    });
+    await client.getStreams(old).catch(() => undefined);
+    expect(requests.find((r) => r.url === RPC)).toBeUndefined();
+    expect(requests.filter((r) => r.url.includes('evilblogger.com'))).toEqual([]);
+  });
+
   it('resolves a Blogger embed through the RPC', async () => {
     const { client, requests } = await load((r) => {
       if (r.url === `${BASE}/series/one-piece/episodes/1`) return { status: 200, text: fixture('episode_detail.json') };

@@ -8,6 +8,9 @@ import { splitEpisodeUrl } from './text';
 // filedon.co and 4meplayer have no readable API, so they are skipped (never thrown on).
 
 const EMBED_TIMEOUT_MS = 10_000;
+
+/** `host` is `name` or one of its subdomains. A bare `endsWith(name)` would also accept `evil${name}`. */
+const hostIs = (host: string, name: string): boolean => host === name || host.endsWith(`.${name}`);
 const BLOGGER_RPC =
   'https://www.blogger.com/_/BloggerVideoPlayerUi/data/batchexecute?rpcids=WcwnYd&source-path=%2Fvideo.g&rt=c';
 
@@ -101,8 +104,8 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
       }
       const host = embed.hostname.toLowerCase();
       try {
-        if (host.endsWith('blogger.com')) return await fromBlogger(embed);
-        if (host.endsWith('dailymotion.com')) return await fromDailymotion(embed);
+        if (hostIs(host, 'blogger.com')) return await fromBlogger(embed);
+        if (hostIs(host, 'dailymotion.com')) return await fromDailymotion(embed);
         skipped++;
         return [];
       } catch (error) {

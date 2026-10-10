@@ -51,6 +51,16 @@ describe('parsers', () => {
 });
 
 describe('getStreams', () => {
+  it('does not follow an embed on a host that merely ends like a supported one', async () => {
+    const lookalike = fixture('ep_blogger.html.txt').replaceAll('//www.blogger.com/', '//evilblogger.com/');
+    expect(lookalike).toContain('evilblogger.com');
+    const { client, requests } = await load(
+      site('ep_blogger.html.txt', (r) => (r.url.startsWith(BASE) ? { status: 200, text: lookalike } : undefined)),
+    );
+    await client.getStreams(EP).catch(() => undefined);
+    expect(requests.filter((r) => r.url.includes('evilblogger.com'))).toEqual([]);
+  });
+
   it('resolves the default Blogger iframe, 720p first', async () => {
     const { client, requests } = await load(site('ep_blogger.html.txt'));
     const streams = await client.getStreams(EP);
