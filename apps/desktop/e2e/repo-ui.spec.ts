@@ -320,7 +320,7 @@ test('a single extension updates from its own button too', async () => {
   await expect(page.getByText('Example Site updated')).toBeVisible();
 });
 
-test('uninstalling asks first, and the sources stay listed as not installed', async () => {
+test('uninstalling asks first, and the sources leave the Sources page but stay known to the library', async () => {
   await row('example').getByRole('button', { name: 'More actions for Example Site' }).click();
   await page.getByRole('menuitem', { name: 'Uninstall Example Site' }).click();
   await expect(dialog().getByRole('heading', { name: 'Uninstall Example Site?' })).toBeVisible();
@@ -338,6 +338,9 @@ test('uninstalling asks first, and the sources stay listed as not installed', as
 
   const sources = await invoke<{ id: string; available: boolean }[]>('sources.list');
   expect(sources.find((s) => s.id === 'example/en')?.available).toBe(false);
+  await go('#/browse/sources');
+  await expect(page.getByRole('heading', { name: 'No sources installed' })).toBeVisible();
+  await expect(page.getByText('Example Site')).toHaveCount(0);
   await go('#/browse/sources/example%2Fen');
   await expect(page.getByText('Extension not installed')).toBeVisible();
 });

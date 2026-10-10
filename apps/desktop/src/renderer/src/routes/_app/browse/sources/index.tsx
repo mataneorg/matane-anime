@@ -23,9 +23,11 @@ const LAST_USED_COUNT = 3;
 
 function SourcesPage() {
   const { t, i18n } = useTranslation();
-  const { data: sources = [], isPending } = useQuery(sourcesQuery);
+  const { data: allSources = [], isPending } = useQuery(sourcesQuery);
   const [language, setLanguage] = useState('all');
 
+  // The sources of an uninstalled extension stay in the database (the library still names them), but are not listed here.
+  const sources = useMemo(() => allSources.filter((source) => source.available), [allSources]);
   // Main already leaves out 18+ sources and languages the user did not choose (EXT-15).
   const languages = useMemo(() => [...new Set(sources.map((source) => source.lang))].sort(), [sources]);
   const shown = sources
@@ -61,7 +63,7 @@ function SourcesPage() {
           <h1 className="text-xl font-semibold">{t('browse.sources.title')}</h1>
           <p className="text-xs text-muted-foreground">{t('browse.sources.subtitle', { count: sources.length })}</p>
         </div>
-        <OpenFromUrl sources={sources.filter((source) => source.available)} />
+        <OpenFromUrl sources={sources} />
       </header>
 
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-5 p-6">
@@ -151,35 +153,28 @@ function SourceRow({ source, showUsedAt }: { source: SourceInfo; showUsedAt: boo
     <li
       className={cn(
         'relative flex items-center gap-4 rounded-xl border bg-card/40 p-3 transition-colors',
-        source.available && 'hover:border-input hover:bg-card/70',
+        'hover:border-input hover:bg-card/70',
       )}
     >
       <ExtensionIcon id={source.extensionId} name={source.name} className="size-10" />
-      {source.available ? (
-        // The whole card opens the source: the link stretches over it, and the buttons sit above it.
-        <Link
-          to="/browse/sources/$sourceId"
-          params={{ sourceId: source.id }}
-          className="flex min-w-0 flex-1 flex-col rounded-md outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
-        >
-          {title}
-        </Link>
-      ) : (
-        <div className="flex min-w-0 flex-1 flex-col">{title}</div>
-      )}
+      {/* The whole card opens the source: the link stretches over it, and the buttons sit above it. */}
+      <Link
+        to="/browse/sources/$sourceId"
+        params={{ sourceId: source.id }}
+        className="flex min-w-0 flex-1 flex-col rounded-md outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
+      >
+        {title}
+      </Link>
       <Badge>{source.lang.toUpperCase()}</Badge>
       {source.nsfw ? <Badge tone="warning">18+</Badge> : null}
-      {!source.available ? <Badge tone="danger">{t('browse.sources.notInstalled')}</Badge> : null}
-      {source.available ? (
-        <Link
-          to="/browse/sources/$sourceId"
-          params={{ sourceId: source.id }}
-          search={{ tab: 'latest' }}
-          className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'relative')}
-        >
-          {t('browse.sources.latest')}
-        </Link>
-      ) : null}
+      <Link
+        to="/browse/sources/$sourceId"
+        params={{ sourceId: source.id }}
+        search={{ tab: 'latest' }}
+        className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'relative')}
+      >
+        {t('browse.sources.latest')}
+      </Link>
       <Button
         variant="ghost"
         size="icon"
