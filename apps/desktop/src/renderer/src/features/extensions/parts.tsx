@@ -1,20 +1,34 @@
 import type { RepoTrust } from '@matane-anime/shared';
 import { Shield, ShieldAlert } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@renderer/components/ui/badge';
 import { cn } from '@renderer/lib/utils';
 import { hue } from './helpers';
 
-/** The extension's letter avatar (extensions carry no icon file), tinted by its id. */
+/** The extension's `icon.png` (served by main), or a letter avatar tinted by its id when it has none or fails to load. */
 export function ExtensionIcon({ id, name, className }: { id: string; name: string; className?: string }) {
+  const [broken, setBroken] = useState(false);
+  const base = 'flex shrink-0 items-center justify-center overflow-hidden rounded-lg';
+  if (broken) {
+    return (
+      <span
+        aria-hidden
+        className={cn(base, 'font-bold text-black', className)}
+        style={{ background: `hsl(${hue(id)} 65% 75%)` }}
+      >
+        {name.charAt(0).toUpperCase()}
+      </span>
+    );
+  }
   return (
-    <span
+    <img
+      alt=""
       aria-hidden
-      className={cn('flex shrink-0 items-center justify-center rounded-lg font-bold text-black', className)}
-      style={{ background: `hsl(${hue(id)} 65% 75%)` }}
-    >
-      {name.charAt(0).toUpperCase()}
-    </span>
+      src={`anime://icon/${encodeURIComponent(id)}`}
+      className={cn(base, 'object-cover', className)}
+      onError={() => setBroken(true)}
+    />
   );
 }
 

@@ -1,5 +1,6 @@
 import { protocol } from 'electron';
 import { type CoverDeps, createCoverHandler } from './covers';
+import { type IconDeps, createIconHandler } from './icons';
 import { ANIME_SCHEME, type AnimeHandlerDeps, createAnimeHandler } from './proxy';
 
 /**
@@ -17,9 +18,13 @@ export function registerAnimeScheme(): void {
   ]);
 }
 
-/** Attaches the handlers once the app is ready: `anime://play/…` (media) and `anime://cover/…` (images). */
-export function handleAnimeScheme(deps: AnimeHandlerDeps & CoverDeps): void {
+/** Attaches the handlers once the app is ready: `anime://play/…` (media) and `anime://cover/…` (images) and `anime://icon/…` (extension icons). */
+export function handleAnimeScheme(deps: AnimeHandlerDeps & CoverDeps & IconDeps): void {
   const play = createAnimeHandler(deps);
   const cover = createCoverHandler(deps);
-  protocol.handle(ANIME_SCHEME, (request) => (new URL(request.url).host === 'cover' ? cover(request) : play(request)));
+  const icon = createIconHandler(deps);
+  protocol.handle(ANIME_SCHEME, (request) => {
+    const host = new URL(request.url).host;
+    return host === 'cover' ? cover(request) : host === 'icon' ? icon(request) : play(request);
+  });
 }

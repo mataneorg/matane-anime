@@ -397,6 +397,10 @@ if (!app.requestSingleInstanceLock()) {
         fetchUpstream,
         fetcherFor: (sourceId) => fetcherFor(sourceId.split('/')[0] ?? ''),
         localCover: (animeId) => covers.localCover(animeId),
+        iconFolders: (extensionId) => {
+          const record = registry.byExtensionId(extensionId);
+          return record ? [record.bundleFolder, record.inputFolder].filter((folder) => folder !== null) : [];
+        },
         onRequest: (entry) => {
           const message = `anime:// ${entry.status} ${entry.target}${entry.range ? ` [${entry.range}]` : ''}`;
           if (entry.error) log.warn(`${message}: ${entry.error}`);

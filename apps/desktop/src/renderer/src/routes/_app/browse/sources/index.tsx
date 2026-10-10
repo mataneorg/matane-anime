@@ -12,10 +12,9 @@ import { sourcesQuery } from '@renderer/lib/catalog';
 import { cn } from '@renderer/lib/utils';
 import type { SourceInfo } from '@matane-anime/shared';
 import { languageName } from '@renderer/features/extensions/helpers';
+import { ExtensionIcon } from '@renderer/features/extensions/parts';
 
 export const Route = createFileRoute('/_app/browse/sources/')({ component: SourcesPage });
-
-const hue = (text: string): number => [...text].reduce((sum, ch) => sum + ch.charCodeAt(0), 0) % 360;
 
 function SourcesPage() {
   const { t, i18n } = useTranslation();
@@ -118,19 +117,32 @@ function SourceRow({ source }: { source: SourceInfo }) {
     mutationFn: () => call('sources.setPinned', { sourceId: source.id, pinned: !source.pinned }),
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: sourcesQuery.queryKey }),
   });
+  const title = (
+    <>
+      <span className="truncate font-semibold text-foreground">{source.name}</span>
+      <span className="truncate text-xs text-muted-foreground">{source.extensionName}</span>
+    </>
+  );
   return (
-    <li className="flex items-center gap-4 rounded-xl border bg-card/40 p-3 transition-colors hover:border-input hover:bg-card/70">
-      <span
-        aria-hidden
-        className="flex size-10 shrink-0 items-center justify-center rounded-lg font-bold text-black"
-        style={{ background: `hsl(${hue(source.extensionId)} 65% 75%)` }}
-      >
-        {source.name.charAt(0).toUpperCase()}
-      </span>
-      <div className="flex min-w-0 flex-1 flex-col">
-        <span className="truncate font-semibold text-foreground">{source.name}</span>
-        <span className="truncate text-xs text-muted-foreground">{source.extensionName}</span>
-      </div>
+    <li
+      className={cn(
+        'relative flex items-center gap-4 rounded-xl border bg-card/40 p-3 transition-colors',
+        source.available && 'hover:border-input hover:bg-card/70',
+      )}
+    >
+      <ExtensionIcon id={source.extensionId} name={source.name} className="size-10" />
+      {source.available ? (
+        // The whole card opens the source: the link stretches over it, and the buttons sit above it.
+        <Link
+          to="/browse/sources/$sourceId"
+          params={{ sourceId: source.id }}
+          className="flex min-w-0 flex-1 flex-col rounded-md outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
+        >
+          {title}
+        </Link>
+      ) : (
+        <div className="flex min-w-0 flex-1 flex-col">{title}</div>
+      )}
       <Badge>{source.lang.toUpperCase()}</Badge>
       {source.nsfw ? <Badge tone="warning">18+</Badge> : null}
       {!source.available ? <Badge tone="danger">{t('browse.sources.notInstalled')}</Badge> : null}
@@ -139,7 +151,7 @@ function SourceRow({ source }: { source: SourceInfo }) {
           to="/browse/sources/$sourceId"
           params={{ sourceId: source.id }}
           search={{ tab: 'latest' }}
-          className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+          className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'relative')}
         >
           {t('browse.sources.latest')}
         </Link>
@@ -147,7 +159,7 @@ function SourceRow({ source }: { source: SourceInfo }) {
       <Button
         variant="ghost"
         size="icon"
-        className={cn(source.pinned && 'text-primary-text')}
+        className={cn('relative', source.pinned && 'text-primary-text')}
         aria-pressed={source.pinned}
         aria-label={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
         title={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
@@ -159,19 +171,6 @@ function SourceRow({ source }: { source: SourceInfo }) {
           <Pin className="size-4" strokeWidth={1.75} aria-hidden />
         )}
       </Button>
-      {source.available ? (
-        <Link
-          to="/browse/sources/$sourceId"
-          params={{ sourceId: source.id }}
-          className={buttonVariants({ variant: 'secondary', size: 'sm' })}
-        >
-          {t('browse.sources.browse')}
-        </Link>
-      ) : (
-        <Button variant="secondary" size="sm" disabled>
-          {t('browse.sources.browse')}
-        </Button>
-      )}
     </li>
   );
 }
