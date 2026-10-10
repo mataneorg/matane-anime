@@ -61,6 +61,18 @@ The `dist/` folder can be loaded in the app in developer mode (Settings → Adva
 Load from folder). The format, trust rules and what users see are in
 [docs/repositories.md](../../docs/repositories.md).
 
+## Use from code
+
+The package also exports what the commands are made of, for tests that run an extension the way the app does (since 0.1.1):
+
+```ts
+import { buildExtension } from '@matane-anime/extension-cli';
+import { loadSource } from '@matane-anime/extension-cli/run';
+
+const built = await buildExtension('.', { write: false }); // { manifest, code, warnings, ... } without touching dist/
+const { client, runtime, call } = await loadSource('.', { prefs: [] }); // talks to the real site through a Node host
+```
+
 ## License
 
 MIT

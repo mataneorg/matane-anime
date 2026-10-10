@@ -1,4 +1,4 @@
-import { loadSource, step } from './run';
+import { loadSource, step } from './run.js';
 
 export interface TestOptions {
   source?: string;

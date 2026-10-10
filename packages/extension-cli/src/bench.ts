@@ -1,7 +1,7 @@
 import { type HostApi, ExtensionRuntime, HostError } from '@matane-anime/extension-runtime';
 import { API_VERSION, type ExtensionManifest } from '@matane-anime/extension-sdk/manifest';
-import { dim, bold } from './log';
-import { loadSource } from './run';
+import { dim, bold } from './log.js';
+import { loadSource } from './run.js';
 
 const manifest: ExtensionManifest = {
   id: 'bench',

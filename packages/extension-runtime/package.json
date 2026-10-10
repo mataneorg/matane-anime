@@ -1,6 +1,6 @@
 {
   "name": "@matane-anime/extension-runtime",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "QuickJS sandbox that runs Matane Anime extensions",
   "license": "MIT",
   "type": "module",

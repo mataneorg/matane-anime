@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { API_VERSION, manifestSchema } from '@matane-anime/extension-sdk/manifest';
-import { VERSION } from './version';
+import { VERSION } from './version.js';
 
 const SOURCE_TEMPLATE = `import '@matane-anime/extension-sdk/globals';
 import {

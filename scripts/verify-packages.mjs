@@ -164,6 +164,8 @@ async function installConsumer(dir, tarballs, rootManifest) {
     `${SCOPE}/extension-sdk/globals`,
     `${SCOPE}/extension-runtime`,
     `${SCOPE}/extension-runtime/client`,
+    `${SCOPE}/extension-cli`,
+    `${SCOPE}/extension-cli/run`,
   ];
   await writeFile(
     join(dir, 'imports.mjs'),
@@ -183,6 +185,8 @@ import { NotFoundError, defineExtension } from '${SCOPE}/extension-sdk';
 import { API_VERSION, manifestSchema } from '${SCOPE}/extension-sdk/manifest';
 import { ExtensionRuntime, SourceClient } from '${SCOPE}/extension-runtime';
 import { SourceClient as ClientOnly } from '${SCOPE}/extension-runtime/client';
+import { buildExtension } from '${SCOPE}/extension-cli';
+import { loadSource } from '${SCOPE}/extension-cli/run';
 
 export const extension = defineExtension({ createSource: () => ({ baseUrl: '', async getStreams() { throw new NotFoundError('x'); } }) as never });
 export const parse = (value: unknown) => manifestSchema.parse(value);
@@ -190,6 +194,8 @@ export const version: number = API_VERSION;
 export const makeClient = (runtime: ExtensionRuntime) => SourceClient.forRuntime(runtime, 'en');
 export const same: typeof SourceClient = ClientOnly;
 export const fetchGlobal = () => http.get('https://example.com');
+export const build = (dir: string) => buildExtension(dir, { write: false });
+export const load = (dir: string) => loadSource(dir, { prefs: [] });
 `,
   );
   for (const resolution of ['NodeNext', 'Bundler']) {

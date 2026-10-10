@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm --filter @matane-anime/extension-sdk --filter @matane-anime/extension-cli build",
+    "prepare": "pnpm --filter @matane-anime/extension-sdk --filter @matane-anime/extension-runtime --filter @matane-anime/extension-cli build",
     "dev": "pnpm --filter @matane-anime/desktop dev",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",

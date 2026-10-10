@@ -1,5 +1,5 @@
-import { bold, dim, fail, ok, warn } from './log';
-import type { VerifyReport } from './repo';
+import { bold, dim, fail, ok, warn } from './log.js';
+import type { VerifyReport } from './repo.js';
 
 export function printVerifyReport(report: VerifyReport): void {
   if (report.name !== null) {

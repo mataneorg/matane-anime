@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.build.base.json",
+  // Only what the two public entries reach (`index.ts`, `run.ts`). The command line is bundled by `scripts/build.mjs`.
+  "compilerOptions": { "rootDir": "src", "outDir": "dist", "lib": ["ES2023", "DOM"], "types": ["node"] },
+  "files": ["src/index.ts", "src/run.ts"]
+}

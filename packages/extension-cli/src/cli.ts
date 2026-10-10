@@ -1,12 +1,12 @@
 import { Command, InvalidArgumentError } from 'commander';
-import { BuildError, buildExtension } from './build';
-import { printRows, runChain, runSynthetic } from './bench';
-import { scaffold } from './create';
-import { bold, dim, fail, ok, warn } from './log';
-import { buildRepo, keygen, verifyRepo } from './repo';
-import { printVerifyReport } from './repo-output';
-import { runTest } from './test-command';
-import { VERSION } from './version';
+import { BuildError, buildExtension } from './build.js';
+import { printRows, runChain, runSynthetic } from './bench.js';
+import { scaffold } from './create.js';
+import { bold, dim, fail, ok, warn } from './log.js';
+import { buildRepo, keygen, verifyRepo } from './repo.js';
+import { printVerifyReport } from './repo-output.js';
+import { runTest } from './test-command.js';
+import { VERSION } from './version.js';
 
 const collect = (value: string, previous: string[]): string[] => [...previous, value];
 const integer = (value: string): number => {

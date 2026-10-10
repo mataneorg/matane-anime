@@ -22,7 +22,7 @@ import {
   type RepoProblem,
   type RepoTrust,
 } from '@matane-anime/extension-repo';
-import { BuildError, readManifest } from './build';
+import { BuildError, readManifest } from './build.js';
 
 const PRIVATE_KEY_FILE = 'repo-key.pem';
 const PUBLIC_KEY_FILE = 'repo-key.pub';

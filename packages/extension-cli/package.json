@@ -1,6 +1,6 @@
 {
   "name": "@matane-anime/extension-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ma-ext: create, build, test and benchmark Matane Anime extensions",
   "license": "MIT",
   "type": "module",
@@ -29,9 +29,18 @@
   "bin": {
     "ma-ext": "bin/ma-ext.js"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "matane-source": "./src/index.ts"
+      "matane-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./run": {
+      "matane-source": "./src/run.ts",
+      "types": "./dist/run.d.ts",
+      "default": "./dist/run.js"
     },
     "./package.json": "./package.json"
   },
@@ -48,6 +57,8 @@
     "test": "pnpm --filter @matane-anime/extension-sdk build && vitest run"
   },
   "dependencies": {
+    "@matane-anime/extension-runtime": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*",
     "cheerio": "^1.2.0",
     "commander": "^15.0.0",
     "esbuild": "^0.28.2",
@@ -56,8 +67,6 @@
   },
   "devDependencies": {
     "@matane-anime/extension-repo": "workspace:*",
-    "@matane-anime/extension-runtime": "workspace:*",
-    "@matane-anime/extension-sdk": "workspace:*",
     "@matane-anime/test-site": "workspace:*"
   }
 }

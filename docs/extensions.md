@@ -63,7 +63,7 @@ pnpm add -D link:/path/to/matane-anime/packages/extension-sdk \
 pnpm build          # runs `ma-ext build`
 ```
 
-(`ma-ext create` writes `^0.1.0` as the dependency range, which resolves from npm; the `pnpm add` line replaces it with links to your checkout.) Scaffolding _inside_ this repository's workspace writes `workspace:*` instead; that works for folders that the root `pnpm-workspace.yaml` lists.
+(`ma-ext create` writes `^0.1.1` as the dependency range, which resolves from npm; the `pnpm add` line replaces it with links to your checkout.) Scaffolding _inside_ this repository's workspace writes `workspace:*` instead; that works for folders that the root `pnpm-workspace.yaml` lists.
 
 ### What `create` writes
 

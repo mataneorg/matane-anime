@@ -356,6 +356,12 @@ importers:
 
   packages/extension-cli:
     dependencies:
+      '@matane-anime/extension-runtime':
+        specifier: workspace:*
+        version: link:../extension-runtime
+      '@matane-anime/extension-sdk':
+        specifier: workspace:*
+        version: link:../extension-sdk
       cheerio:
         specifier: ^1.2.0
         version: 1.2.0
@@ -375,12 +381,6 @@ importers:
       '@matane-anime/extension-repo':
         specifier: workspace:*
         version: link:../extension-repo
-      '@matane-anime/extension-runtime':
-        specifier: workspace:*
-        version: link:../extension-runtime
-      '@matane-anime/extension-sdk':
-        specifier: workspace:*
-        version: link:../extension-sdk
       '@matane-anime/test-site':
         specifier: workspace:*
         version: link:../test-site

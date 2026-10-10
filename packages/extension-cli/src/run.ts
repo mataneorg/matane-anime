@@ -5,9 +5,9 @@ import {
   SourceClient,
 } from '@matane-anime/extension-runtime';
 import { API_VERSION } from '@matane-anime/extension-sdk/manifest';
-import { buildExtension } from './build';
-import { dim, fail, ok, warn } from './log';
-import { type NodeHost, createNodeHost } from './node-host';
+import { buildExtension } from './build.js';
+import { dim, fail, ok, warn } from './log.js';
+import { type NodeHost, createNodeHost } from './node-host.js';
 
 export interface LoadedSource {
   client: SourceClient;
