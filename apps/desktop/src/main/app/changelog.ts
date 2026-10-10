@@ -6,6 +6,18 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.1.0-beta.2',
+    date: '2026-10-10',
+    items: [
+      'A layout that follows Matane: a new look for the library, browse and extensions pages, display modes with a cover size, and a saved filter and sort.',
+      'A Statistics page, scheduled automatic backups and an About page.',
+      'Updates: mark episodes as seen without marking them as watched.',
+      'Streams with a video codec this computer cannot play are tried last.',
+      'Errors from extension repositories and installs now appear in your language.',
+      'Faster loading: covers are cached on disk, streams are checked in parallel, and an anime’s details load while you hover over it.',
+    ],
+  },
+  {
     version: '0.1.0-beta.1',
     date: '2026-10-09',
     items: [
