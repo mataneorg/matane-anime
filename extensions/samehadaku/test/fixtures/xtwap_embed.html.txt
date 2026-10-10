@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Blogger Video Player - APICodes</title>
+    <meta name="robots" content="noindex">
+    <meta name="referrer" content="no-referrer" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script type="text/javascript" src="https://ssl.p.jwpcdn.com/player/v/8.8.6/jwplayer.js"></script>
+    <script type="text/javascript">jwplayer.key="64HPbvSQorQcd52B8XFuhMtEoitbvY/EXJmMBfKcXZQU2Rnn";</script>
+    <style type="text/css" media="screen">html,body{padding:0;margin:0;height:100%}#apicodes-player{width:100%!important;height:100%!important;overflow:hidden;background-color:#000}</style>
+</head>
+<body>
+    <div id="apicodes-player"></div>
+    <script type="text/javascript">
+        var player=jwplayer("apicodes-player");
+        player.setup(
+        	{
+        	sources:[
+        		{
+        		"file":"https://hls.xtwap.top/video/data2/e0a440ff3cb617bdf00a580b0c1592870236511bfd2aa8ceb2c758ff7afaceb1/d0e58b21574c7b0d014db3ec1c824e6f1401200100f18d4569a4048a02303a70/index.m3u8",
+        		"type":"application/vnd.apple.mpegurl",
+        		"label":"AUTO"
+        	}
+        	],aspectratio:"16:9",startparam:"start",primary:"html5",autostart:false,preload:"auto",image:"",captions:
+        		{
+        		color:"#f3f368",fontSize:16,backgroundOpacity:0,fontfamily:"Helvetica",edgeStyle:"raised"
+        	}
+        	,tracks:[
+        		{
+        		file:"",label:"English",kind:"captions"
+        	}
+        	,]
+        }
+        );
+        player.on("setupError",function()
+        	{
+        	swal("Server Error!","Please contact us to fix it asap. Thank you!","error")
+        	}
+        );
+        player.on("error",function()
+        	{
+        	swal("Server Error!","Please contact us to fix it asap. Thank you!","error")
+        	}
+        );
+    </script>
+</body>
+</html>

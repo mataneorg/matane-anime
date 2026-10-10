@@ -1,0 +1,4 @@
+{
+  "subProviders": [{ "id": "yuki", "default": true, "tip": "Soft sub, Good, Multi quality" }],
+  "dubProviders": [{ "id": "yuki", "default": true, "tip": "Soft sub, Good, Multi quality" }]
+}

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="id-ID" xml:lang="id-ID" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=5.0'/>
+	<title>Pencarian Anime Berdasarkan Kriteria Yang Diinginkan &#8226; Animasu</title>
+		<meta http-equiv="Content-Security-Policy" content="block-all-mixed-content">
+	<meta name="theme-color" content="#0F395D">
+	<meta name="msapplication-navbutton-color" content="#0F395D">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#0F395D">
+	<link href="https://animasu.love/wp-content/themes/animestream/style.css" rel="stylesheet" type="text/css" />
+	<link rel='stylesheet' href="https://animasu.love/wp-content/themes/animestream/assets/css/darkmode.css" type="text/css" media='all'>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link href='//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css' rel='stylesheet'/>
+<link rel='stylesheet' href='https://animasu.love/wp-content/themes/animestream/assets/css/owl.carousel.css' type='text/css' media='all' />
+<script type='text/javascript' src="https://animasu.love/wp-content/themes/animestream/assets/js/owl.carousel.js"></script>
+<script type="text/javascript" src="https://animasu.love/wp-content/themes/animestream/assets/js/jquery.barrating.min.js"></script>
+<link rel="stylesheet" href="https://animasu.love/wp-content/themes/animestream/assets/css/fontawesome-stars.css">
+<script type="application/ld+json">{ "@context": "https://schema.org", "@type": "WebSite", "url": "https://animasu.love/", "potentialAction": { "@type": "SearchAction", "target": "https://animasu.love/?s={search_term_string}", "query-input": "required name=search_term_string" } }</script>
+<script>$(document).ready(function(){$(".shme").click(function(){$(".mm").toggleClass("shwx");});$(".expand").click(function(){$(".megavid").toggleClass("xp");$(".pd-expand").toggleClass("sxp");});$(".gnr").click(function(){$(".gnrx").toggleClass("shwgx");});});</script>
+<script>var defaultTheme = "darkmode";</script>
+<style>
+body {background: #ededed;}.darkmode .bxcl ul li span.dt a{background:#30353c;}#main-menu,.soraddlx .sorattlx,.releases .vl,.serieslist.pop ul li.topone .limit .bw .ctr,#footer .footermenu,.bigcontent .infox .spe span:before,.commentx #submit,.naveps .nvsc a,.radiox input:checked ~ .checkmarkx,.advancedsearch button.searchz,.lista a:hover,.bxcl ul li span.dt a:hover,.bookmark,.bs .bsx .limit .typez.Drama,.hpage a,.slider:before,.darkmode .naveps .nvsc a,.darkmode .lista a,.darkmode .nav_apb a:hover,#sidebar .section ul.season li:before,#sidebar .section ul.season::-webkit-scrollbar-thumb{background:#0eafc1;}.pagination span.page-numbers.current{background:#0eafc1 !important;}.releases span,.advancedsearch button.searchz,.lista a:hover,.darkmode .lista a {border-color:#0eafc1;}.surprise:hover {color: #FFF;background: #333;}a:hover,.listupd .lexa .dtl h2 a:hover,.live-search_result_container a:hover,.footer-az .az-list li a:hover,.bxcl ul li span.dt a .dashicons {color:#0eafc1;}.footer-az .az-list li a:hover{color:#0eafc1 !important;}.releases h1,.releases h3,#sidebar .section h4 {color:#333}.bs .bsx .limit .bt {background:rgba(0,0,0,0.7);}.bs .bsx .limit .ply {background:rgba(0,0,0,0.5);}.bs .bsx .limit .ply .dashicons,.animefull .bigcover a.gp {border:2px solid #0eafc1;background:#0eafc1;}#main-menu ul li a:hover {text-decoration:none;color:#FFF;background:#333}.serieslist ul li .ctr {color:#0eafc1;border-color:#0eafc1;}.modex a {background: #333;}.modex a:hover {color: #FFF;}.bigcontent .rt .rating,.bxcl ul li span.dt a{background: #f8f8f8;}#footer,.bookmark:hover{background:#333}@media only screen and (max-width: 800px){.th,.darkmode .th{background:#0eafc1;}#main-menu{background:rgba(28,28,28,.95);} .surprise{background:#0eafc1;}}
+</style><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+	<!-- This site is optimized with the Yoast SEO plugin v25.5 - https://yoast.com/wordpress/plugins/seo/ -->
+	<meta name="description" content="Halaman pencarian anime lengkap berdasarkan kategori yang Anda inginkan. Fitur yang mempermudah pencarian anime berdasarkan kategori yang Anda inginkan." />
+	<link rel="canonical" href="https://animasu.love/pencarian/" />
+	<meta property="og:locale" content="id_ID" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Pencarian Anime Berdasarkan Kriteria Yang Diinginkan &#8226; Animasu" />
+	<meta property="og:description" content="Halaman pencarian anime lengkap berdasarkan kategori yang Anda inginkan. Fitur yang mempermudah pencarian anime berdasarkan kategori yang Anda inginkan." />
+	<meta property="og:url" content="https://animasu.love/pencarian/" />
+	<meta property="og:site_name" content="Animasu" />
+	<meta property="article:modified_time" content="2020-05-09T03:59:58+00:00" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://animasu.love/pencarian/","url":"https://animasu.love/pencarian/","name":"Pencarian Anime Berdasarkan Kriteria Yang Diinginkan &#8226; Animasu","isPartOf":{"@id":"https://v2.animasu.work/#website"},"datePublished":"2020-05-08T21:52:25+00:00","dateModified":"2020-05-09T03:59:58+00:00","description":"Halaman pencarian anime lengkap berdasarkan kategori yang Anda inginkan. Fitur yang mempermudah pencarian anime berdasarkan kategori yang Anda inginkan.","breadcrumb":{"@id":"https://animasu.love/pencarian/#breadcrumb"},"inLanguage":"id","potentialAction":[{"@type":"ReadAction","target":["https://animasu.love/pencarian/"]}]},{"@type":"BreadcrumbList","@id":"https://animasu.love/pencarian/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://v2.animasu.work/"},{"@type":"ListItem","position":2,"name":"Pencarian Anime"}]},{"@type":"WebSite","@id":"https://v2.animasu.work/#website","url":"https://v2.animasu.work/","name":"Animasu","description":"Nonton Streaming &amp; Download Anime Subtitle Indonesia","publisher":{"@id":"https://v2.animasu.work/#/schema/person/4a7ef8116caca74fc48d1392bba9ecd6"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://v2.animasu.work/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"id"},{"@type":["Person","Organization"],"@id":"https://v2.animasu.work/#/schema/person/4a7ef8116caca74fc48d1392bba9ecd6","name":"Animasu","logo":{"@id":"https://v2.animasu.work/#/schema/person/image/"},"sameAs":["https://animasu.net"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/animasu.love\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.8.11"}};
+/*! This file is auto-generated */
+!function(s,n){var o,i,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),a=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===a[t]})}function u(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);for(var n=e.getImageData(16,16,1,1),a=0;a<n.data.length;a++)if(0!==n.data[a])return!1;return!0}function f(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\udedf")}return!1}function g(e,t,n,a){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):s.createElement("canvas"),o=r.getContext("2d",{willReadFrequently:!0}),i=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(function(e){i[e]=t(o,e,n,a)}),i}function t(e){var t=s.createElement("script");t.src=e,t.defer=!0,s.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",i=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){s.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+g.toString()+"("+[JSON.stringify(i),f.toString(),p.toString(),u.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"}),r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=function(e){c(n=e.data),r.terminate(),t(n)})}catch(e){}c(n=g(i,f,p,u))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://animasu.love/wp-includes/css/dist/block-library/style.min.css?ver=6.8.11' type='text/css' media='all' />
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='dashicons-css' href='https://animasu.love/wp-includes/css/dashicons.min.css?ver=6.8.11' type='text/css' media='all' />
+<script>
+var ajaxurl = 'https://animasu.love/wp-admin/admin-ajax.php';
+var max_bookmark = 500;
+</script>
+<script type="text/javascript" src="https://animasu.love/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://animasu.love/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="https://animasu.love/wp-content/themes/animestream/assets/js/bookmark.js?ver=6.8.11" id="bookmarks_script-js"></script>
+<link rel="https://api.w.org/" href="https://animasu.love/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://animasu.love/wp-json/wp/v2/pages/43672" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://animasu.love/xmlrpc.php?rsd" />
+<link rel='shortlink' href='https://animasu.love/?p=43672' />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://animasu.love/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fanimasu.love%2Fpencarian%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://animasu.love/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fanimasu.love%2Fpencarian%2F&#038;format=xml" />
+<link rel="icon" href="https://1.bp.blogspot.com/-713bWoqV1B8/XcKqwjGjsZI/AAAAAAAAFiM/3nA8P_d50FcCWEnw6uhSeVEtPzKDH6_eQCLcBGAsYHQ/s1600/animasu.ico" sizes="32x32" />
+<link rel="icon" href="https://1.bp.blogspot.com/-713bWoqV1B8/XcKqwjGjsZI/AAAAAAAAFiM/3nA8P_d50FcCWEnw6uhSeVEtPzKDH6_eQCLcBGAsYHQ/s1600/animasu.ico" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://1.bp.blogspot.com/-713bWoqV1B8/XcKqwjGjsZI/AAAAAAAAFiM/3nA8P_d50FcCWEnw6uhSeVEtPzKDH6_eQCLcBGAsYHQ/s1600/animasu.ico" />
+<meta name="msapplication-TileImage" content="https://1.bp.blogspot.com/-713bWoqV1B8/XcKqwjGjsZI/AAAAAAAAFiM/3nA8P_d50FcCWEnw6uhSeVEtPzKDH6_eQCLcBGAsYHQ/s1600/animasu.ico" />
+<style id="animasu-perbaikan-checkbox">.quickfilter .filters .filter ul li input+label:before,.quickfilter .filters .filter ul li input:not(:checked)+label:before,.darkmode .quickfilter .filters .filter ul li input+label:before,.darkmode .quickfilter .filters .filter ul li input:not(:checked)+label:before,.tikarin[type="checkbox"]+label span{display:inline-block;width:19px;height:19px;margin:-2px 10px 0 0;vertical-align:middle;cursor:pointer;content:"";background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 19'%3E%3Crect x='2.6' y='2.6' width='13.8' height='13.8' rx='3' fill='none' stroke='%238a8a8a' stroke-width='1.6'/%3E%3C/svg%3E") center/19px 19px no-repeat}.quickfilter .filters .filter ul li input:checked+label:before,.darkmode .quickfilter .filters .filter ul li input:checked+label:before,.tikarin[type="checkbox"]:checked+label span{display:inline-block;width:19px;height:19px;margin:-2px 10px 0 0;vertical-align:middle;cursor:pointer;content:"";left:auto;top:auto;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 19'%3E%3Crect x='2.6' y='2.6' width='13.8' height='13.8' rx='3' fill='%230eafc1' stroke='%230eafc1' stroke-width='1.6'/%3E%3Cpath d='M6 9.8l2.5 2.5L13.3 7.2' fill='none' stroke='%2317151b' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/19px 19px no-repeat}.quickfilter .filters .filter ul li.c1 input:not(:checked)+label:before,.quickfilter .filters .filter ul li ul.c1 li input:not(:checked)+label:before,.quickfilter .filters .filter ul.c1 li input:not(:checked)+label:before,.darkmode .quickfilter .filters .filter ul.c1 li input:not(:checked)+label:before{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 19'%3E%3Ccircle cx='9.5' cy='9.5' r='6.7' fill='none' stroke='%238a8a8a' stroke-width='1.6'/%3E%3C/svg%3E") center/19px 19px no-repeat}.quickfilter .filters .filter ul.c1 li input:checked+label:before,.darkmode .quickfilter .filters .filter ul.c1 li input:checked+label:before{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19 19'%3E%3Ccircle cx='9.5' cy='9.5' r='6.7' fill='none' stroke='%230eafc1' stroke-width='1.6'/%3E%3Ccircle cx='9.5' cy='9.5' r='3.7' fill='%230eafc1'/%3E%3C/svg%3E") center/19px 19px no-repeat}</style>
+<link rel="dns-prefetch" href="//i1.wp.com">
+<link rel="dns-prefetch" href="//i0.wp.com">
+<link rel="dns-prefetch" href="//i2.wp.com">
+<link rel="dns-prefetch" href="//i3.wp.com">
+<link rel="dns-prefetch" href="//netdna.bootstrapcdn.com">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//ajax.googleapis.com">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BC3YNSHKKR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BC3YNSHKKR');
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(102603441, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/102603441" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<meta name="yandex-verification" content="5e085b283f34da56" />
+<meta name="msvalidate.01" content="C837EF35B31B5107FD791BC0A99E5463" />
+<!-- div id="rocketmeluncur" class="showrocket" ><i></i></div -->
+</head>
+<body class="darkmode">
+<script>jQuery("body").addClass("darkmode"); jQuery("body").removeClass("lightmode");</script>
+
+<div id='shadow'></div>
+<div class="th">
+	<div class="centernav bound">
+<div class="shme"><span class="dashicons dashicons-menu"></span></div>
+<header role="banner" itemscope itemtype="http://schema.org/WPHeader">
+<div itemscope="itemscope" itemtype="http://schema.org/Brand" class="site-branding logox">
+		<span class="logos">
+			<a title="Animasu - Nonton Streaming &amp; Download Anime Subtitle Indonesia" itemprop="url" href="https://animasu.love/"><img alt="Logo Animasu" itemprop="logo" src="https://2.bp.blogspot.com/-QiWOTKfmgHg/XcWMAQMFtzI/AAAAAAAAFkM/9X0xgYkMVEAndahC2JNb-v4tFX8JLOWRACLcBGAsYHQ/s200/animasudotnet_simple_logo.png" alt="Animasu - Nonton Streaming &amp; Download Anime Subtitle Indonesia"><span class="hdl">Animasu - Nonton Streaming &amp; Download Anime Subtitle Indonesia</span></a>
+		</span>
+				<meta itemprop="name" content="Animasu - Nonton Streaming &amp; Download Anime Subtitle Indonesia" />
+	</div>
+</header>
+<div class="searchx">
+ 		<!-- form action="https://animasu.love/" id="form" method="get" itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction" -->
+ 		<form action="https://animasu.love/" id="form" method="get" itemprop="potentialAction">
+			<meta itemprop="target" content="https://animasu.love/?s={query}"/>
+  			<input id="s" itemprop="query-input" class="search-live" type="text" placeholder="Ketik judul anime lalu Enter..." name="s" value="Cari anime di animasu.love" onfocus="if(this.value == 'Cari anime di animasu.love'){this.value=''}; this.style='border:1px solid #0eafc1; background:#0b0a0d;'" onblur="if(this.value == ''){this.value='Cari anime di animasu.love';} this.style='border:1px solid #23202a; background:#17151b;'"/>
+			<!-- button type="submit" id="submit"><span class="dashicons dashicons-search"></span></button -->
+ 		</form>
+	</div>
+	<div id="thememode">
+			<a href="/random" title="(̂ ˃̥̥̥ ˑ̫ ˂̥̥̥ )̂ Chotto matte, Onii-chan..."><img alt="NyanChan" id="nyan" width="85px" height="105px" style="margin-top:-15px;" src="https://2.bp.blogspot.com/-b9hblXtfPP0/XcVhmZnYSxI/AAAAAAAAFjs/ASvVA5YQ4KctOURMX80s3PX9MqBf0GyxQCLcBGAsYHQ/s200/asugirl_animasu-net.png" draggable="false"/></a>
+		</div>
+		<script>jQuery(".logos img").attr('src', 'https://2.bp.blogspot.com/-QiWOTKfmgHg/XcWMAQMFtzI/AAAAAAAAFkM/9X0xgYkMVEAndahC2JNb-v4tFX8JLOWRACLcBGAsYHQ/s200/animasudotnet_simple_logo.png'); jQuery("#thememode input[type='checkbox']").prop('checked', true);</script>
+	</div>
+	</div>
+<nav id="main-menu" class="mm">
+<div class="centernav">
+<div class="bound">
+<span itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+<ul id="menu-menu-utama" class="menu"><li id="menu-item-203162" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-203162"><a href="/"><span itemprop="name">Beranda</span></a></li>
+<li id="menu-item-44127" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-44127"><a href="/pencarian/?urutan=baru"><span itemprop="name">Daftar Anime</span></a></li>
+<li id="menu-item-151108" class="menu-item menu-item-type-taxonomy menu-item-object-genres menu-item-151108"><a href="https://animasu.love/genre/donghua/"><span itemprop="name">Donghua</span></a></li>
+<li id="menu-item-933" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-933"><a href="https://animasu.love/kumpulan-genre-anime-lengkap/"><span itemprop="name">Genre</span></a></li>
+<li id="menu-item-937" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-937"><a href="https://animasu.love/kumpulan-tipe-karakter-lengkap/"><span itemprop="name">Karakter</span></a></li>
+<li id="menu-item-13" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13"><a href="https://animasu.love/jadwal/"><span itemprop="name">Jadwal</span></a></li>
+<li id="menu-item-4690" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4690"><a href="https://animasu.love/populer/"><span itemprop="name">Rekomendasi 😍</span></a>
+<ul class="sub-menu">
+	<li id="menu-item-80206" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-80206"><a href="https://animasu.love/segera-tayang/"><span itemprop="name">Segera Tayang ⏳</span></a></li>
+	<li id="menu-item-4686" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4686"><a href="https://animasu.love/anime-sedang-tayang-terbaru/"><span itemprop="name">Sedang Tayang 🔥</span></a></li>
+	<li id="menu-item-4687" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4687"><a href="https://animasu.love/selesai-tayang/"><span itemprop="name">Selesai Tayang ✓</span></a></li>
+	<li id="menu-item-4702" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4702"><a href="https://animasu.love/timeline/"><span itemprop="name">Rilis Baru Hingga Lawas 📅</span></a></li>
+	<li id="menu-item-229440" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-229440"><a href="/pencarian/?tipe=Drama+Jepang&#038;urutan=baru"><span itemprop="name">Drama Jepang 🇯🇵</span></a></li>
+	<li id="menu-item-230132" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-230132"><a href="/pencarian/?tipe=Drama+China&#038;urutan=baru"><span itemprop="name">Drama China 🇨🇳</span></a></li>
+</ul>
+</li>
+<li id="menu-item-41581" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-41581"><a href="https://animasu.love/anime-movie/"><span itemprop="name">Movie</span></a></li>
+<li id="menu-item-224212" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-224212"><a href="/android/"><span itemprop="name">APK</span></a></li>
+<li id="menu-item-1796" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1796"><a href="https://animasu.love/request/"><span itemprop="name">Request</span></a></li>
+</ul></span>
+<a href="https://animasu.love/penyimpanan/" class="surprise"><span class="dashicons dashicons-star-empty"></span> Tonton Nanti</a>
+<div class="clear"></div>
+</div>
+</div>
+</nav>
+
+<div id="content">
+	<div class="wrapper">
+	    	    <div class="bixbox">
+	        <div class="listupd">
+                <div class="lmd-iklan">	
+                	<!-- ad -->
+                	<div class="baris">
+                		<div class="kolom-kiri">
+                			<a title="H1" href="https://kegz.site/login" target="_blank" rel="nofollow"><img alt="H1" class="lazyload" src="https://blogger.googleusercontent.com/img/a/AVvXsEhyEtpZpb-_-a3WhkZUpsAzft89YEOK4mA7ugindpNGwyPziwYW9Kc1nDlTgquGMO2nwjMZb81gx6XO1j9H-HrkDtIpxZ9SZMi6ay6bRjbbfUrCDoep_7PHDJej-Y7uaZY42dHl0NNlf-58ywmeGzCcZ4J3fEAr3cTvNXv2O0HGwP8IZZ9E5FxGTgFyIpo=s728" /></a>
+                            <a title="H4" href="https://menujupenta.site/login" target="_blank" rel="nofollow"><img alt="H4" class="lazyload" src="https://blogger.googleusercontent.com/img/a/AVvXsEjRdXPyBCjuzgb2qLNjUSGsZc2SEJ0U8VMJZQKHOSajR3NPbkD9sBUhrIS__Pdjt8sxMf0Ed-V8RS7Tz3f9pBRtIfbmspN0CqeOMcB98tLZeMGggabLnz6AacVaJv0_zgVnqt7S1x6viNzPJa--c-09pVVYLpGRAZ0wHGh86AURgyOTWZwS6vzoVIYfcsk=s728"/></a>
+                            <a title="H3" href="https://terbangrusia.site/login" target="_blank" rel="nofollow" rel="nofollow"><img alt="H3" class="lazyload" src="https://blogger.googleusercontent.com/img/a/AVvXsEga5Cp6EDrnKxNOB1NDTj4bPkN3PWQlwmeMwB1AwDGrgN80B-qwZxQaxQWAJPFXrmqJcBPAMZAzsUZjteIoJcyigraWAbXcQxe-EQKCDdha0ZUoyYLYIJYIFAIced-lZOXB2QjRhdPyEUaBUw2Nrvt8ugtX_pjnx1kKRvaUjfeLtL7QyFk-6yjCIJ1U_YM=s728" /></a>
+                		</div>
+                		<div class="kolom-kanan">
+                			<a title="H2" href="https://injd.site/login" target="_blank" rel="nofollow"><img alt="H2" class="lazyload" src="https://blogger.googleusercontent.com/img/a/AVvXsEh9t9bL45aVBHfNS_KQHdfwYNNJXjPCgHP1vzhS50svUf5zd3Nmv938nXWV3Mo9O36110GHPzKSxkaVQ-3mgVQ8IN7iJsOMAkq9KmlhbH7zHIWXtpMarpospRwX6f8JwAfm2MWqkbVn9zfVOAKMCIWZJ0L8WXkPSGCfRJpL1oBpnAtjm09s4id5r0LfgNo=s728"/></a>
+                			<a title="H6" href="https://goratu.site/login" target="_blank" rel="nofollow"><img alt="H6" class="lazyload" src="https://blogger.googleusercontent.com/img/a/AVvXsEh90BNiPKH53mbtlgvKDnfACVLuJZw31KgOuirXjSlAEO26yDZI6Vk4IaBCdGgWkA2uDdcs5TLANDtOudtqgali540-IDS7SfeLPkgwGSicffsLPWI6xhkX6Ra2hdzVI8y9Vh5neeYMj2n7m9eLAtaHTEDvGwiQqj4JhnHMtO0P1YFGYRtKjZWjkAiEpq8=s728"/></a>
+                			<a title="H5" href="https://akseskaiko.cam/login" target="_blank" rel="nofollow"><img alt="H5" class="lazyload" src="https://blogger.googleusercontent.com/img/a/AVvXsEggIL3CSJ6DIYVXFn0-J2fXoB850Ev2q3VbBzbp-5a4w7lhKI78CSfjs7cGdHqQjXBLquyH9xcA-PFVyQbnYwQmg57yaWS5f2R-Z6FG9YP7oz5gHHgs1rmBI_Bjf_w8e9vpJHnNqzWC0HOvzgGR4VncpxwnVmVZduQwXm8h1onnU8qOAombG1i6UNben9k=s728" /></a>
+                		</div>
+                	</div>
+                	<!-- ad -->
+                </div>
+            </div>
+	    </div>
+	    	</div><div class="postbody">
+<div class="bixbox">
+	<div class="releases"><h1><span>Pencarian Anime Sesuai Kriteria</span></h1></div>
+		   <div class="page">
+        
+		   <div class="quickfilter"><form action="/pencarian/" class="filters " method="GET">
+<!-- Genre -->
+<div class="filter dropdown"> <button type="button" class="dropdown-toggle" data-toggle="dropdown"> Genre: <span id="filtercount">Semua</span> 
+<i class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></i> </button><ul class="dropdown-menu c4">
+<li><input type="checkbox" id="genre-aksi" name="genre[]" value="aksi" > <label for="genre-aksi">Aksi</label></li>
+<li><input type="checkbox" id="genre-anak-anak" name="genre[]" value="anak-anak" > <label for="genre-anak-anak">Anak-Anak</label></li>
+<li><input type="checkbox" id="genre-luar-angkasa" name="genre[]" value="luar-angkasa" > <label for="genre-luar-angkasa">Antariksa</label></li>
+<li><input type="checkbox" id="genre-avant-garde" name="genre[]" value="avant-garde" > <label for="genre-avant-garde">Avant Garde</label></li>
+<li><input type="checkbox" id="genre-dementia" name="genre[]" value="dementia" > <label for="genre-dementia">Dimensia</label></li>
+<li><input type="checkbox" id="genre-donghua" name="genre[]" value="donghua" > <label for="genre-donghua">Donghua</label></li>
+<li><input type="checkbox" id="genre-drama" name="genre[]" value="drama" > <label for="genre-drama">Drama</label></li>
+<li><input type="checkbox" id="genre-ecchi" name="genre[]" value="ecchi" > <label for="genre-ecchi">Ecchi</label></li>
+<li><input type="checkbox" id="genre-fantasi" name="genre[]" value="fantasi" > <label for="genre-fantasi">Fantasi</label></li>
+<li><input type="checkbox" id="genre-fantasi-urban" name="genre[]" value="fantasi-urban" > <label for="genre-fantasi-urban">Fantasi Urban</label></li>
+<li><input type="checkbox" id="genre-game" name="genre[]" value="game" > <label for="genre-game">Game</label></li>
+<li><input type="checkbox" id="genre-gourmet" name="genre[]" value="gourmet" > <label for="genre-gourmet">Gourmet</label></li>
+<li><input type="checkbox" id="genre-harem" name="genre[]" value="harem" > <label for="genre-harem">Harem</label></li>
+<li><input type="checkbox" id="genre-horror" name="genre[]" value="horror" > <label for="genre-horror">Horror</label></li>
+<li><input type="checkbox" id="genre-iblis" name="genre[]" value="iblis" > <label for="genre-iblis">Iblis</label></li>
+<li><input type="checkbox" id="genre-isekai" name="genre[]" value="isekai" > <label for="genre-isekai">Isekai</label></li>
+<li><input type="checkbox" id="genre-josei" name="genre[]" value="josei" > <label for="genre-josei">Josei</label></li>
+<li><input type="checkbox" id="genre-suspense" name="genre[]" value="suspense" > <label for="genre-suspense">Ketegangan</label></li>
+<li><input type="checkbox" id="genre-komedi" name="genre[]" value="komedi" > <label for="genre-komedi">Komedi</label></li>
+<li><input type="checkbox" id="genre-live-action" name="genre[]" value="live-action" > <label for="genre-live-action">Live Action</label></li>
+<li><input type="checkbox" id="genre-makanan" name="genre[]" value="makanan" > <label for="genre-makanan">Makanan</label></li>
+<li><input type="checkbox" id="genre-martial-arts" name="genre[]" value="martial-arts" > <label for="genre-martial-arts">Martial Arts</label></li>
+<li><input type="checkbox" id="genre-medical" name="genre[]" value="medical" > <label for="genre-medical">Medis</label></li>
+<li><input type="checkbox" id="genre-militer" name="genre[]" value="militer" > <label for="genre-militer">Militer</label></li>
+<li><input type="checkbox" id="genre-misteri" name="genre[]" value="misteri" > <label for="genre-misteri">Misteri</label></li>
+<li><input type="checkbox" id="genre-mitologi" name="genre[]" value="mitologi" > <label for="genre-mitologi">Mitologi</label></li>
+<li><input type="checkbox" id="genre-mobil" name="genre[]" value="mobil" > <label for="genre-mobil">Mobil</label></li>
+<li><input type="checkbox" id="genre-musik" name="genre[]" value="musik" > <label for="genre-musik">Musik</label></li>
+<li><input type="checkbox" id="genre-olahraga" name="genre[]" value="olahraga" > <label for="genre-olahraga">Olahraga</label></li>
+<li><input type="checkbox" id="genre-parodi" name="genre[]" value="parodi" > <label for="genre-parodi">Parodi</label></li>
+<li><input type="checkbox" id="genre-perang" name="genre[]" value="perang" > <label for="genre-perang">Perang</label></li>
+<li><input type="checkbox" id="genre-petualangan" name="genre[]" value="petualangan" > <label for="genre-petualangan">Petualangan</label></li>
+<li><input type="checkbox" id="genre-polisi" name="genre[]" value="polisi" > <label for="genre-polisi">Polisi</label></li>
+<li><input type="checkbox" id="genre-politik" name="genre[]" value="politik" > <label for="genre-politik">Politik</label></li>
+<li><input type="checkbox" id="genre-psikologis" name="genre[]" value="psikologis" > <label for="genre-psikologis">Psikologis</label></li>
+<li><input type="checkbox" id="genre-reincarnation" name="genre[]" value="reincarnation" > <label for="genre-reincarnation">Reinkarnasi</label></li>
+<li><input type="checkbox" id="genre-mecha" name="genre[]" value="mecha" > <label for="genre-mecha">Robot</label></li>
+<li><input type="checkbox" id="genre-romansa" name="genre[]" value="romansa" > <label for="genre-romansa">Romansa</label></li>
+<li><input type="checkbox" id="genre-samurai" name="genre[]" value="samurai" > <label for="genre-samurai">Samurai</label></li>
+<li><input type="checkbox" id="genre-sci-fi" name="genre[]" value="sci-fi" > <label for="genre-sci-fi">Sci-Fi</label></li>
+<li><input type="checkbox" id="genre-seinen" name="genre[]" value="seinen" > <label for="genre-seinen">Seinen</label></li>
+<li><input type="checkbox" id="genre-sejarah" name="genre[]" value="sejarah" > <label for="genre-sejarah">Sejarah</label></li>
+<li><input type="checkbox" id="genre-sekolahan" name="genre[]" value="sekolahan" > <label for="genre-sekolahan">Sekolahan</label></li>
+<li><input type="checkbox" id="genre-shoujo" name="genre[]" value="shoujo" > <label for="genre-shoujo">Shoujo</label></li>
+<li><input type="checkbox" id="genre-shoujo-ai" name="genre[]" value="shoujo-ai" > <label for="genre-shoujo-ai">Shoujo Ai</label></li>
+<li><input type="checkbox" id="genre-shounen" name="genre[]" value="shounen" > <label for="genre-shounen">Shounen</label></li>
+<li><input type="checkbox" id="genre-shounen-ai" name="genre[]" value="shounen-ai" > <label for="genre-shounen-ai">Shounen Ai</label></li>
+<li><input type="checkbox" id="genre-sihir" name="genre[]" value="sihir" > <label for="genre-sihir">Sihir</label></li>
+<li><input type="checkbox" id="genre-slice-of-life" name="genre[]" value="slice-of-life" > <label for="genre-slice-of-life">Slice of Life</label></li>
+<li><input type="checkbox" id="genre-super-power" name="genre[]" value="super-power" > <label for="genre-super-power">Super Power</label></li>
+<li><input type="checkbox" id="genre-supranatural" name="genre[]" value="supranatural" > <label for="genre-supranatural">Supranatural</label></li>
+<li><input type="checkbox" id="genre-thriller" name="genre[]" value="thriller" > <label for="genre-thriller">Thriller</label></li>
+<li><input type="checkbox" id="genre-time-travel" name="genre[]" value="time-travel" > <label for="genre-time-travel">Time Travel</label></li>
+<li><input type="checkbox" id="genre-vampir" name="genre[]" value="vampir" > <label for="genre-vampir">Vampir</label></li>
+<li><input type="checkbox" id="genre-wuxia" name="genre[]" value="wuxia" > <label for="genre-wuxia">Wuxia</label></li>
+<li><input type="checkbox" id="genre-yaoi" name="genre[]" value="yaoi" > <label for="genre-yaoi">Yaoi</label></li>
+</ul></div>
+<!-- Karakter -->
+<div class="filter dropdown"> <button type="button" class="dropdown-toggle" data-toggle="dropdown"> Karakter: <span id="filtercount">Semua</span> 
+<i class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></i> </button><ul class="dropdown-menu c4 tengen"><li>
+<li><input type="checkbox" id="karakter-ambisius" name="karakter[]" value="ambisius" > <label for="karakter-ambisius">Ambisi</label></li>
+<li><input type="checkbox" id="karakter-anak-anak" name="karakter[]" value="anak-anak" > <label for="karakter-anak-anak">Anak-Anak</label></li>
+<li><input type="checkbox" id="karakter-anti-sosial" name="karakter[]" value="anti-sosial" > <label for="karakter-anti-sosial">Anti-Sosial</label></li>
+<li><input type="checkbox" id="karakter-badass" name="karakter[]" value="badass" > <label for="karakter-badass">Badass</label></li>
+<li><input type="checkbox" id="karakter-berbisnis" name="karakter[]" value="berbisnis" > <label for="karakter-berbisnis">Berbisnis</label></li>
+<li><input type="checkbox" id="karakter-berisik" name="karakter[]" value="berisik" > <label for="karakter-berisik">Berisik</label></li>
+<li><input type="checkbox" id="karakter-berjuang" name="karakter[]" value="berjuang" > <label for="karakter-berjuang">Berjuang</label></li>
+<li><input type="checkbox" id="karakter-beruntung" name="karakter[]" value="beruntung" > <label for="karakter-beruntung">Beruntung</label></li>
+<li><input type="checkbox" id="karakter-blakblakan" name="karakter[]" value="blakblakan" > <label for="karakter-blakblakan">Blakblakan</label></li>
+<li><input type="checkbox" id="karakter-bounty-hunter" name="karakter[]" value="bounty-hunter" > <label for="karakter-bounty-hunter">Bounty Hunter</label></li>
+<li><input type="checkbox" id="karakter-cerewet" name="karakter[]" value="cerewet" > <label for="karakter-cerewet">Cerewet</label></li>
+<li><input type="checkbox" id="karakter-ceria" name="karakter[]" value="ceria" > <label for="karakter-ceria">Ceria</label></li>
+<li><input type="checkbox" id="karakter-ceroboh" name="karakter[]" value="ceroboh" > <label for="karakter-ceroboh">Ceroboh</label></li>
+<li><input type="checkbox" id="karakter-perempuan" name="karakter[]" value="perempuan" > <label for="karakter-perempuan">Cewek</label></li>
+<li><input type="checkbox" id="karakter-couple" name="karakter[]" value="couple" > <label for="karakter-couple">Couple</label></li>
+<li><input type="checkbox" id="karakter-laki-laki" name="karakter[]" value="laki-laki" > <label for="karakter-laki-laki">Cowok</label></li>
+<li><input type="checkbox" id="karakter-dewa" name="karakter[]" value="dewa" > <label for="karakter-dewa">Dewa</label></li>
+<li><input type="checkbox" id="karakter-dikagumi" name="karakter[]" value="dikagumi" > <label for="karakter-dikagumi">Dikagumi</label></li>
+<li><input type="checkbox" id="karakter-disepelekan" name="karakter[]" value="disepelekan" > <label for="karakter-disepelekan">Disepelekan</label></li>
+<li><input type="checkbox" id="karakter-ditakuti" name="karakter[]" value="ditakuti" > <label for="karakter-ditakuti">Ditakuti</label></li>
+<li><input type="checkbox" id="karakter-iblis" name="karakter[]" value="iblis" > <label for="karakter-iblis">Iblis</label></li>
+<li><input type="checkbox" id="karakter-jenius" name="karakter[]" value="jenius" > <label for="karakter-jenius">Jenius</label></li>
+<li><input type="checkbox" id="karakter-kejam" name="karakter[]" value="kejam" > <label for="karakter-kejam">Kejam</label></li>
+<li><input type="checkbox" id="karakter-legenda" name="karakter[]" value="legenda" > <label for="karakter-legenda">Legenda</label></li>
+<li><input type="checkbox" id="karakter-licik" name="karakter[]" value="licik" > <label for="karakter-licik">Licik</label></li>
+<li><input type="checkbox" id="karakter-loli" name="karakter[]" value="loli" > <label for="karakter-loli">Loli</label></li>
+<li><input type="checkbox" id="karakter-mencolok" name="karakter[]" value="mencolok" > <label for="karakter-mencolok">Mencolok</label></li>
+<li><input type="checkbox" id="karakter-menyebalkan" name="karakter[]" value="menyebalkan" > <label for="karakter-menyebalkan">Menyebalkan</label></li>
+<li><input type="checkbox" id="karakter-mesum" name="karakter[]" value="mesum" > <label for="karakter-mesum">Mesum</label></li>
+<li><input type="checkbox" id="karakter-monster" name="karakter[]" value="monster" > <label for="karakter-monster">Monster</label></li>
+<li><input type="checkbox" id="karakter-narsis" name="karakter[]" value="narsis" > <label for="karakter-narsis">Narsis</label></li>
+<li><input type="checkbox" id="karakter-optimis" name="karakter[]" value="optimis" > <label for="karakter-optimis">Optimis</label></li>
+<li><input type="checkbox" id="karakter-overpower" name="karakter[]" value="overpower" > <label for="karakter-overpower">Overpower</label></li>
+<li><input type="checkbox" id="karakter-pemalas" name="karakter[]" value="pemalas" > <label for="karakter-pemalas">Pemalas</label></li>
+<li><input type="checkbox" id="karakter-pemalu" name="karakter[]" value="pemalu" > <label for="karakter-pemalu">Pemalu</label></li>
+<li><input type="checkbox" id="karakter-pemarah" name="karakter[]" value="pemarah" > <label for="karakter-pemarah">Pemarah</label></li>
+<li><input type="checkbox" id="karakter-pemimpin" name="karakter[]" value="pemimpin" > <label for="karakter-pemimpin">Pemimpin</label></li>
+<li><input type="checkbox" id="karakter-penakut" name="karakter[]" value="penakut" > <label for="karakter-penakut">Penakut</label></li>
+<li><input type="checkbox" id="karakter-pendendam" name="karakter[]" value="pendendam" > <label for="karakter-pendendam">Pendendam</label></li>
+<li><input type="checkbox" id="karakter-pendiam" name="karakter[]" value="pendiam" > <label for="karakter-pendiam">Pendiam</label></li>
+<li><input type="checkbox" id="karakter-pesimis" name="karakter[]" value="pesimis" > <label for="karakter-pesimis">Pesimis</label></li>
+<li><input type="checkbox" id="karakter-polos" name="karakter[]" value="polos" > <label for="karakter-polos">Polos</label></li>
+<li><input type="checkbox" id="karakter-semangat" name="karakter[]" value="semangat" > <label for="karakter-semangat">Semangat</label></li>
+<li><input type="checkbox" id="karakter-setia" name="karakter[]" value="setia" > <label for="karakter-setia">Setia</label></li>
+<li><input type="checkbox" id="karakter-slengekan" name="karakter[]" value="slengekan" > <label for="karakter-slengekan">Slengekan</label></li>
+<li><input type="checkbox" id="karakter-sopan" name="karakter[]" value="sopan" > <label for="karakter-sopan">Sopan</label></li>
+<li><input type="checkbox" id="karakter-suram" name="karakter[]" value="suram" > <label for="karakter-suram">Suram</label></li>
+<li><input type="checkbox" id="karakter-terkutuk" name="karakter[]" value="terkutuk" > <label for="karakter-terkutuk">Terkutuk</label></li>
+<li><input type="checkbox" id="karakter-totalitas" name="karakter[]" value="totalitas" > <label for="karakter-totalitas">Totalitas</label></li>
+<li><input type="checkbox" id="karakter-tsundere" name="karakter[]" value="tsundere" > <label for="karakter-tsundere">Tsundere</label></li>
+<li><input type="checkbox" id="karakter-vampir" name="karakter[]" value="vampir" > <label for="karakter-vampir">Vampir</label></li>
+<li><input type="checkbox" id="karakter-yandere" name="karakter[]" value="yandere" > <label for="karakter-yandere">Yandere</label></li>
+<li><input type="checkbox" id="karakter-zero-to-hero" name="karakter[]" value="zero-to-hero" > <label for="karakter-zero-to-hero">Zero To Hero</label></li>
+</ul></div>
+<!-- Season -->
+<div class="filter dropdown"> <button type="button" class="dropdown-toggle" data-toggle="dropdown"> Season: <span id="filtercount">Semua</span> 
+<i class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></i> </button><ul class="dropdown-menu c4"><li>
+<li><input type="checkbox" id="season-all-2026" name="season[]" value="all-2026" > <label for="season-all-2026">all 2026</label></li>
+<li><input type="checkbox" id="season-fall-1984" name="season[]" value="fall-1984" > <label for="season-fall-1984">Fall 1984</label></li>
+<li><input type="checkbox" id="season-fall-1986" name="season[]" value="fall-1986" > <label for="season-fall-1986">Fall 1986</label></li>
+<li><input type="checkbox" id="season-fall-1989" name="season[]" value="fall-1989" > <label for="season-fall-1989">Fall 1989</label></li>
+<li><input type="checkbox" id="season-fall-1992" name="season[]" value="fall-1992" > <label for="season-fall-1992">Fall 1992</label></li>
+<li><input type="checkbox" id="season-fall-1993" name="season[]" value="fall-1993" > <label for="season-fall-1993">Fall 1993</label></li>
+<li><input type="checkbox" id="season-fall-1995" name="season[]" value="fall-1995" > <label for="season-fall-1995">Fall 1995</label></li>
+<li><input type="checkbox" id="season-fall-1997" name="season[]" value="fall-1997" > <label for="season-fall-1997">Fall 1997</label></li>
+<li><input type="checkbox" id="season-fall-1999" name="season[]" value="fall-1999" > <label for="season-fall-1999">Fall 1999</label></li>
+<li><input type="checkbox" id="season-fall-2000" name="season[]" value="fall-2000" > <label for="season-fall-2000">Fall 2000</label></li>
+<li><input type="checkbox" id="season-fall-2001" name="season[]" value="fall-2001" > <label for="season-fall-2001">Fall 2001</label></li>
+<li><input type="checkbox" id="season-fall-2002" name="season[]" value="fall-2002" > <label for="season-fall-2002">Fall 2002</label></li>
+<li><input type="checkbox" id="season-fall-2003" name="season[]" value="fall-2003" > <label for="season-fall-2003">Fall 2003</label></li>
+<li><input type="checkbox" id="season-fall-2004" name="season[]" value="fall-2004" > <label for="season-fall-2004">Fall 2004</label></li>
+<li><input type="checkbox" id="season-fall-2005" name="season[]" value="fall-2005" > <label for="season-fall-2005">Fall 2005</label></li>
+<li><input type="checkbox" id="season-fall-2006" name="season[]" value="fall-2006" > <label for="season-fall-2006">Fall 2006</label></li>
+<li><input type="checkbox" id="season-fall-2007" name="season[]" value="fall-2007" > <label for="season-fall-2007">Fall 2007</label></li>
+<li><input type="checkbox" id="season-fall-2008" name="season[]" value="fall-2008" > <label for="season-fall-2008">Fall 2008</label></li>
+<li><input type="checkbox" id="season-fall-2009" name="season[]" value="fall-2009" > <label for="season-fall-2009">Fall 2009</label></li>
+<li><input type="checkbox" id="season-fall-2010" name="season[]" value="fall-2010" > <label for="season-fall-2010">Fall 2010</label></li>
+<li><input type="checkbox" id="season-fall-2011" name="season[]" value="fall-2011" > <label for="season-fall-2011">Fall 2011</label></li>
+<li><input type="checkbox" id="season-fall-2012" name="season[]" value="fall-2012" > <label for="season-fall-2012">Fall 2012</label></li>
+<li><input type="checkbox" id="season-fall-2013" name="season[]" value="fall-2013" > <label for="season-fall-2013">Fall 2013</label></li>
+<li><input type="checkbox" id="season-fall-2014" name="season[]" value="fall-2014" > <label for="season-fall-2014">Fall 2014</label></li>
+<li><input type="checkbox" id="season-fall-2015" name="season[]" value="fall-2015" > <label for="season-fall-2015">Fall 2015</label></li>
+<li><input type="checkbox" id="season-fall-2016" name="season[]" value="fall-2016" > <label for="season-fall-2016">Fall 2016</label></li>
+<li><input type="checkbox" id="season-fall-2017" name="season[]" value="fall-2017" > <label for="season-fall-2017">Fall 2017</label></li>
+<li><input type="checkbox" id="season-fall-2018" name="season[]" value="fall-2018" > <label for="season-fall-2018">Fall 2018</label></li>
+<li><input type="checkbox" id="season-fall-2019" name="season[]" value="fall-2019" > <label for="season-fall-2019">Fall 2019</label></li>
+<li><input type="checkbox" id="season-fall-2020" name="season[]" value="fall-2020" > <label for="season-fall-2020">Fall 2020</label></li>
+<li><input type="checkbox" id="season-fall-2021" name="season[]" value="fall-2021" > <label for="season-fall-2021">Fall 2021</label></li>
+<li><input type="checkbox" id="season-fall-2022" name="season[]" value="fall-2022" > <label for="season-fall-2022">Fall 2022</label></li>
+<li><input type="checkbox" id="season-fall-2023" name="season[]" value="fall-2023" > <label for="season-fall-2023">Fall 2023</label></li>
+<li><input type="checkbox" id="season-fall-2024" name="season[]" value="fall-2024" > <label for="season-fall-2024">Fall 2024</label></li>
+<li><input type="checkbox" id="season-fall-2025" name="season[]" value="fall-2025" > <label for="season-fall-2025">Fall 2025</label></li>
+<li><input type="checkbox" id="season-fall-2026" name="season[]" value="fall-2026" > <label for="season-fall-2026">Fall 2026</label></li>
+<li><input type="checkbox" id="season-spring-1981" name="season[]" value="spring-1981" > <label for="season-spring-1981">Spring 1981</label></li>
+<li><input type="checkbox" id="season-spring-1985" name="season[]" value="spring-1985" > <label for="season-spring-1985">Spring 1985</label></li>
+<li><input type="checkbox" id="season-spring-1986" name="season[]" value="spring-1986" > <label for="season-spring-1986">Spring 1986</label></li>
+<li><input type="checkbox" id="season-spring-1987" name="season[]" value="spring-1987" > <label for="season-spring-1987">Spring 1987</label></li>
+<li><input type="checkbox" id="season-spring-1988" name="season[]" value="spring-1988" > <label for="season-spring-1988">Spring 1988</label></li>
+<li><input type="checkbox" id="season-spring-1989" name="season[]" value="spring-1989" > <label for="season-spring-1989">Spring 1989</label></li>
+<li><input type="checkbox" id="season-spring-1991" name="season[]" value="spring-1991" > <label for="season-spring-1991">Spring 1991</label></li>
+<li><input type="checkbox" id="season-spring-1992" name="season[]" value="spring-1992" > <label for="season-spring-1992">Spring 1992</label></li>
+<li><input type="checkbox" id="season-spring-1995" name="season[]" value="spring-1995" > <label for="season-spring-1995">Spring 1995</label></li>
+<li><input type="checkbox" id="season-spring-1996" name="season[]" value="spring-1996" > <label for="season-spring-1996">Spring 1996</label></li>
+<li><input type="checkbox" id="season-spring-1997" name="season[]" value="spring-1997" > <label for="season-spring-1997">Spring 1997</label></li>
+<li><input type="checkbox" id="season-spring-1998" name="season[]" value="spring-1998" > <label for="season-spring-1998">Spring 1998</label></li>
+<li><input type="checkbox" id="season-spring-1999" name="season[]" value="spring-1999" > <label for="season-spring-1999">Spring 1999</label></li>
+<li><input type="checkbox" id="season-spring-2000" name="season[]" value="spring-2000" > <label for="season-spring-2000">Spring 2000</label></li>
+<li><input type="checkbox" id="season-spring-2001" name="season[]" value="spring-2001" > <label for="season-spring-2001">Spring 2001</label></li>
+<li><input type="checkbox" id="season-spring-2002" name="season[]" value="spring-2002" > <label for="season-spring-2002">Spring 2002</label></li>
+<li><input type="checkbox" id="season-spring-2003" name="season[]" value="spring-2003" > <label for="season-spring-2003">Spring 2003</label></li>
+<li><input type="checkbox" id="season-spring-2004" name="season[]" value="spring-2004" > <label for="season-spring-2004">Spring 2004</label></li>
+<li><input type="checkbox" id="season-spring-2005" name="season[]" value="spring-2005" > <label for="season-spring-2005">Spring 2005</label></li>
+<li><input type="checkbox" id="season-spring-2006" name="season[]" value="spring-2006" > <label for="season-spring-2006">Spring 2006</label></li>
+<li><input type="checkbox" id="season-spring-2007" name="season[]" value="spring-2007" > <label for="season-spring-2007">Spring 2007</label></li>
+<li><input type="checkbox" id="season-spring-2008" name="season[]" value="spring-2008" > <label for="season-spring-2008">Spring 2008</label></li>
+<li><input type="checkbox" id="season-spring-2009" name="season[]" value="spring-2009" > <label for="season-spring-2009">Spring 2009</label></li>
+<li><input type="checkbox" id="season-spring-2010" name="season[]" value="spring-2010" > <label for="season-spring-2010">Spring 2010</label></li>
+<li><input type="checkbox" id="season-spring-2011" name="season[]" value="spring-2011" > <label for="season-spring-2011">Spring 2011</label></li>
+<li><input type="checkbox" id="season-spring-2012" name="season[]" value="spring-2012" > <label for="season-spring-2012">Spring 2012</label></li>
+<li><input type="checkbox" id="season-spring-2013" name="season[]" value="spring-2013" > <label for="season-spring-2013">Spring 2013</label></li>
+<li><input type="checkbox" id="season-spring-2014" name="season[]" value="spring-2014" > <label for="season-spring-2014">Spring 2014</label></li>
+<li><input type="checkbox" id="season-spring-2015" name="season[]" value="spring-2015" > <label for="season-spring-2015">Spring 2015</label></li>
+<li><input type="checkbox" id="season-spring-2016" name="season[]" value="spring-2016" > <label for="season-spring-2016">Spring 2016</label></li>
+<li><input type="checkbox" id="season-spring-2017" name="season[]" value="spring-2017" > <label for="season-spring-2017">Spring 2017</label></li>
+<li><input type="checkbox" id="season-spring-2018" name="season[]" value="spring-2018" > <label for="season-spring-2018">Spring 2018</label></li>
+<li><input type="checkbox" id="season-spring-2019" name="season[]" value="spring-2019" > <label for="season-spring-2019">Spring 2019</label></li>
+<li><input type="checkbox" id="season-spring-2020" name="season[]" value="spring-2020" > <label for="season-spring-2020">Spring 2020</label></li>
+<li><input type="checkbox" id="season-spring-2021" name="season[]" value="spring-2021" > <label for="season-spring-2021">Spring 2021</label></li>
+<li><input type="checkbox" id="season-spring-2022" name="season[]" value="spring-2022" > <label for="season-spring-2022">Spring 2022</label></li>
+<li><input type="checkbox" id="season-spring-2023" name="season[]" value="spring-2023" > <label for="season-spring-2023">Spring 2023</label></li>
+<li><input type="checkbox" id="season-spring-2024" name="season[]" value="spring-2024" > <label for="season-spring-2024">Spring 2024</label></li>
+<li><input type="checkbox" id="season-spring-2025" name="season[]" value="spring-2025" > <label for="season-spring-2025">Spring 2025</label></li>
+<li><input type="checkbox" id="season-spring-2026" name="season[]" value="spring-2026" > <label for="season-spring-2026">Spring 2026</label></li>
+<li><input type="checkbox" id="season-summer-1997" name="season[]" value="summer-1997" > <label for="season-summer-1997">Summer 1997</label></li>
+<li><input type="checkbox" id="season-summer-1998" name="season[]" value="summer-1998" > <label for="season-summer-1998">Summer 1998</label></li>
+<li><input type="checkbox" id="season-summer-1999" name="season[]" value="summer-1999" > <label for="season-summer-1999">Summer 1999</label></li>
+<li><input type="checkbox" id="season-summer-2000" name="season[]" value="summer-2000" > <label for="season-summer-2000">Summer 2000</label></li>
+<li><input type="checkbox" id="season-summer-2001" name="season[]" value="summer-2001" > <label for="season-summer-2001">Summer 2001</label></li>
+<li><input type="checkbox" id="season-summer-2002" name="season[]" value="summer-2002" > <label for="season-summer-2002">Summer 2002</label></li>
+<li><input type="checkbox" id="season-summer-2003" name="season[]" value="summer-2003" > <label for="season-summer-2003">Summer 2003</label></li>
+<li><input type="checkbox" id="season-summer-2004" name="season[]" value="summer-2004" > <label for="season-summer-2004">Summer 2004</label></li>
+<li><input type="checkbox" id="season-summer-2005" name="season[]" value="summer-2005" > <label for="season-summer-2005">Summer 2005</label></li>
+<li><input type="checkbox" id="season-summer-2006" name="season[]" value="summer-2006" > <label for="season-summer-2006">Summer 2006</label></li>
+<li><input type="checkbox" id="season-summer-2007" name="season[]" value="summer-2007" > <label for="season-summer-2007">Summer 2007</label></li>
+<li><input type="checkbox" id="season-summer-2008" name="season[]" value="summer-2008" > <label for="season-summer-2008">Summer 2008</label></li>
+<li><input type="checkbox" id="season-summer-2009" name="season[]" value="summer-2009" > <label for="season-summer-2009">Summer 2009</label></li>
+<li><input type="checkbox" id="season-summer-2010" name="season[]" value="summer-2010" > <label for="season-summer-2010">Summer 2010</label></li>
+<li><input type="checkbox" id="season-summer-2011" name="season[]" value="summer-2011" > <label for="season-summer-2011">Summer 2011</label></li>
+<li><input type="checkbox" id="season-summer-2012" name="season[]" value="summer-2012" > <label for="season-summer-2012">Summer 2012</label></li>
+<li><input type="checkbox" id="season-summer-2013" name="season[]" value="summer-2013" > <label for="season-summer-2013">Summer 2013</label></li>
+<li><input type="checkbox" id="season-summer-2014" name="season[]" value="summer-2014" > <label for="season-summer-2014">Summer 2014</label></li>
+<li><input type="checkbox" id="season-summer-2015" name="season[]" value="summer-2015" > <label for="season-summer-2015">Summer 2015</label></li>
+<li><input type="checkbox" id="season-summer-2016" name="season[]" value="summer-2016" > <label for="season-summer-2016">Summer 2016</label></li>
+<li><input type="checkbox" id="season-summer-2017" name="season[]" value="summer-2017" > <label for="season-summer-2017">Summer 2017</label></li>
+<li><input type="checkbox" id="season-summer-2018" name="season[]" value="summer-2018" > <label for="season-summer-2018">Summer 2018</label></li>
+<li><input type="checkbox" id="season-summer-2019" name="season[]" value="summer-2019" > <label for="season-summer-2019">Summer 2019</label></li>
+<li><input type="checkbox" id="season-summer-2020" name="season[]" value="summer-2020" > <label for="season-summer-2020">Summer 2020</label></li>
+<li><input type="checkbox" id="season-summer-2021" name="season[]" value="summer-2021" > <label for="season-summer-2021">Summer 2021</label></li>
+<li><input type="checkbox" id="season-summer-2022" name="season[]" value="summer-2022" > <label for="season-summer-2022">Summer 2022</label></li>
+<li><input type="checkbox" id="season-summer-2023" name="season[]" value="summer-2023" > <label for="season-summer-2023">Summer 2023</label></li>
+<li><input type="checkbox" id="season-summer-2024" name="season[]" value="summer-2024" > <label for="season-summer-2024">Summer 2024</label></li>
+<li><input type="checkbox" id="season-summer-2025" name="season[]" value="summer-2025" > <label for="season-summer-2025">Summer 2025</label></li>
+<li><input type="checkbox" id="season-summer-2026" name="season[]" value="summer-2026" > <label for="season-summer-2026">Summer 2026</label></li>
+<li><input type="checkbox" id="season-winter-1986" name="season[]" value="winter-1986" > <label for="season-winter-1986">Winter 1986</label></li>
+<li><input type="checkbox" id="season-winter-1995" name="season[]" value="winter-1995" > <label for="season-winter-1995">Winter 1995</label></li>
+<li><input type="checkbox" id="season-winter-1996" name="season[]" value="winter-1996" > <label for="season-winter-1996">Winter 1996</label></li>
+<li><input type="checkbox" id="season-winter-1997" name="season[]" value="winter-1997" > <label for="season-winter-1997">Winter 1997</label></li>
+<li><input type="checkbox" id="season-winter-1998" name="season[]" value="winter-1998" > <label for="season-winter-1998">Winter 1998</label></li>
+<li><input type="checkbox" id="season-winter-1999" name="season[]" value="winter-1999" > <label for="season-winter-1999">Winter 1999</label></li>
+<li><input type="checkbox" id="season-winter-2001" name="season[]" value="winter-2001" > <label for="season-winter-2001">Winter 2001</label></li>
+<li><input type="checkbox" id="season-winter-2002" name="season[]" value="winter-2002" > <label for="season-winter-2002">Winter 2002</label></li>
+<li><input type="checkbox" id="season-winter-2003" name="season[]" value="winter-2003" > <label for="season-winter-2003">Winter 2003</label></li>
+<li><input type="checkbox" id="season-winter-2004" name="season[]" value="winter-2004" > <label for="season-winter-2004">Winter 2004</label></li>
+<li><input type="checkbox" id="season-winter-2005" name="season[]" value="winter-2005" > <label for="season-winter-2005">Winter 2005</label></li>
+<li><input type="checkbox" id="season-winter-2006" name="season[]" value="winter-2006" > <label for="season-winter-2006">Winter 2006</label></li>
+<li><input type="checkbox" id="season-winter-2007" name="season[]" value="winter-2007" > <label for="season-winter-2007">Winter 2007</label></li>
+<li><input type="checkbox" id="season-winter-2008" name="season[]" value="winter-2008" > <label for="season-winter-2008">Winter 2008</label></li>
+<li><input type="checkbox" id="season-winter-2009" name="season[]" value="winter-2009" > <label for="season-winter-2009">Winter 2009</label></li>
+<li><input type="checkbox" id="season-winter-2010" name="season[]" value="winter-2010" > <label for="season-winter-2010">Winter 2010</label></li>
+<li><input type="checkbox" id="season-winter-2011" name="season[]" value="winter-2011" > <label for="season-winter-2011">Winter 2011</label></li>
+<li><input type="checkbox" id="season-winter-2012" name="season[]" value="winter-2012" > <label for="season-winter-2012">Winter 2012</label></li>
+<li><input type="checkbox" id="season-winter-2013" name="season[]" value="winter-2013" > <label for="season-winter-2013">Winter 2013</label></li>
+<li><input type="checkbox" id="season-winter-2014" name="season[]" value="winter-2014" > <label for="season-winter-2014">Winter 2014</label></li>
+<li><input type="checkbox" id="season-winter-2015" name="season[]" value="winter-2015" > <label for="season-winter-2015">Winter 2015</label></li>
+<li><input type="checkbox" id="season-winter-2016" name="season[]" value="winter-2016" > <label for="season-winter-2016">Winter 2016</label></li>
+<li><input type="checkbox" id="season-winter-2017" name="season[]" value="winter-2017" > <label for="season-winter-2017">Winter 2017</label></li>
+<li><input type="checkbox" id="season-winter-2018" name="season[]" value="winter-2018" > <label for="season-winter-2018">Winter 2018</label></li>
+<li><input type="checkbox" id="season-winter-2019" name="season[]" value="winter-2019" > <label for="season-winter-2019">Winter 2019</label></li>
+<li><input type="checkbox" id="season-winter-2020" name="season[]" value="winter-2020" > <label for="season-winter-2020">Winter 2020</label></li>
+<li><input type="checkbox" id="season-winter-2021" name="season[]" value="winter-2021" > <label for="season-winter-2021">Winter 2021</label></li>
+<li><input type="checkbox" id="season-winter-2022" name="season[]" value="winter-2022" > <label for="season-winter-2022">Winter 2022</label></li>
+<li><input type="checkbox" id="season-winter-2023" name="season[]" value="winter-2023" > <label for="season-winter-2023">Winter 2023</label></li>
+<li><input type="checkbox" id="season-winter-2024" name="season[]" value="winter-2024" > <label for="season-winter-2024">Winter 2024</label></li>
+<li><input type="checkbox" id="season-winter-2025" name="season[]" value="winter-2025" > <label for="season-winter-2025">Winter 2025</label></li>
+<li><input type="checkbox" id="season-winter-2026" name="season[]" value="winter-2026" > <label for="season-winter-2026">Winter 2026</label></li>
+<li><input type="checkbox" id="season-wolfsbane" name="season[]" value="wolfsbane" > <label for="season-wolfsbane">Wolfsbane</label></li>
+</ul></div>
+<!-- Status -->
+<div class="filter dropdown"> <button type="button" class="dropdown-toggle" data-toggle="dropdown"> Status: <span id="filtercount">Semua</span> 
+<i class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></i></button>
+<ul class="dropdown-menu c1"><li> <input type="radio" id="anime_status-all" name="status" value="" checked=""> <label for="anime_status-all">Semua</label></li>
+<li><input type="radio" id="anime_status-upcoming" name="status" value="upcoming" > <label for="anime_status-upcoming">Segera Tayang</label></li>
+<li><input type="radio" id="anime_status-ongoing" name="status" value="ongoing" > <label for="anime_status-ongoing">Sedang Tayang</label></li>
+<li><input type="radio" id="anime_status-finished" name="status" value="completed" > <label for="anime_status-finished">Selesai Tayang</label></li></ul></div>
+<!-- Tipe -->
+<div class="filter dropdown"> <button type="button" class="dropdown-toggle" data-toggle="dropdown"> Tipe: <span id="filtercount">Semua</span> 
+<i class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></i></button>
+<ul class="dropdown-menu c1"><li> <input type="radio" id="type-all" name="tipe" value="" checked=""> <label for="type-all">Semua</label></li>
+<li><input type="radio" id="type-tv" name="tipe" value="TV" ><label for="type-tv"> Serial TV</label></li>
+<li><input type="radio" id="type-live-action" name="tipe" value="Live Action" ><label for="type-live-action"> Live Action</label></li>
+<li><input type="radio" id="type-movie" name="tipe" value="Movie" ><label for="type-movie"> Movie</label></li>
+<li><input type="radio" id="type-ova" name="tipe" value="OVA" ><label for="type-ova"> OVA</label></li>
+<li><input type="radio" id="type-ona" name="tipe" value="ONA" ><label for="type-ona"> ONA</label></li>
+<li><input type="radio" id="type-special" name="tipe" value="Special" ><label for="type-special"> Spesial</label></li>
+<li><input type="radio" id="type-music" name="tipe" value="Music" ><label for="type-music"> Musik</label></li>
+<li><input type="radio" id="type-drama-jepang" name="tipe" value="Drama Jepang" ><label for="type-drama-jepang"> Drama Jepang</label></li>
+<li><input type="radio" id="type-drama-china" name="tipe" value="Drama China" ><label for="type-drama-china"> Drama China</label></li></ul></div>
+<!-- Urutan -->
+<div class="filter dropdown"> <button type="button" class="dropdown-toggle" data-toggle="dropdown"> Urutan: <span id="filtercount">Semua</span> 
+<i class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></i></button>
+<ul class="dropdown-menu c1"><li> <input type="radio" id="sort_by-" name="urutan" value="default" > <label for="sort_by-">Standar</label></li>
+<li><input type="radio" id="sort_by-name_a-z" name="urutan" value="abjad" > <label for="sort_by-name_a-z">Judul A➞Z</label></li>
+<li><input type="radio" id="sort_by-name_z-a" name="urutan" value="dari-z" > <label for="sort_by-name_z-a">Judul Z➞A</label></li>
+<li><input type="radio" id="sort_by-update" name="urutan" value="update" > <label for="sort_by-update">Baru Diupdate</label></li>
+<li><input type="radio" id="sort_by-added" name="urutan" value="publikasi" > <label for="sort_by-added">Baru Ditambah</label></li>
+<li><input type="radio" id="sort_by-popular" name="urutan" value="populer" checked=""> <label for="sort_by-popular">Terpopuler</label></li>
+<li><input type="radio" id="sort_by-terbaru" name="urutan" value="baru" > <label for="sort_by-terbaru">Rilis Terbaru</label></li>
+<li><input type="radio" id="sort_by-terlama" name="urutan" value="lama" > <label for="sort_by-terlama">Rilis Terlawas</label></li>
+<li><input type="radio" id="sort_by-rating" name="urutan" value="rating" > <label for="sort_by-rating">Rating</label></li></ul></div>
+<!-- GasKeun Cari! -->
+<div class="filter submit"> <button type="submit" class="btn btn-custom-search"><i class="dashicons dashicons-search" aria-hidden="true"></i> Cari Sesuai Kriteria</button></div></form></div>
+<script type='text/javascript' src='/modifcoy/filtermod_ez.js'></script>
+        
+        <div class="listupd listupd_custompage"><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/op-indonesia/" title="Nonton Anime One Piece">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">Episode 1180</span>
+				<span class="sb RAW">&#x1F525;&#x1F525;&#x1F525;</span>			</div>
+			<img src="https://i1.wp.com/animasu.love/wp-content/uploads/2020/04/download-1.jpeg" alt="One Piece Serial" />
+		</div>
+			<div class="tt">
+				One Piece Serial			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/tokyo-revengers/" title="Nonton Anime Tokyo Revengers">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">24 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i2.wp.com/animasu.love/wp-content/uploads/2021/03/122012.jpg" alt="Tokyo Revengers" />
+		</div>
+			<div class="tt">
+				Tokyo Revengers			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/boruto-naruto-next-generations-subtitle-indo/" title="Nonton Anime Boruto: Naruto Next Generations">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">293 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i2.wp.com/animasu.love/wp-content/uploads/2020/04/84460.jpg" alt="Boruto: Naruto Next Generations" />
+		</div>
+			<div class="tt">
+				Boruto: Naruto Next Generations			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/tensei-shitara-slime-datta-ken-season-4/" title="Nonton Anime That Time I Got Reincarnated as a Slime Season 4">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">24 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i1.wp.com/animasu.love/wp-content/uploads/2026/04/156389.jpg" alt="Tensei shitara Slime Datta Ken Season 4" />
+		</div>
+			<div class="tt">
+				Tensei shitara Slime Datta Ken Season 4			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/black-clover-sub-indo/" title="Nonton Anime Black Clover">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">170 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i0.wp.com/animasu.love/wp-content/uploads/2020/04/88336.jpg" alt="Black Clover" />
+		</div>
+			<div class="tt">
+				Black Clover			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/tensei-shitara-slime-datta-ken-s2-part-2-sub-indo/" title="Nonton Anime Tensei shitara Slime Datta Ken S2 Part 2">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">12 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i2.wp.com/animasu.love/wp-content/uploads/2021/03/cover-tensei-shitara-slime-datta-ken-2nd-season-part-2.jpg" alt="Tensei shitara Slime Datta Ken Season 2 Part 2" />
+		</div>
+			<div class="tt">
+				Tensei shitara Slime Datta Ken Season 2 Part 2			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/detective-conan-indonesia/" title="Nonton Anime Case Closed">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">Episode 1270</span>
+				<span class="sb RAW">&#x1F525;&#x1F525;&#x1F525;</span>			</div>
+			<img src="https://i2.wp.com/animasu.love/wp-content/uploads/2020/04/75199.jpg" alt="Detective Conan" />
+		</div>
+			<div class="tt">
+				Detective Conan			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/mushoku-tensei-isekai-ittara-honki-dasu-part-2/" title="Nonton Anime Mushoku Tensei: Isekai Ittara Honki Dasu Part 2">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">12 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i0.wp.com/animasu.love/wp-content/uploads/2021/03/1571416748-9a938a16e389dee97158f29d3b19f77f.jpeg" alt="Mushoku Tensei: Isekai Ittara Honki Dasu Part 2" />
+		</div>
+			<div class="tt">
+				Mushoku Tensei: Isekai Ittara Honki Dasu Part 2			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/tsue-to-tsurugi-no-wistoria-s2/" title="Nonton Anime Wistoria: Wand and Sword Season 2">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">12 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i1.wp.com/animasu.love/wp-content/uploads/2026/04/155788.jpg" alt="Tsue to Tsurugi no Wistoria Season 2" />
+		</div>
+			<div class="tt">
+				Tsue to Tsurugi no Wistoria Season 2			</div>
+		</a>
+	</div>
+</div><div class="bs">
+	<div class="bsx">
+		<a href="https://animasu.love/anime/yomi-no-tsugai/" title="Nonton Anime Daemons of the Shadow Realm">
+		<div class="limit">
+			<div class="typez TV">TV</div>
+			<div class="ply"><span class="dashicons dashicons-controls-play"></span></div>
+			<div class="bt">
+				<span class="epx">24 Episode</span>
+				<span class="sb">Selesai &#x2713;</span>			</div>
+			<img src="https://i1.wp.com/animasu.love/wp-content/uploads/2026/04/156397.jpg" alt="Yomi no Tsugai" />
+		</div>
+			<div class="tt">
+				Yomi no Tsugai			</div>
+		</a>
+	</div>
+</div>				<div class="hpage">
+												<a href="?urutan=populer&halaman=2" class="r">Selanjutnya <span class="dashicons dashicons-arrow-right-alt2"></span></a>
+					</div></div>
+            </div>
+</div>
+</div>
+<div id="sidebar">
+	<div class="widget_text section"><div class="releases"><h4><span>≡ Link Rekomendasi Anime</span></h4></div><div class="textwidget custom-html-widget">》 <a href="/genre/isekai/" title="Kumpulan Anime Genre Isekai atau Pindah Di Dunia Lain">Kumpulan Anime Genre Isekai</a>
+<br/>
+》 <a href="/studio/studio-ghibli/" title="Kumpulan Anime Buatan Studio Ghibli Penggarap 'Spirited Away'">Kumpulan Anime Garapan Studio Ghibli</a>
+<br/>
+》 <a href="/penulis/makoto-shinkai/" title="Kumpulan Anime Karangan Makoto Shinkai Penulis 'Kimi no Na wa'">Kumpulan Anime Karya Makoto Shinkai</a>
+<br/>
+》 <a href="/karakter/overpower/" title="Kumpulan Anime Yang Memiliki Tokoh Utama Overpower">Kumpulan Anime Over Power Lengkap</a>
+<br/>
+》 <a href="/karakter/loli/" title="Kumpulan Anime Yang Memiliki Karakter Loli">Kumpulan Anime Memiliki Karakter Loli</a>
+<br/>
+》 <a href="/karakter/couple/" title="Kumpulan Anime Couple Lengkap">Kumpulan Anime Berkarakter Couple</a>
+<br/>
+》 <a href="/pencarian/?urutan=lama" title="Kumpulan Anime Jadul Tempo Dulu">Kumpulan Anime Lawas atau Jadul</a>
+<br/>
+》 <a href="/kumpulan-tipe-karakter-lengkap/" title="Kumpulan Tipe Karakter Tokoh Utama Dalam Anime">Kumpulan Anime Berdasarkan Tipe Karakter</a>
+<br/>
+》 <a href="/pencarian/?urutan=rating" title="Kumpulan Anime Urut Berdasarkan Rating">Kumpulan Anime Urut Berdasarkan Rating</a> <br/>
+》 <a href="/studio/netflix/" title="Kumpulan Anime Netflix">Kumpulan Anime Yang Ada di Netflix</a>
+<br/>
+<a href="/android/" title="Download Animasu.apk Terbaru Untuk Android"><font color="#0eafc1"><i class="dashicons dashicons-external"></i> Download APK Animasu Untuk Android</font></a></div></div><div class="section"><div class="releases"><h4><span>Tipe Karakter (MC)</span></h4></div><div class="tagcloud"><a href="https://animasu.love/karakter/ambisius/" class="tag-cloud-link tag-link-495 tag-link-position-1" style="font-size: 16.347826086957pt;" aria-label="Ambisi (154 item)">Ambisi</a>
+<a href="https://animasu.love/karakter/anak-anak/" class="tag-cloud-link tag-link-3095 tag-link-position-2" style="font-size: 11.391304347826pt;" aria-label="Anak-Anak (41 item)">Anak-Anak</a>
+<a href="https://animasu.love/karakter/anti-sosial/" class="tag-cloud-link tag-link-21 tag-link-position-3" style="font-size: 13.130434782609pt;" aria-label="Anti-Sosial (65 item)">Anti-Sosial</a>
+<a href="https://animasu.love/karakter/badass/" class="tag-cloud-link tag-link-22 tag-link-position-4" style="font-size: 16.95652173913pt;" aria-label="Badass (180 item)">Badass</a>
+<a href="https://animasu.love/karakter/berbisnis/" class="tag-cloud-link tag-link-62 tag-link-position-5" style="font-size: 8pt;" aria-label="Berbisnis (16 item)">Berbisnis</a>
+<a href="https://animasu.love/karakter/berisik/" class="tag-cloud-link tag-link-154 tag-link-position-6" style="font-size: 12.347826086957pt;" aria-label="Berisik (53 item)">Berisik</a>
+<a href="https://animasu.love/karakter/berjuang/" class="tag-cloud-link tag-link-24 tag-link-position-7" style="font-size: 18.695652173913pt;" aria-label="Berjuang (289 item)">Berjuang</a>
+<a href="https://animasu.love/karakter/beruntung/" class="tag-cloud-link tag-link-84 tag-link-position-8" style="font-size: 16.347826086957pt;" aria-label="Beruntung (155 item)">Beruntung</a>
+<a href="https://animasu.love/karakter/blakblakan/" class="tag-cloud-link tag-link-400 tag-link-position-9" style="font-size: 15.913043478261pt;" aria-label="Blakblakan (136 item)">Blakblakan</a>
+<a href="https://animasu.love/karakter/bounty-hunter/" class="tag-cloud-link tag-link-319 tag-link-position-10" style="font-size: 10pt;" aria-label="Bounty Hunter (28 item)">Bounty Hunter</a>
+<a href="https://animasu.love/karakter/cerewet/" class="tag-cloud-link tag-link-961 tag-link-position-11" style="font-size: 13.739130434783pt;" aria-label="Cerewet (76 item)">Cerewet</a>
+<a href="https://animasu.love/karakter/ceria/" class="tag-cloud-link tag-link-75 tag-link-position-12" style="font-size: 15.565217391304pt;" aria-label="Ceria (126 item)">Ceria</a>
+<a href="https://animasu.love/karakter/ceroboh/" class="tag-cloud-link tag-link-321 tag-link-position-13" style="font-size: 14.608695652174pt;" aria-label="Ceroboh (96 item)">Ceroboh</a>
+<a href="https://animasu.love/karakter/perempuan/" class="tag-cloud-link tag-link-2779 tag-link-position-14" style="font-size: 19.739130434783pt;" aria-label="Cewek (382 item)">Cewek</a>
+<a href="https://animasu.love/karakter/couple/" class="tag-cloud-link tag-link-2190 tag-link-position-15" style="font-size: 18.260869565217pt;" aria-label="Couple (259 item)">Couple</a>
+<a href="https://animasu.love/karakter/laki-laki/" class="tag-cloud-link tag-link-2780 tag-link-position-16" style="font-size: 22pt;" aria-label="Cowok (683 item)">Cowok</a>
+<a href="https://animasu.love/karakter/dewa/" class="tag-cloud-link tag-link-231 tag-link-position-17" style="font-size: 11.304347826087pt;" aria-label="Dewa (40 item)">Dewa</a>
+<a href="https://animasu.love/karakter/dikagumi/" class="tag-cloud-link tag-link-120 tag-link-position-18" style="font-size: 17.304347826087pt;" aria-label="Dikagumi (197 item)">Dikagumi</a>
+<a href="https://animasu.love/karakter/disepelekan/" class="tag-cloud-link tag-link-76 tag-link-position-19" style="font-size: 17.04347826087pt;" aria-label="Disepelekan (187 item)">Disepelekan</a>
+<a href="https://animasu.love/karakter/ditakuti/" class="tag-cloud-link tag-link-331 tag-link-position-20" style="font-size: 14.434782608696pt;" aria-label="Ditakuti (92 item)">Ditakuti</a>
+<a href="https://animasu.love/karakter/iblis/" class="tag-cloud-link tag-link-74 tag-link-position-21" style="font-size: 13.478260869565pt;" aria-label="Iblis (71 item)">Iblis</a>
+<a href="https://animasu.love/karakter/jenius/" class="tag-cloud-link tag-link-40 tag-link-position-22" style="font-size: 17.652173913043pt;" aria-label="Jenius (220 item)">Jenius</a>
+<a href="https://animasu.love/karakter/kejam/" class="tag-cloud-link tag-link-330 tag-link-position-23" style="font-size: 11.826086956522pt;" aria-label="Kejam (46 item)">Kejam</a>
+<a href="https://animasu.love/karakter/legenda/" class="tag-cloud-link tag-link-73 tag-link-position-24" style="font-size: 16.260869565217pt;" aria-label="Legenda (150 item)">Legenda</a>
+<a href="https://animasu.love/karakter/licik/" class="tag-cloud-link tag-link-98 tag-link-position-25" style="font-size: 13.739130434783pt;" aria-label="Licik (76 item)">Licik</a>
+<a href="https://animasu.love/karakter/loli/" class="tag-cloud-link tag-link-2189 tag-link-position-26" style="font-size: 15.478260869565pt;" aria-label="Loli (121 item)">Loli</a>
+<a href="https://animasu.love/karakter/mencolok/" class="tag-cloud-link tag-link-49 tag-link-position-27" style="font-size: 16.086956521739pt;" aria-label="Mencolok (143 item)">Mencolok</a>
+<a href="https://animasu.love/karakter/menyebalkan/" class="tag-cloud-link tag-link-3344 tag-link-position-28" style="font-size: 12.95652173913pt;" aria-label="Menyebalkan (62 item)">Menyebalkan</a>
+<a href="https://animasu.love/karakter/mesum/" class="tag-cloud-link tag-link-965 tag-link-position-29" style="font-size: 13.217391304348pt;" aria-label="Mesum (66 item)">Mesum</a>
+<a href="https://animasu.love/karakter/monster/" class="tag-cloud-link tag-link-632 tag-link-position-30" style="font-size: 12.347826086957pt;" aria-label="Monster (53 item)">Monster</a>
+<a href="https://animasu.love/karakter/narsis/" class="tag-cloud-link tag-link-48 tag-link-position-31" style="font-size: 8.9565217391304pt;" aria-label="Narsis (21 item)">Narsis</a>
+<a href="https://animasu.love/karakter/optimis/" class="tag-cloud-link tag-link-575 tag-link-position-32" style="font-size: 16.869565217391pt;" aria-label="Optimis (176 item)">Optimis</a>
+<a href="https://animasu.love/karakter/overpower/" class="tag-cloud-link tag-link-20 tag-link-position-33" style="font-size: 20.086956521739pt;" aria-label="Overpower (417 item)">Overpower</a>
+<a href="https://animasu.love/karakter/pemalas/" class="tag-cloud-link tag-link-55 tag-link-position-34" style="font-size: 13.652173913043pt;" aria-label="Pemalas (74 item)">Pemalas</a>
+<a href="https://animasu.love/karakter/pemalu/" class="tag-cloud-link tag-link-315 tag-link-position-35" style="font-size: 13.478260869565pt;" aria-label="Pemalu (72 item)">Pemalu</a>
+<a href="https://animasu.love/karakter/pemimpin/" class="tag-cloud-link tag-link-54 tag-link-position-36" style="font-size: 16.608695652174pt;" aria-label="Pemimpin (166 item)">Pemimpin</a>
+<a href="https://animasu.love/karakter/penakut/" class="tag-cloud-link tag-link-254 tag-link-position-37" style="font-size: 10.434782608696pt;" aria-label="Penakut (31 item)">Penakut</a>
+<a href="https://animasu.love/karakter/pendiam/" class="tag-cloud-link tag-link-176 tag-link-position-38" style="font-size: 15.826086956522pt;" aria-label="Pendiam (133 item)">Pendiam</a>
+<a href="https://animasu.love/karakter/pesimis/" class="tag-cloud-link tag-link-846 tag-link-position-39" style="font-size: 11.652173913043pt;" aria-label="Pesimis (44 item)">Pesimis</a>
+<a href="https://animasu.love/karakter/polos/" class="tag-cloud-link tag-link-214 tag-link-position-40" style="font-size: 16.869565217391pt;" aria-label="Polos (177 item)">Polos</a>
+<a href="https://animasu.love/karakter/semangat/" class="tag-cloud-link tag-link-39 tag-link-position-41" style="font-size: 17.652173913043pt;" aria-label="Semangat (220 item)">Semangat</a>
+<a href="https://animasu.love/karakter/setia/" class="tag-cloud-link tag-link-25 tag-link-position-42" style="font-size: 15.652173913043pt;" aria-label="Setia (127 item)">Setia</a>
+<a href="https://animasu.love/karakter/slengekan/" class="tag-cloud-link tag-link-335 tag-link-position-43" style="font-size: 15.130434782609pt;" aria-label="Slengekan (110 item)">Slengekan</a>
+<a href="https://animasu.love/karakter/sopan/" class="tag-cloud-link tag-link-119 tag-link-position-44" style="font-size: 16.869565217391pt;" aria-label="Sopan (175 item)">Sopan</a>
+<a href="https://animasu.love/karakter/suram/" class="tag-cloud-link tag-link-845 tag-link-position-45" style="font-size: 14.434782608696pt;" aria-label="Suram (92 item)">Suram</a>
+<a href="https://animasu.love/karakter/terkutuk/" class="tag-cloud-link tag-link-365 tag-link-position-46" style="font-size: 14.173913043478pt;" aria-label="Terkutuk (86 item)">Terkutuk</a>
+<a href="https://animasu.love/karakter/totalitas/" class="tag-cloud-link tag-link-722 tag-link-position-47" style="font-size: 14pt;" aria-label="Totalitas (82 item)">Totalitas</a>
+<a href="https://animasu.love/karakter/tsundere/" class="tag-cloud-link tag-link-617 tag-link-position-48" style="font-size: 12.608695652174pt;" aria-label="Tsundere (56 item)">Tsundere</a>
+<a href="https://animasu.love/karakter/vampir/" class="tag-cloud-link tag-link-633 tag-link-position-49" style="font-size: 9.304347826087pt;" aria-label="Vampir (23 item)">Vampir</a>
+<a href="https://animasu.love/karakter/yandere/" class="tag-cloud-link tag-link-2191 tag-link-position-50" style="font-size: 8.6086956521739pt;" aria-label="Yandere (19 item)">Yandere</a>
+<a href="https://animasu.love/karakter/zero-to-hero/" class="tag-cloud-link tag-link-480 tag-link-position-51" style="font-size: 13.130434782609pt;" aria-label="Zero To Hero (65 item)">Zero To Hero</a></div>
+</div><div class="section"><div class="tab" style="position: relative;z-index:2;box-shadow: 0px 4px 5px 0px rgba(29,27,38,0.57);-webkit-box-shadow: 0px 4px 5px 0px rgba(29,27,38,0.57);-moz-box-shadow: 0px 4px 5px 0px rgba(29,27,38,0.57);">
+  <button class="tablinks active" onclick="animasuBacot(event, 'Lobby')" style="border-right:3px solid #10AFC1;">Update Anime Cepat</button>
+</div>
+
+<div id="Lobby" class="tabcontent" style="position: relative;z-index:1;">
+  <iframe title="Lobby Animasu" src="https://www5.cbox.ws/box/?boxid=946129&boxtag=dHK21Z" width="100%" height="550" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+</div></div>			
+</div></div>
+</div>
+<div id="footer">
+	<footer id="colophon" class="site-footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter" role="contentinfo">
+	<div class="footermenu"><div class="menu-menu-kaum-bawah-container"><ul id="menu-menu-kaum-bawah" class="menu"><li id="menu-item-152005" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-152005"><a href="https://animasu.love/lapor/">Lapor</a></li>
+<li id="menu-item-224213" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-224213"><a href="/android/">Install APK</a></li>
+<li id="menu-item-653" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-653"><a href="https://animasu.love/dmca/">DMCA</a></li>
+</ul></div></div>	<div class="footercopyright">
+		 
+<div class="footer-az">
+                  <span class="ftaz">Nonton Anime Terlengkap</span><span class="size-s"><b>72.871 Episode &nbsp;&#x2022;&nbsp; 5.012 Serial &nbsp;&#x2022;&nbsp; 724 Movie <br class="totalan"/>&nbsp;&#x2023;&nbsp; Dari Total
+                  <a href="/pencarian/?urutan=abjad" title="Total JUDUL ANIME Saat Ini Yang Ada Di Animasu"><u>6.041</u></a> Judul Anime.</b> [11/09/2026]</span>
+                  <ul class="ulclear az-list">
+					  					  <li><a href="https://animasu.love/daftar-anime?show=A">A</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=B">B</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=C">C</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=D">D</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=E">E</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=F">F</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=G">G</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=H">H</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=I">I</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=J">J</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=K">K</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=L">L</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=M">M</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=N">N</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=O">O</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=P">P</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=Q">Q</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=R">R</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=S">S</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=T">T</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=U">U</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=V">V</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=W">W</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=X">X</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=Y">Y</a></li>
+					  					  <li><a href="https://animasu.love/daftar-anime?show=Z">Z</a></li>
+					                    </ul>
+                  <div class="clear"></div>
+               </div>
+				<div class="copyright">
+			<div class="footer-logo"><img src="https://2.bp.blogspot.com/-QiWOTKfmgHg/XcWMAQMFtzI/AAAAAAAAFkM/9X0xgYkMVEAndahC2JNb-v4tFX8JLOWRACLcBGAsYHQ/s200/animasudotnet_simple_logo.png" title="" alt="" draggable="false"></div>
+			<div class="txt">
+				<span>Hak Cipta © 2026 Animasu. Semua Hak Dilindungi</span>
+				<p>Penafian: Situs ini <i>Animasu</i> tidak menyimpan file anime apapun di server. Semua konten telah disediakan oleh pihak ketiga yang tidak terafiliasi.</p>
+			</div>
+		</div>
+	</div>
+	</footer>
+</div>
+<script type="text/javascript">$('.score').each(function(index, el) { var $El = $(el); $El.barrating({ theme: 'fontawesome-stars', readonly: true, initialRating: $El.attr('data-current-rating') }); });</script>
+<script type="text/javascript" src="/modifcoy/animasuBuatSendiriCoyKarnaKreatif.js" id="Fitur_Kreatif_Buat_Sendiri_Bukan_Peniru_kayak_LOE"></script>
+<!-- script type="text/javascript" src="/modifcoy/tothemoon.js"></script -->
+<!-- ?php $kln = get_option('tople'); if($kln) { ?><div id="floatcenter"><div class="ctrx" align="center" style="margin-bottom:15px;"><!-- ?php echo do_shortcode('[adspp]'); ?><br/><br/><span id="close-teaser" onclick="document.getElementById('floatcenter').style.display = 'none';" style="cursor:pointer;">Tutup Iklan [ X ]</span></div></div>
+<!-- ?php } ? -->
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/animestream\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<div id="teaser3" style="width: 100%;text-align: center;display: scroll;position:fixed;bottom: 0;margin: 0 auto;z-index: 103;">
+<div align="center" style="margin-bottom:15px;"><span id="close-teaser" onclick="document.getElementById('teaser3').style.display = 'none';" style="cursor:pointer;">Tutup Iklan [ X ]</span></div>
+<div class="blox kln"><style>.resize{width:728px;}</style>    <a title="F1" href="https://goid.space/login" target="_blank" rel="nofollow"><img alt="F1" class="lazyload" src="https://blogger.googleusercontent.com/img/a/AVvXsEiygM-ewZWlQVvqsEFkFZQIkNwbO9jp6iXljqM2P8GQm9AeG_WURuvPDTVK9LTK3ChtsDqTHQm4mI533vdclBTdKkfKjkKwMETOcVvwDB4i-ES4gt6ERwJ0UeLtfA90ZzrRU8JMzXdzdBaBnZgB2USWMPWXW-IOjxqxcuyZxpDhsshKEo_qvNF6GEyK9HI=s728" /></a>
+</div></div><script>
+document.getElementById("Lobby").style.display = "block";
+function animasuBacot(evt, chatRoom) {var i, tabcontent, tablinks;tabcontent = document.getElementsByClassName("tabcontent");for (i = 0; i < tabcontent.length; i++) {tabcontent[i].style.display = "none";} tablinks = document.getElementsByClassName("tablinks");for (i = 0; i < tablinks.length; i++) {tablinks[i].className = tablinks[i].className.replace(" active", "");} document.getElementById(chatRoom).style.display = "block";evt.currentTarget.className += " active";}
+</script>
+<script>$('div.bookmark').each(function(i, el) { if($(el).html() != "" ) { $(el).html($(el).html().replace(/Bookmark/ig, "Tonton Nanti")); }}); $('div.leftseries').each(function(i, el) { if($(el).html() != "" ) { $(el).html($(el).html().replace(/Genres/ig, "Genre")); }});</script>
+<!-- script type="text/javascript" src="/modifcoy/hsjs.js"></script -->
+</body>
+</html>
+
+
+<!-- Page cached by LiteSpeed Cache 7.9.1 on 2026-10-09 17:46:52 -->

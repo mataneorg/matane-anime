@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "url": "https://px.roburnt10.store/cdn/092e3d2d14736a0ad5386790358e806f3132f402d89cbdc132105dac319cd299ed2c6178fa19b2aa8a9d5239bff15d63899ae3d48c99363bb78d626e62?t.m3u8",
+      "quality": "auto",
+      "type": "application/vnd.apple.mpegurl"
+    }
+  ],
+  "tracks": null,
+  "audio": null,
+  "chapters": [
+    { "title": "Intro", "start": 138, "end": 215 },
+    { "title": "Outro", "start": 1452, "end": 1542 }
+  ],
+  "headers": {
+    "Referer": "https://play.echovideo.ru/embed-1/XgKzaNpYDqsV_S36seXXUYkRqHH8UwTBSnpFCEJ5OuejiHYaMhpF28DAI0X4fcsqMqMDBqoN63BpSODEyuZvagwOmGGX4zDoNGdSKAQ3eWFdt47-S8qz-BrWsV1_iMeiTFgzNlwkAxDWjMPOIKJbr2bC1Oi6usGf6M0pvlpcx9k8XbH3o2_0aMvetHpY_Wcr?v=1?asi=0&autoPlay=0&ao=0"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "sources": [
+    {
+      "url": "https://fetch.nexabloom.top/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/master.m3u8?token=MTc5MTU2MDg0NHw3ZjZmZmFhNmJiMGI0MDgwMTdiNjIyNTQyMTE2OTFiNS80Yzk4YmQyYjAzM2IyYTU4YTIyOTYxN2Q2NmZjNWVkZQ.xjLzB4qs7SaFXe2x9UfbxowtvsYX0TyQKw5nuY-SGT8",
+      "quality": "auto",
+      "type": "video/mpegurl"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "captions-1",
+      "url": "https://6a8y6.broforgotsave.online/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/eng-2.vtt",
+      "lang": "english",
+      "label": "English",
+      "kind": "captions",
+      "default": true
+    },
+    {
+      "id": "captions-2",
+      "url": "https://6a8y6.broforgotsave.online/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/eng-3.vtt",
+      "lang": "english 2",
+      "label": "English 2",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-3",
+      "url": "https://6a8y6.broforgotsave.online/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/806a582526a4c5a226514316bd5b6f64.vtt",
+      "lang": "english (- (crunchyroll))",
+      "label": "English (- (Crunchyroll))",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-4",
+      "url": "https://6a8y6.broforgotsave.online/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/por-4.vtt",
+      "lang": "portuguese",
+      "label": "Portuguese",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-5",
+      "url": "https://6a8y6.broforgotsave.online/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/spa-5.vtt",
+      "lang": "spanish",
+      "label": "Spanish",
+      "kind": "captions",
+      "default": false
+    }
+  ],
+  "audio": null,
+  "chapters": [
+    { "title": "Intro", "start": 138, "end": 215 },
+    { "title": "Outro", "start": 1452, "end": 1542 }
+  ],
+  "headers": { "Origin": "https://megaplay.buzz", "Referer": "https://megaplay.buzz/" }
+}

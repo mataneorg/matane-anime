@@ -1,0 +1,408 @@
+{
+  "page_count": 22,
+  "result": [
+    {
+      "title": "Shingeki no Kyojin",
+      "title_en": "Attack on Titan",
+      "synopsis": "Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid creatures called Titans, forcing humans to hide in fear behind enormous concentric walls. What makes these giants truly terrifying is that their taste for human flesh is not born out of hunger but what appears to be out of pleasure. To ensure their survival, the remnants of humanity began living within defensive barriers, resulting in one hundred years without a single titan encounter. However, that fragile calm is soon shattered when a colossal Titan manages to breach the supposedly impregnable outer wall, reigniting the fight for survival against the man-eating abominations.\n\nAfter witnessing a horrific personal loss at the hands of the invading creatures, Eren Yeager dedicates his life to their eradication by enlisting into the Survey Corps, an elite military unit that combats the merciless humanoids outside the protection of the walls. Eren, his adopted sister Mikasa Ackerman, and his childhood friend Armin Arlert join the brutal war against the Titans and race to discover a way of defeating them before the last walls are breached.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "attack-on-titan-fa99",
+      "rating": "R",
+      "year": 2013,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "attack-on-titan-4d5b-sm",
+        "aspectRatio": 0.66,
+        "hq": "attack-on-titan-4d5b-hq"
+      },
+      "genres": ["Action", "Award Winning", "Drama", "Gore", "Military", "Shounen", "Survival", "Suspense"]
+    },
+    {
+      "title": "Death Note",
+      "title_en": "Death Note",
+      "synopsis": "Brutal murders, petty thefts, and senseless violence pollute the human world. In contrast, the realm of death gods is a humdrum, unchanging gambling den. The ingenious 17-year-old Japanese student Light Yagami and sadistic god of death Ryuk share one belief: their worlds are rotten.\n\nFor his own amusement, Ryuk drops his Death Note into the human world. Light stumbles upon it, deeming the first of its rules ridiculous: the human whose name is written in this note shall die. However, the temptation is too great, and Light experiments by writing a felon's name, which disturbingly enacts his first murder.\n\nAware of the terrifying godlike power that has fallen into his hands, Light—under the alias Kira—follows his wicked sense of justice with the ultimate goal of cleansing the world of all evil-doers. The meticulous mastermind detective L is already on his trail, but as Light's brilliance rivals L's, the grand chase for Kira turns into an intense battle of wits that can only end when one of them is dead.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "death-note-aa92",
+      "rating": "R",
+      "year": 2006,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "death-note-b936-sm",
+        "aspectRatio": 0.66,
+        "hq": "death-note-b936-hq"
+      },
+      "genres": ["Detective", "Psychological", "Shounen", "Supernatural", "Suspense"]
+    },
+    {
+      "title": "Fullmetal Alchemist: Brotherhood",
+      "title_en": "Fullmetal Alchemist: Brotherhood",
+      "synopsis": "After a horrific alchemy experiment goes wrong in the Elric household, brothers Edward and Alphonse are left in a catastrophic new reality. Ignoring the alchemical principle banning human transmutation, the boys attempted to bring their recently deceased mother back to life. Instead, they suffered brutal personal loss: Alphonse's body disintegrated while Edward lost a leg and then sacrificed an arm to keep Alphonse's soul in the physical realm by binding it to a hulking suit of armor.\n\nThe brothers are rescued by their neighbor Pinako Rockbell and her granddaughter Winry. Known as a bio-mechanical engineering prodigy, Winry creates prosthetic limbs for Edward by utilizing \"automail,\" a tough, versatile metal used in robots and combat armor. After years of training, the Elric brothers set off on a quest to restore their bodies by locating the Philosopher's Stone—a powerful gem that allows an alchemist to defy the traditional laws of Equivalent Exchange.\n\nAs Edward becomes an infamous alchemist and gains the nickname \"Fullmetal,\" the boys' journey embroils them in a growing conspiracy that threatens the fate of the world.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "fullmetal-alchemist-brotherhood-2fe4",
+      "rating": "R",
+      "year": 2009,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "fullmetal-alchemist-brotherhood-8ed1-sm",
+        "aspectRatio": 0.66,
+        "hq": "fullmetal-alchemist-brotherhood-8ed1-hq"
+      },
+      "genres": ["Action", "Adventure", "Drama", "Fantasy", "Military", "Shounen"]
+    },
+    {
+      "title": "One Punch Man",
+      "title_en": "One Punch Man",
+      "synopsis": "The seemingly unimpressive Saitama has a rather unique hobby: being a hero. In order to pursue his childhood dream, Saitama relentlessly trained for three years, losing all of his hair in the process. Now, Saitama is so powerful, he can defeat any enemy with just one punch. However, having no one capable of matching his strength has led Saitama to an unexpected problem—he is no longer able to enjoy the thrill of battling and has become quite bored.\n\nOne day, Saitama catches the attention of 19-year-old cyborg Genos, who witnesses his power and wishes to become Saitama's disciple. Genos proposes that the two join the Hero Association in order to become certified heroes that will be recognized for their positive contributions to society. Saitama, who is shocked that no one knows who he is, quickly agrees. Meeting new allies and taking on new foes, Saitama embarks on a new journey as a member of the Hero Association to experience the excitement of battle he once felt.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "one-punch-man-fff4",
+      "rating": "R",
+      "year": 2015,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "one-punch-man-95c5-sm",
+        "aspectRatio": 0.75,
+        "hq": "one-punch-man-95c5-hq"
+      },
+      "genres": ["Action", "Adult Cast", "Comedy", "Parody", "Seinen", "Super Power"]
+    },
+    {
+      "title": "Sword Art Online",
+      "title_en": "Sword Art Online",
+      "synopsis": "Ever since the release of the innovative NerveGear, gamers from all around the globe have been given the opportunity to experience a completely immersive virtual reality. Sword Art Online (SAO), one of the most recent games on the console, offers a gateway into the wondrous world of Aincrad, a vivid, medieval landscape where users can do anything within the limits of imagination. With the release of this worldwide sensation, gaming has never felt more lifelike.\n\nHowever, the idyllic fantasy rapidly becomes a brutal nightmare when SAO's creator traps thousands of players inside the game. The \"log-out\" function has been removed, with the only method of escape involving beating all of Aincrad's one hundred increasingly difficult levels. Adding to the struggle, any in-game death becomes permanent, ending the player's life in the real world.\n\nWhile Kazuto \"Kirito\" Kirigaya was fortunate enough to be a beta-tester for the game, he quickly finds that despite his advantages, he cannot overcome SAO's challenges alone. Teaming up with Asuna Yuuki and other talented players, Kirito makes an effort to face the seemingly insurmountable trials head-on. But with difficult bosses and threatening dark cults impeding his progress, Kirito finds that such tasks are much easier said than done.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "sword-art-online-ae28",
+      "rating": "PG-13",
+      "year": 2012,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "sword-art-online-d6ff-sm",
+        "aspectRatio": 0.66,
+        "hq": "sword-art-online-d6ff-hq"
+      },
+      "genres": ["Action", "Adventure", "Fantasy", "Love Polygon", "Romance", "Video Game"]
+    },
+    {
+      "title": "Boku no Hero Academia",
+      "title_en": "My Hero Academia",
+      "synopsis": "The appearance of \"quirks,\" newly discovered super powers, has been steadily increasing over the years, with 80 percent of humanity possessing various abilities from manipulation of elements to shapeshifting. This leaves the remainder of the world completely powerless, and Izuku Midoriya is one such individual.\n\nSince he was a child, the ambitious middle schooler has wanted nothing more than to be a hero. Izuku's unfair fate leaves him admiring heroes and taking notes on them whenever he can. But it seems that his persistence has borne some fruit: Izuku meets the number one hero and his personal idol, All Might. All Might's quirk is a unique ability that can be inherited, and he has chosen Izuku to be his successor!\n\nEnduring many months of grueling training, Izuku enrolls in UA High, a prestigious high school famous for its excellent hero training program, and this year's freshmen look especially promising. With his bizarre but talented classmates and the looming threat of a villainous organization, Izuku will soon learn what it really means to be a hero.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "my-hero-academia-feb8",
+      "rating": "PG-13",
+      "year": 2016,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "my-hero-academia-5441-sm",
+        "aspectRatio": 0.66,
+        "hq": "my-hero-academia-5441-hq"
+      },
+      "genres": ["Action", "School", "Shounen", "Super Power"]
+    },
+    {
+      "title": "Kimetsu no Yaiba",
+      "title_en": "Demon Slayer",
+      "synopsis": "Ever since the death of his father, the burden of supporting the family has fallen upon Tanjirou Kamado's shoulders. Though living impoverished on a remote mountain, the Kamado family are able to enjoy a relatively peaceful and happy life. One day, Tanjirou decides to go down to the local village to make a little money selling charcoal. On his way back, night falls, forcing Tanjirou to take shelter in the house of a strange man, who warns him of the existence of flesh-eating demons that lurk in the woods at night.\n\nWhen he finally arrives back home the next day, he is met with a horrifying sight—his whole family has been slaughtered. Worse still, the sole survivor is his sister Nezuko, who has been turned into a bloodthirsty demon. Consumed by rage and hatred, Tanjirou swears to avenge his family and stay by his only remaining sibling. Alongside the mysterious group calling themselves the Demon Slayer Corps, Tanjirou will do whatever it takes to slay the demons and protect the remnants of his beloved sister's humanity.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "demon-slayer-kimetsu-no-yaiba-f28b",
+      "rating": "R",
+      "year": 2019,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "demon-slayer-kimetsu-no-yaiba-a8d8-sm",
+        "aspectRatio": 0.66,
+        "hq": "demon-slayer-kimetsu-no-yaiba-a8d8-hq"
+      },
+      "genres": ["Action", "Award Winning", "Fantasy", "Historical", "Shounen"]
+    },
+    {
+      "title": "Naruto",
+      "title_en": "Naruto",
+      "synopsis": "Moments prior to Naruto Uzumaki's birth, a huge demon known as the Kyuubi, the Nine-Tailed Fox, attacked Konohagakure, the Hidden Leaf Village, and wreaked havoc. In order to put an end to the Kyuubi's rampage, the leader of the village, the Fourth Hokage, sacrificed his life and sealed the monstrous beast inside the newborn Naruto.\n\nNow, Naruto is a hyperactive and knuckle-headed ninja still living in Konohagakure. Shunned because of the Kyuubi inside him, Naruto struggles to find his place in the village, while his burning desire to become the Hokage of Konohagakure leads him not only to some great new friends, but also some deadly foes.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "naruto-f3cf",
+      "rating": "PG-13",
+      "year": 2002,
+      "poster": { "formats": ["jpeg", "webp"], "sm": "naruto-4ab6-sm", "aspectRatio": 0.66, "hq": "naruto-4ab6-hq" },
+      "genres": ["Action", "Adventure", "Fantasy", "Martial Arts", "Shounen"]
+    },
+    {
+      "title": "Tokyo Ghoul",
+      "title_en": "Tokyo Ghoul",
+      "synopsis": "A sinister threat is invading Tokyo: flesh-eating \"ghouls\" who appear identical to humans and blend into their population. Reserved college student Ken Kaneki buries his nose in books and avoids the news of the growing crisis. However, the appearance of an attractive woman named Rize Kamishiro shatters his solitude when she forwardly asks him on a date.\n\nWhile walking Rize home, Kaneki discovers she isn't as kind as she first appeared, and she has led him on with sinister intent. After a tragic struggle, he later awakens in a hospital to learn his life was saved by transplanting the now deceased Rize's organs into his own body.\n\nKaneki's body begins to change in horrifying ways, and he transforms into a human-ghoul hybrid. As he embarks on his new dreadful journey, Kaneki clings to his humanity in the evolving bloody conflict between society's new monsters and the government agents who hunt them.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "tokyo-ghoul-4d9c",
+      "rating": "R",
+      "year": 2014,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "tokyo-ghoul-defc-sm",
+        "aspectRatio": 0.7,
+        "hq": "tokyo-ghoul-defc-hq"
+      },
+      "genres": ["Action", "Fantasy", "Gore", "Horror", "Psychological", "Seinen"]
+    },
+    {
+      "title": "Hunter x Hunter (2011)",
+      "title_en": "Hunter x Hunter (2011)",
+      "synopsis": "Hunters devote themselves to accomplishing hazardous tasks, all from traversing the world's uncharted territories to locating rare items and monsters. Before becoming a Hunter, one must pass the Hunter Examination—a high-risk selection process in which most applicants end up handicapped or worse, deceased.\n\nAmbitious participants who challenge the notorious exam carry their own reason. What drives 12-year-old Gon Freecss is finding Ging, his father and a Hunter himself. Believing that he will meet his father by becoming a Hunter, Gon takes the first step to walk the same path.\n\nDuring the Hunter Examination, Gon befriends the medical student Leorio Paladiknight, the vindictive Kurapika, and ex-assassin Killua Zoldyck. While their motives vastly differ from each other, they band together for a common goal and begin to venture into a perilous world.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "hunter-x-hunter-2-4de4",
+      "rating": "PG-13",
+      "year": 2011,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "hunter-x-hunter-2-463e-sm",
+        "aspectRatio": 0.66,
+        "hq": "hunter-x-hunter-2-463e-hq"
+      },
+      "genres": ["Action", "Adventure", "Fantasy", "Shounen"]
+    },
+    {
+      "title": "Kimi no Na wa.",
+      "title_en": "Your Name.",
+      "synopsis": "Mitsuha Miyamizu, a high school girl, yearns to live the life of a boy in the bustling city of Tokyo—a dream that stands in stark contrast to her present life in the countryside. Meanwhile in the city, Taki Tachibana lives a busy life as a high school student while juggling his part-time job and hopes for a future in architecture.\n\nOne day, Mitsuha awakens in a room that is not her own and suddenly finds herself living the dream life in Tokyo—but in Taki's body! Elsewhere, Taki finds himself living Mitsuha's life in the humble countryside. In pursuit of an answer to this strange phenomenon, they begin to search for one another.\n\nKimi no Na wa. revolves around Mitsuha and Taki's actions, which begin to have a dramatic impact on each other's lives, weaving them into a fabric held together by fate and circumstance.",
+      "status": "finished_airing",
+      "type": "movie",
+      "slug": "your-name-467f",
+      "rating": "PG-13",
+      "year": 2016,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "your-name-5f98-sm",
+        "aspectRatio": 0.66,
+        "hq": "your-name-5f98-hq"
+      },
+      "genres": ["Award Winning", "Drama", "Romantic Subtext", "Supernatural"]
+    },
+    {
+      "title": "Shingeki no Kyojin Season 2",
+      "title_en": "Attack on Titan Season 2",
+      "synopsis": "For centuries, humanity has been hunted by giant, mysterious predators known as the Titans. Three mighty walls—Wall Maria, Rose, and Sheena—provided peace and protection for humanity for over a hundred years. That peace, however, was shattered when the Colossal Titan and Armored Titan appeared and destroyed the outermost wall, Wall Maria. Forced to retreat behind Wall Rose, humanity waited with bated breath for the Titans to reappear and destroy their safe haven once more.\n\nIn Shingeki no Kyojin Season 2, Eren Yeager and others of the 104th Training Corps have just begun to become full members of the Survey Corps. As they ready themselves to face the Titans once again, their preparations are interrupted by the invasion of Wall Rose—but all is not as it seems as more mysteries are unraveled. As the Survey Corps races to save the wall, they uncover more about the invading Titans and the dark secrets of their own members.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "attack-on-titan-season-2-dea9",
+      "rating": "R",
+      "year": 2017,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "attack-on-titan-season-2-43f3-sm",
+        "aspectRatio": 0.66,
+        "hq": "attack-on-titan-season-2-43f3-hq"
+      },
+      "genres": ["Action", "Drama", "Gore", "Military", "Shounen", "Survival", "Suspense"]
+    },
+    {
+      "title": "Steins;Gate",
+      "title_en": "Steins;Gate",
+      "synopsis": "Eccentric scientist Rintarou Okabe has a never-ending thirst for scientific exploration. Together with his ditzy but well-meaning friend Mayuri Shiina and his roommate Itaru Hashida, Rintarou founds the Future Gadget Laboratory in the hopes of creating technological innovations that baffle the human psyche. Despite claims of grandeur, the only notable \"gadget\" the trio have created is a microwave that has the mystifying power to turn bananas into green goo.\n\nHowever, when Rintarou decides to attend neuroscientist Kurisu Makise's conference on time travel, he experiences a series of strange events that lead him to believe that there is more to the \"Phone Microwave\" gadget than meets the eye. Apparently able to send text messages into the past using the microwave, Rintarou dabbles further with the \"time machine,\" attracting the ire and attention of the mysterious organization SERN.\n\nDue to the novel discovery, Rintarou and his friends find themselves in an ever-present danger. As he works to mitigate the damage his invention has caused to the timeline, he is not only fighting a battle to save his loved ones, but also one against his degrading sanity.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "steinsgate-a4cf",
+      "rating": "PG-13",
+      "year": 2011,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "steinsgate-24a6-sm",
+        "aspectRatio": 0.66,
+        "hq": "steinsgate-24a6-hq"
+      },
+      "genres": ["Drama", "Psychological", "Sci-Fi", "Suspense", "Time Travel"]
+    },
+    {
+      "title": "Boku no Hero Academia 2nd Season",
+      "title_en": "My Hero Academia Season 2",
+      "synopsis": "At UA Academy, not even a violent attack can disrupt their most prestigious event: the school sports festival. Renowned across Japan, this festival is an opportunity for aspiring heroes to showcase their abilities, both to the public and potential recruiters.\n\nHowever, the path to glory is never easy, especially for Izuku Midoriya—whose quirk possesses great raw power but is also cripplingly inefficient. Pitted against his talented classmates, such as the fire and ice wielding Shouto Todoroki, Izuku must utilize his sharp wits and master his surroundings to achieve victory and prove to the world his worth.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "my-hero-academia-season-2-41a4",
+      "rating": "PG-13",
+      "year": 2017,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "my-hero-academia-season-2-5488-sm",
+        "aspectRatio": 0.66,
+        "hq": "my-hero-academia-season-2-5488-hq"
+      },
+      "genres": ["Action", "School", "Shounen", "Super Power"]
+    },
+    {
+      "title": "Naruto: Shippuuden",
+      "title_en": "Naruto Shippuden",
+      "synopsis": "It has been two and a half years since Naruto Uzumaki left Konohagakure, the Hidden Leaf Village, for intense training following events which fueled his desire to be stronger. Now Akatsuki, the mysterious organization of elite rogue ninja, is closing in on their grand plan which may threaten the safety of the entire shinobi world.\n \nAlthough Naruto is older and sinister events loom on the horizon, he has changed little in personality—still rambunctious and childish—though he is now far more confident and possesses an even greater determination to protect his friends and home. Come whatever may, Naruto will carry on with the fight for what is important to him, even at the expense of his own body, in the continuation of the saga about the boy who wishes to become Hokage.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "naruto-shippuden-43fe",
+      "rating": "PG-13",
+      "year": 2007,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "naruto-shippuden-e7d5-sm",
+        "aspectRatio": 0.66,
+        "hq": "naruto-shippuden-e7d5-hq"
+      },
+      "genres": ["Action", "Adventure", "Fantasy", "Martial Arts", "Shounen"]
+    },
+    {
+      "title": "No Game No Life",
+      "title_en": "No Game, No Life",
+      "synopsis": "Sixteen sentient races inhabit Disboard, a world overseen by Tet, the One True God. The lowest of the sixteen—Imanity—consists of humans, a race with no affinity for magic. In a place where everything is decided through simple games, humankind seems to have no way out of their predicament—but the arrival of two outsiders poses a change.\n\nOn Earth, stepsiblings Sora and Shiro are two inseparable shut-ins who dominate various online games under the username \"Blank.\" While notorious on the internet, the pair believe that life is merely another dull game. However, after responding to a message from an unknown user, they are suddenly transported to Disboard. The mysterious sender turns out to be Tet, who informs them about the world's absolute rules. After Tet leaves, Sora and Shiro begin their search for more information and a place to stay, taking them to Elkia—Imanity's only remaining kingdom.\n\nThere, the duo encounters Stephanie Dola, an emotional girl vying for the kingdom's sovereignty. In desperation, she attempts to regain her father's throne, but her foolhardiness makes her goal unachievable. Inspired by the girl's motivation and passion, Sora and Shiro decide to aid Stephanie in getting Elkia back on its feet, ultimately aiming to become the new rulers of the enigmatic realm.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "no-game-no-life-c1d5",
+      "rating": "PG-13",
+      "year": 2014,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "no-game-no-life-5cfb-sm",
+        "aspectRatio": 0.75,
+        "hq": "no-game-no-life-5cfb-hq"
+      },
+      "genres": ["Comedy", "Ecchi", "Fantasy", "Isekai", "Strategy Game"]
+    },
+    {
+      "title": "Jujutsu Kaisen",
+      "title_en": "Jujutsu Kaisen",
+      "synopsis": "Idly indulging in baseless paranormal activities with the Occult Club, high schooler Yuuji Itadori spends his days at either the clubroom or the hospital, where he visits his bedridden grandfather. However, this leisurely lifestyle soon takes a turn for the strange when he unknowingly encounters a cursed item. Triggering a chain of supernatural occurrences, Yuuji finds himself suddenly thrust into the world of Curses—dreadful beings formed from human malice and negativity—after swallowing the said item, revealed to be a finger belonging to the demon Sukuna Ryoumen, the \"King of Curses.\"\n\nYuuji experiences first-hand the threat these Curses pose to society as he discovers his own newfound powers. Introduced to the Tokyo Metropolitan Jujutsu Technical High School, he begins to walk down a path from which he cannot return—the path of a Jujutsu sorcerer.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "jujutsu-kaisen-650f",
+      "rating": "R",
+      "year": 2020,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "jujutsu-kaisen-2836-sm",
+        "aspectRatio": 0.66,
+        "hq": "jujutsu-kaisen-2836-hq"
+      },
+      "genres": ["Action", "Award Winning", "Fantasy", "School", "Shounen"]
+    },
+    {
+      "title": "Shingeki no Kyojin Season 3",
+      "title_en": "Attack on Titan Season 3",
+      "synopsis": "Still threatened by the \"Titans\" that rob them of their freedom, mankind remains caged inside the two remaining walls. Efforts to eradicate these monsters continue; however, threats arise not only from the Titans beyond the walls, but from the humans within them as well.\n\nAfter being rescued from the Colossal and Armored Titans, Eren Yaeger devotes himself to improving his Titan form. Krista Lenz struggles to accept the loss of her friend, Captain Levi chooses Eren and his friends to form his new personal squad, and Commander Erwin Smith recovers from his injuries. All seems well for the soldiers, until the government suddenly demands custody of Eren and Krista. The Survey Corps' recent successes have drawn attention, and a familiar face from Levi's past is sent to collect the wanted soldiers. Sought after by the government, Levi and his new squad must evade their adversaries in hopes of keeping Eren and Krista safe.\n\nEren and his fellow soldiers are not only fighting for their survival against the terrifying Titans, but also against the terror of a far more conniving foe: their fellow humans.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "attack-on-titan-season-3-64c3",
+      "rating": "R",
+      "year": 2018,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "attack-on-titan-season-3-82d4-sm",
+        "aspectRatio": 0.66,
+        "hq": "attack-on-titan-season-3-82d4-hq"
+      },
+      "genres": ["Action", "Drama", "Gore", "Military", "Shounen", "Survival"]
+    },
+    {
+      "title": "Koe no Katachi",
+      "title_en": "A Silent Voice",
+      "synopsis": "As a wild youth, elementary school student Shouya Ishida sought to beat boredom in the cruelest ways. When the deaf Shouko Nishimiya transfers into his class, Shouya and the rest of his class thoughtlessly bully her for fun. However, when her mother notifies the school, he is singled out and blamed for everything done to her. With Shouko transferring out of the school, Shouya is left at the mercy of his classmates. He is heartlessly ostracized all throughout elementary and middle school, while teachers turn a blind eye.\n\nNow in his third year of high school, Shouya is still plagued by his wrongdoings as a young boy. Sincerely regretting his past actions, he sets out on a journey of redemption: to meet Shouko once more and make amends.\n\nKoe no Katachi tells the heartwarming tale of Shouya's reunion with Shouko and his honest attempts to redeem himself, all while being continually haunted by the shadows of his past.",
+      "status": "finished_airing",
+      "type": "movie",
+      "slug": "a-silent-voice-3f3b",
+      "rating": "PG-13",
+      "year": 2016,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "a-silent-voice-8d47-sm",
+        "aspectRatio": 0.7,
+        "hq": "a-silent-voice-8d47-hq"
+      },
+      "genres": ["Award Winning", "Drama", "Romantic Subtext", "Shounen"]
+    },
+    {
+      "title": "One Piece",
+      "title_en": "One Piece",
+      "synopsis": "Gol D. Roger was known as the \"Pirate King,\" the strongest and most infamous being to have sailed the Grand Line. The capture and execution of Roger by the World Government brought a change throughout the world. His last words before his death revealed the existence of the greatest treasure in the world, One Piece. It was this revelation that brought about the Grand Age of Pirates, men who dreamed of finding One Piece—which promises an unlimited amount of riches and fame—and quite possibly the pinnacle of glory and the title of the Pirate King.\n\nEnter Monkey D. Luffy, a 17-year-old boy who defies your standard definition of a pirate. Rather than the popular persona of a wicked, hardened, toothless pirate ransacking villages for fun, Luffy's reason for being a pirate is one of pure wonder: the thought of an exciting adventure that leads him to intriguing people and ultimately, the promised treasure. Following in the footsteps of his childhood hero, Luffy and his crew travel across the Grand Line, experiencing crazy adventures, unveiling dark mysteries and battling strong enemies, all in order to reach the most coveted of all fortunes—One Piece.",
+      "status": "currently_airing",
+      "type": "tv",
+      "slug": "one-piece-0948",
+      "rating": "PG-13",
+      "year": 1999,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "one-piece-2056-sm",
+        "aspectRatio": 0.66,
+        "hq": "one-piece-2056-hq"
+      },
+      "genres": ["Action", "Adventure", "Fantasy", "Shounen"]
+    },
+    {
+      "title": "Code Geass: Hangyaku no Lelouch",
+      "title_en": "Code Geass: Lelouch of the Rebellion",
+      "synopsis": "In the year 2010, the Holy Empire of Britannia is establishing itself as a dominant military nation, starting with the conquest of Japan. Renamed to Area 11 after its swift defeat, Japan has seen significant resistance against these tyrants in an attempt to regain independence.\n\nLelouch Lamperouge, a Britannian student, unfortunately finds himself caught in a crossfire between the Britannian and the Area 11 rebel armed forces. He is able to escape, however, thanks to the timely appearance of a mysterious girl named C.C., who bestows upon him Geass, the \"Power of Kings.\" Realizing the vast potential of his newfound \"power of absolute obedience,\" Lelouch embarks upon a perilous journey as the masked vigilante known as Zero, leading a merciless onslaught against Britannia in order to get revenge once and for all.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "code-geass-lelouch-of-the-rebellion-f653",
+      "rating": "R",
+      "year": 2006,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "code-geass-lelouch-of-the-rebellion-dccb-sm",
+        "aspectRatio": 0.66,
+        "hq": "code-geass-lelouch-of-the-rebellion-dccb-hq"
+      },
+      "genres": ["Action", "Award Winning", "Drama", "Mecha", "Military", "School", "Sci-Fi", "Super Power"]
+    },
+    {
+      "title": "Toradora!",
+      "title_en": "Toradora!",
+      "synopsis": "Ryuuji Takasu is a gentle high school student with a love for housework; but in contrast to his kind nature, he has an intimidating face that often gets him labeled as a delinquent. On the other hand is Taiga Aisaka, a small, doll-like student, who is anything but a cute and fragile girl. Equipped with a wooden katana and feisty personality, Taiga is known throughout the school as the \"Palmtop Tiger.\"\n\nOne day, an embarrassing mistake causes the two students to cross paths. Ryuuji discovers that Taiga actually has a sweet side: she has a crush on the popular vice president, Yuusaku Kitamura, who happens to be his best friend. But things only get crazier when Ryuuji reveals that he has a crush on Minori Kushieda—Taiga's best friend!\n\nToradora! is a romantic comedy that follows this odd duo as they embark on a quest to help each other with their respective crushes, forming an unlikely alliance in the process.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "toradora-37dc",
+      "rating": "PG-13",
+      "year": 2008,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "toradora-d44f-sm",
+        "aspectRatio": 0.66,
+        "hq": "toradora-d44f-hq"
+      },
+      "genres": ["Drama", "Love Polygon", "Romance", "School"]
+    },
+    {
+      "title": "Shigatsu wa Kimi no Uso",
+      "title_en": "Your Lie in April",
+      "synopsis": "Kousei Arima is a child prodigy known as the \"Human Metronome\" for playing the piano with precision and perfection. Guided by a strict mother and rigorous training, Kousei dominates every competition he enters, earning the admiration of his musical peers and praise from audiences. When his mother suddenly passes away, the subsequent trauma makes him unable to hear the sound of a piano, and he never takes the stage thereafter.\n\nNowadays, Kousei lives a quiet and unassuming life as a junior high school student alongside his friends Tsubaki Sawabe and Ryouta Watari. While struggling to get over his mother's death, he continues to cling to music. His monochrome life turns upside down the day he encounters the eccentric violinist Kaori Miyazono, who thrusts him back into the spotlight as her accompanist. Through a little lie, these two young musicians grow closer together as Kaori tries to fill Kousei's world with color.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "your-lie-in-april-9538",
+      "rating": "PG-13",
+      "year": 2014,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "your-lie-in-april-a489-sm",
+        "aspectRatio": 0.66,
+        "hq": "your-lie-in-april-a489-hq"
+      },
+      "genres": ["Drama", "Music", "Romance", "School", "Shounen"]
+    },
+    {
+      "title": "Shingeki no Kyojin Season 3 Part 2",
+      "title_en": "Attack on Titan Season 3 Part 2",
+      "synopsis": "Seeking to restore humanity's diminishing hope, the Survey Corps embark on a mission to retake Wall Maria, where the battle against the merciless \"Titans\" takes the stage once again.\n\nReturning to the tattered Shiganshina District that was once his home, Eren Yeager and the Corps find the town oddly unoccupied by Titans. Even after the outer gate is plugged, they strangely encounter no opposition. The mission progresses smoothly until Armin Arlert, highly suspicious of the enemy's absence, discovers distressing signs of a potential scheme against them. \n\nShingeki no Kyojin Season 3 Part 2 follows Eren as he vows to take back everything that was once his. Alongside him, the Survey Corps strive—through countless sacrifices—to carve a path towards victory and uncover the secrets locked away in the Yeager family's basement.",
+      "status": "finished_airing",
+      "type": "tv",
+      "slug": "attack-on-titan-season-3-part-2-df20",
+      "rating": "R",
+      "year": 2019,
+      "poster": {
+        "formats": ["jpeg", "webp"],
+        "sm": "attack-on-titan-season-3-part-2-11b4-sm",
+        "aspectRatio": 0.66,
+        "hq": "attack-on-titan-season-3-part-2-11b4-hq"
+      },
+      "genres": ["Action", "Drama", "Gore", "Military", "Shounen", "Survival"]
+    }
+  ]
+}

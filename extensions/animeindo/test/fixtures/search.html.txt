@@ -1,0 +1,310 @@
+<!DOCTYPE HTML>
+<html lang="id-ID">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>One Piece - Animeindo</title>
+<meta name="description" content="Hasil pencarian one piece" />
+<meta name="keywords" content="animeindo one piece" />
+<meta name="robots" content="index, follow">
+<meta name="revisit-after" content="1 days">
+<meta name="author" content="Animeindo" />
+<meta name="DC.title" content="One Piece - Animeindo" />
+<meta name="geo.placename" content="Indonesia" />
+<meta name="geo.region" content="ID" />
+<link rel="canonical" href="https://anime-indo.lol/search/one-piece/" />
+<link rel="shortcut icon" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/favicon.png" />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:image" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="One Piece - Animeindo" />
+<meta property="og:description" content="Hasil pencarian one piece" />
+<meta property="og:url" content="https://anime-indo.lol/search/one-piece/" />
+<meta property="og:site_name" content="Animeindo" />
+<meta name="google" content="notranslate" />
+<meta name="robots" content="noarchive" />
+<style>ins.adsbygoogle[data-ad-status=unfilled]{display:none!important}.quickfilter{padding:8px 4px}.quickfilter .filters{position:relative}.quickfilter .filters .filter{width:50%;float:left;box-sizing:border-box;padding:6px;margin:0;display:inline-block;position:relative;border-radius:2px}.quickfilter .filters .filter.submit{float:none;width:100%}.quickfilter .filters .filter.submit button{background:#168CCC;color:#fff;border:1px solid #168CCC}.quickfilter .filters .filter button{font-size:14px;width:100%;color:#555;padding:6px;border-radius:4px;background-color:#f1f1f1;display:inline-block;margin-bottom:0;font-weight:400;text-align:center;vertical-align:middle;touch-action:manipulation;-webkit-appearance:button;cursor:pointer;background-image:none;border:0 solid #279DDD;overflow:visible;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-family:inherit}.quickfilter .filters .filter button:hover{color:#333;background-color:#d0d0d0;border-color:#d0d0d0}.quickfilter .filters .filter.submit button:hover{background:#279DDD!important;color:#FFF!important;border-color:#279DDD!important}.menu .quickfilter .filters .filter ul{right:0;left:0;top:auto;width:auto}.quickfilter .filters .filter ul{width:500px;margin-top:1px!important;padding:10px!important;font-size:13px;position:absolute;display:none;width:auto;z-index:2;min-width:160px;text-align:left;background-color:#fff;border:1px solid rgba(0,0,0,.15);border-radius:3px;box-shadow:0 6px 12px rgb(0 0 0 / 18%);background-clip:padding-box;list-style:none}.quickfilter .filters .filter ul.dropdown-menu.c1 li{width:50%;padding-bottom:8px;float:left}.quickfilter .filters .filter.open ul{display:block}.pag{font-size: 13px;text-align: center;padding: 8px 8px 16px 8px;background: #FFF;}.pag span.cur{background: #279ddd;color: #fff;}.pag span {color: #999;padding: 5px 10px;display: inline-block;background: #eee;}.pag a {padding: 5px 10px;background: #eee;color: #279DDD;display: inline-block;margin: 2px;text-decoration: none;}.pag a:hover {color: #fff;background: #279DDD;}.kaki1 {font-size: 13px;background:#279ddd;padding:7px;color:#ffffff;text-align:center;}.kaki1 a {color:#ffffff;}
+li,ol,p,tr,ul{margin:0}.tableup td,.tableupmati td{vertical-align:middle}.kotakcari,.tableup,.tableupmati{text-align:center}.otable{table-layout:fixed}.ztable{border-bottom: 1px solid #f5f5f5;overflow: hidden;}.notd:hover,.tableup img:hover,input[type=text]{transition:all .5s ease 0s}.list-anime,.videsc{word-wrap:break-word}.detail,.pilih a,p.des{overflow:hidden}.ep a,.pilih a,a{text-decoration:none}.anime-list li,.ep li,.navs li{list-style-type:none}body{background:#E5E5E5;font-family:"Open Sans",sans-serif;font-size:14px;color:#000;margin:0 auto}@media screen and (min-width:1000px){body{background:url(/backg.png)}}a{color:#279DDD}#header{box-shadow:0 0 6px #000;background:#279DDD;height:40px;position:fixed;top:0;width:100%;z-index:100}.logo img{width:150px;height:40px;background-size:150px 40px}li,ol,ul{padding:0;list-style:none}#wasu{margin-top:40px}#content-wrap{max-width:1000px;background:#f6f6f6;margin:auto;padding-bottom:2px;-webkit-box-shadow:0 13px 13px 0 rgba(0,0,0,.4);-moz-box-shadow:0 13px 13px 0 rgba(0,0,0,.4);box-shadow:0 13px 13px 0 rgba(0,0,0,.4)}.tableup a:link,.tableup td a{color:#fff}.tableupmati{margin:auto;width:100%}.tableup td{width:25%;padding:8px}.tableup img:hover{transform:scale(1.1)}.tableup{height:53px;background:#444;border-collapse:collapse;width:100%;padding-top:3px}.tableup td div{padding-top:2px}td.vithumb img{width:90px;height:120px}.videsc b{color:#c00}.otable td{background-color:#fff;padding:8px;color:#000;vertical-align:top}.otable td a,.otable td:link,.ztable td:link{color:#279DDD}.otable td a{font-size:14px;font-weight: bold;}.notd:hover{background:#282828;text-transform:uppercase;opacity:.9}.kotakcari{background:#279DDD;color:#fff;padding:10px}.ztable td{background-color:#fff;font-size:small;padding:4px;color:#333;vertical-align:top}.ztable td a,h2{font-size:13px;font-weight: bold;}.info,.list-anime img,.title{vertical-align:middle}td.zvidesc{padding-top:6px}td.videsc{padding-top:4px}.ztable td a{color:#279DDD}td.zvithumb img{padding:1px 0;border:2px solid #fff;width:50px;height:52px;border-radius:6px}h2,p.des{padding:0;margin:0}p.des{text-overflow:ellipsis;display:-webkit-box;display:-moz-box;display:box;-webkit-line-clamp:5;-moz-line-clamp:3;-line-clamp:3;-webkit-box-orient:vertical}input[type=text]{width:70%;height:34px;padding-left:6px;border-radius:10px 0 0 10px;color:#000;border-left:2px solid #168CCC;border-top:2px solid #168CCC;border-bottom:2px solid #168CCC;border-right:0;background:rgba(255,255,255,.3);margin-bottom:2px}input[type=text]:focus{background:rgba(255,255,255,.5);transition:all .5s ease .5s}input[type=submit]{padding:0 8px;height:40px;background:#168CCC;color:#fff;border:0;cursor:pointer;border-radius:0 5px 5px 0}input[type=submit]:hover{background:#168CCC;transition:all .1s ease .1s}.menu{background-color:#fff;margin-bottom:2px;padding:6px;color:#000}.list-anime{position:relative;padding:12px;background:#fff;margin-top:1px;margin-bottom:3px;width:130px;display:inline-table}.list-anime p,.list-anime span{position:absolute;text-align:center}.list-anime img{background:#f5f5f5;width:130px;height:183px}.list-anime p{display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;background:-moz-linear-gradient(top,rgba(0,0,0,0) 0,rgba(0,0,0,.65) 51%,rgba(0,0,0,.65) 100%);background:-webkit-linear-gradient(top,rgba(0,0,0,0) 0,rgba(0,0,0,.65) 51%,rgba(0,0,0,.65) 100%);background:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.65) 51%,rgba(0,0,0,.65) 100%);left:0;bottom:0;color:#FFF;text-shadow:-1px -1px 5px #000, 1px -1px 5px #000, -1px 1px 5px #000, 0 3px 2px #000;padding:5px;margin:12px;width:120px;border-bottom:.25rem solid #168CCC!important}.detail li,.detail li a,.title{color:#fff}.list-anime span{overflow:hidden;background:#279ddd;right:12px;color:#fff;padding:0 7px;line-height:28px;font-size:11px;font-weight:800;transition:.3s;}.list-anime img:hover{opacity:.7}@media screen and (min-width:720px){.menu{margin:0 8px 8px;-moz-border-radius:0 0 10px 10px;-webkit-border-radius:0 0 10px 10px;border-radius:0 0 10px 10px;border:1px solid #168CCC}.title{margin:8px 8px 0;-moz-border-radius:10px 10px 0 0;-webkit-border-radius:10px 10px 0 0;border-radius:10px 10px 0 0}.quickfilter .filters .filter{width:20%;}.quickfilter .filters .filter.submit{float:left;width:20%;}}@media screen and (max-width:719px){.menu,h1.title,h2.title{margin:0}}.title{font-weight:400;background:#168CCC;background-image:linear-gradient(to bottom,#168ccc,#279ddd);padding:13px;font-size:16px}.detail{padding:2px}.detail img{float:left;display:block;margin:4px 6px 0 0;width:95px;height:135px}.detail li,.ep a{display:inline-block}.detail li{background:#168ccc;padding:3px;margin:2px 0;border-radius:3px}.detail li:hover{background:#279ddd}.detail p{margin:4px 4px 0 0}.ep{padding:4px;text-align:center}.ep a{padding:6px;margin:4px;background:#fff;border:3px solid #279ddd;color:#555;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px}.letter,.pilih a{background:#279ddd}.ep a:hover{opacity:.6;border:3px solid #92a1aa}.ep li a,.ep li a:hover{border:0;padding:5px}.ep strong{display:block;margin-bottom:10px}.ep li{text-align:left;margin:5px 10px}#footer,.navi a,.pilih,.server{text-align:center}.ep li a{color:#279ddd}.letter{margin-top:5px;color:#fff;font-weight:700;padding:8px 4px}.anime-list li{padding:6px;color:#444;border-bottom:1px dotted #dbdbdb}.list-genre a,.pilih a{color:#fff;margin:2px;display:inline-block}.pilih{padding:6px}.pilih a{padding:4px 8px;border:2px solid #279ddd;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px}.pilih a:hover{background:#168ccc;border:2px solid #168ccc}.list-genre a{background:#279ddd;padding:3px;border:1px solid #279ddd;border-radius:3px}.list-genre a:hover{background:#168ccc}.bungkus{margin:10px 0}.info{padding:8px;color:#00529B;margin:6px 0;border:2px solid #279DDD;background-color:#BDE5F8}.servers{padding:2px}.servers a{color:#fff}.server.cur{min-width:60px;padding:5px;border:0 solid orange;background:#FDB813}.server,input.server{min-width:60px;padding:5px;background:#279ddd;display:inline-block;color:#fff}.server.cur a{color:#fff}form{display:block}input.server{margin:2px;height:29px;-webkit-appearance:none;-webkit-border-radius:0}.server{margin:1px}input{font-size:14px;border:0}.nav{margin-top:6px}.label,.labels,.navi a{border-radius:6px;margin:2px 0}.navi a{padding:6px;color:#fff;background:#168ccc;display:block}.navi a:hover{background:#279ddd}.navs li{padding:5px 15px;color:#444}.label,.labels{font-size:small;background:#168CCC;display:inline-block;padding:2px 3px;color:#fff}.label:hover,.labels:hover{background:#279DDD}#footer{background:#168CCC;padding:7px;color:#fff}.nonton{overflow: hidden;position: relative;max-width: 100%;height: 0;padding-bottom: 57.4%;margin-bottom: 6px;}#tontonin {background: url(https://3.bp.blogspot.com/-_j2femVzAgs/VsjUZLtusTI/AAAAAAAAAIE/o_TAz6lia-o/s120/ajax-loader2.gif) center;background-repeat: no-repeat;background-size: 5%;}#tontonin {z-index: 99;position: absolute;border: none;width: 100%!important;height: 100%!important;top: 0;left: 0;margin: 0;padding: 0;}@media screen and (min-width:1000px){.nganan,.ngiri{display:table-cell}.nganan{margin-left:14px;width:35%;vertical-align:top}.ngiri{width:65%}}</style>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/lazyload.min.js"></script>
+<script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var z=window,t="d846c31cb6bd1da27bed9edcc0721183",q=[["siteId",664+448*397-262-22+4905288],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],p=["d3d3LmludGVsbGlwb3B1cC5jb20vcHZpZGVvanMtY2hyb21lY2FzdC5taW4uY3Nz","ZDNtcjd5MTU0ZDJxZzUuY2xvdWRmcm9udC5uZXQvZ0txREl4L25wdWJzdWIubWluLmpz","d3d3LmVocGpjamJxb3BsZ21tLmNvbS9ydmlkZW9qcy1jaHJvbWVjYXN0Lm1pbi5jc3M=","d3d3Lm9xaGJneHZrLmNvbS9UV0VFZy9pcHVic3ViLm1pbi5qcw=="],i=-1,d,o,v=function(){clearTimeout(o);i++;if(p[i]&&!(1816270617000<(new Date).getTime()&&1<i)){d=z.document.createElement("script");d.type="text/javascript";d.async=!0;var k=z.document.getElementsByTagName("script")[0];d.src="https://"+atob(p[i]);d.crossOrigin="anonymous";d.onerror=v;d.onload=function(){clearTimeout(o);z[t.slice(0,16)+t.slice(0,16)]||v()};o=setTimeout(v,5E3);k.parentNode.insertBefore(d,k)}};if(!z[t]){try{Object.freeze(z[t]=q)}catch(e){}v()}})();
+/*]]>/* */
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5TEYKRYQF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Q5TEYKRYQF');
+</script>
+</head>
+<body>
+<div id="header"><div class="logo"><a href="/"><img src="/logos.png" alt="animeindo"></a></div></div>
+<div id="wasu">
+<div id="content-wrap">
+<table border="0" class="tableup"><tbody><tr><td class="notd">
+<a href="/anime-list/"> <div style="height:100%;width:100%">
+<img src="/list.png" alt="anime list" height="32px"><br>List</div></a></td><td class="notd"> <a href="/list-genre/">
+<div style="height:100%;width:100%">
+ <img src="/tv.png" alt="genre list" height="32px"><br>Genre</div></a></td>  <td class="notd"> <a href="/movie/"> <div style="height:100%;width:100%">
+<img src="/video.png" alt="anime movi" height="32px"><br>Movie</div></a></td><td class="notd"> <a href="/jadwal/"> <div style="height:100%;width:100%">
+<img src="/jadwal.png" alt="jadwal rilis anime" height="32px"><br> Jadwal</div></a></td></tr></tbody></table>
+<div class="kotakcari">
+    <form action="/search.php" style="display:block;">
+            <input type="text" name="q" autocomplete="off"><input type="submit" value="Search"><br>
+    </form>
+</div>
+<div class="title">Hasil Pencarian: One Piece</div>
+<div class="menu"><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece/"><img src="/img/135253l.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece/"> One Piece </a><br> <span class="label">TV </span> <span class="label"> 24 min. </span> <span class="label"> 1999 </span><br/>
+<p class="des">Gol D. Roger dikenal sebagai “Raja Bajak Laut,” terkuat dan paling terkenal yang telah berlayar di Grand Line. Penangkapan dan kematian Roger oleh Pemerintah Dunia membawa perubahan di seluruh dunia. Kata-kata terakhirnya sebelum kematiannya mengungkapkan keberadaan harta terbesar di dunia, yaitu One Piece. kata2 tersebut membawa dan menjadi Era bajak laut, siapapun pria yang bermimpi untuk menemukan One Piece-yang menjanjikan jumlah yang tidak terbatas dari kekayaan dan ketenaran-dan sangat mungkin puncak kemuliaan dan gelar Raja Bajak Laut.
+Seorang Pria bernama Monkey D. Luffy, adalah seorang anak 17 tahun yang menentang definisi standar dari bajak laut. tidak tertarik aka pesona, kepopuleran dan tdak berbuat jahat, ada suatu mengapa alasan Luffy menjadi bajak laut adalah salah satu keajaiban murni: pemikiran dari sebuah petualangan menarik yang mendorongnya untuk harta yang dijanjikan. Mengikuti jejak pahlawan masa kecilnya, Luffy dan perjalanan krunya di Grand Line, ini adalah petualangan yg benar2 gila, misteri dan memerangi musuh yang kuat, semua untuk mencapai paling didambakan kekayaan-One Piece.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-3d-mugiwara-chase/"><img src="/img/32455.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-3d-mugiwara-chase/"> One Piece 3D: Mugiwara Chase </a><br> <span class="label">Movie </span> <span class="label"> 30 min. </span> <span class="label"> 2011 </span><br/>
+<p class="des">Menurut Weekly Shonen Jump, film 3D One Piece dan Toriko diumumkan akan ditayangkan pada 19 Maret 2011. One Piece 3D adalah kisah orisinal tentang topi jerami Luffy yang hilang.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-3d2y-ace-no-shi-wo-koete-luffy-nakama-tono-chikai/"><img src="/img/64755.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-3d2y-ace-no-shi-wo-koete-luffy-nakama-tono-chikai/"> One Piece 3D2Y: Ace no shi wo Koete! Luffy Nakama Tono Chikai </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 47 min. </span> <span class="label"> 2014 </span><br/>
+<p class="des">One Piece 3D2Y menceritakan tentang latihan Luffy bersama Rayleigh di Pulau Ruskaina setelah Perang Besar Marineford, yang belum pernah diceritakan dalam manga atau serial anime TV. Di sana juga ditampilkan penjahat baru bernama Burndy World yangdikenal sebagai “Sang Penghancur Dunia” dan memiliki kekuatan Buah More More (kemampuannya masih belum diketahui). Luffy harus melindungi Boa Hancock dari musuh baru yang melarikan  dari penjara level 6 Impel Down. Karakter baru ini baru saja dirancang oleh pencipta asli dari manga One Piece yaitu Eiichiro Oda.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-films-gold/"><img src="/img/81081.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-films-gold/"> One Piece Film: Gold </a><br> <span class="label">Movie </span> <span class="label"> 2 hr. </span> <span class="label"> 2016 </span><br/>
+<p class="des">Dalam One Piece Film Gold, The Straw Hats kembali terlibat dalam petualangan terbang tinggi yang baru! Sebuah kisah mencekam terungkap di kota Gran Tesoro yang spektakuler, tempat Luffy dan krunya tertarik oleh mimpi-mimpi mengenai jackpot. Dengan begitu banyak keberuntungan, kemenangan beruntun Luffy tidak mungkin berakhir. Namun di balik gorden berlapis emas terletak seorang raja yang kuat yang kantongnya dalam dan ambisi yang lebih dalam memunculkan bencana bagi semua.
+(Sumber: FUNimation)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-film-red/"><img src="/img/124722l.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-film-red/"> One Piece Film: Red </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 55 min. </span> <span class="label"> 2022 </span><br/>
+<p class="des">Uta, seorang penyanyi terkenal yang merahasiakan identitasnya. Suatu hari, konser live akan diadakan di mana ia akan muncul di hadapan dunia untuk pertama kali. Acaranya menjadi topik hangat yang diperbincangkan oleh bajak laut, maupun angkatan laut, dan tentu saja Luffy bersama teman-temannya. Hari pertunjukan live tiba, suara Uta menggema di seluruh penjuru dunia…</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-film-strong-world/"><img src="/img/75894.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-film-strong-world/"> One Piece Film: Strong World </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 55 min. </span> <span class="label"> 2009 </span><br/>
+<p class="des">Setelah mendengar berita bahwa pulau-pulau di East Blue sedang dihancurkan, Monkey D. Luffy dan krunya pergi untuk menyelidiki. Dalam perjalanan, bagaimanapun, sebuah kapal bajak laut yang aneh muncul dari langit, dipimpin oleh bajak laut terkenal Shiki “the Golden Lion” —s seorang pria yang memakan Buah Apung-Apung dan tahanan pertama yang melarikan diri dari Impel Down. Dalam usahanya untuk mengalahkan Pemerintah Dunia, Shiki menculik Nami untuk menjadi navigatornya sendiri dan mengirim sisa Bajak Laut Topi Jerami ke pulau-pulau terapungnya sebagai sandera, meninggalkannya dalam dilema. Terpisah di tanah di bawah kendali mutlak Shiki, Luffy dan krunya harus selamat dari medan yang membingungkan untuk membawa kembali navigator dan teman mereka.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-film-strong-world-episode-0/"><img src="/img/24152.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-film-strong-world-episode-0/"> One Piece Film: Strong World Episode 0 </a><br> <span class="label">OVA </span> <span class="label"> 18 min. </span> <span class="label"> 2010 </span><br/>
+<p class="des">Kisah 20 Tahun sebelum cerita utama One Piece, menceritakan perselisihan antara Shiki dengan Roger.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-film-z/"><img src="/img/44297.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-film-z/"> One Piece Film: Z </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 47 min. </span> <span class="label"> 2012 </span><br/>
+<p class="des">Bajak Laut Topi Jerami memasuki lautan kasar Dunia Baru untuk mencari harta karun Raja Bajak Laut, Gol D. Roger － One Piece. Dalam perjalanan mereka, para perompak menemukan seorang lelaki yang kuat dan menakutkan, mantan Laksamana Marinir Z.
+Z dituduh telah mencuri “Batu Dyna”, senjata yang diyakini memiliki kekuatan untuk mengguncang Dunia Baru. Markas Besar Marinir percaya Z akan menggunakannya untuk mengakhiri era bajak laut, dan dengan itu, kehidupan banyak orang tak bersalah. Karena takut akan peristiwa fenomenal seperti itu, marinir mulai mengambil tindakan terhadap mantan laksamana itu.
+Bahkan jika itu berarti menemukan marinir dan angkatan laut, Bajak Laut Topi Jerami memutuskan untuk mengejar Z dan menghentikannya dari menyebabkan kekacauan. Ketika mereka terus memulai usaha mereka, para perompak bertemu dengan kenalan baru dan akrab.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-14-stampede/"><img src="/img/100550.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-14-stampede/"> One Piece Movie 14: Stampede </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 41 min. </span> <span class="label"> 2019 </span><br/>
+<p class="des">One Piece Stampede Sub Indo adalah movie ke-14 dari serial anime One Piece. Di Jepang sendiri movie ini rilis pada tanggal 9 Agustus 2019 sebagai peringatan dari 20 tahun tayangnya serial animenya. Mangaka-nya sendiri yaitu Eichiro Oda mengawasi pengerjaan proyek movie ini. Dan film ini mengambil seting waktu dan tempat pada Festival Bajak Laut. Dengan jargon “Diselenggarakan oleh bajak laut untuk para bajak laut.”. Di mana seluruh bajak laut termasuk bajak laut terkenal berkumpul di satu tempat untuk mengikuti perburuan harta karun terbesar yaitu sebuah harta karun yang hilang dari sang Raja Bajak Laut. Dan pemrakarsa dari festival bajak laut ini adalah sosok bernama Buena Festa. Festa yang harusnya sudah mati, ternyata masih hidup dan mengadakan festival ini. Tak hanya itu saja, ia bahkan dirumorkan bekerja sama dengan sosok terkenal yang bahkan diwaspadai oleh Angkatan Laut yaitu Douglas Bullet. Douglas Bullet pun harusnya juga terpenjara di Impel Down. Dia di kenal sebagai sosok yang memiliki kekuatan setara atau bahkan lebih kuat dari Silvers Rayleigh. Entah apa yang direncanakan Festa dalam festival bajak laut ini. Yang jelas ia mengundang seluruh bajak laut di dunia, bahkan Angkatan Laut yang seharusnya tak undang pun juga ikut serta. Luffy dan teman-temannya tak tahu menahu mengenai hal ini, karena mereka hanya tertarik dengan festival yang ada kaitannya dengan harta karun Raja Bajak Laut. Dan di festival ini seluruh Bajak Laut Generasi Terburuk berkumpul. Akan seperti apakah festival besar para bajak laut ini? Dan apakah modus yang Festa rencanakan?</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-2-nejimaki-jima-no-daibouken/"><img src="/img/3299.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-2-nejimaki-jima-no-daibouken/"> One Piece Movie 2: Nejimaki-jima no Daibouken </a><br> <span class="label">Movie </span> <span class="label"> 55 min. </span> <span class="label"> 2001 </span><br/>
+<p class="des">Diinformasikan oleh Thief Brothers, kapalnya telah dicuri oleh Trump Kyoudai (Trump Bersaudara) yang telah mendirikan pangkalan di Pulau Clockwork. Monkey D. Luffy, Kapten Going Merry dan calon Raja Bajak Laut bekerja dengan krunya – Ussop, Zoro, Sanji dan Nami untuk bertempur di Clockwork Island untuk merebut kembali kapal mereka.
+(Sumber: JST)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-3-chinjuu-jima-no-chopper-oukoku/"><img src="/img/6937.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-3-chinjuu-jima-no-chopper-oukoku/"> One Piece Movie 3: Chinjuu-jima no Chopper Oukoku </a><br> <span class="label">Movie </span> <span class="label"> 55 min. </span> <span class="label"> 2002 </span><br/>
+<p class="des">Para kru tiba di Pulau Crown di mana para hewan dapat berbicara dan mereka menjadikan Chopper sebagai raja baru mereka. Tetapi ada pemburu manusia di sana juga mencari tanduk legendaris yang akan memberi orang yang mengkonsumsinya kekuatan besar. Luffy dan teman-temannya harus menghentikan mereka dari menghancurkan kerajaan hewan ini.
+(Sumber: JST)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-4-dead-end-no-bouken/"><img src="/img/20924.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-4-dead-end-no-bouken/"> One Piece Movie 4: Dead End no Bouken </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 35 min. </span> <span class="label"> 2003 </span><br/>
+<p class="des">Luffy dan kru tiba di pelabuhan Anabaru. Kasino lokal mengadakan kompetisi di mana pemenang akan mendapatkan hadiah uang besar jika dia mencapai garis akhir terlebih dahulu. Nami sangat gembira dan memutuskan untuk berpartisipasi dalam kompetisi. Namun, ada konspirasi di balik kompetisi dan dalang adalah seorang komandan militer, Gasparde. Rencananya adalah untuk memikat semua perompak ke pangkalan militer dan mengirim mereka ke kematian mereka. Luffy dan geng harus mengatasi berbagai ujian dan kesengsaraan di sepanjang jalan untuk menyelesaikan petualangan buntu ini.
+(Sumber: JST)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-5-norowareta-seiken/"><img src="/img/25413.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-5-norowareta-seiken/"> One Piece Movie 5: Norowareta Seiken </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 35 min. </span> <span class="label"> 2004 </span><br/>
+<p class="des">Luffy dan kru pergi ke sebuah pulau mencari pedang legendaris, dikatakan sebagai yang paling mahal di dunia. Segera menyerang marinir dan gadis-gadis cantik membelah kru. Zoro mengkhianati para kru untuk membantu seorang teman lama, Luffy dan Usopp berkeliaran di sebuah gua, dan sisanya membantu perkelahian desa melawan marinir. Ketika Zoro mengalahkan Sanji, ia mengambil mutiara suci yang merupakan satu-satunya pertahanan melawan pedang jahat yang akan menjerumuskan dunia ke dalam kegelapan.
+(Sumber: JST)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-6-omatsuri-danshaku-to-himitsu-no-shima/"><img src="/img/25415.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-6-omatsuri-danshaku-to-himitsu-no-shima/"> One Piece Movie 6: Omatsuri Danshaku to Himitsu no Shima </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 31 min. </span> <span class="label"> 2005 </span><br/>
+<p class="des">Awak Topi Jerami mendapatkan iklan untuk sebuah pulau rekreasi di Grand Line yang dikelola oleh Baron Omatsuri. Luffy memutuskan untuk mengambil kesempatan ini untuk menendang dan bersantai. Sayangnya, ketika mereka tiba di pulau itu, mereka diminta untuk bersaing dalam kontes melalui persatuan untuk akses ke relaksasi. Namun, tampaknya ada suasana misterius di pulau itu, ketika Bajak Laut Topi Jerami mulai bertarung di antara mereka sendiri, sementara Robin, Chopper, dan Luffy secara individual mencari rahasia di balik pulau Baron Omatsuri.
+(Sumber: JST)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-7-karakuri-jou-no-mecha-kyohei/"><img src="/img/20927.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-7-karakuri-jou-no-mecha-kyohei/"> One Piece Movie 7: Karakuri-jou no Mecha Kyohei </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 34 min. </span> <span class="label"> 2006 </span><br/>
+<p class="des">Awak Topi Jerami menyelamatkan peti harta karun dari bangkai kapal yang tenggelam, di dalamnya mereka menemukan seorang wanita tua. Untuk mendapatkan bajak laut untuk membawanya pulang, dia menjanjikan mereka harta mahkota emas di pulau itu: Pulau Mecha. Setelah tiba, para kru diserang oleh penguasa pulau tetapi dia memiliki perubahan hati dan memutuskan untuk mencari bantuan mereka untuk memecahkan misteri Mahkota Emas.
+(Sumber: JST, diedit)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-8-episode-of-alabasta-sabaku-no-oujo-to-kaizoku-tachi/"><img src="/img/21760.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-8-episode-of-alabasta-sabaku-no-oujo-to-kaizoku-tachi/"> One Piece Movie 8: Episode of Alabasta – Sabaku no Oujo to Kaizoku-tachi </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 30 min. </span> <span class="label"> 2007 </span><br/>
+<p class="des">Menceritakan kembali arc Alabasta.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-movie-9-episode-of-chopper-plus-fuyu-ni-saku-kiseki-no-sakura/"><img src="/img/25414.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-movie-9-episode-of-chopper-plus-fuyu-ni-saku-kiseki-no-sakura/"> One Piece Movie 9: Episode of Chopper Plus – Fuyu ni Saku, Kiseki no Sakura </a><br> <span class="label">Movie </span> <span class="label"> 1 hr. 53 min. </span> <span class="label"> 2008 </span><br/>
+<p class="des">Film ini menceritakan kembali tentang busur Arc Drum dengan musik dan animasi baru. Vivi telah dihapus dari plot sementara Nico Robin dan Franky, yang bergabung dengan kru setelah Arc Pulau Drum, telah ditambahkan. Film ini juga memiliki kapal baru Topi Jerami, Thousand Sunny. Telah dinyatakan bahwa Oda akan menciptakan karakter baru untuk film ini, kakak laki-laki Wapol, Mushul, yang juga tampaknya menjadi pengguna Buah Iblis.
+(Sumber: Wikipedia)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-adventure-of-nebulandia/"><img src="/img/77050.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-adventure-of-nebulandia/"> One Piece: Adventure of Nebulandia </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 46 min. </span> <span class="label"> 2015 </span><br/>
+<p class="des">This special will have the Straw Hats fight Foxy again in the New World on Nebulandia, an island that nullifies Devil Fruit powers.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-episode-of-east-blue-luffy-to-4-nin-no-nakama-no-daibouken/"><img src="/img/87473.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-episode-of-east-blue-luffy-to-4-nin-no-nakama-no-daibouken/"> One Piece: Episode of East Blue – Luffy to 4-nin no Nakama no Daibouken </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 46 min. </span> <span class="label"> 2017 </span><br/>
+<p class="des">Kata-kata yang Gold Roger, Raja Pirates, diucapkan sebelum kematiannya membangkitkan semangat massa dan dunia telah memasuki Era Pirate Agung! Ada sekelompok bajak laut muda yang hendak berlayar di Grand Line. Monkey D. Luffy, seorang pria karet. Roronoa Zoro alias “Bajak Laut Hunter.” Usopp, seorang penembak jitu. Sanji, juru masak pelaut. Dan “Cat Burglar” Nami. Mereka, Topi Jerami, semua menempatkan kaki di atas tong dan membuat sumpah mereka sebelum perjalanan mereka berikutnya melintasi samudra besar. Luffy berteriak “Untuk menjadi Raja Pirates!” Satu dekade yang lalu di Windmill Village … Seorang anak laki-laki kecil Luffy terpesona dengan bos bajak laut Red-Haired Shanks. Tapi sekelompok bandit gunung muncul dan mengolok-olok para bajak laut. “Kenapa kamu tidak melawan mereka ?!” Luffy berteriak dengan marah tapi Shanks mengatakan bahwa tidak ada gunanya marah. Pada saat itu, Luffy merampas Buah Gum-Gum dari kotak harta karun dan memakannya dan akibatnya, seluruh tubuhnya menjadi karet dan dia kehilangan kemampuan untuk berenang sepanjang sisa hidupnya! Beberapa hari kemudian, Luffy dikelilingi oleh bandit gunung lagi dan Shanks datang untuk membantu. “Tidak peduli apa alasannya, siapa pun yang menyakiti teman saya harus membayar !!” Shanks dan kru bajak lautnya sangat kuat dan mereka mengalahkan para bandit gunung. Higuma, kepala bandit gunung, melarikan diri dari penculikan Luffy dan menuju ke laut. Namun, mereka bertemu dengan Monster Laut lokal di sana dan diserang. Luffy dalam situasi putus asa … Tapi sekali lagi, Shanks menghemat hari itu. Dia mengalahkan Monster Laut dan mengusirnya tapi dengan imbalan, dia kehilangan lengan kirinya … Ketika Shanks meninggalkan desa, dia meninggalkan topi jerami dengan Luffy. “Ayo bawa kembali ke saya suatu hari nanti! Setelah Anda menjadi bajak laut yang hebat! “10 tahun kemudian, Luffy telah tumbuh dengan kuat dan dia berangkat untuk sebuah petualangan di sebuah kapal kecil. Dia kembali bertemu dengan Monster Laut setempat untuk hari yang menentukan itu. Namun, Luffy menurunkannya dengan satu pukulan Gum-Gum Pistol. Perjalanan Luffy untuk menjadi Raja Pirates sekarang dimulai!</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-episode-of-luffy-hand-island-no-bouken/"><img src="/img/52463.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-episode-of-luffy-hand-island-no-bouken/"> One Piece: Episode of Luffy – Hand Island no Bouken </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 42 min. </span> <span class="label"> 2012 </span><br/>
+<p class="des">Bersetting di New World disebuah kota bernama “Cannon” disana semua orang tua dan anaknya bekerja sebagai pengrajin, cerita sebelum movie One Piece Film Z.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-episode-of-merry-mou-hitori-no-nakama-no-monogatari/"><img src="/img/61015.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-episode-of-merry-mou-hitori-no-nakama-no-monogatari/"> One Piece: Episode of Merry – Mou Hitori no Nakama no Monogatari </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 46 min. </span> <span class="label"> 2013 </span><br/>
+<p class="des">Menceritakan kisah kapal pertama crew topi jerami “Going Merry”.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-episode-of-nami-koukaishi-no-namida-to-nakama-no-kizuna/"><img src="/img/41415.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-episode-of-nami-koukaishi-no-namida-to-nakama-no-kizuna/"> One Piece: Episode of Nami – Koukaishi no Namida to Nakama no Kizuna </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 46 min. </span> <span class="label"> 2012 </span><br/>
+<p class="des">Menceritakan kisah Nami saat Arlong Park Arc dengan animasi baru.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-episode-of-sabo-3-kyoudai-no-kizuna-kiseki-no-saikai-to-uketsugareru-ishi/"><img src="/img/75887.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-episode-of-sabo-3-kyoudai-no-kizuna-kiseki-no-saikai-to-uketsugareru-ishi/"> One Piece: Episode of Sabo – 3 Kyoudai no Kizuna Kiseki no Saikai to Uketsugareru Ishi </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 46 min. </span> <span class="label"> 2015 </span><br/>
+<p class="des">Episode spesial ini akan membahas kembali tentang masa kecil tiga bersaudara yang telah bertukar cawan yaitu Luffy, Ace, dan Sabo, saat mereka semua bermimpi menjadi bajak laut. Selain itu, akan menceritakan juga tentang bagaimana Sabodatang ke kerajaan Dressrosa (yang tidak digambarkan dalam manga asli karanganEiichiro Oda atau dalam serial tv animenya), serta pertemuan kembali dengan Luffy menurut sudut pandang Sabo.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-episode-of-sorajima/"><img src="/img/92968.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-episode-of-sorajima/"> One Piece: Episode of Sorajima </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 45 min. </span> <span class="label"> 2018 </span><br/>
+<p class="des">Episode spesial yang menceritakan awalan dari arc pulau langit dan akan memunculkan beberapa karakter yang tidak ada dalam anime di arc pulau langit.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-heart-of-gold/"><img src="/img/80109.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-heart-of-gold/"> One Piece: Heart of Gold </a><br> <span class="label">Special </span> <span class="label"> 1 hr. 44 min. </span> <span class="label"> 2016 </span><br/>
+<p class="des">Berisi one piece episode spesial, menceritakan apa yang tidak diceritakan di dalam serial TV utamanya.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-mamore-saigo-no-dai-butai/"><img src="/img/77108.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-mamore-saigo-no-dai-butai/"> One Piece: Mamore! Saigo no Dai Butai </a><br> <span class="label">Special </span> <span class="label"> 45 min. </span> <span class="label"> 2003 </span><br/>
+<p class="des">Sudah bertahun-tahun mantan angkatan laut Letnan Randolph dan krunya bermain drama diatas kapal. Randolph bermain drama untuk menyemangati orang-orang yang kehilangan keluarganya karena ulah bajak laut seperti dirinya. Sayangnya, dia harus segera pensiun dan akan mengelar pentas terakhirnya, Luffy dan krunya datang untuk menonton pertunjukan itu dan entah bagaimana malah mendapatkan peran. Tapi mantan bawahan randolph yang masih menyimpan dendam padanya datang untuk menangkapnya. Ini saatnya bagi Luffy dan kawan-kawan untuk menunjukkan pada orang-orang bahwa tidak semua bajak laut itu jahat dengan cara melindungi pentas drama terakhir yang akan dilakukan oleh Randolph.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-nenmatsu-tokubetsu-kikaku-mugiwara-no-luffy-oyabun-torimonochou/"><img src="/img/21651.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-nenmatsu-tokubetsu-kikaku-mugiwara-no-luffy-oyabun-torimonochou/"> One Piece: Nenmatsu Tokubetsu Kikaku! Mugiwara no Luffy Oyabun Torimonochou </a><br> <span class="label">Special </span> <span class="label"> 42 min. </span> <span class="label"> 2005 </span><br/>
+<p class="des">Di dunia alternatif yang mirip dengan Jaman Edo di Jepang, Luffy adalah anggota polisi. Ada 2 kisah dalam cerita ini, yang pertama saat Buggy membuat onar di kota dan yang kedua ketika seorang gadis misterius yang bernama Vivi muncul.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-oounabara-ni-hirake-dekkai-dekkai-chichi-no-yume/"><img src="/img/20850.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-oounabara-ni-hirake-dekkai-dekkai-chichi-no-yume/"> One Piece: Oounabara ni Hirake! Dekkai Dekkai Chichi no Yume! </a><br> <span class="label">Special </span> <span class="label"> 46 min. </span> <span class="label"> 2003 </span><br/>
+<p class="des">Cerita dimulai diatas kapal bajak laut Zap, dimana dua anak buahnya Bonnie dan Max ingin melarikan diri tapi sayang mereka tidak punya uang. Tiga anak yang ditawan di kapal itu pun mendengarnya, yang paling tua bernama Amanda ayahnya adalah seorang pemburu harta karun, dia mengetahui letak harta karun dan menawarkan sebuah kesepakatan. Jika mereka mau membantu ketiga orang itu melarikan diri mereka boleh mengambil semua harta karun yang mereka mau. Mereka berlima nyaris gagal untuk melarikan diri dan terdampar di sebuah pulau kecil dimana mereka bertemu dengan luffy dan krunya. Tapi ternyata mereka dikejar, Luffy dan Amanada pun tertangkap dan dibawa untuk menghadap pemimpin dari bajak laut Bayan yang ternyata juga mengincar harta karun tersebut. Luffy dan krunya harus bertarung dengan bajak laut Bayan dan menemukan harta karun yang ditinggalkan ayah Amanda untuk anak-anaknya. Amanda yang selama ini sangat benci dengan petualang dan harta karun karena ayahnya yang selalu pergi meninggalkannya, perlahan-lahan mulai mengerti perasaan sang ayah.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-romance-dawn-story/"><img src="/img/11300.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-romance-dawn-story/"> One Piece: Romance Dawn Story </a><br> <span class="label">OVA </span> <span class="label"> 33 min. </span> <span class="label"> 2008 </span><br/>
+<p class="des">Bajak Laut Topi Jerami, mencari petunjuk tentang “Grand Line” sedang berada dalam masalah karena stok makanan mereka habis!! Luffy pun berinisiatif mencari makanan sendiri, dia menemukan sebuah kapal bajak laut milik Gary dan mengambil alihnya!
+Saat tiba di kota Luffy diserang oleh gadis kecil bernama Silk yang mengira bahwa dia alah anggota kelompok bajak laut yang jahat. Saat mereka makan, mereka pun bertukar cerita tentang kisah mereka masing-masing, sementara itu Gary dan krunya yang marah karena tindakan Luffy melampiaskannya kepada para penduduk kota yang tidak berdaya!</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-taose-kaizoku-ganzack/"><img src="/img/37647.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-taose-kaizoku-ganzack/"> One Piece: Taose! Kaizoku Ganzack </a><br> <span class="label">OVA </span> <span class="label"> 28 min. </span> <span class="label"> 1998 </span><br/>
+<p class="des">Saat Luffy, Nami dan Zoro kelaparan di atas kapal kecil mereka, tiba-tiba saja monster besar menyerang dan membawa pergi Nami. Sementara itu Luffy dan Zoro terdampar di sebuah pantai dan bertemu dengan gadis lokal bernama Medaka, dia bercerita tentang sejarah kelam pulau tersebut. Bajak laut jahat Ganzack telah menangkap dan memperbudak semua orang yang ada di pulau itu, termasuk ayah Medaka. Luffy, Zoro dan Medaka pun harus berusaha menyusup ke tempat Ganzack untuk menyelamatkan penduduk desa dan juga Nami.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-the-movie/"><img src="/img/20925.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-the-movie/"> One Piece: The Movie </a><br> <span class="label">Movie </span> <span class="label"> 50 min. </span> <span class="label"> 2000 </span><br/>
+<p class="des">Woonan adalah Bajak Laut Emas Besar yang legendaris, yang mendapat julukan setelah mengumpulkan sekitar 1/3 dari emas yang tersedia di dunia. Bahkan setelah kepergiannya, kisah-kisah tentang emasnya yang disimpan di sebuah pulau terpencil terus bertahan, sebuah target menarik yang diinginkan oleh para perompak lainnya.
+Salah satu bajak laut yang berusaha keras untuk mendapatkan harta karun itu adalah El Drago. Dia dan krunya telah memburu mantan anggota kru Woonan satu per satu, dan di sepanjang jalan, mereka menemukan peta yang akan membawa mereka ke pulau tersembunyi.
+Peta tidak semuanya mereka temui; mereka juga berhasil melakukan kontak dengan bajak laut topi jerami. Setelah pertempuran singkat, Luffy dan teman-temannya dirampok dan dipisahkan satu sama lain. Sekarang mereka harus menemukan cara untuk mencapai pulau sebelum El Drago melakukannya dan mengambil harta karun legendaris untuk diri mereka sendiri.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-umi-no-heso-no-daibouken-hen/"><img src="/img/20923.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-umi-no-heso-no-daibouken-hen/"> One Piece: Umi no Heso no Daibouken-hen </a><br> <span class="label">Special </span> <span class="label"> 49 min. </span> <span class="label"> 2000 </span><br/>
+<p class="des">Bajak laut Topi Jerami menemukan sebuah kota ditengah pusaran air, bernama Pusaran Laut yang dihancurkan oleh monster raksasa. Monster-monster itu melindungi sebuah harta karun yang dapat mengabulkan apapun keinginan pemiliknya, tapi saat mereka ingin mengalahkan monster-monster itu kru topi jerami malah membangunkan “monster” lainnya.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-gyojin-tou-hen/"><img src="/img/One-Piece-Gyojin-Tou-hen.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-gyojin-tou-hen/"> One Piece: Gyojin Tou-hen </a><br> <span class="label">TV </span> <span class="label"> 23 min per ep </span> <span class="label"> 2024 </span><br/>
+<p class="des">Versi suntingan khusus dari alur Pulau Manusia Ikan dari One Piece dengan tampilan visual kontemporer yang disempurnakan.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-piece-heroines/"><img src="/img/One-Piece-Heroines.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-piece-heroines/"> One Piece: Heroines </a><br> <span class="label">TV Special </span> <span class="label"> Rating: PG-13 - Teens 13 or older </span> <span class="label">  </span><br/>
+<p class="des">Intip di balik panggung saat ikon gaya Nami tampil dalam fashion show yang mengubah hidup, saksikan Robin yang bijaksana membantu memecahkan kode tablet kuno bersama Koala dan Sabo, tonton saat Princess Vivi yang khidmat menerima surat cinta dari pengagum tak terduga, dan lihat pertarungan Ghost Princess Perona memperebutkan botol wine terakhir bersama Zoro dan Mihawk!</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/kono-aozora-ni-yakusoku-wo-youkoso-tsugumi-ryou-e/"><img src="/img/75248.jpg"></a></td>
+<td class="videsc"><a href="/anime/kono-aozora-ni-yakusoku-wo-youkoso-tsugumi-ryou-e/"> Kono Aozora ni Yakusoku wo: Youkoso Tsugumi Ryou e </a><br> <span class="label">TV </span> <span class="label"> 25 min. per ep. </span> <span class="label"> 2007 </span><br/>
+<p class="des">One morning, Wataru Hoshino found a sleeping girl—in nothing but her underwear—in his room. When she woke up, she quickly escaped by jumping out of the window, but not without punching Wataru in the face first. This girl, Rinna Sawaki, ends up being a transfer student of Wataru’s school, as well as the new roommate of Wataru’s dormitory.
+Wataru lives with four other girls and their school teacher, but due to Temizugawa Heavy Industry’s cancellation of their aviation branch—South Sakojima Island’s major company—the families involved with the corporation have to be evacuated in one year. As a result of this, the four girls have to leave the island in one year’s time.
+Knowing this, Rinna refuses to become friends with Wataru and the other girls, because of the pain that she might experience as a result of their eventual separation; however, Wataru disagrees with her, and over the course of the year, tries to convince her otherwise.
+(Source: ANN)</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-outs/"><img src="/img/22669.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-outs/"> One Outs </a><br> <span class="label">TV </span> <span class="label"> 23 min. per ep. </span> <span class="label"> 2008 </span><br/>
+<p class="des">Cerita dimulai ketika Hiromichi Kojima, bintang dari Pacific League Jepang, kepala ke pulau selatan Jepang Okinawa untuk melatih dan membawa dirinya keluar dari kemerosotan. Di sana, ia bertemu dengan Toa Tokuchi, Pitcher dengan lemparan 134-kmph (83 mil per jam) dan raja perjudian bisbol yang disebut “One Out.” Atas desakan Kojima, Tokuchi mendaftar dengan Lycaons berdasarkan kontrak yang tidak biasa: dia mendapat ¥ 5.000.000 (sekitar US $ 46.000) untuk setiap kemenangannya, tetapi kehilangan ¥ 50.000.000 (US $ 460.000) untuk setiap kekalahannya.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-punch-man/"><img src="/img/76049.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-punch-man/"> One Punch Man </a><br> <span class="label">TV </span> <span class="label"> 24 min. per ep. </span> <span class="label"> 2015 </span><br/>
+<p class="des">One Punch Man menceritakan tentang seorang Superhero bernama asli Saitama yang memiliki kemampuan pukulan maut. Saking luar biasa pukulannya, ia mampu menghabisi monster-monster raksasa hanya dengan sekali pukulan saja.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-punch-man-2nd-season/"><img src="/img/99571.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-punch-man-2nd-season/"> One Punch Man 2nd Season </a><br> <span class="label">TV </span> <span class="label"> 23 min. per ep. </span> <span class="label"> 2019 </span><br/>
+<p class="des">Musim kedua dari pahlawan botak Saitama dan muridnya Genos.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-punch-man-2nd-season-specials/"><img src="/img/103829.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-punch-man-2nd-season-specials/"> One Punch Man 2nd Season Specials </a><br> <span class="label">Special </span> <span class="label"> 12 min. per ep. </span> <span class="label"> 2019 </span><br/>
+<p class="des">Spesial anime pendek termasuk dalam BD & DVD One Punch Man 2nd Season.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-punch-man-specials/"><img src="/img/97840.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-punch-man-specials/"> One Punch Man Specials </a><br> <span class="label">Special </span> <span class="label"> 12 min. per ep. </span> <span class="label"> 2015 </span><br/>
+<p class="des">Specials included in the Blu-ray and DVD releases of One Punch Man.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-punch-man-road-to-hero/"><img src="/img/96674.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-punch-man-road-to-hero/"> One Punch Man: Road to Hero </a><br> <span class="label">OVA </span> <span class="label"> 24 min. </span> <span class="label"> 2015 </span><br/>
+<p class="des">Sebelum Saitama menjadi pria seperti sekarang ini, dia berlatih dan berjuang tanpa henti untuk menjadi pahlawan. Sementara setiap perkelahian meninggalkan seragam olahraga compang-camping, ia selalu memperbaikinya secara gratis berkat penjahit lokalnya. Namun, suatu hari, penjahit memberi tahu dia bahwa dia harus menutup toko karena tekanan dari geng setempat. Saitama memutuskan untuk membantunya — dan mendapatkan sesuatu yang tak tergantikan dalam proses itu.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-room/"><img src="/img/One-Room.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-room/"> One Room </a><br> <span class="label">TV </span> <span class="label"> 4 min. per ep. </span> <span class="label"> 2017 </span><br/>
+<p class="des">Sebuah seri cerita yang mengisahkan tentang “tiga bersaudara” di (satu) ruanganmu.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-room-2nd-season/"><img src="/img/93257.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-room-2nd-season/"> One Room 2nd Season </a><br> <span class="label">TV </span> <span class="label"> 4 min. per ep. </span> <span class="label"> 2018 </span><br/>
+<p class="des">Musim kedua anime One Room.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-room-season-3-sub-indo/"><img src="/img/109101.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-room-season-3-sub-indo/"> One Room Third Season </a><br> <span class="label">TV </span> <span class="label"> 4 min. per ep. </span> <span class="label"> 2020 </span><br/>
+<p class="des">One Room Season 3 Serial dari anime one room musim ke tiga</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-room-hiatari-futsuu-tenshi-tsuki/"><img src="/img/141321l.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-room-hiatari-futsuu-tenshi-tsuki/"> One Room, Hiatari Futsuu, Tenshi-tsuki. </a><br> <span class="label">TV </span> <span class="label">  </span> <span class="label"> 2024 </span><br/>
+<p class="des">Shintarou Tokumitsu adalah seorang siswa sekolah menengah yang tinggal sendirian, tetapi keadaan berubah secara tak terduga ketika seorang gadis bernama Towa muncul di balkonnya! Dia tidak hanya luar biasa murni dan manis, tapi ada sesuatu yang berbeda pada dirinya—sesuatu...ilahi. Siapa teman sekamar baru Shintarou, dan hal-hal menyebalkan apa yang ada di sana?!</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/one-punch-man-3/"><img src="/img/One-Punch-Man-3.jpg"></a></td>
+<td class="videsc"><a href="/anime/one-punch-man-3/"> One Punch Man 3 </a><br> <span class="label">TV </span> <span class="label"> Rating: R - 17+ (violence & profanity) </span> <span class="label"> 2025 </span><br/>
+<p class="des">Merupakan season ketiga dari series One Punch.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/isekai-one-turn-kill-neesan-ane-douhan-no-isekai-seikatsu-hajimemashita/"><img src="/img/126630l.jpg"></a></td>
+<td class="videsc"><a href="/anime/isekai-one-turn-kill-neesan-ane-douhan-no-isekai-seikatsu-hajimemashita/"> Isekai One Turn Kill Neesan: Ane Douhan no Isekai Seikatsu Hajimemashita </a><br> <span class="label">TV </span> <span class="label">  </span> <span class="label"> 2023 </span><br/>
+<p class="des">“Bukan aku yang terkuat di dunia lain, tapi adikku?!”
+Akibat kecelakaan di dunia nyata, Asahi Ikusaba dipindahkan ke dunia lain. Dia mencoba menikmati dunia berbeda yang dia bayangkan, tetapi kemampuannya terbukti paling lemah. Saat dia akan diserang oleh monster ganas, kakak perempuan Asahi yang penyayang, Mayu, datang untuk menyelamatkannya dan menyelamatkannya.
+Mengejar cinta Asahi, Mayu juga berakhir di dunia yang sama dengannya, dengan kemampuan dan keterampilan curang yang paling kuat. Kisah fantasi kakak perempuan terkuat dengan kompleks saudara laki-laki dan adik laki-laki dengan keterampilan terlemah dimulai.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/room-mate/"><img src="/img/85196.jpg"></a></td>
+<td class="videsc"><a href="/anime/room-mate/"> Room Mate </a><br> <span class="label">TV </span> <span class="label"> 4 min. per ep. </span> <span class="label"> 2017 </span><br/>
+<p class="des">Serial “One Room” lainnya yang menampilkan karakter-karakter pria.</p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/kamen-rider-zero-one-aruto-vs-fukkinhoukai-taro/"><img src="/img/Screenshot_9.png"></a></td>
+<td class="videsc"><a href="/anime/kamen-rider-zero-one-aruto-vs-fukkinhoukai-taro/"> Kamen Rider Zero One Aruto VS Fukkinhoukai Taro </a><br> <span class="label">ONA </span> <span class="label">  </span> <span class="label">  </span><br/>
+<p class="des"></p>
+</td></tr></tbody></table><table class="otable" width="100%"><tbody><tr><td class="vithumb" width="90px">
+<a href="/anime/kamen-rider-zero-one/"><img src="/img/jXLq8f.jpg"></a></td>
+<td class="videsc"><a href="/anime/kamen-rider-zero-one/"> Kamen Rider Zero-One </a><br> <span class="label">TV </span> <span class="label"> 24 min. </span> <span class="label"> 2019 </span><br/>
+<p class="des">Berlatar di Jepang yang mana AI Android yang dikenal sebagai Humagear telah menjadi bagian hidup masyarakat, sehingga tidak bisa dibedakan dengan manusia. Kelompok teroris yang bernama Metsubi Jinrai.net meretas Humagear, dan membuat mereka mengamuk dan menyerang manusia. Karena hal tersebut, pemerintah mengirimkan A.I.M.S sebagai organisasi yang mampu melawan para AI yang mengamuk ini dengan berubah menjadi Kamen Rider. Pemeran utama sendiri bernama Aruto Hiden (Fumiya Takahashi) ditunjuk oleh Kakeknya menjadi Presiden dari Hiden Intelligence, sebuah perusahaan AI terbesar. Aruto sendiri tidak tertarik menjadi Presiden, meskipun begitu ia diberikan Zero-One Driver yang membuatnya bisa berubah menjadi Kamen Rider Zero-One. Selain itu ada Isamu Fuwa (Ryutarou Okada), pemimpin dari A.I.M.S yang bisa berubah menjadi Kamen Rider Vulcan. Serta Yua Yaiba (Hiroe Igeta) anggota dari A.I.M.S yang dapat berubah menjadi Kamen Rider Valkyrie.</p>
+</td></tr></tbody></table></div></div>
+</div>
+<div class="kaki1"><a href="/dcma.php">Disclaimer</a> - <a href="/privacy-police.php">Privacy Police</a> </div>
+<div id="footer">© 2026 <strong>Animeindo</strong></div>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4300415,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4300415&101" alt="web site hit counter" border="0"></a></noscript>
+<!-- Histats.com  END  -->
+<script>
+$(document).ready(function() {
+    window.defaultLazyLoadInstance = new LazyLoad({
+        elements_selector: ".lazy",
+        data_src: "original"
+    }), new LazyLoad({
+        elements_selector: ".lazy1",
+        data_src: "original"
+    });
+});
+</script>
+<script data-cfasync="false" async type="text/javascript" src="//qj.brigsgunster.com/rIEOLhqrRjq2Fz6v5/36400"></script>
+</body>
+</html>

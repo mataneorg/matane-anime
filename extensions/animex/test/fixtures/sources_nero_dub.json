@@ -1,0 +1,73 @@
+{
+  "sources": [
+    {
+      "url": "https://vault-69.aniwatchtv.site/i/01a0ed9a-e90d-718e-b1c3-ee969859b6f3/01a0ed9a-fb1b-72cc-b652-eea9fc9cba6d/d/deeznuts.txt?token=AWrJDKd9hidGynSpACsZKGeLSgpJAAAAAAAAAAAAAP__cgwOAL0z5zGp3HHtM2eoqVKKwYC0_d8j-1KXyw.OA7HFvSoBMs_f8VXUKF3OEPTjZCvyj-t7_80gdEKPD4",
+      "quality": "auto",
+      "type": "application/vnd.apple.mpegurl"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "captions-1",
+      "url": "https://cdn.anizara.store/subtitles/cb/95/cb953f6ca5923f7517125db46ed1293d_806a582526a4c5a226514316bd5b6f64.vtt",
+      "lang": "en",
+      "label": "English",
+      "kind": "captions",
+      "default": true
+    },
+    {
+      "id": "captions-2",
+      "url": "https://swoax.broclickedskip.online/anime/aa768fe5e5cf9cfd7ef3e584264107d8/e30a3859f4403924e194e2f12e14524f/subtitles/ind-3.vtt",
+      "lang": "indonesian",
+      "label": "Indonesian",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-3",
+      "url": "https://1oe.lostproject.club/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/eng-3.vtt",
+      "lang": "english 2",
+      "label": "English 2",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-4",
+      "url": "https://1oe.lostproject.club/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/806a582526a4c5a226514316bd5b6f64.vtt",
+      "lang": "english (- (crunchyroll))",
+      "label": "English (- (Crunchyroll))",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-5",
+      "url": "https://swoax.broclickedskip.online/anime/aa768fe5e5cf9cfd7ef3e584264107d8/e30a3859f4403924e194e2f12e14524f/subtitles/tha-4.vtt",
+      "lang": "thai",
+      "label": "Thai",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-6",
+      "url": "https://1oe.lostproject.club/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/por-4.vtt",
+      "lang": "portuguese",
+      "label": "Portuguese",
+      "kind": "captions",
+      "default": false
+    },
+    {
+      "id": "captions-7",
+      "url": "https://1oe.lostproject.club/anime/7f6ffaa6bb0b408017b62254211691b5/4c98bd2b033b2a58a229617d66fc5ede/subtitles/spa-5.vtt",
+      "lang": "spanish",
+      "label": "Spanish",
+      "kind": "captions",
+      "default": false
+    }
+  ],
+  "audio": null,
+  "chapters": [
+    { "title": "Intro", "start": 138, "end": 215 },
+    { "title": "Outro", "start": 1452, "end": 1542 }
+  ],
+  "headers": {}
+}

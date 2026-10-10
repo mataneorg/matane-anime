@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#a855f7">
+    
+            
+    
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHTBS5K64P"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        // Detect client type — pwa if launched from home screen, else web
+        var clientType = 'web';
+        try {
+            if (window.matchMedia('(display-mode: standalone)').matches
+                || window.navigator.standalone === true
+                || document.referrer.includes('android-app://')) {
+                clientType = 'pwa';
+            }
+        } catch (e) {}
+
+        gtag('config', "G-NHTBS5K64P", {
+            'client_type': clientType,
+            'send_page_view': true
+        });
+        // Also send as event param for filtering
+        gtag('event', 'page_view', { 'client_type': clientType });
+    </script>
+        <title>Anime Ongoing Sub Indo HD | Gomunime</title>
+    <meta name="description" content="Daftar anime Ongoing (Ongoing) sub Indo gratis HD di Gomunime. 232 judul termasuk One Piece, Boruto Naruto Next Generations, Sakamoto Days. Alternatif Samehadaku, Animeindo, Oploverz untuk anime Ongoing terbaru.">
+    <meta name="keywords" content="anime Ongoing, anime ongoing, nonton anime Ongoing, gomunime ongoing, anime sub indo Ongoing, samehadaku, animeindo, oploverz">
+                    <link rel="canonical" href="https://gomunime.top/status/ongoing">
+        <meta property="og:site_name" content="Gomunime">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Anime Ongoing Sub Indo HD | Gomunime">
+    <meta property="og:description" content="Daftar anime Ongoing (Ongoing) sub Indo gratis HD di Gomunime. 232 judul termasuk One Piece, Boruto Naruto Next Generations, Sakamoto Days. Alternatif Samehadaku, Animeindo, Oploverz untuk anime Ongoing terbaru.">
+    <meta property="og:url" content="https://gomunime.top/status/ongoing">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:image" content="https://gomunime.top/og-default.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Anime Ongoing Sub Indo HD | Gomunime">
+    <meta name="twitter:description" content="Daftar anime Ongoing (Ongoing) sub Indo gratis HD di Gomunime. 232 judul termasuk One Piece, Boruto Naruto Next Generations, Sakamoto Days. Alternatif Samehadaku, Animeindo, Oploverz untuk anime Ongoing terbaru.">
+    <meta name="twitter:image" content="https://gomunime.top/og-default.jpg">
+    <meta name="author" content="Gomunime">
+    <meta name="publisher" content="Gomunime">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://anime-indo.lol">
+    <link rel="dns-prefetch" href="https://anime-indo.lol">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gomunime">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Gomunime">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png?v=gomu-real">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=gomu-real">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png?v=gomu-real">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png?v=gomu-real">
+
+    <link rel="preload" as="style" href="https://gomunime.top/build/assets/app-BtxMVlCx.css" /><link rel="modulepreload" href="https://gomunime.top/build/assets/app-CnUKscQ8.js" /><link rel="stylesheet" href="https://gomunime.top/build/assets/app-BtxMVlCx.css" data-navigate-track="reload" /><script type="module" src="https://gomunime.top/build/assets/app-CnUKscQ8.js" data-navigate-track="reload"></script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js?v=3', {updateViaCache: 'none'}).catch(() => {});
+            });
+        }
+    </script>
+
+        <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Gomunime","url":"https://gomunime.top","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://gomunime.top/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Gomunime","url":"https://gomunime.top","logo":"https://gomunime.top/img/logo.png","sameAs":[]}</script>
+
+            <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://gomunime.top"},{"@type":"ListItem","position":2,"name":"Ongoing","item":"https://gomunime.top/status/ongoing"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Anime Ongoing Sub Indo HD","description":"Daftar anime Ongoing (Ongoing) sub Indo gratis HD di Gomunime. 232 judul termasuk One Piece, Boruto Naruto Next Generations, Sakamoto Days. Alternatif Samehadaku, Animeindo, Oploverz untuk anime Ongoing terbaru.","url":"https://gomunime.top/status/ongoing","mainEntity":{"@type":"ItemList","numberOfItems":232,"itemListElement":[{"@type":"ListItem","position":1,"url":"https://gomunime.top/black-clover-2nd-season","name":"Black Clover 2nd Season"},{"@type":"ListItem","position":2,"url":"https://gomunime.top/mahou-shoujo-lyrical-nanoha-exceeds-gun-blaze-vengeance","name":"Mahou Shoujo Lyrical Nanoha Exceeds Gun Blaze Vengeance"},{"@type":"ListItem","position":3,"url":"https://gomunime.top/one-piece","name":"One Piece"},{"@type":"ListItem","position":4,"url":"https://gomunime.top/steel-ball-run-jojo-no-kimyou-na-bouken","name":"Steel Ball Run Jojo No Kimyou Na Bouken"},{"@type":"ListItem","position":5,"url":"https://gomunime.top/kanojo-no-tomodachi","name":"Kanojo No Tomodachi"},{"@type":"ListItem","position":6,"url":"https://gomunime.top/detective-conan-the-counterfeit-case-of-ultra-30","name":"Detective Conan The Counterfeit Case Of Ultra 30"},{"@type":"ListItem","position":7,"url":"https://gomunime.top/seitokai-ni-mo-ana-wa-aru","name":"Seitokai Ni Mo Ana Wa Aru"},{"@type":"ListItem","position":8,"url":"https://gomunime.top/boruto-naruto-next-generations","name":"Boruto Naruto Next Generations"},{"@type":"ListItem","position":9,"url":"https://gomunime.top/gensou-suikoden","name":"Gensou Suikoden"},{"@type":"ListItem","position":10,"url":"https://gomunime.top/sakamoto-days","name":"Sakamoto Days"},{"@type":"ListItem","position":11,"url":"https://gomunime.top/shinmai-ossan-boukensha-saikyou-party-ni-shinu-hodo-kitaerarete-muteki-ni-naru","name":"Shinmai Ossan Boukensha, Saikyou Party ni Shinu hodo Kitaerarete Muteki ni Naru."},{"@type":"ListItem","position":12,"url":"https://gomunime.top/tsue-to-tsurugi-no-wistoria-season-2","name":"Tsue To Tsurugi No Wistoria Season 2"},{"@type":"ListItem","position":13,"url":"https://gomunime.top/youjo-senki-ii","name":"Youjo Senki Ii"},{"@type":"ListItem","position":14,"url":"https://gomunime.top/kimi-to-koete-koi-ni-naru","name":"Kimi to Koete Koi ni Naru"},{"@type":"ListItem","position":15,"url":"https://gomunime.top/goukon-ni-ittara-onna-ga-inakatta-hanashi","name":"Goukon ni Ittara Onna ga Inakatta Hanashi"},{"@type":"ListItem","position":16,"url":"https://gomunime.top/jujutsu-kaisen-season-2","name":"Jujutsu Kaisen Season 2"},{"@type":"ListItem","position":17,"url":"https://gomunime.top/kingdom-season-6","name":"Kingdom Season 6"},{"@type":"ListItem","position":18,"url":"https://gomunime.top/tokyo-revengers-santen-sensou-hen","name":"Tokyo Revengers Santen Sensou Hen"},{"@type":"ListItem","position":19,"url":"https://gomunime.top/hanaori-san-wa-tensei-shitemo-kenka-ga-shitai","name":"Hanaori San Wa Tensei Shitemo Kenka Ga Shitai"},{"@type":"ListItem","position":20,"url":"https://gomunime.top/tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru","name":"Tsuihou Sareta Tensei Juukishi Wa Game Chishiki De Musou Suru"},{"@type":"ListItem","position":21,"url":"https://gomunime.top/fx-senshi-kurumi-chan","name":"Fx Senshi Kurumi Chan"},{"@type":"ListItem","position":22,"url":"https://gomunime.top/wandance","name":"Wandance"},{"@type":"ListItem","position":23,"url":"https://gomunime.top/alma-chan-wa-kazoku-ni-naritai","name":"Alma-chan wa Kazoku ni Naritai"},{"@type":"ListItem","position":24,"url":"https://gomunime.top/tank-chair","name":"Tank Chair"}]}}</script>
+    </head>
+<body>
+    
+    <script>(function(){function inFab(t){return t&&t.closest&&t.closest('#support-fab');}['mousedown','pointerdown','touchstart','auxclick'].forEach(function(ev){window.addEventListener(ev,function(e){if(inFab(e.target))e.stopImmediatePropagation();},true);});})();</script>
+    <header class="sticky top-0 z-40 glass border-b border-white/5" x-data="{ open: false }">
+    <div class="container-x flex items-center gap-3 h-16">
+        <a href="https://gomunime.top" class="flex items-center shrink-0 group" aria-label="Gomunime">
+            <img src="https://gomunime.top/img/logo.png" alt="Gomunime — Nonton Anime Sub Indo" style="height:40px;width:auto" class="shrink-0">
+        </a>
+
+        <nav class="hidden md:flex items-center gap-0.5 text-sm ml-4">
+            <a href="https://gomunime.top" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Home</a>
+            <a href="https://gomunime.top/status/ongoing" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Ongoing</a>
+            <a href="https://gomunime.top/status/completed" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Tamat</a>
+            <a href="https://gomunime.top/type/movie" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">🎬 Movies</a>
+            <div class="relative" x-data="{ g: false }">
+                <button @click="g = !g" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition flex items-center gap-1">
+                    Genre
+                    <svg class="w-3 h-3 transition-transform" :class="g && 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="g" @click.outside="g = false" x-transition.opacity.duration.200ms class="absolute left-0 mt-2 w-72 rounded-2xl glass p-2 shadow-2xl">
+                    <div class="grid grid-cols-2 gap-0.5">
+                                                    <a href="https://gomunime.top/genre/action" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Action</a>
+                                                    <a href="https://gomunime.top/genre/adult-cast" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Adult Cast</a>
+                                                    <a href="https://gomunime.top/genre/adventure" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Adventure</a>
+                                                    <a href="https://gomunime.top/genre/anthropomorphic" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Anthropomorphic</a>
+                                                    <a href="https://gomunime.top/genre/avant-garde" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Avant Garde</a>
+                                                    <a href="https://gomunime.top/genre/award-winning" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Award Winning</a>
+                                                    <a href="https://gomunime.top/genre/cgdct" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">CGDCT</a>
+                                                    <a href="https://gomunime.top/genre/childcare" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Childcare</a>
+                                                    <a href="https://gomunime.top/genre/comedy" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Comedy</a>
+                                                    <a href="https://gomunime.top/genre/crossdressing" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Crossdressing</a>
+                                                    <a href="https://gomunime.top/genre/delinquents" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Delinquents</a>
+                                                    <a href="https://gomunime.top/genre/detective" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Detective</a>
+                                                    <a href="https://gomunime.top/genre/drama" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Drama</a>
+                                                    <a href="https://gomunime.top/genre/ecchi" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Ecchi</a>
+                                                    <a href="https://gomunime.top/genre/educational" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Educational</a>
+                                                    <a href="https://gomunime.top/genre/erotica" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Erotica</a>
+                                                    <a href="https://gomunime.top/genre/fantasy" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Fantasy</a>
+                                                    <a href="https://gomunime.top/genre/gag-humor" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Gag Humor</a>
+                                                    <a href="https://gomunime.top/genre/girls-love" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Girls Love</a>
+                                                    <a href="https://gomunime.top/genre/gore" class="px-3 py-2 text-xs rounded-lg hover:bg-brand-600/20 hover:text-brand-300 text-ink-200 transition">Gore</a>
+                                            </div>
+                </div>
+            </div>
+            <a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="px-3 py-2 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white transition">Top Rated</a>
+            <a href="https://gomunime.top/donasi" class="px-3 py-2 rounded-lg text-brand-300 hover:bg-brand-600 hover:text-white transition font-semibold flex items-center gap-1">💙 Dukung</a>
+                        <a href="https://gomunime.top/download" class="px-3 py-2 rounded-lg text-brand-300 hover:bg-brand-600 hover:text-white transition font-semibold flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+                Download App
+            </a>
+                    </nav>
+
+        <form action="https://gomunime.top/search" method="GET" class="flex-1 max-w-md ml-auto">
+            <div class="relative">
+                <input type="search" name="q" value="" placeholder="Cari anime..." autocomplete="off" class="w-full bg-ink-900/50 border-white/5 rounded-xl pl-10 pr-3 py-2 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 placeholder:text-ink-300">
+                <svg class="absolute left-3 top-2.5 w-5 h-5 text-ink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+        </form>
+
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-ink-200 hover:bg-white/5">
+            <svg x-show="!open" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg x-show="open" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    </div>
+
+    <div x-show="open" x-transition class="md:hidden border-t border-white/5 px-4 py-3 space-y-1">
+        <a href="https://gomunime.top" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Home</a>
+        <a href="https://gomunime.top/status/ongoing" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Ongoing</a>
+        <a href="https://gomunime.top/status/completed" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Tamat</a>
+        <a href="https://gomunime.top/type/movie" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">🎬 Movies</a>
+        <a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="block px-3 py-2.5 rounded-lg text-ink-200 hover:bg-white/5 hover:text-white">Top Rated</a>
+        <a href="https://gomunime.top/donasi" class="block px-3 py-2.5 rounded-lg text-brand-300 font-semibold hover:bg-brand-600 hover:text-white">💙 Dukung Kami</a>
+                <a href="https://gomunime.top/download" class="block px-3 py-2.5 rounded-lg text-brand-300 font-semibold hover:bg-brand-600 hover:text-white">📱 Download App</a>
+                <div class="pt-2 border-t border-white/5">
+            <p class="px-3 py-2 text-xs uppercase text-ink-300 tracking-wider">Genre Populer</p>
+            <div class="grid grid-cols-2 gap-1 mt-1">
+                                    <a href="https://gomunime.top/genre/fantasy" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Fantasy</a>
+                                    <a href="https://gomunime.top/genre/action" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Action</a>
+                                    <a href="https://gomunime.top/genre/comedy" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Comedy</a>
+                                    <a href="https://gomunime.top/genre/shounen" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Shounen</a>
+                                    <a href="https://gomunime.top/genre/romance" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Romance</a>
+                                    <a href="https://gomunime.top/genre/adventure" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Adventure</a>
+                                    <a href="https://gomunime.top/genre/school" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">School</a>
+                                    <a href="https://gomunime.top/genre/seinen" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Seinen</a>
+                                    <a href="https://gomunime.top/genre/isekai" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Isekai</a>
+                                    <a href="https://gomunime.top/genre/drama" class="px-3 py-2 text-xs rounded-lg text-ink-200 hover:bg-white/5">Drama</a>
+                            </div>
+        </div>
+    </div>
+</header>
+
+    <main class="min-h-[60vh] py-6 pb-20 md:pb-6">
+        <div class="container-x">
+    <nav class="text-sm text-ink-300 mb-3 flex items-center gap-2 flex-wrap">
+        <a href="https://gomunime.top" class="hover:text-brand-300 transition">Home</a>
+                    <span>›</span>
+            <span class="">Status</span>
+                    <span>›</span>
+            <span class="text-ink-100">Ongoing</span>
+            </nav>
+
+    <h1 class="text-2xl md:text-3xl font-display font-extrabold text-white mb-2">Anime Ongoing Sub Indo HD | Gomunime</h1>
+    <p class="text-ink-200 text-sm md:text-base mb-6">Daftar anime Ongoing (Ongoing) sub Indo gratis HD di Gomunime. 232 judul termasuk One Piece, Boruto Naruto Next Generations, Sakamoto Days. Alternatif Samehadaku, Animeindo, Oploverz untuk anime Ongoing terbaru.</p>
+
+            <div class="card-netflix bg-ink-900/50 p-5 md:p-6 mb-6 ring-1 ring-white/5">
+            <p class="text-ink-100 text-sm md:text-base leading-relaxed">Daftar <strong>anime Ongoing</strong> di Gomunime — judul yang masih tayang weekly dengan episode baru terus update. Total 232 anime dengan subtitle Indonesia rapi. Beberapa anime ongoing paling banyak ditonton: One Piece, Boruto Naruto Next Generations, Sakamoto Days.</p>
+        </div>
+    
+            <p class="text-ink-300 text-sm mb-4">Total: <strong class="text-white">232</strong> anime</p>
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 md:gap-6">
+                            <a href="https://gomunime.top/black-clover-2nd-season" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/black-clover-2nd-season-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/black-clover-2nd-season-poster.jpg 200w, https://gomunime.top/storage/posters/black-clover-2nd-season-poster.jpg 300w, https://gomunime.top/storage/posters/black-clover-2nd-season-poster.jpg 400w, https://gomunime.top/storage/posters/black-clover-2nd-season-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Black Clover 2nd Season"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 1 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Black Clover 2nd Season</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/mahou-shoujo-lyrical-nanoha-exceeds-gun-blaze-vengeance" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/mahou-shoujo-lyrical-nanoha-exceeds-gun-blaze-vengeance-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/mahou-shoujo-lyrical-nanoha-exceeds-gun-blaze-vengeance-poster.jpg 200w, https://gomunime.top/storage/posters/mahou-shoujo-lyrical-nanoha-exceeds-gun-blaze-vengeance-poster.jpg 300w, https://gomunime.top/storage/posters/mahou-shoujo-lyrical-nanoha-exceeds-gun-blaze-vengeance-poster.jpg 400w, https://gomunime.top/storage/posters/mahou-shoujo-lyrical-nanoha-exceeds-gun-blaze-vengeance-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Mahou Shoujo Lyrical Nanoha Exceeds Gun Blaze Vengeance"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.1</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2026</span>                                            <span class="text-ink-300">• 12 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Mahou Shoujo Lyrical Nanoha Exceeds Gun Blaze Vengeance</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2026</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/one-piece" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/one-piece-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/one-piece-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/one-piece-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/one-piece-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/one-piece-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="One Piece"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 8.7</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">1999</span>                                            <span class="text-ink-300">• 1159 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">One Piece</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>1999</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/steel-ball-run-jojo-no-kimyou-na-bouken" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/steel-ball-run-jojo-no-kimyou-na-bouken-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/steel-ball-run-jojo-no-kimyou-na-bouken-poster.jpg 200w, https://gomunime.top/storage/posters/steel-ball-run-jojo-no-kimyou-na-bouken-poster.jpg 300w, https://gomunime.top/storage/posters/steel-ball-run-jojo-no-kimyou-na-bouken-poster.jpg 400w, https://gomunime.top/storage/posters/steel-ball-run-jojo-no-kimyou-na-bouken-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Steel Ball Run Jojo No Kimyou Na Bouken"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 4 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Steel Ball Run Jojo No Kimyou Na Bouken</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/kanojo-no-tomodachi" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/kanojo-no-tomodachi-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/kanojo-no-tomodachi-poster.jpg 200w, https://gomunime.top/storage/posters/kanojo-no-tomodachi-poster.jpg 300w, https://gomunime.top/storage/posters/kanojo-no-tomodachi-poster.jpg 400w, https://gomunime.top/storage/posters/kanojo-no-tomodachi-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Kanojo No Tomodachi"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 1 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Kanojo No Tomodachi</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/detective-conan-the-counterfeit-case-of-ultra-30" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/detective-conan-the-counterfeit-case-of-ultra-30-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/detective-conan-the-counterfeit-case-of-ultra-30-poster.jpg 200w, https://gomunime.top/storage/posters/detective-conan-the-counterfeit-case-of-ultra-30-poster.jpg 300w, https://gomunime.top/storage/posters/detective-conan-the-counterfeit-case-of-ultra-30-poster.jpg 400w, https://gomunime.top/storage/posters/detective-conan-the-counterfeit-case-of-ultra-30-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Detective Conan The Counterfeit Case Of Ultra 30"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 1 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Detective Conan The Counterfeit Case Of Ultra 30</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/seitokai-ni-mo-ana-wa-aru" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/seitokai-ni-mo-ana-wa-aru-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/seitokai-ni-mo-ana-wa-aru-poster.jpg 200w, https://gomunime.top/storage/posters/seitokai-ni-mo-ana-wa-aru-poster.jpg 300w, https://gomunime.top/storage/posters/seitokai-ni-mo-ana-wa-aru-poster.jpg 400w, https://gomunime.top/storage/posters/seitokai-ni-mo-ana-wa-aru-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Seitokai Ni Mo Ana Wa Aru"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 1 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Seitokai Ni Mo Ana Wa Aru</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/boruto-naruto-next-generations" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/boruto-naruto-next-generations-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Boruto Naruto Next Generations"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 6.0</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2017</span>                                            <span class="text-ink-300">• 293 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Boruto Naruto Next Generations</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2017</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/gensou-suikoden" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/gensou-suikoden-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/gensou-suikoden-poster.jpg 200w, https://gomunime.top/storage/posters/gensou-suikoden-poster.jpg 300w, https://gomunime.top/storage/posters/gensou-suikoden-poster.jpg 400w, https://gomunime.top/storage/posters/gensou-suikoden-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Gensou Suikoden"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 1 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Gensou Suikoden</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/sakamoto-days" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/sakamoto-days-subtitle-indonesia-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/sakamoto-days-subtitle-indonesia-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/sakamoto-days-subtitle-indonesia-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/sakamoto-days-subtitle-indonesia-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/sakamoto-days-subtitle-indonesia-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Sakamoto Days"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.6</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2025</span>                                            <span class="text-ink-300">• 11 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Sakamoto Days</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2025</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/shinmai-ossan-boukensha-saikyou-party-ni-shinu-hodo-kitaerarete-muteki-ni-naru" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/shinmai-ossan-boukensha-saikyou-party-ni-shinu-hodo-kitaerarete-muteki-ni-naru-sub-indo-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/shinmai-ossan-boukensha-saikyou-party-ni-shinu-hodo-kitaerarete-muteki-ni-naru-sub-indo-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/shinmai-ossan-boukensha-saikyou-party-ni-shinu-hodo-kitaerarete-muteki-ni-naru-sub-indo-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/shinmai-ossan-boukensha-saikyou-party-ni-shinu-hodo-kitaerarete-muteki-ni-naru-sub-indo-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/shinmai-ossan-boukensha-saikyou-party-ni-shinu-hodo-kitaerarete-muteki-ni-naru-sub-indo-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Shinmai Ossan Boukensha, Saikyou Party ni Shinu hodo Kitaerarete Muteki ni Naru."
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.4</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2024</span>                                            <span class="text-ink-300">• 12 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Shinmai Ossan Boukensha, Saikyou Party ni Shinu hodo Kitaerarete Muteki ni Naru.</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2024</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/tsue-to-tsurugi-no-wistoria-season-2" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/tsue-to-tsurugi-no-wistoria-season-2-poster.webp?v=2"
+     srcset="https://gomunime.top/storage/posters/tsue-to-tsurugi-no-wistoria-season-2-poster.webp?v=2 200w, https://gomunime.top/storage/posters/tsue-to-tsurugi-no-wistoria-season-2-poster.webp?v=2 300w, https://gomunime.top/storage/posters/tsue-to-tsurugi-no-wistoria-season-2-poster.webp?v=2 400w, https://gomunime.top/storage/posters/tsue-to-tsurugi-no-wistoria-season-2-poster.webp?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Tsue To Tsurugi No Wistoria Season 2"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.9</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2024</span>                                            <span class="text-ink-300">• 12 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Tsue To Tsurugi No Wistoria Season 2</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2024</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/youjo-senki-ii" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/youjo-senki-ii-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/youjo-senki-ii-poster.jpg 200w, https://gomunime.top/storage/posters/youjo-senki-ii-poster.jpg 300w, https://gomunime.top/storage/posters/youjo-senki-ii-poster.jpg 400w, https://gomunime.top/storage/posters/youjo-senki-ii-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Youjo Senki Ii"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 8.4</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2026</span>                                            <span class="text-ink-300">• 12 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Youjo Senki Ii</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2026</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/kimi-to-koete-koi-ni-naru" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/kimi-to-koete-koi-ni-naru-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/kimi-to-koete-koi-ni-naru-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/kimi-to-koete-koi-ni-naru-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/kimi-to-koete-koi-ni-naru-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/kimi-to-koete-koi-ni-naru-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Kimi to Koete Koi ni Naru"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.1</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2025</span>                                            <span class="text-ink-300">• 12 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Kimi to Koete Koi ni Naru</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2025</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/goukon-ni-ittara-onna-ga-inakatta-hanashi" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/goukon-ni-ittara-onna-ga-inakatta-hanashi-subtitle-indonesia-poster.webp?v=2"
+     srcset="https://gomunime.top/storage/posters/goukon-ni-ittara-onna-ga-inakatta-hanashi-subtitle-indonesia-poster.webp?v=2 200w, https://gomunime.top/storage/posters/goukon-ni-ittara-onna-ga-inakatta-hanashi-subtitle-indonesia-poster.webp?v=2 300w, https://gomunime.top/storage/posters/goukon-ni-ittara-onna-ga-inakatta-hanashi-subtitle-indonesia-poster.webp?v=2 400w, https://gomunime.top/storage/posters/goukon-ni-ittara-onna-ga-inakatta-hanashi-subtitle-indonesia-poster.webp?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Goukon ni Ittara Onna ga Inakatta Hanashi"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.4</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2004</span>                                            <span class="text-ink-300">• 1 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Goukon ni Ittara Onna ga Inakatta Hanashi</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2004</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/jujutsu-kaisen-season-2" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/jujutsu-kaisen-season-2-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/jujutsu-kaisen-season-2-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/jujutsu-kaisen-season-2-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/jujutsu-kaisen-season-2-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/jujutsu-kaisen-season-2-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Jujutsu Kaisen Season 2"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 8.7</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2023</span>                                            <span class="text-ink-300">• 9 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Jujutsu Kaisen Season 2</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2023</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/kingdom-season-6" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/kingdom-season-6-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/kingdom-season-6-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/kingdom-season-6-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/kingdom-season-6-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/kingdom-season-6-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Kingdom Season 6"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 8.7</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2025</span>                                            <span class="text-ink-300">• 4 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Kingdom Season 6</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2025</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/tokyo-revengers-santen-sensou-hen" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/tokyo-revengers-santen-sensou-hen-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/tokyo-revengers-santen-sensou-hen-poster.jpg 200w, https://gomunime.top/storage/posters/tokyo-revengers-santen-sensou-hen-poster.jpg 300w, https://gomunime.top/storage/posters/tokyo-revengers-santen-sensou-hen-poster.jpg 400w, https://gomunime.top/storage/posters/tokyo-revengers-santen-sensou-hen-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Tokyo Revengers Santen Sensou Hen"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 2 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Tokyo Revengers Santen Sensou Hen</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/hanaori-san-wa-tensei-shitemo-kenka-ga-shitai" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/hanaori-san-wa-tensei-shitemo-kenka-ga-shitai-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/hanaori-san-wa-tensei-shitemo-kenka-ga-shitai-poster.jpg 200w, https://gomunime.top/storage/posters/hanaori-san-wa-tensei-shitemo-kenka-ga-shitai-poster.jpg 300w, https://gomunime.top/storage/posters/hanaori-san-wa-tensei-shitemo-kenka-ga-shitai-poster.jpg 400w, https://gomunime.top/storage/posters/hanaori-san-wa-tensei-shitemo-kenka-ga-shitai-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Hanaori San Wa Tensei Shitemo Kenka Ga Shitai"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.0</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2026</span>                                            <span class="text-ink-300">• 12 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Hanaori San Wa Tensei Shitemo Kenka Ga Shitai</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2026</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru-poster.jpg 200w, https://gomunime.top/storage/posters/tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru-poster.jpg 300w, https://gomunime.top/storage/posters/tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru-poster.jpg 400w, https://gomunime.top/storage/posters/tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Tsuihou Sareta Tensei Juukishi Wa Game Chishiki De Musou Suru"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.0</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2026</span>                                            <span class="text-ink-300">• 15 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Tsuihou Sareta Tensei Juukishi Wa Game Chishiki De Musou Suru</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2026</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/fx-senshi-kurumi-chan" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/fx-senshi-kurumi-chan-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/fx-senshi-kurumi-chan-poster.jpg 200w, https://gomunime.top/storage/posters/fx-senshi-kurumi-chan-poster.jpg 300w, https://gomunime.top/storage/posters/fx-senshi-kurumi-chan-poster.jpg 400w, https://gomunime.top/storage/posters/fx-senshi-kurumi-chan-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Fx Senshi Kurumi Chan"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 2 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Fx Senshi Kurumi Chan</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/wandance" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/wandance-poster.jpg?v=2"
+     srcset="https://gomunime.top/storage/posters/wandance-poster.jpg?v=2 200w, https://gomunime.top/storage/posters/wandance-poster.jpg?v=2 300w, https://gomunime.top/storage/posters/wandance-poster.jpg?v=2 400w, https://gomunime.top/storage/posters/wandance-poster.jpg?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Wandance"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.0</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2025</span>                                            <span class="text-ink-300">• 11 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Wandance</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2025</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/alma-chan-wa-kazoku-ni-naritai" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/alma-chan-wa-kazoku-ni-naritai-poster.webp?v=2"
+     srcset="https://gomunime.top/storage/posters/alma-chan-wa-kazoku-ni-naritai-poster.webp?v=2 200w, https://gomunime.top/storage/posters/alma-chan-wa-kazoku-ni-naritai-poster.webp?v=2 300w, https://gomunime.top/storage/posters/alma-chan-wa-kazoku-ni-naritai-poster.webp?v=2 400w, https://gomunime.top/storage/posters/alma-chan-wa-kazoku-ni-naritai-poster.webp?v=2 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Alma-chan wa Kazoku ni Naritai"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                            <span class="badge-rating">★ 7.1</span>
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                    <span class="text-ink-300">2025</span>                                            <span class="text-ink-300">• 11 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Alma-chan wa Kazoku ni Naritai</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                                    <span class="mx-1">•</span>                    <span>2025</span>
+                            </p>
+            </div>
+</a>
+                            <a href="https://gomunime.top/tank-chair" class="card-netflix block w-full group md:hover:scale-105 hover:z-20 md:hover:shadow-card-hover" style="will-change: transform;">
+    <div class="aspect-poster relative overflow-hidden bg-ink-800">
+                    <img
+    src="https://gomunime.top/storage/posters/tank-chair-poster.jpg"
+     srcset="https://gomunime.top/storage/posters/tank-chair-poster.jpg 200w, https://gomunime.top/storage/posters/tank-chair-poster.jpg 300w, https://gomunime.top/storage/posters/tank-chair-poster.jpg 400w, https://gomunime.top/storage/posters/tank-chair-poster.jpg 600w"     sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+    width="600"
+     height="900"     alt="Tank Chair"
+    loading="lazy"
+    decoding="async"
+        class="w-full h-full object-cover"
+>
+        
+        
+        <div class="absolute top-1.5 right-1.5 flex flex-col items-end gap-1">
+                    </div>
+
+        
+                    <div class="absolute top-1.5 left-1.5">
+                <span class="badge bg-green-500 text-black">Ongoing</span>
+            </div>
+        
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2.5">
+            <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-[10px] text-ink-100">
+                    <span class="font-bold text-brand-300">TV</span>                                                                <span class="text-ink-300">• 1 eps</span>
+                                    </div>
+                <div class="flex items-center gap-1.5 pt-1">
+                    <span class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
+                        <svg class="w-4 h-4 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="text-xs text-white font-semibold">Tonton</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 px-0.5">
+        <h3 class="text-xs md:text-sm font-semibold text-white line-clamp-1 group-hover:text-brand-300 transition">Tank Chair</h3>
+                    <p class="text-[11px] text-ink-300 mt-0.5">
+                <span>TV</span>                            </p>
+            </div>
+</a>
+                    </div>
+        <div class="mt-6"><nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-between">
+        <div class="flex justify-between flex-1 sm:hidden">
+                            <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md dark:text-gray-600 dark:bg-gray-800 dark:border-gray-600">
+                    &laquo; Previous
+                </span>
+            
+                            <a href="https://gomunime.top/status/ongoing?page=2" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
+                    Next &raquo;
+                </a>
+                    </div>
+
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-gray-700 leading-5 dark:text-gray-400">
+                    Showing
+                                            <span class="font-medium">1</span>
+                        to
+                        <span class="font-medium">24</span>
+                                        of
+                    <span class="font-medium">232</span>
+                    results
+                </p>
+            </div>
+
+            <div>
+                <span class="relative z-0 inline-flex rtl:flex-row-reverse shadow-sm rounded-md">
+                    
+                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">
+                            <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5 dark:bg-gray-800 dark:border-gray-600" aria-hidden="true">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        </span>
+                    
+                    
+                                            
+                        
+                        
+                                                                                                                        <span aria-current="page">
+                                        <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 dark:bg-gray-800 dark:border-gray-600">1</span>
+                                    </span>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=2" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 2">
+                                        2
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=3" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 3">
+                                        3
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=4" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 4">
+                                        4
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=5" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 5">
+                                        5
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=6" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 6">
+                                        6
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=7" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 7">
+                                        7
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=8" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 8">
+                                        8
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=9" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 9">
+                                        9
+                                    </a>
+                                                                                                                                <a href="https://gomunime.top/status/ongoing?page=10" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Go to page 10">
+                                        10
+                                    </a>
+                                                                                                        
+                    
+                                            <a href="https://gomunime.top/status/ongoing?page=2" rel="next" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:active:bg-gray-700 dark:focus:border-blue-800" aria-label="Next &amp;raquo;">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                                    </span>
+            </div>
+        </div>
+    </nav>
+</div>
+    </div>
+    </main>
+
+    <footer class="relative mt-16 border-t border-white/5">
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/50 to-transparent"></div>
+    <div class="container-x py-10 grid md:grid-cols-12 gap-8">
+
+        
+        <div class="md:col-span-3">
+            <img src="https://gomunime.top/img/logo.png" alt="Gomunime" style="height:44px;width:auto" class="mb-3">
+            <p class="text-ink-200 text-sm leading-relaxed">
+                Tempat <strong class="text-white">nonton anime sub Indo</strong> kualitas HD gratis. Anime Jepang terbaru, update tiap hari. Alternatif <strong class="text-brand-300">Samehadaku</strong>, <strong class="text-brand-300">Animeindo</strong> &amp; <strong class="text-brand-300">Oploverz</strong>.
+            </p>
+                            <a href="https://gomunime.top/download" class="inline-flex items-center gap-1.5 mt-4 text-xs text-brand-300 hover:text-brand-200">📱 Download APK Android</a>
+                        <div class="flex items-center gap-3 mt-4">
+            <a href="https://www.pinterest.com/gomunimeofficialid/" target="_blank" rel="nofollow noopener" aria-label="Pinterest" title="Pinterest" class="text-ink-300 hover:text-white transition">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.222.083.343-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.747 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+        </a>
+            <a href="https://www.facebook.com/gomunimeid/" target="_blank" rel="nofollow noopener" aria-label="Facebook" title="Facebook" class="text-ink-300 hover:text-white transition">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://gomunime.top/feed" target="_blank" rel="noopener" aria-label="RSS Feed" title="RSS Feed" class="text-ink-300 hover:text-white transition">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
+    </a>
+</div>
+        </div>
+
+        
+        <div class="md:col-span-2">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Jelajah</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top" class="hover:text-brand-400 transition">Home</a></li>
+                <li><a href="https://gomunime.top/status/ongoing" class="hover:text-brand-400 transition">Ongoing</a></li>
+                <li><a href="https://gomunime.top/status/completed" class="hover:text-brand-400 transition">Tamat</a></li>
+                <li><a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="hover:text-brand-400 transition">Top Rated</a></li>
+                <li><a href="https://gomunime.top/search" class="hover:text-brand-400 transition">Pencarian</a></li>
+            </ul>
+        </div>
+
+        
+        <div class="md:col-span-2">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Genre Populer</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top/genre/action" class="hover:text-brand-400 transition">Action</a></li>
+                <li><a href="https://gomunime.top/genre/fantasy" class="hover:text-brand-400 transition">Fantasy</a></li>
+                <li><a href="https://gomunime.top/genre/comedy" class="hover:text-brand-400 transition">Comedy</a></li>
+                <li><a href="https://gomunime.top/genre/adventure" class="hover:text-brand-400 transition">Adventure</a></li>
+                <li><a href="https://gomunime.top/genre/romance" class="hover:text-brand-400 transition">Romance</a></li>
+            </ul>
+        </div>
+
+        
+        <div class="md:col-span-2">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Info</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top/privacy" class="hover:text-brand-400 transition">Privasi</a></li>
+                <li><a href="https://gomunime.top/sitemap.xml" class="hover:text-brand-400 transition">Sitemap</a></li>
+            </ul>
+        </div>
+
+        
+        <div class="md:col-span-3">
+            <h4 class="text-sm font-display font-bold mb-3 text-white uppercase tracking-wider">Dukungan &amp; Komunitas</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://gomunime.top/donasi" class="hover:text-brand-400 transition">💙 Dukung Kami</a></li>
+                                                <li><a href="https://gomunime.top/pasang-iklan" class="hover:text-brand-400 transition">📢 Pasang Iklan</a></li>            </ul>
+
+            <h4 class="text-sm font-display font-bold mt-6 mb-3 text-white uppercase tracking-wider">Situs Kami</h4>
+            <ul class="space-y-2 text-sm text-ink-200">
+                <li><a href="https://anichin.help" target="_blank" rel="noopener" class="hover:text-brand-400 transition">Anichin <span class="text-ink-400">— Nonton Donghua</span></a></li>
+                <li><a href="https://komikcast.top" target="_blank" rel="noopener" class="hover:text-brand-400 transition">Komikcast <span class="text-ink-400">— Baca Komik &amp; Novel</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="border-t border-white/5 bg-ink-950/50">
+        <div class="container-x py-4 text-xs text-ink-300 flex flex-wrap items-center justify-between gap-3">
+            <span>&copy; 2026 Gomunime. Dibuat dengan ❤️ untuk pecinta anime.</span>
+            <div class="flex items-center gap-2 text-ink-400">
+                <span>Anime</span><span class="w-1 h-1 rounded-full bg-ink-300"></span>
+                <span>Anime Jepang</span><span class="w-1 h-1 rounded-full bg-ink-300"></span>
+                <span>Sub Indo</span>
+            </div>
+        </div>
+        <div class="container-x pb-4 text-xs text-ink-400 leading-relaxed">
+            Semua konten video di-embed dari pihak ketiga. Gomunime tidak menyimpan file video di server. Hak cipta milik pemegang lisensi resmi.
+        </div>
+    </div>
+</footer>
+
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 glass border-t border-white/5 safe-area-bottom">
+    <div class="grid grid-cols-5 h-14">
+        <a href="https://gomunime.top" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span class="text-[10px]">Home</span>
+        </a>
+        <a href="https://gomunime.top/status/ongoing" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="text-[10px]">Ongoing</span>
+        </a>
+        <a href="https://gomunime.top/search" class="flex flex-col items-center justify-center -mt-6">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center shadow-glow ring-4 ring-ink-950">
+                <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+        </a>
+        <a href="https://gomunime.top/koleksi/anime-skor-mal-tertinggi" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <span class="text-[10px]">Top</span>
+        </a>
+        <a href="https://gomunime.top/status/completed" class="flex flex-col items-center justify-center gap-0.5 text-ink-200 hover:text-brand-400 transition">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="text-[10px]">Tamat</span>
+        </a>
+    </div>
+</nav>
+
+    
+    
+            <script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var z=window,f="abc30c794d6f8a55145c8c6d59f5a301",e=[["siteId",515-683-184+536+5303136],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],g=["d3d3LmRpc3BsYXl2ZXJ0aXNpbmcuY29tL0lIblcvdWVkZHkuZG9tLmpz","ZDNtem9rdHk5NTFjNXcuY2xvdWRmcm9udC5uZXQvcS9xWlh3aS9xaWRlbnRpY29uLm1pbi5jc3M=","d3d3LmlseGZsb2JocGsuY29tL0ovYWVkZHkuZG9tLmpz","d3d3LmVuZ2t5bXpranF6ei5jb20vdFlKcy9CRnFXL3hpZGVudGljb24ubWluLmNzcw=="],w=-1,h,n,a=function(){clearTimeout(n);w++;if(g[w]&&!(1805847877000<(new Date).getTime()&&1<w)){h=z.document.createElement("script");h.type="text/javascript";h.async=!0;var q=z.document.getElementsByTagName("script")[0];h.src="https://"+atob(g[w]);h.crossOrigin="anonymous";h.onerror=a;h.onload=function(){clearTimeout(n);z[f.slice(0,16)+f.slice(0,16)]||a()};n=setTimeout(a,5E3);q.parentNode.insertBefore(h,q)}};if(!z[f]){try{Object.freeze(z[f]=e)}catch(e){}a()}})();
+/*]]>/* */
+</script>
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+    <div id="support-fab" x-data="{ open: true }">
+    
+    <div class="sfab-stack" x-show="open" x-transition.origin.bottom>
+        <a class="sfab-item" href="https://gomunime.top/donasi">
+            <span>Dukung Kami</span><i style="background:#db2777">💛</i>
+        </a>
+                                <a class="sfab-item" href="https://gomunime.top/pasang-iklan">
+            <span>Pasang Iklan</span><i style="background:#d97706">📢</i>
+        </a>
+            </div>
+
+    
+    <button type="button" class="sfab-heart" @click="open = !open" aria-label="Buka / tutup dukungan">💛</button>
+</div>
+
+<style>
+#support-fab{position:fixed;right:16px;bottom:88px;z-index:9000;display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+@media(min-width:768px){#support-fab{bottom:24px}}
+
+.sfab-stack{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.sfab-item{display:flex;align-items:center;gap:9px;padding:7px 8px 7px 14px;border-radius:9999px;background:rgba(18,18,26,.97);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:14px;font-weight:600;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.45);white-space:nowrap}
+.sfab-item:hover{background:rgba(42,42,54,.99)}
+.sfab-item i{font-style:normal;width:31px;height:31px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+
+.sfab-heart{width:58px;height:58px;border-radius:9999px;border:none;cursor:pointer;background:linear-gradient(135deg,#ff5e8a,#ff2e63);display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 10px 26px rgba(255,46,99,.5);animation:sfab-beat 1.3s ease-in-out infinite;transition:transform .12s}
+.sfab-heart:hover{transform:scale(1.08)}
+.sfab-heart:active{transform:scale(.92)}
+@keyframes sfab-beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.12)}60%{transform:scale(1)}}
+</style>
+
+    
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getMessaging, getToken, onMessage, isSupported } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging.js";
+
+    const fcmCfg = {"apiKey":"AIzaSyBKkqeYgR0uxOtvkh8tQ-Z3wlwKSi5ra7k","authDomain":"gomunime-app.firebaseapp.com","projectId":"gomunime-app","storageBucket":"gomunime-app.firebasestorage.app","messagingSenderId":"60183386668","appId":"1:60183386668:web:5bc860a1e15cad33ad4f89","measurementId":"G-NHTBS5K64P"};
+    const VAPID_KEY = "BGis5Za_gtOkdSvFeR-Rnj7_gXjeLKyrBPYW9B41YAs3UaDHPsmnRONPCRzV2Cu34BpwcvMkM9-b9TeZL_O4ghI";
+
+    const STORAGE = {
+        token: 'gomu_fcm_token_v2',
+        denied: 'gomu_push_denied_at',
+        promptShown: 'gomu_push_prompt_at',
+        pageViews: 'gomu_pv_count',
+    };
+
+    // Increment page view counter — drives engagement-based prompt timing.
+    try {
+        const pv = parseInt(localStorage.getItem(STORAGE.pageViews) || '0', 10) + 1;
+        localStorage.setItem(STORAGE.pageViews, String(pv));
+    } catch (_) {}
+
+    const URL_PARAMS = new URLSearchParams(location.search);
+    const DEBUG = URL_PARAMS.has('debug_push');
+    const INSTANT = URL_PARAMS.has('fcm_now');  // bypass all gates, request immediately
+    const log = (...a) => (DEBUG || INSTANT) && console.log('[FCM]', ...a);
+
+    (async () => {
+        log('init start, pv=' + localStorage.getItem(STORAGE.pageViews));
+        if (!('serviceWorker' in navigator) || !('Notification' in window)) { log('no SW or Notification API'); return; }
+        if (!(await isSupported().catch(() => false))) { log('isSupported returned false'); return; }
+
+        const app = initializeApp(fcmCfg);
+        const messaging = getMessaging(app);
+        log('Firebase initialized');
+
+        // Dedicated scope so the PWA service worker (sw.js at scope '/') can NEVER displace
+        // the FCM worker — both registering at '/' was last-writer-wins, and when the
+        // handler-less PWA SW won, pushes were silently swallowed.
+        const swReg = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+            scope: '/firebase-cloud-messaging-push-scope',
+        }).catch(e => {
+            console.warn('FCM SW register failed', e);
+            return null;
+        });
+        if (!swReg) { log('SW reg failed'); return; }
+        log('SW registered, scope=' + swReg.scope);
+
+        // Show OS notif when message arrives in foreground (tab visible).
+        // Use SW.showNotification() — `new Notification()` is unreliable in modern Chrome.
+        onMessage(messaging, (payload) => {
+            log('foreground message arrived', payload);
+            if (Notification.permission !== 'granted') return;
+            const t = payload.notification?.title || payload.data?.title || 'Gomunime';
+            const opts = {
+                body: payload.notification?.body || payload.data?.body || '',
+                icon: '/icons/icon-192.png',
+                badge: '/icons/icon-192.png',
+                data: payload.data || {},
+                tag: payload.data?.tag || 'gomunime-fg',
+            };
+            swReg.showNotification(t, opts).catch(e => console.warn('showNotification failed', e));
+        });
+
+        log('permission=' + Notification.permission);
+
+        // If user already granted permission, refresh token quietly.
+        if (Notification.permission === 'granted') {
+            await refreshAndSendToken(messaging, swReg);
+            return;
+        }
+
+        // Don't bother nagging users who explicitly blocked.
+        if (Notification.permission === 'denied') { log('permission denied, skip'); return; }
+
+        // permission === 'default' → minta izin NATIVE LANGSUNG begitu web dibuka (instan, no delay).
+        const denyAge = parseInt(localStorage.getItem(STORAGE.denied) || '0', 10);
+        if (!INSTANT && denyAge && (Date.now() - denyAge) < 7 * 86400000) { log('denied recently, back off 7d'); return; }
+        log('requesting permission immediately');
+        const perm = await Notification.requestPermission();
+        log('permission result=' + perm);
+        if (perm === 'granted') await refreshAndSendToken(messaging, swReg);
+        else localStorage.setItem(STORAGE.denied, String(Date.now()));
+    })().catch(e => console.warn('FCM init error', e));
+
+    async function refreshAndSendToken(messaging, swReg) {
+        try {
+            const token = await getToken(messaging, {
+                vapidKey: VAPID_KEY,
+                serviceWorkerRegistration: swReg,
+            });
+            if (!token) return;
+            const prev = localStorage.getItem(STORAGE.token);
+            if (token === prev) return; // already saved
+            await fetch('/api/v1/push/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ token, topic: 'gomunime_all' }),
+            });
+            localStorage.setItem(STORAGE.token, token);
+        } catch (e) {
+            console.warn('FCM getToken failed', e);
+        }
+    }
+
+    function showPrompt(messaging, swReg) {
+        const el = document.createElement('div');
+        el.id = 'gomu-push-prompt';
+        el.innerHTML = `
+            <div style="position:fixed;left:12px;right:12px;bottom:12px;max-width:380px;margin-left:auto;background:#0a0a0a;border:1px solid #003bff44;border-radius:14px;padding:14px 16px;box-shadow:0 12px 40px -8px rgba(0,59,255,.4);z-index:9999;color:#fff;font-family:Inter,system-ui,sans-serif">
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="font-size:24px;line-height:1">🔔</div>
+                <div style="flex:1;font-size:13px;line-height:1.45">
+                  <div style="font-weight:700;margin-bottom:2px">Aktifkan notifikasi episode baru?</div>
+                  <div style="opacity:.8">Dapat update episode anime favoritmu langsung di browser — bisa dimatikan kapan saja.</div>
+                  <div style="display:flex;gap:6px;margin-top:10px">
+                    <button data-act="ok" style="flex:1;background:#003bff;color:#fff;border:0;padding:7px 10px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">Aktifkan</button>
+                    <button data-act="no" style="background:transparent;color:#888;border:0;padding:7px 10px;font-size:12px;cursor:pointer">Nanti saja</button>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        document.body.appendChild(el);
+        localStorage.setItem(STORAGE.promptShown, String(Date.now()));
+
+        el.querySelector('[data-act="ok"]').onclick = async () => {
+            el.remove();
+            const perm = await Notification.requestPermission();
+            if (perm === 'granted') {
+                await refreshAndSendToken(messaging, swReg);
+            } else {
+                localStorage.setItem(STORAGE.denied, String(Date.now()));
+            }
+        };
+        el.querySelector('[data-act="no"]').onclick = () => {
+            el.remove();
+            localStorage.setItem(STORAGE.denied, String(Date.now()));
+        };
+    }
+</script>
+</body>
+</html>

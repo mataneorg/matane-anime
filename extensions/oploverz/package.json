@@ -1,0 +1,19 @@
+{
+  "name": "@matane-anime/oploverz-extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Extension for oploverz.site (Indonesian subtitles): listings, search, details, episodes and streams, read from its JSON API.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "ma-ext build",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:live": "LIVE=1 vitest run test/live.test.ts"
+  },
+  "devDependencies": {
+    "@matane-anime/extension-cli": "workspace:*",
+    "@matane-anime/extension-runtime": "workspace:*",
+    "@matane-anime/extension-sdk": "workspace:*"
+  }
+}

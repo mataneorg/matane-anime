@@ -1,0 +1,543 @@
+{
+  "components": [
+    {
+      "snapshot": "{\"data\":{\"title\":\"Anime Index\",\"search\":\"\",\"sort\":\"added-desc\",\"type\":\"0\",\"sortOptions\":[{\"title-asc\":\"A-Z\",\"title-desc\":\"Z-A\",\"release-asc\":\"Earliest Release\",\"release-desc\":\"Latest Release\",\"added-asc\":\"First Added\",\"added-desc\":\"Last Added\"},{\"s\":\"arr\"}],\"typeOptions\":[[\"All\",\"Unknown\",\"TV Series\",\"OVA\",\"Movie\",\"Other\",\"Web\",\"TV Special\",\"Music Video\"],{\"s\":\"arr\"}]},\"memo\":{\"id\":\"Rf9Ytwn1tLogr2bPkBjT\",\"name\":\"pages.anime-index\",\"path\":\"anime\",\"method\":\"GET\",\"release\":\"a-a-a\",\"children\":[],\"scripts\":[],\"assets\":[],\"errors\":[],\"locale\":\"en\"},\"checksum\":\"bb21e61567d3c5b1704123506e8123c00d506a0a340a8733d38abf1378522626\"}",
+      "effects": {
+        "returns": [null],
+        "html": "<div wire:id=\"Rf9Ytwn1tLogr2bPkBjT\" \n    x-data=\"{\n        items: JSON.parse('[{\\u0022slug\\u0022:\\u0022bdxpywpg\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/bdxpywpg\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/d2a38897-e166-4766-a324-a6de81affaaf.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Fushigi no Umi no Nadia\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Fushigi no Umi no Nadia\\u0022,\\u00228\\u0022:\\u0022\\\\u3075\\\\u3057\\\\u304e\\\\u306e\\\\u6d77\\\\u306e\\\\u30ca\\\\u30c7\\\\u30a3\\\\u30a2\\u0022,\\u00221\\u0022:\\u0022Nadia: The Secret of Blue Water\\u0022,\\u002210\\u0022:\\u0022Die Macht des Zaubersteins\\u0022,\\u00222\\u0022:\\u0022Nadia, le secret de l`eau bleue\\u0022,\\u002211\\u0022:\\u0022Nadia - Il mistero della pietra azzurra\\u0022,\\u00223\\u0022:\\u0022Nadia: Tajemnica B\\\\u0142\\\\u0119kitnego Kamienia\\u0022,\\u002236\\u0022:\\u0022\\\\u0627\\\\u0644\\\\u0645\\\\u0627\\\\u0633\\\\u0629 \\\\u0627\\\\u0644\\\\u0632\\\\u0631\\\\u0642\\\\u0627\\\\u0621\\u0022,\\u00224\\u0022:\\u0022Nadia: Tajemstv\\\\u00ed Modr\\\\u00e9 vody\\u0022,\\u002226\\u0022:\\u0022Matka maapallon ymp\\\\u00e4ri\\u0022,\\u002219\\u0022:\\u0022Nadia: Mavi Suyun Esrar\\\\u0131\\u0022,\\u002239\\u0022:\\u0022\\\\u5192\\\\u96aa\\\\u5c11\\\\u5973\\\\u5a1c\\\\u6c40\\\\u4e9e\\u0022,\\u002213\\u0022:\\u0022Nadia: el Secreto del Agua Azul\\u0022,\\u00226\\u0022:\\u0022\\\\u041d\\\\u0430\\\\u0434\\\\u044f c \\\\u0437\\\\u0430\\\\u0433\\\\u0430\\\\u0434\\\\u043e\\\\u0447\\\\u043d\\\\u043e\\\\u0433\\\\u043e \\\\u043c\\\\u043e\\\\u0440\\\\u044f\\u0022,\\u00227\\u0022:\\u0022\\\\uc2e0\\\\ube44\\\\ud55c \\\\ubc14\\\\ub2e4\\\\uc758 \\\\ub098\\\\ub514\\\\uc544\\u0022,\\u002215\\u0022:\\u0022Nadia: el Secret de l`Aigua Blau\\u0022,\\u00229\\u0022:\\u0022\\\\u84dd\\\\u5b9d\\\\u77f3\\\\u4e4b\\\\u8c1c\\u0022,\\u002244\\u0022:\\u0022Ang Mahiwagang Kwintas\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:1990,\\u0022episode_count\\u0022:39,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022omoppzuo\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/omoppzuo\\u0022,\\u0022name\\u0022:\\u0022New\\u0022},{\\u0022slug\\u0022:\\u0022xerwtqaz\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/xerwtqaz\\u0022,\\u0022name\\u0022:\\u0022Science Fiction\\u0022},{\\u0022slug\\u0022:\\u0022fqe1dvxj\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/fqe1dvxj\\u0022,\\u0022name\\u0022:\\u0022Romance\\u0022},{\\u0022slug\\u0022:\\u0022stbqhivp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/stbqhivp\\u0022,\\u0022name\\u0022:\\u0022Adventure\\u0022},{\\u0022slug\\u0022:\\u0022dnjyvkk6\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/dnjyvkk6\\u0022,\\u0022name\\u0022:\\u0022Tragedy\\u0022},{\\u0022slug\\u0022:\\u0022edjopyrm\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/edjopyrm\\u0022,\\u0022name\\u0022:\\u0022Conspiracy\\u0022},{\\u0022slug\\u0022:\\u0022nbbcswnn\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/nbbcswnn\\u0022,\\u0022name\\u0022:\\u0022Coming Of Age\\u0022},{\\u0022slug\\u0022:\\u0022gy9swe8o\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/gy9swe8o\\u0022,\\u0022name\\u0022:\\u0022Steampunk\\u0022}]},{\\u0022slug\\u0022:\\u0022su318sr9\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/su318sr9\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/d5c87f83-238e-4be2-9c57-281f2d9e3261.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Hyouken no Majutsushi ga Sekai o Suberu\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Hyouken no Majutsushi ga Sekai o Suberu\\u0022,\\u00228\\u0022:\\u0022\\\\u51b0\\\\u5263\\\\u306e\\\\u9b54\\\\u8853\\\\u5e2b\\\\u304c\\\\u4e16\\\\u754c\\\\u3092\\\\u7d71\\\\u3079\\\\u308b\\u0022,\\u00221\\u0022:\\u0022The Iceblade Sorcerer Shall Rule the World\\u0022,\\u00226\\u0022:\\u0022\\\\u0412\\\\u043e\\\\u043b\\\\u0448\\\\u0435\\\\u0431\\\\u043d\\\\u0438\\\\u043a \\\\u043b\\\\u0435\\\\u0434\\\\u044f\\\\u043d\\\\u043e\\\\u0433\\\\u043e \\\\u043a\\\\u043b\\\\u0438\\\\u043d\\\\u043a\\\\u0430 \\\\u043f\\\\u0440\\\\u0430\\\\u0432\\\\u0438\\\\u0442 \\\\u043c\\\\u0438\\\\u0440\\\\u043e\\\\u043c\\u0022,\\u002236\\u0022:\\u0022\\\\u0633\\\\u0627\\\\u062d\\\\u0631 \\\\u0646\\\\u0635\\\\u0644 \\\\u0627\\\\u0644\\\\u062c\\\\u0644\\\\u064a\\\\u062f \\\\u0633\\\\u064a\\\\u062d\\\\u0643\\\\u0645 \\\\u0627\\\\u0644\\\\u0639\\\\u0627\\\\u0644\\\\u0645\\u0022,\\u002233\\u0022:\\u0022\\\\u0427\\\\u0430\\\\u0440\\\\u0456\\\\u0432\\\\u043d\\\\u0438\\\\u043a \\\\u043a\\\\u0440\\\\u0438\\\\u0436\\\\u0430\\\\u043d\\\\u043e\\\\u0433\\\\u043e \\\\u043a\\\\u043b\\\\u0438\\\\u043d\\\\u043a\\\\u0430 \\\\u043f\\\\u0440\\\\u0430\\\\u0432\\\\u0438\\\\u0442\\\\u0438\\\\u043c\\\\u0435 \\\\u0441\\\\u0432\\\\u0456\\\\u0442\\\\u043e\\\\u043c\\u0022,\\u002238\\u0022:\\u0022\\\\u51b0\\\\u528d\\\\u7684\\\\u9b54\\\\u8853\\\\u5e2b\\\\u5c07\\\\u8981\\\\u7d71\\\\u4e00\\\\u4e16\\\\u754c\\u0022,\\u00229\\u0022:\\u0022\\\\u51b0\\\\u5251\\\\u7684\\\\u9b54\\\\u672f\\\\u5e08\\\\u5c06\\\\u8981\\\\u7edf\\\\u4e00\\\\u4e16\\\\u754c\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2023,\\u0022episode_count\\u0022:12,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u00222ch5lzak\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/2ch5lzak\\u0022,\\u0022name\\u0022:\\u0022Novel\\u0022},{\\u0022slug\\u0022:\\u0022v1odvezb\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/v1odvezb\\u0022,\\u0022name\\u0022:\\u0022Magic\\u0022},{\\u0022slug\\u0022:\\u0022ejccngyn\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/ejccngyn\\u0022,\\u0022name\\u0022:\\u0022Small Breasts\\u0022},{\\u0022slug\\u0022:\\u0022lnfeetm6\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/lnfeetm6\\u0022,\\u0022name\\u0022:\\u0022Large Breasts\\u0022}]},{\\u0022slug\\u0022:\\u0022rweyhswg\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/rweyhswg\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/3b914455-85ad-48e4-8cdd-123770fc9811.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Chainsaw Man Soushuuhen\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Chainsaw Man Soushuuhen\\u0022,\\u00228\\u0022:\\u0022\\\\u30c1\\\\u30a7\\\\u30f3\\\\u30bd\\\\u30fc\\\\u30de\\\\u30f3 \\\\u7dcf\\\\u96c6\\\\u7bc7\\u0022,\\u00221\\u0022:\\u0022Chainsaw Man: The Compilation\\u0022,\\u002238\\u0022:\\u0022\\\\u93c8\\\\u92f8\\\\u4eba \\\\u7e3d\\\\u96c6\\\\u7bc7\\u0022},\\u0022type\\u0022:\\u0022Web\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2025,\\u0022episode_count\\u0022:2,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022hmi0gccz\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/hmi0gccz\\u0022,\\u0022name\\u0022:\\u0022Manga\\u0022},{\\u0022slug\\u0022:\\u0022fxndqllf\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/fxndqllf\\u0022,\\u0022name\\u0022:\\u0022Shounen\\u0022},{\\u0022slug\\u0022:\\u0022mwma8dlr\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/mwma8dlr\\u0022,\\u0022name\\u0022:\\u0022Demon\\u0022},{\\u0022slug\\u0022:\\u00227kov4siq\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/7kov4siq\\u0022,\\u0022name\\u0022:\\u0022Violence\\u0022},{\\u0022slug\\u0022:\\u0022tzgxn5ic\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/tzgxn5ic\\u0022,\\u0022name\\u0022:\\u0022Seinen\\u0022},{\\u0022slug\\u0022:\\u0022xottt75h\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/xottt75h\\u0022,\\u0022name\\u0022:\\u0022Action\\u0022},{\\u0022slug\\u0022:\\u0022ctomuegt\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/ctomuegt\\u0022,\\u0022name\\u0022:\\u0022Dark Fantasy\\u0022},{\\u0022slug\\u0022:\\u0022clb0qvcw\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/clb0qvcw\\u0022,\\u0022name\\u0022:\\u0022Contemporary Fantasy\\u0022},{\\u0022slug\\u0022:\\u0022nbbcswnn\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/nbbcswnn\\u0022,\\u0022name\\u0022:\\u0022Coming Of Age\\u0022}]},{\\u0022slug\\u0022:\\u0022fqvspc7f\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/fqvspc7f\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/046019bd-e7e6-4413-af1d-1dd496d7d47b.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Hyouken no Majutsushi ga Sekai o Suberu II\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Hyouken no Majutsushi ga Sekai o Suberu II\\u0022,\\u00228\\u0022:\\u0022\\\\u51b0\\\\u5263\\\\u306e\\\\u9b54\\\\u8853\\\\u5e2b\\\\u304c\\\\u4e16\\\\u754c\\\\u3092\\\\u7d71\\\\u3079\\\\u308bII\\u0022,\\u00221\\u0022:\\u0022The Iceblade Sorcerer Shall Rule the World II\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u0022woprbieo\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/woprbieo\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/deed3a15-306d-4fe8-9927-ca1a1de8df48.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Mahou Shoujo Ikusei Keikaku\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Mahou Shoujo Ikusei Keikaku\\u0022,\\u00228\\u0022:\\u0022\\\\u9b54\\\\u6cd5\\\\u5c11\\\\u5973\\\\u80b2\\\\u6210\\\\u8a08\\\\u753b\\u0022,\\u00221\\u0022:\\u0022Magical Girl Raising Project\\u0022,\\u00227\\u0022:\\u0022\\\\ub9c8\\\\ubc95\\\\uc18c\\\\ub140 \\\\uc721\\\\uc131\\\\uacc4\\\\ud68d\\u0022,\\u00229\\u0022:\\u0022\\\\u9b54\\\\u6cd5\\\\u5c11\\\\u5973\\\\u80b2\\\\u6210\\\\u8ba1\\\\u5212\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2016,\\u0022episode_count\\u0022:12,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u00222ch5lzak\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/2ch5lzak\\u0022,\\u0022name\\u0022:\\u0022Novel\\u0022},{\\u0022slug\\u0022:\\u00227kov4siq\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/7kov4siq\\u0022,\\u0022name\\u0022:\\u0022Violence\\u0022},{\\u0022slug\\u0022:\\u0022s1ssghb1\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/s1ssghb1\\u0022,\\u0022name\\u0022:\\u0022Fantasy\\u0022},{\\u0022slug\\u0022:\\u0022clb0qvcw\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/clb0qvcw\\u0022,\\u0022name\\u0022:\\u0022Contemporary Fantasy\\u0022},{\\u0022slug\\u0022:\\u0022yluwjvce\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/yluwjvce\\u0022,\\u0022name\\u0022:\\u0022Magical Girl\\u0022}]},{\\u0022slug\\u0022:\\u0022cagvm1xl\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/cagvm1xl\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/c4643bc9-f53b-44ed-aa67-6722aab3b3f5.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Tactical Roar\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Tactical Roar\\u0022,\\u00228\\u0022:\\u0022\\\\u30bf\\\\u30af\\\\u30c6\\\\u30a3\\\\u30ab\\\\u30eb\\\\u30ed\\\\u30a2\\u0022,\\u00229\\u0022:\\u0022\\\\u6218\\\\u543c\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:true,\\u0022start_year\\u0022:2006,\\u0022episode_count\\u0022:13,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022omoppzuo\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/omoppzuo\\u0022,\\u0022name\\u0022:\\u0022New\\u0022},{\\u0022slug\\u0022:\\u0022xerwtqaz\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/xerwtqaz\\u0022,\\u0022name\\u0022:\\u0022Science Fiction\\u0022},{\\u0022slug\\u0022:\\u0022xottt75h\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/xottt75h\\u0022,\\u0022name\\u0022:\\u0022Action\\u0022},{\\u0022slug\\u0022:\\u0022ikc7cwm5\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/ikc7cwm5\\u0022,\\u0022name\\u0022:\\u0022Harem\\u0022},{\\u0022slug\\u0022:\\u0022lnfeetm6\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/lnfeetm6\\u0022,\\u0022name\\u0022:\\u0022Large Breasts\\u0022},{\\u0022slug\\u0022:\\u0022mkjkmcfb\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/mkjkmcfb\\u0022,\\u0022name\\u0022:\\u0022Ecchi\\u0022},{\\u0022slug\\u0022:\\u0022edjopyrm\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/edjopyrm\\u0022,\\u0022name\\u0022:\\u0022Conspiracy\\u0022},{\\u0022slug\\u0022:\\u0022bmgyz0el\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/bmgyz0el\\u0022,\\u0022name\\u0022:\\u0022Thriller\\u0022},{\\u0022slug\\u0022:\\u0022pg1utx7b\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/pg1utx7b\\u0022,\\u0022name\\u0022:\\u0022Love Polygon\\u0022},{\\u0022slug\\u0022:\\u0022lg6ikle4\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/lg6ikle4\\u0022,\\u0022name\\u0022:\\u0022Nurse\\u0022}]},{\\u0022slug\\u0022:\\u0022mrvjvnej\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/mrvjvnej\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/7c7e22bb-958a-4e36-af4c-90f6ebb1ccb1.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Kamichama Karin\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Kamichama Karin\\u0022,\\u00228\\u0022:\\u0022\\\\u304b\\\\u307f\\\\u3061\\\\u3083\\\\u307e\\\\u304b\\\\u308a\\\\u3093\\u0022,\\u00221\\u0022:\\u0022Chibi Goddess Karin\\u0022,\\u00226\\u0022:\\u0022\\\\u041c\\\\u0430\\\\u043b\\\\u0435\\\\u043d\\\\u044c\\\\u043a\\\\u0430\\\\u044f \\\\u0431\\\\u043e\\\\u0433\\\\u0438\\\\u043d\\\\u044f \\\\u041a\\\\u0430\\\\u0440\\\\u0438\\\\u043d\\u0022,\\u00229\\u0022:\\u0022\\\\u5c0f\\\\u5973\\\\u795e\\\\u82b1\\\\u94c3\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2007,\\u0022episode_count\\u0022:26,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022hmi0gccz\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/hmi0gccz\\u0022,\\u0022name\\u0022:\\u0022Manga\\u0022},{\\u0022slug\\u0022:\\u0022bio3ygrp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/bio3ygrp\\u0022,\\u0022name\\u0022:\\u0022Comedy\\u0022},{\\u0022slug\\u0022:\\u0022fqe1dvxj\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/fqe1dvxj\\u0022,\\u0022name\\u0022:\\u0022Romance\\u0022},{\\u0022slug\\u0022:\\u0022mve1ktzp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/mve1ktzp\\u0022,\\u0022name\\u0022:\\u0022Shoujo\\u0022},{\\u0022slug\\u0022:\\u0022s1ssghb1\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/s1ssghb1\\u0022,\\u0022name\\u0022:\\u0022Fantasy\\u0022},{\\u0022slug\\u0022:\\u0022jqtrq3bd\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/jqtrq3bd\\u0022,\\u0022name\\u0022:\\u0022Shounen Ai\\u0022},{\\u0022slug\\u0022:\\u00224hjo1fp3\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/4hjo1fp3\\u0022,\\u0022name\\u0022:\\u0022Angst\\u0022},{\\u0022slug\\u0022:\\u0022yluwjvce\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/yluwjvce\\u0022,\\u0022name\\u0022:\\u0022Magical Girl\\u0022},{\\u0022slug\\u0022:\\u0022m1i6voao\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/m1i6voao\\u0022,\\u0022name\\u0022:\\u0022Shoujo Ai\\u0022},{\\u0022slug\\u0022:\\u0022rinefass\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/rinefass\\u0022,\\u0022name\\u0022:\\u0022Deity\\u0022},{\\u0022slug\\u0022:\\u0022nbbcswnn\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/nbbcswnn\\u0022,\\u0022name\\u0022:\\u0022Coming Of Age\\u0022},{\\u0022slug\\u0022:\\u0022yo3wauw7\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/yo3wauw7\\u0022,\\u0022name\\u0022:\\u0022Reverse Trap\\u0022}]},{\\u0022slug\\u0022:\\u0022gtmrzfaf\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/gtmrzfaf\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/321dfc54-87bb-4918-b8a4-67bfa36f99f0.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Tantei wa Mou, Shinde Iru.\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Tantei wa Mou, Shinde Iru.\\u0022,\\u00228\\u0022:\\u0022\\\\u63a2\\\\u5075\\\\u306f\\\\u3082\\\\u3046, \\\\u6b7b\\\\u3093\\\\u3067\\\\u3044\\\\u308b.\\u0022,\\u00221\\u0022:\\u0022The Detective Is Already Dead\\u0022,\\u002240\\u0022:\\u0022\\\\u0e19\\\\u0e31\\\\u0e01\\\\u0e2a\\\\u0e37\\\\u0e1a\\\\u0e15\\\\u0e32\\\\u0e22\\\\u0e41\\\\u0e25\\\\u0e49\\\\u0e27\\u0022,\\u002238\\u0022:\\u0022\\\\u5075\\\\u63a2\\\\u5df2\\\\u7d93\\\\uff0c\\\\u6b7b\\\\u4e86\\\\u3002\\u0022,\\u00229\\u0022:\\u0022\\\\u4fa6\\\\u63a2\\\\u5df2\\\\u7ecf\\\\uff0c\\\\u6b7b\\\\u4e86\\\\u3002\\u0022,\\u00226\\u0022:\\u0022\\\\u0414\\\\u0435\\\\u0442\\\\u0435\\\\u043a\\\\u0442\\\\u0438\\\\u0432 \\\\u0443\\\\u0436\\\\u0435 \\\\u043c\\\\u0451\\\\u0440\\\\u0442\\\\u0432\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2021,\\u0022episode_count\\u0022:12,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u00222ch5lzak\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/2ch5lzak\\u0022,\\u0022name\\u0022:\\u0022Novel\\u0022},{\\u0022slug\\u0022:\\u0022f6dnyhgj\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/f6dnyhgj\\u0022,\\u0022name\\u0022:\\u0022Alien\\u0022},{\\u0022slug\\u0022:\\u00227kov4siq\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/7kov4siq\\u0022,\\u0022name\\u0022:\\u0022Violence\\u0022},{\\u0022slug\\u0022:\\u0022xottt75h\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/xottt75h\\u0022,\\u0022name\\u0022:\\u0022Action\\u0022},{\\u0022slug\\u0022:\\u0022lcizyh5p\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/lcizyh5p\\u0022,\\u0022name\\u0022:\\u0022Super Power\\u0022},{\\u0022slug\\u0022:\\u0022dnjyvkk6\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/dnjyvkk6\\u0022,\\u0022name\\u0022:\\u0022Tragedy\\u0022},{\\u0022slug\\u0022:\\u00224hjo1fp3\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/4hjo1fp3\\u0022,\\u0022name\\u0022:\\u0022Angst\\u0022},{\\u0022slug\\u0022:\\u0022vgtleo1g\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/vgtleo1g\\u0022,\\u0022name\\u0022:\\u0022Detective\\u0022}]},{\\u0022slug\\u0022:\\u0022a1vkn86p\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/a1vkn86p\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/5b7bc0db-8cf1-4bc3-b4b4-b1d90264a421.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Kikansha no Mahou wa Tokubetsu Desu (2026)\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Kikansha no Mahou wa Tokubetsu Desu (2026)\\u0022,\\u00228\\u0022:\\u0022\\\\u5e30\\\\u9084\\\\u8005\\\\u306e\\\\u9b54\\\\u6cd5\\\\u306f\\\\u7279\\\\u5225\\\\u3067\\\\u3059 (2026)\\u0022,\\u00221\\u0022:\\u0022A Returner`s Magic Should Be Special (2026)\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u0022r4ueusqf\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/r4ueusqf\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/53df3500-d83f-4c2c-adbf-c79ec700d9dc.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Juuou Bushin Dandivine\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Juuou Bushin Dandivine\\u0022,\\u00228\\u0022:\\u0022\\\\u7363\\\\u738b\\\\u6b66\\\\u795e\\\\u30c0\\\\u30f3\\\\u30c7\\\\u30f4\\\\u30a1\\\\u30a4\\\\u30f3\\u0022,\\u00221\\u0022:\\u0022Dandivine\\u0022,\\u002210\\u0022:\\u0022Dandivine\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u0022fhrxe6hs\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/fhrxe6hs\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/fd9961f4-2d9b-440c-a264-6f3059d84bee.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Tokyo Revengers: Seiya Kessen Hen\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Tokyo Revengers: Seiya Kessen Hen\\u0022,\\u00228\\u0022:\\u0022\\\\u6771\\\\u4eac\\\\u30ea\\\\u30d9\\\\u30f3\\\\u30b8\\\\u30e3\\\\u30fc\\\\u30ba \\\\u8056\\\\u591c\\\\u6c7a\\\\u6226\\\\u7de8\\u0022,\\u002210\\u0022:\\u0022Tokyo Revengers: Christmas Showdown Arc\\u0022,\\u00229\\u0022:\\u0022\\\\u4e1c\\\\u4eac\\\\u590d\\\\u4ec7\\\\u8005 \\\\u5723\\\\u591c\\\\u51b3\\\\u6218\\\\u7bc7\\u0022,\\u00221\\u0022:\\u0022Tokyo Revengers: Christmas Showdown\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2023,\\u0022episode_count\\u0022:13,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022hmi0gccz\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/hmi0gccz\\u0022,\\u0022name\\u0022:\\u0022Manga\\u0022},{\\u0022slug\\u0022:\\u0022fxndqllf\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/fxndqllf\\u0022,\\u0022name\\u0022:\\u0022Shounen\\u0022},{\\u0022slug\\u0022:\\u0022xottt75h\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/xottt75h\\u0022,\\u0022name\\u0022:\\u0022Action\\u0022},{\\u0022slug\\u0022:\\u0022jz5b4eku\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/jz5b4eku\\u0022,\\u0022name\\u0022:\\u0022Time Travel\\u0022}]},{\\u0022slug\\u0022:\\u00225pfsz5ft\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/5pfsz5ft\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/f98f0fd0-5343-488e-a29c-2bf3155af0db.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Magic Knight Rayearth (2026)\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Magic Knight Rayearth (2026)\\u0022,\\u00228\\u0022:\\u0022\\\\u9b54\\\\u6cd5\\\\u9a0e\\\\u58eb\\\\u30ec\\\\u30a4\\\\u30a2\\\\u30fc\\\\u30b9 (2026)\\u0022,\\u00221\\u0022:\\u0022Magic Knight Rayearth (2026)\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u00228euvyf6d\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/8euvyf6d\\u0022,\\u0022name\\u0022:\\u0022Isekai\\u0022},{\\u0022slug\\u0022:\\u0022hmi0gccz\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/hmi0gccz\\u0022,\\u0022name\\u0022:\\u0022Manga\\u0022},{\\u0022slug\\u0022:\\u0022mve1ktzp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/mve1ktzp\\u0022,\\u0022name\\u0022:\\u0022Shoujo\\u0022},{\\u0022slug\\u0022:\\u0022v1odvezb\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/v1odvezb\\u0022,\\u0022name\\u0022:\\u0022Magic\\u0022},{\\u0022slug\\u0022:\\u0022s1ssghb1\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/s1ssghb1\\u0022,\\u0022name\\u0022:\\u0022Fantasy\\u0022}]},{\\u0022slug\\u0022:\\u0022mgi25iln\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/mgi25iln\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/a5631161-8a36-4a81-9762-24c800c8e576.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Sekai Saikyou no Majo, Hajimemashita\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Sekai Saikyou no Majo, Hajimemashita\\u0022,\\u00228\\u0022:\\u0022\\\\u4e16\\\\u754c\\\\u6700\\\\u5f37\\\\u306e\\\\u9b54\\\\u5973, \\\\u59cb\\\\u3081\\\\u307e\\\\u3057\\\\u305f\\u0022,\\u00221\\u0022:\\u0022The World`s Strongest Witch\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022bio3ygrp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/bio3ygrp\\u0022,\\u0022name\\u0022:\\u0022Comedy\\u0022},{\\u0022slug\\u0022:\\u0022yxpb0efa\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/yxpb0efa\\u0022,\\u0022name\\u0022:\\u0022Virtual World\\u0022}]},{\\u0022slug\\u0022:\\u0022k5usmfor\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/k5usmfor\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/eb42f9fd-41ad-47de-9905-8d79193aec21.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Tantei wa Mou, Shinde Iru. Season 2\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Tantei wa Mou, Shinde Iru. Season 2\\u0022,\\u00228\\u0022:\\u0022\\\\u63a2\\\\u5075\\\\u306f\\\\u3082\\\\u3046, \\\\u6b7b\\\\u3093\\\\u3067\\\\u3044\\\\u308b. Season2\\u0022,\\u00221\\u0022:\\u0022The Detective Is Already Dead Season 2\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u0022ydnt5cpw\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/ydnt5cpw\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/81c95fb4-3776-495d-94f0-8c6d85ad5487.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Sasaki to P-chan Season 2\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Sasaki to P-chan Season 2\\u0022,\\u00228\\u0022:\\u0022\\\\u4f50\\\\u3005\\\\u6728\\\\u3068\\\\u30d4\\\\u30fc\\\\u3061\\\\u3083\\\\u3093 Season 2\\u0022,\\u00221\\u0022:\\u0022Sasaki and Peeps Season 2\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u00222ch5lzak\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/2ch5lzak\\u0022,\\u0022name\\u0022:\\u0022Novel\\u0022},{\\u0022slug\\u0022:\\u00228euvyf6d\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/8euvyf6d\\u0022,\\u0022name\\u0022:\\u0022Isekai\\u0022},{\\u0022slug\\u0022:\\u0022fxndqllf\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/fxndqllf\\u0022,\\u0022name\\u0022:\\u0022Shounen\\u0022},{\\u0022slug\\u0022:\\u0022bio3ygrp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/bio3ygrp\\u0022,\\u0022name\\u0022:\\u0022Comedy\\u0022},{\\u0022slug\\u0022:\\u0022s1ssghb1\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/s1ssghb1\\u0022,\\u0022name\\u0022:\\u0022Fantasy\\u0022}]},{\\u0022slug\\u0022:\\u0022xgmrnykp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/xgmrnykp\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/1b1676cb-da89-471f-ac5c-1ae699e32c4e.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Wonderful Precure! The Movie!\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Wonderful Precure! The Movie!\\u0022,\\u00228\\u0022:\\u0022\\\\u308f\\\\u3093\\\\u3060\\\\u3075\\\\u308b\\\\u3077\\\\u308a\\\\u304d\\\\u3085\\\\u3042! \\\\u3056\\\\u30fb\\\\u3080\\\\u30fc\\\\u3073\\\\u30fc!\\u0022},\\u0022type\\u0022:\\u0022Movie\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2024,\\u0022episode_count\\u0022:1,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u0022y4pkdvtm\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/y4pkdvtm\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/c4b51313-5a1e-4a0c-a6c5-53be14351fec.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Tsuihou Sareta Cheat Fuyo Majutsushi wa Kimama na Second Life o Ouka Suru. Ore wa Buki dake Janaku,  Arayuru Mono ni \\\\u0022Kyouka Point\\\\u0022 o Fuyo Dekirushi, Ore no Ishi de Itsu demo Kouka o Kaijo Dekiru Kedo, Nokotta Hitotachi Daijoubu?\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Tsuihou Sareta Cheat Fuyo Majutsushi wa Kimama na Second Life o Ouka Suru. Ore wa Buki dake Janaku,  Arayuru Mono ni \\\\u0022Kyouka Point\\\\u0022 o Fuyo Dekirushi, Ore no Ishi de Itsu demo Kouka o Kaijo Dekiru Kedo, Nokotta Hitotachi Daijoubu?\\u0022,\\u00228\\u0022:\\u0022\\\\u8ffd\\\\u653e\\\\u3055\\\\u308c\\\\u305f\\\\u30c1\\\\u30fc\\\\u30c8\\\\u4ed8\\\\u4e0e\\\\u9b54\\\\u8853\\\\u5e2b\\\\u306f\\\\u6c17\\\\u307e\\\\u307e\\\\u306a\\\\u30bb\\\\u30ab\\\\u30f3\\\\u30c9\\\\u30e9\\\\u30a4\\\\u30d5\\\\u3092\\\\u8b33\\\\u6b4c\\\\u3059\\\\u308b. ~\\\\u4ffa\\\\u306f\\\\u6b66\\\\u5668\\\\u3060\\\\u3051\\\\u3058\\\\u3083\\\\u306a\\\\u304f, \\\\u3042\\\\u3089\\\\u3086\\\\u308b\\\\u3082\\\\u306e\\\\u306b\\\\u300e\\\\u5f37\\\\u5316\\\\u30dd\\\\u30a4\\\\u30f3\\\\u30c8\\\\u300f\\\\u3092\\\\u4ed8\\\\u4e0e\\\\u3067\\\\u304d\\\\u308b\\\\u3057, \\\\u4ffa\\\\u306e\\\\u610f\\\\u601d\\\\u3067\\\\u3044\\\\u3064\\\\u3067\\\\u3082\\\\u52b9\\\\u679c\\\\u3092\\\\u89e3\\\\u9664\\\\u3067\\\\u304d\\\\u308b\\\\u3051\\\\u3069, \\\\u6b8b\\\\u3063\\\\u305f\\\\u4eba\\\\u305f\\\\u3061\\\\u5927\\\\u4e08\\\\u592b?~\\u0022,\\u00221\\u0022:\\u0022The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u0022x4u6h37x\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/x4u6h37x\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/3273979c-af60-41c2-b79f-53ac9aef7ef9.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Chou Jun! Choujou-senpai\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Chou Jun! Choujou-senpai\\u0022,\\u00228\\u0022:\\u0022\\\\u8d85\\\\u5de1! \\\\u8d85\\\\u6761\\\\u5148\\\\u8f29\\u0022,\\u00221\\u0022:\\u0022Super Psychic Policeman Chojo\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u00229by0q63d\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/9by0q63d\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/7e73c478-066f-4f8e-80bd-ed2cb60a9c8b.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Battle Spirits [Re] Zekkai no Kuu\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Battle Spirits [Re] Zekkai no Kuu\\u0022,\\u00228\\u0022:\\u0022Battle Spirits [Re] \\\\u7d76\\\\u754c\\\\u306e\\\\u7a7a\\u0022,\\u00221\\u0022:\\u0022Battle Spirits [Re] Zekkai no Ku\\u0022,\\u002210\\u0022:\\u0022Battle Spirits [Re] ZEKKAI NO KU\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u00220h35rwud\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/0h35rwud\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/6c814d63-45dd-4a41-a1f6-7beb323aa7d1.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Kyouran Reijou Nia Liston: Byoujaku Reijou ni Tensei Shita Kami-goroshi no Bujin no Karei Naru Musouroku\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Kyouran Reijou Nia Liston: Byoujaku Reijou ni Tensei Shita Kami-goroshi no Bujin no Karei Naru Musouroku\\u0022,\\u00228\\u0022:\\u0022\\\\u51f6\\\\u4e71\\\\u4ee4\\\\u5b22\\\\u30cb\\\\u30a2\\\\u30fb\\\\u30ea\\\\u30b9\\\\u30c8\\\\u30f3 \\\\u75c5\\\\u5f31\\\\u4ee4\\\\u5b22\\\\u306b\\\\u8ee2\\\\u751f\\\\u3057\\\\u305f\\\\u795e\\\\u6bba\\\\u3057\\\\u306e\\\\u6b66\\\\u4eba\\\\u306e\\\\u83ef\\\\u9e97\\\\u306a\\\\u308b\\\\u7121\\\\u53cc\\\\u9332\\u0022,\\u00221\\u0022:\\u0022Nia Liston: The Merciless Maiden\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:25,\\u0022tags\\u0022:[]},{\\u0022slug\\u0022:\\u00222gngqhes\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/2gngqhes\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/c5bdf462-7b12-4808-8931-546066345723.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Shiotaiou no Satou-san ga Ore ni dake Amai\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Shiotaiou no Satou-san ga Ore ni dake Amai\\u0022,\\u00228\\u0022:\\u0022\\\\u5869\\\\u5bfe\\\\u5fdc\\\\u306e\\\\u4f50\\\\u85e4\\\\u3055\\\\u3093\\\\u304c\\\\u4ffa\\\\u306b\\\\u3060\\\\u3051\\\\u7518\\\\u3044\\u0022,\\u00221\\u0022:\\u0022The Cold Sato-san Is Only Sweet to Me\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:12,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022fqe1dvxj\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/fqe1dvxj\\u0022,\\u0022name\\u0022:\\u0022Romance\\u0022}]},{\\u0022slug\\u0022:\\u0022ehugtifj\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/ehugtifj\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/06f80932-8555-4159-aa14-01ee4abd4d86.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Mahou Shoujo Ikusei Keikaku Restart\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Mahou Shoujo Ikusei Keikaku Restart\\u0022,\\u00228\\u0022:\\u0022\\\\u9b54\\\\u6cd5\\\\u5c11\\\\u5973\\\\u80b2\\\\u6210\\\\u8a08\\\\u753b restart\\u0022,\\u00221\\u0022:\\u0022Magical Girl Raising Project Restart\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022s1ssghb1\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/s1ssghb1\\u0022,\\u0022name\\u0022:\\u0022Fantasy\\u0022},{\\u0022slug\\u0022:\\u0022clb0qvcw\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/clb0qvcw\\u0022,\\u0022name\\u0022:\\u0022Contemporary Fantasy\\u0022},{\\u0022slug\\u0022:\\u0022yluwjvce\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/yluwjvce\\u0022,\\u0022name\\u0022:\\u0022Magical Girl\\u0022}]},{\\u0022slug\\u0022:\\u00225ahx4ztg\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/5ahx4ztg\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/54b505ee-003d-4b5c-a1b7-9510ca8d5086.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Eiga Layton-kyouju to Eien no Utahime\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Eiga Layton-kyouju to Eien no Utahime\\u0022,\\u00228\\u0022:\\u0022\\\\u6620\\\\u753b\\\\u30ec\\\\u30a4\\\\u30c8\\\\u30f3\\\\u6559\\\\u6388\\\\u3068\\\\u6c38\\\\u9060\\\\u306e\\\\u6b4c\\\\u59eb THE ETERNAL DIVA\\u0022,\\u00221\\u0022:\\u0022Professor Layton and the Eternal Diva\\u0022,\\u002210\\u0022:\\u0022Professor Layton und die ewige Diva\\u0022,\\u00222\\u0022:\\u0022Professeur Layton et la Diva \\\\u00e9ternelle\\u0022,\\u002213\\u0022:\\u0022Profesor Layton y la Diva Eterna\\u0022,\\u00223\\u0022:\\u0022Profesor Layton i wieczna diwa\\u0022,\\u002243\\u0022:\\u0022Professor Layton en de Eeuwige Diva\\u0022,\\u00229\\u0022:\\u0022\\\\u96f7\\\\u987f\\\\u6559\\\\u6388\\\\u4e0e\\\\u6c38\\\\u8fdc\\\\u7684\\\\u6b4c\\\\u59ec\\u0022},\\u0022type\\u0022:\\u0022Movie\\u0022,\\u0022is_ongoing\\u0022:false,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2009,\\u0022episode_count\\u0022:1,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022nsaugxuc\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/nsaugxuc\\u0022,\\u0022name\\u0022:\\u0022Game\\u0022},{\\u0022slug\\u0022:\\u0022stbqhivp\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/stbqhivp\\u0022,\\u0022name\\u0022:\\u0022Adventure\\u0022},{\\u0022slug\\u0022:\\u0022vgtleo1g\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/vgtleo1g\\u0022,\\u0022name\\u0022:\\u0022Detective\\u0022}]},{\\u0022slug\\u0022:\\u0022mzmm7u9g\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/anime\\\\\\/mzmm7u9g\\u0022,\\u0022cover\\u0022:\\u0022https:\\\\\\/\\\\\\/anizone.to\\\\\\/images\\\\\\/anime\\\\\\/af7ae4d8-5412-4571-8773-e67215891129.jpg\\u0022,\\u0022main_title\\u0022:\\u0022Psyren\\u0022,\\u0022title_list\\u0022:{\\u00225\\u0022:\\u0022Psyren\\u0022,\\u00228\\u0022:\\u0022PSY\\\\u042fEN\\u0022,\\u00221\\u0022:\\u0022Psyren\\u0022},\\u0022type\\u0022:\\u0022TV Series\\u0022,\\u0022is_ongoing\\u0022:true,\\u0022is_unsafe\\u0022:false,\\u0022start_year\\u0022:2026,\\u0022episode_count\\u0022:4,\\u0022tags\\u0022:[{\\u0022slug\\u0022:\\u0022hmi0gccz\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/hmi0gccz\\u0022,\\u0022name\\u0022:\\u0022Manga\\u0022},{\\u0022slug\\u0022:\\u0022fxndqllf\\u0022,\\u0022url\\u0022:\\u0022http:\\\\\\/\\\\\\/anizone.to\\\\\\/tag\\\\\\/fxndqllf\\u0022,\\u0022name\\u0022:\\u0022Shounen\\u0022}]}]'),\n        nextCursor: 'eyJjcmVhdGVkX2F0IjoiMjAyNi0xMC0wNSAxNDozNToxOSIsImFuaW1lLnNsdWciOiJtem1tN3U5ZyIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0',\n        hasMore: true,\n        loading: false,\n        view: 'list',\n\n        get activeGridItems() {\n            return this.view === 'grid' ? this.items : [];\n        },\n\n        get activeListItems() {\n            return this.view === 'list' ? this.items : [];\n        },\n\n        init() {\n            const match = document.cookie.match(/(?:^|; )anime-view=([^;]*)/);\n            if (match) {\n                this.view = decodeURIComponent(match[1]);\n            }\n        },\n\n        setView(newView) {\n            this.view = newView;\n            document.cookie = `anime-view=${newView}; path=/; max-age=31536000; SameSite=Lax`;\n        },\n\n        getTitle(anime) {\n            return window.getTitle(anime.title_list, anime.main_title);\n        },\n\n        isBlurred(anime) {\n            return anime.is_unsafe && (window.getUnsafeState?.().blur ?? false);\n        },\n\n        loadMore() {\n            if (this.loading || !this.hasMore || !this.nextCursor) return;\n            this.loading = true;\n            $wire.loadPage(this.nextCursor);\n        }\n    }\"\n    @items-loaded.window=\"\n        if ($event.detail.items && $event.detail.items.length) {\n            items.push(...$event.detail.items);\n        }\n        nextCursor = $event.detail.nextCursor;\n        hasMore = $event.detail.hasMore;\n        loading = false;\n    \"\n    @filters-reset.window=\"\n        items.splice(0, items.length, ...$event.detail.items);\n        nextCursor = $event.detail.nextCursor;\n        hasMore = $event.detail.hasMore;\n        loading = false;\n    \"\n    class=\"w-full lg:container pb-[109px] md:pb-12 pt-12 px-4 space-y-12\"\n>\n    <div class=\"space-y-4\">\n        <h1 class=\"text-xl xs:text-2xl md:text-3xl text-center lg:text-start text-slate-100\">Anime Index</h1>\n\n        <div class=\"flex flex-col lg:flex-row items-stretch lg:items-center justify-between mb-4 gap-3\">\n\n    \n    <div class=\"w-full lg:w-96 flex flex-col gap-1\">\n        <input\n            wire:model.live.debounce.500=\"search\"\n            class=\"w-full rounded-lg bg-slate-900 border border-slate-700 placeholder:text-slate-200/50 focus:outline-none focus:ring-0 px-4 py-2.5\"\n            placeholder=\"Search Title\"\n        />\n        <!--[if BLOCK]><![endif]--><!--[if ENDBLOCK]><![endif]-->    </div>\n\n    \n    <div class=\"flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-4\" role=\"group\">\n\n        \n        <div class=\"grid grid-cols-2 sm:flex items-center gap-2 sm:gap-4 grow sm:grow-0\">\n            <!--[if BLOCK]><![endif]-->                <div class=\"w-full\">\n                    <select wire:model.live=\"type\" class=\"w-full sm:w-auto rounded-lg bg-slate-900 border border-slate-700 focus:outline-none focus:ring-0 pl-4 pr-9 py-2.5\">\n<!--[if BLOCK]><![endif]-->    <option value=\"0\">All</option>\n    <option value=\"1\">Unknown</option>\n    <option value=\"2\">TV Series</option>\n    <option value=\"3\">OVA</option>\n    <option value=\"4\">Movie</option>\n    <option value=\"5\">Other</option>\n    <option value=\"6\">Web</option>\n    <option value=\"7\">TV Special</option>\n    <option value=\"8\">Music Video</option>\n<!--[if ENDBLOCK]><![endif]-->\n</select>\n                </div>\n            <!--[if ENDBLOCK]><![endif]-->\n            <!--[if BLOCK]><![endif]-->                <div class=\"w-full\">\n                    <select wire:model.live=\"sort\" class=\"w-full sm:w-auto rounded-lg bg-slate-900 border border-slate-700 focus:outline-none focus:ring-0 pl-4 pr-9 py-2.5\">\n<!--[if BLOCK]><![endif]-->    <option value=\"title-asc\">A-Z</option>\n    <option value=\"title-desc\">Z-A</option>\n    <option value=\"release-asc\">Earliest Release</option>\n    <option value=\"release-desc\">Latest Release</option>\n    <option value=\"added-asc\">First Added</option>\n    <option value=\"added-desc\">Last Added</option>\n<!--[if ENDBLOCK]><![endif]-->\n</select>\n                </div>\n            <!--[if ENDBLOCK]><![endif]-->        </div>\n\n        \n        <div wire:ignore class=\"flex items-center space-x-1 bg-slate-900 p-1 rounded-lg border border-slate-700 shrink-0 ml-auto lg:ml-0\">\n            <button \n                type=\"button\"\n                @click=\"setView('list')\"\n                :class=\"view === 'list' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'\"\n                class=\"p-2 rounded-md transition-colors\"\n                aria-label=\"List View\"\n            >\n                <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" class=\"w-5 h-5\" fill=\"currentColor\">\n    <path d=\"M40 48C26.7 48 16 58.7 16 72v48c0 13.3 10.7 24 24 24H88c13.3 0 24-10.7 24-24V72c0-13.3-10.7-24-24-24H40zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H192zM16 232v48c0 13.3 10.7 24 24 24H88c13.3 0 24-10.7 24-24V232c0-13.3-10.7-24-24-24H40c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24H88c13.3 0 24-10.7 24-24V392c0-13.3-10.7-24-24-24H40z\"/>\n</svg>            </button>\n\n            <button \n                type=\"button\"\n                @click=\"setView('grid')\"\n                :class=\"view === 'grid' ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'\"\n                class=\"p-2 rounded-md transition-colors\"\n                aria-label=\"Grid View\"\n            >\n                <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" class=\"w-5 h-5\" fill=\"currentColor\">\n    <path fill-rule=\"evenodd\" d=\"M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z\" clip-rule=\"evenodd\" />\n</svg>\n              </button>\n        </div>\n\n    </div>\n\n</div>\n        <div \n            x-show=\"window.getUnsafeState?.()?.blur\"\n            x-cloak\n            class=\"max-w-xl flex justify-center mx-auto\"\n        >\n            <div class=\"w-full text-white text-center bg-rose-600/90 p-4 py-3 border border-rose-500/90 rounded-md\">\n                Safesearch filter is active. You can disable it in the \n                <a href=\"http://anizone.to/settings\" wire:navigate class=\"text-white font-bold underline\">Settings</a> page.\n            </div>\n        </div>\n\n        \n        <div wire:ignore>\n            \n            <div x-show=\"view === 'grid'\">\n                <ul x-show=\"items.length > 0\" class=\"grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-8 list-none\">\n                    <template x-for=\"anime in activeGridItems\" :key=\"'grid-' + anime.slug\">\n                        <li \n    x-data=\"{ inView: false, loaded: false }\"\n    class=\"space-y-3 pb-6\"\n>\n    \n    <div class=\"relative block aspect-[5/7] overflow-hidden drop-shadow-lg rounded-lg bg-gray-700\">\n        <a\n            wire:navigate\n            :href=\"anime.url\"\n            x-intersect.margin.200px.once=\"inView = true\"\n            class=\"block w-full h-full\"\n        >\n            <template x-if=\"inView\">\n                <img\n                    :src=\"anime.cover\"\n                    :alt=\"getTitle(anime)\"\n                    @load=\"loaded = true\"\n                    :class=\"{ \n                        'blur-md': isBlurred(anime),\n                        'opacity-0': !loaded,\n                        'opacity-100': loaded \n                    }\"\n                    class=\"absolute object-cover h-full w-full transition-opacity duration-300 ease-in-out\"\n                />\n            </template>\n        </a>\n    </div>\n\n    \n    <div class=\"space-y-3\">\n        <div class=\"line-clamp-2\">\n            <a\n                wire:navigate\n                :href=\"anime.url\"\n                :title=\"getTitle(anime)\"\n                class=\"text-white hocus:text-amber-300 focus:outline-none focus:ring-0 transition-colors duration-300 ease-in-out\"\n            >\n                <span x-text=\"getTitle(anime)\"></span>\n            </a>\n        </div>\n\n        <div class=\"flex flex-row text-xs pb-6 text-center\">\n            <span class=\"inline-block not-first:before:mx-1 not-first:before:content-['\u2022']\" x-text=\"anime.type\"></span>\n            <span class=\"inline-block not-first:before:mx-1 not-first:before:content-['\u2022']\" x-text=\"anime.is_ongoing ? 'Ongoing' : 'Completed'\"></span>\n        </div>\n    </div>\n</li>                    </template>\n                </ul>\n            </div>\n\n            \n            <div x-show=\"view === 'list'\">\n                <ul x-show=\"items.length > 0\" class=\"grid grid-cols-1 2xl:grid-cols-2 gap-4 list-none\">\n                    <template x-for=\"anime in activeListItems\" :key=\"'list-' + anime.slug\">\n                        <li \n    x-data=\"{ inView: false, loaded: false }\"\n    class=\"relative overflow-hidden h-26 rounded-lg px-4 py-3 bg-slate-900 drop-shadow-lg\"\n>\n    \n    <template x-if=\"!isBlurred(anime)\">\n        <div \n            x-intersect.margin.200px.once=\"inView = true\"\n            class=\"absolute -inset-y-0 -right-0 w-80\"\n        >\n            <template x-if=\"inView\">\n                <img\n                    :src=\"anime.cover\"\n                    :alt=\"getTitle(anime)\"\n                    @load=\"loaded = true\"\n                    :class=\"loaded ? 'opacity-25' : 'opacity-0'\"\n                    class=\"absolute w-full h-full object-cover bg-slate-700 transition-opacity duration-300 ease-in-out\"\n                />\n            </template>\n            <div class=\"absolute right-0 w-full h-full bg-gradient-to-l from-transparent to-slate-900\"></div>\n        </div>\n    </template>\n\n    \n    <div class=\"relative flex flex-col gap-2\">\n        <div class=\"h-6 inline truncate\">\n            <a\n                wire:navigate\n                :href=\"anime.url\"\n                :title=\"getTitle(anime)\"\n                class=\"text-white inline hocus:text-amber-300 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-0\"\n            >\n                <span x-text=\"getTitle(anime)\"></span>\n            </a>\n        </div>\n\n        <div class=\"inline text-xs h-4 line-clamp-1\">\n            <span class=\"not-last:after:mx-1 not-last:after:content-['\u2022']\" x-text=\"anime.type\"></span>\n\n            <template x-if=\"anime.start_year\">\n                <span class=\"not-last:after:mx-1 not-last:after:content-['\u2022']\" x-text=\"anime.start_year\"></span>\n            </template>\n\n            <template x-if=\"anime.episode_count\">\n                <span class=\"not-last:after:mx-1 not-last:after:content-['\u2022']\" x-text=\"`${anime.episode_count} Eps`\"></span>\n            </template>\n\n            <span class=\"not-last:after:mx-1 not-last:after:content-['\u2022']\" x-text=\"anime.is_ongoing ? 'Ongoing' : 'Completed'\"></span>\n        </div>\n\n        <template x-if=\"anime.tags && anime.tags.length\">\n            <div class=\"flex flex-wrap gap-2 line-clamp-1 h-6\">\n                <template x-for=\"tag in anime.tags\" :key=\"tag.slug\">\n                    <a\n                        wire:navigate\n                        :href=\"tag.url\"\n                        :title=\"tag.name\"\n                        x-text=\"tag.name\"\n                        class=\"px-2 py-1 rounded-full text-xs text-white bg-gray-600 hocus:bg-emerald-600 focus:outline-none transition-colors duration-300 ease-in-out\"\n                    ></a>\n                </template>\n            </div>\n        </template>\n    </div>\n</li>                    </template>\n                </ul>\n            </div>\n        </div>\n\n        \n        <div x-show=\"items.length === 0\" x-cloak class=\"max-w-xl flex justify-center mx-auto\">\n            <div class=\"w-full text-center bg-sky-600 p-4 py-3 border border-sky-500 rounded-md\">Nothing found.</div>\n        </div>\n    </div>\n\n    <div x-show=\"loading\" class=\"w-full\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" class=\"fill-current h-12 w-12 mx-auto animate-spin\">\n    <path d=\"M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z\"/>\n</svg>    </div>\n\n    <div\n        x-show=\"hasMore && !loading\"\n        class=\"h-12\"\n        x-intersect=\"loadMore()\"\n    ></div>\n</div>",
+        "dispatches": [
+          {
+            "name": "items-loaded",
+            "params": {
+              "items": [
+                {
+                  "slug": "zh8kj3zj",
+                  "url": "http://anizone.to/anime/zh8kj3zj",
+                  "cover": "https://anizone.to/images/anime/bb66156e-4433-4e36-afd4-d1298eeb04a0.jpg",
+                  "main_title": "Tensei Goblin Dakedo Shitsumon Aru?",
+                  "title_list": {
+                    "5": "Tensei Goblin Dakedo Shitsumon Aru?",
+                    "8": "\u8ee2\u751f\u30b4\u30d6\u30ea\u30f3\u3060\u3051\u3069\u8cea\u554f\u3042\u308b?",
+                    "1": "So What`s Wrong with Getting Reborn as a Goblin?"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 4,
+                  "tags": []
+                },
+                {
+                  "slug": "uqrktp57",
+                  "url": "http://anizone.to/anime/uqrktp57",
+                  "cover": "https://anizone.to/images/anime/acf76c0b-35fc-4060-bc76-dc883a2f4fa1.jpg",
+                  "main_title": "Doumo, Suki na Hito ni Horegusuri o Irai Sareta Majo Desu.",
+                  "title_list": {
+                    "5": "Doumo, Suki na Hito ni Horegusuri o Irai Sareta Majo Desu.",
+                    "8": "\u3069\u3046\u3082, \u597d\u304d\u306a\u4eba\u306b\u60da\u308c\u85ac\u3092\u4f9d\u983c\u3055\u308c\u305f\u9b54\u5973\u3067\u3059.",
+                    "1": "Hello, I Am a Witch and My Crush Wants Me to Make a Love Potion!"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 12,
+                  "tags": [
+                    { "slug": "2ch5lzak", "url": "http://anizone.to/tag/2ch5lzak", "name": "Novel" },
+                    { "slug": "cs59sxkf", "url": "http://anizone.to/tag/cs59sxkf", "name": "Josei" }
+                  ]
+                },
+                {
+                  "slug": "ymhtxams",
+                  "url": "http://anizone.to/anime/ymhtxams",
+                  "cover": "https://anizone.to/images/anime/d959973d-adc1-4fee-ab96-b4b00be1f0fe.jpg",
+                  "main_title": "Layton Mystery Tanteisha: Katri no Nazotoki File",
+                  "title_list": {
+                    "5": "Layton Mystery Tanteisha: Katri no Nazotoki File",
+                    "8": "\u30ec\u30a4\u30c8\u30f3 \u30df\u30b9\u30c6\u30ea\u30fc\u63a2\u5075\u793e~\u30ab\u30c8\u30ea\u30fc\u306e\u30ca\u30be\u30c8\u30ad\u30d5\u30a1\u30a4\u30eb~",
+                    "10": "Detektei Layton: Katrielles r\u00e4tselhafte F\u00e4lle",
+                    "7": "\ub808\uc774\ud2bc \ubbf8\uc2a4\ud130\ub9ac \ud0d0\uc815\uc0ac: \uce74\ud2b8\ub9ac\uc758 \uc218\uc218\uaed8\ub07c \ud480\uc774 \ud30c\uc77c",
+                    "9": "\u96f7\u987f \u795e\u79d8\u4fa6\u63a2\u793e\uff5e\u5361\u6258\u8389\u7684\u89e3\u8c1c\u6863\u6848\uff5e",
+                    "1": "Layton Mystery Detective Agency: Kat`s Mystery-Solving Files",
+                    "37": "\u062f\u0641\u062a\u0631 \u06a9\u0627\u0631\u0622\u06af\u0627\u0647\u06cc \u06a9\u0634\u0641 \u0627\u0633\u0631\u0627\u0631 \u0644\u0627\u06cc\u062a\u0648\u0646: \u067e\u0631\u0648\u0646\u062f\u0647\u200c\u0647\u0627\u06cc \u062d\u0644 \u0645\u0639\u0645\u0627\u06cc \u06a9\u062a\u0631\u06cc\u0644"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": false,
+                  "is_unsafe": false,
+                  "start_year": 2018,
+                  "episode_count": 50,
+                  "tags": [
+                    { "slug": "bio3ygrp", "url": "http://anizone.to/tag/bio3ygrp", "name": "Comedy" },
+                    { "slug": "mve1ktzp", "url": "http://anizone.to/tag/mve1ktzp", "name": "Shoujo" },
+                    { "slug": "nsaugxuc", "url": "http://anizone.to/tag/nsaugxuc", "name": "Game" },
+                    { "slug": "vgtleo1g", "url": "http://anizone.to/tag/vgtleo1g", "name": "Detective" }
+                  ]
+                },
+                {
+                  "slug": "9psusmju",
+                  "url": "http://anizone.to/anime/9psusmju",
+                  "cover": "https://anizone.to/images/anime/97974c8a-d4ee-4138-a769-d0bfe8e3c42e.jpg",
+                  "main_title": "Shuranosuke Zanmaken: Shikamamon no Otoko",
+                  "title_list": {
+                    "5": "Shuranosuke Zanmaken: Shikamamon no Otoko",
+                    "8": "\u4fee\u7f85\u4e4b\u4ecb\u65ac\u9b54\u528d \u6b7b\u938c\u7d0b\u306e\u7537",
+                    "1": "Sword for Truth",
+                    "2": "L`\u00e9p\u00e9e de v\u00e9rit\u00e9",
+                    "6": "\u041c\u0435\u0447 \u043f\u0440\u0430\u0432\u0434\u044b"
+                  },
+                  "type": "OVA",
+                  "is_ongoing": false,
+                  "is_unsafe": true,
+                  "start_year": 1990,
+                  "episode_count": 1,
+                  "tags": [
+                    { "slug": "7kov4siq", "url": "http://anizone.to/tag/7kov4siq", "name": "Violence" },
+                    { "slug": "xottt75h", "url": "http://anizone.to/tag/xottt75h", "name": "Action" },
+                    { "slug": "acttdztd", "url": "http://anizone.to/tag/acttdztd", "name": "Swordplay" },
+                    { "slug": "mndjjbhv", "url": "http://anizone.to/tag/mndjjbhv", "name": "Historical" },
+                    { "slug": "bmgyz0el", "url": "http://anizone.to/tag/bmgyz0el", "name": "Thriller" },
+                    { "slug": "3ai0uvyz", "url": "http://anizone.to/tag/3ai0uvyz", "name": "Nudity" },
+                    { "slug": "yccspywy", "url": "http://anizone.to/tag/yccspywy", "name": "Samurai" }
+                  ]
+                },
+                {
+                  "slug": "7rajpn3j",
+                  "url": "http://anizone.to/anime/7rajpn3j",
+                  "cover": "https://anizone.to/images/anime/36327e18-be2b-4b20-a97f-5354ec2ad7cc.jpg",
+                  "main_title": "Kanojo no Tomodachi",
+                  "title_list": {
+                    "5": "Kanojo no Tomodachi",
+                    "8": "\u5f7c\u5973\u306e\u53cb\u9054",
+                    "1": "My Girlfriend`s Friend"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 12,
+                  "tags": []
+                },
+                {
+                  "slug": "zzjfyj5r",
+                  "url": "http://anizone.to/anime/zzjfyj5r",
+                  "cover": "https://anizone.to/images/anime/0f78fb9d-3198-4b0f-bd57-b59c8fb9e652.jpg",
+                  "main_title": "Seitokai ni mo Ana wa Aru!",
+                  "title_list": {
+                    "5": "Seitokai ni mo Ana wa Aru!",
+                    "8": "\u751f\u5f92\u4f1a\u306b\u3082\u7a74\u306f\u3042\u308b!",
+                    "1": "Even the Student Council Has Its Holes"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 12,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "c5m2pppc", "url": "http://anizone.to/tag/c5m2pppc", "name": "4-koma Manga" }
+                  ]
+                },
+                {
+                  "slug": "et6szufm",
+                  "url": "http://anizone.to/anime/et6szufm",
+                  "cover": "https://anizone.to/images/anime/f184216a-ee23-49dd-a12b-157ee43c93f6.jpg",
+                  "main_title": "Mouse Cursor de Genjitsu o Sousa Dekiru You ni Natta no de, Onnanoko o Ippai Click Shima~su",
+                  "title_list": {
+                    "5": "Mouse Cursor de Genjitsu o Sousa Dekiru You ni Natta no de, Onnanoko o Ippai Click Shima~su",
+                    "8": "\u30de\u30a6\u30b9\u30ab\u30fc\u30bd\u30eb\u3067\u73fe\u5b9f\u3092\u64cd\u4f5c\u3067\u304d\u308b\u3088\u3046\u306b\u306a\u3063\u305f\u306e\u3067, \u5973\u306e\u5b50\u3092\u3044\u3063\u3071\u3044\u30af\u30ea\u30c3\u30af\u3057\u307e\u30fc\u3059",
+                    "1": "Click Me All Over"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": true,
+                  "start_year": 2026,
+                  "episode_count": 8,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "wn5130nw", "url": "http://anizone.to/tag/wn5130nw", "name": "Sex" },
+                    { "slug": "3ai0uvyz", "url": "http://anizone.to/tag/3ai0uvyz", "name": "Nudity" },
+                    { "slug": "xzdjtjdu", "url": "http://anizone.to/tag/xzdjtjdu", "name": "18 Restricted" }
+                  ]
+                },
+                {
+                  "slug": "8gjsqbwh",
+                  "url": "http://anizone.to/anime/8gjsqbwh",
+                  "cover": "https://anizone.to/images/anime/420bbf37-bba2-4c3b-9ac1-3ecc2718bcdb.jpg",
+                  "main_title": "Dark Summoner to Dekite Iru",
+                  "title_list": {
+                    "5": "Dark Summoner to Dekite Iru",
+                    "8": "\u30c0\u30fc\u30af\u30b5\u30e2\u30ca\u30fc\u3068\u30c7\u30ad\u3066\u3044\u308b",
+                    "1": "I`m Dating a Dark Summoner"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": true,
+                  "start_year": 2026,
+                  "episode_count": 4,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "tzgxn5ic", "url": "http://anizone.to/tag/tzgxn5ic", "name": "Seinen" },
+                    { "slug": "mkjkmcfb", "url": "http://anizone.to/tag/mkjkmcfb", "name": "Ecchi" }
+                  ]
+                },
+                {
+                  "slug": "wykrivfq",
+                  "url": "http://anizone.to/anime/wykrivfq",
+                  "cover": "https://anizone.to/images/anime/19eb08d0-05df-47ab-9e73-1ff63a01d475.jpg",
+                  "main_title": "Kanata kara",
+                  "title_list": { "5": "Kanata Kara", "8": "\u5f7c\u65b9\u304b\u3089", "1": "From Far Away" },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 4,
+                  "tags": []
+                },
+                {
+                  "slug": "syv6b3nn",
+                  "url": "http://anizone.to/anime/syv6b3nn",
+                  "cover": "https://anizone.to/images/anime/c15d4d4a-6e47-4d54-9421-1ef63e70bf02.jpg",
+                  "main_title": "Hotel Inhumans (2026)",
+                  "title_list": {
+                    "5": "Hotel Inhumans (2026)",
+                    "8": "\u30db\u30c6\u30eb\u30fb\u30a4\u30f3\u30d2\u30e5\u30fc\u30de\u30f3\u30ba (2026)",
+                    "1": "Hotel Inhumans (2026)"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 13,
+                  "tags": []
+                },
+                {
+                  "slug": "pioitcqh",
+                  "url": "http://anizone.to/anime/pioitcqh",
+                  "cover": "https://anizone.to/images/anime/9dc3bfb8-3556-491a-b9cf-caabc1989b4c.jpg",
+                  "main_title": "Tank Chair",
+                  "title_list": { "5": "Tank Chair", "8": "TANK CHAIR" },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 5,
+                  "tags": []
+                },
+                {
+                  "slug": "yrcdmzxm",
+                  "url": "http://anizone.to/anime/yrcdmzxm",
+                  "cover": "https://anizone.to/images/anime/2050876b-fb6c-4846-9698-961b725ea80c.jpg",
+                  "main_title": "Yowaki Max Reijou na no ni, Ratsuwan Kon`yakusha-sama no Kake ni Notte Shimatta",
+                  "title_list": {
+                    "5": "Yowaki Max Reijou na no ni, Ratsuwan Kon`yakusha-sama no Kake ni Notte Shimatta",
+                    "8": "\u5f31\u6c17MAX\u4ee4\u5b22\u306a\u306e\u306b, \u8fa3\u8155\u5a5a\u7d04\u8005\u69d8\u306e\u8ced\u3051\u306b\u4e57\u3063\u3066\u3057\u307e\u3063\u305f",
+                    "1": "Even Though I`m a Super Timid Noble Girl, I Accepted the Bet From My Cunning Fiance"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 12,
+                  "tags": [
+                    { "slug": "2ch5lzak", "url": "http://anizone.to/tag/2ch5lzak", "name": "Novel" },
+                    { "slug": "8euvyf6d", "url": "http://anizone.to/tag/8euvyf6d", "name": "Isekai" },
+                    { "slug": "mve1ktzp", "url": "http://anizone.to/tag/mve1ktzp", "name": "Shoujo" }
+                  ]
+                },
+                {
+                  "slug": "zcyetcsi",
+                  "url": "http://anizone.to/anime/zcyetcsi",
+                  "cover": "https://anizone.to/images/anime/c1e4471a-ced7-4bbf-baff-f92d8c922b31.jpg",
+                  "main_title": "Mezametara Saikyou Soubi to Uchuusen Mochi Datta no de, Ikkodate Mezashite Youhei to Shite Jiyuu ni Ikitai",
+                  "title_list": {
+                    "5": "Mezametara Saikyou Soubi to Uchuusen Mochi Datta no de, Ikkodate Mezashite Youhei to Shite Jiyuu ni Ikitai",
+                    "8": "\u76ee\u899a\u3081\u305f\u3089\u6700\u5f37\u88c5\u5099\u3068\u5b87\u5b99\u8239\u6301\u3061\u3060\u3063\u305f\u306e\u3067, \u4e00\u6238\u5efa\u3066\u76ee\u6307\u3057\u3066\u50ad\u5175\u3068\u3057\u3066\u81ea\u7531\u306b\u751f\u304d\u305f\u3044",
+                    "1": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship!"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 4,
+                  "tags": [
+                    { "slug": "2ch5lzak", "url": "http://anizone.to/tag/2ch5lzak", "name": "Novel" },
+                    { "slug": "8euvyf6d", "url": "http://anizone.to/tag/8euvyf6d", "name": "Isekai" },
+                    { "slug": "xerwtqaz", "url": "http://anizone.to/tag/xerwtqaz", "name": "Science Fiction" },
+                    { "slug": "ikc7cwm5", "url": "http://anizone.to/tag/ikc7cwm5", "name": "Harem" }
+                  ]
+                },
+                {
+                  "slug": "0gi4u2n6",
+                  "url": "http://anizone.to/anime/0gi4u2n6",
+                  "cover": "https://anizone.to/images/anime/bfb40e30-fa5f-4fc5-8ebe-5ee53c2f62a4.jpg",
+                  "main_title": "Ojisan wa Kawaii Mono ga Osuki.",
+                  "title_list": {
+                    "5": "Ojisan wa Kawaii Mono ga Osuki.",
+                    "8": "\u304a\u3058\u3055\u3093\u306f\u30ab\u30ef\u30a4\u30a4\u3082\u306e\u304c\u304a\u597d\u304d.",
+                    "1": "Uncle`s Obsession with Cute Things"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 12,
+                  "tags": []
+                },
+                {
+                  "slug": "smky01dn",
+                  "url": "http://anizone.to/anime/smky01dn",
+                  "cover": "https://anizone.to/images/anime/6bbb9fd9-38c2-4079-b7a3-cea3d11e4715.jpg",
+                  "main_title": "Sidonia no Kishi: Daikyuu Wakusei Sen`eki",
+                  "title_list": {
+                    "5": "Sidonia no Kishi: Daikyuu Wakusei Sen`eki",
+                    "8": "\u30b7\u30c9\u30cb\u30a2\u306e\u9a0e\u58eb \u7b2c\u4e5d\u60d1\u661f\u6226\u5f79",
+                    "1": "Knights of Sidonia: Battle for Planet Nine",
+                    "38": "\u9280\u6cb3\u9a0e\u58eb\u50b3 \u7b2c\u4e5d\u884c\u661f\u6230\u5f79",
+                    "6": "\u0420\u044b\u0446\u0430\u0440\u0438 \u0421\u0438\u0434\u043e\u043d\u0438\u0438 2",
+                    "7": "\uc2dc\ub3c4\ub2c8\uc544\uc758 \uae30\uc0ac: \uc81c9 \ud639\uc131\uc804\uc5ed",
+                    "19": "Sidonia`n\u0131n Pilotlar\u0131: Gezegen Dokuz Sava\u015f\u0131",
+                    "34": "\u0420\u0438\u0446\u0430\u0440\u0438\u0442\u0435 \u043d\u0430 \"\u0421\u0438\u0434\u043e\u043d\u0438\u044f\": \u0411\u0438\u0442\u043a\u0430 \u0437\u0430 \u0434\u0435\u0432\u0435\u0442\u0430\u0442\u0430 \u043f\u043b\u0430\u043d\u0435\u0442\u0430",
+                    "9": "\u5e0c\u5fb7\u5c3c\u5a05\u7684\u9a91\u58eb \u7b2c\u4e5d\u884c\u661f\u6218\u5f79"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": false,
+                  "is_unsafe": false,
+                  "start_year": 2015,
+                  "episode_count": 12,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "f6dnyhgj", "url": "http://anizone.to/tag/f6dnyhgj", "name": "Alien" },
+                    { "slug": "xerwtqaz", "url": "http://anizone.to/tag/xerwtqaz", "name": "Science Fiction" },
+                    { "slug": "7kov4siq", "url": "http://anizone.to/tag/7kov4siq", "name": "Violence" },
+                    { "slug": "tzgxn5ic", "url": "http://anizone.to/tag/tzgxn5ic", "name": "Seinen" },
+                    { "slug": "xottt75h", "url": "http://anizone.to/tag/xottt75h", "name": "Action" },
+                    { "slug": "2yzevdad", "url": "http://anizone.to/tag/2yzevdad", "name": "Military" },
+                    { "slug": "fa6nldtl", "url": "http://anizone.to/tag/fa6nldtl", "name": "Human Enhancement" },
+                    { "slug": "a3uudun7", "url": "http://anizone.to/tag/a3uudun7", "name": "Mecha" },
+                    { "slug": "exgu1dbv", "url": "http://anizone.to/tag/exgu1dbv", "name": "Piloted Robot" },
+                    { "slug": "pvr2yhh2", "url": "http://anizone.to/tag/pvr2yhh2", "name": "Genetic Modification" },
+                    { "slug": "wj9trd4x", "url": "http://anizone.to/tag/wj9trd4x", "name": "Space Travel" }
+                  ]
+                },
+                {
+                  "slug": "6ogsrq82",
+                  "url": "http://anizone.to/anime/6ogsrq82",
+                  "cover": "https://anizone.to/images/anime/643570c7-ec14-4c96-836a-db320b33fa3a.jpg",
+                  "main_title": "Tokyo Revengers: Tenjiku Hen",
+                  "title_list": {
+                    "5": "Tokyo Revengers: Tenjiku Hen",
+                    "8": "\u6771\u4eac\u30ea\u30d9\u30f3\u30b8\u30e3\u30fc\u30ba \u5929\u7afa\u7de8",
+                    "10": "Tokyo Revengers: Tenjiku Arc",
+                    "38": "\u6771\u4eac\u5fa9\u4ec7\u8005 \u5929\u7afa\u7bc7",
+                    "9": "\u4e1c\u4eac\u590d\u4ec7\u8005 \u5929\u7afa\u7bc7"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": false,
+                  "is_unsafe": false,
+                  "start_year": 2023,
+                  "episode_count": 13,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "fxndqllf", "url": "http://anizone.to/tag/fxndqllf", "name": "Shounen" },
+                    { "slug": "7kov4siq", "url": "http://anizone.to/tag/7kov4siq", "name": "Violence" },
+                    { "slug": "xottt75h", "url": "http://anizone.to/tag/xottt75h", "name": "Action" },
+                    { "slug": "jz5b4eku", "url": "http://anizone.to/tag/jz5b4eku", "name": "Time Travel" }
+                  ]
+                },
+                {
+                  "slug": "zfumes9u",
+                  "url": "http://anizone.to/anime/zfumes9u",
+                  "cover": "https://anizone.to/images/anime/4117a8f5-62e2-4712-9dac-6b7d1bce2df6.jpg",
+                  "main_title": "Ao Ashi Season 2",
+                  "title_list": {
+                    "5": "Ao Ashi Season 2",
+                    "8": "\u30a2\u30aa\u30a2\u30b7 Season2",
+                    "1": "Aoashi Season 2"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 4,
+                  "tags": []
+                },
+                {
+                  "slug": "tkiwq4dj",
+                  "url": "http://anizone.to/anime/tkiwq4dj",
+                  "cover": "https://anizone.to/images/anime/3d2bc9d5-992b-42a7-95ca-8462508977f2.jpg",
+                  "main_title": "Ao no Hako (2026)",
+                  "title_list": {
+                    "5": "Ao no Hako (2026)",
+                    "8": "\u30a2\u30aa\u306e\u30cf\u30b3 (2026)",
+                    "1": "Blue Box (2026)"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 12,
+                  "tags": []
+                },
+                {
+                  "slug": "cnf9nztq",
+                  "url": "http://anizone.to/anime/cnf9nztq",
+                  "cover": "https://anizone.to/images/anime/b07c682c-f7c3-4d58-a5ed-c5b779374f9c.jpg",
+                  "main_title": "Sidonia no Kishi",
+                  "title_list": {
+                    "5": "Sidonia no Kishi",
+                    "8": "\u30b7\u30c9\u30cb\u30a2\u306e\u9a0e\u58eb",
+                    "1": "Knights of Sidonia",
+                    "34": "\u0420\u0438\u0446\u0430\u0440\u0438\u0442\u0435 \u043d\u0430 \"\u0421\u0438\u0434\u043e\u043d\u0438\u044f\"",
+                    "9": "\u5e0c\u5fb7\u5c3c\u5a05\u7684\u9a91\u58eb",
+                    "41": "Knights of Sidonia",
+                    "11": "I cavalieri di Sidonia",
+                    "6": "\u0420\u044b\u0446\u0430\u0440\u0438 \u0421\u0438\u0434\u043e\u043d\u0438\u0438",
+                    "7": "\uc2dc\ub3c4\ub2c8\uc544\uc758 \uae30\uc0ac",
+                    "19": "Sidonia`n\u0131n Pilotlar\u0131",
+                    "33": "\u041b\u0438\u0446\u0430\u0440\u0456 \u0421\u0456\u0434\u043e\u043d\u0456\u0457"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": false,
+                  "is_unsafe": false,
+                  "start_year": 2014,
+                  "episode_count": 12,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "f6dnyhgj", "url": "http://anizone.to/tag/f6dnyhgj", "name": "Alien" },
+                    { "slug": "xerwtqaz", "url": "http://anizone.to/tag/xerwtqaz", "name": "Science Fiction" },
+                    { "slug": "7kov4siq", "url": "http://anizone.to/tag/7kov4siq", "name": "Violence" },
+                    { "slug": "tzgxn5ic", "url": "http://anizone.to/tag/tzgxn5ic", "name": "Seinen" },
+                    { "slug": "xottt75h", "url": "http://anizone.to/tag/xottt75h", "name": "Action" },
+                    { "slug": "yydkcgoj", "url": "http://anizone.to/tag/yydkcgoj", "name": "Horror" },
+                    { "slug": "dnjyvkk6", "url": "http://anizone.to/tag/dnjyvkk6", "name": "Tragedy" },
+                    { "slug": "2yzevdad", "url": "http://anizone.to/tag/2yzevdad", "name": "Military" },
+                    { "slug": "wnvwepjm", "url": "http://anizone.to/tag/wnvwepjm", "name": "Post-apocalyptic" },
+                    { "slug": "fa6nldtl", "url": "http://anizone.to/tag/fa6nldtl", "name": "Human Enhancement" },
+                    { "slug": "a3uudun7", "url": "http://anizone.to/tag/a3uudun7", "name": "Mecha" },
+                    { "slug": "exgu1dbv", "url": "http://anizone.to/tag/exgu1dbv", "name": "Piloted Robot" },
+                    { "slug": "pvr2yhh2", "url": "http://anizone.to/tag/pvr2yhh2", "name": "Genetic Modification" },
+                    { "slug": "wj9trd4x", "url": "http://anizone.to/tag/wj9trd4x", "name": "Space Travel" }
+                  ]
+                },
+                {
+                  "slug": "m5emsmhh",
+                  "url": "http://anizone.to/anime/m5emsmhh",
+                  "cover": "https://anizone.to/images/anime/57d76c20-bc52-4341-beaf-832b26e7dd8a.jpg",
+                  "main_title": "Blame! (2017)",
+                  "title_list": {
+                    "5": "Blame! (2017)",
+                    "8": "BLAME! (2017)",
+                    "35": "!\u05d0\u05e9\u05de\u05d4",
+                    "37": "\u0633\u0631\u0632\u0646\u0634",
+                    "6": "\u0411\u043b\u0435\u0439\u043c!"
+                  },
+                  "type": "Movie",
+                  "is_ongoing": false,
+                  "is_unsafe": false,
+                  "start_year": 2017,
+                  "episode_count": 1,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "xerwtqaz", "url": "http://anizone.to/tag/xerwtqaz", "name": "Science Fiction" },
+                    { "slug": "7kov4siq", "url": "http://anizone.to/tag/7kov4siq", "name": "Violence" },
+                    { "slug": "tzgxn5ic", "url": "http://anizone.to/tag/tzgxn5ic", "name": "Seinen" },
+                    { "slug": "xottt75h", "url": "http://anizone.to/tag/xottt75h", "name": "Action" },
+                    { "slug": "wnvwepjm", "url": "http://anizone.to/tag/wnvwepjm", "name": "Post-apocalyptic" },
+                    { "slug": "a3uudun7", "url": "http://anizone.to/tag/a3uudun7", "name": "Mecha" }
+                  ]
+                },
+                {
+                  "slug": "izjqeyhn",
+                  "url": "http://anizone.to/anime/izjqeyhn",
+                  "cover": "https://anizone.to/images/anime/14c8be6c-9103-4617-9228-b44d0f5eab50.jpg",
+                  "main_title": "Blame! (2007)",
+                  "title_list": { "5": "Blame! (2007)", "8": "BLAME! (2007)" },
+                  "type": "OVA",
+                  "is_ongoing": false,
+                  "is_unsafe": false,
+                  "start_year": 2007,
+                  "episode_count": 2,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "xerwtqaz", "url": "http://anizone.to/tag/xerwtqaz", "name": "Science Fiction" },
+                    { "slug": "xottt75h", "url": "http://anizone.to/tag/xottt75h", "name": "Action" },
+                    { "slug": "bez684xg", "url": "http://anizone.to/tag/bez684xg", "name": "Cyberpunk" },
+                    { "slug": "dnjyvkk6", "url": "http://anizone.to/tag/dnjyvkk6", "name": "Tragedy" },
+                    { "slug": "fa6nldtl", "url": "http://anizone.to/tag/fa6nldtl", "name": "Human Enhancement" },
+                    { "slug": "4f1ynzbi", "url": "http://anizone.to/tag/4f1ynzbi", "name": "Short Episodes" },
+                    { "slug": "pvr2yhh2", "url": "http://anizone.to/tag/pvr2yhh2", "name": "Genetic Modification" },
+                    { "slug": "nieszybr", "url": "http://anizone.to/tag/nieszybr", "name": "Cyborg" }
+                  ]
+                },
+                {
+                  "slug": "icmjassz",
+                  "url": "http://anizone.to/anime/icmjassz",
+                  "cover": "https://anizone.to/images/anime/c65cced8-a325-4fbb-bfd3-da9faa87bc71.jpg",
+                  "main_title": "Blame!",
+                  "title_list": {
+                    "5": "Blame!",
+                    "8": "\u30d6\u30e9\u30e0!",
+                    "1": "Blame!",
+                    "34": "\u0412\u0438\u043d\u0430!"
+                  },
+                  "type": "Web",
+                  "is_ongoing": false,
+                  "is_unsafe": false,
+                  "start_year": 2003,
+                  "episode_count": 6,
+                  "tags": [
+                    { "slug": "hmi0gccz", "url": "http://anizone.to/tag/hmi0gccz", "name": "Manga" },
+                    { "slug": "xerwtqaz", "url": "http://anizone.to/tag/xerwtqaz", "name": "Science Fiction" },
+                    { "slug": "tzgxn5ic", "url": "http://anizone.to/tag/tzgxn5ic", "name": "Seinen" },
+                    { "slug": "bez684xg", "url": "http://anizone.to/tag/bez684xg", "name": "Cyberpunk" },
+                    { "slug": "fa6nldtl", "url": "http://anizone.to/tag/fa6nldtl", "name": "Human Enhancement" },
+                    { "slug": "4f1ynzbi", "url": "http://anizone.to/tag/4f1ynzbi", "name": "Short Episodes" },
+                    { "slug": "pvr2yhh2", "url": "http://anizone.to/tag/pvr2yhh2", "name": "Genetic Modification" },
+                    { "slug": "nieszybr", "url": "http://anizone.to/tag/nieszybr", "name": "Cyborg" }
+                  ]
+                },
+                {
+                  "slug": "0nmjnphm",
+                  "url": "http://anizone.to/anime/0nmjnphm",
+                  "cover": "https://anizone.to/images/anime/4f793db8-6d33-4859-b217-ace0d654f0b7.jpg",
+                  "main_title": "Gensou Suikoden",
+                  "title_list": {
+                    "5": "Gensou Suikoden",
+                    "8": "\u5e7b\u60f3\u6c34\u6ef8\u4f1d",
+                    "1": "Suikoden: The Anime"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 23,
+                  "tags": []
+                },
+                {
+                  "slug": "jd752r0h",
+                  "url": "http://anizone.to/anime/jd752r0h",
+                  "cover": "https://anizone.to/images/anime/a2654568-3d08-462c-9e6a-d5751a37613d.jpg",
+                  "main_title": "Kashita Maryoku wa \"Revo-barai\" de Kyousei Choushuu: Youzumi to Party Tsuihou Sareta Ore wa, Kawaii Support Yousei to Issho ni Toritateta Maryoku o Un`you Shite Saikyou o Mezasu.",
+                  "title_list": {
+                    "5": "Kashita Maryoku wa \"Revo-barai\" de Kyousei Choushuu: Youzumi to Party Tsuihou Sareta Ore wa, Kawaii Support Yousei to Issho ni Toritateta Maryoku o Un`you Shite Saikyou o Mezasu.",
+                    "8": "\u8cb8\u3057\u305f\u9b54\u529b\u306f\u3010\u30ea\u30dc\u6255\u3044\u3011\u3067\u5f37\u5236\u5fb4\u53ce~\u7528\u6e08\u307f\u3068\u30d1\u30fc\u30c6\u30a3\u30fc\u8ffd\u653e\u3055\u308c\u305f\u4ffa\u306f, \u53ef\u611b\u3044\u30b5\u30dd\u30fc\u30c8\u5996\u7cbe\u3068\u4e00\u7dd2\u306b\u53d6\u308a\u7acb\u3066\u305f\u9b54\u529b\u3092\u904b\u7528\u3057\u3066\u6700\u5f37\u3092\u76ee\u6307\u3059.~",
+                    "1": "Magic Repo Man: Dumped by My Party, I`ll Cash In with a Cute Support Fairy to Become the Strongest!"
+                  },
+                  "type": "TV Series",
+                  "is_ongoing": true,
+                  "is_unsafe": false,
+                  "start_year": 2026,
+                  "episode_count": 4,
+                  "tags": []
+                }
+              ],
+              "nextCursor": "eyJjcmVhdGVkX2F0IjoiMjAyNi0xMC0wMyAxODoxOTozNiIsImFuaW1lLnNsdWciOiJqZDc1MnIwaCIsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0",
+              "hasMore": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "assets": []
+}

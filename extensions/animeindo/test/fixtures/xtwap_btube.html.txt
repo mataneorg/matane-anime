@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html lang="id">
+<head>
+<meta name="referrer" content="no-referrer">
+<meta name="googlebot" content="noindex">
+<style>#mediaplayer{width:100%;height:100%}</style>
+<link href="https://vjs.zencdn.net/4.6.3/video-js.css" rel="stylesheet">
+<style>.video-js{position:fixed}</style>
+</head>
+<body>
+<video id="mediaplayer" class="video-js vjs-default-skin" controls preload="auto" width="" height="" poster="" data-setup="{}">
+<source src="https://rr4---sn-vgqsrnzy.googlevideo.com/videoplayback?expire=1791579486&ei=3uTIaqaqDcfKy9YPk7vi4A4&ip=107.173.52.190&id=f2fb40616ec84d8e&itag=18&source=blogger&requiressl=yes&xpc=Egho7Zf3LnoBAQ==&met=1791550686,&mh=jr&mm=31&mn=sn-vgqsrnzy&ms=au&mv=m&mvi=4&pl=26&rms=au,au&susc=bl&svpuc=1&eaua=6uRl8aq8MPs&mime=video/mp4&vprv=1&rqh=1&dur=779.075&lmt=1791534370963131&mt=1791550160&txp=1311224&sparams=expire,ei,ip,id,itag,source,requiressl,xpc,susc,svpuc,eaua,mime,vprv,rqh,dur,lmt&sig=AE0s2JYwRQIhAP-2n-u8YbQT45sGjPsVqpQnAqrirchf5roZo3PJLIOxAiB2JT5EDOsRxUiui6YSvNjiJoAABsFUJYLt2FkN-XZ3cg==&lsparams=met,mh,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRAIgfGsn9AKVo7ZiJZBrdCpD6UAzMHU0PbXS1EUJq7lob9sCIGFtoT0JFqQSbcvAugCOP4hK5JpS8kKGmN385zd05bMA&cmo=pf%3D1&sdr=2&rn=1&cpn=e0tGHofWdFI5N1b0QPq7GHuZTxBRMsc" type="video/mp4">
+</video>
+<script src="https://vjs.zencdn.net/4.6.3/video.js"></script>
+</body>
+</html>

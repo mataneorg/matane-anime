@@ -1,0 +1,778 @@
+{
+  "meta": { "currentPage": 1, "firstPage": 1, "lastPage": 1943, "perPage": 10, "total": 19424 },
+  "data": [
+    {
+      "id": 45818,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "2",
+      "downloadUrl": [
+        {
+          "format": "MP4",
+          "resolutions": [
+            {
+              "quality": "480P",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112331102/oploverz-plus-tkvs4-02-mp4-480p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/yZgeg0GqP8" },
+                { "host": "FILEQ", "url": "https://fileq.net/12yukdzp17vd.html" }
+              ]
+            },
+            {
+              "quality": "720P",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112331103/oploverz-plus-tkvs4-02-mp4-720p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/xMuSPXirHm" },
+                { "host": "FILEQ", "url": "https://fileq.net/9yhkr8fkr7ad.html" }
+              ]
+            },
+            {
+              "quality": "1080P",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112331104/oploverz-plus-tkvs4-02-mp4-1080p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/exgDxg4XPj" },
+                { "host": "FILEQ", "url": "https://fileq.net/foqattz1drab.html" }
+              ]
+            }
+          ]
+        },
+        {
+          "format": "MKV",
+          "resolutions": [
+            {
+              "quality": "480P",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            },
+            {
+              "quality": "720P",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            },
+            {
+              "quality": "1080P",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            }
+          ]
+        },
+        {
+          "format": "MKV X265",
+          "resolutions": [
+            {
+              "quality": "480P",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            },
+            {
+              "quality": "720P",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            },
+            {
+              "quality": "1080P",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [
+        { "source": "STR 480p", "url": "https://upbolt.to/e/zl12wqllwm9x" },
+        { "source": "STR 720p", "url": "https://upbolt.to/e/9tojssi7fkom" },
+        { "source": "STR 1080p", "url": "https://upbolt.to/e/7t7ls70f9k9k" }
+      ],
+      "content": null,
+      "releasedAt": "2026-10-08T22:00:00.000Z",
+      "createdAt": "2026-10-09T18:15:30.416Z",
+      "updatedAt": "2026-10-09T11:19:32.453Z",
+      "series": {
+        "id": 2084,
+        "seriesId": 55539,
+        "title": "Tokyo Revengers S4: Santen Sensou-hen",
+        "japaneseTitle": "Tokyo Revengers: War of the Three Titan Arc",
+        "slug": "tokyo-revengers-s4-santen-sensou-hen",
+        "description": "Menceritakan kisah Takemichi Hanagaki yang harus kembali melompat ke masa lalu demi menyelamatkan Manjirou Sano (Mikey) dari jeratan kegelapan dan masa depan kelam sebagai pemimpin sindikat kriminal Bonten.",
+        "releaseDate": "2026-10-02T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/6856de50-b525-44b1-910c-0aafba2d1990.jpg",
+        "duration": "23 min.",
+        "releaseType": "TV",
+        "score": 7.5,
+        "genres": [
+          { "id": 90, "name": "Action", "slug": "action" },
+          { "id": 91, "name": "Drama", "slug": "drama" },
+          { "id": 95, "name": "Shounen", "slug": "shounen" },
+          { "id": 99, "name": "Supernatural", "slug": "supernatural" }
+        ],
+        "studioId": 223,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": true,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-02T07:47:09.233Z",
+        "updatedAt": "2026-10-03T17:05:29.961Z"
+      }
+    },
+    {
+      "id": 45817,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "4",
+      "downloadUrl": [
+        {
+          "format": "MP4",
+          "resolutions": [
+            {
+              "quality": "480p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112330766/oploverz-plus-jjs6-04-mp4-480p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/E4Onptwj1l" },
+                { "host": "FILEQ", "url": "https://fileq.net/fylad91p1cx8.html" }
+              ]
+            },
+            {
+              "quality": "720p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112330767/oploverz-plus-jjs6-04-mp4-720p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/aQ2efFDaEv" },
+                { "host": "FILEQ", "url": "https://fileq.net/gyyir9beudwd.html" }
+              ]
+            },
+            {
+              "quality": "1080p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112330768/oploverz-plus-jjs6-04-mp4-1080p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/1eoRpfK6ts" },
+                { "host": "FILEQ", "url": "https://fileq.net/hzj4w03u6bfy.html" }
+              ]
+            }
+          ]
+        },
+        {
+          "format": "MKV",
+          "resolutions": [
+            {
+              "quality": "480p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112330905/oploverz-plus-jjs6-04-480pa630227c-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/0qd6jC0aQ2" },
+                { "host": "FILEQ", "url": "https://fileq.net/hp34eu61ja3g.html" }
+              ]
+            },
+            {
+              "quality": "720p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112330906/oploverz-plus-jjs6-04-720p28b8afb8-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/Z50uGMIv76" },
+                { "host": "FILEQ", "url": "https://fileq.net/gpk6iztwugfc.html" }
+              ]
+            },
+            {
+              "quality": "1080p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112330907/oploverz-plus-jjs6-04-1080p6a1bdd62-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/qwYdGazHlz" },
+                { "host": "FILEQ", "url": "https://fileq.net/qm6ccxwss88e.html" }
+              ]
+            }
+          ]
+        },
+        {
+          "format": "X265 MKV",
+          "resolutions": [
+            {
+              "quality": "480p",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            },
+            {
+              "quality": "720p",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            },
+            {
+              "quality": "1080p",
+              "download_links": [
+                { "host": "GD", "url": null },
+                { "host": "VIKING", "url": null },
+                { "host": "FILEQ", "url": null }
+              ]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [
+        { "source": "STR 480p", "url": "https://upbolt.to/e/igugj7zrjyg6" },
+        { "source": "STR 720p", "url": "https://upbolt.to/e/dvt408n69n1c" },
+        { "source": "STR 1080p", "url": "https://upbolt.to/e/u1vl0oroxh98" }
+      ],
+      "content": null,
+      "releasedAt": "2026-10-08T20:00:00.000Z",
+      "createdAt": "2026-10-09T16:01:07.106Z",
+      "updatedAt": "2026-10-09T10:05:13.845Z",
+      "series": {
+        "id": 1730,
+        "seriesId": 55187,
+        "title": "JoJo's Bizarre Adventure 6 : Steel Ball Run",
+        "japaneseTitle": "JoJo's Bizarre Adventure Part 7: Steel Ball Run, JoJo no Kimyou na Bouken Part 7: Steel Ball Run",
+        "slug": "jojos-bizarre-adventure-6-steel-ball-run",
+        "description": "JoJo's Bizarre Adventure Part 7: Steel Ball Run (berlatar alam semesta alternatif/baru, bukan kelanjutan langsung Part 6) mengisahkan Johnny Joestar, mantan joki lumpuh yang berpartisipasi dalam balapan kuda lintas Amerika tahun 1890 sejauh 6.500 km demi hadiah $50 juta dan mempelajari teknik \"Spin\" dari Gyro Zeppeli agar bisa berjalan kembali.",
+        "releaseDate": "2026-03-19T00:00:00.000Z",
+        "status": "Ongoing",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/52c18a35-3399-4cfa-a28f-8020ceeabd6e.jpg",
+        "duration": "45 min.",
+        "releaseType": "ONA",
+        "score": 9.35,
+        "genres": [
+          { "id": 90, "name": "Action", "slug": "action" },
+          { "id": 94, "name": "Mystery", "slug": "mystery" },
+          { "id": 95, "name": "Shounen", "slug": "shounen" },
+          { "id": 99, "name": "Supernatural", "slug": "supernatural" },
+          { "id": 107, "name": "Adventure", "slug": "adventure" },
+          { "id": 119, "name": "Seinen", "slug": "seinen" }
+        ],
+        "studioId": 205,
+        "seasonId": 286,
+        "censored": false,
+        "mature": false,
+        "hot": true,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-03-19T19:16:03.021Z",
+        "updatedAt": "2026-09-25T11:05:39.090Z"
+      }
+    },
+    {
+      "id": 45816,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "1",
+      "downloadUrl": [
+        {
+          "format": "HD",
+          "resolutions": [
+            {
+              "quality": "1080p",
+              "download_links": [{ "host": "VIKING", "url": "https://vikingfile.com/f/lwqpwo4SrV" }]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [{ "source": "HD", "url": "https://upbolt.to/e/hf2nxieeg9w2" }],
+      "content": null,
+      "releasedAt": "2026-10-08T17:00:00.000Z",
+      "createdAt": "2026-10-09T00:21:39.792Z",
+      "updatedAt": "2026-10-09T00:21:39.792Z",
+      "series": {
+        "id": 2097,
+        "seriesId": 55552,
+        "title": "Hyouken no Majutsushi ga Sekai wo Suberu S2",
+        "japaneseTitle": "Hyouken no Majutsushi ga Sekai wo Suberu II The Iceblade Sorcerer Shall Rule the World II",
+        "slug": "hyouken-no-majutsushi-ga-sekai-wo-suberu-s2",
+        "description": "Kelanjutan dari musim pertamanya.",
+        "releaseDate": "2026-10-08T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/abb1630a-80f3-4425-adf6-ea971f227cab.jpg",
+        "duration": "23",
+        "releaseType": "TV",
+        "score": 7,
+        "genres": [
+          { "id": 90, "name": "Action", "slug": "action" },
+          { "id": 92, "name": "Fantasy", "slug": "fantasy" },
+          { "id": 101, "name": "School", "slug": "school" }
+        ],
+        "studioId": 371,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": false,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-09T00:13:19.267Z",
+        "updatedAt": "2026-10-08T17:13:28.382Z"
+      }
+    },
+    {
+      "id": 45815,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "15",
+      "downloadUrl": [
+        {
+          "format": "HD",
+          "resolutions": [
+            {
+              "quality": "1080p",
+              "download_links": [{ "host": "VIKING", "url": "https://vikingfile.com/f/Y7pbDORfn6" }]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [{ "source": "HD", "url": "https://upbolt.to/e/ufptr258ue3f" }],
+      "content": null,
+      "releasedAt": "2026-10-08T16:01:00.000Z",
+      "createdAt": "2026-10-08T23:24:45.976Z",
+      "updatedAt": "2026-10-08T23:24:45.976Z",
+      "series": {
+        "id": 2060,
+        "seriesId": 55515,
+        "title": "Tsuihou sareta Tensei Juukishi wa Game Chishiki de Musou suru",
+        "japaneseTitle": "Tsuihou sareta Tensei Juukishi wa Game Chishiki de Musou suru",
+        "slug": "tsuihou-sareta-tensei-juukishi-wa-game-chishiki-de-musou-suru",
+        "description": " Saat menjalani Ritual Pemberkatan Ilahi di usia 15 tahun, Elymas justru ditakdirkan mendapatkan kelas \"Ksatria Berat\" (Heavy Knight).  Kelas ini dianggap cacat, tidak berguna, dan memalukan. Elymas akhirnya kehilangan posisinya sebagai calon kepala rumah tangga lalu diasingkan.  Elymas sebenarnya adalah manusia reinkarnasi yang memiliki ingatan kehidupan masa lalunya. Ia sadar bahwa dunia tempatnya tinggal sekarang sama persis dengan game yang pernah ia kuasai dulu. ",
+        "releaseDate": "2026-07-03T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/6f99448a-a2d9-478c-93ea-7a22deb5f060.jpg",
+        "duration": "23 min.",
+        "releaseType": "TV",
+        "score": 6.78,
+        "genres": [
+          { "id": 90, "name": "Action", "slug": "action" },
+          { "id": 92, "name": "Fantasy", "slug": "fantasy" },
+          { "id": 107, "name": "Adventure", "slug": "adventure" },
+          { "id": 128, "name": "Isekai", "slug": "isekai" },
+          { "id": 130, "name": "Reincarnation", "slug": "reincarnation" }
+        ],
+        "studioId": 230,
+        "seasonId": 328,
+        "censored": false,
+        "mature": false,
+        "hot": false,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-08-25T03:27:35.216Z",
+        "updatedAt": "2026-08-25T03:27:35.216Z"
+      }
+    },
+    {
+      "id": 45814,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "2",
+      "downloadUrl": [
+        {
+          "format": "HD",
+          "resolutions": [
+            {
+              "quality": "1080p",
+              "download_links": [{ "host": "VIKING", "url": "https://vikingfile.com/f/uy0dv6SqFe" }]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [{ "source": "STR 480p", "url": "https://upbolt.to/e/jyyndgkr624f" }],
+      "content": null,
+      "releasedAt": "2026-10-08T15:00:00.000Z",
+      "createdAt": "2026-10-08T23:07:02.338Z",
+      "updatedAt": "2026-10-08T23:07:02.338Z",
+      "series": {
+        "id": 2083,
+        "seriesId": 55538,
+        "title": "Koori no Jouheki S2",
+        "japaneseTitle": "The Ramparts of Ice S2",
+        "slug": "koori-no-jouheki-s2",
+        "description": "Musim kedua dari Koori no Jouheki.",
+        "releaseDate": "2026-10-01T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/d188eaee-a9f0-4d77-97fd-0c70ad681214.jpg",
+        "duration": "23 min.",
+        "releaseType": "TV",
+        "score": 8.25,
+        "genres": [
+          { "id": 91, "name": "Drama", "slug": "drama" },
+          { "id": 101, "name": "School", "slug": "school" },
+          { "id": 105, "name": "Romance", "slug": "romance" }
+        ],
+        "studioId": 261,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": false,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-01T15:12:12.251Z",
+        "updatedAt": "2026-10-03T17:03:54.901Z"
+      }
+    },
+    {
+      "id": 45813,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "1",
+      "downloadUrl": [
+        {
+          "format": "HD",
+          "resolutions": [
+            {
+              "quality": "1080p",
+              "download_links": [{ "host": "VIKING", "url": "https://vikingfile.com/f/V4XHxnPgA8" }]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [{ "source": "STR 480p", "url": "https://upbolt.to/e/f8uy3qazam88" }],
+      "content": null,
+      "releasedAt": "2026-10-07T17:00:00.000Z",
+      "createdAt": "2026-10-08T21:02:14.377Z",
+      "updatedAt": "2026-10-08T21:02:14.377Z",
+      "series": {
+        "id": 2096,
+        "seriesId": 55551,
+        "title": "Kikansha no Mahou wa Tokubetsu desu S2",
+        "japaneseTitle": "Kikansha no Mahou wa Tokubetsu desu S2",
+        "slug": "kikansha-no-mahou-wa-tokubetsu-desu-s2",
+        "description": "Kelanjutan dari musim pertamanya.",
+        "releaseDate": "2026-10-07T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/8c08b9c7-807d-4da0-acf2-a54cebf5eadf.jpg",
+        "duration": "23",
+        "releaseType": "TV",
+        "score": 7.09,
+        "genres": [
+          { "id": 90, "name": "Action", "slug": "action" },
+          { "id": 92, "name": "Fantasy", "slug": "fantasy" },
+          { "id": 101, "name": "School", "slug": "school" }
+        ],
+        "studioId": 428,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": false,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-08T20:49:10.009Z",
+        "updatedAt": "2026-10-08T20:49:10.009Z"
+      }
+    },
+    {
+      "id": 45812,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "1",
+      "downloadUrl": [
+        {
+          "format": "mp4",
+          "resolutions": [
+            {
+              "quality": "480p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112324953/oploverz-plus-stps2-01-mp4-480p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/ysVx8HSMBP" },
+                { "host": "FILEQ", "url": "https://fileq.net/ygdo9l7ea93g.html" }
+              ]
+            },
+            {
+              "quality": "720p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112324954/oploverz-plus-stps2-01-mp4-720p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/9Me2Sh7jZY" },
+                { "host": "FILEQ", "url": "https://fileq.net/0wfiuxal6cgh.html" }
+              ]
+            },
+            {
+              "quality": "1080p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112324955/oploverz-plus-stps2-01-mp4-1080p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/9P6VXEElNO" },
+                { "host": "FILEQ", "url": "https://fileq.net/kwwwm3xs45wq.html" }
+              ]
+            }
+          ]
+        },
+        {
+          "format": "mkv",
+          "resolutions": [
+            {
+              "quality": "480p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112325069/oploverz-plus-stps2-01-480pe524ab56-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/SR1cgd7OZS" },
+                { "host": "FILEQ", "url": "https://fileq.net/91mn9a9bb29h.html" }
+              ]
+            },
+            {
+              "quality": "720p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112325070/oploverz-plus-stps2-01-720p0a9c81af-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/QHmza28Clf" },
+                { "host": "FILEQ", "url": "https://fileq.net/2zmnuru41431.html" }
+              ]
+            },
+            {
+              "quality": "1080p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112325071/oploverz-plus-stps2-01-1080pda028d7c-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/9Q3pIbpR6j" },
+                { "host": "FILEQ", "url": "https://fileq.net/vhjqiyliapiq.html" }
+              ]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [
+        { "source": "Nonton Online 480p", "url": "https://upbolt.to/e/z4lxqlyfa88e" },
+        { "source": "Nonton Online 720p", "url": "https://upbolt.to/e/zoakeeuengvl" },
+        { "source": "Nonton Online 1080p", "url": "https://upbolt.to/e/dmiamoqqv4dz" }
+      ],
+      "content": null,
+      "releasedAt": "2026-10-07T17:00:00.000Z",
+      "createdAt": "2026-10-08T00:41:26.792Z",
+      "updatedAt": "2026-10-07T19:04:06.867Z",
+      "series": {
+        "id": 2095,
+        "seriesId": 55550,
+        "title": "Sasaki to Pii-chan S2",
+        "japaneseTitle": "Sasaki and Peeps Season 2",
+        "slug": "sasaki-to-pii-chan-s2",
+        "description": "Kelanjutan dari musim sebelumnya.",
+        "releaseDate": "2026-10-05T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/838982f7-844e-494c-ba0e-96025763f602.jpg",
+        "duration": "23 min.",
+        "releaseType": "TV",
+        "score": 7.5,
+        "genres": [
+          { "id": 92, "name": "Fantasy", "slug": "fantasy" },
+          { "id": 100, "name": "Comedy", "slug": "comedy" },
+          { "id": 107, "name": "Adventure", "slug": "adventure" },
+          { "id": 128, "name": "Isekai", "slug": "isekai" }
+        ],
+        "studioId": 213,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": true,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-07T21:41:12.942Z",
+        "updatedAt": "2026-10-07T21:41:12.942Z"
+      }
+    },
+    {
+      "id": 45811,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "2",
+      "downloadUrl": [
+        {
+          "format": "mp4",
+          "resolutions": [
+            {
+              "quality": "1080p",
+              "download_links": [{ "host": "VIKING", "url": "https://vikingfile.com/f/ZXlrbOZziJ" }]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [{ "source": "HD", "url": "https://upbolt.to/e/v80ifsgauq36" }],
+      "content": null,
+      "releasedAt": "2026-10-07T15:00:00.000Z",
+      "createdAt": "2026-10-08T00:17:18.158Z",
+      "updatedAt": "2026-10-08T00:17:18.158Z",
+      "series": {
+        "id": 2082,
+        "seriesId": 55537,
+        "title": "Tensei shitara Ken deshita S2",
+        "japaneseTitle": "Reincarnated as a Sword Season 2",
+        "slug": "tensei-shitara-ken-deshita-s2",
+        "description": "Melanjutkan petualangan seru antara sang pedang sakti Guru (Shishou) dan gadis bertelinga kucing, Fran.",
+        "releaseDate": "2026-09-30T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/9dce28bd-b1e7-40f3-8306-de575db5d8ad.jpg",
+        "duration": "23 min.",
+        "releaseType": "TV",
+        "score": 7.51,
+        "genres": [
+          { "id": 90, "name": "Action", "slug": "action" },
+          { "id": 92, "name": "Fantasy", "slug": "fantasy" },
+          { "id": 107, "name": "Adventure", "slug": "adventure" },
+          { "id": 128, "name": "Isekai", "slug": "isekai" },
+          { "id": 130, "name": "Reincarnation", "slug": "reincarnation" }
+        ],
+        "studioId": 250,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": false,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-01T14:45:23.183Z",
+        "updatedAt": "2026-10-01T14:45:23.183Z"
+      }
+    },
+    {
+      "id": 45810,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "1",
+      "downloadUrl": [
+        {
+          "format": "mp4",
+          "resolutions": [
+            {
+              "quality": "1080p",
+              "download_links": [{ "host": "VIKING", "url": "https://vikingfile.com/f/9DNSKT1qB1" }]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [{ "source": "HD", "url": "https://upbolt.to/e/p5nnovrg3uzn" }],
+      "content": null,
+      "releasedAt": "2026-10-07T14:00:00.000Z",
+      "createdAt": "2026-10-08T00:15:28.222Z",
+      "updatedAt": "2026-10-08T00:15:28.222Z",
+      "series": {
+        "id": 2094,
+        "seriesId": 55549,
+        "title": "Tantei wa Mou, Shindeiru S2",
+        "japaneseTitle": "The Detective Is Already Dead Season 2",
+        "slug": "tantei-wa-mou-shindeiru-s2",
+        "description": "Kelanjutan dari musim pertamanya.",
+        "releaseDate": "2026-10-07T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/dcd3d103-b556-4395-9289-6772013a008c.jpg",
+        "duration": "23 min.",
+        "releaseType": "TV",
+        "score": 7,
+        "genres": [
+          { "id": 94, "name": "Mystery", "slug": "mystery" },
+          { "id": 100, "name": "Comedy", "slug": "comedy" },
+          { "id": 105, "name": "Romance", "slug": "romance" }
+        ],
+        "studioId": 412,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": false,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-07T21:39:26.297Z",
+        "updatedAt": "2026-10-07T21:39:26.297Z"
+      }
+    },
+    {
+      "id": 45809,
+      "subbed": "Sub",
+      "title": null,
+      "episodeNumber": "1",
+      "downloadUrl": [
+        {
+          "format": "mp4",
+          "resolutions": [
+            {
+              "quality": "480p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112320995/oploverz-plus-tscht-01-mp4-480p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/BPNRV4DUtr" },
+                { "host": "FILEQ", "url": "https://fileq.net/c55pmzfze61b.html" }
+              ]
+            },
+            {
+              "quality": "720p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112320996/oploverz-plus-tscht-01-mp4-720p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/0Fj7WDtr1n" },
+                { "host": "FILEQ", "url": "https://fileq.net/ih0t0i8yi36u.html" }
+              ]
+            },
+            {
+              "quality": "1080p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112320997/oploverz-plus-tscht-01-mp4-1080p-mp4" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/EF6eMR0tNS" },
+                { "host": "FILEQ", "url": "https://fileq.net/dgajfofip7f8.html" }
+              ]
+            }
+          ]
+        },
+        {
+          "format": "x265 mkv | versi hemat",
+          "resolutions": [
+            {
+              "quality": "480p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112321128/oploverz-plus-tscht-01-x265-480p-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/YdYHhEQ8sZ" },
+                { "host": "FILEQ", "url": "https://fileq.net/6k5pdnmskh3v.html" }
+              ]
+            },
+            {
+              "quality": "720p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112321125/oploverz-plus-tscht-01-x265-720p-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/BOob8EMc1q" },
+                { "host": "FILEQ", "url": "https://fileq.net/0tfrsjme1d1j.html" }
+              ]
+            },
+            {
+              "quality": "1080p",
+              "download_links": [
+                { "host": "GD", "url": "https://acefile.co/f/112321127/oploverz-plus-tscht-01-x265-1080p-mkv" },
+                { "host": "VIKING", "url": "https://vikingfile.com/f/Yesp8bMX4H" },
+                { "host": "FILEQ", "url": "https://fileq.net/44r2bj74cfpj.html" }
+              ]
+            }
+          ]
+        }
+      ],
+      "streamUrl": [
+        { "source": "Nonton Online 480p", "url": "https://upbolt.to/e/pjkh2ctfirxb" },
+        { "source": "Nonton Online 720p", "url": "https://upbolt.to/e/qeuubn1719ue" },
+        { "source": "Nonton Online 1080p", "url": "https://upbolt.to/e/omb5a6a83wdm" },
+        {
+          "source": "Nonton Online 360p",
+          "url": "https://www.blogger.com/video.g?token=AD6v5dxV0DSeSd367Hr7zlPJZ6Wwv8o5nVmdxCu2YelnxV2ZT8pLuoY89C8-cw07t-JrQL0zs3lRIRYVgZIgRKP9tg0qYxEmK6stPqjcj-CwvIuW6W3p-1inJcy2hesY_jmTG6v85Mxv&origin=paladindrama.blogspot.com"
+        }
+      ],
+      "content": null,
+      "releasedAt": "2026-10-06T16:00:00.000Z",
+      "createdAt": "2026-10-07T00:03:45.967Z",
+      "updatedAt": "2026-10-06T18:30:44.206Z",
+      "series": {
+        "id": 2093,
+        "seriesId": 55548,
+        "title": "The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life (Chii Fuyo)",
+        "japaneseTitle": "Chii Fuyo,  Tsuihou sareta Cheat Fuyo Majutsushi wa Kimama na Second Life wo Ouka suru. Ore wa Buki dake ja Naku, Arayuru Mono ni \"Kyouka Point\" wo Fuyo Dekiru shi, Ore no Ishi de Itsudemo Kouka wo Kaijo Dekiru kedo, Nokotta Hitotachi Daijoubu?",
+        "slug": "the-laid-off-cheat-granting-mage-enjoys-a-second-lease-on-life-chii-fuyo",
+        "description": "Rein, seorang *enchanter* yang memperkuat perlengkapan menggunakan sihirnya, tiba-tiba dikeluarkan dari *guild*-nya hanya karena semua perlengkapan di sana sudah dianggap cukup kuat. Merasa geram atas perlakuan tak masuk akal itu, Rein memutuskan untuk menarik kembali kekuatan luar biasa yang telah ia curahkan ke dalam perlengkapan mereka. Saat ia secara santai menyalurkan kekuatan tersebut ke sebuah pedang tembaga biasa, pedang itu berubah menjadi senjata berkekuatan luar biasa dengan 10.000 poin peningkatan!\r\n\r\nMeski sama sekali tidak memiliki pengalaman bertarung, berbekal sihir yang mampu mengubah benda apa pun menjadi perlengkapan yang sangat kuat, sang *enchanter* pun memulai petualangan demi menikmati kehidupan baru yang bebas dan santai!",
+        "releaseDate": "2026-10-06T00:00:00.000Z",
+        "status": "Completed",
+        "poster": "https://backapi.oploverz.ac/uploads/posters/0c777d18-af00-454c-aad9-b65023ef02a3.jpg",
+        "duration": "23 min.",
+        "releaseType": "TV",
+        "score": 6.92,
+        "genres": [
+          { "id": 90, "name": "Action", "slug": "action" },
+          { "id": 92, "name": "Fantasy", "slug": "fantasy" },
+          { "id": 107, "name": "Adventure", "slug": "adventure" }
+        ],
+        "studioId": 206,
+        "seasonId": 331,
+        "censored": false,
+        "mature": false,
+        "hot": true,
+        "batchDownloadUrl": [],
+        "createdAt": "2026-10-06T23:40:40.728Z",
+        "updatedAt": "2026-10-06T16:42:30.917Z"
+      }
+    }
+  ]
+}
