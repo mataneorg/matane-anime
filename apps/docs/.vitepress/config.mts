@@ -12,7 +12,9 @@ export default defineConfig({
   lang: 'en-US',
   cleanUrls: true,
   lastUpdated: false,
+  head: [['link', { rel: 'icon', type: 'image/png', href: '/matane-anime/favicon.png' }]],
   themeConfig: {
+    logo: '/logo.png',
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'Authors', link: '/authors/' },

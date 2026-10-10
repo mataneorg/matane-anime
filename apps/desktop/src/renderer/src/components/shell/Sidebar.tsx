@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useRouterState } from '@tanstack/react-router';
-import { ChevronDown, Compass, FlaskConical, PanelLeftClose, PanelLeftOpen, Play } from 'lucide-react';
+import { ChevronDown, Compass, FlaskConical, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AppLogo } from '@renderer/components/AppLogo';
 import { usePendingDownloads } from '@renderer/features/downloads/usePendingDownloads';
 import { badgeText } from '@renderer/features/updates/helpers';
 import { availableQuery } from '@renderer/lib/catalog';
@@ -109,9 +110,7 @@ export function Sidebar() {
       className={cn('flex shrink-0 flex-col border-r bg-sidebar p-3 transition-[width]', collapsed ? 'w-16' : 'w-56')}
     >
       <div className={cn('mb-3 flex items-center gap-2.5 border-b pb-3', collapsed ? 'justify-center' : 'px-1')}>
-        <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Play className="size-4 fill-current" strokeWidth={2} aria-hidden />
-        </div>
+        <AppLogo className="size-8" />
         {!collapsed && <div className="truncate text-base font-semibold tracking-tight">{t('app.name')}</div>}
       </div>
 

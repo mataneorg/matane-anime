@@ -1,8 +1,9 @@
 import { UPDATE_CHANNELS, type UpdateChannel } from '@matane-anime/shared';
 import { useQuery } from '@tanstack/react-query';
-import { Bug, ExternalLink, Play, RotateCcw, Sparkles } from 'lucide-react';
+import { Bug, ExternalLink, RotateCcw, Sparkles } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { AppLogo } from '@renderer/components/AppLogo';
 import { Button } from '@renderer/components/ui/button';
 import { Select } from '@renderer/components/ui/select';
 import { call } from '@renderer/lib/api';
@@ -34,9 +35,7 @@ export function AboutSettings() {
         aria-labelledby="about-title"
         className="flex flex-wrap items-center gap-4 rounded-xl border bg-card/40 p-5"
       >
-        <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-          <Play className="size-5 fill-current" strokeWidth={2} aria-hidden />
-        </div>
+        <AppLogo className="size-12" />
         <div className="min-w-0 flex-1">
           <h2 id="about-title" className="text-sm font-semibold">
             {t('app.name')}

@@ -5,6 +5,7 @@ import { Check, ChevronRight, Info, Play } from 'lucide-react';
 import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import { type KeyboardEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { AppLogo } from '@renderer/components/AppLogo';
 import { WindowControls } from '@renderer/components/shell/WindowControls';
 import { Button } from '@renderer/components/ui/button';
 import { Input } from '@renderer/components/ui/input';
@@ -65,9 +66,7 @@ export function Onboarding() {
         <div className="grid w-full max-w-[1040px] grid-cols-1 items-center gap-12 md:grid-cols-[260px_1fr]">
           <aside className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-                <Play className="size-5 fill-current" strokeWidth={0} aria-hidden />
-              </span>
+              <AppLogo className="size-10" />
               <span className="text-lg leading-6 font-semibold text-foreground">{t('app.name')}</span>
             </div>
             <ol aria-label={t('onboarding.stepsLabel')} className="flex flex-col gap-1">

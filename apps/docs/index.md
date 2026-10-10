@@ -2,6 +2,9 @@
 layout: home
 
 hero:
+  image:
+    src: /logo.png
+    alt: Matane Anime
   name: Matane Anime
   text: A desktop anime player
   tagline: A library, watch progress, downloads and new-episode alerts, for sources you choose. Open source, no telemetry.
