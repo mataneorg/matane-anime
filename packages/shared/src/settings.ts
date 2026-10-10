@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { BACKUP_AUTO_MODES, isAbsolutePath } from './backup';
-import { DEFAULT_SHORTCUTS, shortcutMapSchema } from './shortcuts';
+import { DEFAULT_SHORTCUTS, mergeShortcuts, shortcutMapSchema } from './shortcuts';
 import { ACCENTS, LANGUAGES, THEME_MODES } from './theme';
 import {
   DEFAULT_BROWSE_SETTINGS,
@@ -215,6 +215,7 @@ export function settingsFromStored(stored: ReadonlyMap<string, string>): AppSett
     }
     const parsed = appSettingsSchema.shape[key].safeParse(value);
     if (parsed.success) result[key] = parsed.data;
+    else if (key === 'playerShortcuts') result[key] = mergeShortcuts(value);
   }
   return result as AppSettings;
 }

@@ -441,6 +441,10 @@
   },
   "errors": {
     "title": "Something went wrong",
+    "crash": "The page ran into a problem. Your library and downloads are not affected.",
+    "reload": "Reload the app",
+    "notFoundPage": "This page does not exist.",
+    "backToLibrary": "Back to the library",
     "NetworkError": "Could not reach the site.",
     "HttpError": "The site answered with an error ({{status}}).",
     "CloudflareError": "The site is guarding itself with a security check.",

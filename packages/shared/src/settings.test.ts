@@ -125,3 +125,12 @@ describe('windowStateSchema', () => {
     expect(windowStateSchema.safeParse({ width: 0, height: 600, maximized: false }).success).toBe(false);
   });
 });
+
+describe('settingsFromStored keymap', () => {
+  it('keeps the custom keys that are still valid when the stored keymap as a whole is not', () => {
+    const keymap = { ...DEFAULT_SETTINGS.playerShortcuts, mute: ['N'], fullscreen: ['Escape'] };
+    const settings = settingsFromStored(new Map([['playerShortcuts', JSON.stringify(keymap)]]));
+    expect(settings.playerShortcuts.mute).toEqual(['N']);
+    expect(settings.playerShortcuts.fullscreen).toEqual(DEFAULT_SETTINGS.playerShortcuts.fullscreen);
+  });
+});

@@ -11,6 +11,7 @@ import { useNavigate, useRouter } from '@tanstack/react-router';
 import { Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import { IncognitoPill } from '@renderer/components/shell/IncognitoPill';
 import { call } from '@renderer/lib/api';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
@@ -27,6 +28,7 @@ import {
   Toast,
   TopBar,
 } from './PlayerChrome';
+import { shouldIgnoreKey } from './keyboard';
 import { type PlayerError, usePlayerStore } from './store';
 
 const HIDE_AFTER_MS = 3000;
@@ -64,7 +66,19 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
   const navigate = useNavigate();
   const { data: settings } = useQuery(settingsQuery);
   const updateSettings = useUpdateSettings();
-  const store = usePlayerStore();
+  // Not the whole store: `currentTime` changes four times a second and PlayerView does not draw it.
+  const store = usePlayerStore(
+    useShallow((s) => ({
+      ended: s.ended,
+      error: s.error,
+      controlsVisible: s.controlsVisible,
+      paused: s.paused,
+      panel: s.panel,
+      buffering: s.buffering,
+      countdown: s.countdown,
+      toast: s.toast,
+    })),
+  );
 
   const container = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
@@ -339,15 +353,9 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent): void => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
-      const target = event.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === 'INPUT' || target.tagName === 'SELECT') &&
-        target.getAttribute('type') !== 'range'
-      )
-        return;
-      const { volume: v, speed: s, seekStep: step, shortcuts: keymap } = settingsRef.current;
       const combo = eventToCombo(event);
+      if (shouldIgnoreKey(event.target as HTMLElement | null, combo)) return;
+      const { volume: v, speed: s, seekStep: step, shortcuts: keymap } = settingsRef.current;
       let handled = true;
       if (combo === 'Escape') {
         if (usePlayerStore.getState().panel !== 'none') usePlayerStore.getState().set({ panel: 'none' });

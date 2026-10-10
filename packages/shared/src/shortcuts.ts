@@ -133,3 +133,26 @@ export const shortcutMapSchema = z
       }
     return true;
   }, 'a combination is bound twice');
+
+/**
+ * A stored keymap that no longer validates (an action was added, one combination is bound twice) keeps what it
+ * can: per action, its own valid combinations that no earlier action took, else the action's defaults. One bad
+ * entry does not throw away every custom key.
+ */
+export function mergeShortcuts(stored: unknown): ShortcutMap {
+  const source = typeof stored === 'object' && stored !== null ? (stored as Record<string, unknown>) : {};
+  const taken = new Set<string>();
+  const merged = {} as ShortcutMap;
+  for (const action of PLAYER_ACTIONS) {
+    const own = Array.isArray(source[action]) ? (source[action] as unknown[]) : [];
+    const valid = own
+      .filter((combo): combo is string => comboSchema.safeParse(combo).success)
+      .filter((combo, index, all) => all.indexOf(combo) === index && !taken.has(combo))
+      .slice(0, 4);
+    const chosen = valid.length > 0 ? valid : DEFAULT_SHORTCUTS[action].filter((combo) => !taken.has(combo));
+    merged[action] = chosen.length > 0 ? chosen : [...DEFAULT_SHORTCUTS[action]];
+    for (const combo of merged[action]) taken.add(combo);
+  }
+  const checked = shortcutMapSchema.safeParse(merged);
+  return checked.success ? checked.data : { ...DEFAULT_SHORTCUTS };
+}

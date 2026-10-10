@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Outlet, createRootRoute, useRouter } from '@tanstack/react-router';
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ErrorState } from '@renderer/components/ErrorState';
 import { Toaster } from '@renderer/components/Toaster';
 import { DownloadsHost } from '@renderer/features/downloads/DownloadsHost';
 import { Onboarding } from '@renderer/features/onboarding/Onboarding';
@@ -19,7 +20,7 @@ function RootLayout() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { i18n } = useTranslation();
-  const { data: settings } = useQuery(settingsQuery);
+  const { data: settings, error: settingsError, refetch: refetchSettings } = useQuery(settingsQuery);
   const { data: locale } = useQuery(osLocaleQuery);
 
   useIpcEvent(
@@ -58,6 +59,8 @@ function RootLayout() {
     document.documentElement.lang = language;
   }, [language, i18n]);
 
+  // Without the settings there is nothing to draw with; say so instead of leaving the window blank.
+  if (!settings && settingsError) return <ErrorState error={settingsError} onRetry={() => void refetchSettings()} />;
   // Wait for the stored settings so the first paint already has the right theme and language.
   if (!settings || (settings.language === 'system' && locale === undefined)) return null;
   // A new profile starts with the setup flow (UI-9); `main` marks profiles that already have data as done.

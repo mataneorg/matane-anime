@@ -441,6 +441,10 @@
   },
   "errors": {
     "title": "Ada yang salah",
+    "crash": "Halaman ini mengalami masalah. Library dan unduhan Anda tidak terpengaruh.",
+    "reload": "Muat ulang app",
+    "notFoundPage": "Halaman ini tidak ada.",
+    "backToLibrary": "Kembali ke library",
     "NetworkError": "Situs tidak bisa dijangkau.",
     "HttpError": "Situs membalas dengan galat ({{status}}).",
     "CloudflareError": "Situs dijaga pemeriksaan keamanan.",

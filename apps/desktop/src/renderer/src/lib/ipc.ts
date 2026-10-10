@@ -53,9 +53,8 @@ export function useUpdateSettings() {
       if (previous) queryClient.setQueryData(settingsQuery.queryKey, { ...previous, ...patch });
       return { previous };
     },
-    onError: (_error, _patch, context) => {
-      if (context?.previous) queryClient.setQueryData(settingsQuery.queryKey, context.previous);
-    },
+    // Not a snapshot: with overlapping saves it may hold a value that never reached main. Ask main.
+    onError: () => void queryClient.invalidateQueries({ queryKey: settingsQuery.queryKey }),
     // This save still counts as pending here; only the last of several overlapping saves lands.
     onSuccess: (next, patch) => {
       receiveSettings(queryClient, next, 1);

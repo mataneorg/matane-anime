@@ -4,9 +4,11 @@ import {
   DEFAULT_SHORTCUTS,
   PLAYER_ACTIONS,
   type KeyEventLike,
+  type ShortcutMap,
   eventToCombo,
   findConflict,
   formatCombo,
+  mergeShortcuts,
   resolveAction,
   shortcutMapSchema,
 } from './shortcuts';
@@ -126,5 +128,31 @@ describe('player settings', () => {
     expect(settingsPatchSchema.safeParse({ playerShortcuts: { ...DEFAULT_SHORTCUTS, mute: ['F'] } }).success).toBe(
       false,
     );
+  });
+});
+
+describe('mergeShortcuts', () => {
+  it('keeps custom keys that are still valid when one entry is not', () => {
+    const stored = { ...DEFAULT_SHORTCUTS, mute: ['N'], fullscreen: ['Escape'], 'play-pause': ['Space', 'Z'] };
+    const merged = mergeShortcuts(stored);
+    expect(merged.mute).toEqual(['N']);
+    expect(merged['play-pause']).toEqual(['Space', 'Z']);
+    expect(merged.fullscreen).toEqual(DEFAULT_SHORTCUTS.fullscreen);
+    expect(shortcutMapSchema.safeParse(merged).success).toBe(true);
+  });
+
+  it('fills an action added later, and drops a combination bound twice', () => {
+    const older: Partial<ShortcutMap> = { ...DEFAULT_SHORTCUTS, mute: ['K'] };
+    delete older.slower;
+    const merged = mergeShortcuts(older);
+    expect(merged.slower).toEqual(DEFAULT_SHORTCUTS.slower);
+    // 'K' belongs to play-pause, which comes first; mute falls back to its default.
+    expect(merged['play-pause']).toContain('K');
+    expect(merged.mute).toEqual(DEFAULT_SHORTCUTS.mute);
+    expect(shortcutMapSchema.safeParse(merged).success).toBe(true);
+  });
+
+  it('gives the defaults for something that is not a keymap', () => {
+    for (const junk of [null, 'x', 42, [], {}]) expect(mergeShortcuts(junk)).toEqual(DEFAULT_SHORTCUTS);
   });
 });
