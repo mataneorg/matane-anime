@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { usePendingDownloads } from '@renderer/features/downloads/usePendingDownloads';
 import { badgeText } from '@renderer/features/updates/helpers';
 import { availableQuery } from '@renderer/lib/catalog';
-import { appInfoQuery } from '@renderer/lib/ipc';
+import { appInfoQuery, settingsQuery } from '@renderer/lib/ipc';
 import { libraryCountQuery } from '@renderer/lib/library';
 import { updatesCountQuery } from '@renderer/lib/updates';
 import { cn } from '@renderer/lib/utils';
@@ -86,6 +86,7 @@ export function Sidebar() {
   const toggle = useUiStore((state) => state.toggleSidebar);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { data: info } = useQuery(appInfoQuery);
+  const { data: settings } = useQuery(settingsQuery);
   const pendingDownloads = usePendingDownloads();
   const { data: updatesCount = 0 } = useQuery(updatesCountQuery);
   const { data: libraryCount = 0 } = useQuery(libraryCountQuery);
@@ -175,7 +176,8 @@ export function Sidebar() {
       </nav>
 
       <div className="mt-2 flex flex-col gap-0.5 border-t pt-2">
-        {info?.spike && (
+        {/* Settings → Advanced → Developer mode shows it; the spike itself only exists in development or with MATANE_SPIKE=1. */}
+        {settings?.devMode && info?.spike && (
           <Link
             to="/dev/spike"
             aria-label={collapsed ? t('nav.spike') : undefined}
