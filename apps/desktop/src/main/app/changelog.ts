@@ -6,7 +6,7 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: '0.1.0-beta.2',
+    version: '0.1.0-beta.3',
     date: '2026-10-10',
     items: [
       'A layout that follows Matane: a new look for the library, browse and extensions pages, display modes with a cover size, and a saved filter and sort.',
