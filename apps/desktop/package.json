@@ -23,7 +23,7 @@
     "fixtures": "bash scripts/make-fixtures.sh",
     "fixtures:download": "bash scripts/make-download-fixtures.sh",
     "spike:report": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/spike-report.mts",
-    "e2e": "electron --version > /dev/null && electron-vite build && playwright test"
+    "e2e": "electron --version && electron-vite build && playwright test"
   },
   "devDependencies": {
     "@catppuccin/tailwindcss": "1.0.0",
