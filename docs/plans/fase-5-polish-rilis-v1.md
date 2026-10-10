@@ -19,7 +19,7 @@
 >
 > **Situs docs:** `pnpm --filter @matane-anime/docs docs:build` hijau (10 Okt 2026, tanpa tautan mati); `.github/workflows/docs.yml` membangunnya pada PR/push yang menyentuh `apps/docs`, tanpa deploy (host belum dipilih).
 >
-> **Belum:** `pnpm dist` dan build portable/deb/rpm (hanya AppImage yang pernah diverifikasi); `release.yml` yang belum pernah jalan dan auto-update; `latest.yml`/`latest-linux.yml` dengan target baru; nama variabel `PORTABLE_EXECUTABLE_FILE`; DoH/proxy/`safeStorage`/dialog backup/relaunch di Electron nyata; spike 3-OS (ADR 0008/0009); Flatpak dan AUR (hanya draf); dialog What's new tanpa mockup; kontak untuk laporan perilaku dan keamanan (belum ada alamat); langkah manual rilis v1.0 (versi, tag, merge `development` ke `main`).
+> **Belum (diperbarui 11 Okt 2026):** `release.yml` sudah jalan dan menerbitkan `v0.1.0-beta.4` lengkap (AppImage, deb, rpm, NSIS, portable, dmg arm64 dan x64, `latest*.yml`), dan CI hijau termasuk e2e; yang tersisa adalah bukti di mesin nyata: memasang dan menjalankan build Windows (NSIS, portable) dan macOS (dmg, arm64 tanpa tanda tangan) serta deb/rpm di mesin bersih; auto-update dari satu beta ke beta berikutnya; nama variabel `PORTABLE_EXECUTABLE_FILE`; DoH/proxy/`safeStorage`/dialog backup/relaunch di Electron nyata; spike 3-OS (`spike.yml` belum pernah dijalankan; ADR 0008/0009); Flatpak dan AUR (hanya draf); dialog What's new tanpa mockup; kontak untuk laporan perilaku dan keamanan (belum ada alamat; sementara lewat GitHub private advisory); langkah manual rilis v1.0 ([checklist](../releasing.md#cutting-v10)).
 
 ## Context
 

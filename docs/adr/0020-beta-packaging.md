@@ -16,7 +16,7 @@ Phase 3 ends with a beta (docs/PRD.md §12, G6): an AppImage, an NSIS installer 
 - **Smoke test of the packaged app** (`scripts/smoke-packaged.mjs`): with `MATANE_SMOKE=1` (read only by `isSmokeRun()`, inert otherwise) the app opens its database and applies the migrations, loads a trivial extension into the host's QuickJS, checks that the renderer mounted, prints one JSON line and quits. It caught a packaging mistake (a QuickJS variant module excluded by accident) the first time it ran.
 
 ## Not verified yet
-NSIS and dmg builds, an unsigned arm64 macOS build (it may need ad-hoc signing), auto-update end to end, and `release.yml` itself: there is no GitHub repository yet, so the publish owner and repository are placeholders marked TODO (and `RELEASES_URL` in `updater.ts` must match them). The three-OS playback spike ([0008](0008-media-transport.md), [0009](0009-codec-support.md)) must also be green before a public beta.
+Update (2026-10-11): the repository exists (`mataneorg/matane-anime`) and `release.yml` has run: `v0.1.0-beta.4` was published with the AppImage, deb, rpm, NSIS, portable and both dmg builds. What is still not confirmed on real machines: installing and running the NSIS, portable, dmg (the unsigned arm64 one may need ad-hoc signing), deb and rpm builds, and auto-update from one published beta to the next. The three-OS playback spike ([0008](0008-media-transport.md), [0009](0009-codec-support.md)) has never run (`spike.yml` has no runs) and must be green before v1.0.
 
 ## Consequences
 - A packaged app can be built and checked on Linux with `pnpm --filter ./apps/desktop dist` and `smoke:packaged`.

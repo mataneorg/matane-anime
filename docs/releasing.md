@@ -68,7 +68,7 @@ pnpm --filter @matane-anime/desktop pack:dir   # an unpacked folder instead of a
 ### Publish a beta through CI
 
 1. Make sure `main` is green (`pnpm lint`, `format:check`, `typecheck`, `test`, `build`, `e2e`; CI runs them).
-2. Set the version in `apps/desktop/package.json` (the current one is `0.1.0-beta.1`). A version with a pre-release part is published as a GitHub **pre-release**, which is the beta channel.
+2. Set the version in `apps/desktop/package.json` (the current one is `0.1.0-beta.4`). A version with a pre-release part is published as a GitHub **pre-release**, which is the beta channel.
 3. Commit, then tag **exactly** `v<version>` and push the tag:
 
    ```sh
@@ -83,16 +83,26 @@ The release is created as a normal (not draft) release, because the updater only
 
 ### Not verified yet (read this before you tag)
 
-From ADR 0020 and the files themselves; none of this has been exercised:
+State on 2026-10-11. `release.yml` has run for real: `v0.1.0-beta.4` was published (as a pre-release) with the AppImage, deb, rpm, NSIS installer, portable exe, both dmg builds and `latest.yml`, `latest-linux.yml` and `latest-mac.yml`, and CI (including e2e under xvfb) is green on `main`. What no machine has exercised yet:
 
-- **`release.yml` itself.** It was written before the GitHub repository existed and has never run. Only the Linux AppImage was built and smoke-tested, locally.
-- **Repository address.** `publish.owner`/`repo` in `electron-builder.yml` and `RELEASES_URL` in `apps/desktop/src/main/app/updater.ts` say `mataneorg/matane-anime`. They must match the real repository, and each other; the first real release is the proof.
-- **The extra packages** (Windows portable, Linux deb and rpm; Fase 5, milestone 5f): never built. After the first CI run check that `latest.yml` points at the NSIS installer and `latest-linux.yml` at the AppImage, and install the deb and rpm on clean machines. The Flatpak manifest and the AUR `PKGBUILD` in [docs/packaging](packaging/README.md) are unverified drafts that need a Flathub/AUR submission by you. How each package updates is in that README.
-- **NSIS (Windows) and dmg (macOS) builds**, an unsigned arm64 macOS build (it may need ad-hoc signing), and **auto-update end to end** (from one published beta to the next).
-- The **three-OS playback spike** (`spike.yml`, [ADR 0008](adr/0008-media-transport.md), [0009](adr/0009-codec-support.md)) must be green before a public beta.
+- **Installing and running** the Windows (NSIS, portable), macOS (dmg; the unsigned arm64 build may need ad-hoc signing) and Linux deb and rpm builds on clean machines. Only the AppImage has been installed and smoke-tested. Check that `latest.yml` points at the NSIS installer and `latest-linux.yml` at the AppImage.
+- **Auto-update end to end**, from one published beta to the next, on AppImage and NSIS. The `PORTABLE_EXECUTABLE_FILE` variable name used to detect the portable build comes from electron-builder's documentation.
+- **DoH, proxy, `safeStorage`, backup restore and relaunch** on a real Electron (the home test list at the end of `docs/plans/fase-5-polish-rilis-v1.md`).
+- The **three-OS playback spike** (`spike.yml`, [ADR 0008](adr/0008-media-transport.md), [0009](adr/0009-codec-support.md)): it has never been run. It must be green before v1.0.
+- The Flatpak manifest and the AUR `PKGBUILD` in [docs/packaging](packaging/README.md) are unverified drafts that need a Flathub/AUR submission by you. How each package updates is in that README.
 - Windows and macOS builds are unsigned (PRD R13); expect SmartScreen/Gatekeeper warnings.
 
-A sensible first run once the repository exists: a `workflow_dispatch` build without _publish_, download the three artifacts and try them, then tag.
+### Cutting v1.0
+
+Do this only when the list above is green or each open item is written down as an accepted risk.
+
+1. Run **Playback spike** (Actions, "Run workflow") and read its three reports.
+2. Install the latest beta on Windows and macOS, play a video, then update to a newer beta once.
+3. Set `version` in `apps/desktop/package.json` to `1.0.0` (no pre-release part, so CI publishes a normal release and the stable channel sees it).
+4. Drop the beta wording that would be wrong afterwards: the notice in `README.md` ("is a **beta**", the latest version), `SECURITY.md` (Supported versions), `apps/docs/index.md` and `apps/docs/guide/getting-started.md` ("Releases are beta"), and the "beta" lines in `docs/PRD.md` §13 and §15.2.
+5. Decide the contact address for `SECURITY.md` and `CODE_OF_CONDUCT.md`, or keep GitHub private advisories as the one channel and delete the "not been set up yet" sentences.
+6. `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build`, and `pnpm e2e` at home.
+7. Commit, tag exactly `v1.0.0`, push the tag, and watch `release.yml` and the smoke job. Tagging publishes.
 
 ## The docs site
 
