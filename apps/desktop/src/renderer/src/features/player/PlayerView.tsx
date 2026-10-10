@@ -24,6 +24,7 @@ import {
   ErrorCard,
   SPEEDS,
   ServerMenu,
+  StreamLoading,
   Toast,
   TopBar,
 } from './PlayerChrome';
@@ -448,6 +449,8 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
           tried: [],
         }
       : null);
+  // No address yet: the extension is still looking for the stream, so there is nothing to play or control.
+  const resolving = !session && !error;
   const hidden = !store.controlsVisible && !store.paused && store.panel === 'none' && !error;
 
   return (
@@ -463,7 +466,7 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
       <video
         ref={video}
         playsInline
-        className="absolute inset-0 size-full object-contain"
+        className={cn('absolute inset-0 size-full object-contain', resolving && 'invisible')}
         onClick={() => {
           clearTimeout(clickTimer.current);
           clickTimer.current = setTimeout(() => act.current.togglePlay(), 220);
@@ -474,7 +477,9 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
         }}
       />
 
-      {store.buffering && !error ? (
+      {resolving ? <StreamLoading /> : null}
+
+      {store.buffering && !error && !resolving ? (
         <div
           className="pointer-events-none absolute inset-0 flex items-center justify-center"
           role="status"
@@ -486,7 +491,9 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
 
       <IncognitoPill className="absolute top-16 left-4 z-10" />
       <TopBar session={session} actions={actions} visible={!hidden} />
-      <BottomBar session={session} actions={actions} visible={!hidden} volume={volume} muted={muted} speed={speed} />
+      {resolving ? null : (
+        <BottomBar session={session} actions={actions} visible={!hidden} volume={volume} muted={muted} speed={speed} />
+      )}
 
       {session && store.panel === 'servers' ? (
         <ServerMenu session={session} onPick={(index) => void pickStream(index)} />

@@ -509,6 +509,41 @@ export function AutoplayOverlay({
   );
 }
 
+/** Shown while the extension is still finding the stream: the video stays hidden until there is an address. */
+export function StreamLoading() {
+  const { t } = useTranslation();
+  return (
+    <div
+      role="status"
+      aria-label={t('player.resolving')}
+      className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-6"
+    >
+      <div className="relative flex size-24 items-center justify-center">
+        <span className="absolute inset-0 animate-ping rounded-full bg-video-accent/25 motion-reduce:animate-none" />
+        <span
+          className="absolute inset-3 animate-ping rounded-full bg-video-accent/25 motion-reduce:animate-none"
+          style={{ animationDelay: '0.5s' }}
+        />
+        <span className="relative flex size-14 items-center justify-center rounded-full bg-video-scrim ring-2 ring-video-accent/60">
+          <Play className="size-6 animate-pulse fill-video-accent text-video-accent" aria-hidden />
+        </span>
+      </div>
+      <p className="flex items-end gap-1 text-sm text-video-muted">
+        {t('player.resolving')}
+        <span className="mb-1.5 flex gap-0.5" aria-hidden>
+          {[0, 150, 300].map((delay) => (
+            <span
+              key={delay}
+              className="size-1 animate-bounce rounded-full bg-video-muted motion-reduce:animate-none"
+              style={{ animationDelay: `${delay}ms` }}
+            />
+          ))}
+        </span>
+      </p>
+    </div>
+  );
+}
+
 export function Toast({ message }: { message: string }) {
   return (
     <div
