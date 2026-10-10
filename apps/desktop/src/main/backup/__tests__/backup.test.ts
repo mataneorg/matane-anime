@@ -1,5 +1,6 @@
 import {
   copyFileSync,
+  cpSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
@@ -256,6 +257,7 @@ describe('restore', () => {
 
     const outcome = applyPendingRestore({
       userData: target,
+      migrationsFolder,
       bundledMigrations: bundled,
       now: NOW,
       folderExists: existsSync,
@@ -294,6 +296,40 @@ describe('restore', () => {
     expect(readFileSync(join(target, 'covers', `${kept}.jpg`), 'utf8')).toBe('jpeg-bytes');
   });
 
+  it('migrates the staged database before the swap: a migration that fails leaves the current data alone', async () => {
+    const source = join(work, 'source');
+    populate(join(source, 'covers'));
+    const { out } = await makeBackup(source);
+    const target = join(work, 'target');
+    await existingProfile(target, join(work, 'gone'));
+    stageBackup(parseBackup(readFileSync(out), bundled), { userData: target, bundledMigrations: bundled });
+
+    // A migrations folder with one more migration than the backup knows, and it does not run.
+    const broken = join(work, 'broken-migrations');
+    cpSync(migrationsFolder, broken, { recursive: true });
+    const journalFile = join(broken, 'meta/_journal.json');
+    const journal = JSON.parse(readFileSync(journalFile, 'utf8')) as {
+      entries: { idx: number; when: number; tag: string }[];
+    };
+    const last = journal.entries[journal.entries.length - 1]!;
+    journal.entries.push({ ...last, idx: last.idx + 1, when: last.when + 1000, tag: '9999_broken' });
+    writeFileSync(journalFile, JSON.stringify(journal));
+    writeFileSync(join(broken, '9999_broken.sql'), 'THIS IS NOT SQL;');
+
+    const outcome = applyPendingRestore({
+      userData: target,
+      migrationsFolder: broken,
+      bundledMigrations: bundled + 1,
+      now: NOW,
+      folderExists: existsSync,
+    });
+    expect(outcome.status).toBe('failed');
+    const live = new Database(join(target, 'data.db'), { readonly: true });
+    expect(live.prepare("SELECT value_json AS v FROM settings WHERE key = 'marker'").get()).toEqual({ v: '"before"' });
+    live.close();
+    expect(readdirSync(join(target, 'covers'))).toEqual(['old.jpg']);
+  });
+
   it('keeps a download folder that still exists', async () => {
     const source = join(work, 'source');
     populate(join(source, 'covers'));
@@ -305,7 +341,13 @@ describe('restore', () => {
     mkdirSync(target);
     stageBackup(parseBackup(readFileSync(out), bundled), { userData: target, bundledMigrations: bundled });
     expect(
-      applyPendingRestore({ userData: target, bundledMigrations: bundled, now: NOW, folderExists: existsSync }).status,
+      applyPendingRestore({
+        userData: target,
+        migrationsFolder,
+        bundledMigrations: bundled,
+        now: NOW,
+        folderExists: existsSync,
+      }).status,
     ).toBe('applied');
     const restored = new Database(join(target, 'data.db'), { readonly: true });
     expect(restored.prepare("SELECT value_json AS v FROM settings WHERE key = 'downloadFolder'").get()).toEqual({
@@ -329,7 +371,13 @@ describe('restore', () => {
       const target = join(work, `target-${String(kept)}-${saved.length}`);
       mkdirSync(target);
       stageBackup(parseBackup(readFileSync(out), bundled), { userData: target, bundledMigrations: bundled });
-      applyPendingRestore({ userData: target, bundledMigrations: bundled, now: NOW, folderExists: existsSync });
+      applyPendingRestore({
+        userData: target,
+        migrationsFolder,
+        bundledMigrations: bundled,
+        now: NOW,
+        folderExists: existsSync,
+      });
       const restored = new Database(join(target, 'data.db'), { readonly: true });
       const row = restored.prepare("SELECT value_json AS v FROM settings WHERE key = 'backupFolder'").get();
       restored.close();
@@ -341,7 +389,13 @@ describe('restore', () => {
     const target = join(work, 'target');
     await existingProfile(target, '/x');
     expect(
-      applyPendingRestore({ userData: target, bundledMigrations: bundled, now: NOW, folderExists: existsSync }),
+      applyPendingRestore({
+        userData: target,
+        migrationsFolder,
+        bundledMigrations: bundled,
+        now: NOW,
+        folderExists: existsSync,
+      }),
     ).toEqual({
       status: 'none',
     });
@@ -351,6 +405,7 @@ describe('restore', () => {
     writeFileSync(join(target, 'restore-pending', 'data.db'), 'garbage');
     const outcome = applyPendingRestore({
       userData: target,
+      migrationsFolder,
       bundledMigrations: bundled,
       now: NOW,
       folderExists: existsSync,

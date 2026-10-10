@@ -195,6 +195,33 @@ describe('database migrations', () => {
   });
 });
 
+describe('backups taken before a migration', () => {
+  it('keeps its own last copies per kind, so a restore safety copy never costs the migration copy', async () => {
+    const dir = tempDir();
+    const connection = openDatabase(join(dir, 'data.db'));
+    const backupDir = join(dir, 'backups');
+    const { cpSync, mkdirSync, readFileSync, writeFileSync } = await import('node:fs');
+    const partial = join(dir, 'partial');
+    cpSync(migrationsFolder, partial, { recursive: true });
+    const journal = JSON.parse(readFileSync(join(partial, 'meta/_journal.json'), 'utf8')) as { entries: unknown[] };
+    journal.entries = journal.entries.slice(0, 1);
+    writeFileSync(join(partial, 'meta/_journal.json'), JSON.stringify(journal));
+    await runMigrations(connection, { migrationsFolder: partial, backupDir });
+
+    // Three safety copies of earlier restores sort after every `data-` name.
+    mkdirSync(backupDir, { recursive: true });
+    const safety = ['2026-01-01', '2026-01-02', '2026-01-03'].map((day) => `pre-restore-${day}.db`);
+    for (const name of safety) writeFileSync(join(backupDir, name), 'x');
+
+    const result = await runMigrations(connection, { migrationsFolder, backupDir });
+    expect(result.backupPath).not.toBeNull();
+    const names = readdirSync(backupDir).sort();
+    expect(names.filter((name) => name.startsWith('pre-restore-'))).toEqual(safety);
+    expect(names.filter((name) => name.startsWith('data-'))).toHaveLength(1);
+    connection.sqlite.close();
+  });
+});
+
 describe('SettingsRepository', () => {
   it('returns defaults, stores patches and survives a corrupt value', async () => {
     const { connection } = await freshDatabase();

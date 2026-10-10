@@ -34,12 +34,18 @@ export function countBundledMigrations(migrationsFolder: string): number {
   return journal.entries.length;
 }
 
+/** `data-` copies are taken before a migration, `pre-restore-` ones before a restore: each kind keeps its own last few. */
+const BACKUP_PREFIXES = ['data-', 'pre-restore-'];
+
 function pruneBackups(backupDir: string): void {
-  const backups = readdirSync(backupDir)
-    .filter((name) => name.endsWith('.db'))
-    .sort()
-    .reverse();
-  for (const stale of backups.slice(KEPT_BACKUPS)) rmSync(join(backupDir, stale));
+  const names = readdirSync(backupDir).filter((name) => name.endsWith('.db'));
+  for (const prefix of BACKUP_PREFIXES) {
+    const newestFirst = names
+      .filter((name) => name.startsWith(prefix))
+      .sort()
+      .reverse();
+    for (const stale of newestFirst.slice(KEPT_BACKUPS)) rmSync(join(backupDir, stale));
+  }
 }
 
 /**

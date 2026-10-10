@@ -602,6 +602,24 @@ describe('the download folder (DL-6)', () => {
     env.db.settings.updateAppSettings({ downloadFolder: env.folder });
   });
 
+  it('rewrites each path right after its files moved, not all at the end', async () => {
+    const { service, ids } = await downloaded('Each', 2);
+    const target = join(env.folder, '..', `each-${Date.now()}`);
+    const rewrite = env.db.downloads.rewritePaths.bind(env.db.downloads);
+    const seen: { rows: number; existsAtRewrite: boolean }[] = [];
+    env.db.downloads.rewritePaths = (updates) => {
+      seen.push({ rows: updates.length, existsAtRewrite: updates.every((u) => existsSync(u.path)) });
+      rewrite(updates);
+    };
+    try {
+      await service.changeFolder(target, true);
+    } finally {
+      env.db.downloads.rewritePaths = rewrite;
+    }
+    expect(seen).toEqual(ids.map(() => ({ rows: 1, existsAtRewrite: true })));
+    env.db.settings.updateAppSettings({ downloadFolder: env.folder });
+  });
+
   it('only changes where new ones go when not asked to move', async () => {
     const { service, ids } = await downloaded('Stay', 1);
     const target = join(env.folder, '..', `elsewhere-${Date.now()}`);

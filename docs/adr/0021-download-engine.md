@@ -44,3 +44,6 @@ Downloads must survive a closed app, a dropped network, an expiring stream URL a
 ## Consequences
 - Error codes in `downloads.error` are a contract with the UI (`live`, `no_stream`, `no_extension`, `unsupported_encryption`, `size_limit`, `disk_space`, `write_failed`, `disk_full`, `expired`, `network`, `unreachable`, `http_<status>`, `redirect`, `file_missing`).
 - Offline playback only has to serve files ([0022](0022-local-sessions-and-offline-first.md)).
+
+## Amendment (2026-10-10)
+- Changing the download folder with "move" rewrites each row's path right after its files moved, not all at the end, so a crash leaves every row pointing at a place that exists. A copy across drives that fails removes what it wrote.

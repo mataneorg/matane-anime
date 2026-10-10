@@ -349,8 +349,8 @@ export class DownloadService {
   }
 
   /**
-   * New downloads go to `folder`. With `move`, the finished ones follow it and their stored paths are
-   * rewritten together; if anything fails the files go back and nothing changes (DL-6).
+   * New downloads go to `folder`. With `move`, the finished ones follow it and each stored path is rewritten
+   * right after its files moved; if anything fails the files go back and nothing changes (DL-6).
    */
   async changeFolder(folder: string, move: boolean): Promise<void> {
     if (!isAbsolute(folder)) throw new AppError('invalid_input', 'The download folder must be an absolute path');
@@ -375,11 +375,16 @@ export class DownloadService {
           const source = row.path as string;
           const target = join(to, relative(from, source));
           await moveTree(source, target);
+          // One row at a time, right after its files: a crash leaves every row pointing at a place that exists.
+          this.deps.downloads.rewritePaths([{ id: row.id, path: target }]);
           moved.push({ id: row.id, from: source, to: target });
         }
-        this.deps.downloads.rewritePaths(moved.map(({ id, to: path }) => ({ id, path })));
       } catch (error) {
-        for (const entry of moved.reverse()) await moveTree(entry.to, entry.from).catch(() => undefined);
+        for (const entry of moved.reverse()) {
+          await moveTree(entry.to, entry.from)
+            .then(() => this.deps.downloads.rewritePaths([{ id: entry.id, path: entry.from }]))
+            .catch(() => undefined);
+        }
         throw new AppError('internal', `Could not move the downloads: ${(error as Error).message}`);
       }
       for (const entry of moved) await pruneEmptyParents(dirname(entry.from), resolve(from));
@@ -783,7 +788,17 @@ async function moveTree(from: string, to: string): Promise<void> {
     await rename(from, to);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== 'EXDEV') throw error;
-    await cp(from, to, { recursive: true, errorOnExist: true });
+    const existed = await access(to).then(
+      () => true,
+      () => false,
+    );
+    try {
+      await cp(from, to, { recursive: true, errorOnExist: true });
+    } catch (copyError) {
+      // Half a copy would be taken for a finished download; what was there before is not ours to delete.
+      if (!existed) await rm(to, { recursive: true, force: true }).catch(() => undefined);
+      throw copyError;
+    }
     await rm(from, { recursive: true, force: true });
   }
 }

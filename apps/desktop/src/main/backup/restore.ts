@@ -2,14 +2,16 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, 
 import { join } from 'node:path';
 import { AppError, type BackupManifest, backupManifestSchema } from '@matane-anime/shared';
 import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 import { DATABASE_FILE, MANIFEST_FILE, type ParsedBackup } from './archive';
 import { appliedMigrations, prepareRestoredDatabase, repoExtensionIds } from './database';
 
 /**
  * A live SQLite file is never swapped while the app has it open. A restore is staged under `restore-pending/`
  * (validated, nothing of the current data touched), the app restarts, and `applyPendingRestore` runs before
- * the database is opened: safety copy of the current one, swap, covers, then the normal migrations bring an
- * older backup forward.
+ * the database is opened: the staged copy is migrated, then safety copy of the current one, swap and covers.
+ * Anything that can fail happens before the current data is touched.
  */
 export const PENDING_DIR = 'restore-pending';
 const FAILED_DIR = 'restore-failed';
@@ -67,6 +69,8 @@ export type PendingRestoreOutcome =
 
 export interface ApplyRestoreOptions {
   userData: string;
+  /** Where the SQL migrations are: the staged database is brought up to date here, before the swap. */
+  migrationsFolder: string;
   bundledMigrations: number;
   now: Date;
   folderExists(path: string): boolean;
@@ -116,6 +120,8 @@ export function applyPendingRestore(options: ApplyRestoreOptions): PendingRestor
     const database = new Database(staged);
     try {
       prepareRestoredDatabase(database, { coversDir, folderExists: options.folderExists });
+      // An older backup is migrated now, on the copy: a migration that fails must not cost the current data.
+      migrate(drizzle(database), { migrationsFolder: options.migrationsFolder });
       database.pragma('journal_mode = DELETE');
     } finally {
       database.close();

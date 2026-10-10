@@ -100,6 +100,7 @@ if (!app.requestSingleInstanceLock()) {
       // A restore chosen in the last run is applied before the database opens (it is never swapped under a live handle).
       const restored = applyPendingRestore({
         userData,
+        migrationsFolder,
         bundledMigrations: countBundledMigrations(migrationsFolder),
         now: new Date(),
         folderExists: existsSync,

@@ -18,3 +18,5 @@ docs/PRD.md §4: backup and restore are P1 for v1.0. The owner chose to back up 
 
 ## Amendment (2026-10-10)
 - **Repository trust is not part of a backup.** `extension_repos.public_key` ("Trust this key") is cleared when a backup is made and again when one is restored, so a file cannot make a repository trusted ([0024](0024-extension-repositories.md)). The repositories themselves are kept, as unverified.
+- **The staged database is migrated before the swap** (`applyPendingRestore` takes the migrations folder). A migration that fails moves the backup to `restore-failed/` and leaves the current data as it was; before, it ran after the swap and could stop the app from starting.
+- **Retention is per kind**: the copies taken before a migration (`data-…`) and before a restore (`pre-restore-…`) each keep their last 3. One list sorted by name let three safety copies delete the migration copy just made.
