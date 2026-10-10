@@ -1,0 +1,31 @@
+name: Docs
+
+on:
+  push:
+    branches: [main, development]
+    paths:
+      - 'apps/docs/**'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    paths:
+      - 'apps/docs/**'
+      - '.github/workflows/docs.yml'
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # version comes from "packageManager" in package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      # Only the docs workspace: no Electron download, no native rebuild.
+      - run: pnpm install --frozen-lockfile --filter @matane-anime/docs... --ignore-scripts
+      # VitePress fails the build on a dead internal link. No deploy step: the host is not chosen yet.
+      - run: pnpm --filter @matane-anime/docs docs:build

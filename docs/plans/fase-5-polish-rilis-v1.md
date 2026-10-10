@@ -17,7 +17,9 @@
 >
 > **Pembaruan 10 Okt 2026:** setelah fase ini, UI diselaraskan dengan Matane ([ADR 0036](../adr/0036-ui-follows-matane.md), [rencana](ui-parity-matane.md)), halaman Statistics, backup terjadwal dan halaman About ditambahkan, 15 extension situs digabung dari `feat/extension`, latensinya dioptimalkan, lalu dipindahkan ke repositori sendiri ([ADR 0037](../adr/0037-extension-latency.md)). Placeholder repo `SukunDev/matane-anime` sudah diganti `mataneorg/matane-anime`, dan SDK, runtime dan CLI sudah terbit di npm.
 >
-> **Belum:** `pnpm dist` dan build portable/deb/rpm (hanya AppImage yang pernah diverifikasi); `vitepress build` dan tautan situs dokumen; `release.yml` yang belum pernah jalan dan auto-update; `latest.yml`/`latest-linux.yml` dengan target baru; nama variabel `PORTABLE_EXECUTABLE_FILE`; DoH/proxy/`safeStorage`/dialog backup/relaunch di Electron nyata; spike 3-OS (ADR 0008/0009); Flatpak dan AUR (hanya draf); dialog What's new tanpa mockup; kontak untuk laporan perilaku dan keamanan (belum ada alamat); langkah manual rilis v1.0 (versi, tag, merge `development` ke `main`).
+> **Situs docs:** `pnpm --filter @matane-anime/docs docs:build` hijau (10 Okt 2026, tanpa tautan mati); `.github/workflows/docs.yml` membangunnya pada PR/push yang menyentuh `apps/docs`, tanpa deploy (host belum dipilih).
+>
+> **Belum:** `pnpm dist` dan build portable/deb/rpm (hanya AppImage yang pernah diverifikasi); `release.yml` yang belum pernah jalan dan auto-update; `latest.yml`/`latest-linux.yml` dengan target baru; nama variabel `PORTABLE_EXECUTABLE_FILE`; DoH/proxy/`safeStorage`/dialog backup/relaunch di Electron nyata; spike 3-OS (ADR 0008/0009); Flatpak dan AUR (hanya draf); dialog What's new tanpa mockup; kontak untuk laporan perilaku dan keamanan (belum ada alamat); langkah manual rilis v1.0 (versi, tag, merge `development` ke `main`).
 
 ## Context
 
