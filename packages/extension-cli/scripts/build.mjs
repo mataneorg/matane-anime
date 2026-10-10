@@ -11,8 +11,12 @@ import { build } from 'esbuild';
 
 rmSync('dist', { recursive: true, force: true });
 
-const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
-const types = spawnSync(pnpm, ['exec', 'tsc', '-p', 'tsconfig.build.json'], { stdio: 'inherit' });
+// On Windows `pnpm` is a .cmd shim, which Node refuses to spawn without a shell (CVE-2024-27980: EINVAL, no output).
+const types = spawnSync('pnpm', ['exec', 'tsc', '-p', 'tsconfig.build.json'], {
+  stdio: 'inherit',
+  shell: process.platform === 'win32',
+});
+if (types.error) console.error(`could not run tsc: ${types.error.message}`);
 if (types.status !== 0) process.exit(types.status ?? 1);
 
 await build({

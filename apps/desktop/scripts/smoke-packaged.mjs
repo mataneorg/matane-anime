@@ -66,7 +66,12 @@ const [code, signal] = await new Promise((done) =>
 );
 clearTimeout(timer);
 
-const line = stdout.split('\n').find((candidate) => candidate.startsWith(PREFIX));
+// Not `startsWith`: the AppImage runtime (APPIMAGE_EXTRACT_AND_RUN) lists the files it extracts on the same stdout,
+// and that text can land in the middle of the report line.
+const line = stdout
+  .split('\n')
+  .map((candidate) => candidate.slice(Math.max(candidate.indexOf(PREFIX), 0)))
+  .find((candidate) => candidate.startsWith(PREFIX));
 let report;
 try {
   report = line ? JSON.parse(line.slice(PREFIX.length)) : undefined;
