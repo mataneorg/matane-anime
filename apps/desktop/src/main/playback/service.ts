@@ -30,6 +30,8 @@ import type { PlaybackSession as ProbedSession, SessionStore } from './sessions'
 export const MAX_ATTEMPTS = 3;
 /** Streams probed at the same time, and how long the better-ranked ones get before the next is started too. */
 const PROBE_PARALLEL = 3;
+/** How long after a stream opened the neighbours' streams are fetched, when the first frame has not triggered it. */
+const LOOK_AROUND_DELAY_MS = 3000;
 const PROBE_STAGGER_MS = 1500;
 const lastServerKey = (sourceId: string): string => `playback.lastServer.${sourceId}`;
 
@@ -50,6 +52,8 @@ export interface PlaybackDeps {
   probeStaggerMs?: number;
   /** Where playback of an episode starts (PRG-4). */
   resumeFor(episode: EpisodeRecord): number;
+  /** A line for the log: what was fetched ahead, and how long it took. */
+  log?(message: string): void;
 }
 
 /** The only server of a playback from disk. */
@@ -86,6 +90,10 @@ interface Playback {
   tried: string[];
   /** Serializes calls: a stream can raise several errors at once. */
   lock: Promise<unknown>;
+  /** The streams of the episodes around this one were asked for already (once per playback). */
+  prefetched: boolean;
+  /** Looks around a few seconds after the stream opened, if no first frame has done it by then. */
+  prefetchTimer?: ReturnType<typeof setTimeout>;
 }
 
 const label = (r: Ranked): string => `${r.stream.server}${r.stream.quality ? ` ${r.stream.quality}p` : ''}`;
@@ -127,6 +135,8 @@ export class PlaybackService {
     if (download) return this.startLocal(episode, row, download);
     extensions.assertAvailable(row.sourceId);
 
+    // Streams kept from an earlier look (or fetched ahead of time) may have died since.
+    const kept = extensions.hasCachedStreams(row, episode);
     const streams = await extensions.streamsFor(row, episode, false);
     const playback: Playback = {
       id: randomBytes(9).toString('base64url'),
@@ -145,13 +155,73 @@ export class PlaybackService {
       refreshed: false,
       tried: [],
       lock: Promise.resolve(),
+      prefetched: false,
     };
-    await this.openFirstWorking(
-      playback,
-      playback.candidates.map((_c, position) => position),
-    );
+    try {
+      await this.openFirstWorking(
+        playback,
+        playback.candidates.map((_c, position) => position),
+      );
+    } catch (error) {
+      if (!kept) throw error;
+      // Nothing answered, and the links were not new: ask the extension for fresh ones, once.
+      playback.candidates = this.rank(row, await extensions.streamsFor(row, episode, true));
+      playback.failed.clear();
+      playback.unsupported.clear();
+      await this.openFirstWorking(
+        playback,
+        playback.candidates.map((_c, position) => position),
+      );
+    }
     this.playbacks.set(playback.id, playback);
+    // The first frame normally starts this; a player that never paints one (paused, hidden) should not skip it.
+    playback.prefetchTimer = setTimeout(() => {
+      try {
+        this.prefetchAround(playback);
+      } catch {
+        // A nicety: whatever goes wrong here is not the player's problem.
+      }
+    }, LOOK_AROUND_DELAY_MS);
+    playback.prefetchTimer.unref();
     return this.describe(playback);
+  }
+
+  /**
+   * Once the first frame is up (or a few seconds after the stream opened), asks the extension for the streams of
+   * the episodes on both sides of this one: the
+   * next first (autoplay and Next), then the previous, so that going either way does not wait for them. They are
+   * kept for 24 hours by `ExtensionService`. Never an error: it is a nicety, a download of that episode needs no
+   * stream, and what is already known is not asked again.
+   */
+  private prefetchAround(playback: Playback): void {
+    if (playback.prefetched) return;
+    playback.prefetched = true;
+    const { anime, episodes, extensions, downloads, log } = this.deps;
+    const around = neighbors(episodes.list(playback.anime.id), playback.episode.id);
+    const targets = [
+      { side: 'next', episode: around.next },
+      { side: 'previous', episode: around.previous },
+    ] as const;
+    void (async () => {
+      for (const { side, episode } of targets) {
+        // One after the other, so the likelier choice is not slowed by the other; and not once the player has gone.
+        if (!episode || !this.playbacks.has(playback.id)) continue;
+        if (episode.sourceMissing || downloads.byEpisode(episode.id)?.status === 'done') continue;
+        const title = `${anime.get(playback.anime.id)?.title ?? playback.anime.title}, ${episode.name}`;
+        try {
+          extensions.assertAvailable(playback.anime.sourceId);
+          if (extensions.hasCachedStreams(playback.anime, episode)) {
+            log?.(`prefetch ${side}: ${title}: already known`);
+            continue;
+          }
+          const started = Date.now();
+          const streams = await extensions.streamsFor(playback.anime, episode, false);
+          log?.(`prefetch ${side}: ${title}: ${streams.length} stream(s) in ${Date.now() - started} ms`);
+        } catch (error) {
+          log?.(`prefetch ${side}: ${title}: failed (${error instanceof Error ? error.message : String(error)})`);
+        }
+      }
+    })();
   }
 
   /**
@@ -198,6 +268,7 @@ export class PlaybackService {
       refreshed: false,
       tried: [],
       lock: Promise.resolve(),
+      prefetched: false,
     };
     const session = this.deps.sessions.createLocal({
       path: download.path as string,
@@ -246,6 +317,7 @@ export class PlaybackService {
   close(playbackId: string): void {
     const playback = this.playbacks.get(playbackId);
     if (!playback) return;
+    clearTimeout(playback.prefetchTimer);
     if (playback.sessionId) this.deps.sessions.delete(playback.sessionId);
     this.playbacks.delete(playbackId);
   }
@@ -291,6 +363,8 @@ export class PlaybackService {
     if (event.type === 'playing') {
       const server = playback.candidates[playback.active]?.stream.server;
       if (server) this.deps.settings.setValue(lastServerKey(playback.anime.sourceId), server);
+      // A download plays without the extension (STR-7), so only a streamed episode looks around.
+      this.prefetchAround(playback);
       return { type: 'ok' };
     }
 

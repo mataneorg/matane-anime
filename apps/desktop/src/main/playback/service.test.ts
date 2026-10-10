@@ -21,7 +21,17 @@ interface Harness {
   folder: string;
   episodeId: number;
   calls: string[];
-  options: { available: boolean; streams: Stream[] };
+  options: {
+    available: boolean;
+    streams: Stream[];
+    cached: boolean;
+    freshStreams: Stream[] | null;
+    failUrl: string | null;
+  };
+  /** Every `streamsFor` call: the episode's url and whether it asked past the cache. */
+  streamCalls: { url: string; fresh: boolean }[];
+  /** What the service wrote to the log. */
+  logs: string[];
   /** What the fake upstream answers; replaced by the tests that need a slow or failing server. */
   upstream: { handler: (url: string, init: RequestInit) => Promise<Response> };
 }
@@ -34,7 +44,7 @@ async function setup(): Promise<Harness> {
   const [row] = db.anime.upsertSummaries(SOURCE, [{ url: '/a', title: 'Anime' }]);
   db.episodes.sync(
     row!.id,
-    [1, 2].map((n) => ({ url: `/a/${n}`, name: `Episode ${n}`, number: n })),
+    [1, 2, 3].map((n) => ({ url: `/a/${n}`, name: `Episode ${n}`, number: n })),
     100,
   );
   const episodeId = (
@@ -43,7 +53,15 @@ async function setup(): Promise<Harness> {
     }
   ).id;
   const calls: string[] = [];
-  const options = { available: true, streams: [STREAM] };
+  const options: Harness['options'] = {
+    available: true,
+    streams: [STREAM],
+    cached: false,
+    freshStreams: null,
+    failUrl: null,
+  };
+  const streamCalls: Harness['streamCalls'] = [];
+  const logs: string[] = [];
   const upstream: Harness['upstream'] = { handler: async () => new Response('#EXTM3U\n', { status: 200 }) };
   const sessions = new SessionStore();
   const service = new PlaybackService({
@@ -52,9 +70,12 @@ async function setup(): Promise<Harness> {
         calls.push('assertAvailable');
         if (!options.available) throw new AppError('extension', 'The extension is not installed');
       },
-      streamsFor: async () => {
+      hasCachedStreams: () => options.cached,
+      streamsFor: async (_row: unknown, episode: { url: string }, fresh: boolean) => {
         calls.push('streamsFor');
-        return options.streams;
+        streamCalls.push({ url: episode.url, fresh });
+        if (options.failUrl === episode.url) throw new AppError('extension', 'The site is down');
+        return fresh && options.freshStreams ? options.freshStreams : options.streams;
       },
     } as never,
     anime: db.anime,
@@ -70,8 +91,9 @@ async function setup(): Promise<Harness> {
     probeStaggerMs: 20,
     requests: new RequestRegistry(),
     resumeFor: () => 1234,
+    log: (message) => logs.push(message),
   });
-  return { db, service, sessions, folder, episodeId, calls, options, upstream };
+  return { db, service, sessions, folder, episodeId, calls, options, streamCalls, logs, upstream };
 }
 
 /** A finished HLS download on disk and in the database. */
@@ -446,5 +468,141 @@ describe('PlaybackService: ranking by CODECS (PLY-12)', () => {
     const update = await h.service.event(dto.playbackId, { type: 'error', httpStatus: null, message: 'decode' });
     expect(update).toMatchObject({ type: 'switched', reason: 'fallback' });
     expect(update.type === 'switched' && update.session.streams[update.session.activeIndex]?.server).toBe('c');
+  });
+});
+
+describe('PlaybackService: streams kept from before, and the episodes around', () => {
+  const episodeNumbered = (h: Harness, n: number): number =>
+    (h.db.connection.sqlite.prepare('SELECT id FROM episodes WHERE number = ?').get(n) as { id: number }).id;
+
+  it('asks again, once, when links kept from an earlier look do not answer', async () => {
+    const h = harness;
+    h.options.cached = true;
+    h.options.freshStreams = [{ ...STREAM, server: 'Server B' }];
+    let first = true;
+    h.upstream.handler = async () => {
+      if (first) {
+        first = false;
+        return new Response('gone', { status: 403 });
+      }
+      return new Response('#EXTM3U\n', { status: 200 });
+    };
+    const dto = await h.service.start(h.episodeId);
+    expect(h.streamCalls).toEqual([
+      { url: '/a/1', fresh: false },
+      { url: '/a/1', fresh: true },
+    ]);
+    expect(dto.streams[dto.activeIndex]).toMatchObject({ server: 'Server B' });
+  });
+
+  it('does not ask again when the links were new and still do not answer', async () => {
+    const h = harness;
+    h.options.cached = false;
+    h.upstream.handler = async () => new Response('gone', { status: 403 });
+    await expect(h.service.start(h.episodeId)).rejects.toThrow();
+    expect(h.streamCalls).toEqual([{ url: '/a/1', fresh: false }]);
+  });
+
+  it('fetches the next and then the previous episode once the first frame is up, and only once', async () => {
+    const h = harness;
+    const dto = await h.service.start(episodeNumbered(h, 2));
+    expect(h.streamCalls).toEqual([{ url: '/a/2', fresh: false }]);
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await vi.waitFor(() => expect(h.streamCalls).toHaveLength(3));
+    expect(h.streamCalls).toEqual([
+      { url: '/a/2', fresh: false },
+      { url: '/a/3', fresh: false },
+      { url: '/a/1', fresh: false },
+    ]);
+  });
+
+  it('has only the next to fetch on the first episode, and only the previous on the last', async () => {
+    const h = harness;
+    let dto = await h.service.start(episodeNumbered(h, 1));
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await vi.waitFor(() => expect(h.streamCalls).toHaveLength(2));
+    expect(h.streamCalls[1]).toEqual({ url: '/a/2', fresh: false });
+
+    h.streamCalls.length = 0;
+    dto = await h.service.start(episodeNumbered(h, 3));
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await vi.waitFor(() => expect(h.streamCalls).toHaveLength(2));
+    expect(h.streamCalls[1]).toEqual({ url: '/a/2', fresh: false });
+  });
+
+  it('does not ask again for what is already known, and says so in the log', async () => {
+    const h = harness;
+    const dto = await h.service.start(episodeNumbered(h, 2));
+    h.options.cached = true;
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await vi.waitFor(() => expect(h.logs).toHaveLength(2));
+    expect(h.streamCalls).toEqual([{ url: '/a/2', fresh: false }]);
+    expect(h.logs).toEqual([
+      'prefetch next: Anime, Episode 3: already known',
+      'prefetch previous: Anime, Episode 1: already known',
+    ]);
+  });
+
+  it('logs how many streams it fetched and how long it took', async () => {
+    const h = harness;
+    const dto = await h.service.start(episodeNumbered(h, 1));
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await vi.waitFor(() => expect(h.logs).toHaveLength(1));
+    expect(h.logs[0]).toMatch(/^prefetch next: Anime, Episode 2: 1 stream\(s\) in \d+ ms$/);
+  });
+
+  it('does not fetch what is already downloaded', async () => {
+    const h = harness;
+    const id = h.db.downloads.insert({ episodeId: episodeNumbered(h, 2), kind: 'mp4', sizeBytes: null, now: 1 });
+    h.db.downloads.update(id, { status: 'done', path: join(h.folder, 'two.mp4'), bytesDone: 3, completedAt: 2 });
+    const dto = await h.service.start(h.episodeId);
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(h.streamCalls).toEqual([{ url: '/a/1', fresh: false }]);
+  });
+
+  it('plays a download without looking around (STR-7)', async () => {
+    const h = harness;
+    finishHls(h);
+    const dto = await h.service.start(h.episodeId);
+    await h.service.event(dto.playbackId, { type: 'playing' });
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(h.calls).toEqual([]);
+  });
+
+  it('a failed fetch of a neighbour is no error for the episode playing', async () => {
+    const h = harness;
+    h.options.failUrl = '/a/2';
+    const dto = await h.service.start(h.episodeId);
+    await expect(h.service.event(dto.playbackId, { type: 'playing' })).resolves.toEqual({ type: 'ok' });
+    await vi.waitFor(() => expect(h.logs).toHaveLength(1));
+    expect(h.logs[0]).toBe('prefetch next: Anime, Episode 2: failed (The site is down)');
+  });
+
+  it('looks around a few seconds after the stream opened, when no first frame has done it', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout'] });
+    try {
+      const h = harness;
+      await h.service.start(episodeNumbered(h, 2));
+      expect(h.streamCalls).toEqual([{ url: '/a/2', fresh: false }]);
+      await vi.advanceTimersByTimeAsync(3100);
+      expect(h.streamCalls.map((call) => call.url)).toEqual(['/a/2', '/a/3', '/a/1']);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('does nothing when the player was closed before the delay passed', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout'] });
+    try {
+      const h = harness;
+      const dto = await h.service.start(episodeNumbered(h, 2));
+      h.service.close(dto.playbackId);
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(h.streamCalls).toEqual([{ url: '/a/2', fresh: false }]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

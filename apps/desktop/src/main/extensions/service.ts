@@ -111,8 +111,14 @@ function sanitizeFilters(filters: Record<string, unknown> | undefined): FilterSt
   return out;
 }
 
-/** Stream URLs expire quickly, so they are only kept in memory, and not for long (docs/PRD.md STR-6). */
-const STREAM_TTL_MS = 2 * 60_000;
+/**
+ * How long the streams an extension returned for an episode are reused (docs/PRD.md STR-6): they are only kept in
+ * memory. Some links die sooner than this (Blogger's after a few hours), so a play that finds them dead asks the
+ * extension again, once (`PlaybackService`).
+ */
+const STREAM_TTL_MS = 24 * 60 * 60_000;
+/** The most episodes whose streams are kept; the oldest go first. */
+const STREAM_CACHE_MAX = 300;
 
 /**
  * Everything the renderer asks of extensions, in one place: it finds the extension behind a source, calls it
@@ -121,6 +127,8 @@ const STREAM_TTL_MS = 2 * 60_000;
 export class ExtensionService {
   private readonly deps: ServiceDeps;
   private readonly streamCache = new Map<string, { at: number; streams: Stream[] }>();
+  /** `getStreams` calls under way, so two askers of the same episode (a prefetch and a click) share one. */
+  private readonly streamsLoading = new Map<string, Promise<Stream[]>>();
 
   constructor(deps: ServiceDeps) {
     this.deps = deps;
@@ -333,16 +341,37 @@ export class ExtensionService {
 
   // ------------------------------------------------------------------ streams
 
-  /**
-   * The streams an extension offers for an episode, from memory if they are under two minutes old.
-   * `fresh` skips the cache: an expired link needs a new one (STR-4).
-   */
-  async streamsFor(row: AnimeRow, episode: EpisodeRecord, fresh: boolean): Promise<Stream[]> {
-    const key = `${row.sourceId}|${episode.url}`;
+  private streamKey(row: AnimeRow, episode: EpisodeRecord): string {
+    return `${row.sourceId}|${episode.url}`;
+  }
+
+  private cachedStreams(key: string): Stream[] | undefined {
     const hit = this.streamCache.get(key);
-    if (!fresh && hit && Date.now() - hit.at < STREAM_TTL_MS) return hit.streams;
+    if (!hit) return undefined;
+    if (Date.now() - hit.at < STREAM_TTL_MS) return hit.streams;
+    this.streamCache.delete(key);
+    return undefined;
+  }
+
+  /** Whether `streamsFor` would answer from memory, without asking the extension. */
+  hasCachedStreams(row: AnimeRow, episode: EpisodeRecord): boolean {
+    return this.cachedStreams(this.streamKey(row, episode)) !== undefined;
+  }
+
+  /**
+   * The streams an extension offers for an episode, from memory for 24 hours (also when they were fetched ahead
+   * of time, see `PlaybackService`). `fresh` skips the cache: an expired link needs a new one (STR-4).
+   */
+  streamsFor(row: AnimeRow, episode: EpisodeRecord, fresh: boolean): Promise<Stream[]> {
+    const key = this.streamKey(row, episode);
+    if (!fresh) {
+      const hit = this.cachedStreams(key);
+      if (hit) return Promise.resolve(hit);
+      const loading = this.streamsLoading.get(key);
+      if (loading) return loading;
+    }
     const { client } = this.resolve(row.sourceId);
-    const streams = await this.guard(() =>
+    const load: Promise<Stream[]> = this.guard(() =>
       client.getStreams(
         {
           url: episode.url,
@@ -353,9 +382,20 @@ export class ExtensionService {
         },
         this.options(row.sourceId),
       ),
-    );
-    this.streamCache.set(key, { at: Date.now(), streams });
-    return streams;
+    )
+      .then((streams) => {
+        this.streamCache.delete(key); // re-inserted last: the Map's order is the order of use
+        this.streamCache.set(key, { at: Date.now(), streams });
+        while (this.streamCache.size > STREAM_CACHE_MAX) {
+          this.streamCache.delete(this.streamCache.keys().next().value as string);
+        }
+        return streams;
+      })
+      .finally(() => {
+        if (this.streamsLoading.get(key) === load) this.streamsLoading.delete(key);
+      });
+    this.streamsLoading.set(key, load);
+    return load;
   }
 
   /** Throws `not_found` unless the source's extension is loaded. */

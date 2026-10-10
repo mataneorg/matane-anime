@@ -1,6 +1,6 @@
 import type { ExtensionManifest } from '@matane-anime/extension-sdk/manifest';
 import { AppError } from '@matane-anime/shared';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type TestDb, createTestDb } from '../db/__tests__/helpers';
 import { RequestRegistry } from '../ipc/requests';
 import type { NetworkManager } from '../network/manager';
@@ -14,6 +14,8 @@ import { ExtensionService } from './service';
 let db: TestDb;
 let service: ExtensionService;
 let calls: string[];
+/** Held by a test to keep `getStreams` from answering yet. */
+let streamsGate: Promise<void> | null = null;
 const manifests = new Map<string, ExtensionManifest>();
 
 const adult = manifestFor('adult', { nsfw: true, sources: [{ key: 'en', lang: 'en', name: 'Adult (EN)' }] });
@@ -28,6 +30,7 @@ const indo = manifestFor('indo', {
 beforeEach(async () => {
   db = await createTestDb();
   calls = [];
+  streamsGate = null;
   manifests.clear();
   for (const manifest of [adult, multi, indo]) {
     manifests.set(manifest.id, manifest);
@@ -44,6 +47,10 @@ beforeEach(async () => {
   const host = {
     send: async (command: { type: string; method?: string }) => {
       calls.push(`${command.type}:${command.method ?? ''}`);
+      if (command.type === 'call' && command.method === 'getStreams') {
+        await streamsGate;
+        return [{ url: 'https://cdn.test/a.m3u8', server: 'Server A', kind: 'hls' }];
+      }
       if (command.type === 'call') return { items: [], hasNextPage: false };
       return undefined;
     },
@@ -60,7 +67,10 @@ beforeEach(async () => {
     categoryIdsOf: () => [],
   });
 });
-afterEach(() => db.close());
+afterEach(() => {
+  vi.useRealTimers();
+  db.close();
+});
 
 const ids = () => service.listSources().map((source) => source.id);
 
@@ -127,5 +137,70 @@ describe('browsing an 18+ source', () => {
     await expect(service.browse({ sourceId: 'indo/id', kind: 'popular', page: 1 })).resolves.toMatchObject({
       hasNextPage: false,
     });
+  });
+});
+
+describe('streams kept in memory (STR-6)', () => {
+  const asked = (): number => calls.filter((call) => call === 'call:getStreams').length;
+  const episodeOf = (n: number) => {
+    const [row] = db.anime.upsertSummaries('indo/id', [{ url: '/a', title: 'Anime' }]);
+    db.episodes.sync(
+      row!.id,
+      [1, 2, 3].map((number) => ({ url: `/a/${number}`, name: `Episode ${number}`, number })),
+      100,
+    );
+    return { row: row!, episode: db.episodes.list(row!.id).find((episode) => episode.number === n)! };
+  };
+
+  it('asks the extension once, then answers from memory', async () => {
+    const { row, episode } = episodeOf(1);
+    expect(service.hasCachedStreams(row, episode)).toBe(false);
+    const first = await service.streamsFor(row, episode, false);
+    expect(first).toHaveLength(1);
+    expect(service.hasCachedStreams(row, episode)).toBe(true);
+    await service.streamsFor(row, episode, false);
+    expect(asked()).toBe(1);
+  });
+
+  it('keeps them for 24 hours and not longer', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-10-10T10:00:00Z'));
+    const { row, episode } = episodeOf(1);
+    await service.streamsFor(row, episode, false);
+    vi.setSystemTime(new Date('2026-10-11T09:59:00Z'));
+    expect(service.hasCachedStreams(row, episode)).toBe(true);
+    await service.streamsFor(row, episode, false);
+    expect(asked()).toBe(1);
+    vi.setSystemTime(new Date('2026-10-11T10:01:00Z'));
+    expect(service.hasCachedStreams(row, episode)).toBe(false);
+    await service.streamsFor(row, episode, false);
+    expect(asked()).toBe(2);
+  });
+
+  it('`fresh` skips the memory and replaces what is in it', async () => {
+    const { row, episode } = episodeOf(1);
+    await service.streamsFor(row, episode, false);
+    await service.streamsFor(row, episode, true);
+    expect(asked()).toBe(2);
+    await service.streamsFor(row, episode, false);
+    expect(asked()).toBe(2);
+  });
+
+  it('shares one call between a prefetch and a click that arrives while it runs', async () => {
+    let release!: () => void;
+    streamsGate = new Promise<void>((resolve) => (release = resolve));
+    const { row, episode } = episodeOf(2);
+    const prefetch = service.streamsFor(row, episode, false);
+    const click = service.streamsFor(row, episode, false);
+    release();
+    expect(await click).toEqual(await prefetch);
+    expect(asked()).toBe(1);
+  });
+
+  it('keeps episodes apart', async () => {
+    const one = episodeOf(1);
+    const two = episodeOf(2);
+    await service.streamsFor(one.row, one.episode, false);
+    expect(service.hasCachedStreams(two.row, two.episode)).toBe(false);
   });
 });

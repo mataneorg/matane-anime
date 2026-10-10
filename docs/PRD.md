@@ -217,7 +217,7 @@ Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pad
 | STR-3 | **Fallback saat memutar**: error fatal hls.js atau media error → pindah ke kandidat berikutnya, melanjutkan di posisi yang sama, notifikasi singkat ("Beralih ke server X"). Maksimal 3 percobaan, lalu error state dengan daftar untuk dipilih manual | P0 |
 | STR-4 | **Stream kedaluwarsa** (403/410 di tengah pemutaran): panggil ulang `getStreams` satu kali sebelum pindah server | P0 |
 | STR-5 | Pilihan manual di pemutar disimpan per anime (`anime.playback_prefs_json`). Server yang berhasil disimpan per source di setting. Hanya pilihan **manual** yang menjadi preferensi per anime | P0 |
-| STR-6 | Hasil `getStreams` hanya di-cache di memori ±2 menit (URL cepat kedaluwarsa); tidak disimpan di DB | P0 |
+| STR-6 | Hasil `getStreams` di-cache di memori selama 24 jam (maks. 300 episode), tidak disimpan di DB. Link yang sudah mati diminta ulang sekali saat diputar (STR-4). Begitu frame pertama tampil (atau 3 detik setelah stream terbuka), stream episode berikutnya lalu sebelumnya diambil lebih dulu supaya Next dan Previous tidak menunggu; hasilnya dicatat di log (`prefetch next/previous: …`) | P0 |
 | STR-7 | Episode yang sudah diunduh **selalu didahulukan** dibanding streaming. File hilang → tandai unduhan rusak dan jatuh ke streaming | P0 |
 
 ### 6.5 Library (LIB)

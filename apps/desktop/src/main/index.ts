@@ -426,6 +426,7 @@ if (!app.requestSingleInstanceLock()) {
         upstream: fetchUpstream,
         requests,
         resumeFor: (episode) => watch.resumeFor(episode),
+        log: (message) => log.debug(message),
       });
 
       const spikeEnabled = process.env['MATANE_SPIKE'] === '1' || !app.isPackaged;
