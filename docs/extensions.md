@@ -175,6 +175,32 @@ Extensions of a repository are installed by users (see [repositories.md](reposit
 
 A dev folder always wins over an installed copy with the same id: the installed one is shown as _shadowed_ and runs again when you remove the folder. Two folders cannot provide the same id.
 
+## Keeping an extension fast
+
+A user waits on your requests. Two calls matter most: the app asks for an anime's details and its episodes **together** (`getAnimeDetails` and `getEpisodes` in one `Promise.all`), and the player cannot start before `getStreams` returns. The extensions in this repository follow these rules ([ADR 0037](adr/0037-extension-latency.md)):
+
+- **Read a page once.** If both calls read the same page, share the request: keep the promise of the fetch in flight in a `Map` keyed by URL and drop it when it settles, or keep the last few results for a few seconds (never a failure, and never a multi-MB string for long: the runtime has 64 MB). Share the raw response and parse it in each call.
+- **A listing is one request per page.** Do not fetch a detail page for every card. If the site serves a long list in one page, parse it once and cut the pages locally.
+- **Resolve mirrors in parallel, and do not wait for the worst one.** Start every resolver at once. When one has produced a stream, give the others a short grace (2.5 to 3 s) and return what is in. Keep the ranking and the dedupe as they are; the best stream must not depend on the grace.
+- **Read the pages of a long list in batches** (about 4 at a time, after the first page) and never past the last page the site says exists. A request that is answered with 429 is waited out and costs more than it saves.
+- **Give a request the timeout it deserves.** A mirror that has not answered in 10 s is not coming; the default is 20 s.
+- **Mind the rate limit.** Parallel requests share the manifest's `rateLimit` (2 per second in most extensions); more parallelism than that only queues.
+
+### Testing the extensions in `extensions/`
+
+Only `extensions/example` is part of the pnpm workspace, so `pnpm test`, `pnpm typecheck` and `pnpm --filter <package> test` do not run the others (the filter matches nothing and passes). Run them from their folder, with the three packages linked once into the folder's `node_modules`:
+
+```sh
+cd extensions/<name>
+mkdir -p node_modules/@matane-anime
+for p in extension-cli extension-runtime extension-sdk; do ln -s ../../../../packages/$p node_modules/@matane-anime/$p; done
+pnpm exec tsc -p tsconfig.json
+pnpm exec vitest run                          # offline, against saved pages
+LIVE=1 pnpm exec vitest run test/live.test.ts # the real site; one extension at a time
+```
+
+The live tests talk to the real site and depend on it being up: a timeout, a 403 or a rate limit there is not necessarily a bug of the extension. `extensions/otakudesu` has no `vitest.config.ts` and no `test/fixtures`, so its saved-page tests cannot run (see [PRD §15.1](PRD.md)).
+
 ## Versioning and `migrateUrl`
 
 - **Bump `version` in `manifest.json` for every release.** A repository publishes `<id>-<version>.zip`, and users only get an update when the version is higher (semver precedence; `1.0.0` is newer than `1.0.0-beta.1`).

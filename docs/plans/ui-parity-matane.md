@@ -1,5 +1,9 @@
 # Rencana: samakan layout, UX, dan fitur UI dengan Matane
 
+> **Status: dikerjakan (10 Okt 2026) dan sudah ada di `development`** (commit `2d7570b`, `ea4ea14`, `34bf407`, `1e55422`). Layout dan UX Library, Browse, Downloads dan Extensions mengikuti Matane; Display modes, ukuran cover serta sort dan filter tersimpan, halaman Statistics, backup terjadwal dan halaman About ada. e2e penuh (146 tes), lint, format, typecheck dan build hijau di akhir pekerjaan.
+>
+> **Belum dikerjakan (sesuai keputusan di bawah):** `markSeen` pada Updates (backend belum punya konsep "sudah dilihat"), migrasi massal, dan tracking (AniList/MAL). Penyimpangan kontras Latte dari Matane dicatat di [ADR 0036](../adr/0036-ui-follows-matane.md).
+
 Lanjutan refactor visual (ADR 0036). Token, komponen dasar, dan gaya halaman sudah mengikuti Matane. Rencana ini menutup selisih layout, pola UX, dan fitur yang ditemukan audit. Matane (`../manga-reader`) hanya referensi pola; kode ditulis ulang di repo ini. Yang tetap berbeda hanya domain manga vs anime.
 
 Keputusan user: kerjakan grup A (layout dan UX), Display modes + ukuran cover + filter/sort tersimpan, Statistics, Backup yang lebih kaya + About/What's New. Migrasi massal dan Tracking ditunda ke fase terpisah.

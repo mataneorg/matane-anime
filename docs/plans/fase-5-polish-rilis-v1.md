@@ -1,6 +1,6 @@
 # Plan: Fase 5 (Polish dan rilis v1.0) Matane Anime
 
-> **Status: dibangun (9 Okt 2026) di branch `development`, belum diuji di Electron.** Satu commit per milestone (5a sampai 5h), dikerjakan di kantor tanpa menjalankan Electron: tidak ada e2e, `pnpm build`, `pnpm dist`, `smoke:packaged` atau `verify:packages` yang dijalankan. Yang lolos: lint, format, tiga typecheck desktop (node, web, e2e) dan unit test per milestone. Hasil nyata menunggu uji di rumah ([Daftar uji rumah](#daftar-uji-rumah)).
+> **Status: dibangun (9 Okt 2026) di branch `development`. Pembaruan 10 Okt 2026: suite e2e penuh (146 tes, termasuk `phase5.spec.ts`) hijau di Electron pada akhir pekerjaan UI Matane, bersama lint, format, typecheck dan build; sisanya di daftar "Belum" di bawah belum diuji.** Catatan asli dari 9 Okt: Satu commit per milestone (5a sampai 5h), dikerjakan di kantor tanpa menjalankan Electron: tidak ada e2e, `pnpm build`, `pnpm dist`, `smoke:packaged` atau `verify:packages` yang dijalankan. Yang lolos: lint, format, tiga typecheck desktop (node, web, e2e) dan unit test per milestone. Hasil nyata menunggu uji di rumah ([Daftar uji rumah](#daftar-uji-rumah)).
 >
 > **Penyimpangan dari rencana:**
 > - **Urutan.** 5a, lalu 5c (incognito) dikerjakan langsung; 5b, 5e, dan 5f+5g paralel di worktree; 5d menyusul. Dua worktree dibuat dari `main`, bukan `development`, jadi hasilnya digabung dengan `merge --squash` dan konflik kecil di `handlers.ts`, `index.ts` dan berkas i18n diselesaikan tangan.
@@ -15,7 +15,9 @@
 > - **e2e:** `launchApp` kini menandai onboarding selesai kecuali spec meminta `onboarding: true`, supaya spec lama tidak berhenti di layar onboarding; `phase5.spec.ts` ditulis dan hanya di-typecheck.
 > - **Dokumentasi:** teks `apps/docs` dicocokkan dengan kode setelah merge (DoH otomatis, SOCKS5 dengan login, restore dan pemasangan ulang extension, What's new).
 >
-> **Belum:** hasil e2e (termasuk `phase5.spec.ts`), `pnpm build`, `pnpm dist` dan build portable/deb/rpm; `vitepress build` dan tautan situs dokumen; `release.yml` yang belum pernah jalan dan auto-update; `latest.yml`/`latest-linux.yml` dengan target baru; nama variabel `PORTABLE_EXECUTABLE_FILE`; DoH/proxy/`safeStorage`/dialog backup/relaunch di Electron nyata; spike 3-OS (ADR 0008/0009); Flatpak dan AUR (hanya draf); dialog What's new tanpa mockup; kontak untuk laporan perilaku dan keamanan (belum ada alamat); langkah manual rilis v1.0 (versi, tag, merge `development` ke `main`).
+> **Pembaruan 10 Okt 2026:** setelah fase ini, UI diselaraskan dengan Matane ([ADR 0036](../adr/0036-ui-follows-matane.md), [rencana](ui-parity-matane.md)), halaman Statistics, backup terjadwal dan halaman About ditambahkan, 15 extension situs digabung dari `feat/extension` dan latensinya dioptimalkan ([ADR 0037](../adr/0037-extension-latency.md)). Placeholder repo `SukunDev/matane-anime` sudah diganti `mataneorg/matane-anime`, dan SDK, runtime dan CLI sudah terbit di npm.
+>
+> **Belum:** `pnpm dist` dan build portable/deb/rpm (hanya AppImage yang pernah diverifikasi); `vitepress build` dan tautan situs dokumen; `release.yml` yang belum pernah jalan dan auto-update; `latest.yml`/`latest-linux.yml` dengan target baru; nama variabel `PORTABLE_EXECUTABLE_FILE`; DoH/proxy/`safeStorage`/dialog backup/relaunch di Electron nyata; spike 3-OS (ADR 0008/0009); Flatpak dan AUR (hanya draf); dialog What's new tanpa mockup; kontak untuk laporan perilaku dan keamanan (belum ada alamat); langkah manual rilis v1.0 (versi, tag, merge `development` ke `main`).
 
 ## Context
 

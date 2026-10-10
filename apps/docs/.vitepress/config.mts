@@ -28,6 +28,7 @@ export default defineConfig({
             { text: 'Library', link: '/guide/library' },
             { text: 'Watching and progress', link: '/guide/watching' },
             { text: 'Downloads and offline', link: '/guide/downloads' },
+            { text: 'Statistics', link: '/guide/statistics' },
             { text: 'Updates', link: '/guide/updates' },
             { text: 'Extensions and repositories', link: '/guide/extensions' },
             { text: 'Network', link: '/guide/network' },

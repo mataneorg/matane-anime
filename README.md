@@ -2,7 +2,7 @@
 
 A desktop app for watching anime from sources you choose, with a library, watch progress, downloads and new-episode alerts. Built with Electron, React and TypeScript; styled with Catppuccin.
 
-> **Status: beta-ready (phase 5 built on the `development` branch, not yet verified in the app).** You can browse sources, search all of them at once, keep anime in a library with categories, watch in the player with server fallback, resume where you left off, see your history, and move an anime to another source without losing progress. Episodes can be downloaded (HLS and MP4, a persistent queue, a size limit) and watched offline, the app checks the library for new episodes on a schedule and lists them under Updates, and a beta AppImage can be built. Extensions come from **repositories** you add yourself: a repository has a signed index (Ed25519), you decide whether to trust its key, extensions install atomically with their hash checked, update from the same repository and uninstall without touching your library; content-language and 18+ filters are enforced in the app, and developer mode loads an extension straight from a folder. Authors build and publish a repository with `ma-ext repo`. The app ships no repository, extension or key. The SDK, runtime and CLI are published on npm as `@matane-anime/extension-sdk`, `-runtime` and `-cli`. Phase 5 adds network settings (DNS over HTTPS, proxy, User-Agent, a connection test), incognito, a command palette, first-run onboarding, What's new, backup and restore, and portable, deb and rpm packages. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
+> **Status: beta-ready (phase 5 built on the `development` branch; the full end-to-end suite passes in the app, packages are not yet verified on every OS).** You can browse sources, search all of them at once, keep anime in a library with categories, watch in the player with server fallback, resume where you left off, see your history, and move an anime to another source without losing progress. Episodes can be downloaded (HLS and MP4, a persistent queue, a size limit) and watched offline, the app checks the library for new episodes on a schedule and lists them under Updates, and a beta AppImage can be built. Extensions come from **repositories** you add yourself: a repository has a signed index (Ed25519), you decide whether to trust its key, extensions install atomically with their hash checked, update from the same repository and uninstall without touching your library; content-language and 18+ filters are enforced in the app, and developer mode loads an extension straight from a folder. Authors build and publish a repository with `ma-ext repo`. The app ships no repository, extension or key. The SDK, runtime and CLI are published on npm as `@matane-anime/extension-sdk`, `-runtime` and `-cli`. Phase 5 adds network settings (DNS over HTTPS, proxy, User-Agent, a connection test), incognito, a command palette, first-run onboarding, What's new, backup and restore, and portable, deb and rpm packages. After phase 5 the interface was brought in line with the Matane reader app and gained a Statistics page, display modes for the library and browse lists, scheduled backups and an About page. See [docs/PRD.md](docs/PRD.md) (Indonesian) for the plan.
 
 ## Disclaimer
 
@@ -10,15 +10,16 @@ A desktop app for watching anime from sources you choose, with a library, watch 
 
 ## Features
 
-- **Library** with several categories per anime, a cover grid, sorting, filtering, text search and multi-select.
+- **Library** with several categories per anime, four display modes (comfortable grid, compact grid, covers only, list) with an adjustable cover size, sorting and filters that are remembered, text search and multi-select.
 - **Player** with HLS and MP4, server and quality menu with automatic fallback to the next server, remembered volume and speed, keyboard shortcuts, next-episode autoplay and a configurable "watched" threshold.
 - **Watch progress and history**: resume where you left off, "Continue watching", and an incognito mode that stops progress and history from being recorded.
+- **Statistics**: watch time, episodes, streaks, genres, most watched anime and sources over 7 days, 30 days, 12 months or all time. Incognito sessions are never counted.
 - **Downloads** for offline viewing (HLS and MP4): a persistent queue, resume, a size limit and optional automatic download of new episodes.
 - **New-episode checks** on a schedule, with desktop notifications and an Updates page.
 - **Global search** across every installed source, and **moving an anime to another source** without losing progress.
 - **Extensions from repositories you add yourself**: signed indexes (Ed25519), a trust decision per key, hash-checked atomic installs, content-language and 18+ filters, and a developer mode that loads an extension from a folder. Extensions run in a sandbox with no network or file access of their own.
 - **Network settings**: DNS over HTTPS, HTTP or SOCKS5 proxy, a custom User-Agent and a connection test.
-- **Command palette** (`Ctrl+K`), **backup and restore** of your data, English and Indonesian, Catppuccin themes (Mocha, Latte, Frappé, Macchiato), an AMOLED variant and 14 accent colors.
+- **Command palette** (`Ctrl+K`), **backup and restore** of your data (by hand or on a daily or weekly schedule), an **About** page, English and Indonesian, Catppuccin themes (Mocha, Latte, Frappé, Macchiato), an AMOLED variant and 14 accent colors.
 - No telemetry. The only traffic besides your sources is the check for a new app version on GitHub Releases.
 
 The full guide is the documentation site in [`apps/docs`](apps/docs) (see [CONTRIBUTING.md](CONTRIBUTING.md#docs-site) to run it).
@@ -80,6 +81,8 @@ packages/extension-cli  ma-ext: create, build, test, bench, repo keygen|build|ve
 packages/extension-repo The extension repository format: keys, signatures, index, archives (MIT; bundled into the CLI and the app, not published on its own)
 packages/test-site      A fake anime site on loopback, for tests and for writing extensions
 extensions/example      An extension for the fake site; not shipped
+extensions/<site>       Extensions for real sites, built from their folder with ma-ext build; not shipped with the app and not
+                        part of the pnpm workspace (see docs/extensions.md, "Keeping an extension fast")
 apps/docs               The documentation site (VitePress): user guide and extension author guide
 docs/                   PRD, extension guide, repositories, releasing, architecture decisions (adr/), UI mockups (ui/)
 ```

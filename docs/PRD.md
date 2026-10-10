@@ -118,7 +118,7 @@ Hasil brainstorming 6 Okt 2026.
 | Lisensi | **App: GPL-3.0**; **SDK, runtime, CLI extension: MIT** |
 | Struktur repo | Monorepo **pnpm workspaces** |
 | Tech stack | Sama dengan Matane (§8.5); versi dikunci di Fase 0 |
-| Extension pertama | Ditulis **pemilik produk sendiri di repo terpisah** setelah SDK dan `ma-ext` jadi (Fase 1). Repo app tidak merujuknya. Fase 1–3 diuji otomatis dengan situs tiruan; extension nyata dipakai untuk uji manual |
+| Extension pertama | Ditulis **pemilik produk sendiri di repo terpisah** setelah SDK dan `ma-ext` jadi (Fase 1). Repo app tidak merujuknya. Fase 1–3 diuji otomatis dengan situs tiruan; extension nyata dipakai untuk uji manual. **Pembaruan 10 Okt 2026:** folder `extensions/` di repo ini kini berisi 15 extension situs nyata (digabung dari `feat/extension` ke `development`). Folder itu tidak dikirim bersama app (tidak masuk paket, tidak masuk workspace pnpm kecuali `example`) dan app tetap tanpa repo atau kunci bawaan, tetapi "repo app tidak merujuknya" tidak lagi benar. Apakah ini sejalan dengan R9 perlu ditinjau pemilik |
 | Varian episode (Sub/Dub/BD) | **Satu status ditonton per nomor episode**; varian yang diputar adalah yang pertama dari extension. Prioritas varian menunggu kebutuhan nyata |
 | Backup/restore | **P1**: target v1.0, selambatnya v1.1. Bila belum ada saat v1.0, dokumentasi memberi tahu |
 | Penamaan teknis | Paket `@matane-anime/extension-{sdk,runtime,cli}`, scope internal `@matane-anime/*`, CLI **`ma-ext`**, `appId` **`dev.sukun.matane-anime`**. Ketersediaan scope npm, repo, dan paket Linux dicek sebelum publikasi pertama (Fase 4–5) |
@@ -136,12 +136,12 @@ Prioritas: **P0** = wajib di v1.0 · **P1** = diusahakan di v1.0, boleh bergeser
 | Pemutar | Kontrol dasar, keyboard (bisa diubah), next/prev, autoplay, menu server/kualitas, error state, anti-sleep layar | Panel daftar episode, media keys, ranking berdasar codec | PiP, skip +85 s, subtitle (SRT/VTT/ASS), pilihan audio, pemutar eksternal, thumbnail seek |
 | Stream | Pemilihan otomatis, probe, fallback, resolve ulang bila kedaluwarsa | | |
 | Library | Kategori, sort/filter, pencarian FTS5, multi-select, badge belum ditonton | Cover kustom | |
-| Progress | Posisi per episode, resume, ditonton per nomor episode, "lanjut nonton", history | Incognito | Statistik tontonan |
+| Progress | Posisi per episode, resume, ditonton per nomor episode, "lanjut nonton", history | Incognito, halaman Statistics (dibangun 10 Okt 2026) | |
 | Download | Antrean persisten, HLS dan MP4, pause/resume/retry, tonton offline, auto-download episode baru, cek ruang disk, batas ukuran | Download ahead, hapus setelah ditonton | Ekspor mp4 |
 | Update | Checker terjadwal, halaman Updates, notifikasi, aturan lewati | Tray, jalan saat login | |
 | UI | Title bar kustom, sidebar, tema Catppuccin, i18n EN + ID, halaman setting | Command palette, onboarding, What's new, AMOLED + aksen | Discord RPC |
 | Jaringan | Cloudflare handling, rate limit, DoH, proxy, User-Agent, deteksi offline | Tes koneksi | |
-| Data | Skema lengkap sejak awal (termasuk tabel tracker dan sesi tontonan) | Backup/restore | Import backup Aniyomi |
+| Data | Skema lengkap sejak awal (termasuk tabel tracker dan sesi tontonan) | Backup/restore, backup otomatis terjadwal | Import backup Aniyomi |
 | Tracker | Tabel dan "satu pintu" progress disiapkan | | AniList, MyAnimeList, Kitsu (dua arah) |
 | Rilis | AppImage, NSIS, dmg + auto-update, channel beta | Portable, deb, rpm, AUR, Flatpak | Code signing |
 
@@ -248,7 +248,7 @@ Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pad
 | PRG-7 | Aksi: tandai ditonton/belum, "tandai semua sebelumnya sudah ditonton", reset progress | P0 |
 | PRG-8 | **History**: satu entri per anime (episode terakhir, posisi, waktu), dikelompokkan per tanggal; aksi lanjut, hapus entri, hapus semua | P0 |
 | PRG-9 | Semua penulisan progress, history, dan sesi tontonan lewat **satu pintu di main** (`WatchService`). Renderer terus mengirim heartbeat tanpa tahu aturannya | P0 |
-| PRG-10 | Tabel `watch_sessions` (waktu aktif tonton) dicatat sejak v1 agar statistik pasca-v1 punya data historis; UI statistik belum ada | P0 (data) |
+| PRG-10 | Tabel `watch_sessions` (waktu aktif tonton) dicatat sejak v1 agar statistik punya data historis; halaman Statistics (7 hari, 30 hari, 12 bulan, semua; waktu tonton, streak, genre, anime teratas, sumber) membacanya sejak 10 Okt 2026, dan sesi incognito tidak pernah dicatat | P0 (data) |
 | PRG-11 | **Incognito**: selama aktif, progress, history, dan sesi tontonan tidak dicatat (ditegakkan di `WatchService`); aksi eksplisit pengguna (tandai ditonton, kategori) tetap berlaku. Indikator selalu terlihat | P1 |
 
 ### 6.7 Download (DL)
@@ -604,7 +604,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 | `ProgressRepository.onRead` sebagai satu pintu tracker | `WatchService` sebagai satu pintu progress (§6.6) |
 | Tracker (AniList/MAL/Kitsu/MangaUpdates, dua arah, antrean offline) | **P2**, tabel dan satu pintu siap; AniList/MAL/Kitsu mendukung anime |
 | Backup/restore, import Mihon | Backup **P1**; import Aniyomi P2 |
-| Statistik, Discord RPC, local files | **P2** |
+| Statistik, Discord RPC, local files | Statistik **dibangun** (10 Okt 2026, lebih awal dari rencana P2); Discord RPC dan local files **P2** |
 | Tema Catppuccin, i18n EN/ID, command palette, onboarding, What's new, tray, updater, network settings | **Sama** (prioritas per §5) |
 | Packaging (AppImage, NSIS, dmg, deb, rpm, AUR, Flatpak) | **Sama** (bertahap, §12) |
 
@@ -659,16 +659,17 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Mode dev (hot reload, panel log), `ma-ext repo keygen|build|verify`.
 - `migrateUrl`; publikasi SDK ke npm; panduan membuat extension.
 
-**Fase 5: Polish dan rilis v1.0** *(dibangun 9 Okt 2026 di branch `development`, belum diuji di Electron; rencana dan penyimpangannya di [docs/plans/fase-5-polish-rilis-v1.md](plans/fase-5-polish-rilis-v1.md))*
+**Fase 5: Polish dan rilis v1.0** *(dibangun 9 Okt 2026 di branch `development`; suite e2e penuh (146 tes) hijau pada 10 Okt 2026, paket dan rilis di OS lain belum diuji; rencana dan penyimpangannya di [docs/plans/fase-5-polish-rilis-v1.md](plans/fase-5-polish-rilis-v1.md))*
 - Setting jaringan (DoH, proxy, UA), tes koneksi.
 - Command palette, onboarding, What's new, tema AMOLED + aksen, incognito (P1).
-- Backup/restore (P1; selambatnya v1.1).
+- Backup/restore (P1; selambatnya v1.1; sudah dibangun, backup otomatis terjadwal menyusul 10 Okt 2026).
 - Paket tambahan (portable, deb, rpm, AUR, Flatpak), dokumentasi lengkap, rilis **v1.0**.
+- **Setelah milestone Fase 5 (9 sampai 10 Okt 2026):** UI mengikuti app Matane ([ADR 0036](adr/0036-ui-follows-matane.md)), halaman Statistics, mode tampilan Library dan Browse (ukuran cover, sort dan filter tersimpan), backup terjadwal dan halaman About ([rencana](plans/ui-parity-matane.md)); 15 extension situs di `extensions/` dan optimasi latensinya ([ADR 0037](adr/0037-extension-latency.md)). Yang ditunda: migrasi massal, tracking AniList/MAL, `markSeen` pada Updates.
 
 **Pasca-v1 (P2)**
 - Tracker (AniList, MyAnimeList, Kitsu; progress = nomor episode; dua arah).
 - Subtitle (SRT/VTT/ASS), pilihan audio, PiP, skip +85 detik, pemutar eksternal.
-- Statistik tontonan, Discord RPC, ekspor mp4, local files, import backup Aniyomi, template extension, code signing.
+- Discord RPC, ekspor mp4, local files, import backup Aniyomi, template extension, code signing.
 
 ---
 
@@ -698,7 +699,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 
 ### 15.1 Sudah diputuskan (6 Okt 2026)
 
-- [x] **Extension pertama**: ditulis pemilik produk sendiri di repo terpisah setelah SDK jadi (Fase 1); repo app tidak merujuknya. Lihat §4.
+- [x] **Extension pertama**: ditulis pemilik produk sendiri di repo terpisah setelah SDK jadi (Fase 1); repo app tidak merujuknya. Lihat §4. *(Per 10 Okt 2026 folder `extensions/` di repo ini berisi 15 extension nyata; lihat catatan di §4.)*
 - [x] **Varian episode (Sub/Dub/BD)**: satu status ditonton per nomor episode; varian yang diputar adalah yang pertama dari extension. Lihat §4 dan PRG-5.
 - [x] **Backup/restore**: P1, target v1.0, selambatnya v1.1. Lihat §4.
 - [x] **Nama paket dan CLI**: `@matane-anime/*`, `ma-ext`. Lihat §4.

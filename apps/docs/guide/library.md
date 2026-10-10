@@ -4,8 +4,9 @@ The library is the anime you chose to keep. Add an anime from its detail page; r
 
 - **Categories.** An anime can be in several categories at once. You can create categories and change their order; each one is a tab on the Library page.
 - **Grid.** Covers with a badge for the number of episodes you have not watched. Covers of library anime are kept on disk permanently, and refreshed when the metadata is refreshed.
-- **Sort.** By title, last watched, latest episode, date added, or number of unwatched episodes.
-- **Filter.** Unwatched, watching, downloaded, status and source.
+- **Display.** Comfortable grid, compact grid, covers only, or a list. The grid displays have a **Cover size** slider (100 to 280 px). The same choices exist for a source's list in Browse. The display, the size, the sort and the filters are remembered when you close the app; the category tab and the search text are not.
+- **Sort.** By title, last watched, latest episode, date added, or number of unwatched episodes; **Reverse order** flips the direction.
+- **Filter.** Unwatched, started, downloaded, status (any of the ones you pick) and source (any of the ones you pick).
 - **Search.** Text search over titles and alternative titles.
 - **Multi-select.** Select several anime to move them to another category, mark them watched, download them or remove them.
 - **Continue watching.** Each card has a shortcut that opens the right episode (see [Watching and progress](/guide/watching)).
