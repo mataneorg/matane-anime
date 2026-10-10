@@ -399,6 +399,7 @@
       "subtitle_one": "{{count}} sumber",
       "subtitle_other": "{{count}} sumber",
       "pinned": "Disematkan",
+      "lastUsed": "Terakhir dipakai",
       "latest": "Terbaru"
     },
     "picker": "Sumber",

@@ -165,6 +165,7 @@ export class ExtensionStore {
 
   touchSource(sourceId: string, now = Date.now()): void {
     this.db.update(sources).set({ lastUsedAt: now }).where(eq(sources.id, sourceId)).run();
+    this.changes.emit('sources');
   }
 
   // ------------------------------------------------------------------ preferences

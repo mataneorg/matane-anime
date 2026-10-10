@@ -1,4 +1,4 @@
-import type { AvailableExtension, ExtensionInfo, RepoInfo, RepoTrust } from '@matane-anime/shared';
+import type { AvailableExtension, ExtensionInfo, RepoInfo, RepoTrust, SourceInfo } from '@matane-anime/shared';
 
 /** Offered as language chips even when no installed or offered source uses them yet (mockup 10c). */
 export const COMMON_LANGUAGES = ['en', 'id', 'ja', 'es'] as const;
@@ -156,4 +156,12 @@ export async function reloadSequentially(
     }
   }
   return summary;
+}
+
+/** The sources opened most recently, newest first. Sources that are not installed cannot be opened, so they are left out. */
+export function recentSources(sources: readonly SourceInfo[], count: number): SourceInfo[] {
+  return sources
+    .filter((source) => source.available && source.lastUsedAt !== null)
+    .sort((a, b) => (b.lastUsedAt ?? 0) - (a.lastUsedAt ?? 0))
+    .slice(0, count);
 }

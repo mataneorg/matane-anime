@@ -210,7 +210,8 @@ export class ExtensionService {
       return client.getPopular(input.page, options);
     });
     const rows = this.deps.anime.upsertSummaries(input.sourceId, page.items);
-    this.deps.store.touchSource(input.sourceId);
+    // Opening a source (its first page) is what "last used" means; a global search and later pages are not.
+    if (!input.passive && input.page === 1) this.deps.store.touchSource(input.sourceId);
     const key = listingKey(input);
     // A failed write only means the next start has nothing to show early.
     if (key && rows.length > 0) {

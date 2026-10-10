@@ -90,6 +90,8 @@ export const browseInputSchema = z.object({
   filters: z.record(z.string(), z.unknown()).optional(),
   /** Lets the renderer cancel the call (`requests.cancel`). */
   requestId: z.string().optional(),
+  /** A look the user did not ask for at this source (global search): it does not count as "last used". */
+  passive: z.boolean().optional(),
 });
 export type BrowseInput = z.infer<typeof browseInputSchema>;
 

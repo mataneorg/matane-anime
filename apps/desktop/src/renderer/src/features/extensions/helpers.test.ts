@@ -1,4 +1,4 @@
-import type { AvailableExtension, ExtensionInfo, RepoInfo } from '@matane-anime/shared';
+import type { AvailableExtension, ExtensionInfo, RepoInfo, SourceInfo } from '@matane-anime/shared';
 import { describe, expect, it } from 'vitest';
 import {
   alsoOfferedBy,
@@ -7,6 +7,7 @@ import {
   formatSize,
   languageName,
   languageOptions,
+  recentSources,
   reloadSequentially,
   shortHash,
   sortAvailable,
@@ -217,5 +218,40 @@ describe('reloadSequentially', () => {
   });
   it('does nothing for no folders', async () => {
     expect(await reloadSequentially([], () => Promise.reject(new Error('never')))).toEqual({ reloaded: 0, failed: [] });
+  });
+});
+
+describe('recentSources', () => {
+  const source = (id: string, lastUsedAt: number | null, available = true): SourceInfo => ({
+    id,
+    extensionId: id.split('/')[0] as string,
+    extensionName: id,
+    key: 'en',
+    lang: 'en',
+    name: id,
+    nsfw: false,
+    pinned: false,
+    lastUsedAt,
+    available,
+  });
+
+  it('lists the most recently opened first, up to the count', () => {
+    const list = [source('a/en', 10), source('b/en', 30), source('c/en', 20), source('d/en', 5)];
+    expect(recentSources(list, 3).map((s) => s.id)).toEqual(['b/en', 'c/en', 'a/en']);
+  });
+
+  it('leaves out sources never opened and sources that are not installed', () => {
+    const list = [source('a/en', null), source('b/en', 50, false), source('c/en', 1)];
+    expect(recentSources(list, 3).map((s) => s.id)).toEqual(['c/en']);
+  });
+
+  it('does not reorder the list it is given', () => {
+    const list = [source('a/en', 1), source('b/en', 2)];
+    recentSources(list, 3);
+    expect(list.map((s) => s.id)).toEqual(['a/en', 'b/en']);
+  });
+
+  it('has nothing for an empty list', () => {
+    expect(recentSources([], 3)).toEqual([]);
   });
 });

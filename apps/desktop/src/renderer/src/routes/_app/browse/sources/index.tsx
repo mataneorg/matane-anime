@@ -9,12 +9,17 @@ import { Button, buttonVariants } from '@renderer/components/ui/button';
 import { Input } from '@renderer/components/ui/input';
 import { call } from '@renderer/lib/api';
 import { sourcesQuery } from '@renderer/lib/catalog';
+import { relativeTime } from '@renderer/lib/dates';
+import { useNow } from '@renderer/lib/useNow';
 import { cn } from '@renderer/lib/utils';
 import type { SourceInfo } from '@matane-anime/shared';
-import { languageName } from '@renderer/features/extensions/helpers';
+import { languageName, recentSources } from '@renderer/features/extensions/helpers';
 import { ExtensionIcon } from '@renderer/features/extensions/parts';
 
 export const Route = createFileRoute('/_app/browse/sources/')({ component: SourcesPage });
+
+/** How many sources the "Last used" group lists. */
+const LAST_USED_COUNT = 3;
 
 function SourcesPage() {
   const { t, i18n } = useTranslation();
@@ -27,6 +32,8 @@ function SourcesPage() {
     .filter((source) => language === 'all' || source.lang === language)
     .sort((a, b) => a.name.localeCompare(b.name));
   const pinned = shown.filter((source) => source.pinned);
+  // The sources opened most recently, so a return to one is a click away (it also stays in its own group).
+  const lastUsed = recentSources(shown, LAST_USED_COUNT);
   const groups = groupByLanguage(
     shown.filter((source) => !source.pinned),
     i18n.language,
@@ -77,6 +84,9 @@ function SourcesPage() {
           </div>
         ) : null}
 
+        {lastUsed.length > 0 ? (
+          <SourceGroup title={t('browse.sources.lastUsed')} sources={lastUsed} showUsedAt />
+        ) : null}
         {pinned.length > 0 ? <SourceGroup title={t('browse.sources.pinned')} sources={pinned} /> : null}
         {groups.map(([lang, list]) => (
           <SourceGroup key={lang} title={languageName(lang, i18n.language)} sources={list} />
@@ -94,7 +104,16 @@ function groupByLanguage(sources: SourceInfo[], uiLanguage: string): [string, So
   return [...groups].sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b));
 }
 
-function SourceGroup({ title, sources }: { title: string; sources: SourceInfo[] }) {
+function SourceGroup({
+  title,
+  sources,
+  showUsedAt = false,
+}: {
+  title: string;
+  sources: SourceInfo[];
+  /** Say when each source was last opened (the "Last used" group). */
+  showUsedAt?: boolean;
+}) {
   return (
     <section aria-label={title}>
       <h2 className="mb-2 flex items-center gap-2 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
@@ -103,15 +122,16 @@ function SourceGroup({ title, sources }: { title: string; sources: SourceInfo[] 
       </h2>
       <ul className="flex flex-col gap-2">
         {sources.map((source) => (
-          <SourceRow key={source.id} source={source} />
+          <SourceRow key={source.id} source={source} showUsedAt={showUsedAt} />
         ))}
       </ul>
     </section>
   );
 }
 
-function SourceRow({ source }: { source: SourceInfo }) {
-  const { t } = useTranslation();
+function SourceRow({ source, showUsedAt }: { source: SourceInfo; showUsedAt: boolean }) {
+  const { t, i18n } = useTranslation();
+  const now = useNow();
   const queryClient = useQueryClient();
   const pin = useMutation({
     mutationFn: () => call('sources.setPinned', { sourceId: source.id, pinned: !source.pinned }),
@@ -120,7 +140,11 @@ function SourceRow({ source }: { source: SourceInfo }) {
   const title = (
     <>
       <span className="truncate font-semibold text-foreground">{source.name}</span>
-      <span className="truncate text-xs text-muted-foreground">{source.extensionName}</span>
+      <span className="truncate text-xs text-muted-foreground">
+        {showUsedAt && source.lastUsedAt !== null
+          ? `${source.extensionName} · ${relativeTime(source.lastUsedAt, now, i18n.language)}`
+          : source.extensionName}
+      </span>
     </>
   );
   return (

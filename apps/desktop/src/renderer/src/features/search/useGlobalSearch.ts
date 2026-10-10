@@ -24,7 +24,14 @@ export function useGlobalSearch(sources: SourceInfo[], query: string, enabled: b
       signal?.addEventListener('abort', () => void call('requests.cancel', requestId), { once: true });
       let result: SourceResult;
       try {
-        const page = await call('sources.browse', { sourceId: source.id, kind: 'search', page: 1, query, requestId });
+        const page = await call('sources.browse', {
+          sourceId: source.id,
+          kind: 'search',
+          page: 1,
+          query,
+          requestId,
+          passive: true,
+        });
         result = { status: 'done', items: page.items, hasNextPage: page.hasNextPage };
       } catch (error) {
         if (signal?.aborted) return;

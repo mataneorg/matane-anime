@@ -204,3 +204,29 @@ describe('streams kept in memory (STR-6)', () => {
     expect(service.hasCachedStreams(two.row, two.episode)).toBe(false);
   });
 });
+
+describe('last used (the sources list)', () => {
+  const used = (id: string) => db.store.getSource(id)?.lastUsedAt ?? null;
+
+  it('counts opening a source, its first page', async () => {
+    expect(used('indo/id')).toBeNull();
+    await service.browse({ sourceId: 'indo/id', kind: 'popular', page: 1 });
+    expect(used('indo/id')).not.toBeNull();
+  });
+
+  it('does not count later pages of a source already open', async () => {
+    await service.browse({ sourceId: 'indo/id', kind: 'popular', page: 2 });
+    expect(used('indo/id')).toBeNull();
+  });
+
+  it('does not count a global search, which looks at sources the user did not open', async () => {
+    await service.browse({ sourceId: 'indo/id', kind: 'search', page: 1, query: 'x', passive: true });
+    expect(used('indo/id')).toBeNull();
+  });
+
+  it('tells the renderer, so the list can show it', async () => {
+    const before = db.emitted.length;
+    await service.browse({ sourceId: 'indo/id', kind: 'popular', page: 1 });
+    expect(db.emitted.slice(before).some((tags) => tags.includes('sources'))).toBe(true);
+  });
+});

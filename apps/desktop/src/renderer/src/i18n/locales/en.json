@@ -399,6 +399,7 @@
       "subtitle_one": "{{count}} source",
       "subtitle_other": "{{count}} sources",
       "pinned": "Pinned",
+      "lastUsed": "Last used",
       "latest": "Latest"
     },
     "picker": "Source",
