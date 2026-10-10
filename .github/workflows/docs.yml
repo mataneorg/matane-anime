@@ -10,6 +10,11 @@ on:
     paths:
       - 'apps/docs/**'
       - '.github/workflows/docs.yml'
+  # "Run workflow" builds the site again and, from main, publishes it.
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: docs-${{ github.ref }}
@@ -27,5 +32,25 @@ jobs:
           cache: pnpm
       # Only the docs workspace: no Electron download, no native rebuild.
       - run: pnpm install --frozen-lockfile --filter @matane-anime/docs... --ignore-scripts
-      # VitePress fails the build on a dead internal link. No deploy step: the host is not chosen yet.
+      # VitePress fails the build on a dead internal link.
       - run: pnpm --filter @matane-anime/docs docs:build
+      # Only what is on main goes up: pull requests and the development branch just prove the site builds.
+      - if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    # Settings, Pages, Source must be "GitHub Actions".
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

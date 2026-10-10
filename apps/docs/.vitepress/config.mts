@@ -3,8 +3,10 @@ import { defineConfig } from 'vitepress';
 const repo = 'https://github.com/mataneorg/matane-anime';
 
 // The site documents the app (GPL-3.0-only, like the rest of apps/). It is built by `pnpm --filter
-// @matane-anime/docs docs:build` (and the Docs workflow), never by `pnpm build`. `base` is left alone until the owner picks a host.
+// @matane-anime/docs docs:build` (and the Docs workflow), never by `pnpm build`. The Docs workflow publishes it to
+// GitHub Pages, which serves the repository under its own name, hence `base`.
 export default defineConfig({
+  base: '/matane-anime/',
   title: 'Matane Anime',
   description: 'A desktop anime player with a library, downloads and a sandboxed extension system.',
   lang: 'en-US',
