@@ -19,6 +19,6 @@ Not in a backup: passwords and tokens (such as a proxy password), downloaded epi
 1. Choose **Restore** and pick the backup file. The app shows a summary of what is inside before it changes anything.
 2. Confirm. Restoring **replaces** your current data. The app first keeps a safety copy of the current database.
 3. The app restarts to apply the restore.
-4. Extensions from the backup are marked **needs reinstall**. Install them again from **Extensions**: the repositories you had are restored, so they appear under Available.
+4. Extensions from the backup are marked **needs reinstall**. Install them again from **Extensions**: the repositories you had are restored, so they appear under Available. Their **trusted keys are not**: a backup cannot trust a key for you, so each repository comes back as unverified until you choose **Trust this key** again.
 
 A backup made by a newer version of the app than the one you run is refused. If the saved download folder does not exist on this computer, the default one is used instead.

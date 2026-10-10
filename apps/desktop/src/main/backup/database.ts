@@ -55,9 +55,20 @@ export function repoExtensionIds(sqlite: Database.Database): string[] {
   return rows.map((row) => row.id);
 }
 
+/**
+ * "Trust this key" is a decision of the person at this keyboard, not data a file can carry: a backup that
+ * arrived from somewhere else must not hand a repository its trust. The repository stays, as unverified (its
+ * signature still verifies against the key it announces), and trusting it again is one click.
+ */
+export function resetRepositoryTrust(sqlite: Database.Database): void {
+  if (hasTable(sqlite, 'extension_repos') && hasColumn(sqlite, 'extension_repos', 'public_key'))
+    sqlite.exec('UPDATE extension_repos SET public_key = NULL WHERE public_key IS NOT NULL');
+}
+
 /** Drops what belongs to this machine or to its caches, from a copy of the database. */
 export function dropMachineData(sqlite: Database.Database): void {
   for (const table of DROPPED_TABLES) if (hasTable(sqlite, table)) sqlite.exec(`DELETE FROM ${table}`);
+  resetRepositoryTrust(sqlite);
   if (hasTable(sqlite, 'settings')) sqlite.exec(MACHINE_SETTINGS_SQL);
   // Not used yet; it would be a path on this machine.
   sqlite.exec('UPDATE anime SET custom_cover_path = NULL WHERE custom_cover_path IS NOT NULL');

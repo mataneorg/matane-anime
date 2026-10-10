@@ -167,7 +167,11 @@ export class InstallService {
 
   // ------------------------------------------------------------------ update
 
-  /** Installs the newer version from the repository the copy came from; no dialog (EXT-8). */
+  /**
+   * Installs the newer version from the repository the copy came from; no dialog (EXT-8). Only a repository
+   * whose key the user trusts may do that: an unverified or unsigned one can change hands or key without the
+   * user noticing, so its updates go through `prepareInstall` and its dialog, like an install.
+   */
   update(extensionId: string): Promise<void> {
     return this.serial(async () => {
       const row = this.deps.store.findExtension(extensionId);
@@ -188,6 +192,12 @@ export class InstallService {
       if (!isNewer(found.entry.version, row.version)) {
         throw new AppError('invalid_input', `"${row.name}" is already up to date.`);
       }
+      if (found.trust !== 'trusted') {
+        throw new AppError(
+          'forbidden',
+          `The repository of "${row.name}" is not trusted, so it cannot update without a confirmation. Update it from the Available tab.`,
+        );
+      }
       this.assertCompatible(found.entry);
       const pkg = await this.download(found.repo, found.entry);
       await this.apply(pkg, found.entry, found.repo.id);
@@ -202,6 +212,8 @@ export class InstallService {
       const found = this.deps.repos.entryOf(row.repoId, row.id);
       if (!found || !isNewer(found.entry.version, row.version) || this.deps.repos.incompatibility(found.entry))
         continue;
+      // Left for the user to confirm one by one (see `update`).
+      if (found.trust !== 'trusted') continue;
       try {
         await this.update(row.id);
         result.updated.push(row.id);

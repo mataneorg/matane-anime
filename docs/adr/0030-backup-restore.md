@@ -15,3 +15,6 @@ docs/PRD.md §4: backup and restore are P1 for v1.0. The owner chose to back up 
 - The mockup's "last backup" line and "back up automatically" are not built.
 - The archive is built in memory (cap 1 GiB, 10 MB per cover).
 - `runMigrations` keeps only the three newest `.db` files in `backups/db`, so a fourth restore can prune the oldest safety copy.
+
+## Amendment (2026-10-10)
+- **Repository trust is not part of a backup.** `extension_repos.public_key` ("Trust this key") is cleared when a backup is made and again when one is restored, so a file cannot make a repository trusted ([0024](0024-extension-repositories.md)). The repositories themselves are kept, as unverified.

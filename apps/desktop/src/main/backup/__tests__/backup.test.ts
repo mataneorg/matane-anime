@@ -74,7 +74,9 @@ function populate(coversDir: string) {
     installDir: '/old/machine/extensions/repoext',
     sha256: 'abc',
   });
-  db.connection.sqlite.prepare('INSERT INTO extension_repos (url, serial) VALUES (?, 1)').run('https://example.org/');
+  db.connection.sqlite
+    .prepare('INSERT INTO extension_repos (url, serial, public_key) VALUES (?, 1, ?)')
+    .run('https://example.org/', `ed25519:${'ab'.repeat(32)}`);
   return { kept: kept!.id };
 }
 
@@ -137,8 +139,16 @@ describe('createBackup', () => {
       dir: null,
       sha256: null,
     });
+    // A backup never carries trust in a repository's key; the repository itself stays.
+    expect(one('SELECT url, public_key AS key FROM extension_repos')).toEqual({
+      url: 'https://example.org/',
+      key: null,
+    });
     // The snapshot is of the open database; the live one is untouched.
     expect(db.connection.sqlite.prepare('SELECT count(*) AS n FROM downloads').get()).toEqual({ n: 1 });
+    expect(db.connection.sqlite.prepare('SELECT public_key AS key FROM extension_repos').get()).toEqual({
+      key: `ed25519:${'ab'.repeat(32)}`,
+    });
     expect(db.settings.getValue('network.proxyPassword', null)).toBe('hunter2');
     sqlite.close();
     expect(readdirSync(join(work, 'tmp'))).toEqual([]);

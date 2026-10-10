@@ -22,6 +22,10 @@ The format lives in `packages/extension-repo` (MIT, pure, no Electron): the CLI 
 - CPU spent inflating a highly compressed archive is bounded by the archive size (20 MB) only; the hash is checked first.
 - The real `RepoFetcher` has no unit test (it needs Electron); it is covered by the e2e.
 
+## Amendment (2026-10-10): trust is not carried by files or by silent updates
+- **Updates**: `update` and "Update all" only act on a `trusted` repository. An unverified or unsigned one can change key or stop signing without notice, so its updates go through `prepareInstall` and the dialog (with the warning), like an install. "Update all" skips them.
+- **Backups**: a restore clears `public_key` of every repository ([0030](0030-backup-restore.md)). The repository stays, as unverified; trusting it again is one click. Otherwise a backup file could make a repository trusted without the dialog.
+
 ## Consequences
 - A repository is hosted on any static host and checked with `ma-ext repo verify`.
 - Rotating a key means every user removes and adds the repository again, on purpose.

@@ -505,6 +505,26 @@ describe('update', () => {
   });
 });
 
+describe('update from a repository that is not trusted', () => {
+  it('is refused by update and skipped by updateAll, but still goes through the install dialog', async () => {
+    net.publish(REPO_A, signed(1));
+    const repoId = await addRepo(REPO_A, false);
+    await installFrom(repoId, 'alpha');
+    net.publish(REPO_A, signed(2, [pkg('alpha', '1.1.0')]));
+    await repoService.refresh();
+    expect(infoOf('alpha')?.updateAvailable).toBe('1.1.0');
+
+    expect((await fails(installs.update('alpha'))).code).toBe('forbidden');
+    expect((await installs.updateAll()).updated).toEqual([]);
+    expect(db.store.findExtension('alpha')!.version).toBe('1.0.0');
+
+    const preparation = await installs.prepareInstall({ repoId, extensionId: 'alpha' });
+    expect(preparation).toMatchObject({ installedVersion: '1.0.0', warnings: ['unverified'] });
+    await installs.install(preparation.token);
+    expect(db.store.findExtension('alpha')!.version).toBe('1.1.0');
+  });
+});
+
 describe('uninstall', () => {
   it('removes files, row, preferences, storage and session; sources and anime stay', async () => {
     net.publish(REPO_A, signed(1));

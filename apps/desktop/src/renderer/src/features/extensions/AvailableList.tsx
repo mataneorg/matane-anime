@@ -85,7 +85,12 @@ function AvailableRow({
               size="sm"
               aria-label={t('extensions.updateOf', { name: entry.name })}
               disabled={update.isPending}
-              onClick={() => update.mutate()}
+              onClick={() =>
+                // A repository whose key is not trusted does not update silently: it gets the install dialog.
+                entry.repoTrust === 'trusted'
+                  ? update.mutate()
+                  : onInstall({ repoId: entry.repoId, extensionId: entry.id, name: entry.name })
+              }
             >
               <ArrowUpCircle aria-hidden />
               {update.isPending ? t('extensions.updating') : t('extensions.update')}
