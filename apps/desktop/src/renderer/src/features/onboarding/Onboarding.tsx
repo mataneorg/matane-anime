@@ -1,3 +1,4 @@
+import { type PlayerAction, formatCombo } from '@matane-anime/shared';
 import { LANGUAGES, languageFromLocale } from '@matane-anime/shared/theme';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Check, ChevronRight, Info, Play } from 'lucide-react';
@@ -404,13 +405,15 @@ function PlayerStep() {
   if (!settings) return null;
 
   const seek = settings.playerSeekSeconds;
+  const keysOf = (...actions: PlayerAction[]): string[] =>
+    actions.flatMap((action) => settings.playerShortcuts[action]).map(formatCombo);
   const shortcuts: { keys: string[]; label: string }[] = [
-    { keys: ['Space'], label: t('onboarding.player.playPause') },
-    { keys: ['←', '→'], label: t('onboarding.player.jump', { count: seek }) },
-    { keys: ['J', 'L'], label: t('onboarding.player.jump', { count: seek * 2 }) },
-    { keys: ['F'], label: t('onboarding.player.fullscreen') },
-    { keys: ['Shift N'], label: t('onboarding.player.nextEpisode') },
-    { keys: ['[', ']'], label: t('onboarding.player.speed') },
+    { keys: keysOf('play-pause'), label: t('onboarding.player.playPause') },
+    { keys: keysOf('back', 'forward'), label: t('onboarding.player.jump', { count: seek }) },
+    { keys: keysOf('back-long', 'forward-long'), label: t('onboarding.player.jump', { count: seek * 2 }) },
+    { keys: keysOf('fullscreen'), label: t('onboarding.player.fullscreen') },
+    { keys: keysOf('next'), label: t('onboarding.player.nextEpisode') },
+    { keys: keysOf('slower', 'faster'), label: t('onboarding.player.speed') },
   ];
 
   return (

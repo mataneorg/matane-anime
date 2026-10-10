@@ -11,10 +11,11 @@ export const CHANGELOG: ChangelogEntry[] = [
     items: [
       'Browse, search and open details from the sources you add as extensions. The app ships with none: install them from a repository you trust, in Browse, Extensions.',
       'A library with categories, episode progress, a resume button and a watched threshold you can set.',
-      'A video player with keyboard shortcuts, quality and server choice, and an autoplay countdown.',
+      'A video player with keyboard shortcuts you can change in Settings, quality and server choice, and an autoplay countdown of 3, 5 or 10 seconds.',
       'Download episodes to watch offline, with a size limit, a queue that survives a restart, and optional download-ahead and delete-after-watching.',
       'Scheduled checks for new episodes, with notifications and a tray icon.',
-      'History, and an incognito mode that stops recording what you watch.',
+      'History, which you can clear from Settings without losing your library, progress or watch time, and an incognito mode that stops recording what you watch.',
+      'A choice between the stable and beta update channels, in Settings, About.',
       'A command palette on Ctrl+K (Cmd+K on macOS), a short setup on first launch, and this What’s new window.',
       'Catppuccin themes, an AMOLED black option and 14 accent colors.',
     ],

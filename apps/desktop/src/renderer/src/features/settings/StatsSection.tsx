@@ -6,10 +6,10 @@ import { Button } from '@renderer/components/ui/button';
 import { call } from '@renderer/lib/api';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
-import { SettingRow, SettingsCard } from './parts';
+import { SettingRow } from './parts';
 
-/** Settings → Data and storage: forgets the watch sessions behind Statistics (library, progress and history stay). */
-export function StatsSection() {
+/** A row of the Clear data card: forgets the watch sessions behind Statistics (library, progress and history stay). */
+export function WatchTimeRow() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [confirming, setConfirming] = useState(false);
@@ -23,16 +23,16 @@ export function StatsSection() {
   });
 
   return (
-    <SettingsCard
-      id="stats-title"
-      title={t('settings.data.statistics')}
-      description={t('settings.data.statisticsHint')}
-    >
-      <SettingRow label={t('settings.data.clearStats')}>
-        <Button variant="secondary" size="sm" disabled={clear.isPending} onClick={() => setConfirming(true)}>
-          {t('settings.data.clearStats')}
-        </Button>
-      </SettingRow>
+    <SettingRow label={t('settings.data.watchTime')} hint={t('settings.data.watchTimeHint')}>
+      <Button
+        variant="destructive"
+        size="sm"
+        data-testid="clear-watch-time"
+        disabled={clear.isPending}
+        onClick={() => setConfirming(true)}
+      >
+        {t('settings.data.clearWatchTime')}
+      </Button>
       <ConfirmDialog
         open={confirming}
         onOpenChange={setConfirming}
@@ -41,6 +41,6 @@ export function StatsSection() {
         confirmLabel={t('settings.data.clearStatsConfirm')}
         onConfirm={() => clear.mutate()}
       />
-    </SettingsCard>
+    </SettingRow>
   );
 }

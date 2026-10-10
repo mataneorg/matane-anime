@@ -169,7 +169,10 @@
     "player": {
       "playback": "Pemutaran",
       "autoplay": "Putar episode berikutnya otomatis",
-      "autoplayHint": "Hitung mundur lima detik dimulai saat episode selesai, dan bisa kamu batalkan.",
+      "autoplayHint": "Hitung mundur dimulai saat episode selesai, dan bisa kamu batalkan.",
+      "countdown": "Hitung mundur",
+      "countdownHint": "Berapa lama menunggu sebelum episode berikutnya mulai.",
+      "countdownSeconds": "{{count}} detik",
       "quality": "Kualitas pilihan",
       "qualityHint": "Dipakai untuk memilih stream pertama. Kamu selalu bisa mengubahnya di pemutar.",
       "qualities": {
@@ -180,12 +183,36 @@
         "360": "360p"
       },
       "seek": "Lompatan geser",
-      "seekHint": "Tombol panah melompat sejauh ini; J dan L dua kali lebih jauh.",
+      "seekHint": "Mundur dan Maju melompat sejauh ini; lompatan panjang (J dan L) dua kali lebih jauh.",
       "seekSeconds": "{{count}} detik",
       "threshold": "Tandai ditonton pada",
       "thresholdPercent": "{{percent}}%",
       "thresholdEnd": "akhir video",
-      "thresholdHint": "Episode dianggap ditonton setelah melewati titik ini. Memundurkan video tidak membatalkannya. Pada akhir video, hanya video yang selesai yang dihitung."
+      "thresholdHint": "Episode dianggap ditonton setelah melewati titik ini. Memundurkan video tidak membatalkannya. Pada akhir video, hanya video yang selesai yang dihitung.",
+      "shortcuts": {
+        "title": "Pintasan keyboard",
+        "hint": "Ubah membuka perekam tombol: tekan tombol baru, atau Esc untuk batal. Mengubah satu aksi menggantikan semua tombolnya.",
+        "change": "Ubah",
+        "changeAction": "Ubah tombol untuk {{action}}",
+        "recording": "Tekan sebuah tombol…",
+        "reset": "Kembalikan ke bawaan",
+        "conflict": "{{combo}} sudah dipakai untuk \"{{action}}\". Ubah yang itu dulu.",
+        "actions": {
+          "play-pause": "Putar atau jeda",
+          "back": "Mundur",
+          "forward": "Maju",
+          "back-long": "Mundur, lompatan panjang",
+          "forward-long": "Maju, lompatan panjang",
+          "volume-up": "Volume naik",
+          "volume-down": "Volume turun",
+          "mute": "Bisukan",
+          "fullscreen": "Layar penuh",
+          "next": "Episode berikutnya",
+          "previous": "Episode sebelumnya",
+          "slower": "Lebih lambat",
+          "faster": "Lebih cepat"
+        }
+      }
     },
     "library": {
       "categories": "Kategori",
@@ -270,13 +297,19 @@
       "coverCacheUsed": "{{size}} terpakai",
       "clearCache": "Hapus cache",
       "clearCacheFailed": "Cache tidak bisa dihapus",
-      "statistics": "Statistik",
-      "statisticsHint": "Waktu menonton dan rentetan tetap tersimpan walau riwayat dihapus. Menghapusnya tidak menyentuh pustaka, progres, atau riwayat.",
-      "clearStats": "Hapus statistik",
-      "clearStatsTitle": "Hapus semua statistik?",
+      "clearData": "Hapus data",
+      "watchHistory": "Riwayat tontonan",
+      "watchHistoryHint": "Menghapus isi halaman Riwayat. Progres dan waktu menonton tetap ada.",
+      "clearHistory": "Hapus riwayat",
+      "historyCleared": "Riwayat dihapus",
+      "clearHistoryFailed": "Riwayat tidak bisa dihapus",
+      "watchTime": "Waktu menonton",
+      "watchTimeHint": "Menghapus sesi menonton yang tercatat. Riwayat dan progres tetap ada.",
+      "clearWatchTime": "Hapus waktu menonton",
+      "clearStatsTitle": "Hapus semua waktu menonton?",
       "clearStatsBody": "Waktu menonton, rentetan, dan grafik dimulai dari awal. Pustaka, episode yang sudah ditonton, dan riwayat tetap ada.",
-      "clearStatsConfirm": "Hapus statistik",
-      "statsCleared": "Statistik dihapus",
+      "clearStatsConfirm": "Hapus waktu menonton",
+      "statsCleared": "Waktu menonton dihapus",
       "clearStatsFailed": "Statistik tidak bisa dihapus"
     },
     "network": {
@@ -334,6 +367,14 @@
       "runtime": "Electron {{electron}} · Chromium {{chrome}} · Node {{node}} · {{platform}}",
       "whatsNew": "Yang baru",
       "runSetup": "Jalankan penyiapan lagi",
+      "updates": "Pembaruan",
+      "channel": "Kanal pembaruan",
+      "channelHint": "Beta juga menawarkan pra-rilis. Pilihan ini berlaku pada pengecekan pembaruan berikutnya.",
+      "channelFailed": "Kanal pembaruan tidak bisa diubah",
+      "channels": {
+        "stable": "Stabil",
+        "beta": "Beta"
+      },
       "links": "Tautan",
       "releases": "Catatan rilis",
       "repository": "Kode sumber",

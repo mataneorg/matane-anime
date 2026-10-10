@@ -9,6 +9,7 @@ export * from './library';
 export * from './network';
 export * from './playback';
 export * from './settings';
+export * from './shortcuts';
 export * from './spike';
 export * from './stats';
 export * from './theme';

@@ -169,7 +169,10 @@
     "player": {
       "playback": "Playback",
       "autoplay": "Play the next episode automatically",
-      "autoplayHint": "A five-second countdown starts when an episode ends, and you can cancel it.",
+      "autoplayHint": "A countdown starts when an episode ends, and you can cancel it.",
+      "countdown": "Countdown",
+      "countdownHint": "How long to wait before the next episode starts.",
+      "countdownSeconds": "{{count}} seconds",
       "quality": "Preferred quality",
       "qualityHint": "Used to pick the first stream. You can always change it in the player.",
       "qualities": {
@@ -180,12 +183,36 @@
         "360": "360p"
       },
       "seek": "Seek step",
-      "seekHint": "Arrow keys jump this far; J and L jump twice as far.",
+      "seekHint": "Back and Forward jump this far; the long jumps (J and L) go twice as far.",
       "seekSeconds": "{{count}} seconds",
       "threshold": "Mark as watched at",
       "thresholdPercent": "{{percent}}%",
       "thresholdEnd": "the end",
-      "thresholdHint": "An episode counts as watched once you pass this point. Going back does not undo it. At the end, only a finished video counts."
+      "thresholdHint": "An episode counts as watched once you pass this point. Going back does not undo it. At the end, only a finished video counts.",
+      "shortcuts": {
+        "title": "Keyboard shortcuts",
+        "hint": "Change opens a key recorder: press the new key, or Esc to cancel. Changing an action replaces all of its keys.",
+        "change": "Change",
+        "changeAction": "Change the key for {{action}}",
+        "recording": "Press a key…",
+        "reset": "Reset to defaults",
+        "conflict": "{{combo}} is already used for \"{{action}}\". Change that one first.",
+        "actions": {
+          "play-pause": "Play or pause",
+          "back": "Back",
+          "forward": "Forward",
+          "back-long": "Back, long jump",
+          "forward-long": "Forward, long jump",
+          "volume-up": "Volume up",
+          "volume-down": "Volume down",
+          "mute": "Mute",
+          "fullscreen": "Fullscreen",
+          "next": "Next episode",
+          "previous": "Previous episode",
+          "slower": "Slower",
+          "faster": "Faster"
+        }
+      }
     },
     "library": {
       "categories": "Categories",
@@ -270,13 +297,19 @@
       "coverCacheUsed": "{{size}} used",
       "clearCache": "Clear cache",
       "clearCacheFailed": "Could not clear the cache",
-      "statistics": "Statistics",
-      "statisticsHint": "Watch time and streaks are kept even when you clear the history. Clearing them does not touch your library, progress or history.",
-      "clearStats": "Clear statistics",
-      "clearStatsTitle": "Clear all statistics?",
+      "clearData": "Clear data",
+      "watchHistory": "Watch history",
+      "watchHistoryHint": "Removes the History page entries. Progress and watch time stay.",
+      "clearHistory": "Clear history",
+      "historyCleared": "History cleared",
+      "clearHistoryFailed": "Could not clear the history",
+      "watchTime": "Watch time",
+      "watchTimeHint": "Removes recorded watch sessions. History and progress stay.",
+      "clearWatchTime": "Clear watch time",
+      "clearStatsTitle": "Clear all watch time?",
       "clearStatsBody": "Your watch time, streak and charts start over. Your library, watched episodes and history stay.",
-      "clearStatsConfirm": "Clear statistics",
-      "statsCleared": "Statistics cleared",
+      "clearStatsConfirm": "Clear watch time",
+      "statsCleared": "Watch time cleared",
       "clearStatsFailed": "Could not clear the statistics"
     },
     "network": {
@@ -334,6 +367,14 @@
       "runtime": "Electron {{electron}} · Chromium {{chrome}} · Node {{node}} · {{platform}}",
       "whatsNew": "What’s new",
       "runSetup": "Run setup again",
+      "updates": "Updates",
+      "channel": "Update channel",
+      "channelHint": "Beta also offers pre-releases. The choice applies to the next update check.",
+      "channelFailed": "Could not change the update channel",
+      "channels": {
+        "stable": "Stable",
+        "beta": "Beta"
+      },
       "links": "Links",
       "releases": "Release notes",
       "repository": "Source code",

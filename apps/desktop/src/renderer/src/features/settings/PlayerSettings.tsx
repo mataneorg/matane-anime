@@ -1,14 +1,21 @@
-import { PLAYER_QUALITIES, type PlayerQuality } from '@matane-anime/shared';
+import {
+  AUTOPLAY_COUNTDOWNS,
+  type AutoplayCountdown,
+  PLAYER_QUALITIES,
+  type PlayerQuality,
+  type ShortcutMap,
+} from '@matane-anime/shared';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Select } from '@renderer/components/ui/select';
 import { Switch } from '@renderer/components/ui/switch';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
 import { SettingRow, SettingsCard } from './parts';
+import { ShortcutsCard } from './ShortcutsCard';
 
 const SEEK_STEPS = [5, 10, 15, 30];
 
-/** Settings → Player (docs/PRD.md UI-7). The threshold, shortcut editor and the rest arrive with phases 2 and 5. */
+/** Settings → Player (docs/PRD.md UI-7): playback, the watched threshold and the keyboard shortcuts. */
 export function PlayerSettings() {
   const { t } = useTranslation();
   const { data: settings } = useQuery(settingsQuery);
@@ -24,6 +31,27 @@ export function PlayerSettings() {
             checked={settings.playerAutoplay}
             onCheckedChange={(playerAutoplay) => update.mutate({ playerAutoplay })}
           />
+        </SettingRow>
+
+        <SettingRow
+          label={t('settings.player.countdown')}
+          hint={t('settings.player.countdownHint')}
+          htmlFor="autoplay-countdown"
+        >
+          <Select
+            id="autoplay-countdown"
+            value={settings.playerAutoplayCountdown}
+            disabled={!settings.playerAutoplay}
+            onChange={(event) =>
+              update.mutate({ playerAutoplayCountdown: Number(event.target.value) as AutoplayCountdown })
+            }
+          >
+            {AUTOPLAY_COUNTDOWNS.map((seconds) => (
+              <option key={seconds} value={seconds}>
+                {t('settings.player.countdownSeconds', { count: seconds })}
+              </option>
+            ))}
+          </Select>
         </SettingRow>
 
         <SettingRow
@@ -82,6 +110,11 @@ export function PlayerSettings() {
           </Select>
         </SettingRow>
       </SettingsCard>
+
+      <ShortcutsCard
+        shortcuts={settings.playerShortcuts}
+        onChange={(playerShortcuts: ShortcutMap) => update.mutate({ playerShortcuts })}
+      />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { BACKUP_AUTO_MODES, isAbsolutePath } from './backup';
+import { DEFAULT_SHORTCUTS, shortcutMapSchema } from './shortcuts';
 import { ACCENTS, LANGUAGES, THEME_MODES } from './theme';
 import {
   DEFAULT_BROWSE_SETTINGS,
@@ -20,6 +21,10 @@ export type UpdateInterval = (typeof UPDATE_INTERVALS)[number];
 /** `playback` downloads the quality the player would pick (DL-3); the others pick the nearest height. */
 export const DOWNLOAD_QUALITIES = ['playback', ...PLAYER_QUALITIES] as const;
 export type DownloadQuality = (typeof DOWNLOAD_QUALITIES)[number];
+
+/** Seconds of the countdown before the next episode starts by itself (PLY-4). */
+export const AUTOPLAY_COUNTDOWNS = [3, 5, 10] as const;
+export type AutoplayCountdown = (typeof AUTOPLAY_COUNTDOWNS)[number];
 
 export const UPDATE_CHANNELS = ['stable', 'beta'] as const;
 export type UpdateChannel = (typeof UPDATE_CHANNELS)[number];
@@ -45,8 +50,11 @@ export const appSettingsSchema = z.object({
   language: z.enum(['system', ...LANGUAGES]),
   /** 18+ sources are hidden unless this is on (docs/PRD.md EXT-15). */
   showNsfw: z.boolean(),
-  /** Play the next episode after a 5 s countdown (docs/PRD.md PLY-4). */
+  /** Play the next episode after a countdown (docs/PRD.md PLY-4). */
   playerAutoplay: z.boolean(),
+  playerAutoplayCountdown: z.union([z.literal(3), z.literal(5), z.literal(10)]),
+  /** The player's keyboard (PLY-3): action -> key combinations. */
+  playerShortcuts: shortcutMapSchema,
   /** Which quality to start with (STR-1): the highest, or the nearest to a fixed height. */
   playerQuality: z.enum(PLAYER_QUALITIES),
   /** Arrow keys seek this many seconds; J and L seek twice as many. */
@@ -138,6 +146,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   language: 'system',
   showNsfw: false,
   playerAutoplay: true,
+  playerAutoplayCountdown: 5,
+  playerShortcuts: DEFAULT_SHORTCUTS,
   playerQuality: 'highest',
   playerSeekSeconds: 5,
   playerVolume: 1,

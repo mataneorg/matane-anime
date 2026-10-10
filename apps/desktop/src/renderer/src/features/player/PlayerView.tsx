@@ -1,4 +1,11 @@
-import { AppError, type PlaybackSession, type ProgressReason } from '@matane-anime/shared';
+import {
+  AppError,
+  DEFAULT_SHORTCUTS,
+  type PlaybackSession,
+  type ProgressReason,
+  eventToCombo,
+  resolveAction,
+} from '@matane-anime/shared';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useRouter } from '@tanstack/react-router';
 import { Loader2 } from 'lucide-react';
@@ -24,7 +31,6 @@ import { type PlayerError, usePlayerStore } from './store';
 
 const HIDE_AFTER_MS = 3000;
 const HEARTBEAT_MS = 5000;
-const COUNTDOWN_SECONDS = 5;
 
 /** Shows the controls and hides them again after 3 s without movement (PLY-7). Not a hook: its timer is plain state. */
 function createRevealer() {
@@ -77,6 +83,8 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
   const speed = settings?.playerSpeed ?? 1;
   const seekStep = settings?.playerSeekSeconds ?? 5;
   const autoplay = settings?.playerAutoplay ?? true;
+  const countdownSeconds = settings?.playerAutoplayCountdown ?? 5;
+  const shortcuts = settings?.playerShortcuts ?? DEFAULT_SHORTCUTS;
 
   const toast = useCallback((message: string) => {
     usePlayerStore.getState().set({ toast: message });
@@ -266,10 +274,10 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
   });
 
   const seekBy = (delta: number): void => act.current.seek((video.current?.currentTime ?? 0) + delta);
-  const settingsRef = useRef({ volume, muted, speed, seekStep });
+  const settingsRef = useRef({ volume, muted, speed, seekStep, shortcuts });
   useEffect(() => {
-    settingsRef.current = { volume, muted, speed, seekStep };
-  }, [volume, muted, speed, seekStep]);
+    settingsRef.current = { volume, muted, speed, seekStep, shortcuts };
+  }, [volume, muted, speed, seekStep, shortcuts]);
 
   // ------------------------------------------------------------------ progress (docs/PRD.md PRG-2, PRG-9)
   // Everything about what was watched is decided in main; this only reports where the video is.
@@ -338,28 +346,30 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
         target.getAttribute('type') !== 'range'
       )
         return;
-      const { volume: v, speed: s, seekStep: step } = settingsRef.current;
-      const key = event.key;
+      const { volume: v, speed: s, seekStep: step, shortcuts: keymap } = settingsRef.current;
+      const combo = eventToCombo(event);
       let handled = true;
-      if (key === ' ' || key.toLowerCase() === 'k') act.current.togglePlay();
-      else if (key === 'ArrowLeft') seekBy(-step);
-      else if (key === 'ArrowRight') seekBy(step);
-      else if (key.toLowerCase() === 'j') seekBy(-step * 2);
-      else if (key.toLowerCase() === 'l') seekBy(step * 2);
-      else if (key === 'ArrowUp') act.current.setVolume(v + 0.05);
-      else if (key === 'ArrowDown') act.current.setVolume(v - 0.05);
-      else if (key.toLowerCase() === 'm') act.current.toggleMute();
-      else if (key.toLowerCase() === 'f') act.current.toggleFullscreen();
-      else if (event.shiftKey && key.toLowerCase() === 'n' && sessionRef.current?.next)
-        act.current.goTo(sessionRef.current.next.episodeId);
-      else if (event.shiftKey && key.toLowerCase() === 'p' && sessionRef.current?.previous)
-        act.current.goTo(sessionRef.current.previous.episodeId);
-      else if (key === '[') updateSettings.mutate({ playerSpeed: Math.max(0.5, s - 0.25) });
-      else if (key === ']') updateSettings.mutate({ playerSpeed: Math.min(2, s + 0.25) });
-      else if (key === 'Escape') {
+      if (combo === 'Escape') {
         if (usePlayerStore.getState().panel !== 'none') usePlayerStore.getState().set({ panel: 'none' });
         else act.current.goBack();
-      } else handled = false;
+      } else {
+        const action = combo ? resolveAction(keymap, combo) : null;
+        const { next: nextEpisode, previous: previousEpisode } = sessionRef.current ?? {};
+        if (action === 'play-pause') act.current.togglePlay();
+        else if (action === 'back') seekBy(-step);
+        else if (action === 'forward') seekBy(step);
+        else if (action === 'back-long') seekBy(-step * 2);
+        else if (action === 'forward-long') seekBy(step * 2);
+        else if (action === 'volume-up') act.current.setVolume(v + 0.05);
+        else if (action === 'volume-down') act.current.setVolume(v - 0.05);
+        else if (action === 'mute') act.current.toggleMute();
+        else if (action === 'fullscreen') act.current.toggleFullscreen();
+        else if (action === 'next' && nextEpisode) act.current.goTo(nextEpisode.episodeId);
+        else if (action === 'previous' && previousEpisode) act.current.goTo(previousEpisode.episodeId);
+        else if (action === 'slower') updateSettings.mutate({ playerSpeed: Math.max(0.5, s - 0.25) });
+        else if (action === 'faster') updateSettings.mutate({ playerSpeed: Math.min(2, s + 0.25) });
+        else handled = false;
+      }
       if (handled) {
         event.preventDefault();
         revealer.reveal();
@@ -385,7 +395,7 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
   const next = session?.next ?? null;
   useEffect(() => {
     if (!store.ended || !next || !autoplay) return;
-    usePlayerStore.getState().set({ countdown: COUNTDOWN_SECONDS, controlsVisible: true });
+    usePlayerStore.getState().set({ countdown: countdownSeconds, controlsVisible: true });
     const timer = setInterval(() => {
       const left = usePlayerStore.getState().countdown;
       if (left === null) return clearInterval(timer);
@@ -399,7 +409,7 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
       clearInterval(timer);
       usePlayerStore.getState().set({ countdown: null });
     };
-  }, [store.ended, next, autoplay, goTo]);
+  }, [store.ended, next, autoplay, countdownSeconds, goTo]);
 
   // ------------------------------------------------------------------ render
   const pickStream = useCallback(

@@ -193,8 +193,8 @@ Prioritas: **P0** = wajib di v1.0 · **P1** = diusahakan di v1.0, boleh bergeser
 |---|---|---|
 | PLY-1 | `<video>` HTML5. HLS lewat **hls.js** (MSE); mp4/webm diputar native. Pemutar layar penuh tanpa sidebar | P0 |
 | PLY-2 | Kontrol: play/pause, seek bar (menampilkan buffered), volume dan mute (diingat), **kecepatan 0.5×–2×** (diingat), fullscreen, waktu berjalan/total, judul anime + nama episode, tombol kembali | P0 |
-| PLY-3 | **Shortcut keyboard** dengan default: `Space`/`K` play-pause, `←`/`→` ±5 s, `J`/`L` ±10 s, `↑`/`↓` volume, `M` mute, `F` fullscreen, `Shift+N`/`Shift+P` episode berikutnya/sebelumnya, `[`/`]` kecepatan, `Esc` keluar fullscreen/kembali. Semua bisa diubah di Setting | P0 |
-| PLY-4 | **Next/previous episode**. **Autoplay**: saat episode selesai, hitung mundur 5 detik ("Episode berikutnya") yang bisa dibatalkan; bisa dimatikan di Setting; berhenti di episode terakhir | P0 |
+| PLY-3 | **Shortcut keyboard** dengan default: `Space`/`K` play-pause, `←`/`→` ±5 s, `J`/`L` ±10 s, `↑`/`↓` volume, `M` mute, `F` fullscreen, `Shift+N`/`Shift+P` episode berikutnya/sebelumnya, `[`/`]` kecepatan, `Esc` keluar fullscreen/kembali. Semua bisa diubah di Setting (editor shortcut dengan deteksi bentrok dan Reset to defaults) | P0 |
+| PLY-4 | **Next/previous episode**. **Autoplay**: saat episode selesai, hitung mundur (default 5 detik, bisa 3, 5, atau 10 di Setting) ("Episode berikutnya") yang bisa dibatalkan; bisa dimatikan di Setting; berhenti di episode terakhir | P0 |
 | PLY-5 | Menu **server dan kualitas**: daftar stream dari extension; ganti manual **mempertahankan posisi**; pilihan diingat per anime (§6.4) | P0 |
 | PLY-6 | Indikator buffering. **Error state** dengan pesan jelas dan aksi (coba lagi, ganti server): jaringan, stream kedaluwarsa, diblokir (403/Cloudflare), format/codec tidak didukung | P0 |
 | PLY-7 | Kontrol tersembunyi setelah 3 detik tanpa gerakan (kursor ikut hilang); klik = play/pause; klik ganda = fullscreen; roda mouse = volume | P0 |
@@ -665,6 +665,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Backup/restore (P1; selambatnya v1.1; sudah dibangun, backup otomatis terjadwal menyusul 10 Okt 2026).
 - Paket tambahan (portable, deb, rpm, AUR, Flatpak), dokumentasi lengkap, rilis **v1.0**.
 - **Setelah milestone Fase 5 (9 sampai 10 Okt 2026):** UI mengikuti app Matane ([ADR 0036](adr/0036-ui-follows-matane.md)), halaman Statistics, mode tampilan Library dan Browse (ukuran cover, sort dan filter tersimpan), backup terjadwal dan halaman About ([rencana](plans/ui-parity-matane.md)); 15 extension situs di `extensions/` dan optimasi latensinya ([ADR 0037](adr/0037-extension-latency.md)). Yang ditunda: migrasi massal, tracking AniList/MAL, `markSeen` pada Updates.
+- **Celah Settings ditutup (10 Okt 2026):** editor shortcut pemutar dengan deteksi bentrok dan Reset to defaults (PLY-3, UI-7), countdown autoplay 3/5/10 detik (PLY-4, UI-7), kartu Clear data dengan Clear history (PRG-8, mockup 10f), dan pemilih channel update stable/beta di About. Ditutup oleh `settings-data.spec.ts` dan `settings-player.spec.ts`. "Kecepatan awal" (UI-7) tidak dibangun: kecepatan terakhir yang dipakai diingat sebagai setting.
 
 **Pasca-v1 (P2)**
 - Tracker (AniList, MyAnimeList, Kitsu; progress = nomor episode; dua arah).
