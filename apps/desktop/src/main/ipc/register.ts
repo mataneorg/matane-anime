@@ -9,7 +9,8 @@ import {
   encodeIpcError,
   invokeContract,
 } from '@matane-anime/shared';
-import { BrowserWindow, type IpcMainInvokeEvent, ipcMain } from 'electron';
+import { BrowserWindow, type IpcMainInvokeEvent, app, ipcMain } from 'electron';
+import { devServerUrl, isTrustedRendererUrl } from '../app/renderer-url';
 import { z } from 'zod';
 
 export type IpcHandlers = {
@@ -19,12 +20,11 @@ export type IpcHandlers = {
   ) => InvokeOutput<C> | Promise<InvokeOutput<C>>;
 };
 
-/** Only our own renderer (dev server or packaged file) may call into main. */
+/** Only our own renderer (dev server of an unpackaged build, or the packaged file) may call into main. */
 function isTrustedSender(event: IpcMainInvokeEvent): boolean {
   const url = event.senderFrame?.url;
   if (!url) return false;
-  const devUrl = process.env['ELECTRON_RENDERER_URL'];
-  return url.startsWith('file://') || (devUrl !== undefined && url.startsWith(devUrl));
+  return isTrustedRendererUrl(url, devServerUrl(process.env['ELECTRON_RENDERER_URL'], app.isPackaged));
 }
 
 export function registerIpcHandlers(handlers: IpcHandlers): void {

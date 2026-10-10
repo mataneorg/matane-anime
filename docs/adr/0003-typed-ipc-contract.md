@@ -20,3 +20,8 @@ Channels used only by the spike (`spike.*`) are registered only in development o
 ## Consequences
 - A new channel is one entry in `channels.ts` and one in `contract.ts`; forgetting either fails a test.
 - The renderer uses `ipc.invoke` and `useIpcEvent`, never `ipcRenderer`.
+
+## Amendment (2026-10-10): who counts as the renderer
+- `ELECTRON_RENDERER_URL` is honored only by an unpackaged build, and `isTrustedSender` compares the **origin** of the dev server, not a URL prefix (`app/renderer-url.ts`). A packaged app loads its own file and accepts IPC from `file://` pages only.
+- Every session refuses all web permissions except `fullscreen` and `clipboard-sanitized-write` for the app's own page (`app/permissions.ts`); Electron grants everything by default, and the Cloudflare challenge window and the extension sessions load third-party sites. The main window also cancels `will-redirect`.
+- The shipped page's CSP has no `ws://localhost:*` (the dev server's hot reload); `electron.vite.config.ts` strips it from the production build only.

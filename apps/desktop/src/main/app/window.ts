@@ -1,9 +1,10 @@
 import { join } from 'node:path';
 import { DEFAULT_WINDOW_STATE, WINDOW_STATE_KEY, type WindowState, windowStateSchema } from '@matane-anime/shared';
-import { BrowserWindow, screen, shell } from 'electron';
+import { BrowserWindow, app, screen, shell } from 'electron';
 import type { SettingsRepository } from '../db/repositories/settings';
 import { broadcast } from '../ipc/register';
 import icon from '../../../resources/icon.png?asset';
+import { devServerUrl } from './renderer-url';
 
 /** Drop a saved position that no longer lands on any connected display. */
 function isVisibleOnSomeDisplay(state: WindowState): boolean {
@@ -86,8 +87,9 @@ export function createMainWindow(settings: SettingsRepository, options: MainWind
     return { action: 'deny' };
   });
   window.webContents.on('will-navigate', (event) => event.preventDefault());
+  window.webContents.on('will-redirect', (event) => event.preventDefault());
 
-  const devUrl = process.env['ELECTRON_RENDERER_URL'];
+  const devUrl = devServerUrl(process.env['ELECTRON_RENDERER_URL'], app.isPackaged);
   if (devUrl) void window.loadURL(devUrl);
   else void window.loadFile(join(__dirname, '../renderer/index.html'));
 

@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'electron-vite';
+import type { Plugin } from 'vite';
 
 // Workspace packages ship TypeScript sources, so they must be bundled instead of externalized.
 const bundledWorkspaceDeps = [
@@ -14,6 +15,12 @@ const bundledWorkspaceDeps = [
 
 // The extension-* packages export their sources under this condition; `dist` is what npm consumers get.
 const sourceResolve = { conditions: ['matane-source'] };
+
+// `ws://localhost:*` in the page's CSP is for the dev server's hot reload; the shipped page does not need it.
+const productionCsp: Plugin = {
+  name: 'matane-production-csp',
+  transformIndexHtml: (html, context) => (context.server ? html : html.replace(' ws://localhost:*', '')),
+};
 
 export default defineConfig({
   main: {
@@ -52,6 +59,7 @@ export default defineConfig({
         generatedRouteTree: resolve(__dirname, 'src/renderer/src/routeTree.gen.ts'),
       }),
       react(),
+      productionCsp,
       tailwindcss(),
     ],
   },

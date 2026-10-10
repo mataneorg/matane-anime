@@ -20,6 +20,7 @@ import { openDatabase } from './db/client';
 import { ImageCache } from './images/cache';
 import { purgeBrowseRows } from './db/housekeeping';
 import { seedLibrary } from './db/seed';
+import { installPermissionGuard } from './app/permissions';
 import { DatabaseNewerError, countBundledMigrations, runMigrations } from './db/migrate';
 import { HostError } from '@matane-anime/extension-runtime/client';
 import { AnimeRepository } from './db/repositories/anime';
@@ -74,6 +75,7 @@ app.setName('Matane Anime');
 crashReporter.start({ uploadToServer: false });
 // Before `ready`: the `anime://` scheme has to be privileged ahead of time.
 registerAnimeScheme();
+installPermissionGuard();
 
 // Set once the tray exists: `window-all-closed` quits unless the tray keeps the app running (UPD-9).
 let keepsRunning = (): boolean => false;
@@ -93,6 +95,7 @@ if (!app.requestSingleInstanceLock()) {
   void app
     .whenReady()
     .then(async () => {
+      installPermissionGuard(); // the default session exists now
       const userData = app.getPath('userData');
       mkdirSync(userData, { recursive: true });
 
