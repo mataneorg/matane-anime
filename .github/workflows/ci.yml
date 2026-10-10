@@ -28,6 +28,24 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+  # The extensions in extensions/ are not in the pnpm workspace (docs/adr/0037), so `check` never runs their tests.
+  # The script links the three @matane-anime packages into each one and runs vitest and tsc; live tests stay off.
+  extensions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      # The app is not tested here, so Electron's binary is not needed. `prepare` still builds the SDK and the CLI.
+      - run: pnpm install --frozen-lockfile
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - run: pnpm test:extensions
+
   # End to end: the built app against the fake site, with a real extension host and a real player.
   e2e:
     runs-on: ubuntu-latest

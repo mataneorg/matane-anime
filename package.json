@@ -26,6 +26,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm -r test",
+    "test:extensions": "node scripts/test-extensions.mjs",
     "verify:packages": "node scripts/verify-packages.mjs",
     "e2e": "pnpm --filter @matane-anime/desktop e2e",
     "dist": "pnpm --filter @matane-anime/desktop dist",
