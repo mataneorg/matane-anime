@@ -2,7 +2,7 @@
   "name": "@matane-anime/desktop",
   "productName": "Matane Anime",
   "desktopName": "matane-anime.desktop",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.1",
   "private": true,
   "description": "Open-source desktop anime player",
   "author": "SukunDev",
