@@ -51,4 +51,54 @@ describe('createIconHandler', () => {
   it('refuses anything but GET', async () => {
     expect((await createIconHandler({})(icon('x', 'POST'))).status).toBe(405);
   });
+
+  describe('the icon of a repository', () => {
+    const withRepo = (id: string, repo: string): Request =>
+      new Request(`anime://icon/${encodeURIComponent(id)}?repo=${repo}`);
+
+    it('is served when no loaded copy has an icon', async () => {
+      const asked: [number, string][] = [];
+      const handler = createIconHandler({
+        iconFolders: () => [dir],
+        repoIcon: async (repoId, id) => {
+          asked.push([repoId, id]);
+          return new Uint8Array([9, 8]);
+        },
+      });
+      const response = await handler(withRepo('my.ext', '3'));
+      expect(response.status).toBe(200);
+      expect(response.headers.get('content-type')).toBe('image/png');
+      expect([...new Uint8Array(await response.arrayBuffer())]).toEqual([9, 8]);
+      expect(asked).toEqual([[3, 'my.ext']]);
+    });
+
+    it('comes after the icon of an installed copy', async () => {
+      await writeFile(join(dir, 'icon.png'), new Uint8Array([1]));
+      const handler = createIconHandler({
+        iconFolders: () => [dir],
+        repoIcon: async () => new Uint8Array([2]),
+      });
+      expect([...new Uint8Array(await (await handler(withRepo('x', '1'))).arrayBuffer())]).toEqual([1]);
+    });
+
+    it('answers 404 when the repository has none, fails, or the id is not a number', async () => {
+      const none = createIconHandler({ repoIcon: async () => null });
+      expect((await none(withRepo('x', '1'))).status).toBe(404);
+      const broken = createIconHandler({
+        repoIcon: async () => {
+          throw new Error('offline');
+        },
+      });
+      expect((await broken(withRepo('x', '1'))).status).toBe(404);
+      let asked = false;
+      const strict = createIconHandler({
+        repoIcon: async () => {
+          asked = true;
+          return new Uint8Array([1]);
+        },
+      });
+      for (const repo of ['abc', '0', '-2', '1.5', '']) expect((await strict(withRepo('x', repo))).status).toBe(404);
+      expect(asked).toBe(false);
+    });
+  });
 });

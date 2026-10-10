@@ -472,3 +472,41 @@ describe('available (EXT-5…9, EXT-15)', () => {
     expect(service.list()[0]).toMatchObject({ extensionCount: 0 });
   });
 });
+
+describe('iconOf', () => {
+  const iconUrl = `${REPO_A}alpha.png`;
+
+  it('fetches the icon of an extension that is not installed and keeps it for the next ask', async () => {
+    net.publish(REPO_A, unsigned());
+    const { id } = await service.add(REPO_A, false);
+    const first = await service.iconOf(id, 'alpha');
+    expect(first).toEqual(pkg('alpha').icon);
+    expect(await service.iconOf(id, 'alpha')).toEqual(first);
+    expect(net.requests.filter((url) => url === iconUrl)).toHaveLength(1);
+  });
+
+  it('asks the network once for icons wanted at the same time', async () => {
+    net.publish(REPO_A, unsigned());
+    const { id } = await service.add(REPO_A, false);
+    await Promise.all([service.iconOf(id, 'alpha'), service.iconOf(id, 'alpha')]);
+    expect(net.requests.filter((url) => url === iconUrl)).toHaveLength(1);
+  });
+
+  it('is null for an unknown repository or extension, and for an icon that does not match the index', async () => {
+    net.publish(REPO_A, unsigned());
+    const { id } = await service.add(REPO_A, false);
+    expect(await service.iconOf(id + 1, 'alpha')).toBeNull();
+    expect(await service.iconOf(id, 'nope')).toBeNull();
+    net.files.set(iconUrl, new Uint8Array(pkg('alpha').icon.length).fill(7));
+    expect(await service.iconOf(id, 'alpha')).toBeNull();
+  });
+
+  it('is null while offline and works again afterwards', async () => {
+    net.publish(REPO_A, unsigned());
+    const { id } = await service.add(REPO_A, false);
+    net.offline = true;
+    expect(await service.iconOf(id, 'alpha')).toBeNull();
+    net.offline = false;
+    expect(await service.iconOf(id, 'alpha')).toEqual(pkg('alpha').icon);
+  });
+});

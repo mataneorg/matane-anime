@@ -1,5 +1,6 @@
 import {
   type IndexEntry,
+  MAX_ICON_BYTES,
   MAX_INDEX_BYTES,
   type PublicKey,
   type RepoIndex,
@@ -8,7 +9,9 @@ import {
   fingerprint,
   isNewer,
   parseIndex,
+  resolveUrl,
   satisfiesMinAppVersion,
+  sha256Hex,
 } from '@matane-anime/extension-repo';
 import { API_VERSION } from '@matane-anime/extension-sdk/manifest';
 import {
@@ -26,6 +29,8 @@ import { allowsAnyLanguage, allowsNsfw } from './content-filter';
 import { type RepoHttp, httpStatusOf, isRepoHttpError } from './repo-http';
 
 const MAX_SIGNATURE_FETCH_BYTES = 8 * 1024;
+/** Icons of repository entries kept in memory (a few KB each), so the Available tab does not fetch them again. */
+const ICON_CACHE_ENTRIES = 200;
 
 export interface RepoServiceDeps {
   http: RepoHttp;
@@ -182,6 +187,9 @@ export function normalizeRepoUrl(input: string): string {
 export class RepoService implements RepoLookup {
   private readonly now: () => number;
   private readonly inflight = new Map<number, Promise<void>>();
+  /** Verified icons by `repo/extension/sha256`, oldest first; the hash in the key retires an icon that changed. */
+  private readonly icons = new Map<string, Uint8Array>();
+  private readonly iconFetches = new Map<string, Promise<Uint8Array | null>>();
   private readonly analyses = new Map<
     number,
     { indexJson: string; signature: string | null; publicKey: string | null; analysis: Analysis }
@@ -345,6 +353,45 @@ export class RepoService implements RepoLookup {
     const { index, trust } = this.analyse(repo);
     const entry = index?.extensions.find((candidate) => candidate.id === extensionId);
     return entry ? { repo, entry, trust } : null;
+  }
+
+  /**
+   * The icon a repository offers for an extension, fetched and checked against the size and SHA-256 of its index
+   * entry (the same check an install makes), for the Available tab and the install dialog before anything is
+   * installed. Null when the entry, the file or the network is missing, or the bytes do not match.
+   */
+  iconOf(repoId: number, extensionId: string): Promise<Uint8Array | null> {
+    const found = this.entryOf(repoId, extensionId);
+    if (!found) return Promise.resolve(null);
+    const { repo, entry } = found;
+    const key = `${repo.id}/${entry.id}/${entry.iconSha256}`;
+    const cached = this.icons.get(key);
+    if (cached) return Promise.resolve(cached);
+    const pending = this.iconFetches.get(key);
+    if (pending) return pending;
+    const fetching = this.fetchIcon(repo, entry)
+      .then((bytes) => {
+        if (bytes) {
+          this.icons.set(key, bytes);
+          while (this.icons.size > ICON_CACHE_ENTRIES) this.icons.delete(this.icons.keys().next().value as string);
+        }
+        return bytes;
+      })
+      .catch((error: unknown) => {
+        this.deps.log?.warn(`could not fetch the icon of ${entry.id}`, error);
+        return null;
+      })
+      .finally(() => this.iconFetches.delete(key));
+    this.iconFetches.set(key, fetching);
+    return fetching;
+  }
+
+  private async fetchIcon(repo: RepoRow, entry: IndexEntry): Promise<Uint8Array | null> {
+    const reply = await this.deps.http.get(resolveUrl(`${repo.url}index.json`, entry.icon), {
+      maxBytes: Math.min(entry.iconSize, MAX_ICON_BYTES),
+    });
+    const ok = reply.bytes.length === entry.iconSize && sha256Hex(reply.bytes) === entry.iconSha256;
+    return ok ? reply.bytes : null;
   }
 
   describe(repoId: number): { name: string | null; trust: RepoTrust } | null {

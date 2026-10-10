@@ -118,7 +118,7 @@ function InstallBody({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-3">
-        <ExtensionIcon id={extension.id} name={extension.name} className="size-11" />
+        <ExtensionIcon id={extension.id} name={extension.name} repoId={repo.id} className="size-11" />
         <div className="flex min-w-0 flex-col gap-0.5">
           <p className="text-xs leading-4 text-muted-foreground">
             {t('extensions.installDialog.version')} <span className="font-mono">{extension.version}</span>{' '}

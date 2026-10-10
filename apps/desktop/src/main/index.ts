@@ -405,6 +405,7 @@ if (!app.requestSingleInstanceLock()) {
         fetchUpstream,
         fetcherFor: (sourceId) => fetcherFor(sourceId.split('/')[0] ?? ''),
         localCover: (animeId) => covers.localCover(animeId),
+        repoIcon: (repoId, extensionId) => repoService.iconOf(repoId, extensionId),
         iconFolders: (extensionId) => {
           const record = registry.byExtensionId(extensionId);
           return record ? [record.bundleFolder, record.inputFolder].filter((folder) => folder !== null) : [];

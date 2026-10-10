@@ -6,8 +6,21 @@ import { Badge } from '@renderer/components/ui/badge';
 import { cn } from '@renderer/lib/utils';
 import { hue } from './helpers';
 
-/** The extension's `icon.png` (served by main), or a letter avatar tinted by its id when it has none or fails to load. */
-export function ExtensionIcon({ id, name, className }: { id: string; name: string; className?: string }) {
+/**
+ * The extension's `icon.png` (served by main), or a letter avatar tinted by its id when it has none or fails to load.
+ * `repoId` is for an extension that may not be installed yet: main then falls back to the icon that repository offers.
+ */
+export function ExtensionIcon({
+  id,
+  name,
+  repoId,
+  className,
+}: {
+  id: string;
+  name: string;
+  repoId?: number;
+  className?: string;
+}) {
   const [broken, setBroken] = useState(false);
   const base = 'flex shrink-0 items-center justify-center overflow-hidden rounded-lg';
   if (broken) {
@@ -25,7 +38,7 @@ export function ExtensionIcon({ id, name, className }: { id: string; name: strin
     <img
       alt=""
       aria-hidden
-      src={`anime://icon/${encodeURIComponent(id)}`}
+      src={`anime://icon/${encodeURIComponent(id)}${repoId === undefined ? '' : `?repo=${repoId}`}`}
       className={cn(base, 'object-cover', className)}
       onError={() => setBroken(true)}
     />

@@ -56,7 +56,7 @@ function AvailableRow({
   return (
     <li className="rounded-xl border bg-card/40 px-4 py-3.5" data-testid={`available-${entry.id}`}>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <ExtensionIcon id={entry.id} name={entry.name} className="size-11" />
+        <ExtensionIcon id={entry.id} name={entry.name} repoId={entry.repoId} className="size-11" />
         <div className="min-w-56 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="font-semibold">{entry.name}</span>
