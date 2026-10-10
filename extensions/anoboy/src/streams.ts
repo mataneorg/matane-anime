@@ -14,6 +14,31 @@ const EMBED_TIMEOUT_MS = 10_000;
 /** More servers than this are never needed: the pages list 1–3 distinct ones. */
 const MAX_EMBEDS = 8;
 
+/** Once a server has answered with a stream, the others get this long to make progress: a dead host would otherwise hold the answer for its whole timeout, retries included. */
+const GRACE_MS = 3_000;
+
+/** Waits for tasks that never reject, in input order, but stops once one is usable and none has settled for `GRACE_MS`. Late results are dropped. */
+function settleWithGrace<T>(tasks: Promise<T>[], usable: (result: T) => boolean): Promise<T[]> {
+  return new Promise((resolve) => {
+    const slots: ({ value: T } | undefined)[] = tasks.map(() => undefined);
+    let pending = tasks.length;
+    let found = false;
+    let ticks = 0;
+    const finish = (): void => resolve(slots.flatMap((slot) => (slot ? [slot.value] : [])));
+    if (pending === 0) finish();
+    tasks.forEach((task, i) => {
+      void task.then((value) => {
+        slots[i] = { value };
+        if (--pending === 0) return finish();
+        found = found || usable(value);
+        if (!found) return;
+        const tick = ++ticks;
+        void timers.sleep(GRACE_MS).then(() => tick === ticks && finish());
+      });
+    });
+  });
+}
+
 /** Heights of the itags Blogger serves. */
 const ITAG_HEIGHT: Record<number, number> = { 18: 360, 22: 720, 37: 1080, 59: 480, 43: 360, 34: 360, 35: 480 };
 
@@ -156,7 +181,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
     }
   }
 
-  const results = await Promise.all(
+  const results = await settleWithGrace(
     targets.map(async (target) => {
       try {
         const found = await resolve(target);
@@ -168,6 +193,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
         return [];
       }
     }),
+    (found) => found.length > 0,
   );
 
   const seen = new Set<string>();

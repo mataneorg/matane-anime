@@ -116,6 +116,14 @@ describe('details and episodes', () => {
     expect(new Set(episodes.map((e) => e.url)).size).toBe(12);
   });
 
+  it('reads the page once when the details and the episodes are asked for together', async () => {
+    const { client, requests } = await load(site);
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(DANDADAN), client.getEpisodes(DANDADAN)]);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+    expect(requests).toHaveLength(1);
+  });
+
   it('a series without episodes is NotFoundError', async () => {
     const { client } = await load(() => ({ status: 200, text: '<h1>X</h1><div class="episode-grid"></div>' }));
     await expect(client.getEpisodes(DANDADAN)).rejects.toMatchObject({ typed: 'NotFoundError' });

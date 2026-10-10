@@ -70,6 +70,27 @@ describe('getStreams', () => {
     expect(streams[0]?.url).toMatch(/\.m3u8/);
   });
 
+  it('reads every server and returns all their streams, HLS first', async () => {
+    const detail = {
+      data: {
+        streamUrl: [
+          { source: 'sd', url: 'https://www.blogger.com/video.g?token=ok' },
+          { source: 'HD', url: 'https://geo.dailymotion.com/player.html?video=k5ltbUFE062WDxKod6S&' },
+        ],
+      },
+    };
+    const { client, requests } = await load((r) => {
+      if (r.url === `${BASE}/series/one-piece/episodes/1`) return { status: 200, text: JSON.stringify(detail) };
+      if (r.url.startsWith('https://www.dailymotion.com/player/metadata/video/'))
+        return { status: 200, text: fixture('dailymotion_metadata.json') };
+      if (r.url === RPC) return { status: 200, text: fixture('blogger_rpc.txt') };
+      return undefined;
+    });
+    const streams = await client.getStreams(old);
+    expect(streams.map((s) => s.server)).toEqual(['Dailymotion', 'Blogger']);
+    expect(requests).toHaveLength(3);
+  });
+
   it('reports when the API has no such episode', async () => {
     const { client } = await load((r) => ({ status: 404, text: '{}', url: r.url }));
     await expect(client.getStreams(old)).rejects.toThrow();

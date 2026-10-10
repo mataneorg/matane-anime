@@ -11,7 +11,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, memo } from './site';
 import { getStreams } from './streams';
 import { collapse, entityPath, fullCover, isDub, parseNumber, parseStatus, parseType, releaseYear } from './text';
 
@@ -22,6 +22,8 @@ import { collapse, entityPath, fullCover, isDub, parseNumber, parseStatus, parse
 // `type=anime` unless another type is chosen.
 
 const EMPTY: AnimePage = { items: [], hasNextPage: false };
+/** The details and the episodes of a series come from one page, which is fetched once for both. */
+const SERIES_TTL_MS = 15_000;
 
 /** The site's genre checkboxes (`/series/` filter form). */
 const GENRES: [slug: string, label: string][] = [
@@ -135,7 +137,7 @@ function browse(params: Record<string, string>, genre: string | undefined, page:
 
 async function seriesPage(anime: AnimeSummary): Promise<HtmlElement> {
   const url = `${base()}${anime.url}`;
-  const response = await fetchPage(url);
+  const response = await memo(url, SERIES_TTL_MS, () => fetchPage(url));
   const doc = html.load(response.text, { baseUrl: url });
   if (!doc.selectFirst('h1.entry-title')) {
     // A series that does not exist is redirected to the home page.

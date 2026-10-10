@@ -57,3 +57,46 @@ export async function postJson<T>(path: string, body: unknown): Promise<T> {
   });
   return parse<T>(response, url);
 }
+
+interface Memoed {
+  at: number;
+  value: Promise<unknown>;
+}
+const memos = new Map<string, Memoed>();
+const MEMO_MAX = 6;
+
+/**
+ * Reuses what `load` answered a moment ago (`ttlMs`), or is still loading: the app asks for the details and the
+ * episodes of one show together, so the same request would be made twice. A failure is never kept, and only the
+ * last few entries are.
+ */
+export function memo<T>(key: string, ttlMs: number, load: () => Promise<T>): Promise<T> {
+  const now = Date.now();
+  const hit = memos.get(key);
+  if (hit && now - hit.at < ttlMs) return hit.value as Promise<T>;
+  const value = load();
+  memos.delete(key);
+  memos.set(key, { at: now, value });
+  for (const old of memos.keys()) {
+    if (memos.size <= MEMO_MAX) break;
+    memos.delete(old);
+  }
+  value.catch(() => {
+    if (memos.get(key)?.value === value) memos.delete(key);
+  });
+  return value;
+}
+
+/** Runs `task` over `items`, at most `limit` at a time, and returns the results in order. */
+export async function mapLimit<T, R>(items: readonly T[], limit: number, task: (item: T) => Promise<R>): Promise<R[]> {
+  const results: R[] = new Array<R>(items.length);
+  let next = 0;
+  const worker = async (): Promise<void> => {
+    while (next < items.length) {
+      const at = next++;
+      results[at] = await task(items[at] as T);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
+}

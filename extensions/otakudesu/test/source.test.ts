@@ -291,6 +291,31 @@ describe('getEpisodes', () => {
   });
 });
 
+describe('a page shared by the details and the episodes', () => {
+  const ANIME = { url: '/anime/x/', title: 'x' };
+  const PAGE = `<div class="venser"><div class="jdlrx"><h1>X Sub Indo</h1></div>
+    <div class="infozingle"><p><b>Judul</b>: X</p></div>
+    <div class="episodelist"><ul><li><span><a href="${BASE}/episode/x-episode-1-sub-indo/">X Episode 1 Subtitle Indonesia</a></span><span class="zeebr">1 Januari, 2026</span></li></ul></div></div>`;
+
+  it('is read once when both are asked together', async () => {
+    const { client, requests } = await load(pages({ [url('/anime/x/')]: PAGE }));
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(ANIME), client.getEpisodes(ANIME)]);
+    expect(details.title).toBe('X');
+    expect(episodes).toHaveLength(1);
+    expect(requests).toHaveLength(1);
+  });
+
+  it('a failed read is not kept for the next call', async () => {
+    let answers = 0;
+    const { client, requests } = await load((r) =>
+      r.url === url('/anime/x/') ? (++answers === 1 ? { status: 500 } : { status: 200, text: PAGE }) : undefined,
+    );
+    await expect(client.getAnimeDetails(ANIME)).rejects.toThrow();
+    await expect(client.getAnimeDetails(ANIME)).resolves.toMatchObject({ title: 'X' });
+    expect(requests).toHaveLength(2);
+  });
+});
+
 describe('urls', () => {
   it('maps pasted links and builds web links', async () => {
     const { client } = await load(pages({}));

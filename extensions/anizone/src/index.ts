@@ -13,7 +13,7 @@ import {
   defineExtension,
 } from '@matane-anime/extension-sdk';
 import { type Component, type ListPage, callComponent, findComponent } from './livewire';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, memo } from './site';
 import { getStreams } from './streams';
 import {
   type Titles,
@@ -42,6 +42,11 @@ const MAX_EPISODE_PAGES = 120;
 const CURSORS_KEY = 'cursors';
 /** `getEpisodes` may run 60 s: the pages stop being asked for after this long, and what was read is returned. */
 const EPISODE_BUDGET_MS = 45_000;
+/**
+ * A page read a moment ago is not fetched again: the details and the episodes of a series share one page, and the
+ * next page of a list shares the index page.
+ */
+const PAGE_TTL_MS = 15_000;
 
 const TYPE_OPTIONS = [
   ['0', 'All'],
@@ -139,7 +144,9 @@ const toPage = (list: ListPage): AnimePage => ({
 async function index(q: Query, page: number): Promise<AnimePage> {
   const n = Math.max(1, Math.floor(page));
   const path = `/anime${q.search ? `?${new URLSearchParams({ search: q.search }).toString()}` : ''}`;
-  const text = (await fetchPage(`${base()}${path}`)).text;
+  const url = `${base()}${path}`;
+  // The next page of a list asks for the same index page (its token and component) again.
+  const text = (await memo(url, PAGE_TTL_MS, () => fetchPage(url))).text;
   const items = readJson<unknown[]>(text, 'items');
   if (!items) throw new ParseError('The index page has no items: the site layout changed');
   let list: ListPage = { items, ...readPaging(text) };
@@ -206,7 +213,7 @@ type HtmlElement = ReturnType<typeof html.load>;
 
 async function seriesPage(anime: AnimeSummary): Promise<DetailPage> {
   const url = `${base()}${anime.url}`;
-  const text = (await fetchPage(url)).text;
+  const text = (await memo(url, PAGE_TTL_MS, () => fetchPage(url))).text;
   const doc = html.load(text, { baseUrl: url });
   if (!doc.selectFirst('h1')) throw new ParseError('The series page has no title: the site layout changed');
   return { text, doc };
@@ -367,8 +374,12 @@ export default defineExtension({
       const component = findComponent(text, 'pages.anime-detail', `${base()}${seriesPath}`);
       if (paging.hasMore && paging.nextCursor && component) {
         try {
+          // The page says how many episodes there are: pages past the last one are not asked for (each is a request
+          // that can be answered with a 429, and waited out).
+          const counts = [...text.matchAll(/(\d+)\s+Episodes\b/g)].map((m) => Number(m[1]));
+          const wanted = counts.length > 0 ? Math.ceil(Math.max(...counts) / PAGE_SIZE) - 1 : MAX_EPISODE_PAGES;
           const cursors: (string | undefined)[] = [];
-          for (let k = 1; k <= MAX_EPISODE_PAGES; k++)
+          for (let k = 1; k <= Math.min(MAX_EPISODE_PAGES, Math.max(1, wanted)); k++)
             cursors.push(k === 1 ? paging.nextCursor : forgedCursor(paging.nextCursor, k));
           if (cursors.some((c) => !c))
             throw new ParseError('The episode cursor has a form this extension does not know');

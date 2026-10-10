@@ -124,6 +124,16 @@ describe('getStreams', () => {
     expect(logs.length).toBeGreaterThan(0);
   });
 
+  it('does not wait for a dead server once another has answered', async () => {
+    const started = Date.now();
+    const { client } = await load(
+      site((r) => (r.url.startsWith('https://desudrive.com/') ? { delayMs: 6000 } : undefined)),
+    );
+    const streams = await client.getStreams(EP12);
+    expect(Date.now() - started).toBeLessThan(5000);
+    expect(new Set(streams.map((s) => s.server))).toEqual(new Set(['BerkasDrive', 'Pixeldrain', 'Desustream']));
+  }, 10_000);
+
   it('an episode that only has hosts the app cannot play says so', async () => {
     const links = JSON.stringify([
       { id: 'a', kind: 'episode', episode: 5, provider: 'Mega', url: 'https://mega.nz/file/x#y', quality: '720p' },

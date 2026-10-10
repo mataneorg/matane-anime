@@ -187,3 +187,30 @@ describe('urls', () => {
     expect(await client.getWebUrl({ url: '/anime.php?ugyek', title: 'x' })).toBe(`${BASE}/anime.php?ugyek`);
   });
 });
+
+describe('requests', () => {
+  it('reads a long list once for all its pages', async () => {
+    const { client, requests } = await load(site);
+    const first = await client.getPopular(1);
+    const second = await client.getPopular(2);
+    expect(requests).toHaveLength(1);
+    expect(second.items[0]?.url).not.toBe(first.items[0]?.url);
+  });
+
+  it('reads the page of an anime once for its details and its episodes', async () => {
+    const { client, requests } = await load(site);
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(DANDADAN), client.getEpisodes(DANDADAN)]);
+    expect(requests).toHaveLength(1);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+  });
+
+  it('does not keep a failed request', async () => {
+    let failing = true;
+    const { client, requests } = await load((r) => (failing ? { status: 500 } : site(r)));
+    await expect(client.getPopular(1)).rejects.toBeDefined();
+    failing = false;
+    expect((await client.getPopular(1)).items).toHaveLength(50);
+    expect(requests.length).toBeGreaterThan(1);
+  });
+});

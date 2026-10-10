@@ -161,3 +161,13 @@ describe('details and episodes', () => {
     expect(await client.getWebUrl(SBR)).toBe(`${BASE}/series/steel-ball-run-jojo-no-kimyou-na-bouken/`);
   });
 });
+
+describe('requests', () => {
+  it('reads the page of a series once for its details and its episodes', async () => {
+    const { client, requests } = await load(site);
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(SBR), client.getEpisodes(SBR)]);
+    expect(requests).toHaveLength(1);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+  });
+});

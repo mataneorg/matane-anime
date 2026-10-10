@@ -11,7 +11,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, fetchPageShared } from './site';
 import { getStreams } from './streams';
 import {
   collapse,
@@ -106,9 +106,9 @@ const TYPE_OPTIONS = [
   ['movie', 'Movie'],
 ] as const;
 
-async function fetchDoc(path: string): Promise<{ doc: HtmlElement; url: string }> {
+async function fetchDoc(path: string, fetch = fetchPage): Promise<{ doc: HtmlElement; url: string }> {
   const url = `${base()}${path}`;
-  return { doc: html.load((await fetchPage(url)).text, { baseUrl: url }), url };
+  return { doc: html.load((await fetch(url)).text, { baseUrl: url }), url };
 }
 
 /** A next-page link: the theme's `.hpage a.r` or WordPress' `a.next.page-numbers`. */
@@ -171,7 +171,7 @@ async function listing(path: string, kind: 'episodes' | 'series', page: number, 
 }
 
 async function animePage(anime: AnimeSummary): Promise<HtmlElement> {
-  const { doc } = await fetchDoc(anime.url);
+  const { doc } = await fetchDoc(anime.url, fetchPageShared);
   if (!doc.selectFirst('h1.entry-title')) throw new ParseError('The anime page has no title: the site layout changed');
   return doc;
 }

@@ -13,7 +13,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, sharedFetch } from './site';
 import { getStreams } from './streams';
 import { cleanTitle, entityPath, episodeName, parseEpisodeDate, parseEpisodeLabel } from './text';
 
@@ -136,7 +136,8 @@ async function animePage(
   anime: AnimeSummary,
 ): Promise<{ doc: HtmlElement; info: (label: string) => string | undefined }> {
   const url = `${base()}${anime.url}`;
-  const { response, moved } = await fetchPage(url);
+  // The app asks for the details and the episodes of an anime together; both read this page.
+  const { response, moved } = await sharedFetch(url, fetchPage);
   if (moved) throw new NotFoundError(`This anime is not on the site (any more): ${anime.url}`);
   const doc = html.load(response.text, { baseUrl: url });
   if (!doc.selectFirst('.jdlrx') && !doc.selectFirst('.infozingle')) {

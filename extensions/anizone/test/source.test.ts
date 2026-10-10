@@ -240,3 +240,23 @@ describe('details and episodes', () => {
     expect(await client.getWebUrl({ url: '/anime/fqvspc7f/3', name: 'x' })).toBe(`${BASE}/anime/fqvspc7f/3`);
   });
 });
+
+describe('requests', () => {
+  it('reads the series page once for its details and its episodes', async () => {
+    const { client, requests } = await load(site());
+    await Promise.all([client.getAnimeDetails(SERIES), client.getEpisodes(SERIES)]);
+    expect(requests.filter((r) => r.url.endsWith('/anime/fqvspc7f'))).toHaveLength(1);
+  });
+
+  it('asks only for the episode pages that the page says exist', async () => {
+    const route = site();
+    const { client, requests } = await load((r) =>
+      new URL(r.url).pathname === LONG.url
+        ? { status: 200, text: fixture('detail_long.html.txt').replace('1184 Episodes', '30 Episodes') }
+        : route(r),
+    );
+    await client.getEpisodes(LONG);
+    // 24 episodes are in the page, the other 6 are one more page.
+    expect(requests.filter((r) => r.url.endsWith('/livewire/update'))).toHaveLength(1);
+  });
+});

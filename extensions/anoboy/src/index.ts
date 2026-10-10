@@ -11,7 +11,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, fetchPageShared } from './site';
 import { getStreams } from './streams';
 import {
   STATUSES,
@@ -199,7 +199,7 @@ function browse(params: Record<string, string>, page: number): Promise<AnimePage
 
 async function animePage(anime: AnimeSummary): Promise<HtmlElement> {
   const url = `${base()}${anime.url}`;
-  const doc = html.load((await fetchPage(url)).text, { baseUrl: url });
+  const doc = html.load((await fetchPageShared(url)).text, { baseUrl: url });
   if (!doc.selectFirst('h1.entry-title')) throw new ParseError('The anime page has no title: the site layout changed');
   return doc;
 }

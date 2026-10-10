@@ -134,6 +134,14 @@ describe('details and episodes', () => {
     expect(numbers).toEqual([...numbers].sort((a, b) => b - a));
   });
 
+  it('reads the page once when the details and the episodes are asked for together', async () => {
+    const { client, requests } = await load(site);
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(TOKYO), client.getEpisodes(TOKYO)]);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+    expect(requests).toHaveLength(1);
+  });
+
   it('a missing anime is NotFoundError and a foreign page a ParseError', async () => {
     const { client } = await load((r) =>
       r.url.endsWith('/gone/') ? { status: 404 } : { status: 200, text: '<html></html>' },

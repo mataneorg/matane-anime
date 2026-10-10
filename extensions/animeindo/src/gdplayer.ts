@@ -75,7 +75,7 @@ export function readGdplayerVars(page: string): Record<string, string> | undefin
 
 // ---------------------------------------------------------------- PBKDF2-HMAC-SHA256 (the sandbox only hashes text)
 
-const K = [
+const K = Int32Array.from([
   0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98,
   0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786,
   0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8,
@@ -84,7 +84,7 @@ const K = [
   0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a,
   0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
   0xc67178f2,
-];
+]);
 const INITIAL = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
 
 /** One SHA-256 compression: `state` (8 words) is updated with the 16-word `block`. */
@@ -105,18 +105,113 @@ function compress(state: Int32Array, block: Int32Array, w: Int32Array): void {
   let f = state[5] as number;
   let g = state[6] as number;
   let h = state[7] as number;
-  for (let i = 0; i < 64; i++) {
-    const s1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
-    const t1 = (h + s1 + ((e & f) ^ (~e & g)) + (K[i] as number) + (w[i] as number)) | 0;
-    const s0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
-    const t2 = (s0 + ((a & b) ^ (a & c) ^ (b & c))) | 0;
-    h = g;
-    g = f;
-    f = e;
-    e = (d + t1) | 0;
-    d = c;
-    c = b;
-    b = a;
+  let t1: number;
+  let t2: number;
+  // Eight rounds a step, each naming the working variables one place further, so none has to be moved.
+  for (let i = 0; i < 64; i += 8) {
+    t1 =
+      (h +
+        (((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7))) +
+        ((e & f) ^ (~e & g)) +
+        (K[i] as number) +
+        (w[i] as number)) |
+      0;
+    t2 =
+      ((((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10))) +
+        ((a & b) ^ (a & c) ^ (b & c))) |
+      0;
+    d = (d + t1) | 0;
+    h = (t1 + t2) | 0;
+    t1 =
+      (g +
+        (((d >>> 6) | (d << 26)) ^ ((d >>> 11) | (d << 21)) ^ ((d >>> 25) | (d << 7))) +
+        ((d & e) ^ (~d & f)) +
+        (K[i + 1] as number) +
+        (w[i + 1] as number)) |
+      0;
+    t2 =
+      ((((h >>> 2) | (h << 30)) ^ ((h >>> 13) | (h << 19)) ^ ((h >>> 22) | (h << 10))) +
+        ((h & a) ^ (h & b) ^ (a & b))) |
+      0;
+    c = (c + t1) | 0;
+    g = (t1 + t2) | 0;
+    t1 =
+      (f +
+        (((c >>> 6) | (c << 26)) ^ ((c >>> 11) | (c << 21)) ^ ((c >>> 25) | (c << 7))) +
+        ((c & d) ^ (~c & e)) +
+        (K[i + 2] as number) +
+        (w[i + 2] as number)) |
+      0;
+    t2 =
+      ((((g >>> 2) | (g << 30)) ^ ((g >>> 13) | (g << 19)) ^ ((g >>> 22) | (g << 10))) +
+        ((g & h) ^ (g & a) ^ (h & a))) |
+      0;
+    b = (b + t1) | 0;
+    f = (t1 + t2) | 0;
+    t1 =
+      (e +
+        (((b >>> 6) | (b << 26)) ^ ((b >>> 11) | (b << 21)) ^ ((b >>> 25) | (b << 7))) +
+        ((b & c) ^ (~b & d)) +
+        (K[i + 3] as number) +
+        (w[i + 3] as number)) |
+      0;
+    t2 =
+      ((((f >>> 2) | (f << 30)) ^ ((f >>> 13) | (f << 19)) ^ ((f >>> 22) | (f << 10))) +
+        ((f & g) ^ (f & h) ^ (g & h))) |
+      0;
+    a = (a + t1) | 0;
+    e = (t1 + t2) | 0;
+    t1 =
+      (d +
+        (((a >>> 6) | (a << 26)) ^ ((a >>> 11) | (a << 21)) ^ ((a >>> 25) | (a << 7))) +
+        ((a & b) ^ (~a & c)) +
+        (K[i + 4] as number) +
+        (w[i + 4] as number)) |
+      0;
+    t2 =
+      ((((e >>> 2) | (e << 30)) ^ ((e >>> 13) | (e << 19)) ^ ((e >>> 22) | (e << 10))) +
+        ((e & f) ^ (e & g) ^ (f & g))) |
+      0;
+    h = (h + t1) | 0;
+    d = (t1 + t2) | 0;
+    t1 =
+      (c +
+        (((h >>> 6) | (h << 26)) ^ ((h >>> 11) | (h << 21)) ^ ((h >>> 25) | (h << 7))) +
+        ((h & a) ^ (~h & b)) +
+        (K[i + 5] as number) +
+        (w[i + 5] as number)) |
+      0;
+    t2 =
+      ((((d >>> 2) | (d << 30)) ^ ((d >>> 13) | (d << 19)) ^ ((d >>> 22) | (d << 10))) +
+        ((d & e) ^ (d & f) ^ (e & f))) |
+      0;
+    g = (g + t1) | 0;
+    c = (t1 + t2) | 0;
+    t1 =
+      (b +
+        (((g >>> 6) | (g << 26)) ^ ((g >>> 11) | (g << 21)) ^ ((g >>> 25) | (g << 7))) +
+        ((g & h) ^ (~g & a)) +
+        (K[i + 6] as number) +
+        (w[i + 6] as number)) |
+      0;
+    t2 =
+      ((((c >>> 2) | (c << 30)) ^ ((c >>> 13) | (c << 19)) ^ ((c >>> 22) | (c << 10))) +
+        ((c & d) ^ (c & e) ^ (d & e))) |
+      0;
+    f = (f + t1) | 0;
+    b = (t1 + t2) | 0;
+    t1 =
+      (a +
+        (((f >>> 6) | (f << 26)) ^ ((f >>> 11) | (f << 21)) ^ ((f >>> 25) | (f << 7))) +
+        ((f & g) ^ (~f & h)) +
+        (K[i + 7] as number) +
+        (w[i + 7] as number)) |
+      0;
+    t2 =
+      ((((b >>> 2) | (b << 30)) ^ ((b >>> 13) | (b << 19)) ^ ((b >>> 22) | (b << 10))) +
+        ((b & c) ^ (b & d) ^ (c & d))) |
+      0;
+    e = (e + t1) | 0;
     a = (t1 + t2) | 0;
   }
   state[0] = ((state[0] as number) + a) | 0;
@@ -176,19 +271,20 @@ export async function pbkdf2Sha256(
   const message = new Uint8Array(32);
   const block1 = new Int32Array(16);
   const block2 = new Int32Array(16);
-  const hmacWords = (words: Int32Array, from: Int32Array): Int32Array => {
-    // inner hash: 32-byte message + padding, in a single block after the pad block
-    block1.fill(0);
+  // One HMAC of a 32-byte message: both blocks have a fixed tail (padding mark and bit length), so only the first
+  // 8 words change and the working arrays are reused (this runs 10,000 times per block, in a slow interpreter).
+  block1[8] = 0x80000000 | 0;
+  block1[15] = (64 + 32) * 8;
+  block2[8] = 0x80000000 | 0;
+  block2[15] = (64 + 32) * 8;
+  const s1 = new Int32Array(8);
+  const s2 = new Int32Array(8);
+  const hmacWords = (words: Int32Array): Int32Array => {
     for (let i = 0; i < 8; i++) block1[i] = words[i] as number;
-    block1[8] = 0x80000000 | 0;
-    block1[15] = (64 + 32) * 8;
-    const s1 = from.slice();
+    s1.set(inner);
     compress(s1, block1, w);
-    block2.fill(0);
     for (let i = 0; i < 8; i++) block2[i] = s1[i] as number;
-    block2[8] = 0x80000000 | 0;
-    block2[15] = (64 + 32) * 8;
-    const s2 = outer.slice();
+    s2.set(outer);
     compress(s2, block2, w);
     return s2;
   };
@@ -202,7 +298,7 @@ export async function pbkdf2Sha256(
     let u: Int32Array = first;
     const acc = first.slice();
     for (let n = 1; n < iterations; n++) {
-      u = hmacWords(u, inner);
+      u = hmacWords(u);
       for (let i = 0; i < 8; i++) acc[i] = (acc[i] as number) ^ (u[i] as number);
       if (n % 1000 === 0) await timers.sleep(0);
     }

@@ -80,6 +80,14 @@ describe('details and episodes', () => {
   const route = (r: { url: string }) =>
     r.url === `${BASE}/anime/koori-no-jouheki-s2/` ? page('detail_a.html.txt') : undefined;
 
+  it('reads the page once when the details and the episodes are asked for together', async () => {
+    const { client, requests } = await load(route);
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(KOORI), client.getEpisodes(KOORI)]);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+    expect(requests).toHaveLength(1);
+  });
+
   it('reads the details', async () => {
     const { client } = await load(route);
     const d = await client.getAnimeDetails(KOORI);

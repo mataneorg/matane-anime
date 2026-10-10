@@ -12,6 +12,10 @@ import { splitEpisodeUrl } from './text';
 // plays without visible subtitles. The providers "nero" and "loli" ("Sub and dub" in the site's own words) ship the
 // sub without separate tracks, i.e. as the picture, so they are offered first for the sub.
 
+const SOURCE_TIMEOUT_MS = 10_000;
+/** Once the best provider has given a stream, the others get this long to answer: one that hangs does not hold it back. */
+const GRACE_MS = 2_500;
+
 /** The site's order of preference, adapted: the providers that need no subtitle track first. */
 const PROVIDERS = ['nero', 'loli', 'yuki', 'zuna', 'sora'] as const;
 type Provider = (typeof PROVIDERS)[number];
@@ -48,17 +52,38 @@ async function fromProvider(
   type: 'sub' | 'dub',
   provider: Provider,
 ): Promise<Stream | undefined> {
-  const answer = await getJson<SourcesAnswer>(streamsUrl(), '/rest/api/sources', {
-    id,
-    epNum: number,
-    type,
-    providerId: provider,
-  });
+  const answer = await getJson<SourcesAnswer>(
+    streamsUrl(),
+    '/rest/api/sources',
+    { id, epNum: number, type, providerId: provider },
+    SOURCE_TIMEOUT_MS,
+  );
   const url = answer.sources?.find((s) => typeof s.url === 'string' && /^https?:\/\//.test(s.url))?.url;
   if (!url) return undefined;
   const headers = streamHeaders(url, answer.headers);
   // The CDNs label the playlists and the .jpg segments with odd types: it is HLS whatever they say.
   return { url, server: provider, kind: 'hls', ...(Object.keys(headers).length > 0 && { headers }) };
+}
+
+/**
+ * The answers of `tasks` (best provider first), all of them unless one hangs: the wait ends `GRACE_MS` after the
+ * first task that gave a stream, and the ones still open then are left out. Nothing is dropped while no stream has
+ * arrived.
+ */
+async function settleInOrder(tasks: Promise<Stream | undefined>[]): Promise<(Stream | undefined)[]> {
+  const answers: (Stream | undefined)[] = [];
+  let deadline: number | undefined;
+  for (const task of tasks) {
+    if (deadline === undefined) {
+      const answer = await task;
+      answers.push(answer);
+      if (answer) deadline = Date.now() + GRACE_MS;
+    } else {
+      const left = Math.max(0, deadline - Date.now());
+      answers.push(await Promise.race([task, timers.sleep(left).then(() => undefined)]));
+    }
+  }
+  return answers;
 }
 
 export async function getStreams(episode: Episode): Promise<Stream[]> {
@@ -80,7 +105,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
   }
 
   let failures = 0;
-  const results = await Promise.all(
+  const results = await settleInOrder(
     providers.map(async (provider) => {
       try {
         return await fromProvider(parts.id, parts.number, parts.type, provider);

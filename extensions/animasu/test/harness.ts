@@ -10,7 +10,8 @@ export const BASE = 'https://animasu.love';
 /** A saved page of the real site (test/fixtures); the markup is untouched. */
 export const fixture = (name: string): string => readFileSync(join(ROOT, 'test/fixtures', name), 'utf8');
 
-export type Route = (request: HttpRequest) => Partial<HttpResult> | undefined;
+/** `delayMs` holds the answer back, to stand in for a slow or dead host. */
+export type Route = (request: HttpRequest) => (Partial<HttpResult> & { delayMs?: number }) | undefined;
 
 export interface Harness {
   client: SourceClient;
@@ -35,7 +36,8 @@ export async function load(route: Route): Promise<Harness> {
   const host: HostApi = {
     http: async (request) => {
       requests.push(request);
-      const answer = route(request);
+      const { delayMs, ...answer } = route(request) ?? {};
+      if (delayMs) await new Promise((resolve) => setTimeout(resolve, delayMs));
       return { status: 500, url: request.url, headers: {}, text: '', ...answer };
     },
     storage: { get: async () => null, set: async () => undefined, remove: async () => undefined },

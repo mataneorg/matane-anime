@@ -86,36 +86,39 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
   ).data;
   const embeds = (data?.streamUrl ?? []).filter((e): e is { source: string; url: string } => typeof e.url === 'string');
 
-  const streams: Stream[] = [];
-  const seen = new Set<string>();
   let failures = 0;
   let skipped = 0;
-  for (const entry of embeds) {
-    let embed: URL;
-    try {
-      embed = new URL(entry.url);
-    } catch {
-      skipped++;
-      continue;
-    }
-    const host = embed.hostname.toLowerCase();
-    try {
-      let found: Stream[];
-      if (host.endsWith('blogger.com')) found = await fromBlogger(embed);
-      else if (host.endsWith('dailymotion.com')) found = await fromDailymotion(embed);
-      else {
+  // Every server is read at once (a Blogger call and a Dailymotion call are independent); the answers are
+  // collected in the order the site lists them, so the result does not depend on which came back first.
+  const results = await Promise.all(
+    embeds.map(async (entry): Promise<Stream[]> => {
+      let embed: URL;
+      try {
+        embed = new URL(entry.url);
+      } catch {
         skipped++;
-        continue;
+        return [];
       }
-      for (const stream of found) {
-        if (seen.has(stream.url)) continue;
-        seen.add(stream.url);
-        streams.push(stream);
+      const host = embed.hostname.toLowerCase();
+      try {
+        if (host.endsWith('blogger.com')) return await fromBlogger(embed);
+        if (host.endsWith('dailymotion.com')) return await fromDailymotion(embed);
+        skipped++;
+        return [];
+      } catch (error) {
+        failures++;
+        log.warn(`Server ${host} failed:`, (error as Error).message);
+        return [];
       }
-    } catch (error) {
-      failures++;
-      log.warn(`Server ${host} failed:`, (error as Error).message);
-    }
+    }),
+  );
+
+  const streams: Stream[] = [];
+  const seen = new Set<string>();
+  for (const stream of results.flat()) {
+    if (seen.has(stream.url)) continue;
+    seen.add(stream.url);
+    streams.push(stream);
   }
 
   if (streams.length === 0) {

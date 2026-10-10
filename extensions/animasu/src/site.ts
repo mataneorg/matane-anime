@@ -34,3 +34,18 @@ export async function fetchPage(url: string): Promise<HttpResponse> {
   assertOk(response, url);
   return response;
 }
+
+const inFlight = new Map<string, Promise<HttpResponse>>();
+
+/**
+ * `fetchPage`, but callers that ask for one address while it is on its way share the request: the app reads the
+ * details and the episodes of an anime together, and both come from the same page. Nothing is kept afterwards.
+ */
+export function fetchPageShared(url: string): Promise<HttpResponse> {
+  let request = inFlight.get(url);
+  if (!request) {
+    request = fetchPage(url).finally(() => inFlight.delete(url));
+    inFlight.set(url, request);
+  }
+  return request;
+}

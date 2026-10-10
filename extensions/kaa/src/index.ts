@@ -9,7 +9,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, getJson, postJson } from './api';
+import { DEFAULT_BASE_URL, base, getJson, mapLimit, memo, postJson } from './api';
 import { getStreams } from './streams';
 import { STATUSES, TYPES, type Poster, episodePart, posterUrl } from './text';
 
@@ -121,6 +121,10 @@ const YEARS = Array.from({ length: new Date().getFullYear() + 1 - FIRST_YEAR + 1
 /** Browsing with filters reads at most this many list pages to fill one page of results. */
 const MAX_FILTER_PAGES = 4;
 const MAX_EPISODE_PAGES = 30;
+/** The pages of one episode list are asked for this many at a time. */
+const EPISODE_PAGES_AT_ONCE = 4;
+/** The details and the episodes of a show both start from the show's record, which is fetched once for both. */
+const SHOW_TTL_MS = 15_000;
 
 interface ShowItem {
   slug?: string;
@@ -181,12 +185,15 @@ const readFilters = (state: FilterState): Filters => {
   return { genre, type, year };
 };
 
-/** Fills a page: reads list pages until something matches (or `MAX_FILTER_PAGES` pages were read). */
-async function filtered(
-  filters: Filters,
-  page: number,
-  read: (page: number) => Promise<{ items: ShowItem[]; hasNext: boolean }>,
-): Promise<AnimePage> {
+interface ListRead {
+  items: ShowItem[];
+  hasNext: boolean;
+  /** The number of the last page, when the answer says. */
+  last?: number;
+}
+
+/** Fills a page: reads `MAX_FILTER_PAGES` list pages (the first one, then the others together) and keeps what matches. */
+async function filtered(filters: Filters, page: number, read: (page: number) => Promise<ListRead>): Promise<AnimePage> {
   const active = filters.genre || filters.type || filters.year;
   if (!active) {
     const result = await read(page);
@@ -194,26 +201,31 @@ async function filtered(
   }
   // With a filter, "page" counts filtered pages: the site page to start from is remembered in the page number.
   const start = (page - 1) * MAX_FILTER_PAGES + 1;
-  const items: ShowItem[] = [];
-  let hasNext = true;
-  for (let at = start; at < start + MAX_FILTER_PAGES && hasNext; at++) {
-    const result = await read(at);
-    items.push(...result.items.filter((item) => matches(item, filters)));
-    hasNext = result.hasNext;
+  const first = await read(start);
+  const items = first.items.filter((item) => matches(item, filters));
+  let hasNext = first.hasNext;
+  if (hasNext) {
+    // The first answer tells where the list ends, so no page past it is asked for.
+    const end = Math.min(start + MAX_FILTER_PAGES - 1, first.last ?? start + MAX_FILTER_PAGES - 1);
+    const more = await Promise.all(Array.from({ length: end - start }, (_, i) => read(start + 1 + i)));
+    for (const result of more) {
+      items.push(...result.items.filter((item) => matches(item, filters)));
+      hasNext = result.hasNext;
+    }
   }
   return { items: dedupe(items.map(summary)), hasNextPage: hasNext };
 }
 
-async function list(kind: string, page: number): Promise<{ items: ShowItem[]; hasNext: boolean }> {
+async function list(kind: string, page: number): Promise<ListRead> {
   const result = await getJson<{ result?: ShowItem[]; page_count?: number }>(`/show/${kind}`, { page });
   if (!Array.isArray(result.result)) throw new ParseError('The API list has no "result": the site changed');
-  return { items: result.result, hasNext: page < (result.page_count ?? page) };
+  return { items: result.result, hasNext: page < (result.page_count ?? page), last: result.page_count };
 }
 
-async function search(query: string, page: number): Promise<{ items: ShowItem[]; hasNext: boolean }> {
+async function search(query: string, page: number): Promise<ListRead> {
   const result = await postJson<{ result?: ShowItem[]; maxPage?: number }>('/fsearch', { query, page });
   if (!Array.isArray(result.result)) throw new ParseError('The API search has no "result": the site changed');
-  return { items: result.result, hasNext: page < (result.maxPage ?? page) };
+  return { items: result.result, hasNext: page < (result.maxPage ?? page), last: result.maxPage };
 }
 
 /** The audio/subtitle languages the app can tell apart: the original ("Sub") and the English dub. */
@@ -225,16 +237,31 @@ function languages(locales: string[] | null | undefined): { lang: string; varian
   return found;
 }
 
+/** The show's own record: the details and the episodes both need it. */
+const showOf = (slug: string): Promise<ShowItem> =>
+  memo(`show:${base()}:${slug}`, SHOW_TTL_MS, () => getJson<ShowItem>(`/show/${encodeURIComponent(slug)}`));
+
+interface EpisodePage {
+  result?: EpisodeListItem[];
+  pages?: unknown[];
+  current_page?: number;
+}
+
+async function episodePage(show: string, lang: string, page: number): Promise<EpisodePage> {
+  const result = await getJson<EpisodePage>(`/show/${encodeURIComponent(show)}/episodes`, { page, lang });
+  if (!Array.isArray(result.result)) throw new ParseError('The API episode list has no "result": the site changed');
+  return result;
+}
+
+/** The first page says how many there are; the others are asked for a few at a time. */
 async function episodesOf(show: string, lang: string): Promise<EpisodeListItem[]> {
-  const items: EpisodeListItem[] = [];
-  for (let page = 1; page <= MAX_EPISODE_PAGES; page++) {
-    const result = await getJson<{ result?: EpisodeListItem[]; pages?: unknown[]; current_page?: number }>(
-      `/show/${encodeURIComponent(show)}/episodes`,
-      { page, lang },
-    );
-    if (!Array.isArray(result.result)) throw new ParseError('The API episode list has no "result": the site changed');
-    items.push(...result.result);
-    if (result.result.length === 0 || page >= (Array.isArray(result.pages) ? result.pages.length : 1)) break;
+  const first = await episodePage(show, lang, 1);
+  const items = [...(first.result as EpisodeListItem[])];
+  const count = Math.min(MAX_EPISODE_PAGES, Array.isArray(first.pages) ? first.pages.length : 1);
+  if (items.length === 0 || count < 2) return items;
+  const pages = Array.from({ length: count - 1 }, (_, i) => i + 2);
+  for (const result of await mapLimit(pages, EPISODE_PAGES_AT_ONCE, (page) => episodePage(show, lang, page))) {
+    items.push(...(result.result as EpisodeListItem[]));
   }
   return items;
 }
@@ -312,7 +339,7 @@ export default defineExtension({
     ],
 
     async getAnimeDetails(anime: AnimeSummary): Promise<AnimeDetails> {
-      const data = await getJson<ShowItem>(`/show/${encodeURIComponent(anime.url)}`);
+      const data = await showOf(anime.url);
       const title = titleOf(data);
       if (!title) throw new ParseError('The show has no title: the site changed');
       const alt = [data.title, data.title_original]
@@ -334,11 +361,18 @@ export default defineExtension({
 
     /** The sub list, plus the English dub as its own entries (same number, `variant: "Dub"`). Newest first. */
     async getEpisodes(anime: AnimeSummary): Promise<Episode[]> {
-      const show = await getJson<ShowItem>(`/show/${encodeURIComponent(anime.url)}`);
+      const show = await showOf(anime.url);
       const episodes: Episode[] = [];
       const seen = new Set<string>();
-      for (const { lang, variant } of languages(show.locales)) {
-        for (const item of await episodesOf(anime.url, lang)) {
+      // The sub and the dub are two lists: they are read together.
+      const lists = await Promise.all(
+        languages(show.locales).map(async ({ lang, variant }) => ({
+          variant,
+          items: await episodesOf(anime.url, lang),
+        })),
+      );
+      for (const { variant, items } of lists) {
+        for (const item of items) {
           const raw = item.episode_string ?? item.episode_number;
           const number = Number(item.episode_number ?? raw);
           if (!item.slug || raw === undefined || !Number.isFinite(number)) continue;

@@ -11,7 +11,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, fetchPageShared } from './site';
 import { getStreams } from './streams';
 import {
   FORMATS,
@@ -100,9 +100,9 @@ const YEARS = Array.from({ length: new Date().getFullYear() + 1 - 1980 + 1 }, (_
 const pick = <T extends string>(value: unknown, allowed: readonly T[]): T | '' =>
   typeof value === 'string' && (allowed as readonly string[]).includes(value) ? (value as T) : '';
 
-async function fetchDoc(path: string): Promise<{ doc: HtmlElement; url: string; text: string }> {
+async function fetchDoc(path: string, fetch = fetchPage): Promise<{ doc: HtmlElement; url: string; text: string }> {
   const url = `${base()}${path}`;
-  const text = (await fetchPage(url)).text;
+  const text = (await fetch(url)).text;
   return { doc: html.load(text, { baseUrl: url }), url, text };
 }
 
@@ -149,7 +149,7 @@ async function catalogue(params: Record<string, string | string[]>, page: number
 
 async function seriesPage(anime: AnimeSummary): Promise<{ doc: HtmlElement }> {
   const path = anime.url.split('#')[0] as string;
-  const { doc } = await fetchDoc(path);
+  const { doc } = await fetchDoc(path, fetchPageShared);
   if (!doc.selectFirst('h1')) throw new ParseError('The series page has no title: the site layout changed');
   return { doc };
 }

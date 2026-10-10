@@ -11,7 +11,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, sharedFetch } from './site';
 import { getStreams } from './streams';
 import { collapse, entityPath, hasPageLink, numberOfPath, parseNumber, seriesOfEpisode } from './text';
 
@@ -157,9 +157,10 @@ function readRows(doc: HtmlElement, baseUrl: string, table: 'otable' | 'ztable')
   return items;
 }
 
+/** Pages are shared between calls that start together: details and episodes of an anime, the home's rows. */
 async function fetchDoc(path: string): Promise<{ doc: HtmlElement; url: string }> {
   const url = `${base()}${path}`;
-  return { doc: html.load((await fetchPage(url)).text, { baseUrl: url }), url };
+  return { doc: html.load((await sharedFetch(url, fetchPage)).text, { baseUrl: url }), url };
 }
 
 const pagerHrefs = (doc: HtmlElement): string[] => doc.select('div.pag a').map((a) => a.attr('href') ?? '');

@@ -153,6 +153,18 @@ describe('getStreams', () => {
     expect(logs.some((l) => l.includes('vidhidepro.com'))).toBe(true);
   });
 
+  it('does not wait for a dead server once another has answered', async () => {
+    const started = Date.now();
+    const { client } = await load(
+      site('ep_blogger_vidhide_yup.html.txt', (r) =>
+        r.url.includes('vidhidepro.com') ? { delayMs: 6000 } : undefined,
+      ),
+    );
+    const streams = await client.getStreams(EP);
+    expect(Date.now() - started).toBeLessThan(5000);
+    expect(streams.map((s) => s.server)).toEqual(['Blogger', 'Blogger', 'Yourupload']);
+  }, 10_000);
+
   it('a removed ok.ru or yourupload video is no stream and no failure', async () => {
     const page = `<div id="pembed"><iframe src="https://ok.ru/videoembed/1"></iframe></div>`;
     const { client } = await load((r) =>

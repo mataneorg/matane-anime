@@ -15,6 +15,8 @@ import { isDub } from './text';
 //        it comes last; for a dub (a real English dub) it comes first.
 
 const PLAYER_TIMEOUT_MS = 10_000;
+/** Once the best server has given a stream, the others get this long to answer: one that hangs does not hold it back. */
+const GRACE_MS = 2_500;
 
 type Kind = 'sd' | 'hd' | 'mega';
 
@@ -108,6 +110,32 @@ const RANK: Record<'sub' | 'dub', Record<Kind, number>> = {
   dub: { mega: 0, hd: 1, sd: 2 },
 };
 
+/** The kind of server a label names (`SD`, `HD`, `Mega`), before its pages are read. */
+const kindOfLabel = (label: string): Kind | undefined => {
+  const name = label.trim().toLowerCase();
+  return name === 'sd' ? 'sd' : name === 'hd' ? 'hd' : name === 'mega' ? 'mega' : undefined;
+};
+
+/**
+ * The answers of `tasks` (best first), all of them unless one hangs: the wait ends `GRACE_MS` after the first task
+ * that gave something, and the ones still open then are left out. Nothing is dropped while no stream has arrived.
+ */
+async function settleInOrder<T>(tasks: Promise<T | undefined>[]): Promise<(T | undefined)[]> {
+  const answers: (T | undefined)[] = [];
+  let deadline: number | undefined;
+  for (const task of tasks) {
+    if (deadline === undefined) {
+      const answer = await task;
+      answers.push(answer);
+      if (answer) deadline = Date.now() + GRACE_MS;
+    } else {
+      const left = Math.max(0, deadline - Date.now());
+      answers.push(await Promise.race([task, timers.sleep(left).then(() => undefined)]));
+    }
+  }
+  return answers;
+}
+
 export async function getStreams(episode: Episode): Promise<Stream[]> {
   const referer = `${base()}${episode.url}`;
   const page = (await fetchPage(referer)).text;
@@ -116,9 +144,15 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
   const wanted = isDub(episode.url) ? 'dub' : 'sub';
   const servers = all.filter((s) => s.type === wanted).concat(all.filter((s) => s.type !== wanted));
   if (servers.length === 0) throw new NotFoundError('This episode has no server');
+  // The same order the streams are given in (a label names the kind), so the wait can end once the best has answered.
+  const priority = (s: Server): number => {
+    const kind = kindOfLabel(s.label);
+    return (s.type === wanted ? 0 : 10) + (kind ? RANK[wanted][kind] : 5);
+  };
+  servers.sort((a, b) => priority(a) - priority(b));
 
   let failures = 0;
-  const results = await Promise.all(
+  const results = await settleInOrder(
     servers.map(async (server) => {
       try {
         if (/[?&]source=blogger\b/.test(server.src))

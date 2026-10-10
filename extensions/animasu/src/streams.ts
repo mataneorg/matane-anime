@@ -15,6 +15,31 @@ const EMBED_TIMEOUT_MS = 10_000;
 /** More servers than this are never needed. */
 const MAX_EMBEDS = 12;
 
+/** Once a server has answered with a stream, the others get this long to make progress: a dead host would otherwise hold the answer for its whole timeout, retries included. */
+const GRACE_MS = 3_000;
+
+/** Waits for tasks that never reject, in input order, but stops once one is usable and none has settled for `GRACE_MS`. Late results are dropped. */
+function settleWithGrace<T>(tasks: Promise<T>[], usable: (result: T) => boolean): Promise<T[]> {
+  return new Promise((resolve) => {
+    const slots: ({ value: T } | undefined)[] = tasks.map(() => undefined);
+    let pending = tasks.length;
+    let found = false;
+    let ticks = 0;
+    const finish = (): void => resolve(slots.flatMap((slot) => (slot ? [slot.value] : [])));
+    if (pending === 0) finish();
+    tasks.forEach((task, i) => {
+      void task.then((value) => {
+        slots[i] = { value };
+        if (--pending === 0) return finish();
+        found = found || usable(value);
+        if (!found) return;
+        const tick = ++ticks;
+        void timers.sleep(GRACE_MS).then(() => tick === ticks && finish());
+      });
+    });
+  });
+}
+
 /** A host the extension can read. `rank`: lower plays first. */
 interface Resolver {
   match(url: URL): boolean;
@@ -255,7 +280,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
 
   let skipped = 0;
   let failures = 0;
-  const results = await Promise.all(
+  const results = await settleWithGrace(
     embeds.map(async (embed) => {
       let target: URL;
       try {
@@ -277,6 +302,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
         return { rank: 99, streams: [] as Stream[] };
       }
     }),
+    (result) => result.streams.length > 0,
   );
 
   const seen = new Set<string>();

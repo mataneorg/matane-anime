@@ -34,3 +34,32 @@ export async function fetchPage(url: string): Promise<HttpResponse> {
   assertOk(response, url);
   return response;
 }
+
+interface Memoed {
+  at: number;
+  value: Promise<unknown>;
+}
+const memos = new Map<string, Memoed>();
+const MEMO_MAX = 4;
+
+/**
+ * Reuses what `load` answered a moment ago (`ttlMs`), or is still loading: the app asks for the details and the
+ * episodes of one title together, so the same page would be fetched twice. A failure is never kept, and only the
+ * last few entries are.
+ */
+export function memo<T>(key: string, ttlMs: number, load: () => Promise<T>): Promise<T> {
+  const now = Date.now();
+  const hit = memos.get(key);
+  if (hit && now - hit.at < ttlMs) return hit.value as Promise<T>;
+  const value = load();
+  memos.delete(key);
+  memos.set(key, { at: now, value });
+  for (const old of memos.keys()) {
+    if (memos.size <= MEMO_MAX) break;
+    memos.delete(old);
+  }
+  value.catch(() => {
+    if (memos.get(key)?.value === value) memos.delete(key);
+  });
+  return value;
+}

@@ -144,6 +144,31 @@ async function fromDesustream(link: Link): Promise<Stream[]> {
 
 // ------------------------------------------------------------------ one episode
 
+/** Once a server has answered with a stream, the others get this long to make progress: a dead host would otherwise hold the answer for its whole timeout, retries included. */
+const GRACE_MS = 3_000;
+
+/** Waits for tasks that never reject, in input order, but stops once one is usable and none has settled for `GRACE_MS`. Late results are dropped. */
+function settleWithGrace<T>(tasks: Promise<T>[], usable: (result: T) => boolean): Promise<T[]> {
+  return new Promise((resolve) => {
+    const slots: ({ value: T } | undefined)[] = tasks.map(() => undefined);
+    let pending = tasks.length;
+    let found = false;
+    let ticks = 0;
+    const finish = (): void => resolve(slots.flatMap((slot) => (slot ? [slot.value] : [])));
+    if (pending === 0) finish();
+    tasks.forEach((task, i) => {
+      void task.then((value) => {
+        slots[i] = { value };
+        if (--pending === 0) return finish();
+        found = found || usable(value);
+        if (!found) return;
+        const tick = ++ticks;
+        void timers.sleep(GRACE_MS).then(() => tick === ticks && finish());
+      });
+    });
+  });
+}
+
 interface Candidate {
   rank: number;
   height: number;
@@ -225,7 +250,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
   }
 
   let failures = 0;
-  const results = await Promise.all(
+  const results = await settleWithGrace(
     candidates.map(async (candidate) => {
       try {
         return { candidate, streams: await candidate.resolve() };
@@ -235,6 +260,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
         return { candidate, streams: [] as Stream[] };
       }
     }),
+    (result) => result.streams.length > 0,
   );
 
   // The best quality first; at the same quality the hosts with the fewest requests first.

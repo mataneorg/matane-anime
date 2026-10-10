@@ -44,11 +44,12 @@ function parse<T>(response: HttpResponse, url: string): T {
   }
 }
 
-/** GETs `base + path` with the query and parses the JSON. */
+/** GETs `base + path` with the query and parses the JSON (`timeoutMs` lowers the default 20 s). */
 export async function getJson<T>(
   base: string,
   path: string,
   params?: Record<string, string | number | undefined>,
+  timeoutMs?: number,
 ): Promise<T> {
   const query = new URLSearchParams();
   for (const [key, value] of Object.entries(params ?? {})) {
@@ -56,7 +57,7 @@ export async function getJson<T>(
   }
   const qs = query.toString();
   const url = `${base}${path}${qs ? `?${qs}` : ''}`;
-  return parse<T>(await http.get(url, { throwOnError: false }), url);
+  return parse<T>(await http.get(url, { throwOnError: false, ...(timeoutMs && { timeoutMs }) }), url);
 }
 
 interface GraphQlAnswer<T> {

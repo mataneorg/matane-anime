@@ -9,11 +9,41 @@ import { parseManifest } from './text';
 // headers, which the app applies to every request of the stream.
 
 const PLAYER_TIMEOUT_MS = 10_000;
+/** Once a server has given a stream, the others get this long to answer: one that hangs does not hold the rest back. */
+const GRACE_MS = 2_500;
 /** What the CDN checks (a Referer alone is not enough for the segments). */
 export const STREAM_HEADERS = { Origin: 'https://krussdomi.com', Referer: 'https://krussdomi.com/' };
 
 interface EpisodeData {
   servers?: { name?: string; src?: string }[];
+}
+
+/** The answers of `tasks`, in their order, as soon as all are in or `GRACE_MS` after the first stream (`undefined` for the rest). */
+async function settleWithGrace(tasks: Promise<Stream | undefined>[]): Promise<(Stream | undefined)[]> {
+  const answers: (Stream | undefined)[] = tasks.map(() => undefined);
+  let pending = tasks.length;
+  let graceStarted = false;
+  let snapshot: (Stream | undefined)[] | undefined;
+  await new Promise<void>((resolve) => {
+    const finish = (): void => {
+      snapshot ??= [...answers];
+      resolve();
+    };
+    tasks.forEach(
+      (task, i) =>
+        void task.then((stream) => {
+          if (snapshot) return;
+          answers[i] = stream;
+          if (--pending === 0) finish();
+          else if (stream && !graceStarted) {
+            graceStarted = true;
+            void timers.sleep(GRACE_MS).then(finish);
+          }
+        }),
+    );
+    if (tasks.length === 0) finish();
+  });
+  return snapshot ?? answers;
 }
 
 async function fromPlayer(name: string, src: string): Promise<Stream> {
@@ -39,7 +69,7 @@ export async function getStreams(episode: Episode): Promise<Stream[]> {
   if (servers.length === 0) throw new NotFoundError('This episode has no server yet');
 
   let failures = 0;
-  const results = await Promise.all(
+  const results = await settleWithGrace(
     servers.map(async (server) => {
       try {
         return await fromPlayer(server.name?.trim() || 'Server', server.src);

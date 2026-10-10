@@ -11,7 +11,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, memo } from './site';
 import { getStreams } from './streams';
 import { animePath, collapse, isAdultTag, isEpisodeKey, parseAge, parseNumber, readYear } from './text';
 
@@ -21,6 +21,10 @@ import { animePath, collapse, isAdultTag, isEpisodeKey, parseAge, parseNumber, r
 
 const PAGE_SIZE = 50;
 const NOW = (): number => Date.now();
+/** A list is one page of up to ~700 cards that is cut into pages here: the cards are kept for the next page. */
+const LIST_TTL_MS = 30_000;
+/** The details and the episodes of an anime come from one page, which is fetched once for both. */
+const DETAIL_TTL_MS = 15_000;
 
 /** Tags the site offers (`tags.php?tag=`); there is no index page for them. Adult tags are left out on purpose. */
 const TAGS = [
@@ -77,11 +81,14 @@ function readCards(doc: HtmlElement, baseUrl: string): AnimeSummary[] {
 
 async function listing(path: string, page: number): Promise<AnimePage> {
   const url = `${base()}${path}`;
-  const doc = html.load((await fetchPage(url)).text, { baseUrl: url });
-  const all = readCards(doc, url);
-  if (all.length === 0 && !doc.selectFirst('div.header')) {
-    throw new ParseError('The listing has no cards and no page frame: the site layout changed');
-  }
+  const all = await memo(url, LIST_TTL_MS, async () => {
+    const doc = html.load((await fetchPage(url)).text, { baseUrl: url });
+    const cards = readCards(doc, url);
+    if (cards.length === 0 && !doc.selectFirst('div.header')) {
+      throw new ParseError('The listing has no cards and no page frame: the site layout changed');
+    }
+    return cards;
+  });
   const from = (Math.max(1, Math.floor(page)) - 1) * PAGE_SIZE;
   return { items: all.slice(from, from + PAGE_SIZE), hasNextPage: all.length > from + PAGE_SIZE };
 }
@@ -90,7 +97,7 @@ async function detailPage(anime: AnimeSummary): Promise<HtmlElement> {
   const path = animePath(anime.url, base());
   if (!path) throw new NotFoundError(`Not an anime address: ${anime.url}`);
   const url = `${base()}${path}`;
-  const doc = html.load((await fetchPage(url)).text, { baseUrl: url });
+  const doc = html.load((await memo(url, DETAIL_TTL_MS, () => fetchPage(url))).text, { baseUrl: url });
   if (!doc.selectFirst('.infotitle')) throw new NotFoundError(`Not found: ${anime.url}`);
   return doc;
 }

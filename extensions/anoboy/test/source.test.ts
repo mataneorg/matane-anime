@@ -89,6 +89,16 @@ describe('details and episodes', () => {
     expect(d.thumbnailUrl).toMatch(/^https:\/\/anoboy\.be\/wp-content\/uploads\/.*\.jpg$/);
   });
 
+  it('reads the page once when the details and the episodes are asked for together', async () => {
+    const { client, requests } = await load((r) =>
+      r.url === `${BASE}/anime/one-piece/` ? page('detail_one_piece.html.txt') : undefined,
+    );
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(OP), client.getEpisodes(OP)]);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+    expect(requests).toHaveLength(1);
+  });
+
   it('lists every episode, newest first', async () => {
     const { client } = await load((r) =>
       r.url === `${BASE}/anime/one-piece/` ? page('detail_one_piece.html.txt') : undefined,

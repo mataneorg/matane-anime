@@ -93,6 +93,16 @@ describe('details and episodes', () => {
     expect(d.thumbnailUrl).toMatch(/^https:\/\/i\d\.wp\.com\/alqanime\.si\/wp-content\/uploads\/.*\.jpg$/);
   });
 
+  it('reads the page once when the details and the episodes are asked for together', async () => {
+    const { client, requests } = await load((r) =>
+      r.url === `${BASE}/anime/steel-ball-run-jojo-no-kimyou-na-bouken/` ? page('detail_steel.html.txt') : undefined,
+    );
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(SBR), client.getEpisodes(SBR)]);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+    expect(requests).toHaveLength(1);
+  });
+
   it('lists every episode, newest first', async () => {
     const { client } = await load((r) =>
       r.url === `${BASE}/anime/steel-ball-run-jojo-no-kimyou-na-bouken/` ? page('detail_steel.html.txt') : undefined,

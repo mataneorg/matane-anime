@@ -114,6 +114,18 @@ describe('getStreams', () => {
     expect(logs.some((l) => l.includes('play.xtwap.top'))).toBe(true);
   });
 
+  it('does not wait for a dead server once another has answered', async () => {
+    const started = Date.now();
+    const { client } = await load(
+      site('ep_blogger_cepat2.html.txt', (r) =>
+        r.url.startsWith('https://play.xtwap.top/') ? { delayMs: 6000 } : undefined,
+      ),
+    );
+    const streams = await client.getStreams(EP);
+    expect(Date.now() - started).toBeLessThan(5000);
+    expect(streams.length > 0 && streams.every((s) => s.server === 'Blogger')).toBe(true);
+  }, 10_000);
+
   it('says so when only unsupported hosts exist (no request to them)', async () => {
     const page =
       '<div id="pembed"><iframe data-litespeed-src="https://hlswish.com/e/abc"></iframe></div><button class="aspd-server" data-label="HD-1" data-url="https://turbovidhls.com/t/x"></button>';

@@ -52,3 +52,26 @@ export async function fetchPage(url: string): Promise<Page> {
   if (!redirected && !otherHost) assertOk(response, url);
   return { response, moved: redirected || otherHost };
 }
+
+/** Two calls for the same page that start together (details and episodes of an anime) share one request. */
+const SHARE_MS = 5_000;
+const SHARE_MAX = 8;
+const shared = new Map<string, { at: number; result: Promise<unknown> }>();
+
+/**
+ * Runs `load(url)` once for every caller that asks for `url` within a few seconds; a failure is never kept.
+ * The result must be plain data: the page is parsed again by each caller, because parsed nodes live for one call.
+ */
+export function sharedFetch<T>(url: string, load: (url: string) => Promise<T>): Promise<T> {
+  const now = Date.now();
+  for (const [key, entry] of shared) if (now - entry.at > SHARE_MS) shared.delete(key);
+  const known = shared.get(url);
+  if (known) return known.result as Promise<T>;
+  if (shared.size >= SHARE_MAX) shared.delete(shared.keys().next().value as string);
+  const result = load(url);
+  shared.set(url, { at: now, result });
+  result.catch(() => {
+    if (shared.get(url)?.result === result) shared.delete(url);
+  });
+  return result;
+}

@@ -183,4 +183,26 @@ describe('details and episodes', () => {
     expect(await client.resolveUrl('https://example.com/one-piece')).toBeNull();
     expect(await client.getWebUrl(SAKAMOTO)).toBe(`${BASE}/sakamoto-days`);
   });
+
+  it('reads the page once when the details and the episodes are asked together', async () => {
+    const { client, requests } = await load(route);
+    const [details, episodes] = await Promise.all([client.getAnimeDetails(SAKAMOTO), client.getEpisodes(SAKAMOTO)]);
+    expect(details.title).toBeTruthy();
+    expect(episodes.length).toBeGreaterThan(0);
+    expect(requests).toHaveLength(1);
+  });
+
+  it('does not keep a failed page for the next call', async () => {
+    let answers = 0;
+    const { client, requests } = await load((r) =>
+      r.url === `${BASE}/sakamoto-days`
+        ? ++answers === 1
+          ? { status: 500 }
+          : page('detail_sakamoto.html.txt')
+        : undefined,
+    );
+    await expect(client.getAnimeDetails(SAKAMOTO)).rejects.toThrow();
+    await expect(client.getAnimeDetails(SAKAMOTO)).resolves.toMatchObject({ title: expect.any(String) });
+    expect(requests).toHaveLength(2);
+  });
 });

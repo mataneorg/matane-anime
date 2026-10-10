@@ -96,6 +96,18 @@ describe('getStreams', () => {
     expect(streams.find((s) => s.server === 'Dropbox')?.url).toContain('raw=1');
   });
 
+  it('does not wait for a dead server once another has answered', async () => {
+    const started = Date.now();
+    const { client } = await load(
+      site('ep_all_hosts.html.txt', (r) =>
+        r.url.startsWith('https://miiiixdrop.net/') ? { delayMs: 6000 } : undefined,
+      ),
+    );
+    const streams = await client.getStreams(EP);
+    expect(Date.now() - started).toBeLessThan(5000);
+    expect(new Set(streams.map((s) => s.server))).toEqual(new Set(['Pixeldrain', 'Dropbox', 'Mp4upload']));
+  }, 10_000);
+
   it('skips a failing host and a deleted file, keeping the rest', async () => {
     const { client, logs } = await load(
       site('ep_all_hosts.html.txt', (r) => {

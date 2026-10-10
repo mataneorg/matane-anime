@@ -150,3 +150,36 @@ describe('details and episodes', () => {
     expect(await client.getWebUrl({ url: `${SBR}/ep-4-f3a039`, name: 'x' })).toBe(`https://kaa.lt/${SBR}/ep-4-f3a039`);
   });
 });
+
+describe('requests', () => {
+  it('reads the show once for its details and its episodes', async () => {
+    const { client, requests } = await load(api);
+    const show = { url: SBR, title: 'x' };
+    await Promise.all([client.getAnimeDetails(show), client.getEpisodes(show)]);
+    expect(requests.filter((r) => new URL(r.url).pathname === `/api/show/${SBR}`)).toHaveLength(1);
+  });
+
+  it('reads the sub and the dub lists of a show', async () => {
+    const { client, requests } = await load(api);
+    await client.getEpisodes({ url: SBR, title: 'x' });
+    const langs = requests
+      .map((r) => new URL(r.url))
+      .filter((u) => u.pathname === `/api/show/${SBR}/episodes`)
+      .map((u) => u.searchParams.get('lang'))
+      .sort();
+    expect(langs).toEqual(['en-US', 'ja-JP']);
+  });
+
+  it('never asks for a list page past the last one', async () => {
+    const { client, requests } = await load((r) => {
+      const page = Number(new URL(r.url).searchParams.get('page'));
+      const answer = JSON.parse(fixture('popular.json')) as { result: unknown[]; page_count: number };
+      return {
+        status: 200,
+        text: JSON.stringify({ ...answer, result: page <= 2 ? answer.result : [], page_count: 2 }),
+      };
+    });
+    await client.search('', 1, { genre: 'Action' });
+    expect(requests.map((r) => new URL(r.url).searchParams.get('page'))).toEqual(['1', '2']);
+  });
+});

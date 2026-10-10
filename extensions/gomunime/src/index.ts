@@ -11,7 +11,7 @@ import {
   ParseError,
   defineExtension,
 } from '@matane-anime/extension-sdk';
-import { DEFAULT_BASE_URL, base, fetchPage } from './site';
+import { DEFAULT_BASE_URL, base, fetchPage, sharedFetch } from './site';
 import { getStreams } from './streams';
 import {
   collapse,
@@ -124,9 +124,10 @@ function homeSection(doc: HtmlElement, baseUrl: string, heading: string): AnimeS
   throw new ParseError(`The home page has no "${heading}" row: the site layout changed`);
 }
 
+/** Pages are shared between calls that start together: details and episodes of an anime, the home's rows. */
 async function fetchDoc(path: string): Promise<{ doc: HtmlElement; url: string }> {
   const url = `${base()}${path}`;
-  return { doc: html.load((await fetchPage(url)).text, { baseUrl: url }), url };
+  return { doc: html.load((await sharedFetch(url, fetchPage)).text, { baseUrl: url }), url };
 }
 
 /** A grid page (`?page=N`). A page past the end is empty. */
