@@ -70,6 +70,11 @@ export class ExtensionFetcher {
     };
   }
 
+  /** The User-Agent this extension's requests carry, so a stream can be fetched with the one its link was issued to. */
+  get userAgent(): string {
+    return this.options.userAgent();
+  }
+
   /** The extension's own session, for requests that stream (playback) and so cannot go through `request`. */
   get session(): Session {
     return this.options.session;

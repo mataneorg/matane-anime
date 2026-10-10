@@ -47,9 +47,20 @@ export const fetchWithNetRequest: UpstreamFetch = (url, init) =>
   });
 
 /**
+ * `headers` with a `user-agent` unless the stream names its own. A session's default is Chromium's, with the
+ * Electron and app tokens the extension's requests leave out; some hosts (Blogger's googlevideo) bind a link to
+ * the User-Agent that asked for it and answer 403 to any other.
+ */
+export function withUserAgent(headers: Record<string, string>, userAgent: string): Record<string, string> {
+  return Object.keys(headers).some((name) => name.toLowerCase() === 'user-agent')
+    ? headers
+    : { ...headers, 'user-agent': userAgent };
+}
+
+/**
  * Upstream for playback sessions: through the extension's own network session (its cookies, so a passed
  * Cloudflare challenge still counts), its media rate limit, and `net.fetch`'s streaming body, so a
- * multi-hundred-megabyte file is never held in memory. Sessions without an extension use the default.
+ * multi-hundred-megabyte file is never held in memory. It sends the same User-Agent as the extension's requests. Sessions without an extension use the default.
  */
 export function createSessionUpstream(
   fetcherFor: (extensionId: string) => ExtensionFetcher | undefined,
@@ -61,7 +72,7 @@ export function createSessionUpstream(
     installHeaderBridge(fetcher.session);
     return fetcher.session.fetch(url, {
       method: init.method,
-      headers: withMarkers(init.headers),
+      headers: withMarkers(withUserAgent(init.headers, fetcher.userAgent)),
       redirect: 'follow',
       credentials: 'include',
       bypassCustomProtocolHandlers: true,
