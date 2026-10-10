@@ -124,15 +124,20 @@ async function addRepoThroughUi(options: { trust: boolean }): Promise<void> {
 
 async function removeEveryRepoThroughUi(): Promise<void> {
   await go('#/browse/extensions');
-  await openRepositories();
-  while ((await page.getByTestId(/^repo-/).count()) > 0) {
-    await page
-      .getByRole('button', { name: /^Remove / })
-      .first()
-      .click();
-    await dialog().getByRole('button', { name: 'Remove', exact: true }).click();
-    await expect(dialog()).toBeHidden();
-  }
+  // On a slow runner the page can re-render under the click (the background refresh of the repositories lands),
+  // which closes the panel or moves the button. Each pass opens the panel again and clicks with a short timeout,
+  // so one unlucky render costs seconds instead of the test.
+  await expect(async () => {
+    await openRepositories();
+    while ((await page.getByTestId(/^repo-/).count()) > 0) {
+      await page
+        .getByRole('button', { name: /^Remove / })
+        .first()
+        .click({ timeout: 5_000 });
+      await dialog().getByRole('button', { name: 'Remove', exact: true }).click({ timeout: 5_000 });
+      await expect(dialog()).toBeHidden();
+    }
+  }).toPass({ timeout: 60_000 });
 }
 
 test.beforeAll(async () => {
