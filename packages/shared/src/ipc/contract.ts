@@ -18,6 +18,7 @@ import {
   sourceInfoSchema,
 } from '../catalog';
 import { changelogEntrySchema } from '../changelog';
+import { codecSupportSchema } from '../codecs';
 import { episodeViewSchema } from '../view-settings';
 import { networkTestInputSchema, networkTestResultSchema, proxyPasswordInfoSchema } from '../network';
 import {
@@ -219,6 +220,8 @@ export const invokeContract = {
   'playback.close': invoke(z.object({ playbackId: z.string() }), z.void()),
   /** Keeps the screen on while video plays (PLY-8). */
   'playback.keepAwake': invoke(z.object({ enabled: z.boolean() }), z.void()),
+  /** Which codecs `MediaSource.isTypeSupported` accepts, so streams the player cannot decode are tried last (PLY-12). */
+  'playback.reportCodecs': invoke(codecSupportSchema, z.void()),
   'downloads.list': invoke(z.void(), z.array(downloadItemSchema)),
   /** Queues episodes (DL-1). Over the size limit they are refused unless `force` is set (DL-10). */
   'downloads.enqueue': invoke(enqueueInputSchema, enqueueResultSchema),
@@ -249,6 +252,8 @@ export const invokeContract = {
     z.object({ scope: updateScopeSchema, requestId: z.string().optional() }),
     updateCheckResultSchema,
   ),
+  'updates.markSeen': invoke(z.object({ episodeIds: z.array(z.number().int()) }), z.number().int()),
+  'updates.markAllSeen': invoke(z.void(), z.number().int()),
   /** Fills the library with test data for performance checks. Only in development or with MATANE_SPIKE=1. */
   'dev.seedLibrary': invoke(
     z.object({ anime: z.number().int().min(1).max(5000), episodesPerAnime: z.number().int().min(1).max(200) }),

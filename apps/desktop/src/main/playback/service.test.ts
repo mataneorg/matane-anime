@@ -362,3 +362,89 @@ describe('PlaybackService: probing streams (STR-2)', () => {
     expect(h.sessions.size).toBe(0);
   });
 });
+
+describe('PlaybackService: ranking by CODECS (PLY-12)', () => {
+  const server = (name: string, quality: number): Stream => ({
+    url: `http://${name}.test/index.m3u8`,
+    server: name,
+    quality,
+  });
+  const master = (codecs: string): Response =>
+    new Response(`#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=1,CODECS="${codecs}"\nv.m3u8\n`, { status: 200 });
+  const HEVC = 'hvc1.1.6.L93.B0,mp4a.40.2';
+  const AVC = 'avc1.64001f,mp4a.40.2';
+  const noHevc = { h264: true, hevc: false, aac: true };
+
+  /** Which host answers with which codecs. */
+  const codecsByHost =
+    (hosts: Record<string, string>) =>
+    async (url: string): Promise<Response> =>
+      master(hosts[new URL(url).host.replace('.test', '')] ?? AVC);
+
+  it('tries a stream that cannot be decoded after one that can, though it ranks first', async () => {
+    const h = harness;
+    h.service.setCodecSupport(noHevc);
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = codecsByHost({ a: HEVC, b: AVC });
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('b');
+    // The demoted stream is not dropped and not blamed.
+    expect(dto.streams.map((s) => [s.server, s.status])).toEqual([
+      ['a', 'available'],
+      ['b', 'playing'],
+    ]);
+    expect(h.sessions.size).toBe(1);
+  });
+
+  it('still plays the unsupported stream when nothing else answers', async () => {
+    const h = harness;
+    h.service.setCodecSupport(noHevc);
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = async (url) =>
+      new URL(url).host === 'a.test' ? master(HEVC) : new Response('gone', { status: 404 });
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('a');
+    expect(dto.streams.find((s) => s.server === 'b')?.status).toBe('failed');
+    expect(h.sessions.size).toBe(1);
+  });
+
+  it('uses the best-ranked of several unsupported streams when none can be decoded', async () => {
+    const h = harness;
+    h.service.setCodecSupport(noHevc);
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = codecsByHost({ a: HEVC, b: HEVC });
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('a');
+    expect(h.sessions.size).toBe(1);
+  });
+
+  it('judges nothing without a report from the renderer', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = codecsByHost({ a: HEVC, b: AVC });
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('a');
+  });
+
+  it('keeps a stream with no CODECS or a variant that plays', async () => {
+    const h = harness;
+    h.service.setCodecSupport(noHevc);
+    h.options.streams = [server('a', 1080), server('b', 720)];
+    h.upstream.handler = async (url) =>
+      new URL(url).host === 'a.test' ? new Response('#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=1\nv.m3u8\n') : master(HEVC);
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('a');
+  });
+
+  it('after a playback error, the fallback skips the demoted stream while another is left', async () => {
+    const h = harness;
+    h.service.setCodecSupport(noHevc);
+    h.options.streams = [server('a', 1080), server('b', 900), server('c', 720)];
+    h.upstream.handler = codecsByHost({ a: HEVC, b: AVC, c: AVC });
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.server).toBe('b');
+    const update = await h.service.event(dto.playbackId, { type: 'error', httpStatus: null, message: 'decode' });
+    expect(update).toMatchObject({ type: 'switched', reason: 'fallback' });
+    expect(update.type === 'switched' && update.session.streams[update.session.activeIndex]?.server).toBe('c');
+  });
+});

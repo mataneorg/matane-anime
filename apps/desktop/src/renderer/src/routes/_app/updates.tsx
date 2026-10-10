@@ -1,7 +1,7 @@
 import { AppError, type UpdateCheckResult, type UpdateEntry } from '@matane-anime/shared';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { Check, Download, RefreshCw, TriangleAlert, X } from 'lucide-react';
+import { Check, Download, Eye, RefreshCw, TriangleAlert, X } from 'lucide-react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -34,11 +34,13 @@ type Row =
 function UpdatesPage() {
   const { t, i18n } = useTranslation();
   const { data, isPending, isError, error, refetch } = useQuery(updatesQuery);
+  const queryClient = useQueryClient();
   const status = useUpdatesStore((state) => state.status);
   const now = useNow();
   const [selection, setSelection] = useState<Selection>(EMPTY_SELECTION);
   const [showingFailures, setShowingFailures] = useState(false);
   const [confirmingAll, setConfirmingAll] = useState(false);
+  const [confirmingSeenAll, setConfirmingSeenAll] = useState(false);
   const [requestId, setRequestId] = useState<string | null>(null);
   const [result, setResult] = useState<UpdateCheckResult | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
@@ -100,6 +102,28 @@ function UpdatesPage() {
       })),
     onError: (failure) => setProblem(describeError(failure, t)),
   });
+  // "Seen" only takes the entries off this list and the badge: the episodes stay unwatched.
+  const markSeen = useMutation({
+    mutationFn: (episodeIds: number[]) => call('updates.markSeen', { episodeIds }),
+    onMutate: () => setProblem(null),
+    onSuccess: (_count, episodeIds) => {
+      setSelection((current) => ({
+        ids: new Set([...current.ids].filter((id) => !episodeIds.includes(id))),
+        anchor: current.anchor,
+      }));
+      void queryClient.invalidateQueries({ queryKey: ['updates'] });
+    },
+    onError: (failure) => setProblem(describeError(failure, t)),
+  });
+  const markAllSeen = useMutation({
+    mutationFn: () => call('updates.markAllSeen'),
+    onMutate: () => setProblem(null),
+    onSuccess: () => {
+      clearSelection();
+      void queryClient.invalidateQueries({ queryKey: ['updates'] });
+    },
+    onError: (failure) => setProblem(describeError(failure, t)),
+  });
   const download = useMutation({
     // Toasts, the size-limit question and the error texts are shared with the other download buttons.
     mutationFn: (episodeIds: number[]) => enqueueEpisodes(episodeIds),
@@ -148,6 +172,10 @@ function UpdatesPage() {
           <Check className="size-4" strokeWidth={1.75} aria-hidden />
           {t('updates.markAll')}
         </Button>
+        <Button variant="secondary" disabled={entries.length === 0} onClick={() => setConfirmingSeenAll(true)}>
+          <Eye className="size-4" strokeWidth={1.75} aria-hidden />
+          {t('updates.seenAll')}
+        </Button>
       </header>
 
       {failed.length > 0 ? (
@@ -193,6 +221,15 @@ function UpdatesPage() {
             <Download className="size-4" strokeWidth={1.75} aria-hidden />
             {t('updates.downloadSelected')}
           </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            disabled={markSeen.isPending}
+            onClick={() => markSeen.mutate(chosen.map((entry) => entry.episodeId))}
+          >
+            <Eye className="size-4" strokeWidth={1.75} aria-hidden />
+            {t('updates.seenSelected')}
+          </Button>
           <Button size="sm" onClick={() => markWatched.mutate(chosen.map((entry) => entry.episodeId))}>
             <Check className="size-4" strokeWidth={1.75} aria-hidden />
             {t('updates.markSelected')}
@@ -231,6 +268,15 @@ function UpdatesPage() {
         confirmLabel={t('updates.markAll')}
         destructive={false}
         onConfirm={() => markWatched.mutate(entries.map((entry) => entry.episodeId))}
+      />
+      <ConfirmDialog
+        open={confirmingSeenAll}
+        onOpenChange={setConfirmingSeenAll}
+        title={t('updates.seenAllTitle')}
+        description={t('updates.seenAllBody', { count: entries.length })}
+        confirmLabel={t('updates.seenAll')}
+        destructive={false}
+        onConfirm={() => markAllSeen.mutate()}
       />
       <Dialog open={showingFailures} onOpenChange={setShowingFailures}>
         <DialogContent

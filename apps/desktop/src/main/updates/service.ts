@@ -114,6 +114,16 @@ export class UpdateService {
     return this.deps.repo.count(this.now());
   }
 
+  /** Dismisses entries from the list and the badge. The episodes stay unwatched, their progress is untouched. */
+  markSeen(episodeIds: number[]): number {
+    return this.deps.repo.markSeen(episodeIds, this.now());
+  }
+
+  /** Dismisses every entry the list shows now. */
+  markAllSeen(): number {
+    return this.deps.repo.markAllSeen(this.now());
+  }
+
   /** A check the user asked for. Rejects with `cancelled` when `requests.cancel(requestId)` stops it. */
   check(scope: UpdateScope, requestId?: string): Promise<UpdateCheckResult> {
     return this.execute(scope, { automatic: false, ...(requestId !== undefined && { requestId }) });

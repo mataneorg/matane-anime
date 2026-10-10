@@ -202,7 +202,7 @@ Prioritas: **P0** = wajib di v1.0 · **P1** = diusahakan di v1.0, boleh bergeser
 | PLY-9 | Posisi terakhir dipulihkan saat episode dibuka (aturan di §6.6) | P0 |
 | PLY-10 | Panel daftar episode di dalam pemutar (ganti episode tanpa keluar) | P1 |
 | PLY-11 | Media keys (MediaSession): play/pause, next, previous; metadata judul dan cover | P1 |
-| PLY-12 | Stream dengan `CODECS` yang tidak didukung (`MediaSource.isTypeSupported`) diberi peringkat paling akhir | P1 (ditunda: main tidak bisa memanggil `isTypeSupported`, butuh probe kemampuan dari renderer; saat ini audio tanpa gambar dideteksi saat memutar dan memicu server berikutnya, [ADR 0014](adr/0014-playback-service.md)) |
+| PLY-12 | Stream dengan `CODECS` yang tidak didukung (`MediaSource.isTypeSupported`) diberi peringkat paling akhir | P1 (selesai 10 Okt 2026: renderer mengukur dukungan codec sekali saat start dan melaporkannya ke main, probe HLS membaca `CODECS` tiap varian; stream yang semua variannya tidak didukung dicoba paling akhir, tidak dibuang, [ADR 0038](adr/0038-codec-ranking.md)) |
 
 Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pada build Chromium dan OS. Hasil uji di Fase 0 dicatat di ADR; stream yang gagal diputar menghasilkan error yang jelas (PLY-6), bukan layar kosong.
 
@@ -277,11 +277,11 @@ Catatan: dukungan MKV, HEVC, dan codec lain **tidak dijamin** dan bergantung pad
 | UPD-1 | `UpdateService` di main, hanya untuk anime di library. Jadwal: mati / 6 / **12 (default)** / 24 / 48 jam / mingguan; saat app dibuka bila interval sudah lewat; manual (semua, per kategori, per anime). Offline → menunggu | P0 |
 | UPD-2 | **Tiga anime sekaligus**, bisa dibatalkan, error dicatat per anime | P0 |
 | UPD-3 | **Aturan lewati** untuk pengecekan library dan kategori (bukan satu anime): status *completed* (default aktif), belum pernah ditonton, jumlah belum ditonton > N | P0 |
-| UPD-4 | **Episode baru** = episode anime di library dengan `fetched_at > anime.added_at`. Episode yang sudah ada saat anime ditambahkan tidak pernah muncul sebagai baru | P0 |
+| UPD-4 | **Episode baru** = episode anime di library dengan `fetched_at > anime.added_at`. Episode yang sudah ada saat anime ditambahkan tidak pernah muncul sebagai baru. Entri yang ditandai "sudah dilihat" (`episodes.update_seen_at`) keluar dari daftar dan badge tanpa menandainya ditonton | P0 |
 | UPD-5 | Episode yang **hilang dari source** tetap disimpan (ditandai) bila sudah ditonton, punya progress, unduhan, atau ada di history/sesi; selain itu dihapus. Daftar kosong dari source **tidak menghapus apa pun** | P0 |
 | UPD-6 | Setelah pengecekan: `migrateUrl` bila versi extension berubah → auto-download (DL-11) → notifikasi | P0 |
 | UPD-7 | **Notifikasi desktop** dikelompokkan ("5 episode baru dari 3 anime"): selalu untuk pengecekan otomatis, untuk manual hanya saat jendela di latar belakang. Klik membuka halaman **Updates** | P0 |
-| UPD-8 | Halaman **Updates**: episode baru dikelompokkan per tanggal; aksi tonton, download, tandai ditonton (satuan dan massal); badge di sidebar | P0 |
+| UPD-8 | Halaman **Updates**: episode baru dikelompokkan per tanggal; aksi tonton, download, tandai ditonton dan tandai sudah dilihat (satuan, pilihan, dan semua); badge di sidebar | P0 |
 | UPD-9 | **Tray** opsional ("tutup ke tray", default mati) dan **jalan saat login**, agar pengecekan dan download tetap berjalan | P1 |
 
 ### 6.9 UI, tema, i18n, dan setting (UI)
@@ -664,7 +664,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Command palette, onboarding, What's new, tema AMOLED + aksen, incognito (P1).
 - Backup/restore (P1; selambatnya v1.1; sudah dibangun, backup otomatis terjadwal menyusul 10 Okt 2026).
 - Paket tambahan (portable, deb, rpm, AUR, Flatpak), dokumentasi lengkap, rilis **v1.0**.
-- **Setelah milestone Fase 5 (9 sampai 10 Okt 2026):** UI mengikuti app Matane ([ADR 0036](adr/0036-ui-follows-matane.md)), halaman Statistics, mode tampilan Library dan Browse (ukuran cover, sort dan filter tersimpan), backup terjadwal dan halaman About ([rencana](plans/ui-parity-matane.md)); 15 extension situs (kini di repositori sendiri) dan optimasi latensinya ([ADR 0037](adr/0037-extension-latency.md)). Yang ditunda: migrasi massal, tracking AniList/MAL, `markSeen` pada Updates.
+- **Setelah milestone Fase 5 (9 sampai 10 Okt 2026):** UI mengikuti app Matane ([ADR 0036](adr/0036-ui-follows-matane.md)), halaman Statistics, mode tampilan Library dan Browse (ukuran cover, sort dan filter tersimpan), backup terjadwal dan halaman About ([rencana](plans/ui-parity-matane.md)); 15 extension situs (kini di repositori sendiri) dan optimasi latensinya ([ADR 0037](adr/0037-extension-latency.md)). `markSeen` pada Updates ([ADR 0040](adr/0040-updates-mark-seen.md)). Yang ditunda: migrasi massal, tracking AniList/MAL.
 - **Celah Settings ditutup (10 Okt 2026):** editor shortcut pemutar dengan deteksi bentrok dan Reset to defaults (PLY-3, UI-7), countdown autoplay 3/5/10 detik (PLY-4, UI-7), kartu Clear data dengan Clear history (PRG-8, mockup 10f), dan pemilih channel update stable/beta di About. Ditutup oleh `settings-data.spec.ts` dan `settings-player.spec.ts`. "Kecepatan awal" (UI-7) tidak dibangun: kecepatan terakhir yang dipakai diingat sebagai setting.
 
 **Pasca-v1 (P2)**

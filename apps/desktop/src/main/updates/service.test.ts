@@ -168,6 +168,28 @@ describe('check (UPD-1…2)', () => {
     expect(h.service.count()).toBe(2);
   });
 
+  it('markSeen and markAllSeen take entries off the list and the badge, and leave the episodes unwatched', async () => {
+    setup();
+    const id = h.anime('Alpha', 1, 4);
+    await h.service.check({ kind: 'all' });
+    const [first, second, third] = h.service.list().entries;
+    expect(h.service.count()).toBe(3);
+
+    expect(h.service.markSeen([first!.episodeId])).toBe(1);
+    expect(h.service.count()).toBe(2);
+    expect(h.service.list().entries.map((e) => e.episodeId)).toEqual([second!.episodeId, third!.episodeId]);
+    expect(db.episodes.list(id).every((e) => !e.watched)).toBe(true);
+
+    expect(h.service.markAllSeen()).toBe(2);
+    expect(h.service.count()).toBe(0);
+    expect(h.service.list().entries).toEqual([]);
+
+    // A later check only shows what is found after that.
+    h.listings.set(id, [5, 4, 3, 2, 1]);
+    await h.service.check({ kind: 'all' });
+    expect(h.service.list().entries.map((e) => e.episodeNumber)).toEqual([5]);
+  });
+
   it('counts Sub and Dub of one number as one episode', async () => {
     setup();
     const id = h.anime('Alpha', 1);

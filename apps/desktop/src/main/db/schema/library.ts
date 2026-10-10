@@ -88,6 +88,8 @@ export const episodes = sqliteTable(
     positionMs: integer().notNull().default(0),
     durationMs: integer(),
     sourceMissing: integer({ mode: 'boolean' }).notNull().default(false),
+    /** When the user dismissed the episode from Updates without watching it; null while it still shows there. */
+    updateSeenAt: integer(),
   },
   (t) => [
     uniqueIndex('episodes_anime_url_unique').on(t.animeId, t.url),

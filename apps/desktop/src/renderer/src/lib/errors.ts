@@ -1,9 +1,28 @@
 import { AppError } from '@matane-anime/shared';
 import type { TFunction } from 'i18next';
 
+/**
+ * Main tags some failures with a stable `detail.key`; its text is `errors.main.<key>`. A key this build does not
+ * know (an older catalog, a newer main) gives '', and the caller falls back to the English `message`.
+ */
+function describeMainError(error: AppError, t: TFunction): string {
+  const { key, params } = error.detail;
+  if (!key) return '';
+  const values: Record<string, string | number> = { ...params };
+  // `subject` names a stock thing ("the repository index"); `name` is an extension's own name, quoted.
+  if (typeof params?.subject === 'string') {
+    values.subject = t(`errors.mainSubject.${params.subject}`, { defaultValue: params.subject });
+  } else if (typeof params?.name === 'string') {
+    values.subject = `"${params.name}"`;
+  }
+  return t(`errors.main.${key}`, { ...values, defaultValue: '' });
+}
+
 /** Plain words for a failure. `detail.kind` is the extension's typed error (or the runtime's code). */
 export function describeError(error: unknown, t: TFunction): string {
   if (!(error instanceof AppError)) return t('errors.title');
+  const stable = describeMainError(error, t);
+  if (stable) return stable;
   if (error.code === 'offline') return t('errors.offline');
   if (error.code === 'not_found') return t('errors.not_found');
   const kind = error.detail.kind;

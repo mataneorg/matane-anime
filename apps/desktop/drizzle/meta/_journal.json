@@ -50,6 +50,13 @@
       "when": 1791565408268,
       "tag": "0006_watch_sessions_indexes",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1791615995253,
+      "tag": "0007_update_seen",
+      "breakpoints": true
     }
   ]
 }

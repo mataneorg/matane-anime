@@ -18,7 +18,7 @@ The extension returns every stream it can find; the app decides which to play an
 The player also checks that frames were decoded, not only that the clock moved, so audio without a picture (HEVC without a decoder, [0009](0009-codec-support.md)) is reported as a codec error and the next server is tried.
 
 ## Deferred
-- Ranking by `CODECS` (PLY-12): main cannot ask `MediaSource.isTypeSupported`; it needs a renderer capability probe.
+- ~~Ranking by `CODECS` (PLY-12)~~: done in [0038](0038-codec-ranking.md); the renderer reports what `MediaSource.isTypeSupported` accepts.
 - Offline episodes first (STR-7) and any position, progress or resume (PRG-*): phases 3 and 2.
 
 ## Consequences

@@ -154,6 +154,36 @@ describe('prepareInstall', () => {
     expect(net.requests).toEqual([]);
   });
 
+  it('tags those refusals with a key and the numbers, for the UI to say in its own language', async () => {
+    net.publish(REPO_A, signed(1, [pkg('alpha'), pkg('beta', '1.0.0', { minAppVersion: '3.0.0' })]));
+    net.mutateIndex(REPO_A, (index) => void (index.extensions[0]!.apiVersion = 2), key.privateKeyPem);
+    const repoId = await addRepo();
+    expect((await fails(installs.prepareInstall({ repoId, extensionId: 'alpha' }))).detail).toEqual({
+      key: 'apiTooNew',
+      params: { name: 'Extension alpha', required: 2, supported: 1 },
+    });
+    expect((await fails(installs.prepareInstall({ repoId, extensionId: 'beta' }))).detail).toEqual({
+      key: 'appTooOld',
+      params: { name: 'Extension beta', version: '3.0.0' },
+    });
+  });
+
+  it('accepts an extension whose minAppVersion the app meets, exactly or by a wide margin', async () => {
+    net.publish(
+      REPO_A,
+      signed(1, [
+        pkg('alpha', '1.0.0', { minAppVersion: '1.0.0' }),
+        pkg('beta', '1.0.0', { minAppVersion: '0.9.0' }),
+        pkg('gamma', '1.0.0', { minAppVersion: '1.0.1' }),
+      ]),
+    );
+    const repoId = await addRepo();
+    for (const extensionId of ['alpha', 'beta']) {
+      expect((await installs.prepareInstall({ repoId, extensionId })).extension.id).toBe(extensionId);
+    }
+    expect((await fails(installs.prepareInstall({ repoId, extensionId: 'gamma' }))).detail.key).toBe('appTooOld');
+  });
+
   describe('maps every failure to a message the user can read', () => {
     const prepare = async (change: (repoId: number) => void) => {
       net.publish(REPO_A, signed(1));

@@ -206,6 +206,41 @@ test('selected episodes can be marked together, and an episode can be downloaded
   await expect(rows().first().getByRole('link', { name: /^Play/ })).toBeVisible();
 });
 
+test('entries marked as seen leave the list and the badge but stay unwatched', async () => {
+  const sky = await animeIdOf('Sky Harbor');
+  site.setEpisodeCount('sky-harbor', 19);
+  await go('#/updates');
+  await checkNow();
+  await expect(rows()).toHaveCount(4);
+  await expect(sidebarUpdates()).toContainText('4');
+  const unwatchedBefore = (await invoke<{ watched: boolean }[]>('episodes.list', { animeId: sky })).filter(
+    (episode) => !episode.watched,
+  ).length;
+
+  // The selection bar: only the chosen entry goes.
+  await rows().first().getByRole('checkbox').click();
+  await page.getByRole('button', { name: 'Mark as seen', exact: true }).click();
+  await expect(rows()).toHaveCount(3);
+  await expect(sidebarUpdates()).toContainText('3');
+  await expect(page.getByText('1 selected')).toBeHidden();
+
+  // "Mark all as seen" asks first, and empties the list and the badge.
+  await page.getByRole('button', { name: 'Mark all as seen' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Mark all as seen' }).click();
+  await expect(page.getByRole('heading', { name: 'No new episodes' })).toBeVisible();
+  await expect(sidebarUpdates()).not.toContainText(/\d/);
+
+  // Nothing was watched, and an episode that appears later is still news.
+  const unwatchedAfter = (await invoke<{ watched: boolean }[]>('episodes.list', { animeId: sky })).filter(
+    (episode) => !episode.watched,
+  ).length;
+  expect(unwatchedAfter).toBe(unwatchedBefore);
+  site.setEpisodeCount('sky-harbor', 20);
+  await checkNow();
+  await expect(rows()).toHaveCount(1);
+  await expect(sidebarUpdates()).toContainText('1');
+});
+
 test('anime that could not be checked are listed with a Retry that works once the site is back', async () => {
   await site.stop();
   await go('#/updates');

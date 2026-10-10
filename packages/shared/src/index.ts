@@ -1,6 +1,7 @@
 export * from './backup';
 export * from './catalog';
 export * from './changelog';
+export * from './codecs';
 export * from './downloads';
 export * from './episodes';
 export * from './errors';

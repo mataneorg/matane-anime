@@ -63,6 +63,17 @@ export function rankStreams(streams: Stream[], input: RankingInput): Ranked[] {
   return keyed.map(({ stream, originalIndex }) => ({ stream, originalIndex }));
 }
 
+/**
+ * Moves the items that are `demoted` to the end, keeping the order inside both groups. Nothing is dropped: a
+ * demoted stream is still tried when everything before it failed (PLY-12).
+ */
+export function demote<T>(items: readonly T[], demoted: (item: T) => boolean): T[] {
+  const first: T[] = [];
+  const last: T[] = [];
+  for (const item of items) (demoted(item) ? last : first).push(item);
+  return [...first, ...last];
+}
+
 /** What a stream URL is, when the extension did not say: a playlist, or a file the `<video>` plays itself. */
 export function guessKind(stream: Stream): 'hls' | 'mp4' | 'auto' {
   if (stream.kind === 'hls' || stream.kind === 'mp4') return stream.kind;

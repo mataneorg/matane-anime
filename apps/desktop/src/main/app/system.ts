@@ -3,6 +3,7 @@
 // The Linux tray is unreliable, so nothing here may depend on it: every decision falls back to normal behaviour.
 
 import type { Language } from '@matane-anime/shared';
+import { mainT } from '../i18n';
 
 /** Passed by the login item (or autostart entry) so a start with the computer does not open the window. */
 export const HIDDEN_ARG = '--hidden';
@@ -22,25 +23,14 @@ export interface TrayText {
   quit: string;
 }
 
-// TODO: like `updates/messages.ts`, duplicated from the renderer catalogs until main gets its own i18n.
 export function trayText(language: Language): TrayText {
-  if (language === 'id') {
-    return {
-      tooltip: 'Matane Anime',
-      open: 'Buka Matane Anime',
-      check: 'Cek pembaruan sekarang',
-      pause: 'Jeda unduhan',
-      resume: 'Lanjutkan unduhan',
-      quit: 'Keluar',
-    };
-  }
   return {
-    tooltip: 'Matane Anime',
-    open: 'Open Matane Anime',
-    check: 'Check for updates now',
-    pause: 'Pause downloads',
-    resume: 'Resume downloads',
-    quit: 'Quit',
+    tooltip: mainT(language, 'tray.tooltip'),
+    open: mainT(language, 'tray.open'),
+    check: mainT(language, 'tray.check'),
+    pause: mainT(language, 'tray.pause'),
+    resume: mainT(language, 'tray.resume'),
+    quit: mainT(language, 'tray.quit'),
   };
 }
 

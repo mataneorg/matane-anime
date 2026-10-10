@@ -37,12 +37,14 @@ export type AutoDownloadMode = 'include' | 'exclude';
 
 /**
  * An episode is new (UPD-4) when the app first saw it after its anime joined the library, nobody watched
- * it, it is still listed by the source, and it is not older than the window. Nothing is stored for it: the
- * list is derived, so marking it watched (through WatchService) is all it takes to drop out.
+ * it, it is still listed by the source, it is not older than the window, and the user did not dismiss it. The
+ * list is derived: marking the episode watched (through WatchService) or "seen" (`markSeen`, which only
+ * stamps `update_seen_at`) is all it takes to drop out. A new episode always starts unseen.
  * `episodes_fetched_at_idx` serves the range, the rest is a lookup by primary key.
  */
 const NEW_EPISODE = `a.in_library = 1 AND e.fetched_at > a.added_at AND e.watched = 0 AND e.source_missing = 0
-                     AND e.fetched_at >= @since`;
+                     AND e.fetched_at >= @since
+                     AND e.update_seen_at IS NULL`;
 
 /** The derived list of new episodes, and what the update checker reads and writes (docs/PRD.md UPD-1…6). */
 export class UpdatesRepository {
@@ -95,6 +97,35 @@ export class UpdatesRepository {
       .prepare(`SELECT COUNT(*) AS n FROM episodes e JOIN anime a ON a.id = e.anime_id WHERE ${NEW_EPISODE}`)
       .get({ since: now - UPDATE_WINDOW_MS }) as { n: number };
     return row.n;
+  }
+
+  /**
+   * Dismisses these entries from the list and the badge without touching the episodes' watched state or
+   * progress. Only entries the list shows are stamped, so an id that is watched, gone or already seen is skipped.
+   * Returns how many entries were dismissed.
+   */
+  markSeen(episodeIds: number[], now = Date.now()): number {
+    if (episodeIds.length === 0) return 0;
+    const result = this.db.$client
+      .prepare(
+        `UPDATE episodes AS e SET update_seen_at = @now
+         FROM anime AS a
+         WHERE a.id = e.anime_id AND ${NEW_EPISODE} AND e.id IN (SELECT value FROM json_each(@ids))`,
+      )
+      .run({ now, since: now - UPDATE_WINDOW_MS, ids: JSON.stringify(episodeIds) });
+    if (result.changes > 0) this.changes.emit('updates');
+    return result.changes;
+  }
+
+  /** Dismisses every entry `list` shows now. Returns how many. */
+  markAllSeen(now = Date.now()): number {
+    const result = this.db.$client
+      .prepare(
+        `UPDATE episodes AS e SET update_seen_at = @now FROM anime AS a WHERE a.id = e.anime_id AND ${NEW_EPISODE}`,
+      )
+      .run({ now, since: now - UPDATE_WINDOW_MS });
+    if (result.changes > 0) this.changes.emit('updates');
+    return result.changes;
   }
 
   // ------------------------------------------------------------------ what to check

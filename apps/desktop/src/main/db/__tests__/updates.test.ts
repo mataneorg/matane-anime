@@ -150,6 +150,78 @@ describe('the list of new episodes (UPD-4)', () => {
   });
 });
 
+describe('marking entries as seen', () => {
+  const numberOf = (episodeId: number) => db.episodes.list(1).find((e) => e.id === episodeId)?.number;
+
+  it('takes the entries off the list and the badge without watching them or touching their progress', () => {
+    const id = anime('Alpha', [1]);
+    refresh(id, 'Alpha', [3, 2, 1], 3000);
+    const [three, two] = db.updates.list(5000).entries;
+    db.episodes.saveProgress(two!.episodeId, 90_000, 1_400_000);
+    db.emitted.length = 0;
+
+    expect(db.updates.markSeen([two!.episodeId], 5000)).toBe(1);
+    expect(db.emitted).toEqual([['updates']]);
+    expect(db.updates.list(5000).entries.map((e) => e.episodeId)).toEqual([three!.episodeId]);
+    expect(db.updates.count(5000)).toBe(1);
+
+    const stored = db.episodes.list(id).find((e) => e.id === two!.episodeId)!;
+    expect(stored).toMatchObject({ watched: false, watchedAt: null, positionMs: 90_000 });
+    expect(numberOf(three!.episodeId)).toBe(3);
+  });
+
+  it('skips ids that are not entries: watched, unknown, old, already seen, or from a removed anime', () => {
+    const id = anime('Alpha', [1]);
+    refresh(id, 'Alpha', [4, 3, 2, 1], 3000);
+    const byNumber = (n: number) => db.episodes.list(id).find((e) => e.number === n)!.id;
+    db.episodes.setWatched([byNumber(4)], true, 3500);
+    expect(db.updates.markSeen([byNumber(3)], 5000)).toBe(1);
+    db.emitted.length = 0;
+    // Watched, unknown, already seen, and the baseline episode that was never an entry.
+    expect(db.updates.markSeen([byNumber(4), 9999, byNumber(3), byNumber(1)], 6000)).toBe(0);
+    expect(db.emitted).toEqual([]);
+    expect(db.updates.markSeen([], 6000)).toBe(0);
+    expect(db.connection.sqlite.prepare('SELECT update_seen_at FROM episodes WHERE id = ?').get(byNumber(1))).toEqual({
+      update_seen_at: null,
+    });
+    // An entry older than the window is not on the list either, so nothing is stamped.
+    expect(db.updates.markSeen([byNumber(2)], 3000 + UPDATE_WINDOW_MS + 1)).toBe(0);
+  });
+
+  it('marks everything the list shows, and only that', () => {
+    const alpha = anime('Alpha', [1]);
+    const beta = anime('Beta', [1]);
+    refresh(alpha, 'Alpha', [3, 2, 1], 3000);
+    refresh(beta, 'Beta', [2, 1], 4000);
+    db.library.remove(beta, 4500);
+    db.library.add(beta, [], 4600);
+    db.emitted.length = 0;
+
+    expect(db.updates.markAllSeen(5000)).toBe(2);
+    expect(db.emitted).toEqual([['updates']]);
+    expect(db.updates.count(5000)).toBe(0);
+    expect(db.updates.list(5000).entries).toEqual([]);
+
+    db.emitted.length = 0;
+    expect(db.updates.markAllSeen(5000)).toBe(0);
+    expect(db.emitted).toEqual([]);
+  });
+
+  it('never pre-sees an episode that appears later, and keeps a seen one hidden', () => {
+    const id = anime('Alpha', [1]);
+    refresh(id, 'Alpha', [2, 1], 3000);
+    db.updates.markAllSeen(3500);
+    refresh(id, 'Alpha', [3, 2, 1], 4000);
+    expect(db.updates.list(5000).entries.map((e) => e.episodeNumber)).toEqual([3]);
+    // The seen episode stays hidden when the source lists it again, and when it is un-watched later.
+    refresh(id, 'Alpha', [3, 2, 1], 4500);
+    const two = db.episodes.list(id).find((e) => e.number === 2)!;
+    db.episodes.setWatched([two.id], true, 4600);
+    db.episodes.setWatched([two.id], false, 4700);
+    expect(db.updates.list(5000).entries.map((e) => e.episodeNumber)).toEqual([3]);
+  });
+});
+
 describe('the first episode list of an anime already in the library', () => {
   it('is not news: an anime added before it was ever fetched keeps its baseline', () => {
     const [row] = db.anime.upsertSummaries('example/en', [{ url: '/Alpha', title: 'Alpha' }]);

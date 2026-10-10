@@ -2,7 +2,7 @@
 
 > **Status: dikerjakan (10 Okt 2026) dan sudah ada di `development`** (commit `2d7570b`, `ea4ea14`, `34bf407`, `1e55422`). Layout dan UX Library, Browse, Downloads dan Extensions mengikuti Matane; Display modes, ukuran cover serta sort dan filter tersimpan, halaman Statistics, backup terjadwal dan halaman About ada. e2e penuh (146 tes), lint, format, typecheck dan build hijau di akhir pekerjaan.
 >
-> **Belum dikerjakan (sesuai keputusan di bawah):** `markSeen` pada Updates (backend belum punya konsep "sudah dilihat"), migrasi massal, dan tracking (AniList/MAL). Penyimpangan kontras Latte dari Matane dicatat di [ADR 0036](../adr/0036-ui-follows-matane.md).
+> **Belum dikerjakan (sesuai keputusan di bawah):** migrasi massal dan tracking (AniList/MAL). `markSeen` pada Updates yang semula ditunda sudah dikerjakan pada 10 Okt 2026 ([ADR 0040](../adr/0040-updates-mark-seen.md)). Penyimpangan kontras Latte dari Matane dicatat di [ADR 0036](../adr/0036-ui-follows-matane.md).
 
 Lanjutan refactor visual (ADR 0036). Token, komponen dasar, dan gaya halaman sudah mengikuti Matane. Rencana ini menutup selisih layout, pola UX, dan fitur yang ditemukan audit. Matane (`../manga-reader`) hanya referensi pola; kode ditulis ulang di repo ini. Yang tetap berbeda hanya domain manga vs anime.
 
@@ -26,7 +26,7 @@ Kualitas: lint, format:check, typecheck, unit test, build, dan e2e penuh hijau d
 - Library: tab Default (tanpa kategori) dan tab mengikuti URL (`?tab=`); seleksi Ctrl/Shift range/Esc/Ctrl+A (`selection.ts` + unit test); bar seleksi melayang `absolute bottom-5`; popover Filter dan menu Sort dengan arah (backend sudah punya `descending`); `SearchField` kecil; `ErrorState` untuk query gagal; tombol "Clear filters" pada hasil kosong; scroll restoration.
 - Detail anime: hero dengan backdrop cover blur, deskripsi "show more", jumlah episode dan terakhir update, preview cover zoom; seleksi episode + bar melayang (`episodes.markWatched` sudah menerima `episodeIds`), kotak lompat ke episode, SortMenu bergaya Matane.
 - Browse: state tab/`q`/filter Source browse di search param route (Back mengembalikan listing); FilterPanel `w-80` (badge hitungan aktif, tombol close, footer Reset/Apply); Global search (bar progres, tombol clear); Sources list (grup Pinned + per bahasa, tombol "Latest"); Extensions (kartu toolbar dengan search, tab Updates).
-- Updates: virtualisasi, header grup (Today/Yesterday/This week/tanggal) dengan "Download all", dialog daftar error, seleksi Shift-range, `markSeen` saat halaman dibuka.
+- Updates: virtualisasi, header grup (Today/Yesterday/This week/tanggal) dengan "Download all", dialog daftar error, seleksi Shift-range, dan `markSeen` (kini ada, tetapi eksplisit lewat tombol, bukan otomatis saat halaman dibuka; lihat ADR 0040).
 - History: search di-debounce, persen + bar hijau saat selesai, error state.
 - Downloads: tab Queue/Completed/Errors dengan hitungan, header ringkas, footer, antrean dikelompokkan per judul, RetryAll di tab Errors.
 

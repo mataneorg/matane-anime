@@ -59,25 +59,50 @@ interface Analysis {
   announcedKey: PublicKey | null;
 }
 
-/** Turns what the repository code can throw (network, format, integrity) into an error the user can read. */
-export function toRepoAppError(error: unknown, what: string): AppError {
+/** What a failed fetch was about: a stock part of a repository, or an extension by name. */
+export type RepoSubject = 'index' | 'indexFile' | 'signature' | 'extension' | { name: string };
+
+const subjectParams = (subject: RepoSubject | undefined): Record<string, string> =>
+  subject === undefined ? {} : typeof subject === 'string' ? { subject } : { name: subject.name };
+
+/**
+ * Turns what the repository code can throw (network, format, integrity) into an error the user can read.
+ * `what` is the English phrase for the message; `subject` lets the renderer say the same in its own language.
+ */
+export function toRepoAppError(error: unknown, what: string, subject?: RepoSubject): AppError {
   if (error instanceof AppError) return error;
+  const about = subjectParams(subject);
   if (isRepoHttpError(error)) {
     if (error.code === 'offline') return new AppError('offline', 'You are offline');
-    if (error.code === 'aborted') return new AppError('cancelled', 'The request was cancelled');
-    if (error.code === 'too_large') return new AppError('invalid_input', `${capitalize(what)} is larger than allowed.`);
+    if (error.code === 'aborted') {
+      return new AppError('cancelled', 'The request was cancelled', { key: 'requestCancelled' });
+    }
+    if (error.code === 'too_large') {
+      return new AppError('invalid_input', `${capitalize(what)} is larger than allowed.`, {
+        key: 'tooLarge',
+        params: about,
+      });
+    }
     const status = httpStatusOf(error);
     if (status !== null) {
-      return new AppError(
-        'network',
-        status === 404
-          ? `${capitalize(what)} was not found (the server answered 404).`
-          : `The server answered ${status} for ${what}.`,
-      );
+      return status === 404
+        ? new AppError('network', `${capitalize(what)} was not found (the server answered 404).`, {
+            key: 'notFound404',
+            params: about,
+          })
+        : new AppError('network', `The server answered ${status} for ${what}.`, {
+            key: 'serverStatus',
+            params: { ...about, status },
+          });
     }
-    return new AppError('network', `Could not fetch ${what}: ${error.message}`);
+    return new AppError('network', `Could not fetch ${what}: ${error.message}`, {
+      key: 'fetchFailed',
+      params: { ...about, detail: error.message },
+    });
   }
   if (error instanceof RepoError) {
+    // The part of a RepoError's message after the sentence is a technical detail that stays in English.
+    const detail = { detail: error.message };
     switch (error.code) {
       case 'incompatible_api':
         return new AppError('unsupported', error.message);
@@ -85,22 +110,30 @@ export function toRepoAppError(error: unknown, what: string): AppError {
         return new AppError(
           'invalid_input',
           'The download does not match the SHA-256 in the repository index, so it was not installed.',
+          { key: 'hashMismatch' },
         );
       case 'size_mismatch':
         return new AppError(
           'invalid_input',
           `The download does not have the size the index promises. ${error.message}`,
+          { key: 'sizeMismatch', params: detail },
         );
       case 'icon_mismatch':
-        return new AppError('invalid_input', error.message);
+        return new AppError('invalid_input', error.message, { key: 'iconMismatch' });
       case 'manifest_mismatch':
-        return new AppError('invalid_input', `The package contradicts the repository index. ${error.message}`);
+        return new AppError('invalid_input', `The package contradicts the repository index. ${error.message}`, {
+          key: 'manifestMismatch',
+          params: detail,
+        });
       case 'bad_archive':
-        return new AppError('invalid_input', `The package is not a valid extension archive. ${error.message}`);
+        return new AppError('invalid_input', `The package is not a valid extension archive. ${error.message}`, {
+          key: 'badArchive',
+          params: detail,
+        });
       case 'too_large':
-        return new AppError('invalid_input', error.message);
+        return new AppError('invalid_input', error.message, { key: 'packageTooLarge', params: detail });
       default:
-        return new AppError('invalid_input', error.message);
+        return new AppError('invalid_input', error.message, { key: 'indexInvalid', params: detail });
     }
   }
   return new AppError('internal', error instanceof Error ? error.message : String(error));
@@ -121,13 +154,19 @@ export function normalizeRepoUrl(input: string): string {
   try {
     url = new URL(input.trim());
   } catch {
-    throw new AppError('invalid_input', 'That is not a valid address. Use a link like https://example.org/repo/');
+    throw new AppError('invalid_input', 'That is not a valid address. Use a link like https://example.org/repo/', {
+      key: 'repoAddressInvalid',
+    });
   }
   if (url.protocol !== 'http:' && url.protocol !== 'https:') {
-    throw new AppError('invalid_input', 'A repository address must start with http:// or https://.');
+    throw new AppError('invalid_input', 'A repository address must start with http:// or https://.', {
+      key: 'repoAddressScheme',
+    });
   }
   if (url.username || url.password) {
-    throw new AppError('invalid_input', 'A repository address must not contain a user name or password.');
+    throw new AppError('invalid_input', 'A repository address must not contain a user name or password.', {
+      key: 'repoAddressCredentials',
+    });
   }
   url.hash = '';
   url.search = '';
@@ -171,12 +210,16 @@ export class RepoService implements RepoLookup {
 
   async add(url: string, trustKey: boolean): Promise<RepoInfo> {
     const base = normalizeRepoUrl(url);
-    if (this.deps.repos.getByUrl(base)) throw new AppError('invalid_input', 'This repository was already added.');
+    if (this.deps.repos.getByUrl(base)) {
+      throw new AppError('invalid_input', 'This repository was already added.', { key: 'repoAlreadyAdded' });
+    }
     const fetched = await this.fetchIndex(base);
     const { status, announcedKey } = this.classify(fetched, null);
     if (status === 'invalid') throw invalidSignature();
     if (trustKey && status !== 'unverified') {
-      throw new AppError('invalid_input', 'This repository is not signed, so there is no key to trust.');
+      throw new AppError('invalid_input', 'This repository is not signed, so there is no key to trust.', {
+        key: 'repoNotSigned',
+      });
     }
     const row = this.deps.repos.add(
       {
@@ -208,7 +251,9 @@ export class RepoService implements RepoLookup {
     } else {
       const { index, trust, announcedKey } = this.analyseWithKey(row, null);
       if (index === null || trust !== 'unverified' || announcedKey === null) {
-        throw new AppError('invalid_input', 'This repository has no valid signature, so there is no key to trust.');
+        throw new AppError('invalid_input', 'This repository has no valid signature, so there is no key to trust.', {
+          key: 'repoNoKeyToTrust',
+        });
       }
       this.deps.repos.setTrustedKey(id, announcedKey);
     }
@@ -227,7 +272,7 @@ export class RepoService implements RepoLookup {
         await this.refreshOnce(row.id);
         refreshed++;
       } catch (error) {
-        const app = toRepoAppError(error, 'the repository index');
+        const app = toRepoAppError(error, 'the repository index', 'index');
         failed.push({ repoId: row.id, message: app.message });
         // Being offline says nothing about the repository: keep the earlier state of the row.
         if (app.code !== 'offline' && app.code !== 'cancelled') this.deps.repos.recordError(row.id, app.message);
@@ -255,12 +300,14 @@ export class RepoService implements RepoLookup {
         throw new AppError(
           'invalid_input',
           'The repository is trusted but its index is no longer signed. The new index was refused.',
+          { key: 'repoSignatureRemoved' },
         );
       }
       if (status === 'key-changed') {
         throw new AppError(
           'invalid_input',
           'The repository is now signed with a different key than the one you trusted. The new index was refused; remove the repository and add it again to trust the new key.',
+          { key: 'repoKeyChanged' },
         );
       }
     }
@@ -268,6 +315,7 @@ export class RepoService implements RepoLookup {
       throw new AppError(
         'invalid_input',
         `The repository went back in time (serial ${fetched.index.serial}, last accepted ${row.serial}). The old index was kept.`,
+        { key: 'repoWentBack', params: { serial: fetched.index.serial, accepted: row.serial } },
       );
     }
     this.deps.repos.saveAccepted(
@@ -363,7 +411,7 @@ export class RepoService implements RepoLookup {
 
   private require(id: number): RepoRow {
     const row = this.deps.repos.get(id);
-    if (!row) throw new AppError('not_found', 'That repository is no longer in the list.');
+    if (!row) throw new AppError('not_found', 'That repository is no longer in the list.', { key: 'repoGone' });
     return row;
   }
 
@@ -374,19 +422,20 @@ export class RepoService implements RepoLookup {
     try {
       indexBytes = (await http.get(`${base}index.json`, { maxBytes: MAX_INDEX_BYTES })).bytes;
     } catch (error) {
-      throw toRepoAppError(error, 'the repository index (index.json)');
+      throw toRepoAppError(error, 'the repository index (index.json)', 'indexFile');
     }
     let sigBytes: Uint8Array | null = null;
     try {
       sigBytes = (await http.get(`${base}index.json.sig`, { maxBytes: MAX_SIGNATURE_FETCH_BYTES })).bytes;
     } catch (error) {
       const status = httpStatusOf(error);
-      if (status !== 404 && status !== 410) throw toRepoAppError(error, 'the signature file (index.json.sig)');
+      if (status !== 404 && status !== 410)
+        throw toRepoAppError(error, 'the signature file (index.json.sig)', 'signature');
     }
     try {
       return { indexBytes, sigBytes, index: parseIndex(indexBytes) };
     } catch (error) {
-      throw toRepoAppError(error, 'the repository index');
+      throw toRepoAppError(error, 'the repository index', 'index');
     }
   }
 
@@ -455,5 +504,6 @@ function invalidSignature(): AppError {
   return new AppError(
     'invalid_input',
     'The signature of this repository does not match its index. It may have been tampered with, so it was not added.',
+    { key: 'repoSignatureInvalid' },
   );
 }

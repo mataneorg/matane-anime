@@ -104,7 +104,11 @@ export class InstallService {
 
   async prepareInstall(input: { repoId: number; extensionId: string }): Promise<InstallPreparation> {
     const found = this.deps.repos.entryOf(input.repoId, input.extensionId);
-    if (!found) throw new AppError('not_found', 'That extension is no longer offered by the repository.');
+    if (!found) {
+      throw new AppError('not_found', 'That extension is no longer offered by the repository.', {
+        key: 'extensionNotOffered',
+      });
+    }
     const { repo, entry, trust } = found;
     this.assertCompatible(entry);
     const row = this.deps.store.findExtension(entry.id);
@@ -156,10 +160,16 @@ export class InstallService {
     this.dropExpired();
     const item = this.prepared.get(token);
     this.prepared.delete(token);
-    if (!item) throw new AppError('invalid_input', 'This install request expired. Start the install again.');
+    if (!item) {
+      throw new AppError('invalid_input', 'This install request expired. Start the install again.', {
+        key: 'installExpired',
+      });
+    }
     return this.serial(async () => {
       const repo = this.deps.repos.entryOf(item.repoId, item.entry.id)?.repo;
-      if (!repo) throw new AppError('not_found', 'The repository was removed in the meantime.');
+      if (!repo) {
+        throw new AppError('not_found', 'The repository was removed in the meantime.', { key: 'installRepoRemoved' });
+      }
       this.assertNoConflict(item.entry.id, this.deps.store.findExtension(item.entry.id), repo.id);
       await this.apply(item.pkg, item.entry, repo.id);
     });
@@ -175,18 +185,27 @@ export class InstallService {
         throw new AppError(
           'invalid_input',
           `"${extensionId}" was not installed from a repository, so it has no updates.`,
+          { key: 'notFromRepo', params: { id: extensionId } },
         );
       }
       if (row.repoId === null) {
         throw new AppError(
           'invalid_input',
           'The repository this extension came from was removed, so it has no updates.',
+          { key: 'repoOfExtensionRemoved' },
         );
       }
       const found = this.deps.repos.entryOf(row.repoId, extensionId);
-      if (!found) throw new AppError('not_found', 'The repository no longer offers this extension.');
+      if (!found) {
+        throw new AppError('not_found', 'The repository no longer offers this extension.', {
+          key: 'repoNoLongerOffers',
+        });
+      }
       if (!isNewer(found.entry.version, row.version)) {
-        throw new AppError('invalid_input', `"${row.name}" is already up to date.`);
+        throw new AppError('invalid_input', `"${row.name}" is already up to date.`, {
+          key: 'upToDate',
+          params: { name: row.name },
+        });
       }
       this.assertCompatible(found.entry);
       const pkg = await this.download(found.repo, found.entry);
@@ -219,12 +238,21 @@ export class InstallService {
   uninstall(extensionId: string): Promise<void> {
     return this.serial(async () => {
       const row = this.deps.store.findExtension(extensionId);
-      if (!row) throw new AppError('not_found', `"${extensionId}" is not installed.`);
+      if (!row) {
+        throw new AppError('not_found', `"${extensionId}" is not installed.`, {
+          key: 'notInstalled',
+          params: { id: extensionId },
+        });
+      }
       if (row.origin !== 'repo') {
-        throw new AppError('forbidden', 'This extension is loaded from a folder; remove the folder instead.');
+        throw new AppError('forbidden', 'This extension is loaded from a folder; remove the folder instead.', {
+          key: 'installedFromFolder',
+        });
       }
       if (this.deps.registry.isShadowed(extensionId)) {
-        throw new AppError('forbidden', 'A dev folder is running this extension. Remove the folder first.');
+        throw new AppError('forbidden', 'A dev folder is running this extension. Remove the folder first.', {
+          key: 'devFolderRunning',
+        });
       }
       await this.deps.registry.unloadInstalled(extensionId);
       await this.removeFiles(row);
@@ -277,12 +305,17 @@ export class InstallService {
       throw new AppError(
         'unsupported',
         `"${entry.name}" needs extension API ${entry.apiVersion}; this app supports up to ${API_VERSION}. Update the app to install it.`,
+        {
+          key: 'apiTooNew',
+          params: { name: entry.name, required: entry.apiVersion, supported: API_VERSION },
+        },
       );
     }
     if (reason === 'app') {
       throw new AppError(
         'unsupported',
         `"${entry.name}" needs Matane Anime ${entry.minAppVersion} or newer. Update the app to install it.`,
+        { key: 'appTooOld', params: { name: entry.name, version: entry.minAppVersion ?? '' } },
       );
     }
   }
@@ -293,13 +326,17 @@ export class InstallService {
       throw new AppError(
         'forbidden',
         `"${extensionId}" is loaded from a dev folder. Remove the folder before installing it from a repository.`,
+        { key: 'devFolderBlocksInstall', params: { id: extensionId } },
       );
     }
     if (row?.origin === 'repo' && row.repoId !== null && row.repoId !== repoId) {
-      const name = this.deps.repos.describe(row.repoId)?.name ?? 'another repository';
+      const repoName = this.deps.repos.describe(row.repoId)?.name;
       throw new AppError(
         'forbidden',
-        `"${extensionId}" is already installed from ${name}. An extension id can come from one repository at a time; uninstall it first.`,
+        `"${extensionId}" is already installed from ${repoName ?? 'another repository'}. An extension id can come from one repository at a time; uninstall it first.`,
+        repoName
+          ? { key: 'installedFromOtherRepo', params: { id: extensionId, repo: repoName } }
+          : { key: 'installedFromAnotherRepo', params: { id: extensionId } },
       );
     }
   }
@@ -314,7 +351,7 @@ export class InstallService {
       const icon = await http.get(resolveUrl(base, entry.icon), { maxBytes: Math.min(entry.iconSize, MAX_ICON_BYTES) });
       return verifyPackage(entry, archive.bytes, icon.bytes);
     } catch (error) {
-      throw toRepoAppError(error, `"${entry.name}"`);
+      throw toRepoAppError(error, `"${entry.name}"`, { name: entry.name });
     }
   }
 
@@ -322,7 +359,9 @@ export class InstallService {
   private async apply(pkg: ExtensionPackage, entry: IndexEntry, repoId: number): Promise<void> {
     const { extensionsDir, registry, store } = this.deps;
     const id = entry.id;
-    if (!ID_PATTERN.test(id)) throw new AppError('invalid_input', 'The extension id is not valid.');
+    if (!ID_PATTERN.test(id)) {
+      throw new AppError('invalid_input', 'The extension id is not valid.', { key: 'invalidExtensionId' });
+    }
     const dir = join(extensionsDir, id);
     const tmp = `${dir}.tmp`;
     const old = `${dir}.old`;
@@ -342,7 +381,10 @@ export class InstallService {
       await this.fs.writeFile(join(tmp, 'icon.png'), pkg.icon);
     } catch (error) {
       await this.fs.remove(tmp);
-      throw new AppError('internal', `Could not write the extension files: ${(error as Error).message}`);
+      throw new AppError('internal', `Could not write the extension files: ${(error as Error).message}`, {
+        key: 'writeFailed',
+        params: { detail: (error as Error).message },
+      });
     }
 
     const hadOld = await this.fs.exists(dir);
@@ -353,7 +395,10 @@ export class InstallService {
       // Put the previous version back before reporting.
       await this.fs.remove(tmp);
       if (hadOld && !(await this.fs.exists(dir))) await this.fs.rename(old, dir).catch(() => undefined);
-      throw new AppError('internal', `Could not install the extension: ${(error as Error).message}`);
+      throw new AppError('internal', `Could not install the extension: ${(error as Error).message}`, {
+        key: 'installFailed',
+        params: { detail: (error as Error).message },
+      });
     }
 
     let failure: string | null = null;
@@ -370,7 +415,10 @@ export class InstallService {
       // The sandbox and the list go back to what they were.
       if (previousInstall && hadOld) await registry.loadInstalled(previousInstall).catch(() => undefined);
       else await registry.unloadInstalled(id).catch(() => undefined);
-      throw new AppError('extension', `"${entry.name}" could not be loaded, so nothing was changed. ${failure}`);
+      throw new AppError('extension', `"${entry.name}" could not be loaded, so nothing was changed. ${failure}`, {
+        key: 'loadFailed',
+        params: { name: entry.name, detail: failure },
+      });
     }
     await this.fs.remove(old);
     this.deps.invalidateNetwork(id);

@@ -1,0 +1,1 @@
+ALTER TABLE `episodes` ADD `update_seen_at` integer;

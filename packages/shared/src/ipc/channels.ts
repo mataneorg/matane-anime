@@ -91,6 +91,8 @@ export const INVOKE_CHANNELS = [
   'playback.switchStream',
   'playback.close',
   'playback.keepAwake',
+  /** The renderer reports which codecs Chromium can play, once at start (PLY-12). */
+  'playback.reportCodecs',
   'downloads.list',
   'downloads.enqueue',
   'downloads.pause',
@@ -117,6 +119,10 @@ export const INVOKE_CHANNELS = [
   'updates.list',
   'updates.count',
   'updates.check',
+  /** Dismisses Updates entries without marking them watched; resolves to how many were dismissed. */
+  'updates.markSeen',
+  /** Dismisses every entry Updates shows now; resolves to how many. */
+  'updates.markAllSeen',
   // Playback spike (phase 0). Only answered when the app runs with MATANE_SPIKE=1 or in development.
   'dev.seedLibrary',
   'spike.fixtures',

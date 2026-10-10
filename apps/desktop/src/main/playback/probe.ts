@@ -1,12 +1,17 @@
 import type { Stream } from '@matane-anime/extension-sdk';
 import type { PlaybackSession } from './sessions';
 import type { UpstreamFetch } from './proxy';
+import { parseVariantCodecs } from './codecs';
 import { guessKind } from './ranking';
 
-export type ProbeResult = { ok: true; kind: 'hls' | 'mp4' } | { ok: false; reason: string; httpStatus: number | null };
+/** `variants` are the `CODECS` of each variant of an HLS master playlist (empty when it has none). */
+export type ProbeResult =
+  { ok: true; kind: 'hls' | 'mp4'; variants?: string[][] } | { ok: false; reason: string; httpStatus: number | null };
 
 export const PROBE_TIMEOUT_MS = 8000;
 const HEAD_BYTES = 4096;
+/** How much of a playlist is read to find the `CODECS` of its variants; a master playlist is a few KB. */
+const PLAYLIST_BYTES = 16 * 1024;
 
 /** Reads at most `max` bytes of a body and drops the rest: a server that ignores `Range` must not cost a whole file. */
 export async function readHead(response: Response, max: number): Promise<Uint8Array> {
@@ -37,6 +42,12 @@ export async function readHead(response: Response, max: number): Promise<Uint8Ar
 
 const looksLikePlaylist = (head: Uint8Array): boolean =>
   new TextDecoder().decode(head.subarray(0, 64)).trimStart().startsWith('#EXTM3U');
+
+const playlistResult = (head: Uint8Array): ProbeResult => ({
+  ok: true,
+  kind: 'hls',
+  variants: parseVariantCodecs(new TextDecoder().decode(head)),
+});
 
 /**
  * Checks that a stream answers before the player is pointed at it (docs/PRD.md STR-2): a playlist must be
@@ -74,13 +85,11 @@ export async function probeStream(
     return { ok: false, reason: `HTTP ${response.status}`, httpStatus: response.status };
   }
   try {
-    const head = await readHead(response, guessed === 'hls' ? 64 : HEAD_BYTES);
+    const head = await readHead(response, guessed === 'hls' ? PLAYLIST_BYTES : HEAD_BYTES);
     if (guessed === 'hls') {
-      return looksLikePlaylist(head)
-        ? { ok: true, kind: 'hls' }
-        : { ok: false, reason: 'not a playlist', httpStatus: null };
+      return looksLikePlaylist(head) ? playlistResult(head) : { ok: false, reason: 'not a playlist', httpStatus: null };
     }
-    if (looksLikePlaylist(head)) return { ok: true, kind: 'hls' };
+    if (looksLikePlaylist(head)) return playlistResult(head);
     if (guessed === 'mp4')
       return head.byteLength > 0 ? { ok: true, kind: 'mp4' } : { ok: false, reason: 'empty answer', httpStatus: null };
     const type = response.headers.get('content-type') ?? '';

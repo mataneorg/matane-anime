@@ -8,6 +8,7 @@ import {
   type PlaybackEvent,
   type PlaybackSession as PlaybackSessionDto,
   type PlaybackUpdate,
+  type CodecSupport,
   type StreamOption,
 } from '@matane-anime/shared';
 import { powerSaveBlocker } from 'electron';
@@ -18,10 +19,11 @@ import type { ExtensionStore } from '../db/repositories/extension-store';
 import type { SettingsRepository } from '../db/repositories/settings';
 import type { ExtensionService } from '../extensions/service';
 import { abortable, type RequestRegistry } from '../ipc/requests';
+import { isStreamUnsupported } from './codecs';
 import { neighbors } from './neighbors';
 import { type ProbeResult, probeStream } from './probe';
 import type { UpstreamFetch } from './proxy';
-import { type Ranked, guessKind, rankStreams } from './ranking';
+import { type Ranked, demote, guessKind, rankStreams } from './ranking';
 import type { PlaybackSession as ProbedSession, SessionStore } from './sessions';
 
 /** Playback errors tolerated before the player shows the error state (docs/PRD.md STR-3). */
@@ -69,6 +71,8 @@ interface Playback {
   candidates: Ranked[];
   /** Candidate positions that failed to probe or to play. */
   failed: Set<number>;
+  /** Candidate positions whose playlist only has variants the player cannot decode (PLY-12): tried last. */
+  unsupported: Set<number>;
   active: number;
   kind: 'hls' | 'mp4';
   /** Played from a download: one synthetic candidate, no extension involved. */
@@ -95,6 +99,8 @@ const label = (r: Ranked): string => `${r.stream.server}${r.stream.quality ? ` $
 export class PlaybackService {
   private readonly playbacks = new Map<string, Playback>();
   private blocker: number | null = null;
+  /** What the renderer reported about codecs; null until it has (then no stream is judged). */
+  private codecSupport: CodecSupport | null = null;
   private readonly deps: PlaybackDeps;
 
   constructor(deps: PlaybackDeps) {
@@ -129,6 +135,7 @@ export class PlaybackService {
       extensionId: row.sourceId.split('/')[0] as string,
       candidates: this.rank(row, streams),
       failed: new Set(),
+      unsupported: new Set(),
       active: -1,
       kind: 'hls',
       local: null,
@@ -181,6 +188,7 @@ export class PlaybackService {
         },
       ],
       failed: new Set(),
+      unsupported: new Set(),
       active: 0,
       kind: download.kind,
       local: download,
@@ -247,6 +255,11 @@ export class PlaybackService {
     this.keepAwake(false);
   }
 
+  /** The renderer measured which codecs Chromium plays (PLY-12). Applies to the next probe on. */
+  setCodecSupport(support: CodecSupport): void {
+    this.codecSupport = support;
+  }
+
   /** Keeps the display on while video plays (PLY-8). */
   keepAwake(enabled: boolean): void {
     if (enabled && this.blocker === null) this.blocker = powerSaveBlocker.start('prevent-display-sleep');
@@ -301,6 +314,7 @@ export class PlaybackService {
         );
         playback.candidates = ranked;
         playback.failed.clear();
+        playback.unsupported.clear();
         if (same >= 0) {
           await this.openFirstWorking(playback, [same]);
           return { type: 'switched', reason: 'refreshed', session: this.describe(playback) };
@@ -352,7 +366,10 @@ export class PlaybackService {
    * and the others are cancelled; only streams that really failed are marked failed.
    */
   private async openFirstWorking(playback: Playback, order: number[]): Promise<void> {
-    const queue = order.filter((position) => playback.candidates[position] && !playback.failed.has(position));
+    const queue = demote(
+      order.filter((position) => playback.candidates[position] && !playback.failed.has(position)),
+      (position) => playback.unsupported.has(position),
+    );
     const stagger = this.deps.probeStaggerMs ?? PROBE_STAGGER_MS;
     const stop = new AbortController();
     type Attempt = { position: number; result: ProbeResult };
@@ -361,7 +378,10 @@ export class PlaybackService {
     const TICK = Symbol('tick');
     let next = 0;
     let last: ProbeResult | null = null;
-    let winner: { position: number; kind: 'hls' | 'mp4' } | null = null;
+    type Opened = { position: number; kind: 'hls' | 'mp4' };
+    let winner: Opened | null = null;
+    // Streams that answered but have nothing the player can decode (PLY-12): used only when no other one answers.
+    const unplayable: Opened[] = [];
 
     const begin = (): void => {
       const position = queue[next++] as number;
@@ -400,8 +420,15 @@ export class PlaybackService {
         }
         running.delete(settled.position);
         if (settled.result.ok) {
-          winner = { position: settled.position, kind: settled.result.kind };
-          break;
+          const pick = { position: settled.position, kind: settled.result.kind };
+          if (!isStreamUnsupported(settled.result.variants, this.codecSupport)) {
+            winner = pick;
+            break;
+          }
+          playback.unsupported.add(pick.position);
+          unplayable.push(pick);
+          if (next < queue.length && running.size < PROBE_PARALLEL) begin();
+          continue;
         }
         const failed = playback.candidates[settled.position] as Ranked;
         this.deps.sessions.delete((sessions.get(settled.position) as ProbedSession).id);
@@ -411,6 +438,8 @@ export class PlaybackService {
         last = settled.result;
         if (next < queue.length && running.size < PROBE_PARALLEL) begin();
       }
+      // Several can answer; the best-ranked one of them goes first.
+      winner ??= unplayable.sort((x, y) => queue.indexOf(x.position) - queue.indexOf(y.position))[0] ?? null;
     } finally {
       // Whoever lost, or was still waiting when the winner came in, is no longer wanted.
       stop.abort();

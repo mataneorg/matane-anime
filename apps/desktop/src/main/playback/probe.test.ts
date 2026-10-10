@@ -40,7 +40,41 @@ describe('probeStream (STR-2)', () => {
 
   it('accepts a playlist that is one', async () => {
     const result = await probeStream(stream('https://x/a.m3u8'), answering('#EXTM3U\n#EXT-X-VERSION:3\n'), session);
-    expect(result).toEqual({ ok: true, kind: 'hls' });
+    expect(result).toEqual({ ok: true, kind: 'hls', variants: [] });
+  });
+
+  it('reads the CODECS of every variant of a master playlist, past the first 64 bytes', async () => {
+    const master = [
+      '#EXTM3U',
+      '#EXT-X-VERSION:6',
+      '#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360,CODECS="avc1.4d401e,mp4a.40.2"',
+      'low.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=2800000,CODECS="hvc1.1.6.L93.B0,mp4a.40.2"',
+      'high.m3u8',
+    ].join('\n');
+    const result = await probeStream(stream('https://x/master.m3u8'), answering(master), session);
+    expect(result).toEqual({
+      ok: true,
+      kind: 'hls',
+      variants: [
+        ['avc1.4d401e', 'mp4a.40.2'],
+        ['hvc1.1.6.L93.B0', 'mp4a.40.2'],
+      ],
+    });
+  });
+
+  it('reads no more of a long playlist than its cap', async () => {
+    let pulled = 0;
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        pulled++;
+        controller.enqueue(new TextEncoder().encode(pulled === 1 ? '#EXTM3U\n' : '#EXTINF:4,\nseg.ts\n'.repeat(500)));
+        if (pulled > 1000) controller.close();
+      },
+    });
+    const result = await probeStream(stream('https://x/a.m3u8'), async () => new Response(body), session);
+    expect(result).toMatchObject({ ok: true, kind: 'hls', variants: [] });
+    expect(pulled).toBeLessThan(20);
   });
 
   it('rejects an HTML page served in place of a playlist', async () => {
@@ -70,6 +104,7 @@ describe('probeStream (STR-2)', () => {
     expect(await probeStream(stream('https://x/play?id=1'), answering('#EXTM3U\n'), session)).toEqual({
       ok: true,
       kind: 'hls',
+      variants: [],
     });
     expect(
       await probeStream(

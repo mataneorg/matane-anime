@@ -15,12 +15,69 @@ export const ERROR_CODES = [
 ] as const;
 export type ErrorCode = (typeof ERROR_CODES)[number];
 
+/** The `detail.key` values main uses for repository and install failures; each has an `errors.main.*` text. */
+export const MAIN_ERROR_KEYS = [
+  // repositories
+  'repoAddressInvalid',
+  'repoAddressScheme',
+  'repoAddressCredentials',
+  'repoAlreadyAdded',
+  'repoNotSigned',
+  'repoNoKeyToTrust',
+  'repoGone',
+  'repoSignatureInvalid',
+  'repoSignatureRemoved',
+  'repoKeyChanged',
+  'repoWentBack',
+  // fetching and verifying
+  'requestCancelled',
+  'tooLarge',
+  'notFound404',
+  'serverStatus',
+  'fetchFailed',
+  'hashMismatch',
+  'sizeMismatch',
+  'iconMismatch',
+  'manifestMismatch',
+  'badArchive',
+  'packageTooLarge',
+  'indexInvalid',
+  // installing
+  'extensionNotOffered',
+  'installExpired',
+  'installRepoRemoved',
+  'notFromRepo',
+  'repoOfExtensionRemoved',
+  'repoNoLongerOffers',
+  'upToDate',
+  'notInstalled',
+  'installedFromFolder',
+  'devFolderRunning',
+  'apiTooNew',
+  'appTooOld',
+  'devFolderBlocksInstall',
+  'installedFromOtherRepo',
+  'installedFromAnotherRepo',
+  'invalidExtensionId',
+  'writeFailed',
+  'installFailed',
+  'loadFailed',
+] as const;
+export type MainErrorKey = (typeof MAIN_ERROR_KEYS)[number];
+
 /** Extra facts about a failure that the UI acts on (e.g. offering "Verify" for a Cloudflare challenge). */
 export interface ErrorDetail {
   /** The extension's typed error name, or a runtime code such as `timeout`, `interrupted`, `memory`. */
   kind?: string;
   /** HTTP status, for `HttpError`. */
   status?: number;
+  /**
+   * A stable id of what went wrong, for the renderer to say it in the user's language (`errors.main.<key>`).
+   * `AppError.message` stays the English text for logs; an unknown key just shows that message.
+   */
+  key?: MainErrorKey;
+  /** The values the text of `key` needs. */
+  params?: Record<string, string | number>;
 }
 
 export class AppError extends Error {

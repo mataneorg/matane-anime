@@ -1,7 +1,7 @@
 import type { Stream } from '@matane-anime/extension-sdk';
 import { describe, expect, it } from 'vitest';
 import { neighbors } from './neighbors';
-import { guessKind, qualityRank, rankStreams } from './ranking';
+import { demote, guessKind, qualityRank, rankStreams } from './ranking';
 
 const stream = (server: string, quality?: number, extra: Partial<Stream> = {}): Stream => ({
   url: `https://cdn.test/${server}-${quality ?? 'x'}.m3u8`,
@@ -103,5 +103,17 @@ describe('neighbors', () => {
     const unnumbered = [ep(10, null, null, 0), ep(11, null, null, 1), ep(12, null, null, 2)];
     expect(neighbors(unnumbered, 11)).toMatchObject({ next: { id: 10 }, previous: { id: 12 } });
     expect(neighbors(list, 999)).toEqual({ next: null, previous: null });
+  });
+});
+
+describe('demote (PLY-12)', () => {
+  it('moves the demoted items to the end and keeps the order inside both groups', () => {
+    expect(demote([1, 2, 3, 4, 5], (n) => n % 2 === 0)).toEqual([1, 3, 5, 2, 4]);
+  });
+
+  it('drops nothing, and changes nothing when nothing is demoted or everything is', () => {
+    expect(demote([1, 2, 3], () => false)).toEqual([1, 2, 3]);
+    expect(demote([1, 2, 3], () => true)).toEqual([1, 2, 3]);
+    expect(demote([], () => true)).toEqual([]);
   });
 });

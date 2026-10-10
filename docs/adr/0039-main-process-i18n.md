@@ -1,0 +1,18 @@
+# 39. The main process speaks the user's language
+
+Status: Accepted (2026-10-10).
+
+## Context
+Only the renderer had i18n (i18next, `en.json` and `id.json`). The main process says things to the user too: the OS notification for new episodes (UPD-7), the tray menu (UPD-9), and the messages of the `AppError`s it throws. The first two were copied by hand into `updates/messages.ts` and `app/system.ts` with a TODO each, and the errors of repositories and installs reached the UI as English sentences, so an Indonesian user saw "The signature of this repository does not match its index." in a toast. The renderer's catalogs are not reachable from main (they are bundled into the renderer), and main cannot call i18next without adding a second runtime to the process that has to start fast.
+
+## Decision
+- **`main/i18n/` holds the main process's own catalogs** (`catalog.ts`): a typed `en` object and an `id` object typed `Record<keyof typeof en, string>`, so a missing or extra key in `id` is a compile error, and a unit test checks that the key sets and the `{{placeholders}}` are equal. `mainT(language, key, params)` fills `{{name}}` placeholders and, when `params.count` is a number, picks `<key>_one` or `<key>_other` with `Intl.PluralRules` (the same suffixes as i18next, so the strings read the same in both places). `id` repeats its one form under both suffixes to keep the key sets equal. The catalogs only hold what main says on its own (notifications, tray), not what the renderer shows.
+- **Errors carry a key, not a translation.** `ErrorDetail` gains an optional `key` (one of `MAIN_ERROR_KEYS` in `@matane-anime/shared`) and optional `params`. `AppError.message` stays the English text: logs, `lastError` in the database, the CLI and the existing tests do not change, and an error without a key behaves as before. `encodeIpcError` already sends the whole `detail`, so nothing in the IPC layer changed.
+- **The renderer translates.** `describeError` looks up `errors.main.<key>` (in `en.json` and `id.json`) with the params, before the existing code-based branches, and falls back to the English `message` when the key is unknown (a newer main, an older catalog). A test checks that every key of `MAIN_ERROR_KEYS` has a text in both languages and that the catalogs hold nothing else.
+- **What a fetch was about is a param too.** `toRepoAppError(error, what, subject?)` keeps the English phrase `what` for the message and takes a typed `subject` (`index`, `indexFile`, `signature`, `extension`, or `{ name }` for an extension by name). `subject` is translated in the renderer from `errors.mainSubject.*`; a `name` is shown quoted. Texts are written so the subject is never the first word, which avoids capitalizing a translated phrase.
+
+## Consequences
+- Technical details from other packages (the `RepoError` message of `@matane-anime/extension-repo`, a filesystem error) are passed as a `detail` param and stay in English after a translated sentence. Translating those would mean coded errors in that package; not worth it for text only an extension author sees.
+- Failures listed per repository (`RepoRefreshResult.failed`, `UpdateAllResult.failed`) and `lastError` in the database still carry only the English `message`; giving them a key is a follow-up when the UI wants it.
+- A new user-visible error in main gets a key in `MAIN_ERROR_KEYS` and a text in both locale files; the test fails until both exist. A new language is added in `LANGUAGES`, `catalog.ts` and the locale files, and the compiler and the tests point at what is missing.
+- Not every error is covered: only repository and install failures. Others (extension runtime, downloads) already have their own codes and texts in the renderer.

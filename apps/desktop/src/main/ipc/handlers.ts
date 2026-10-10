@@ -235,6 +235,7 @@ export function createHandlers({
     'playback.switchStream': ({ playbackId, index, requestId }) => playback.switchStream(playbackId, index, requestId),
     'playback.close': ({ playbackId }) => playback.close(playbackId),
     'playback.keepAwake': ({ enabled }) => playback.keepAwake(enabled),
+    'playback.reportCodecs': (support) => playback.setCodecSupport(support),
     'downloads.list': () => downloads.list(),
     'downloads.enqueue': (input) => downloads.enqueue(input, { reason: 'manual' }),
     'downloads.pause': ({ id }) => downloads.pause(id),
@@ -262,6 +263,8 @@ export function createHandlers({
     'updates.list': () => updates.list(),
     'updates.count': () => updates.count(),
     'updates.check': ({ scope, requestId }) => updates.check(scope, requestId),
+    'updates.markSeen': ({ episodeIds }) => updates.markSeen(episodeIds),
+    'updates.markAllSeen': () => updates.markAllSeen(),
     'dev.seedLibrary': ({ anime, episodesPerAnime }) => {
       requireSpike();
       seedLibrary(anime, episodesPerAnime);
