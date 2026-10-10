@@ -196,20 +196,16 @@ A user waits on your requests. Two calls matter most: the app asks for an anime'
 - **Give a request the timeout it deserves.** A mirror that has not answered in 10 s is not coming; the default is 20 s.
 - **Mind the rate limit.** Parallel requests share the manifest's `rateLimit` (2 per second in most extensions); more parallelism than that only queues.
 
-### Testing the extensions in `extensions/`
+### Testing an extension outside this repository
 
-Only `extensions/example` is part of the pnpm workspace, so `pnpm test`, `pnpm typecheck` and `pnpm --filter <package> test` do not run the others (the filter matches nothing and passes). Run them from their folder, with the three packages linked once into the folder's `node_modules`:
+Extensions of real sites do not live here (they belong in their own repository, [PRD §15.1](https://github.com/mataneorg/matane-anime/blob/main/docs/PRD.md)); only `extensions/example` does. An extension project of your own tests itself with the published packages, no link to this checkout needed. `ma-ext create` already writes the dependencies (`^0.1.1` or newer), and the library entries run an extension the way the app does:
 
-```sh
-cd extensions/<name>
-mkdir -p node_modules/@matane-anime
-for p in extension-cli extension-runtime extension-sdk; do ln -s ../../../../packages/$p node_modules/@matane-anime/$p; done
-pnpm exec tsc -p tsconfig.json
-pnpm exec vitest run                          # offline, against saved pages
-LIVE=1 pnpm exec vitest run test/live.test.ts # the real site; one extension at a time
+```ts
+import { buildExtension } from '@matane-anime/extension-cli'; // the bundle `ma-ext build` writes, without touching dist/
+import { loadSource } from '@matane-anime/extension-cli/run'; // build + sandbox + a Node host that reaches the real site
 ```
 
-The live tests talk to the real site and depend on it being up: a timeout, a 403 or a rate limit there is not necessarily a bug of the extension. `extensions/otakudesu` has no `vitest.config.ts` and no `test/fixtures`, so its saved-page tests cannot run (see [PRD §15.1](https://github.com/mataneorg/matane-anime/blob/main/docs/PRD.md)).
+A test that answers every request from saved pages builds the extension with `buildExtension`, creates an `ExtensionRuntime` (`@matane-anime/extension-runtime`) with a host of its own and calls the source through a `SourceClient`. A live test uses `loadSource` and `LIVE=1`: it talks to the real site and depends on it being up, so a timeout, a 403 or a rate limit there is not necessarily a bug of the extension. Run the live tests by hand, one extension at a time.
 
 ## Versioning and `migrateUrl`
 

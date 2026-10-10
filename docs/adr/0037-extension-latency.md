@@ -1,6 +1,6 @@
 # 37. Extension latency: share the page read, give slow mirrors a grace window
 
-Status: Accepted (2026-10-10). Offline tests pass for all 15 extensions in `extensions/`; the live tests and a run in the app against the real sites are described under Consequences.
+Status: Accepted (2026-10-10). Offline tests pass for all 15 extensions (they have since moved to their own repository, 2026-10-10); the live tests and a run in the app against the real sites are described under Consequences.
 
 ## Context
 The 15 real extensions were written one by one and had the same two sources of waiting:
@@ -25,4 +25,4 @@ Smaller costs: embeds read one after another (oploverz), episode lists read page
 - **The same ~25 lines are copied** into several extensions, as are the grace helpers in kaa, animex and gogoanime. A shared helper in `extension-sdk` would remove it; it was left out of this change so that the SDK's published surface did not change.
 - **Measured in the app on 2026-10-10** (Electron, real sites, one run each way, so noise is large): opening an anime went from about 1.9 s to 1.0 s (kaa), 0.7 s to 0.45 s (animeindo) and 0.65 s to 0.33 s (animeheaven); gomunime's first stream, which timed out on the old code in every run, resolved in one of three runs on the new code. Other numbers (popular, search, streams) are within the noise between runs. A direct comparison of kaa's `getStreams` showed no difference (one server, so the grace window does not apply).
 - **Live tests** (`LIVE=1`, 2026-10-10): twelve of fifteen pass. anoboy (a timeout), anisail (a Mixdrop host that does not answer) and anizone (the site limits the request rate; a long series came back incomplete) fail on the old code too.
-- **The extensions are not in the pnpm workspace** (only `extensions/example` is), so `pnpm test`, `pnpm typecheck` and `--filter` do not run their tests. See "Keeping an extension fast" in [docs/extensions.md](../extensions.md).
+- **The extensions no longer live in this repository** (2026-10-10): they have their own repository and use the published SDK, so their tests run there. See "Keeping an extension fast" in [docs/extensions.md](../extensions.md).

@@ -118,7 +118,7 @@ Hasil brainstorming 6 Okt 2026.
 | Lisensi | **App: GPL-3.0**; **SDK, runtime, CLI extension: MIT** |
 | Struktur repo | Monorepo **pnpm workspaces** |
 | Tech stack | Sama dengan Matane (§8.5); versi dikunci di Fase 0 |
-| Extension pertama | Ditulis **pemilik produk sendiri di repo terpisah** setelah SDK dan `ma-ext` jadi (Fase 1). Repo app tidak merujuknya. Fase 1–3 diuji otomatis dengan situs tiruan; extension nyata dipakai untuk uji manual. **Pembaruan 10 Okt 2026:** folder `extensions/` di repo ini kini berisi 15 extension situs nyata (digabung dari `feat/extension` ke `development`). Folder itu tidak dikirim bersama app (tidak masuk paket, tidak masuk workspace pnpm kecuali `example`) dan app tetap tanpa repo atau kunci bawaan, tetapi "repo app tidak merujuknya" tidak lagi benar. Apakah ini sejalan dengan R9 perlu ditinjau pemilik |
+| Extension pertama | Ditulis **pemilik produk sendiri di repo terpisah** setelah SDK dan `ma-ext` jadi (Fase 1). Repo app tidak merujuknya. Fase 1–3 diuji otomatis dengan situs tiruan; extension nyata dipakai untuk uji manual. **Pembaruan 10 Okt 2026:** 15 extension situs nyata sempat berada di `extensions/` (digabung dari `feat/extension`), lalu dipindahkan ke repositori sendiri; repo app kembali hanya memuat `extensions/example` dan tidak merujuk extension nyata, sesuai R9. SDK, runtime dan CLI (0.1.1) dipakai dari npm oleh repositori itu. |
 | Varian episode (Sub/Dub/BD) | **Satu status ditonton per nomor episode**; varian yang diputar adalah yang pertama dari extension. Prioritas varian menunggu kebutuhan nyata |
 | Backup/restore | **P1**: target v1.0, selambatnya v1.1. Bila belum ada saat v1.0, dokumentasi memberi tahu |
 | Penamaan teknis | Paket `@matane-anime/extension-{sdk,runtime,cli}`, scope internal `@matane-anime/*`, CLI **`ma-ext`**, `appId` **`dev.sukun.matane-anime`**. Ketersediaan scope npm, repo, dan paket Linux dicek sebelum publikasi pertama (Fase 4–5) |
@@ -664,7 +664,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 - Command palette, onboarding, What's new, tema AMOLED + aksen, incognito (P1).
 - Backup/restore (P1; selambatnya v1.1; sudah dibangun, backup otomatis terjadwal menyusul 10 Okt 2026).
 - Paket tambahan (portable, deb, rpm, AUR, Flatpak), dokumentasi lengkap, rilis **v1.0**.
-- **Setelah milestone Fase 5 (9 sampai 10 Okt 2026):** UI mengikuti app Matane ([ADR 0036](adr/0036-ui-follows-matane.md)), halaman Statistics, mode tampilan Library dan Browse (ukuran cover, sort dan filter tersimpan), backup terjadwal dan halaman About ([rencana](plans/ui-parity-matane.md)); 15 extension situs di `extensions/` dan optimasi latensinya ([ADR 0037](adr/0037-extension-latency.md)). Yang ditunda: migrasi massal, tracking AniList/MAL, `markSeen` pada Updates.
+- **Setelah milestone Fase 5 (9 sampai 10 Okt 2026):** UI mengikuti app Matane ([ADR 0036](adr/0036-ui-follows-matane.md)), halaman Statistics, mode tampilan Library dan Browse (ukuran cover, sort dan filter tersimpan), backup terjadwal dan halaman About ([rencana](plans/ui-parity-matane.md)); 15 extension situs (kini di repositori sendiri) dan optimasi latensinya ([ADR 0037](adr/0037-extension-latency.md)). Yang ditunda: migrasi massal, tracking AniList/MAL, `markSeen` pada Updates.
 - **Celah Settings ditutup (10 Okt 2026):** editor shortcut pemutar dengan deteksi bentrok dan Reset to defaults (PLY-3, UI-7), countdown autoplay 3/5/10 detik (PLY-4, UI-7), kartu Clear data dengan Clear history (PRG-8, mockup 10f), dan pemilih channel update stable/beta di About. Ditutup oleh `settings-data.spec.ts` dan `settings-player.spec.ts`. "Kecepatan awal" (UI-7) tidak dibangun: kecepatan terakhir yang dipakai diingat sebagai setting.
 
 **Pasca-v1 (P2)**
@@ -700,7 +700,7 @@ Matane dipakai sebagai acuan pola. Tidak ada kode yang disalin; tabel ini hanya 
 
 ### 15.1 Sudah diputuskan (6 Okt 2026)
 
-- [x] **Extension pertama**: ditulis pemilik produk sendiri di repo terpisah setelah SDK jadi (Fase 1); repo app tidak merujuknya. Lihat §4. *(Per 10 Okt 2026 folder `extensions/` di repo ini berisi 15 extension nyata; lihat catatan di §4.)*
+- [x] **Extension pertama**: ditulis pemilik produk sendiri di repo terpisah setelah SDK jadi (Fase 1); repo app tidak merujuknya. Lihat §4. *(Per 10 Okt 2026 ke-15 extension nyata sempat ada di `extensions/` dan sudah dipindahkan ke repositori sendiri; lihat §4.)*
 - [x] **Varian episode (Sub/Dub/BD)**: satu status ditonton per nomor episode; varian yang diputar adalah yang pertama dari extension. Lihat §4 dan PRG-5.
 - [x] **Backup/restore**: P1, target v1.0, selambatnya v1.1. Lihat §4.
 - [x] **Nama paket dan CLI**: `@matane-anime/*`, `ma-ext`. Lihat §4.

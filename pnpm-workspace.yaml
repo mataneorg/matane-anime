@@ -1,8 +1,7 @@
 packages:
   - apps/*
   - packages/*
-  # `extensions/otakudesu` stays on disk but is not part of the workspace: a real extension belongs in its own
-  # repository (docs/PRD.md §15.1, R9), and its tests need saved pages of the real site that are not here.
+  # Only the example: extensions of real sites belong in their own repository (docs/PRD.md §15.1, R9).
   - extensions/example
 
 allowBuilds:
