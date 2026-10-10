@@ -6,6 +6,17 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.0',
+    date: '2026-10-11',
+    items: [
+      'Matane Anime 1.0: the first stable release.',
+      'Playback: the streams of the episodes around the one you are watching are fetched ahead and kept for 24 hours, so the next episode starts sooner.',
+      'Sources: the sources you used last are listed at the top of the page, and the sources of an extension you uninstalled no longer clutter it.',
+      'Extensions: the icon of an extension now shows in Available and in the install dialog before you install it.',
+      'A new app icon.',
+    ],
+  },
+  {
     version: '0.1.0-beta.4',
     date: '2026-10-10',
     items: [

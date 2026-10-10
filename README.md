@@ -26,7 +26,7 @@
 _Matane_ is Japanese for "see you later". Matane Anime runs on **Windows, macOS and Linux**, and it is the anime sibling of the [Matane manga reader](https://github.com/mataneorg/matane). It keeps your list, remembers your place in every episode and lets you watch offline.
 
 > [!NOTE]
-> Matane Anime is a **beta** (the latest version is 0.1.0-beta.4). It works, but it is young. If something breaks, please [tell us](https://github.com/mataneorg/matane-anime/issues/new/choose).
+> Matane Anime is at version **1.0**. It is a young project, so if something breaks, please [tell us](https://github.com/mataneorg/matane-anime/issues/new/choose).
 
 > [!IMPORTANT]
 > Matane Anime does **not** host or distribute any content, and it comes with **no sources built in**. You choose where your anime comes from by adding an extension repository (a link from someone you trust). See [How do I get anime?](#how-do-i-get-anime)
@@ -67,7 +67,7 @@ _Matane_ is Japanese for "see you later". Matane Anime runs on **Windows, macOS 
 
 ## Download
 
-Get the latest version from **[GitHub Releases](https://github.com/mataneorg/matane-anime/releases)**. Beta versions are marked "Pre-release".
+Get the latest version from **[GitHub Releases](https://github.com/mataneorg/matane-anime/releases)**. Versions marked "Pre-release" are betas.
 
 | Your computer                   | Pick this file                        | What to know                                                     |
 | ------------------------------- | ------------------------------------- | ---------------------------------------------------------------- |

@@ -729,5 +729,5 @@ Tiap butir punya **asumsi sementara** yang dipakai PRD ini sampai terbukti salah
 - [ ] Target performa §10.1 terpenuhi pada benchmark lokal.
 - [ ] Test sandbox extension lulus (`require`, `process`, batas memori/CPU, timeout).
 - [ ] App tanpa sumber, repo, atau kunci bawaan; README memuat disclaimer.
-- [ ] Paket AppImage, NSIS, dan dmg terbuat, dan auto-update di channel beta terverifikasi.
+- [x] Paket AppImage, NSIS, dan dmg terbuat (CI, `v0.1.0-beta.4`). Auto-update antar-beta dan pemasangan di Windows/macOS nyata dilewati untuk v1.0 sebagai risiko yang diterima (dikerjakan di v1.0.x).
 - [ ] Dokumentasi pengguna dan panduan membuat extension terbit.

@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Matane Anime is in **beta**. Only the latest release (and the latest beta, if it is newer) receives security fixes; there are no long-term support branches yet.
+Only the latest release (and the latest beta, if it is newer) receives security fixes; there are no long-term support branches yet.
 
 | Version                   | Supported |
 | ------------------------- | --------- |

@@ -27,8 +27,8 @@ features:
     details: No telemetry. DNS over HTTPS, a proxy, a custom User-Agent and an incognito mode are built in.
 ---
 
-::: warning Beta, unsigned
-Releases are beta. The Windows and macOS builds are not code-signed, so your system warns you on first run: [how to get past it](/guide/getting-started#first-run-warnings).
+::: warning Unsigned builds
+The Windows and macOS builds are not code-signed, so your system warns you on first run: [how to get past it](/guide/getting-started#first-run-warnings).
 :::
 
 ::: info Disclaimer

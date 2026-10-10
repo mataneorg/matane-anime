@@ -1,6 +1,6 @@
 # Install
 
-Releases are **beta**. Packages are built by CI when a release is cut and are published on the project's [Releases page](https://github.com/mataneorg/matane-anime/releases). Until a release is there, you can [build from source](https://github.com/mataneorg/matane-anime#build-from-source).
+Packages are built by CI when a release is cut and are published on the project's [Releases page](https://github.com/mataneorg/matane-anime/releases). Until a release is there, you can [build from source](https://github.com/mataneorg/matane-anime#build-from-source).
 
 ## Pick a package
 

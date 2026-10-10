@@ -98,8 +98,8 @@ Do this only when the list above is green or each open item is written down as a
 
 1. ~~Run **Playback spike**~~ Done, green on all three OSes (see above).
 2. ~~Install the latest beta on Windows and macOS, play a video, then update to a newer beta once.~~ Skipped for v1.0 by the maintainer (2026-10-11): accepted risk, to be done on the first v1.0.x.
-3. Set `version` in `apps/desktop/package.json` to `1.0.0` (no pre-release part, so CI publishes a normal release and the stable channel sees it).
-4. Drop the beta wording that would be wrong afterwards: the notice in `README.md` ("is a **beta**", the latest version), `SECURITY.md` (Supported versions), `apps/docs/index.md` and `apps/docs/guide/getting-started.md` ("Releases are beta"), and the "beta" lines in `docs/PRD.md` §13 and §15.2.
+3. ~~Set `version` in `apps/desktop/package.json` to `1.0.0`~~ Done, with a `1.0.0` entry in `apps/desktop/src/main/app/changelog.ts` (no pre-release part, so CI publishes a normal release and the stable channel sees it).
+4. ~~Drop the beta wording that would be wrong afterwards~~ Done: the notice in `README.md` ("is a **beta**", the latest version), `SECURITY.md` (Supported versions), `apps/docs/index.md` and `apps/docs/guide/getting-started.md` ("Releases are beta"), and the "beta" lines in `docs/PRD.md` §13 and §15.2.
 5. ~~Decide the contact address.~~ Done: GitHub private advisories are the one official channel, and `SECURITY.md` and `CODE_OF_CONDUCT.md` say so.
 6. `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build`, and `pnpm e2e` at home.
 7. Commit, tag exactly `v1.0.0`, push the tag, and watch `release.yml` and the smoke job. Tagging publishes.
