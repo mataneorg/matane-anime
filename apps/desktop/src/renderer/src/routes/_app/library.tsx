@@ -1,4 +1,4 @@
-import type { LibraryQuery } from '@matane-anime/shared';
+import type { Category, LibraryQuery } from '@matane-anime/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Check, Download, Plus, Search, Trash2, X } from 'lucide-react';
@@ -9,6 +9,7 @@ import { EmptyState } from '@renderer/components/EmptyState';
 import { ErrorState } from '@renderer/components/ErrorState';
 import { Button } from '@renderer/components/ui/button';
 import { Dialog, DialogContent } from '@renderer/components/ui/dialog';
+import { MigrateDialog } from '@renderer/features/anime/MigrateDialog';
 import { pickEpisodes } from '@renderer/features/downloads/pick';
 import { CategoryDialog } from '@renderer/features/library/CategoryDialog';
 import { GridSkeleton } from '@renderer/features/library/GridSkeleton';
@@ -16,6 +17,7 @@ import { LibraryEmpty } from '@renderer/features/library/LibraryEmpty';
 import { LibraryGrid } from '@renderer/features/library/LibraryGrid';
 import { LibraryToolbar } from '@renderer/features/library/LibraryToolbar';
 import { NewCategoryDialog } from '@renderer/features/library/NewCategoryDialog';
+import { RenameCategoryDialog } from '@renderer/features/library/RenameCategoryDialog';
 import { TabButton } from '@renderer/features/library/TabButton';
 import { NO_FILTERS, filterCount, filtersOf, filtersQueryPart, pruneSources } from '@renderer/features/library/filters';
 import {
@@ -26,10 +28,17 @@ import {
   selectAll,
   visibleSelection,
 } from '@renderer/features/library/selection';
+import {
+  type CardMenuAction,
+  type TabMenuAction,
+  menuTargetIds,
+  movedCategoryIds,
+  toggledAutoDownload,
+} from '@renderer/features/library/menu';
 import { useSelectionKeys } from '@renderer/features/library/useSelectionKeys';
 import { call } from '@renderer/lib/api';
 import { useScrollRestoration } from '@renderer/lib/scroll';
-import { episodesQuery, sourcesQuery } from '@renderer/lib/catalog';
+import { animeQuery, episodesQuery, sourcesQuery } from '@renderer/lib/catalog';
 import { enqueueEpisodes, useDownloadMap } from '@renderer/lib/downloads';
 import { categoriesQuery, libraryCountQuery, libraryQuery, uncategorizedCountQuery } from '@renderer/lib/library';
 import { notify } from '@renderer/lib/toast';
@@ -86,9 +95,14 @@ function LibraryPage() {
   const search = useDebounced(draft.trim(), 200);
   const [selectMode, setSelectMode] = useState(false);
   const [selection, setSelection] = useState<Selection>(EMPTY_SELECTION);
+  // The anime the open dialog acts on: the selection (from the bar, or a menu on a selected card) or one card.
+  const [targetIds, setTargetIds] = useState<number[]>([]);
   const [moving, setMoving] = useState(false);
   const [removing, setRemoving] = useState(false);
-  const [downloadPlan, setDownloadPlan] = useState<{ ids: number[]; animeCount: number } | null>(null);
+  const [migrating, setMigrating] = useState<number | null>(null);
+  const [renaming, setRenaming] = useState<Category | null>(null);
+  const [deleting, setDeleting] = useState<Category | null>(null);
+  const [downloadPlan, setDownloadPlan] = useState<{ ids: number[]; animeIds: number[] } | null>(null);
   const [creating, setCreating] = useState(false);
 
   // Sources that are gone from a saved filter are left out (they would match nothing and could not be unticked).
@@ -133,32 +147,69 @@ function LibraryPage() {
     setSelection((current) => select(current, ids, animeId, mode));
   };
 
+  // Every action takes the anime it acts on, so the bar (the selection) and a card menu (see `menuTargetIds`) share it.
   const markWatched = useMutation({
-    mutationFn: () => call('library.markWatched', { animeIds: selectedIds, watched: true }),
+    mutationFn: (animeIds: number[]) => call('library.markWatched', { animeIds, watched: true }),
   });
   const move = useMutation({
-    mutationFn: (categoryIds: number[]) => call('library.setCategories', { animeIds: selectedIds, categoryIds }),
+    mutationFn: (categoryIds: number[]) => call('library.setCategories', { animeIds: targetIds, categoryIds }),
   });
-  // The unwatched episodes of the selected anime that are not downloaded yet; the user confirms the number (LIB-5).
+  // The unwatched episodes of these anime that are not downloaded yet; the user confirms the number (LIB-5).
   const prepareDownload = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (animeIds: number[]) => {
       const episodeIds: number[] = [];
-      for (const animeId of selectedIds) {
+      for (const animeId of animeIds) {
         const episodes = await queryClient.fetchQuery(episodesQuery(animeId));
         episodeIds.push(...pickEpisodes(episodes, 'unwatched', downloads));
       }
       return episodeIds;
     },
-    onSuccess: (episodeIds) => {
+    onSuccess: (episodeIds, animeIds) => {
       if (episodeIds.length === 0) notify.info(t('downloads.library.none'));
-      else setDownloadPlan({ ids: episodeIds, animeCount: selectedIds.length });
+      else setDownloadPlan({ ids: episodeIds, animeIds });
     },
   });
   const remove = useMutation({
-    mutationFn: async () => {
-      for (const animeId of selectedIds) await call('library.remove', { animeId });
+    mutationFn: async (animeIds: number[]) => {
+      for (const animeId of animeIds) await call('library.remove', { animeId });
     },
   });
+  // The anime the migration dialog is about; it needs the full details, which are local for a library anime.
+  const { data: migrateAnime } = useQuery({ ...animeQuery(migrating ?? 0), enabled: migrating !== null });
+
+  const openMove = (animeIds: number[]): void => {
+    setTargetIds(animeIds);
+    setMoving(true);
+  };
+  const openRemove = (animeIds: number[]): void => {
+    setTargetIds(animeIds);
+    setRemoving(true);
+  };
+  // Without select mode: the card's own actions leave the selection as it is, unless the card was part of it.
+  const menuAction = (action: CardMenuAction, animeId: number): void => {
+    const animeIds = menuTargetIds(selected, animeId);
+    if (action === 'markWatched') markWatched.mutate(animeIds);
+    else if (action === 'move') openMove(animeIds);
+    else if (action === 'download') prepareDownload.mutate(animeIds);
+    else if (action === 'migrate') setMigrating(animeId);
+    else if (action === 'remove') openRemove(animeIds);
+    else setSelection((current) => select(current, ids, animeId, 'toggle'));
+  };
+
+  const reorder = useMutation({ mutationFn: (order: number[]) => call('categories.reorder', { ids: order }) });
+  const markAutoDownload = useMutation({
+    mutationFn: (category: Category) =>
+      call('categories.setAutoDownload', { id: category.id, mode: toggledAutoDownload(category.autoDownload) }),
+  });
+  const removeCategory = useMutation({ mutationFn: (id: number) => call('categories.delete', { id }) });
+  const tabAction = (action: TabMenuAction, category: Category): void => {
+    const order = categories.map((entry) => entry.id);
+    if (action === 'rename') setRenaming(category);
+    else if (action === 'autoDownload') markAutoDownload.mutate(category);
+    else if (action === 'moveLeft') reorder.mutate(movedCategoryIds(order, category.id, -1));
+    else if (action === 'moveRight') reorder.mutate(movedCategoryIds(order, category.id, 1));
+    else setDeleting(category);
+  };
 
   const clearFilters = (): void => {
     setDraft('');
@@ -194,13 +245,19 @@ function LibraryPage() {
       <div className="mt-3 flex items-center gap-1 overflow-x-auto overflow-y-hidden border-b px-6">
         <div role="tablist" aria-label={t('nav.library')} className="flex items-center gap-1">
           <TabButton active={tab === 'all'} onClick={() => setTab('all')} label={t('library.all')} count={count ?? 0} />
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <TabButton
               key={category.id}
               active={tab === category.id}
               onClick={() => setTab(category.id)}
               label={category.name}
               count={category.count}
+              menu={{
+                category,
+                first: index === 0,
+                last: index === categories.length - 1,
+                onAction: (action) => tabAction(action, category),
+              }}
             />
           ))}
           {categories.length > 0 ? (
@@ -249,6 +306,7 @@ function LibraryPage() {
             selecting={selecting}
             selected={selected}
             onPick={pick}
+            onMenuAction={menuAction}
           />
         )}
 
@@ -269,14 +327,14 @@ function LibraryPage() {
             >
               {t('library.selectAll')}
             </Button>
-            <Button variant="secondary" size="sm" disabled={selected.size === 0} onClick={() => setMoving(true)}>
+            <Button variant="secondary" size="sm" disabled={selected.size === 0} onClick={() => openMove(selectedIds)}>
               {t('library.moveToCategory')}
             </Button>
             <Button
               variant="secondary"
               size="sm"
               disabled={selected.size === 0 || markWatched.isPending}
-              onClick={() => markWatched.mutate()}
+              onClick={() => markWatched.mutate(selectedIds)}
             >
               <Check className="size-4" strokeWidth={1.75} aria-hidden />
               {t('library.markWatched')}
@@ -285,12 +343,17 @@ function LibraryPage() {
               variant="secondary"
               size="sm"
               disabled={selected.size === 0 || prepareDownload.isPending}
-              onClick={() => prepareDownload.mutate()}
+              onClick={() => prepareDownload.mutate(selectedIds)}
             >
               <Download className="size-4" strokeWidth={1.75} aria-hidden />
               {t('anime.download')}
             </Button>
-            <Button variant="destructive" size="sm" disabled={selected.size === 0} onClick={() => setRemoving(true)}>
+            <Button
+              variant="destructive"
+              size="sm"
+              disabled={selected.size === 0}
+              onClick={() => openRemove(selectedIds)}
+            >
               <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
               {t('library.removeFromLibrary')}
             </Button>
@@ -312,18 +375,18 @@ function LibraryPage() {
       <ConfirmDialog
         open={removing}
         onOpenChange={setRemoving}
-        title={t('library.removeTitle', { count: selected.size })}
+        title={t('library.removeTitle', { count: targetIds.length })}
         description={t('library.removeBody')}
         confirmLabel={t('library.removeFromLibrary')}
         onConfirm={() => {
-          remove.mutate();
-          stopSelecting();
+          remove.mutate(targetIds);
+          if (targetIds.some((id) => selected.has(id))) stopSelecting();
         }}
       />
       <Dialog open={downloadPlan !== null} onOpenChange={(open) => !open && setDownloadPlan(null)}>
         <DialogContent
           title={t('downloads.library.title', { count: downloadPlan?.ids.length ?? 0 })}
-          description={t('downloads.library.body', { count: downloadPlan?.animeCount ?? 0 })}
+          description={t('downloads.library.body', { count: downloadPlan?.animeIds.length ?? 0 })}
           closeLabel={t('common.close')}
         >
           <div className="flex justify-end gap-2">
@@ -333,8 +396,8 @@ function LibraryPage() {
             <Button
               onClick={() => {
                 if (downloadPlan) void enqueueEpisodes(downloadPlan.ids);
+                if (downloadPlan?.animeIds.some((id) => selected.has(id))) stopSelecting();
                 setDownloadPlan(null);
-                stopSelecting();
               }}
             >
               {t('anime.download')}
@@ -343,6 +406,20 @@ function LibraryPage() {
         </DialogContent>
       </Dialog>
       <NewCategoryDialog open={creating} onOpenChange={setCreating} />
+      <RenameCategoryDialog category={renaming} onClose={() => setRenaming(null)} />
+      <ConfirmDialog
+        open={deleting !== null}
+        onOpenChange={(open) => !open && setDeleting(null)}
+        title={t('settings.library.deleteTitle', { name: deleting?.name ?? '' })}
+        description={t('settings.library.deleteBody')}
+        confirmLabel={t('settings.library.delete', { name: deleting?.name ?? '' })}
+        onConfirm={() => {
+          if (deleting) removeCategory.mutate(deleting.id);
+        }}
+      />
+      {migrateAnime && migrating !== null ? (
+        <MigrateDialog anime={migrateAnime} open onOpenChange={(open) => !open && setMigrating(null)} />
+      ) : null}
     </div>
   );
 }

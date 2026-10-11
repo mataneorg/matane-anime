@@ -1404,6 +1404,17 @@
   },
   "contextMenu": {
     "copied": "{{what}} copied",
-    "copyFailed": "Could not copy {{what}}"
+    "copyFailed": "Could not copy {{what}}",
+    "library": {
+      "open": "Open",
+      "moveToCategory": "Move to category…",
+      "migrate": "Migrate to another source…",
+      "rename": "Rename…",
+      "renameTitle": "Rename category",
+      "autoDownload": "Auto-download new episodes",
+      "moveLeft": "Move left",
+      "moveRight": "Move right",
+      "deleteCategory": "Delete category…"
+    }
   }
 }
