@@ -51,6 +51,9 @@ export const Route = createFileRoute('/_app/browse/sources/$sourceId')({
 
 type Kind = 'popular' | 'latest';
 
+/** How far below the visible list the next page starts loading (at least; a taller window looks further ahead). */
+const PREFETCH_MIN_PX = 600;
+
 function BrowsePage() {
   const { sourceId } = Route.useParams();
   // A different source starts from scratch: the key remounts the view with fresh state.
@@ -136,11 +139,19 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   useEffect(() => {
     const node = sentinel.current;
     if (!node) return;
-    const observer = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting) && hasNextPage && !isFetchingNextPage && !isError) {
-        void fetchNextPage();
-      }
-    });
+    // The page (`<main>`) is what scrolls, so it is the root: with the viewport as root, a margin cannot reach past the
+    // area `<main>` clips. The next page is asked for one screen before the end of the list, so it is usually there by
+    // the time the user arrives. A fresh observer reports once on observing, which keeps filling a tall window.
+    const root = node.closest('main');
+    const ahead = Math.max(root?.clientHeight ?? 0, PREFETCH_MIN_PX);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting) && hasNextPage && !isFetchingNextPage && !isError) {
+          void fetchNextPage();
+        }
+      },
+      { root, rootMargin: `0px 0px ${ahead}px 0px` },
+    );
     observer.observe(node);
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, isError, items.length]);
