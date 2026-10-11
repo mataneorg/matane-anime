@@ -1426,6 +1426,12 @@
       "idLabel": "Extension ID",
       "copyUrl": "Copy URL",
       "urlLabel": "Repository URL"
+    },
+    "episodes": {
+      "cancelDownload": "Cancel download",
+      "deleteDownload": "Delete downloaded file",
+      "deleteManyTitle": "Delete {{count}} downloads?",
+      "deleteManyBody": "The files of these episodes of {{title}} are removed from your computer. The episodes stay in your library."
     }
   }
 }

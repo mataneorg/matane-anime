@@ -4,16 +4,18 @@ import { Link } from '@tanstack/react-router';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import type { DownloadItem } from '@matane-anime/shared';
 import { Check, Circle, CircleCheck, EllipsisVertical, Play } from 'lucide-react';
-import { type MouseEvent, useEffect, useRef } from 'react';
+import { type MouseEvent, type ReactNode, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Cover } from '@renderer/components/Cover';
 import { Badge } from '@renderer/components/ui/badge';
+import { ContextMenu, ContextMenuTrigger } from '@renderer/components/ui/context-menu';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@renderer/components/ui/dropdown-menu';
+import { EpisodeMenu, useEpisodeMenuActions } from '@renderer/features/anime/EpisodeContextMenu';
 import {
   DownloadedChip,
   EpisodeDownloadControl,
@@ -44,6 +46,7 @@ export function EpisodeList({
   selected,
   onPick,
   onToggle,
+  onActed,
   jump,
 }: {
   episodes: EpisodeRow[];
@@ -54,7 +57,9 @@ export function EpisodeList({
   /** A click on a row: the page decides whether it opens the episode or changes the selection. */
   onPick: (event: MouseEvent, episodeId: number) => void;
   /** The round select button of a row; Shift extends the selection from the last row clicked. */
-  onToggle: (event: MouseEvent, episodeId: number) => void;
+  onToggle: (event: { shiftKey: boolean }, episodeId: number) => void;
+  /** The right-click menu was used on the selection: it has done its job. */
+  onActed: () => void;
   /** Scrolls to a row; a new `token` scrolls again to the same one. */
   jump: { index: number; token: number } | null;
 }) {
@@ -80,6 +85,7 @@ export function EpisodeList({
   }, [jump?.token]);
   const dates = new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium' });
   const downloads = useDownloadMap();
+  const { actions, dialog } = useEpisodeMenuActions({ onToggle, onActed });
 
   return (
     <div ref={listRef} className="relative" style={{ height: virtualizer.getTotalSize() }} role="list">
@@ -103,10 +109,20 @@ export function EpisodeList({
               onPick={(event) => onPick(event, episode.id)}
               onToggle={(event) => onToggle(event, episode.id)}
               date={episode.uploadedAt ? dates.format(episode.uploadedAt) : t('anime.episodeFallback')}
+              menu={
+                <EpisodeMenu
+                  episode={episode}
+                  episodes={episodes}
+                  selected={selected}
+                  downloads={downloads}
+                  actions={actions}
+                />
+              }
             />
           </div>
         );
       })}
+      {dialog}
     </div>
   );
 }
@@ -121,6 +137,7 @@ function EpisodeRowView({
   onPick,
   onToggle,
   date,
+  menu,
 }: {
   episode: EpisodeRow;
   sourceId: string;
@@ -131,6 +148,8 @@ function EpisodeRowView({
   onPick: (event: MouseEvent) => void;
   onToggle: (event: MouseEvent) => void;
   date: string;
+  /** The right-click menu of the row. */
+  menu: ReactNode;
 }) {
   const { t } = useTranslation();
   const progress =
@@ -145,88 +164,96 @@ function EpisodeRowView({
   const reset = useMutation({ mutationFn: () => call('episodes.resetProgress', { episodeId: episode.id }) });
 
   return (
-    <div
-      className={cn(
-        'group relative flex h-16 items-center rounded-xl border bg-card/40 transition-colors hover:border-input hover:bg-card/70',
-        selected && 'border-primary bg-primary/10 hover:border-primary hover:bg-primary/15',
-      )}
-    >
-      <button
-        type="button"
-        aria-label={selected ? t('anime.deselectEpisode') : t('anime.selectEpisode')}
-        aria-pressed={selected}
-        onClick={onToggle}
-        className={cn(
-          'absolute top-1.5 left-1.5 z-10 flex size-6 items-center justify-center rounded-full bg-ctp-crust/70 text-ctp-text opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100',
-          selected && 'bg-primary text-primary-foreground opacity-100',
-        )}
-      >
-        {selected ? <CircleCheck className="size-4" aria-hidden /> : <Circle className="size-4" aria-hidden />}
-      </button>
-      {downloadPercent !== null ? (
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 overflow-hidden rounded-b-xl" aria-hidden>
-          <div className="h-full bg-primary" style={{ width: `${downloadPercent}%` }} />
-        </div>
-      ) : null}
-      <Link
-        to="/watch/$episodeId"
-        params={{ episodeId: String(episode.id) }}
-        onClick={onPick}
-        className="flex h-full min-w-0 flex-1 items-center gap-4 pr-2"
-      >
-        <div className="relative shrink-0">
-          <Cover
-            sourceId={sourceId}
-            url={thumbnailUrl}
-            localAnimeId={localCoverId}
-            className={cn('h-[62px] w-28 rounded-l-xl', episode.watched && 'opacity-60')}
-          />
-          {progress > 0 ? (
-            <div className="absolute inset-x-0 bottom-0 h-1 bg-ctp-crust/60" aria-hidden>
-              <div className="h-full bg-primary" style={{ width: `${progress}%` }} />
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        <div
+          className={cn(
+            'group relative flex h-16 items-center rounded-xl border bg-card/40 transition-colors hover:border-input hover:bg-card/70',
+            selected && 'border-primary bg-primary/10 hover:border-primary hover:bg-primary/15',
+          )}
+        >
+          <button
+            type="button"
+            aria-label={selected ? t('anime.deselectEpisode') : t('anime.selectEpisode')}
+            aria-pressed={selected}
+            onClick={onToggle}
+            className={cn(
+              'absolute top-1.5 left-1.5 z-10 flex size-6 items-center justify-center rounded-full bg-ctp-crust/70 text-ctp-text opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100',
+              selected && 'bg-primary text-primary-foreground opacity-100',
+            )}
+          >
+            {selected ? <CircleCheck className="size-4" aria-hidden /> : <Circle className="size-4" aria-hidden />}
+          </button>
+          {downloadPercent !== null ? (
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 overflow-hidden rounded-b-xl"
+              aria-hidden
+            >
+              <div className="h-full bg-primary" style={{ width: `${downloadPercent}%` }} />
             </div>
           ) : null}
-        </div>
-        <div className={cn('flex min-w-0 flex-1 flex-col', episode.watched && 'opacity-70')}>
-          <span className={cn('truncate text-foreground', !episode.watched && 'font-semibold')}>
-            {episodeTitle(episode, (number) => t('anime.episodeNumber', { number }))}
-          </span>
-          <span className="truncate text-xs text-muted-foreground">{date}</span>
-        </div>
-        {episode.variant ? <Badge>{episode.variant}</Badge> : null}
-        {episode.sourceMissing ? <Badge tone="warning">{t('anime.missing')}</Badge> : null}
-        {download?.status === 'done' ? <DownloadedChip /> : null}
-        {episode.watched ? (
-          <span className="flex items-center gap-1 text-xs text-success-text">
-            <Check className="size-3.5" strokeWidth={2} aria-hidden />
-            {t('anime.watched')}
-          </span>
-        ) : (
-          <Play className="size-4 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
-        )}
-      </Link>
-      {episode.sourceMissing && !download ? null : (
-        <EpisodeDownloadControl episodeId={episode.id} download={download} />
-      )}
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          aria-label={t('anime.episodeActions')}
-          className="mr-2 flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-        >
-          <EllipsisVertical className="size-4" strokeWidth={1.75} aria-hidden />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {episode.watched ? (
-            <DropdownMenuItem onSelect={() => mark.mutate(false)}>{t('anime.markUnwatched')}</DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem onSelect={() => mark.mutate(true)}>{t('anime.markWatched')}</DropdownMenuItem>
+          <Link
+            to="/watch/$episodeId"
+            params={{ episodeId: String(episode.id) }}
+            onClick={onPick}
+            className="flex h-full min-w-0 flex-1 items-center gap-4 pr-2"
+          >
+            <div className="relative shrink-0">
+              <Cover
+                sourceId={sourceId}
+                url={thumbnailUrl}
+                localAnimeId={localCoverId}
+                className={cn('h-[62px] w-28 rounded-l-xl', episode.watched && 'opacity-60')}
+              />
+              {progress > 0 ? (
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-ctp-crust/60" aria-hidden>
+                  <div className="h-full bg-primary" style={{ width: `${progress}%` }} />
+                </div>
+              ) : null}
+            </div>
+            <div className={cn('flex min-w-0 flex-1 flex-col', episode.watched && 'opacity-70')}>
+              <span className={cn('truncate text-foreground', !episode.watched && 'font-semibold')}>
+                {episodeTitle(episode, (number) => t('anime.episodeNumber', { number }))}
+              </span>
+              <span className="truncate text-xs text-muted-foreground">{date}</span>
+            </div>
+            {episode.variant ? <Badge>{episode.variant}</Badge> : null}
+            {episode.sourceMissing ? <Badge tone="warning">{t('anime.missing')}</Badge> : null}
+            {download?.status === 'done' ? <DownloadedChip /> : null}
+            {episode.watched ? (
+              <span className="flex items-center gap-1 text-xs text-success-text">
+                <Check className="size-3.5" strokeWidth={2} aria-hidden />
+                {t('anime.watched')}
+              </span>
+            ) : (
+              <Play className="size-4 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
+            )}
+          </Link>
+          {episode.sourceMissing && !download ? null : (
+            <EpisodeDownloadControl episodeId={episode.id} download={download} />
           )}
-          <DropdownMenuItem onSelect={() => previous.mutate()}>{t('anime.markPrevious')}</DropdownMenuItem>
-          <DropdownMenuItem disabled={episode.positionMs === 0 && !episode.watched} onSelect={() => reset.mutate()}>
-            {t('anime.resetProgress')}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              aria-label={t('anime.episodeActions')}
+              className="mr-2 flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            >
+              <EllipsisVertical className="size-4" strokeWidth={1.75} aria-hidden />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {episode.watched ? (
+                <DropdownMenuItem onSelect={() => mark.mutate(false)}>{t('anime.markUnwatched')}</DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onSelect={() => mark.mutate(true)}>{t('anime.markWatched')}</DropdownMenuItem>
+              )}
+              <DropdownMenuItem onSelect={() => previous.mutate()}>{t('anime.markPrevious')}</DropdownMenuItem>
+              <DropdownMenuItem disabled={episode.positionMs === 0 && !episode.watched} onSelect={() => reset.mutate()}>
+                {t('anime.resetProgress')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </ContextMenuTrigger>
+      {menu}
+    </ContextMenu>
   );
 }
