@@ -262,6 +262,8 @@ test('Settings → Downloads saves each control, and changing the folder can mov
   await expect(page.getByRole('dialog', { name: 'Move the episodes already downloaded?' })).toBeVisible();
   await page.getByRole('button', { name: 'Move them' }).click();
   await expect(page.getByText('Download folder changed')).toBeVisible();
+  // The dialog also prints the folder and fades out for a moment: wait until it is gone before reading the page.
+  await expect(page.getByRole('dialog')).toBeHidden();
   await expect(page.getByText(target, { exact: true })).toBeVisible();
   expect(existsSync(target) && readdirSync(target).length > 0).toBe(true);
   const storage = await invoke<{ folder: string }>('downloads.storage');
