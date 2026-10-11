@@ -1384,6 +1384,12 @@
   },
   "contextMenu": {
     "copied": "{{what}} disalin",
-    "copyFailed": "Tidak bisa menyalin {{what}}"
+    "copyFailed": "Tidak bisa menyalin {{what}}",
+    "extensions": {
+      "copyId": "Salin ID ekstensi",
+      "idLabel": "ID ekstensi",
+      "copyUrl": "Salin URL",
+      "urlLabel": "URL repositori"
+    }
   }
 }

@@ -1404,6 +1404,12 @@
   },
   "contextMenu": {
     "copied": "{{what}} copied",
-    "copyFailed": "Could not copy {{what}}"
+    "copyFailed": "Could not copy {{what}}",
+    "extensions": {
+      "copyId": "Copy extension ID",
+      "idLabel": "Extension ID",
+      "copyUrl": "Copy URL",
+      "urlLabel": "Repository URL"
+    }
   }
 }
