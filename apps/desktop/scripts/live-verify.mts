@@ -6,6 +6,9 @@
 //           --only a,b         only these extension folders (ids)
 //           --skip-build       use the dist/ that is already there
 //           --no-node          skip the second pass that runs the extension in Node (raw streams)
+//           --all-streams      also open every stream of the episode one by one (switchStream), to see which servers
+//                              the app cannot reach, and the quality the app labels each with
+//           --oldest           check the oldest episode as well as the newest
 //           --play-seconds <n> how long to wait for frames (default 25)
 //           --out <dir>        where the report goes (default apps/desktop/test-results)
 import { spawnSync } from 'node:child_process';
@@ -27,6 +30,8 @@ const option = (name: string): string | undefined => {
 };
 const EXT_ROOT = resolve(option('ext-root') ?? resolve(REPO, '../matane-anime-extentions/src'));
 const ONLY = option('only')?.split(',').filter(Boolean);
+const ALL_STREAMS = flag('all-streams');
+const OLDEST = flag('oldest');
 const PLAY_MS = Number(option('play-seconds') ?? 25) * 1000;
 const OUT = resolve(option('out') ?? resolve(DESKTOP, 'test-results'));
 const SHOTS = resolve(OUT, 'live-shots');
@@ -50,7 +55,14 @@ interface Row {
   browse?: Step & { count?: number };
   search?: Step & { count?: number; query?: string };
   episodes?: Step & { count?: number; picked?: string };
-  streams?: Step & { list?: StreamRow[]; withQuality?: number; active?: number };
+  streams?: Step & {
+    list?: StreamRow[];
+    withQuality?: number;
+    active?: number;
+    /** `--all-streams`: what happened when each stream was opened by itself. */
+    each?: { server: string; ok: boolean; quality: number | null; error?: string }[];
+  };
+  oldest?: { picked?: string; streams?: number; withQuality?: number; plays?: boolean; error?: string };
   plays?: Step & { time?: number; width?: number; frames?: number; uiText?: string };
   node?: Step & { list?: { server: string; quality: number | null; kind: string; headers: string[]; host: string }[] };
   notes: string[];
@@ -199,6 +211,27 @@ interface Session {
   activeIndex: number;
 }
 
+/** Opens every stream on its own, the way a user picks a server: the app probes it and says whether it answers. */
+async function openEach(session: Session): Promise<NonNullable<NonNullable<Row['streams']>['each']>> {
+  const each: NonNullable<NonNullable<Row['streams']>['each']> = [];
+  for (const [index, stream] of session.streams.entries()) {
+    const opened = await timed(() =>
+      withTimeout(
+        invoke<Session>('playback.switchStream', { playbackId: session.playbackId, index }),
+        30_000,
+        'switchStream',
+      ),
+    );
+    each.push({
+      server: stream.server,
+      ok: opened.step.ok,
+      quality: opened.value?.streams[index]?.quality ?? stream.quality,
+      ...(opened.step.error && { error: opened.step.error }),
+    });
+  }
+  return each;
+}
+
 async function checkSource(row: Row, sourceId: string): Promise<void> {
   const popular = await timed(() =>
     withTimeout(
@@ -248,12 +281,50 @@ async function checkSource(row: Row, sourceId: string): Promise<void> {
     withQuality: session?.streams.filter((s) => s.quality !== null).length,
     active: session?.activeIndex,
   };
+  if (session && ALL_STREAMS) row.streams.each = await openEach(session);
   if (session) await invoke('playback.close', { playbackId: session.playbackId }).catch(() => undefined);
   if (!started.step.ok) return;
 
-  // The real player: frames on screen, not just a URL that answered.
+  const watched = await watchFrames(episode.id);
+  row.plays = { ok: watched.ok, ms: watched.ms, ...watched.state };
+  if (!watched.ok) {
+    row.plays.uiText = watched.uiText;
+    row.plays.error = watched.uiText ?? 'no frames';
+    mkdirSync(SHOTS, { recursive: true });
+    await page!.screenshot({ path: join(SHOTS, `${row.ext}-${row.source}.png`) }).catch(() => undefined);
+  }
+
+  // `--oldest`: old episodes often sit on other hosts than the newest one.
+  const oldest = OLDEST
+    ? [...episodes].filter((e) => e.id !== episode.id).sort((a, b) => (a.number ?? 0) - (b.number ?? 0))[0]
+    : undefined;
+  if (oldest) {
+    const first = await timed(() =>
+      withTimeout(invoke<Session>('playback.start', { episodeId: oldest.id }), 75_000, 'playback.start'),
+    );
+    row.oldest = {
+      picked: `#${oldest.number ?? '?'}${oldest.variant ? ` (${oldest.variant})` : ''}`,
+      ...(first.value && {
+        streams: first.value.streams.length,
+        withQuality: first.value.streams.filter((s) => s.quality !== null).length,
+      }),
+      ...(first.step.error && { error: first.step.error }),
+    };
+    if (first.value) await invoke('playback.close', { playbackId: first.value.playbackId }).catch(() => undefined);
+    if (first.step.ok) row.oldest.plays = (await watchFrames(oldest.id)).ok;
+  }
+  await go('#/library');
+}
+
+/** The real player: frames on screen, not just a URL that answered. */
+async function watchFrames(episodeId: number): Promise<{
+  ok: boolean;
+  ms: number;
+  state: { time: number; width: number; frames: number };
+  uiText?: string;
+}> {
   const from = performance.now();
-  await go(`#/watch/${episode.id}`);
+  await go(`#/watch/${episodeId}`);
   let state = { time: 0, width: 0, frames: 0 };
   const deadline = Date.now() + PLAY_MS;
   while (Date.now() < deadline) {
@@ -268,17 +339,12 @@ async function checkSource(row: Row, sourceId: string): Promise<void> {
     if (state.time > 0.8 && state.width > 0 && state.frames > 0) break;
     await page!.waitForTimeout(500);
   }
-  const plays = state.time > 0.8 && state.width > 0 && state.frames > 0;
-  row.plays = { ok: plays, ms: elapsed(from), ...state };
-  if (!plays) {
-    row.plays.uiText =
-      (await page!.evaluate(() => document.body.innerText.replace(/\s+/g, ' ').slice(0, 240)).catch(() => '')) ||
+  const ok = state.time > 0.8 && state.width > 0 && state.frames > 0;
+  const uiText = ok
+    ? undefined
+    : (await page!.evaluate(() => document.body.innerText.replace(/\s+/g, ' ').slice(0, 240)).catch(() => '')) ||
       undefined;
-    row.plays.error = row.plays.uiText ?? 'no frames';
-    mkdirSync(SHOTS, { recursive: true });
-    await page!.screenshot({ path: join(SHOTS, `${row.ext}-${row.source}.png`) }).catch(() => undefined);
-  }
-  await go('#/library');
+  return { ok, ms: elapsed(from), state, ...(uiText && { uiText }) };
 }
 
 // ------------------------------------------------------------------ the report
@@ -309,8 +375,26 @@ function markdown(rows: Row[]): string {
       `| ${r.ext} | ${r.source} | ${cell(r.loaded)} | ${cell(r.browse)} | ${cell(r.search)} | ${cell(r.episodes)} | ${r.streams ? (r.streams.ok ? 'ok' : 'FAIL') : '-'}${count} | ${quality} | ${r.plays ? (r.plays.ok ? 'yes' : 'NO') : '-'} | ${r.node ? (r.node.ok ? `${r.node.list?.length} streams` : 'FAIL') : '-'} | ${error.replace(/\|/g, '/').slice(0, 160)} |`,
     );
   }
+  lines.push('', '## Oldest episode (--oldest)', '');
+  for (const r of rows) {
+    if (!r.oldest) continue;
+    lines.push(
+      `- **${r.ext}/${r.source}** ${r.oldest.picked ?? ''}: ${r.oldest.error ? `FAIL ${r.oldest.error.slice(0, 140)}` : `${r.oldest.streams} streams, ${r.oldest.withQuality} labelled, plays ${r.oldest.plays ?? '-'}`}`,
+    );
+  }
   lines.push('', '## Streams', '');
   for (const r of rows) {
+    if (r.streams?.each?.length) {
+      const bad = r.streams.each.filter((s) => !s.ok);
+      lines.push(
+        `- **${r.ext}/${r.source}**: ${r.streams.each.length - bad.length}/${r.streams.each.length} streams answer in the app, ${r.streams.each.filter((s) => s.ok && s.quality !== null).length} labelled`,
+        ...r.streams.each.map(
+          (s) =>
+            `  - ${s.ok ? 'ok  ' : 'FAIL'} ${s.server} ${s.quality ?? '?'}p${s.error ? `: ${s.error.slice(0, 140)}` : ''}`,
+        ),
+      );
+      continue;
+    }
     if (!r.streams?.list?.length) continue;
     lines.push(
       `- **${r.ext}/${r.source}** (${r.episodes?.picked ?? ''}): ${r.streams.list.map((s) => `${s.server} ${s.quality ?? '?'}p ${s.kind} [${s.status}]`).join(', ')}`,
