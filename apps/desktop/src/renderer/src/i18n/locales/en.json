@@ -1432,6 +1432,17 @@
       "deleteDownload": "Delete downloaded file",
       "deleteManyTitle": "Delete {{count}} downloads?",
       "deleteManyBody": "The files of these episodes of {{title}} are removed from your computer. The episodes stay in your library."
+    },
+    "lists": {
+      "pause": "Pause",
+      "resume": "Resume",
+      "cancel": "Cancel download",
+      "moveUp": "Move up the queue",
+      "openAnime": "Open anime page",
+      "openDownloads": "Open downloads folder",
+      "removeFromList": "Remove from list",
+      "deleteFile": "Delete file",
+      "removeFromHistory": "Remove from history"
     }
   }
 }

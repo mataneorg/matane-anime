@@ -76,6 +76,7 @@ function DownloadsPage() {
       const next = stepWithinAnime(groups.queued, id, direction);
       if (next) reorder.mutate(next);
     },
+    canMove: (id, direction) => stepWithinAnime(groups.queued, id, direction) !== null,
   };
 
   if (list.isError) {
@@ -122,7 +123,7 @@ function DownloadsPage() {
       case 'error':
         return <FailedRow key={item.id} item={item} actions={actions} />;
       case 'done':
-        return <DoneRow key={item.id} item={item} onDelete={setDeleting} />;
+        return <DoneRow key={item.id} item={item} actions={actions} onDelete={setDeleting} />;
     }
   };
 
