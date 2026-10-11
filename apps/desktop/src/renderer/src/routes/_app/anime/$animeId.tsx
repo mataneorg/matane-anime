@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, createFileRoute } from '@tanstack/react-router';
 import { ArrowRightLeft, ChevronDown, ChevronUp, Download, Globe, Loader2, Play, RefreshCw } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { countEpisodes } from '@matane-anime/shared';
 import { Cover } from '@renderer/components/Cover';
@@ -29,6 +29,7 @@ import { DownloadMenu } from '@renderer/features/downloads/DownloadMenu';
 import { call } from '@renderer/lib/api';
 import { animeQuery, coverSrc, episodesQuery, refreshAnime } from '@renderer/lib/catalog';
 import { useDownloadMap } from '@renderer/lib/downloads';
+import { AnimatePresence, duration, ease, useReducedMotion } from '@renderer/lib/motion';
 import { relativeTime } from '@renderer/lib/dates';
 import { continueQuery, localCoverSrc } from '@renderer/lib/library';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
@@ -59,7 +60,6 @@ function AnimePage({ animeId }: { animeId: number }) {
   const anime = useQuery(animeQuery(animeId));
   const episodes = useQuery(episodesQuery(animeId));
   const target = useQuery(continueQuery(animeId));
-  const [expanded, setExpanded] = useState(false);
   const [coverOpen, setCoverOpen] = useState(false);
   const [selection, setSelection] = useState<Selection>(EMPTY_SELECTION);
   const [jump, setJump] = useState<{ index: number; token: number } | null>(null);
@@ -216,33 +216,7 @@ function AnimePage({ animeId }: { animeId: number }) {
               <span className="font-semibold text-foreground">{t('library.episodes', { count: counts.total })}</span>
               {lastUpload ? ` · ${t('anime.lastUpdate', { when: relativeTime(lastUpload, now, i18n.language) })}` : ''}
             </p>
-            {data.description ? (
-              <div className="max-w-4xl">
-                <p
-                  className={cn(
-                    'leading-relaxed whitespace-pre-line text-muted-foreground select-text',
-                    !expanded && 'line-clamp-3',
-                  )}
-                >
-                  {data.description}
-                </p>
-                {data.description.length > 240 ? (
-                  <button
-                    type="button"
-                    aria-expanded={expanded}
-                    onClick={() => setExpanded((value) => !value)}
-                    className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary-text hover:underline"
-                  >
-                    {expanded ? t('anime.showLess') : t('anime.showMore')}
-                    {expanded ? (
-                      <ChevronUp className="size-3" aria-hidden />
-                    ) : (
-                      <ChevronDown className="size-3" aria-hidden />
-                    )}
-                  </button>
-                ) : null}
-              </div>
-            ) : null}
+            {data.description ? <Synopsis text={data.description} /> : null}
             <div className="mt-auto flex flex-wrap items-center gap-2 pt-2">
               {playTarget ? (
                 <Link
@@ -388,15 +362,103 @@ function AnimePage({ animeId }: { animeId: number }) {
           )}
         </div>
       </section>
-      {selected.size > 0 ? (
-        <EpisodeSelectionBar
-          ids={[...selected]}
-          total={order.length}
-          onSelectAll={() => setSelection(selectAll(order))}
-          onClear={() => setSelection(EMPTY_SELECTION)}
-        />
-      ) : null}
+      <AnimatePresence>
+        {selected.size > 0 ? (
+          <EpisodeSelectionBar
+            key="selection-bar"
+            ids={[...selected]}
+            total={order.length}
+            onSelectAll={() => setSelection(selectAll(order))}
+            onClear={() => setSelection(EMPTY_SELECTION)}
+          />
+        ) : null}
+      </AnimatePresence>
       <MigrateDialog anime={data} open={migrating} onOpenChange={setMigrating} />
+    </div>
+  );
+}
+
+/**
+ * The description, clamped to three lines with a "show more" button. The fold animates the height of the paragraph
+ * (Web Animations, a one-off 180 ms on a single element): the clamp is lifted while it runs so the text does not
+ * vanish before the box has shrunk, and is applied again when it ends. With reduced motion it flips at once.
+ */
+function Synopsis({ text }: { text: string }) {
+  const { t } = useTranslation();
+  const reduceMotion = useReducedMotion();
+  const [expanded, setExpanded] = useState(false);
+  const [animating, setAnimating] = useState(false);
+  const paragraph = useRef<HTMLParagraphElement>(null);
+  const span = useRef<{ from: number; to: number } | null>(null);
+  const running = useRef<Animation | null>(null);
+
+  const toggle = (): void => {
+    const element = paragraph.current;
+    const lineHeight = element ? Number.parseFloat(getComputedStyle(element).lineHeight) : Number.NaN;
+    if (!element || reduceMotion || Number.isNaN(lineHeight)) {
+      setExpanded((value) => !value);
+      return;
+    }
+    const full = element.scrollHeight;
+    const clamped = Math.min(lineHeight * 3, full);
+    span.current = { from: element.getBoundingClientRect().height, to: expanded ? clamped : full };
+    setAnimating(true);
+    setExpanded((value) => !value);
+  };
+
+  useLayoutEffect(() => {
+    const element = paragraph.current;
+    const move = span.current;
+    span.current = null;
+    if (!element || !move) return;
+    running.current?.cancel();
+    element.style.overflow = 'hidden';
+    const animation = element.animate([{ height: `${move.from}px` }, { height: `${move.to}px` }], {
+      duration: duration.base * 1000,
+      easing: `cubic-bezier(${ease.join(',')})`,
+    });
+    running.current = animation;
+    animation.onfinish = () => {
+      if (running.current !== animation) return;
+      running.current = null;
+      // Hold the end height until React has put the clamp back, or one frame would show the full text.
+      element.style.height = `${move.to}px`;
+      setAnimating(false);
+    };
+  }, [expanded]);
+
+  useLayoutEffect(() => {
+    if (animating) return;
+    const element = paragraph.current;
+    if (!element) return;
+    element.style.height = '';
+    element.style.overflow = '';
+  }, [animating]);
+
+  useEffect(() => () => running.current?.cancel(), []);
+
+  return (
+    <div className="max-w-4xl">
+      <p
+        ref={paragraph}
+        className={cn(
+          'leading-relaxed whitespace-pre-line text-muted-foreground select-text',
+          !expanded && !animating && 'line-clamp-3',
+        )}
+      >
+        {text}
+      </p>
+      {text.length > 240 ? (
+        <button
+          type="button"
+          aria-expanded={expanded}
+          onClick={toggle}
+          className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-primary-text hover:underline"
+        >
+          {expanded ? t('anime.showLess') : t('anime.showMore')}
+          {expanded ? <ChevronUp className="size-3" aria-hidden /> : <ChevronDown className="size-3" aria-hidden />}
+        </button>
+      ) : null}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Outlet, useRouterState } from '@tanstack/react-router';
 import { CommandPalette } from '@renderer/features/palette/CommandPalette';
+import { fadeUp, m } from '@renderer/lib/motion';
 import { Sidebar } from './Sidebar';
 import { TitleBar } from './TitleBar';
 
@@ -11,9 +12,15 @@ export function AppShell() {
       <div className="flex min-h-0 flex-1">
         <Sidebar />
         {/* Keyed by the path so a new page starts at the top; pages that restore a position (useScrollRestoration) do it after they mount. */}
-        <main key={pathname} className="min-w-0 flex-1 overflow-auto">
+        <m.main
+          key={pathname}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="min-w-0 flex-1 overflow-auto"
+        >
           <Outlet />
-        </main>
+        </m.main>
       </div>
       <CommandPalette />
     </div>

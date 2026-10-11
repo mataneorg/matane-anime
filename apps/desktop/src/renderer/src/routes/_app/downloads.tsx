@@ -31,6 +31,7 @@ import {
 import { StorageCard } from '@renderer/features/downloads/StorageCard';
 import { call } from '@renderer/lib/api';
 import { downloadsQuery } from '@renderer/lib/downloads';
+import { AnimatePresence, collapse, m } from '@renderer/lib/motion';
 import { useScrollRestoration } from '@renderer/lib/scroll';
 import { cn } from '@renderer/lib/utils';
 import { useDownloadsStore } from '@renderer/stores/downloads';
@@ -272,6 +273,7 @@ function AnimeGroup({
 }) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
+  const [folding, setFolding] = useState(false);
   const list = `downloads-${animeId}`;
   return (
     <div role="group" aria-label={title} className="flex flex-col gap-2">
@@ -295,11 +297,26 @@ function AnimeGroup({
         </Link>
         <span className="rounded-md bg-muted px-1.5 text-[11px] font-medium text-foreground">{count}</span>
       </div>
-      {open ? (
-        <ul id={list} className="flex flex-col gap-2" aria-label={label}>
-          {children}
-        </ul>
-      ) : null}
+      <AnimatePresence initial={false}>
+        {open ? (
+          <m.ul
+            key="rows"
+            id={list}
+            className="flex flex-col gap-2"
+            aria-label={label}
+            variants={collapse}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            // Clip only while the height moves, so the rows' focus rings and drop targets are not cut off at rest.
+            style={{ overflow: folding ? 'hidden' : 'visible' }}
+            onAnimationStart={() => setFolding(true)}
+            onAnimationComplete={() => setFolding(false)}
+          >
+            {children}
+          </m.ul>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

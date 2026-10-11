@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@renderer/components/ui/button';
 import { call } from '@renderer/lib/api';
 import { enqueueEpisodes, useDownloadMap } from '@renderer/lib/downloads';
+import { m, slideUpBar } from '@renderer/lib/motion';
 
-/** Floating actions for the selected episodes of an anime. */
+/** Floating actions for the selected episodes of an anime. The caller wraps it in `AnimatePresence` for the exit. */
 export function EpisodeSelectionBar({
   ids,
   total,
@@ -24,8 +25,12 @@ export function EpisodeSelectionBar({
     onSuccess: onClear,
   });
   return (
-    <div
+    <m.div
       role="toolbar"
+      variants={slideUpBar}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
       aria-label={t('anime.selection')}
       className="sticky bottom-5 z-20 mx-auto mb-5 flex w-fit flex-wrap items-center gap-2 rounded-xl border bg-popover px-4 py-3 text-popover-foreground shadow-xl"
     >
@@ -55,6 +60,6 @@ export function EpisodeSelectionBar({
       <Button variant="ghost" size="icon-sm" aria-label={t('common.cancel')} onClick={onClear}>
         <X aria-hidden />
       </Button>
-    </div>
+    </m.div>
   );
 }
