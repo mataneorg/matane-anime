@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { IncognitoPill } from '@renderer/components/shell/IncognitoPill';
 import { call } from '@renderer/lib/api';
 import { settingsQuery, useUpdateSettings } from '@renderer/lib/ipc';
+import { AnimatePresence } from '@renderer/lib/motion';
 import { cn } from '@renderer/lib/utils';
 import { attachStream, type FatalInfo } from './engine';
 import {
@@ -495,12 +496,14 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
         <BottomBar session={session} actions={actions} visible={!hidden} volume={volume} muted={muted} speed={speed} />
       )}
 
-      {session && store.panel === 'servers' ? (
-        <ServerMenu session={session} onPick={(index) => void pickStream(index)} />
-      ) : null}
-      {session && store.panel === 'episodes' ? (
-        <EpisodePanel animeId={session.animeId} currentId={session.episodeId} onPick={goTo} />
-      ) : null}
+      <AnimatePresence>
+        {session && store.panel === 'servers' ? (
+          <ServerMenu key="servers" session={session} onPick={(index) => void pickStream(index)} />
+        ) : null}
+        {session && store.panel === 'episodes' ? (
+          <EpisodePanel key="episodes" animeId={session.animeId} currentId={session.episodeId} onPick={goTo} />
+        ) : null}
+      </AnimatePresence>
       {store.countdown !== null && next ? (
         <AutoplayOverlay
           label={next.label}
@@ -509,7 +512,7 @@ export function PlayerView({ episodeId }: { episodeId: number }) {
           onCancel={() => usePlayerStore.getState().set({ countdown: null, ended: false })}
         />
       ) : null}
-      {store.toast ? <Toast message={store.toast} /> : null}
+      <AnimatePresence>{store.toast ? <Toast key={store.toast} message={store.toast} /> : null}</AnimatePresence>
       {error ? (
         <ErrorCard
           error={error}
