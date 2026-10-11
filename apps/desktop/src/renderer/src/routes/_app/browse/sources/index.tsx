@@ -1,11 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
-import { Globe, Pin, PinOff } from 'lucide-react';
+import { ExternalLink, Globe, Pin, PinOff, Search } from 'lucide-react';
 import { type FormEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from '@renderer/components/EmptyState';
 import { Badge } from '@renderer/components/ui/badge';
 import { Button, buttonVariants } from '@renderer/components/ui/button';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '@renderer/components/ui/context-menu';
 import { Input } from '@renderer/components/ui/input';
 import { call } from '@renderer/lib/api';
 import { sourcesQuery } from '@renderer/lib/catalog';
@@ -134,6 +140,7 @@ function SourceGroup({
 function SourceRow({ source, showUsedAt }: { source: SourceInfo; showUsedAt: boolean }) {
   const { t, i18n } = useTranslation();
   const now = useNow();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const pin = useMutation({
     mutationFn: () => call('sources.setPinned', { sourceId: source.id, pinned: !source.pinned }),
@@ -150,47 +157,67 @@ function SourceRow({ source, showUsedAt }: { source: SourceInfo; showUsedAt: boo
     </>
   );
   return (
-    <li
-      className={cn(
-        'relative flex items-center gap-4 rounded-xl border bg-card/40 p-3 transition-colors',
-        'hover:border-input hover:bg-card/70',
-      )}
-    >
-      <ExtensionIcon id={source.extensionId} name={source.name} className="size-10" />
-      {/* The whole card opens the source: the link stretches over it, and the buttons sit above it. */}
-      <Link
-        to="/browse/sources/$sourceId"
-        params={{ sourceId: source.id }}
-        className="flex min-w-0 flex-1 flex-col rounded-md outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
-      >
-        {title}
-      </Link>
-      <Badge>{source.lang.toUpperCase()}</Badge>
-      {source.nsfw ? <Badge tone="warning">18+</Badge> : null}
-      <Link
-        to="/browse/sources/$sourceId"
-        params={{ sourceId: source.id }}
-        search={{ tab: 'latest' }}
-        className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'relative')}
-      >
-        {t('browse.sources.latest')}
-      </Link>
-      <Button
-        variant="ghost"
-        size="icon"
-        className={cn('relative', source.pinned && 'text-primary-text')}
-        aria-pressed={source.pinned}
-        aria-label={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
-        title={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
-        onClick={() => pin.mutate()}
-      >
-        {source.pinned ? (
-          <PinOff className="size-4" strokeWidth={1.75} aria-hidden />
-        ) : (
-          <Pin className="size-4" strokeWidth={1.75} aria-hidden />
-        )}
-      </Button>
-    </li>
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        <li
+          className={cn(
+            'relative flex items-center gap-4 rounded-xl border bg-card/40 p-3 transition-colors',
+            'hover:border-input hover:bg-card/70',
+          )}
+        >
+          <ExtensionIcon id={source.extensionId} name={source.name} className="size-10" />
+          {/* The whole card opens the source: the link stretches over it, and the buttons sit above it. */}
+          <Link
+            to="/browse/sources/$sourceId"
+            params={{ sourceId: source.id }}
+            className="flex min-w-0 flex-1 flex-col rounded-md outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
+          >
+            {title}
+          </Link>
+          <Badge>{source.lang.toUpperCase()}</Badge>
+          {source.nsfw ? <Badge tone="warning">18+</Badge> : null}
+          <Link
+            to="/browse/sources/$sourceId"
+            params={{ sourceId: source.id }}
+            search={{ tab: 'latest' }}
+            className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), 'relative')}
+          >
+            {t('browse.sources.latest')}
+          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn('relative', source.pinned && 'text-primary-text')}
+            aria-pressed={source.pinned}
+            aria-label={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
+            title={source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
+            onClick={() => pin.mutate()}
+          >
+            {source.pinned ? (
+              <PinOff className="size-4" strokeWidth={1.75} aria-hidden />
+            ) : (
+              <Pin className="size-4" strokeWidth={1.75} aria-hidden />
+            )}
+          </Button>
+        </li>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem
+          onSelect={() => void navigate({ to: '/browse/sources/$sourceId', params: { sourceId: source.id } })}
+        >
+          <ExternalLink aria-hidden />
+          {t('contextMenu.browse.open')}
+        </ContextMenuItem>
+        <ContextMenuItem onSelect={() => pin.mutate()}>
+          {source.pinned ? <PinOff aria-hidden /> : <Pin aria-hidden />}
+          {source.pinned ? t('browse.sources.unpin') : t('browse.sources.pin')}
+        </ContextMenuItem>
+        <ContextMenuItem onSelect={() => void navigate({ to: '/browse/global-search', search: {} })}>
+          <Search aria-hidden />
+          {t('contextMenu.browse.searchAll')}
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }
 
