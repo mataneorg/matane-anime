@@ -1381,5 +1381,9 @@
       "other": "Lainnya",
       "watched_other": "{{count}} episode ditonton"
     }
+  },
+  "contextMenu": {
+    "copied": "{{what}} disalin",
+    "copyFailed": "Tidak bisa menyalin {{what}}"
   }
 }

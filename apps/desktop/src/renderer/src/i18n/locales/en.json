@@ -1401,5 +1401,9 @@
       "watched_one": "{{count}} episode watched",
       "watched_other": "{{count}} episodes watched"
     }
+  },
+  "contextMenu": {
+    "copied": "{{what}} copied",
+    "copyFailed": "Could not copy {{what}}"
   }
 }
