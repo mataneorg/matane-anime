@@ -1,11 +1,12 @@
 # Built with makepkg against the 1.0.0-rc.3 deb (contents and ldd checked); not installed or run, namcap not run.
 # Not on the AUR yet: registration was closed when this was prepared.
+# .github/workflows/release.yml sets _pkgver and sha256sums on every stable release (not on pre-releases).
 #
 # Maintainer: (the owner: put your name and address here before submitting)
 #
 # matane-anime-bin repackages the .deb of a GitHub release for Arch Linux (the AUR convention for the "-bin"
-# suffix). For each release: set _pkgver, run `updpkgsums`, build with `makepkg -si` (a clean chroot is better),
-# run `namcap`, and regenerate .SRCINFO (`makepkg --printsrcinfo > .SRCINFO`) before pushing to the AUR.
+# suffix). To submit it to the AUR: build with `makepkg -si` (a clean chroot is better), run `namcap`,
+# and generate .SRCINFO (`makepkg --printsrcinfo > .SRCINFO`).
 #
 # The app updates itself only when it is an AppImage: an installed package is updated by pacman, and the app
 # only tells the user that a new version exists.
@@ -26,7 +27,7 @@ conflicts=('matane-anime')
 options=('!strip' '!debug')
 noextract=("matane-anime-${_pkgver}.deb")
 source=("matane-anime-${_pkgver}.deb::${url}/releases/download/v${_pkgver}/matane-anime-${_pkgver}-linux-amd64.deb")
-sha256sums=('SKIP') # UNVERIFIED: replace with the real checksum
+sha256sums=('SKIP') # written by .github/workflows/release.yml
 
 package() {
   cd "${srcdir}"

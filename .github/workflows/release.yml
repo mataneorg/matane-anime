@@ -146,3 +146,42 @@ jobs:
             apps/desktop/release/latest*.yml
           if-no-files-found: error
           retention-days: 14
+
+  # Keeps docs/packaging/PKGBUILD on the latest stable release: the version and the checksum of its deb. Pre-releases
+  # are skipped, and so is a manual run (it does not tag, so there is no release to point the package at). It runs
+  # only when every build above is green, so the PKGBUILD never points at a release that is missing a file.
+  # Pushing with GITHUB_TOKEN does not start other workflows; this needs `main` to accept pushes from Actions.
+  pkgbuild:
+    name: update the PKGBUILD
+    needs: [prepare, build]
+    if: needs.prepare.outputs.publish == 'true' && needs.prepare.outputs.prerelease == 'false' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Write the version and the checksum
+        run: |
+          version="${TAG#v}"
+          gh release download "$TAG" --pattern '*-linux-amd64.deb' --output matane-anime.deb
+          sum=$(sha256sum matane-anime.deb | cut -d' ' -f1)
+          rm matane-anime.deb
+          sed -i \
+            -e "s/^_pkgver=.*/_pkgver=$version/" \
+            -e "s/^pkgrel=.*/pkgrel=1/" \
+            -e "s/^sha256sums=.*/sha256sums=('$sum') # written by .github\/workflows\/release.yml/" \
+            docs/packaging/PKGBUILD
+          grep -E '^(_pkgver|pkgrel|sha256sums)=' docs/packaging/PKGBUILD
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.prepare.outputs.tag }}
+      - name: Commit it to main
+        run: |
+          if git diff --quiet; then echo "PKGBUILD already up to date"; exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -am "chore(packaging): PKGBUILD for $TAG"
+          git pull --rebase origin main
+          git push origin HEAD:main
+        env:
+          TAG: ${{ needs.prepare.outputs.tag }}
