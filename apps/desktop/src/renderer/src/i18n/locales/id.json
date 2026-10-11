@@ -1384,6 +1384,12 @@
   },
   "contextMenu": {
     "copied": "{{what}} disalin",
-    "copyFailed": "Tidak bisa menyalin {{what}}"
+    "copyFailed": "Tidak bisa menyalin {{what}}",
+    "episodes": {
+      "cancelDownload": "Batalkan unduhan",
+      "deleteDownload": "Hapus file unduhan",
+      "deleteManyTitle": "Hapus {{count}} unduhan?",
+      "deleteManyBody": "File episode-episode {{title}} ini dihapus dari komputer. Episodenya tetap ada di library."
+    }
   }
 }

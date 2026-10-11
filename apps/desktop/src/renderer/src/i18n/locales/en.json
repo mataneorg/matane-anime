@@ -1404,6 +1404,12 @@
   },
   "contextMenu": {
     "copied": "{{what}} copied",
-    "copyFailed": "Could not copy {{what}}"
+    "copyFailed": "Could not copy {{what}}",
+    "episodes": {
+      "cancelDownload": "Cancel download",
+      "deleteDownload": "Delete downloaded file",
+      "deleteManyTitle": "Delete {{count}} downloads?",
+      "deleteManyBody": "The files of these episodes of {{title}} are removed from your computer. The episodes stay in your library."
+    }
   }
 }

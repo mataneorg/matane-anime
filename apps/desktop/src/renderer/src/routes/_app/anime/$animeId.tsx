@@ -382,6 +382,7 @@ function AnimePage({ animeId }: { animeId: number }) {
               onToggle={(event, episodeId) =>
                 setSelection((current) => select(current, order, episodeId, event.shiftKey ? 'range' : 'toggle'))
               }
+              onActed={clearSelection}
               jump={jump}
             />
           )}
