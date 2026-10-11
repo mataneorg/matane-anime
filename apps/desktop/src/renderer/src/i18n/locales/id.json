@@ -1384,6 +1384,11 @@
   },
   "contextMenu": {
     "copied": "{{what}} disalin",
-    "copyFailed": "Tidak bisa menyalin {{what}}"
+    "copyFailed": "Tidak bisa menyalin {{what}}",
+    "browse": {
+      "open": "Buka",
+      "addToCategory": "Tambah ke kategori…",
+      "searchAll": "Cari di semua sumber"
+    }
   }
 }

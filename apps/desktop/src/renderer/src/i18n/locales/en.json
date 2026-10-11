@@ -1404,6 +1404,11 @@
   },
   "contextMenu": {
     "copied": "{{what}} copied",
-    "copyFailed": "Could not copy {{what}}"
+    "copyFailed": "Could not copy {{what}}",
+    "browse": {
+      "open": "Open",
+      "addToCategory": "Add to category…",
+      "searchAll": "Search all sources"
+    }
   }
 }

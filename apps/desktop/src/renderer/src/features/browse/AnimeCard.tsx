@@ -8,6 +8,7 @@ import { Cover } from '@renderer/components/Cover';
 import { Skeleton } from '@renderer/components/ui/skeleton';
 import { prefetchAnime } from '@renderer/lib/catalog';
 import { cn } from '@renderer/lib/utils';
+import { AnimeCardMenu } from './AnimeCardMenu';
 
 /** How long the pointer rests on a card before its anime is fetched ahead. */
 const HOVER_INTENT_MS = 350;
@@ -51,50 +52,54 @@ export function AnimeCard({ anime, display = 'comfortable' }: { anime: CatalogAn
 
   if (display === 'list') {
     return (
-      <Link
-        to="/anime/$animeId"
-        params={params}
-        title={anime.title}
-        className="group flex h-16 min-w-0 items-center gap-3 border-b px-2 transition-colors hover:bg-accent/60"
-        {...hover}
-      >
-        <Cover sourceId={anime.sourceId} url={anime.thumbnailUrl} className="aspect-[2/3] h-12 shrink-0 rounded" />
-        <span className="min-w-0 flex-1 truncate font-semibold text-foreground group-hover:text-primary-text">
-          {anime.title}
-        </span>
-        {inLibrary}
-      </Link>
+      <AnimeCardMenu anime={anime}>
+        <Link
+          to="/anime/$animeId"
+          params={params}
+          title={anime.title}
+          className="group flex h-16 min-w-0 items-center gap-3 border-b px-2 transition-colors hover:bg-accent/60"
+          {...hover}
+        >
+          <Cover sourceId={anime.sourceId} url={anime.thumbnailUrl} className="aspect-[2/3] h-12 shrink-0 rounded" />
+          <span className="min-w-0 flex-1 truncate font-semibold text-foreground group-hover:text-primary-text">
+            {anime.title}
+          </span>
+          {inLibrary}
+        </Link>
+      </AnimeCardMenu>
     );
   }
 
   return (
-    <Link
-      to="/anime/$animeId"
-      params={params}
-      title={display === 'comfortable' ? undefined : anime.title}
-      className="group flex flex-col gap-2 rounded-lg outline-offset-4"
-      {...hover}
-    >
-      <div className="relative overflow-hidden rounded-lg border transition-colors group-hover:border-primary">
-        <Cover sourceId={anime.sourceId} url={anime.thumbnailUrl} className="aspect-[2/3] w-full" />
-        {inLibrary}
-        {display === 'compact' ? (
-          <div
-            aria-hidden
-            className="absolute inset-x-0 bottom-0 bg-linear-to-t from-ctp-crust/95 via-ctp-crust/90 via-65% to-transparent px-2 pt-6 pb-2"
-          >
-            <p className="line-clamp-2 text-xs leading-snug font-semibold text-ctp-text">{anime.title}</p>
-          </div>
-        ) : null}
-      </div>
-      {display === 'comfortable' ? (
-        <span className="line-clamp-2 text-[13px] leading-snug font-semibold text-foreground transition-colors group-hover:text-primary-text">
-          {anime.title}
-        </span>
-      ) : (
-        <span className="sr-only">{anime.title}</span>
-      )}
-    </Link>
+    <AnimeCardMenu anime={anime}>
+      <Link
+        to="/anime/$animeId"
+        params={params}
+        title={display === 'comfortable' ? undefined : anime.title}
+        className="group flex flex-col gap-2 rounded-lg outline-offset-4"
+        {...hover}
+      >
+        <div className="relative overflow-hidden rounded-lg border transition-colors group-hover:border-primary">
+          <Cover sourceId={anime.sourceId} url={anime.thumbnailUrl} className="aspect-[2/3] w-full" />
+          {inLibrary}
+          {display === 'compact' ? (
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 bg-linear-to-t from-ctp-crust/95 via-ctp-crust/90 via-65% to-transparent px-2 pt-6 pb-2"
+            >
+              <p className="line-clamp-2 text-xs leading-snug font-semibold text-ctp-text">{anime.title}</p>
+            </div>
+          ) : null}
+        </div>
+        {display === 'comfortable' ? (
+          <span className="line-clamp-2 text-[13px] leading-snug font-semibold text-foreground transition-colors group-hover:text-primary-text">
+            {anime.title}
+          </span>
+        ) : (
+          <span className="sr-only">{anime.title}</span>
+        )}
+      </Link>
+    </AnimeCardMenu>
   );
 }
 
