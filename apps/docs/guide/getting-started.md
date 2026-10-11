@@ -1,6 +1,6 @@
 # Install
 
-Packages are built by CI when a release is cut and are published on the project's [Releases page](https://github.com/mataneorg/matane-anime/releases). Versions marked "Pre-release" are release candidates of 1.0. You can also [build from source](https://github.com/mataneorg/matane-anime#build-from-source).
+Packages are built by CI when a release is cut and are published on the project's [Releases page](https://github.com/mataneorg/matane-anime/releases). Versions marked "Pre-release" are test builds ahead of the next version. You can also [build from source](https://github.com/mataneorg/matane-anime#build-from-source).
 
 ## Pick a package
 

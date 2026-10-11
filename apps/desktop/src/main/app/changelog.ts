@@ -6,6 +6,13 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.0',
+    date: '2026-10-11',
+    items: [
+      'Matane Anime 1.0: the first stable release. It is the 1.0.0 release candidates, with nothing added since the last one.',
+    ],
+  },
+  {
     version: '1.0.0-rc.3',
     date: '2026-10-11',
     items: ['Browse: the next page of a source listing loads before you reach the end, so scrolling does not stall.'],

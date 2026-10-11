@@ -1,6 +1,6 @@
 # Packages and how they update
 
-Matane Anime is built as several package types. Only the **AppImage** has been built and smoke-tested so far; everything else on this page is configured but **not yet verified** (the owner builds and tries each type on a real machine, see [../releasing.md](../releasing.md)). Releases are beta. Packages are produced by CI (`.github/workflows/release.yml`) when a release is cut; this page does not claim that one exists.
+Matane Anime is built as several package types. Only the **AppImage** has been built and smoke-tested so far; everything else on this page is configured but **not yet verified** (the owner builds and tries each type on a real machine, see [../releasing.md](../releasing.md)). Packages are produced by CI (`.github/workflows/release.yml`) when a `v*` tag is pushed; `v1.0.0` is the first stable release.
 
 ## The package types
 

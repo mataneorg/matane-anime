@@ -102,7 +102,7 @@ Do this only when the list above is green or each open item is written down as a
 4. ~~Drop the beta wording that would be wrong afterwards~~ Done: the notice in `README.md` ("is a **beta**", the latest version), `SECURITY.md` (Supported versions), `apps/docs/index.md` and `apps/docs/guide/getting-started.md` ("Releases are beta"), and the "beta" lines in `docs/PRD.md` §13 and §15.2.
 5. ~~Decide the contact address.~~ Done: GitHub private advisories are the one official channel, and `SECURITY.md` and `CODE_OF_CONDUCT.md` say so.
 6. `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build`, and `pnpm e2e` at home.
-7. Commit, tag exactly `v1.0.0`, push the tag, and watch `release.yml` and the smoke job. Tagging publishes.
+7. ~~Commit, tag exactly `v1.0.0`, push the tag, and watch `release.yml` and the smoke job.~~ Done on 2026-10-11 (`v1.0.0`; tagging publishes). After it is published, set `_pkgver` in `docs/packaging/PKGBUILD` to `1.0.0` and run `updpkgsums`.
 
 ## The docs site
 
