@@ -12,7 +12,10 @@ import { Button } from '@renderer/components/ui/button';
 import { Input } from '@renderer/components/ui/input';
 import { Select } from '@renderer/components/ui/select';
 import { AnimeCard, AnimeCardSkeleton, gridStyle } from '@renderer/features/browse/AnimeCard';
-import { FilterPanel, cleanFilters } from '@renderer/features/browse/FilterPanel';
+import { AppliedFilters } from '@renderer/features/browse/AppliedFilters';
+import { FilterPanel } from '@renderer/features/browse/FilterPanel';
+import { countActive, normalize, requestFilters } from '@renderer/features/browse/filterState';
+import { useNarrow } from '@renderer/features/browse/useNarrow';
 import {
   browseCachedQuery,
   browseQuery,
@@ -22,6 +25,7 @@ import {
   sourcesQuery,
 } from '@renderer/lib/catalog';
 import { describeError, isCloudflare } from '@renderer/lib/errors';
+import { AnimatePresence } from '@renderer/lib/motion';
 import { useScrollRestoration } from '@renderer/lib/scroll';
 import { cn } from '@renderer/lib/utils';
 import { usePageCrumbs } from '@renderer/stores/crumbs';
@@ -58,7 +62,10 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   const navigate = useNavigate();
   const { data: sources = [] } = useQuery(sourcesQuery);
   const source = sources.find((candidate) => candidate.id === sourceId);
-  const { data: capabilities } = useQuery({ ...capabilitiesQuery(sourceId), enabled: source?.available === true });
+  const { data: capabilities, isPending: capabilitiesPending } = useQuery({
+    ...capabilitiesQuery(sourceId),
+    enabled: source?.available === true,
+  });
   const { data: network } = useQuery(networkStatusQuery);
   const online = network?.online ?? true;
   const [{ display, coverSize }, updateView] = useBrowseView();
@@ -70,6 +77,20 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   const [draft, setDraft] = useState(query);
   const [panelOpen, setPanelOpen] = useState(false);
   const [filterDraft, setFilterDraft] = useState<FilterState>(filters);
+  // The address changed (a chip taken off, Back): the panel shows it, not what was typed before.
+  const [seenFilters, setSeenFilters] = useState(filters);
+  if (seenFilters !== filters) {
+    setSeenFilters(filters);
+    setFilterDraft(filters);
+  }
+  const toggle = useRef<HTMLButtonElement>(null);
+  // Below this width the panel floats over the list instead of taking a column from it.
+  const [root, setRoot] = useState<HTMLDivElement | null>(null);
+  const drawer = useNarrow(root, 1040);
+  const closePanel = (): void => {
+    setPanelOpen(false);
+    toggle.current?.focus();
+  };
   const show = (patch: {
     q?: string | undefined;
     tab?: 'latest' | undefined;
@@ -86,14 +107,21 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   // A source without a Latest listing shows Popular, whatever the address says.
   const tab: Kind = search.tab === 'latest' && capabilities?.latest !== false ? 'latest' : 'popular';
   const kind = searching ? 'search' : tab;
-  const params = { sourceId, kind, query: query.trim(), filters } as const;
-  const feed = useInfiniteQuery(browseQuery(params, source?.available === true && online));
-  // What the source showed last time, on screen until the real page arrives (or when it cannot: offline, a failure).
-  const { data: remembered } = useQuery(browseCachedQuery(params, source?.available === true));
-  const { data: filterList = [] } = useQuery({
+  const filtersSupported = capabilities?.filters === true;
+  const filterQuery = useQuery({
     ...filtersQuery(sourceId),
-    enabled: source?.available === true && capabilities?.filters === true,
+    enabled: source?.available === true && filtersSupported,
   });
+  const filterList = useMemo(() => (filterQuery.data ?? []) as Filter[], [filterQuery.data]);
+  const appliedCount = countActive(filterList, filters);
+  // A search carries the defaults the extension declared, so it waits for the declarations (or for their failure).
+  const declared = !capabilitiesPending && (!filtersSupported || !filterQuery.isPending);
+  const sent = useMemo(() => requestFilters(filterList, filters), [filterList, filters]);
+  const params = { sourceId, kind, query: query.trim(), filters: searching ? sent : filters } as const;
+  const listable = source?.available === true && (!searching || declared);
+  const feed = useInfiniteQuery(browseQuery(params, listable && online));
+  // What the source showed last time, on screen until the real page arrives (or when it cannot: offline, a failure).
+  const { data: remembered } = useQuery(browseCachedQuery(params, listable));
 
   const showingRemembered = feed.data === undefined && remembered != null;
   const items = useMemo(
@@ -137,10 +165,9 @@ function BrowseView({ sourceId }: { sourceId: string }) {
   }
 
   const latestSupported = capabilities?.latest === true;
-  const filtersSupported = capabilities?.filters === true;
 
   return (
-    <div className="flex min-h-full">
+    <div ref={setRoot} className="flex min-h-full">
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-10 border-b bg-background/95 px-6 pt-4 backdrop-blur">
           <div className="flex flex-wrap items-center gap-3">
@@ -182,43 +209,69 @@ function BrowseView({ sourceId }: { sourceId: string }) {
                   className="pl-9"
                 />
               </div>
-              {filtersSupported ? (
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="icon"
-                  className="size-9"
-                  aria-pressed={panelOpen}
-                  aria-label={t('browse.filters.toggle')}
-                  title={t('browse.filters.toggle')}
-                  onClick={() => setPanelOpen((open) => !open)}
-                >
-                  <SlidersHorizontal className="size-4" strokeWidth={1.75} aria-hidden />
-                </Button>
-              ) : null}
             </form>
           </div>
 
-          <div role="tablist" className="mt-3 flex gap-6">
-            {(['popular', ...(latestSupported ? (['latest'] as const) : [])] as Kind[]).map((name) => (
-              <button
-                key={name}
-                role="tab"
+          <div className="mt-3 flex items-end gap-6">
+            <div role="tablist" className="flex gap-6">
+              {(['popular', ...(latestSupported ? (['latest'] as const) : [])] as Kind[]).map((name) => (
+                <button
+                  key={name}
+                  role="tab"
+                  type="button"
+                  aria-selected={tab === name && !searching}
+                  onClick={() => chooseTab(name)}
+                  className={cn(
+                    '-mb-px h-9 border-b-2 border-transparent px-1 text-muted-foreground transition-colors hover:text-foreground',
+                    tab === name && !searching && 'border-primary font-semibold text-foreground',
+                  )}
+                >
+                  {t(`browse.tabs.${name}`)}
+                </button>
+              ))}
+            </div>
+            {filtersSupported ? (
+              <Button
+                ref={toggle}
                 type="button"
-                aria-selected={tab === name && !searching}
-                onClick={() => chooseTab(name)}
-                className={cn(
-                  '-mb-px h-9 border-b-2 border-transparent px-1 text-muted-foreground transition-colors hover:text-foreground',
-                  tab === name && !searching && 'border-primary font-semibold text-foreground',
-                )}
+                variant="secondary"
+                size="sm"
+                className={cn('mb-0.5 ml-auto', appliedCount > 0 && 'border-primary text-primary-text')}
+                aria-pressed={panelOpen}
+                aria-label={
+                  appliedCount > 0
+                    ? `${t('browse.filters.toggle')} (${t('browse.filters.active', { count: appliedCount })})`
+                    : t('browse.filters.toggle')
+                }
+                onClick={() => (panelOpen ? closePanel() : setPanelOpen(true))}
               >
-                {t(`browse.tabs.${name}`)}
-              </button>
-            ))}
+                <SlidersHorizontal aria-hidden />
+                {t('browse.filters.title')}
+                {appliedCount > 0 ? (
+                  <span
+                    aria-hidden
+                    className="rounded-md bg-primary/20 px-1.5 py-0.5 text-[11px] leading-none font-medium tabular-nums"
+                  >
+                    {appliedCount}
+                  </span>
+                ) : null}
+              </Button>
+            ) : null}
           </div>
         </header>
 
         <div className="flex flex-col gap-5 p-6">
+          {filtersSupported ? (
+            <AppliedFilters
+              filters={filterList}
+              value={filters}
+              onRemove={(id) => {
+                const { [id]: _removed, ...rest } = filters;
+                show({ filters: Object.keys(rest).length > 0 ? rest : undefined });
+              }}
+              onClear={() => show({ filters: undefined })}
+            />
+          ) : null}
           {verifying ? (
             <p
               role="status"
@@ -284,22 +337,32 @@ function BrowseView({ sourceId }: { sourceId: string }) {
         </div>
       </div>
 
-      {panelOpen && filtersSupported ? (
-        <FilterPanel
-          filters={filterList as Filter[]}
-          value={filterDraft}
-          onChange={setFilterDraft}
-          onApply={() => {
-            const applied = cleanFilters(filterDraft);
-            show({ filters: Object.keys(applied).length > 0 ? applied : undefined });
-          }}
-          onReset={() => {
-            setFilterDraft({});
-            show({ filters: undefined });
-          }}
-          onClose={() => setPanelOpen(false)}
-        />
-      ) : null}
+      <AnimatePresence>
+        {panelOpen && filtersSupported ? (
+          <FilterPanel
+            filters={filterList}
+            status={filterQuery.isPending ? 'pending' : filterQuery.isError ? 'error' : 'ready'}
+            error={filterQuery.error}
+            onRetry={() => void filterQuery.refetch()}
+            value={filterDraft}
+            applied={filters}
+            overlay={drawer}
+            busy={feed.isFetching && !feed.isFetchingNextPage}
+            onChange={setFilterDraft}
+            onApply={() => {
+              const applied = normalize(filterList, filterDraft);
+              show({ filters: Object.keys(applied).length > 0 ? applied : undefined });
+              // A drawer hides the list it filters: show the result.
+              if (drawer) closePanel();
+            }}
+            onReset={() => {
+              setFilterDraft({});
+              show({ filters: undefined });
+            }}
+            onClose={closePanel}
+          />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
