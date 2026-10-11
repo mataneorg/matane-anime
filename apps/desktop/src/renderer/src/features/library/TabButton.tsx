@@ -9,6 +9,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from '@renderer/components/ui/context-menu';
+import { m, transition } from '@renderer/lib/motion';
 import { cn } from '@renderer/lib/utils';
 import type { TabMenuAction } from './menu';
 
@@ -42,10 +43,19 @@ export function TabButton({
       aria-selected={active}
       onClick={onClick}
       className={cn(
-        '-mb-px flex h-9 shrink-0 items-center gap-2 border-b-2 border-transparent px-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-offset-[-2px]',
-        active && 'border-primary font-semibold text-foreground',
+        'relative -mb-px flex h-9 shrink-0 items-center gap-2 border-b-2 border-transparent px-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-offset-[-2px]',
+        active && 'font-semibold text-foreground',
       )}
     >
+      {/* The one underline slides to the chosen tab. It sits over the transparent bottom border, which keeps the tab's height. */}
+      {active && (
+        <m.span
+          layoutId="library-tab-underline"
+          transition={transition.layout}
+          aria-hidden
+          className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-primary"
+        />
+      )}
       <span className="max-w-48 truncate">{label}</span>
       <span
         className={cn(

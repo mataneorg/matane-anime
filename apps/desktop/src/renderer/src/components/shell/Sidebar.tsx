@@ -9,18 +9,34 @@ import { badgeText } from '@renderer/features/updates/helpers';
 import { availableQuery } from '@renderer/lib/catalog';
 import { appInfoQuery, settingsQuery } from '@renderer/lib/ipc';
 import { libraryCountQuery } from '@renderer/lib/library';
+import { AnimatePresence, LayoutGroup, collapse, m, transition } from '@renderer/lib/motion';
 import { updatesCountQuery } from '@renderer/lib/updates';
 import { cn } from '@renderer/lib/utils';
 import { useUiStore } from '@renderer/stores/ui';
 import { BROWSE_NAV, DOWNLOADS_NAV, MAIN_NAV, type NavItem, SETTINGS_ICON } from './nav';
 
-/** A sidebar row. The router marks the active link with `data-status="active"`, which the `data-[status=active]` classes read. */
+/**
+ * A sidebar row. The router marks the active link with `data-status="active"`, which the `data-[status=active]` classes
+ * read; the highlight itself is <ActiveIndicator>, which slides from the previously active row. `isolate` keeps that
+ * indicator (behind the content, above the row) inside the link.
+ */
 const itemClass =
-  'relative flex h-9 items-center gap-3 rounded-lg border-l-2 border-transparent px-3 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground';
-const activeClass =
-  'border-primary bg-primary/15 font-semibold text-primary-text hover:bg-primary/15 hover:text-primary-text';
+  'relative isolate flex h-9 items-center gap-3 rounded-lg border-l-2 border-transparent px-3 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground';
+const activeClass = 'font-semibold text-primary-text hover:bg-transparent hover:text-primary-text';
 const routerActiveClass =
-  'data-[status=active]:border-primary data-[status=active]:bg-primary/15 data-[status=active]:font-semibold data-[status=active]:text-primary-text data-[status=active]:hover:bg-primary/15 data-[status=active]:hover:text-primary-text';
+  'data-[status=active]:font-semibold data-[status=active]:text-primary-text data-[status=active]:hover:bg-transparent data-[status=active]:hover:text-primary-text';
+
+/** The one highlight behind the active row. It reaches over the row's transparent left border, so the accent bar lines up. */
+function ActiveIndicator() {
+  return (
+    <m.span
+      layoutId="nav-active"
+      transition={transition.layout}
+      aria-hidden
+      className="absolute inset-y-0 right-0 -left-0.5 -z-10 rounded-lg border-l-2 border-primary bg-primary/15"
+    />
+  );
+}
 
 function NavLink({
   item,
@@ -56,28 +72,53 @@ function NavLink({
       )}
       activeProps={{ 'aria-current': 'page' }}
     >
-      <Icon className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
-      {!collapsed && <span className="flex-1 truncate">{label}</span>}
-      {badge > 0 && (
-        <span
-          className={cn(
-            'rounded-md bg-primary/20 px-1.5 text-[11px] leading-5 font-semibold text-primary-text',
-            collapsed && 'absolute top-1 right-1 px-1 text-[10px] leading-4',
+      {({ isActive }) => (
+        <>
+          {isActive && <ActiveIndicator />}
+          <Icon className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
+          {!collapsed && <span className="flex-1 truncate">{label}</span>}
+          {badge > 0 && (
+            <span
+              className={cn(
+                'rounded-md bg-primary/20 px-1.5 text-[11px] leading-5 font-semibold text-primary-text',
+                collapsed && 'absolute top-1 right-1 px-1 text-[10px] leading-4',
+              )}
+            >
+              {badgeText(badge)}
+              <span className="sr-only"> {badgeLabel}</span>
+            </span>
           )}
-        >
-          {badgeText(badge)}
-          <span className="sr-only"> {badgeLabel}</span>
-        </span>
+          {dotLabel ? (
+            <span
+              role="img"
+              aria-label={dotLabel}
+              title={dotLabel}
+              className={cn('size-1.5 shrink-0 rounded-full bg-primary', collapsed && 'absolute top-1.5 right-2.5')}
+            />
+          ) : null}
+        </>
       )}
-      {dotLabel ? (
-        <span
-          role="img"
-          aria-label={dotLabel}
-          title={dotLabel}
-          className={cn('size-1.5 shrink-0 rounded-full bg-primary', collapsed && 'absolute top-1.5 right-2.5')}
-        />
-      ) : null}
     </Link>
+  );
+}
+
+/** The Browse links under their header. They fold, and clip only while folding so the focus outlines are never cut off. */
+function BrowseGroup({ dotFor }: { dotFor: (item: NavItem) => string | undefined }) {
+  const [folding, setFolding] = useState(false);
+  return (
+    <m.div
+      variants={collapse}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      onAnimationStart={() => setFolding(true)}
+      onAnimationComplete={() => setFolding(false)}
+      className={cn('ml-5 flex flex-col gap-0.5 border-l pl-2', folding && 'overflow-hidden')}
+    >
+      {BROWSE_NAV.map((item) => (
+        <NavLink key={item.to} item={item} collapsed={false} nested dotLabel={dotFor(item)} />
+      ))}
+    </m.div>
   );
 }
 
@@ -106,110 +147,112 @@ export function Sidebar() {
       : undefined;
 
   return (
-    <aside
-      className={cn('flex shrink-0 flex-col border-r bg-sidebar p-3 transition-[width]', collapsed ? 'w-16' : 'w-56')}
-    >
-      <div className={cn('mb-3 flex items-center gap-2.5 border-b pb-3', collapsed ? 'justify-center' : 'px-1')}>
-        <AppLogo className="size-8" />
-        {!collapsed && <div className="truncate text-base font-semibold tracking-tight">{t('app.name')}</div>}
-      </div>
+    <LayoutGroup id="sidebar">
+      <aside
+        className={cn('flex shrink-0 flex-col border-r bg-sidebar p-3 transition-[width]', collapsed ? 'w-16' : 'w-56')}
+      >
+        <div className={cn('mb-3 flex items-center gap-2.5 border-b pb-3', collapsed ? 'justify-center' : 'px-1')}>
+          <AppLogo className="size-8" />
+          {!collapsed && <div className="truncate text-base font-semibold tracking-tight">{t('app.name')}</div>}
+        </div>
 
-      {/* The negative margin and matching padding keep the focus outlines of the links from being clipped by the scroll area. */}
-      <nav className="-mx-1.5 -my-1.5 flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-1.5 py-1.5">
-        {MAIN_NAV.map((item) => (
+        {/* The negative margin and matching padding keep the focus outlines of the links from being clipped by the scroll area. */}
+        <nav className="-mx-1.5 -my-1.5 flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-1.5 py-1.5">
+          {MAIN_NAV.map((item) => (
+            <NavLink
+              key={item.to}
+              item={item}
+              collapsed={collapsed}
+              badge={item.to === '/updates' ? updatesCount : item.to === '/library' ? libraryCount : 0}
+              badgeLabel={
+                item.to === '/updates'
+                  ? t('updates.badge', { count: updatesCount })
+                  : item.to === '/library'
+                    ? t('library.badge', { count: libraryCount })
+                    : ''
+              }
+            />
+          ))}
+
+          {collapsed ? (
+            <>
+              <div className="my-1 border-t" />
+              {BROWSE_NAV.map((item) => (
+                <NavLink key={item.to} item={item} collapsed dotLabel={dotFor(item)} />
+              ))}
+              <div className="my-1 border-t" />
+            </>
+          ) : (
+            <div className="flex flex-col gap-0.5">
+              <button
+                type="button"
+                onClick={() => setBrowseOpen((open) => !open)}
+                aria-expanded={browseOpen}
+                className={cn(itemClass, browseActive && 'text-foreground')}
+              >
+                <Compass className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
+                <span className="flex-1 truncate text-left">{t('nav.browse')}</span>
+                <ChevronDown
+                  className={cn('size-4 transition-transform', !browseOpen && '-rotate-90')}
+                  strokeWidth={1.75}
+                  aria-hidden
+                />
+              </button>
+              <AnimatePresence initial={false}>{browseOpen && <BrowseGroup dotFor={dotFor} />}</AnimatePresence>
+            </div>
+          )}
+
           <NavLink
-            key={item.to}
-            item={item}
+            item={DOWNLOADS_NAV}
             collapsed={collapsed}
-            badge={item.to === '/updates' ? updatesCount : item.to === '/library' ? libraryCount : 0}
-            badgeLabel={
-              item.to === '/updates'
-                ? t('updates.badge', { count: updatesCount })
-                : item.to === '/library'
-                  ? t('library.badge', { count: libraryCount })
-                  : ''
-            }
+            badge={pendingDownloads}
+            badgeLabel={t('downloads.badge', { count: pendingDownloads })}
           />
-        ))}
+        </nav>
 
-        {collapsed ? (
-          <>
-            <div className="my-1 border-t" />
-            {BROWSE_NAV.map((item) => (
-              <NavLink key={item.to} item={item} collapsed dotLabel={dotFor(item)} />
-            ))}
-            <div className="my-1 border-t" />
-          </>
-        ) : (
-          <div className="flex flex-col gap-0.5">
-            <button
-              type="button"
-              onClick={() => setBrowseOpen((open) => !open)}
-              aria-expanded={browseOpen}
-              className={cn(itemClass, browseActive && 'text-foreground')}
+        <div className="mt-2 flex flex-col gap-0.5 border-t pt-2">
+          {/* Settings → Advanced → Developer mode shows it; the spike itself only exists in development or with MATANE_SPIKE=1. */}
+          {settings?.devMode && info?.spike && (
+            <Link
+              to="/dev/spike"
+              aria-label={collapsed ? t('nav.spike') : undefined}
+              title={collapsed ? t('nav.spike') : undefined}
+              className={cn(itemClass, routerActiveClass, collapsed && 'justify-center px-0')}
+              activeProps={{ 'aria-current': 'page' }}
             >
-              <Compass className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
-              <span className="flex-1 truncate text-left">{t('nav.browse')}</span>
-              <ChevronDown
-                className={cn('size-4 transition-transform', !browseOpen && '-rotate-90')}
-                strokeWidth={1.75}
-                aria-hidden
-              />
-            </button>
-            {browseOpen && (
-              <div className="ml-5 flex flex-col gap-0.5 border-l pl-2">
-                {BROWSE_NAV.map((item) => (
-                  <NavLink key={item.to} item={item} collapsed={false} nested dotLabel={dotFor(item)} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        <NavLink
-          item={DOWNLOADS_NAV}
-          collapsed={collapsed}
-          badge={pendingDownloads}
-          badgeLabel={t('downloads.badge', { count: pendingDownloads })}
-        />
-      </nav>
-
-      <div className="mt-2 flex flex-col gap-0.5 border-t pt-2">
-        {/* Settings → Advanced → Developer mode shows it; the spike itself only exists in development or with MATANE_SPIKE=1. */}
-        {settings?.devMode && info?.spike && (
+              {({ isActive }) => (
+                <>
+                  {isActive && <ActiveIndicator />}
+                  <FlaskConical className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
+                  {!collapsed && <span className="flex-1 truncate">{t('nav.spike')}</span>}
+                </>
+              )}
+            </Link>
+          )}
           <Link
-            to="/dev/spike"
-            aria-label={collapsed ? t('nav.spike') : undefined}
-            title={collapsed ? t('nav.spike') : undefined}
-            className={cn(itemClass, routerActiveClass, collapsed && 'justify-center px-0')}
-            activeProps={{ 'aria-current': 'page' }}
+            to="/settings/$section"
+            params={{ section: 'general' }}
+            aria-label={collapsed ? t('nav.settings') : undefined}
+            aria-current={settingsActive ? 'page' : undefined}
+            title={collapsed ? t('nav.settings') : undefined}
+            className={cn(itemClass, collapsed && 'justify-center px-0', settingsActive && activeClass)}
           >
-            <FlaskConical className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
-            {!collapsed && <span className="flex-1 truncate">{t('nav.spike')}</span>}
+            {settingsActive && <ActiveIndicator />}
+            <SettingsIcon className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
+            {!collapsed && <span className="flex-1 truncate">{t('nav.settings')}</span>}
           </Link>
-        )}
-        <Link
-          to="/settings/$section"
-          params={{ section: 'general' }}
-          aria-label={collapsed ? t('nav.settings') : undefined}
-          aria-current={settingsActive ? 'page' : undefined}
-          title={collapsed ? t('nav.settings') : undefined}
-          className={cn(itemClass, collapsed && 'justify-center px-0', settingsActive && activeClass)}
-        >
-          <SettingsIcon className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
-          {!collapsed && <span className="flex-1 truncate">{t('nav.settings')}</span>}
-        </Link>
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label={collapsed ? t('nav.expand') : t('nav.collapse')}
-          title={collapsed ? t('nav.expand') : t('nav.collapse')}
-          className={cn(itemClass, collapsed && 'justify-center px-0')}
-        >
-          <ToggleIcon className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
-          {!collapsed && <span className="truncate">{t('nav.collapse')}</span>}
-        </button>
-      </div>
-    </aside>
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={collapsed ? t('nav.expand') : t('nav.collapse')}
+            title={collapsed ? t('nav.expand') : t('nav.collapse')}
+            className={cn(itemClass, collapsed && 'justify-center px-0')}
+          >
+            <ToggleIcon className="size-4 shrink-0" strokeWidth={1.75} aria-hidden />
+            {!collapsed && <span className="truncate">{t('nav.collapse')}</span>}
+          </button>
+        </div>
+      </aside>
+    </LayoutGroup>
   );
 }
