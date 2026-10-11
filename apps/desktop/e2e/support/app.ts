@@ -39,6 +39,10 @@ export async function launchApp(
         onboardingDone: true,
       }),
     );
+    // The renderer may already have read the old value, and the `settings.changed` event can arrive before it
+    // listens (slow CI runners), which leaves it on the setup flow for good. Loading again reads the saved value.
+    await page.reload();
+    await page.waitForLoadState('domcontentloaded');
   }
   return { app, page, userData };
 }
