@@ -3,6 +3,7 @@ import { DEFAULT_WINDOW_STATE, WINDOW_STATE_KEY, type WindowState, windowStateSc
 import { BrowserWindow, screen, shell } from 'electron';
 import type { SettingsRepository } from '../db/repositories/settings';
 import { broadcast } from '../ipc/register';
+import { attachTextContextMenu } from './context-menu';
 import icon from '../../../resources/icon.png?asset';
 
 /** Drop a saved position that no longer lands on any connected display. */
@@ -86,6 +87,7 @@ export function createMainWindow(settings: SettingsRepository, options: MainWind
     return { action: 'deny' };
   });
   window.webContents.on('will-navigate', (event) => event.preventDefault());
+  attachTextContextMenu(window);
 
   const devUrl = process.env['ELECTRON_RENDERER_URL'];
   if (devUrl) void window.loadURL(devUrl);
