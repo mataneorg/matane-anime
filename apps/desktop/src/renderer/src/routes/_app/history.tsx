@@ -1,7 +1,7 @@
 import type { HistoryEntry } from '@matane-anime/shared';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Link, createFileRoute } from '@tanstack/react-router';
-import { Check, EyeOff, History as HistoryIcon, Play, SearchX, Trash2, X } from 'lucide-react';
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Check, EyeOff, History as HistoryIcon, Play, SearchX, SquareArrowOutUpRight, Trash2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConfirmDialog } from '@renderer/components/ConfirmDialog';
@@ -10,6 +10,13 @@ import { EmptyState } from '@renderer/components/EmptyState';
 import { ErrorState } from '@renderer/components/ErrorState';
 import { SearchField } from '@renderer/components/SearchField';
 import { Button, buttonVariants } from '@renderer/components/ui/button';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from '@renderer/components/ui/context-menu';
 import { episodeTitle } from '@renderer/features/anime/EpisodeList';
 import { call } from '@renderer/lib/api';
 import { dayKey, dayLabel, formatClock } from '@renderer/lib/dates';
@@ -156,86 +163,119 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
     (number) => t('anime.episodeNumber', { number }),
   );
   const next = entry.next;
+  const navigate = useNavigate();
+  // The same words as the row's button.
+  const playLabel = next
+    ? next.reason === 'resume'
+      ? t('library.continue')
+      : next.number !== null
+        ? t('history.playEpisode', { number: next.number })
+        : t('history.playNext')
+    : null;
 
   return (
-    <li className="flex items-center gap-4 rounded-xl border bg-card/40 p-2 pr-3 transition-colors hover:border-input hover:bg-card/70">
-      <Link
-        to="/anime/$animeId"
-        params={{ animeId: String(entry.animeId) }}
-        className="shrink-0"
-        aria-label={entry.title}
-      >
-        <Cover
-          sourceId={entry.sourceId}
-          url={entry.thumbnailUrl}
-          localAnimeId={entry.hasLocalCover ? entry.animeId : undefined}
-          className="h-16 w-28 rounded-lg"
-        />
-      </Link>
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <Link
-          to="/anime/$animeId"
-          params={{ animeId: String(entry.animeId) }}
-          className="truncate font-medium text-foreground hover:underline"
-        >
-          {entry.title}
-        </Link>
-        <span className="truncate text-xs text-muted-foreground">
-          {[title, entry.sourceName].filter(Boolean).join(' · ')}
-        </span>
-        <div className="h-1 overflow-hidden rounded-full bg-muted" aria-hidden>
-          <div className={entry.watched ? 'h-full bg-ctp-green' : 'h-full bg-primary'} style={{ width: `${share}%` }} />
-        </div>
-      </div>
-      <div className="flex w-32 shrink-0 flex-col items-end text-xs text-muted-foreground">
-        {entry.watched ? (
-          <span className="flex items-center gap-1 text-success-text">
-            <Check className="size-3.5" strokeWidth={2} aria-hidden />
-            {t('anime.watched')}
-          </span>
-        ) : entry.durationMs ? (
-          <>
-            <span className="text-foreground tabular-nums">{`${Math.round(share)}%`}</span>
-            <span className="tabular-nums">
-              {t('history.position', {
-                position: formatClock(entry.positionMs),
-                duration: formatClock(entry.durationMs),
-              })}
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        <li className="flex items-center gap-4 rounded-xl border bg-card/40 p-2 pr-3 transition-colors hover:border-input hover:bg-card/70">
+          <Link
+            to="/anime/$animeId"
+            params={{ animeId: String(entry.animeId) }}
+            className="shrink-0"
+            aria-label={entry.title}
+          >
+            <Cover
+              sourceId={entry.sourceId}
+              url={entry.thumbnailUrl}
+              localAnimeId={entry.hasLocalCover ? entry.animeId : undefined}
+              className="h-16 w-28 rounded-lg"
+            />
+          </Link>
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
+            <Link
+              to="/anime/$animeId"
+              params={{ animeId: String(entry.animeId) }}
+              className="truncate font-medium text-foreground hover:underline"
+            >
+              {entry.title}
+            </Link>
+            <span className="truncate text-xs text-muted-foreground">
+              {[title, entry.sourceName].filter(Boolean).join(' · ')}
             </span>
-          </>
+            <div className="h-1 overflow-hidden rounded-full bg-muted" aria-hidden>
+              <div
+                className={entry.watched ? 'h-full bg-ctp-green' : 'h-full bg-primary'}
+                style={{ width: `${share}%` }}
+              />
+            </div>
+          </div>
+          <div className="flex w-32 shrink-0 flex-col items-end text-xs text-muted-foreground">
+            {entry.watched ? (
+              <span className="flex items-center gap-1 text-success-text">
+                <Check className="size-3.5" strokeWidth={2} aria-hidden />
+                {t('anime.watched')}
+              </span>
+            ) : entry.durationMs ? (
+              <>
+                <span className="text-foreground tabular-nums">{`${Math.round(share)}%`}</span>
+                <span className="tabular-nums">
+                  {t('history.position', {
+                    position: formatClock(entry.positionMs),
+                    duration: formatClock(entry.durationMs),
+                  })}
+                </span>
+              </>
+            ) : null}
+            <span>{time}</span>
+          </div>
+          {next ? (
+            <Link
+              to="/watch/$episodeId"
+              params={{ episodeId: String(next.episodeId) }}
+              className={buttonVariants({ size: 'sm' })}
+            >
+              <Play className="size-4" strokeWidth={2} aria-hidden />
+              {playLabel}
+            </Link>
+          ) : (
+            <Link
+              to="/anime/$animeId"
+              params={{ animeId: String(entry.animeId) }}
+              className={buttonVariants({ size: 'sm', variant: 'secondary' })}
+            >
+              {t('history.open')}
+            </Link>
+          )}
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label={t('history.remove', { title: entry.title })}
+            onClick={() => remove.mutate()}
+          >
+            <X className="size-4" strokeWidth={1.75} aria-hidden />
+          </Button>
+        </li>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        {next ? (
+          <ContextMenuItem
+            onSelect={() => void navigate({ to: '/watch/$episodeId', params: { episodeId: String(next.episodeId) } })}
+          >
+            <Play aria-hidden />
+            {playLabel}
+          </ContextMenuItem>
         ) : null}
-        <span>{time}</span>
-      </div>
-      {next ? (
-        <Link
-          to="/watch/$episodeId"
-          params={{ episodeId: String(next.episodeId) }}
-          className={buttonVariants({ size: 'sm' })}
+        <ContextMenuItem
+          onSelect={() => void navigate({ to: '/anime/$animeId', params: { animeId: String(entry.animeId) } })}
         >
-          <Play className="size-4" strokeWidth={2} aria-hidden />
-          {next.reason === 'resume'
-            ? t('library.continue')
-            : next.number !== null
-              ? t('history.playEpisode', { number: next.number })
-              : t('history.playNext')}
-        </Link>
-      ) : (
-        <Link
-          to="/anime/$animeId"
-          params={{ animeId: String(entry.animeId) }}
-          className={buttonVariants({ size: 'sm', variant: 'secondary' })}
-        >
-          {t('history.open')}
-        </Link>
-      )}
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        aria-label={t('history.remove', { title: entry.title })}
-        onClick={() => remove.mutate()}
-      >
-        <X className="size-4" strokeWidth={1.75} aria-hidden />
-      </Button>
-    </li>
+          <SquareArrowOutUpRight aria-hidden />
+          {t('contextMenu.lists.openAnime')}
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem destructive onSelect={() => remove.mutate()}>
+          <X aria-hidden />
+          {t('contextMenu.lists.removeFromHistory')}
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }

@@ -1404,6 +1404,17 @@
   },
   "contextMenu": {
     "copied": "{{what}} copied",
-    "copyFailed": "Could not copy {{what}}"
+    "copyFailed": "Could not copy {{what}}",
+    "lists": {
+      "pause": "Pause",
+      "resume": "Resume",
+      "cancel": "Cancel download",
+      "moveUp": "Move up the queue",
+      "openAnime": "Open anime page",
+      "openDownloads": "Open downloads folder",
+      "removeFromList": "Remove from list",
+      "deleteFile": "Delete file",
+      "removeFromHistory": "Remove from history"
+    }
   }
 }

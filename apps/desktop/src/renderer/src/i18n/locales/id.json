@@ -1384,6 +1384,17 @@
   },
   "contextMenu": {
     "copied": "{{what}} disalin",
-    "copyFailed": "Tidak bisa menyalin {{what}}"
+    "copyFailed": "Tidak bisa menyalin {{what}}",
+    "lists": {
+      "pause": "Jeda",
+      "resume": "Lanjutkan",
+      "cancel": "Batalkan unduhan",
+      "moveUp": "Naikkan di antrean",
+      "openAnime": "Buka halaman anime",
+      "openDownloads": "Buka folder unduhan",
+      "removeFromList": "Hapus dari daftar",
+      "deleteFile": "Hapus file",
+      "removeFromHistory": "Hapus dari riwayat"
+    }
   }
 }

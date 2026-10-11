@@ -11,6 +11,7 @@ import { cn } from '@renderer/lib/utils';
 import { useDownloadsStore } from '@renderer/stores/downloads';
 import type { useDownloadActions } from './actions';
 import { describeDownloadError } from './errors';
+import { DownloadRowMenu } from './DownloadRowMenu';
 import { formatBytes, formatEta, formatSpeed, percentDone } from './format';
 
 type Actions = ReturnType<typeof useDownloadActions>;
@@ -21,6 +22,8 @@ export interface RowDrag {
   onDropOn: (id: number) => void;
   onEnd: () => void;
   onMove: (id: number, direction: -1 | 1) => void;
+  /** Whether `onMove` would move the row that way (the context menu disables "Move up" when not). */
+  canMove: (id: number, direction: -1 | 1) => boolean;
   dragging: number | null;
 }
 
@@ -130,23 +133,25 @@ export function ActiveRow({ item, actions }: { item: DownloadItem; actions: Acti
   const tick = useDownloadsStore((state) => state.progress[item.id]);
   const name = rowName(item, t);
   return (
-    <li className={shell} data-status="downloading">
-      <Thumb item={item} />
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-        <Title item={item} facts />
-        <Bar item={item} label={name} />
-        <Stats item={item} tick={tick} />
-      </div>
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        aria-label={t('downloads.row.pause', { name })}
-        onClick={() => actions.pause.mutate(item.id)}
-      >
-        <Pause className="size-4" strokeWidth={1.75} aria-hidden />
-      </Button>
-      <CancelButton item={item} name={name} actions={actions} />
-    </li>
+    <DownloadRowMenu item={item} actions={actions}>
+      <li className={shell} data-status="downloading">
+        <Thumb item={item} />
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+          <Title item={item} facts />
+          <Bar item={item} label={name} />
+          <Stats item={item} tick={tick} />
+        </div>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t('downloads.row.pause', { name })}
+          onClick={() => actions.pause.mutate(item.id)}
+        >
+          <Pause className="size-4" strokeWidth={1.75} aria-hidden />
+        </Button>
+        <CancelButton item={item} name={name} actions={actions} />
+      </li>
+    </DownloadRowMenu>
   );
 }
 
@@ -167,6 +172,7 @@ function CancelButton({ item, name, actions }: { item: DownloadItem; name: strin
 export function QueuedRow({ item, actions, drag }: { item: DownloadItem; actions: Actions; drag: RowDrag }) {
   const { t } = useTranslation();
   const name = rowName(item, t);
+  const onMoveUp = drag.canMove(item.id, -1) ? () => drag.onMove(item.id, -1) : undefined;
   const onKeyDown = (event: KeyboardEvent): void => {
     if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
     event.preventDefault();
@@ -176,41 +182,43 @@ export function QueuedRow({ item, actions, drag }: { item: DownloadItem; actions
     if (drag.dragging !== null) event.preventDefault();
   };
   return (
-    <li
-      className={cn(shell, drag.dragging === item.id && 'opacity-50')}
-      data-status="queued"
-      draggable
-      onDragStart={(event) => {
-        event.dataTransfer.effectAllowed = 'move';
-        drag.onDragStart(item.id);
-      }}
-      onDragOver={onDragOver}
-      onDrop={(event) => {
-        event.preventDefault();
-        drag.onDropOn(item.id);
-      }}
-      onDragEnd={drag.onEnd}
-    >
-      <button
-        type="button"
-        aria-label={t('downloads.row.reorder', { name })}
-        title={t('downloads.row.reorderHint')}
-        onKeyDown={onKeyDown}
-        className="-mr-2 flex size-6 shrink-0 cursor-grab items-center justify-center rounded-lg text-muted-foreground hover:bg-accent"
+    <DownloadRowMenu item={item} actions={actions} onMoveUp={onMoveUp}>
+      <li
+        className={cn(shell, drag.dragging === item.id && 'opacity-50')}
+        data-status="queued"
+        draggable
+        onDragStart={(event) => {
+          event.dataTransfer.effectAllowed = 'move';
+          drag.onDragStart(item.id);
+        }}
+        onDragOver={onDragOver}
+        onDrop={(event) => {
+          event.preventDefault();
+          drag.onDropOn(item.id);
+        }}
+        onDragEnd={drag.onEnd}
       >
-        <GripVertical className="size-4" strokeWidth={1.75} aria-hidden />
-      </button>
-      <Thumb item={item} />
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <Title item={item} />
-        <div className="text-xs text-muted-foreground">{t('downloads.row.waiting')}</div>
-      </div>
-      <span className="flex items-center gap-1.5 text-xs text-foreground">
-        <Clock className="size-4 text-ctp-blue" strokeWidth={1.75} aria-hidden />
-        {t('downloads.status.queued')}
-      </span>
-      <CancelButton item={item} name={name} actions={actions} />
-    </li>
+        <button
+          type="button"
+          aria-label={t('downloads.row.reorder', { name })}
+          title={t('downloads.row.reorderHint')}
+          onKeyDown={onKeyDown}
+          className="-mr-2 flex size-6 shrink-0 cursor-grab items-center justify-center rounded-lg text-muted-foreground hover:bg-accent"
+        >
+          <GripVertical className="size-4" strokeWidth={1.75} aria-hidden />
+        </button>
+        <Thumb item={item} />
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <Title item={item} />
+          <div className="text-xs text-muted-foreground">{t('downloads.row.waiting')}</div>
+        </div>
+        <span className="flex items-center gap-1.5 text-xs text-foreground">
+          <Clock className="size-4 text-ctp-blue" strokeWidth={1.75} aria-hidden />
+          {t('downloads.status.queued')}
+        </span>
+        <CancelButton item={item} name={name} actions={actions} />
+      </li>
+    </DownloadRowMenu>
   );
 }
 
@@ -218,27 +226,29 @@ export function PausedRow({ item, actions }: { item: DownloadItem; actions: Acti
   const { t } = useTranslation();
   const name = rowName(item, t);
   return (
-    <li className={shell} data-status="paused">
-      <Thumb item={item} />
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-        <Title item={item} />
-        <Bar item={item} label={name} paused />
-        <Stats item={item} />
-      </div>
-      <span className="flex items-center gap-1.5 text-xs text-foreground">
-        <Pause className="size-3.5" strokeWidth={1.75} aria-hidden />
-        {t('downloads.status.paused')}
-      </span>
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        aria-label={t('downloads.row.resume', { name })}
-        onClick={() => actions.resume.mutate(item.id)}
-      >
-        <Play className="size-4 fill-current" strokeWidth={1.75} aria-hidden />
-      </Button>
-      <CancelButton item={item} name={name} actions={actions} />
-    </li>
+    <DownloadRowMenu item={item} actions={actions}>
+      <li className={shell} data-status="paused">
+        <Thumb item={item} />
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+          <Title item={item} />
+          <Bar item={item} label={name} paused />
+          <Stats item={item} />
+        </div>
+        <span className="flex items-center gap-1.5 text-xs text-foreground">
+          <Pause className="size-3.5" strokeWidth={1.75} aria-hidden />
+          {t('downloads.status.paused')}
+        </span>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t('downloads.row.resume', { name })}
+          onClick={() => actions.resume.mutate(item.id)}
+        >
+          <Play className="size-4 fill-current" strokeWidth={1.75} aria-hidden />
+        </Button>
+        <CancelButton item={item} name={name} actions={actions} />
+      </li>
+    </DownloadRowMenu>
   );
 }
 
@@ -248,66 +258,78 @@ export function FailedRow({ item, actions }: { item: DownloadItem; actions: Acti
   const text = describeDownloadError(item.error);
   const message = 'raw' in text ? t('downloads.errors.raw', { message: text.raw }) : t(text.key, text.values);
   return (
-    <li
-      className={cn(shell, 'border-ctp-red/40 bg-ctp-red/10 hover:border-ctp-red/40 hover:bg-ctp-red/10')}
-      data-status="error"
-    >
-      <Thumb item={item} />
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <Title item={item} />
-        <div className="text-xs text-foreground" title={message}>
-          {message}
-          {item.bytesDone > 0 ? ` ${t('downloads.errors.reused')}` : ''}
-        </div>
-      </div>
-      <span className="flex items-center gap-1.5 text-xs text-foreground">
-        <CircleAlert className="size-4 text-ctp-red" strokeWidth={1.75} aria-hidden />
-        {t('downloads.status.failed')}
-      </span>
-      <Button aria-label={t('downloads.row.retry', { name })} onClick={() => actions.retry.mutate(item.id)}>
-        <RefreshCw className="size-4" strokeWidth={1.75} aria-hidden />
-        {t('downloads.row.retryLabel')}
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        aria-label={t('downloads.row.remove', { name })}
-        onClick={() => actions.remove.mutate(item.id)}
+    <DownloadRowMenu item={item} actions={actions}>
+      <li
+        className={cn(shell, 'border-ctp-red/40 bg-ctp-red/10 hover:border-ctp-red/40 hover:bg-ctp-red/10')}
+        data-status="error"
       >
-        <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
-      </Button>
-    </li>
+        <Thumb item={item} />
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <Title item={item} />
+          <div className="text-xs text-foreground" title={message}>
+            {message}
+            {item.bytesDone > 0 ? ` ${t('downloads.errors.reused')}` : ''}
+          </div>
+        </div>
+        <span className="flex items-center gap-1.5 text-xs text-foreground">
+          <CircleAlert className="size-4 text-ctp-red" strokeWidth={1.75} aria-hidden />
+          {t('downloads.status.failed')}
+        </span>
+        <Button aria-label={t('downloads.row.retry', { name })} onClick={() => actions.retry.mutate(item.id)}>
+          <RefreshCw className="size-4" strokeWidth={1.75} aria-hidden />
+          {t('downloads.row.retryLabel')}
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t('downloads.row.remove', { name })}
+          onClick={() => actions.remove.mutate(item.id)}
+        >
+          <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
+        </Button>
+      </li>
+    </DownloadRowMenu>
   );
 }
 
-export function DoneRow({ item, onDelete }: { item: DownloadItem; onDelete: (item: DownloadItem) => void }) {
+export function DoneRow({
+  item,
+  actions,
+  onDelete,
+}: {
+  item: DownloadItem;
+  actions: Actions;
+  onDelete: (item: DownloadItem) => void;
+}) {
   const { t, i18n } = useTranslation();
   const name = rowName(item, t);
   const detail = [streamFacts(item), formatBytes(item.bytesDone, i18n.language)].filter(Boolean).join(' · ');
   return (
-    <li className={shell} data-status="done">
-      <Thumb item={item} />
-      <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <Title item={item} />
-        <div className="truncate text-xs text-muted-foreground tabular-nums">{detail}</div>
-      </div>
-      <Link
-        to="/watch/$episodeId"
-        params={{ episodeId: String(item.episodeId) }}
-        aria-label={t('downloads.row.play', { name })}
-        className={buttonVariants({ size: 'sm' })}
-      >
-        <Play className="size-4" strokeWidth={2} aria-hidden />
-        {t('downloads.row.playLabel')}
-      </Link>
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        aria-label={t('downloads.row.delete', { name })}
-        onClick={() => onDelete(item)}
-      >
-        <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
-      </Button>
-    </li>
+    <DownloadRowMenu item={item} actions={actions} onDelete={onDelete}>
+      <li className={shell} data-status="done">
+        <Thumb item={item} />
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <Title item={item} />
+          <div className="truncate text-xs text-muted-foreground tabular-nums">{detail}</div>
+        </div>
+        <Link
+          to="/watch/$episodeId"
+          params={{ episodeId: String(item.episodeId) }}
+          aria-label={t('downloads.row.play', { name })}
+          className={buttonVariants({ size: 'sm' })}
+        >
+          <Play className="size-4" strokeWidth={2} aria-hidden />
+          {t('downloads.row.playLabel')}
+        </Link>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={t('downloads.row.delete', { name })}
+          onClick={() => onDelete(item)}
+        >
+          <Trash2 className="size-4" strokeWidth={1.75} aria-hidden />
+        </Button>
+      </li>
+    </DownloadRowMenu>
   );
 }

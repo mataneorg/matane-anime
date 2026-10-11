@@ -256,6 +256,7 @@ function UpdatesPage() {
           onSelect={toggle}
           onDownload={(episodeIds) => download.mutate(episodeIds)}
           onWatched={(episodeIds) => markWatched.mutate(episodeIds)}
+          onSeen={(episodeIds) => markSeen.mutate(episodeIds)}
           busy={markWatched.isPending || download.isPending}
         />
       )}
@@ -313,6 +314,7 @@ function UpdatesList({
   onSelect,
   onDownload,
   onWatched,
+  onSeen,
   busy,
 }: {
   rows: Row[];
@@ -321,6 +323,7 @@ function UpdatesList({
   onSelect: (episodeId: number, range: boolean) => void;
   onDownload: (episodeIds: number[]) => void;
   onWatched: (episodeIds: number[]) => void;
+  onSeen: (episodeIds: number[]) => void;
   busy: boolean;
 }) {
   const { t } = useTranslation();
@@ -379,6 +382,7 @@ function UpdatesList({
               onSelect={(range) => onSelect(entry.episodeId, range)}
               onDownload={() => onDownload([entry.episodeId])}
               onWatched={() => onWatched([entry.episodeId])}
+              onSeen={() => onSeen([entry.episodeId])}
               busy={busy}
             />
           </div>
