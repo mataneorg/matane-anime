@@ -23,6 +23,7 @@
     "fixtures": "bash scripts/make-fixtures.sh",
     "fixtures:download": "bash scripts/make-download-fixtures.sh",
     "spike:report": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/spike-report.mts",
+    "verify:live": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/live-verify.mts",
     "e2e": "electron --version && electron-vite build && playwright test"
   },
   "devDependencies": {
