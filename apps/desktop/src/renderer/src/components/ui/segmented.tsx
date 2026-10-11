@@ -1,4 +1,5 @@
-import type { KeyboardEvent, ReactNode } from 'react';
+import { type KeyboardEvent, type ReactNode, useId } from 'react';
+import { m, transition } from '@renderer/lib/motion';
 import { cn } from '@renderer/lib/utils';
 
 /**
@@ -28,6 +29,8 @@ export function Segmented<T extends string>({
   icons?: boolean;
   className?: string;
 }) {
+  // One thumb per control; the id keeps several Segmented on a page from sharing (and stealing) each other's thumb.
+  const thumbId = useId();
   const move = (event: KeyboardEvent<HTMLButtonElement>, index: number): void => {
     const step =
       event.key === 'ArrowRight' || event.key === 'ArrowDown'
@@ -61,17 +64,25 @@ export function Segmented<T extends string>({
           onClick={() => onChange(option)}
           onKeyDown={(event) => move(event, index)}
           className={cn(
-            'transition-colors',
+            'relative isolate transition-colors',
             icons
               ? 'flex size-7 items-center justify-center rounded-md'
               : 'rounded-md px-3 py-1.5 text-xs whitespace-nowrap',
             option === value
               ? icons
-                ? 'bg-primary/15 text-primary-text'
-                : 'bg-primary font-semibold text-primary-foreground'
+                ? 'text-primary-text'
+                : 'font-semibold text-primary-foreground'
               : 'text-muted-foreground hover:text-foreground',
           )}
         >
+          {option === value && (
+            <m.span
+              layoutId={thumbId}
+              transition={transition.layout}
+              aria-hidden
+              className={cn('absolute inset-0 -z-10 rounded-md', icons ? 'bg-primary/15' : 'bg-primary')}
+            />
+          )}
           {format(option)}
         </button>
       ))}

@@ -22,7 +22,9 @@ export async function launchApp(
   const userData = options.userData ?? mkdtempSync(join(tmpdir(), 'matane-anime-e2e-'));
   // The package folder, not out/main/index.js: `app.getAppPath()` must be apps/desktop, as in `pnpm dev`
   // (it is where drizzle/ and e2e/fixtures/ are found).
-  const args = [resolve(__dirname, '../..'), `--user-data-dir=${userData}`];
+  // Reduced motion (not a Playwright `use` option: `electron.launch` has no browser context): the renderer then skips
+  // transform animations, so an exit animation never holds a closed dialog or panel in the DOM while a spec asserts.
+  const args = [resolve(__dirname, '../..'), `--user-data-dir=${userData}`, '--force-prefers-reduced-motion'];
   if (process.env['MATANE_E2E_NO_SANDBOX'] === '1') args.push('--no-sandbox');
   const app = await electron.launch({
     args,

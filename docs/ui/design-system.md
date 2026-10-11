@@ -75,6 +75,16 @@ The player lives on `video-stage` in both themes; it does not follow Latte. Top 
 - Errors and the autoplay countdown are centred cards on `video-scrim` with one primary action, "Retry" or "Play now", and one secondary, "Switch server" or "Cancel".
 - Burned-in subtitles belong to the video; the player draws none of its own in v1, so keep the bottom 96px of the frame free of UI while the bars are hidden.
 
+## Motion
+
+Motion uses the `motion` package (`motion/react`), wired once in `lib/motion.ts` (tokens, variants, the `m` and `AnimatePresence` re-exports) and `lib/MotionProvider.tsx` (`LazyMotion` in strict mode, `MotionConfig reducedMotion="user"`). Always import from `@renderer/lib/motion`, and use `m.*`, not `motion.*`.
+
+- **Short and sharp.** 120 to 240 ms (`duration`), one ease-out curve (`ease`), no springs or bounce. Enter and exit are the same gesture reversed, the exit a little faster.
+- **Transform and opacity only**, so the compositor does the work. The one exception is `collapse` (`height: auto`), for short folding lists.
+- **Reduced motion is honoured** (UI-5): with the OS setting on, transform and layout animations are dropped and only opacity stays. The CSS rule in `styles.css` covers CSS animations; `MotionConfig` covers the rest. The e2e launcher forces the setting on.
+- **Used for**: a shared indicator that slides between items (`layoutId`: sidebar, library tabs, segmented controls), conditionally rendered panels and bars that need an exit (player panels, selection bar, dialogs), a folding list, and the page enter.
+- **Not used for**: virtualized lists (library grid, episode list, updates: rows mount and unmount while scrolling), progress bars (they update many times a second: CSS `transition` at most), spinners and skeletons (CSS), hover colour changes (`transition-colors`), and the dropdown, context and select menus (CSS keyframes on `data-[state]` are enough).
+
 ## Patterns
 
 - **Lists** are `rounded-xl border bg-card/40` rows with a leading 16:9 thumbnail, a `text-sm font-semibold` title, `text-xs text-muted-foreground` metadata, trailing status and one icon button.

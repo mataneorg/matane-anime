@@ -21,11 +21,27 @@ import {
 import { type PointerEvent as ReactPointerEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { episodesQuery } from '@renderer/lib/catalog';
+import { m, slideInRight, transition } from '@renderer/lib/motion';
 import { cn } from '@renderer/lib/utils';
 import { episodeTitle } from '@renderer/features/anime/EpisodeList';
 import { type PlayerError, formatTime, usePlayerStore } from './store';
 
 export const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+
+/** The bars stay mounted (focus and ARIA unchanged) and only slide a few pixels while they fade out. */
+const barVariants = (offset: number) =>
+  ({
+    hidden: { opacity: 0, y: offset, transition: transition.base },
+    visible: { opacity: 1, y: 0, transition: transition.base },
+  }) as const;
+const topBarVariants = barVariants(-8);
+const bottomBarVariants = barVariants(8);
+
+const toastVariants = {
+  hidden: { opacity: 0, y: 8, transition: transition.fast },
+  visible: { opacity: 1, y: 0, transition: transition.base },
+  exit: { opacity: 0, transition: transition.fast },
+} as const;
 
 const iconButton =
   'flex size-11 items-center justify-center rounded-full text-video-text transition-colors hover:bg-video-track/50 focus-visible:outline-2 focus-visible:outline-video-accent';
@@ -107,10 +123,13 @@ export function TopBar({
   const { fullscreen, panel } = usePlayerStore();
   const active = session?.streams[session.activeIndex];
   return (
-    <div
+    <m.div
+      variants={topBarVariants}
+      initial={false}
+      animate={visible ? 'visible' : 'hidden'}
       className={cn(
-        'absolute inset-x-0 top-0 z-10 flex items-center gap-3 border-b border-video-track/60 bg-video-scrim px-4 py-2 transition-opacity',
-        !visible && 'pointer-events-none opacity-0',
+        'absolute inset-x-0 top-0 z-10 flex items-center gap-3 border-b border-video-track/60 bg-video-scrim px-4 py-2',
+        !visible && 'pointer-events-none',
       )}
     >
       <button type="button" className={iconButton} aria-label={t('player.back')} onClick={actions.goBack}>
@@ -167,7 +186,7 @@ export function TopBar({
           <Maximize className="size-5" strokeWidth={1.75} aria-hidden />
         )}
       </button>
-    </div>
+    </m.div>
   );
 }
 
@@ -189,10 +208,13 @@ export function BottomBar({
   const { t } = useTranslation();
   const { paused, currentTime, duration } = usePlayerStore();
   return (
-    <div
+    <m.div
+      variants={bottomBarVariants}
+      initial={false}
+      animate={visible ? 'visible' : 'hidden'}
       className={cn(
-        'absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-video-scrim px-4 py-3 transition-opacity',
-        !visible && 'pointer-events-none opacity-0',
+        'absolute inset-x-0 bottom-0 z-10 flex items-center gap-3 bg-video-scrim px-4 py-3',
+        !visible && 'pointer-events-none',
       )}
     >
       <button
@@ -262,7 +284,7 @@ export function BottomBar({
       >
         {t('player.speedValue', { speed })}
       </button>
-    </div>
+    </m.div>
   );
 }
 
@@ -279,9 +301,13 @@ export function ServerMenu({ session, onPick }: { session: PlaybackSession; onPi
     session.streams.find((stream) => stream.quality === quality && stream.status !== 'failed')?.index;
 
   return (
-    <div
+    <m.div
       role="dialog"
       aria-label={t('player.servers')}
+      variants={slideInRight}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
       className="absolute top-16 right-4 z-20 flex w-80 flex-col gap-4 rounded-xl border border-video-track bg-video-stage p-4 shadow-xl"
     >
       {qualities.length > 0 ? (
@@ -320,7 +346,7 @@ export function ServerMenu({ session, onPick }: { session: PlaybackSession; onPi
         <Info className="mt-0.5 size-3.5 shrink-0" strokeWidth={1.75} aria-hidden />
         {t('player.switchNote')}
       </p>
-    </div>
+    </m.div>
   );
 }
 
@@ -380,8 +406,12 @@ export function EpisodePanel({
   const { t } = useTranslation();
   const { data = [] } = useQuery(episodesQuery(animeId));
   return (
-    <aside
+    <m.aside
       aria-label={t('player.episodes')}
+      variants={slideInRight}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
       className="absolute top-16 right-4 bottom-24 z-20 flex w-80 flex-col rounded-xl border border-video-track bg-video-stage shadow-xl"
     >
       <h3 className="border-b border-video-track px-4 py-3 font-semibold">{t('anime.episodes')}</h3>
@@ -408,7 +438,7 @@ export function EpisodePanel({
           </li>
         ))}
       </ul>
-    </aside>
+    </m.aside>
   );
 }
 
@@ -546,11 +576,15 @@ export function StreamLoading() {
 
 export function Toast({ message }: { message: string }) {
   return (
-    <div
+    <m.div
       role="status"
+      variants={toastVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
       className="absolute top-20 left-1/2 z-20 -translate-x-1/2 rounded-full bg-video-scrim px-4 py-2 text-video-text shadow-lg"
     >
       {message}
-    </div>
+    </m.div>
   );
 }
