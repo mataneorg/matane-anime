@@ -1,21 +1,18 @@
-# UNVERIFIED draft: needs AUR submission by the owner. Never built with makepkg and not checked with namcap.
+# Built with makepkg against the 1.0.0-rc.3 deb (contents and ldd checked); not installed or run, namcap not run.
+# Not on the AUR yet: registration was closed when this was prepared.
 #
 # Maintainer: (the owner: put your name and address here before submitting)
 #
 # matane-anime-bin repackages the .deb of a GitHub release for Arch Linux (the AUR convention for the "-bin"
-# suffix). Before submitting to the AUR the owner has to:
-#   1. Publish a release, then set _pkgver and the real checksum (`updpkgsums`).
-#   2. Check the .deb file name in the release (the architecture part may be amd64 or x64) and the paths inside
-#      it (`bsdtar -tf <deb>`).
-#   3. Build with `makepkg -si` (a clean chroot is better), run `namcap`, and generate .SRCINFO
-#      (`makepkg --printsrcinfo > .SRCINFO`).
+# suffix). For each release: set _pkgver, run `updpkgsums`, build with `makepkg -si` (a clean chroot is better),
+# run `namcap`, and regenerate .SRCINFO (`makepkg --printsrcinfo > .SRCINFO`) before pushing to the AUR.
 #
 # The app updates itself only when it is an AppImage: an installed package is updated by pacman, and the app
 # only tells the user that a new version exists.
 pkgname=matane-anime-bin
-_pkgver=0.1.0-beta.1
-# pkgver may not contain a hyphen.
-pkgver=${_pkgver//-/}
+_pkgver=1.0.0-rc.3
+# pkgver may not contain a hyphen; the AUR convention for a pre-release is an underscore.
+pkgver=${_pkgver//-/_}
 pkgrel=1
 pkgdesc='Open-source desktop anime player with a sandboxed extension system (binary release)'
 arch=('x86_64')
@@ -23,6 +20,7 @@ url='https://github.com/mataneorg/matane-anime'
 license=('GPL-3.0-only')
 # Electron's runtime libraries, as in the deb's own dependency list.
 depends=('gtk3' 'nss' 'libnotify' 'libxss' 'libxtst' 'xdg-utils' 'at-spi2-core' 'util-linux-libs' 'libsecret')
+optdepends=('libappindicator-gtk3: tray icon')
 provides=('matane-anime')
 conflicts=('matane-anime')
 options=('!strip' '!debug')

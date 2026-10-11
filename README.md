@@ -79,6 +79,13 @@ Get the latest version from **[GitHub Releases](https://github.com/mataneorg/mat
 | **Linux**: Ubuntu, Debian, Mint | `matane-anime-…-linux-x64.deb`        | Install it with your software installer.                         |
 | **Linux**: Fedora, openSUSE     | `matane-anime-…-linux-x64.rpm`        | Install it with your software installer.                         |
 
+**Arch Linux:** the AppImage works as it is. To install it with pacman instead, build the package from the [`PKGBUILD`](docs/packaging/PKGBUILD) in this repository (it repackages the `.deb` of the latest release; not on the AUR yet):
+
+```sh
+curl -O https://raw.githubusercontent.com/mataneorg/matane-anime/main/docs/packaging/PKGBUILD
+updpkgsums && makepkg -si
+```
+
 Not sure about your Mac? Click the Apple menu, then **About This Mac**. If it says "Chip: Apple", pick the Apple-chip file.
 
 Only the Windows installer and the Linux AppImage update themselves. The other files tell you when a new version exists, and you then download it or update with your package manager. Your library and settings are kept. The AppImage is the most tested file type, so if another one gives you trouble, please [tell us](https://github.com/mataneorg/matane-anime/issues/new/choose).

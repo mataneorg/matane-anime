@@ -13,7 +13,7 @@ Matane Anime is built as several package types. Only the **AppImage** has been b
 | Linux    | deb                    | CI (`linux`/`deb`)                                        | Notifies only; use `apt`/`dpkg` |
 | Linux    | rpm                    | CI (`linux`/`rpm`)                                        | Notifies only; use `dnf`/`rpm`  |
 | Linux    | Flatpak                | **Draft only**, [manifest](dev.sukun.matane-anime.yml)     | Notifies only; use `flatpak update` |
-| Arch     | AUR `matane-anime-bin` | **Draft only**, [PKGBUILD](PKGBUILD)                      | Notifies only; use your AUR helper |
+| Arch     | `matane-anime-bin` PKGBUILD | Built with `makepkg` from [PKGBUILD](PKGBUILD) (not on the AUR yet) | Notifies only; rebuild with the new PKGBUILD |
 
 ## How auto-update behaves
 
@@ -37,4 +37,4 @@ Your library, settings and downloads live in the user data folder (`Matane Anime
 Both are marked **UNVERIFIED draft** at the top of each file and need a submission by the owner (Flathub and the AUR). They repackage the deb of a released version, so they cannot be built until a release exists.
 
 - Flatpak: [`dev.sukun.matane-anime.yml`](dev.sukun.matane-anime.yml) and [`dev.sukun.matane-anime.metainfo.xml`](dev.sukun.matane-anime.metainfo.xml). To try it locally, once the placeholders are filled in: `flatpak-builder --user --install --force-clean build-dir dev.sukun.matane-anime.yml` from this folder. Flathub also asks for a matching app id, screenshots and a passing `flatpak-builder-lint`.
-- AUR: [`PKGBUILD`](PKGBUILD). To try it: `makepkg -si` in a folder with that file, after filling in the checksum; then `namcap` and `makepkg --printsrcinfo > .SRCINFO` before submitting.
+- AUR: [`PKGBUILD`](PKGBUILD). Built with `makepkg` against the `1.0.0-rc.3` deb on 2026-10-11 (package contents and `ldd` checked; not installed or run, `namcap` not run). Not submitted: AUR registration was closed at the time ("temporarily closed" while the AUR dealt with automated sign-ups). Users can build it themselves (`updpkgsums && makepkg -si`, see the README). To try it: `makepkg -si` in a folder with that file, after `updpkgsums`; then `namcap` and `makepkg --printsrcinfo > .SRCINFO` before submitting. For each release, change `_pkgver` and run `updpkgsums` again.
