@@ -130,7 +130,14 @@ export default defineExtension({
 - **Episodes** with the same `number` count as one (Sub and Dub of episode 3); set `variant` to tell them apart. `number` may be fractional.
 - **`getStreams` resolves the embeds.** It may make several requests (episode page → embed → player config) and returns direct URLs, `server` labels, `quality` (height in pixels, when you know it) and the `headers` the site wants (usually `Referer`). The app picks a stream, checks that it answers, and falls back to the next if it breaks. An empty list is a `NotFoundError`.
 - Throw the typed errors, so the UI can say the right thing: `NetworkError`, `HttpError(status)`, `CloudflareError`, `RateLimitedError`, `NotFoundError`, `ParseError`.
-- `getFilters` returns `text`, `select`, `checkbox`, `tristate`, `sort`, `group`, `header` and `separator` filters; the app draws them. `preferences()` declares settings (`switch`, `select`, `multiselect`, `text`) the same way; read them with `prefs.get(key)`.
+- `getFilters` returns `text`, `select`, `checkbox`, `tristate`, `sort`, `group`, `header` and `separator` filters; the app draws them. What the panel shows is what `search` receives:
+  - A `default` (of a `select`, `checkbox` or `sort`) is shown as chosen and is sent with every search, even if the user never touched it. A filter without a default is absent from `filters` until the user sets it.
+  - A user who turns a default off sends it explicitly: `false` for a checkbox, `''` for a select. Treat a missing key as "use your default" and a present one as the user's choice.
+  - A select with no default and no `''` option gets an "Any" choice added; a sort with no default gets "Default order" (nothing sent). Put an option with `value: ''` first when "Any" is a real choice for your site.
+  - Only `search` takes filters: Popular and Latest listings are shown without them, so a default does not change those tabs.
+  - Labels are shown as given (use sentence case, `Slice of life`, not `slice-of-life`).
+
+  `preferences()` declares settings (`switch`, `select`, `multiselect`, `text`) the same way; read them with `prefs.get(key)`.
 - Everything you return is validated before it is used: titles and lists are bounded, optional fields may be `null`, stream URLs must be http(s), and headers such as `Cookie` and `Host` are dropped. A result that breaks the contract is reported as such, naming the method.
 
 ## The sandbox and the host API
