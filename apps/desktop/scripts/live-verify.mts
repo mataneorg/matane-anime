@@ -346,8 +346,16 @@ async function watchFrames(episodeId: number): Promise<{
   const ok = state.time > 0.8 && state.width > 0 && state.frames > 0;
   const uiText = ok
     ? undefined
-    : (await page!.evaluate(() => document.body.innerText.replace(/\s+/g, ' ').slice(0, 240)).catch(() => '')) ||
-      undefined;
+    : (await page!
+        .evaluate(() => {
+          const text = document.body.innerText.replace(/\s+/g, ' ').slice(0, 200);
+          const v = document.querySelector('video');
+          const media = v
+            ? ` [video ready=${v.readyState} network=${v.networkState} error=${v.error ? `${v.error.code} ${v.error.message}` : 'none'} src=${(v.currentSrc || v.src).slice(0, 40)}]`
+            : ' [no video element]';
+          return text + media;
+        })
+        .catch(() => '')) || undefined;
   return { ok, ms: elapsed(from), state, ...(uiText && { uiText }) };
 }
 

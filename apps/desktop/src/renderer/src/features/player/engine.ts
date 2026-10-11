@@ -1,4 +1,5 @@
 import Hls from 'hls.js';
+import { watchStart } from './startup';
 
 export interface FatalInfo {
   /** The status of the request that failed, when it was an HTTP one (the proxy passes it through). */
@@ -53,8 +54,14 @@ export function attachStream(
   const playing = (): void => {
     if (disposed || reportedPlaying) return;
     reportedPlaying = true;
+    stopWatching();
     events.onPlaying();
   };
+
+  // The probe only proved that the server answers; if it then never sends the video, say so and main tries the next.
+  const stopWatching = watchStart(video, () =>
+    fatal({ httpStatus: null, message: 'timeout: the stream did not start' }),
+  );
 
   const frames = video as Frames;
   const onFrame = (): void => playing();
@@ -107,6 +114,7 @@ export function attachStream(
 
   return () => {
     disposed = true;
+    stopWatching();
     video.removeEventListener('timeupdate', onTime);
     video.removeEventListener('error', onMediaError);
     video.removeEventListener('playing', onFrame);
