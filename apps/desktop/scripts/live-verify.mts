@@ -8,6 +8,7 @@
 //           --no-node          skip the second pass that runs the extension in Node (raw streams)
 //           --all-streams      also open every stream of the episode one by one (switchStream), to see which servers
 //                              the app cannot reach, and the quality the app labels each with
+//           --anime <n>        check n different anime per source (spread over the Popular list), not just the first
 //           --oldest           check the oldest episode as well as the newest
 //           --play-seconds <n> how long to wait for frames (default 25)
 //           --out <dir>        where the report goes (default apps/desktop/test-results)
@@ -32,6 +33,7 @@ const EXT_ROOT = resolve(option('ext-root') ?? resolve(REPO, '../matane-anime-ex
 const ONLY = option('only')?.split(',').filter(Boolean);
 const ALL_STREAMS = flag('all-streams');
 const OLDEST = flag('oldest');
+const ANIME = Math.max(1, Number(option('anime') ?? 1));
 const PLAY_MS = Number(option('play-seconds') ?? 25) * 1000;
 const OUT = resolve(option('out') ?? resolve(DESKTOP, 'test-results'));
 const SHOTS = resolve(OUT, 'live-shots');
@@ -232,7 +234,7 @@ async function openEach(session: Session): Promise<NonNullable<NonNullable<Row['
   return each;
 }
 
-async function checkSource(row: Row, sourceId: string): Promise<void> {
+async function checkSource(row: Row, sourceId: string, which = 0): Promise<void> {
   const popular = await timed(() =>
     withTimeout(
       invoke<{ items: AnimeItem[] }>('sources.browse', { sourceId, kind: 'popular', page: 1 }),
@@ -241,7 +243,9 @@ async function checkSource(row: Row, sourceId: string): Promise<void> {
     ),
   );
   row.browse = { ...popular.step, count: popular.value?.items.length };
-  const first = popular.value?.items[0];
+  const items = popular.value?.items ?? [];
+  // 0 is the first of Popular; the others are spread over the list, where older and rarer series sit.
+  const first = items[which === 0 ? 0 : Math.min(items.length - 1, Math.floor((items.length * which) / ANIME))];
   if (!first) return;
 
   const query = first.title.split(/\s+/).slice(0, 2).join(' ');
@@ -472,6 +476,17 @@ for (const candidate of list) {
       rows.push(row);
       try {
         await checkSource(row, source.id);
+        for (let which = 1; which < ANIME; which++) {
+          const extra: Row = {
+            ext: row.ext,
+            source: row.source,
+            version: row.version,
+            loaded: row.loaded,
+            notes: [`anime ${which + 1} of ${ANIME}`],
+          };
+          rows.push(extra);
+          await checkSource(extra, source.id, which).catch((error) => extra.notes.push(`crashed: ${message(error)}`));
+        }
       } catch (error) {
         row.notes.push(`crashed: ${message(error)}`);
         if (page?.isClosed()) {
