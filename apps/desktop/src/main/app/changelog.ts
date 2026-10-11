@@ -6,6 +6,11 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.0-rc.3',
+    date: '2026-10-11',
+    items: ['Browse: the next page of a source listing loads before you reach the end, so scrolling does not stall.'],
+  },
+  {
     version: '1.0.0-rc.2',
     date: '2026-10-11',
     items: [
