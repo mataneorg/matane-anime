@@ -148,7 +148,9 @@ test('an offered extension installs from its menu and copies its ID', async () =
 
   await offer('mirror').click({ button: 'right' });
   await item('Copy extension ID').click();
-  expect(await clipboard()).toBe('mirror');
+  // The write comes from the renderer, so main can still hold the previous text for a moment: wait for it. (The toast
+  // cannot be the signal here, the one of the first copy may still be on screen.)
+  await expect.poll(clipboard).toBe('mirror');
 });
 
 test('an installed row shows preferences and logs, updates from its menu, and keeps the more dropdown as it was', async () => {
