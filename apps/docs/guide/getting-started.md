@@ -1,6 +1,6 @@
 # Install
 
-Packages are built by CI when a release is cut and are published on the project's [Releases page](https://github.com/mataneorg/matane-anime/releases). Until a release is there, you can [build from source](https://github.com/mataneorg/matane-anime#build-from-source).
+Packages are built by CI when a release is cut and are published on the project's [Releases page](https://github.com/mataneorg/matane-anime/releases). Versions marked "Pre-release" are release candidates of 1.0. You can also [build from source](https://github.com/mataneorg/matane-anime#build-from-source).
 
 ## Pick a package
 
@@ -12,8 +12,20 @@ Packages are built by CI when a release is cut and are published on the project'
 | Linux    | `.AppImage`                                            | `chmod +x` it and run it. Updates itself.                                      |
 | Linux    | `.deb` (Debian, Ubuntu)                                | `sudo apt install ./<file>.deb`. Only tells you about new versions.            |
 | Linux    | `.rpm` (Fedora, openSUSE)                              | `sudo dnf install ./<file>.rpm`. Only tells you about new versions.            |
+| Linux    | Arch Linux `PKGBUILD`                                  | `makepkg -si`, see below. Only tells you about new versions.                   |
 
-"Only tells you about new versions" means the app shows that an update exists, with a link to the release; you update through the package manager or by downloading the new file. Flatpak and an Arch (AUR) package exist only as unverified drafts: see [Packages and updates](https://github.com/mataneorg/matane-anime/blob/main/docs/packaging/README.md).
+"Only tells you about new versions" means the app shows that an update exists, with a link to the release; you update through the package manager or by downloading the new file. A Flatpak exists only as an unverified draft: see [Packages and updates](https://github.com/mataneorg/matane-anime/blob/main/docs/packaging/README.md).
+
+### Arch Linux
+
+The AppImage works on Arch as it is. To install with pacman instead, build the package from the [`PKGBUILD`](https://github.com/mataneorg/matane-anime/blob/main/docs/packaging/PKGBUILD) in the repository. It repackages the `.deb` of the release named in the file, and it is not on the AUR yet.
+
+```sh
+curl -O https://raw.githubusercontent.com/mataneorg/matane-anime/main/docs/packaging/PKGBUILD
+updpkgsums && makepkg -si
+```
+
+To update, download the newer `PKGBUILD` and build it again.
 
 ## First-run warnings
 

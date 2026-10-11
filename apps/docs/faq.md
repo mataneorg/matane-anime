@@ -22,7 +22,7 @@ It is free and open source (GPL-3.0). There is no telemetry. Besides the sources
 
 The Windows and macOS builds are not code-signed yet. See [first-run warnings](/guide/getting-started#first-run-warnings), and download only from the project's GitHub Releases.
 
-### Why does the app not update itself on macOS, Linux (deb/rpm) or the portable build?
+### Why does the app not update itself on macOS, Linux (deb/rpm/Arch) or the portable build?
 
 macOS builds are unsigned, and installed packages and the portable `.exe` cannot replace themselves. The app tells you a new version exists. The AppImage and the Windows installer update in place. See [Packages and updates](https://github.com/mataneorg/matane-anime/blob/main/docs/packaging/README.md).
 

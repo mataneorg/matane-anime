@@ -19,6 +19,6 @@ A packaged app checks GitHub Releases 15 seconds after start and every 6 hours, 
 What it does with an update depends on the package:
 
 - **Windows installer and Linux AppImage:** downloads in the background and installs when you quit.
-- **macOS, Windows portable, Linux deb, rpm, Flatpak and AUR:** only tells you a new version exists, with a link to the release. macOS builds are unsigned, so macOS cannot update in place; the others are updated by you or your package manager.
+- **macOS, Windows portable, Linux deb, rpm, the Arch `PKGBUILD` and Flatpak:** only tells you a new version exists, with a link to the release. macOS builds are unsigned, so macOS cannot update in place; the others are updated by you or your package manager.
 
 See [Packages and updates](https://github.com/mataneorg/matane-anime/blob/main/docs/packaging/README.md) for the details.
