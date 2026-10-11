@@ -1,11 +1,19 @@
 import type { RepoInfo } from '@matane-anime/shared';
 import { useMutation } from '@tanstack/react-query';
-import { Loader2, Plus, RefreshCw, Server, Trash2, X } from 'lucide-react';
+import { Copy, Loader2, Plus, RefreshCw, Server, ShieldCheck, ShieldOff, Trash2, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConfirmDialog } from '@renderer/components/ConfirmDialog';
 import { Button } from '@renderer/components/ui/button';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from '@renderer/components/ui/context-menu';
 import { call } from '@renderer/lib/api';
+import { copyText } from '@renderer/lib/clipboard';
 import { relativeTime } from '@renderer/lib/dates';
 import { describeError } from '@renderer/lib/errors';
 import { notify } from '@renderer/lib/toast';
@@ -13,6 +21,7 @@ import { useNow } from '@renderer/lib/useNow';
 import { cn } from '@renderer/lib/utils';
 import { TrustBadge } from './TrustBadge';
 import { sortRepos } from './helpers';
+import { repoTrustAction } from './menus';
 
 /**
  * The Repositories side panel (mockup 09): where extensions come from, how far each repository is trusted and when
@@ -96,6 +105,7 @@ function RepoCard({ repo }: { repo: RepoInfo }) {
   const now = useNow();
   const [confirming, setConfirming] = useState(false);
   const name = repo.name ?? repo.url;
+  const trustAction = repoTrustAction(repo);
 
   const refresh = useMutation({
     mutationFn: () => call('repos.refresh', { id: repo.id }),
@@ -116,63 +126,96 @@ function RepoCard({ repo }: { repo: RepoInfo }) {
   });
 
   return (
-    <article className="rounded-xl border bg-card/40 p-3.5" data-testid={`repo-${repo.id}`}>
-      <div className="flex items-center gap-2">
-        <h3 className="min-w-0 flex-1 truncate font-medium" title={repo.url}>
-          {name}
-        </h3>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          aria-label={t('extensions.refreshRepo', { name })}
-          title={t('extensions.refresh')}
-          disabled={refresh.isPending}
-          onClick={() => refresh.mutate()}
-        >
-          <RefreshCw className={cn(refresh.isPending && 'animate-spin')} aria-hidden />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          aria-label={t('extensions.removeRepo', { name })}
-          title={t('extensions.removeRepoShort')}
-          onClick={() => setConfirming(true)}
-        >
-          <Trash2 aria-hidden />
-        </Button>
-      </div>
-      <p className="mt-1 truncate font-mono text-xs text-muted-foreground" title={repo.url}>
-        {repo.url}
-        {' · '}
-        {repo.fingerprint ?? t('extensions.unsignedMark')}
-      </p>
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        <TrustBadge trust={repo.trust} short />
-        {repo.trust === 'unverified' ? (
-          <Button variant="secondary" size="sm" disabled={trust.isPending} onClick={() => trust.mutate(true)}>
-            {t('extensions.trustKey')}
-          </Button>
-        ) : repo.trust === 'trusted' ? (
-          <Button variant="secondary" size="sm" disabled={trust.isPending} onClick={() => trust.mutate(false)}>
-            {t('extensions.stopTrusting')}
-          </Button>
-        ) : null}
-      </div>
-      <p className="mt-2 text-xs text-muted-foreground">
-        {t('extensions.addRepo.count', { count: repo.extensionCount })}
-        {' · '}
-        {repo.lastFetchedAt === null
-          ? t('extensions.neverSynced')
-          : t('extensions.synced', { when: relativeTime(repo.lastFetchedAt, now, i18n.language) })}
-      </p>
-      {repo.lastError ? (
-        <p
-          role="alert"
-          className="mt-2 rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-xs text-danger-text select-text"
-        >
-          {t('extensions.lastError', { message: repo.lastError })}
-        </p>
-      ) : null}
+    <>
+      <ContextMenu>
+        <ContextMenuTrigger asChild>
+          <article className="rounded-xl border bg-card/40 p-3.5" data-testid={`repo-${repo.id}`}>
+            <div className="flex items-center gap-2">
+              <h3 className="min-w-0 flex-1 truncate font-medium" title={repo.url}>
+                {name}
+              </h3>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label={t('extensions.refreshRepo', { name })}
+                title={t('extensions.refresh')}
+                disabled={refresh.isPending}
+                onClick={() => refresh.mutate()}
+              >
+                <RefreshCw className={cn(refresh.isPending && 'animate-spin')} aria-hidden />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label={t('extensions.removeRepo', { name })}
+                title={t('extensions.removeRepoShort')}
+                onClick={() => setConfirming(true)}
+              >
+                <Trash2 aria-hidden />
+              </Button>
+            </div>
+            <p className="mt-1 truncate font-mono text-xs text-muted-foreground" title={repo.url}>
+              {repo.url}
+              {' · '}
+              {repo.fingerprint ?? t('extensions.unsignedMark')}
+            </p>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <TrustBadge trust={repo.trust} short />
+              {repo.trust === 'unverified' ? (
+                <Button variant="secondary" size="sm" disabled={trust.isPending} onClick={() => trust.mutate(true)}>
+                  {t('extensions.trustKey')}
+                </Button>
+              ) : repo.trust === 'trusted' ? (
+                <Button variant="secondary" size="sm" disabled={trust.isPending} onClick={() => trust.mutate(false)}>
+                  {t('extensions.stopTrusting')}
+                </Button>
+              ) : null}
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {t('extensions.addRepo.count', { count: repo.extensionCount })}
+              {' · '}
+              {repo.lastFetchedAt === null
+                ? t('extensions.neverSynced')
+                : t('extensions.synced', { when: relativeTime(repo.lastFetchedAt, now, i18n.language) })}
+            </p>
+            {repo.lastError ? (
+              <p
+                role="alert"
+                className="mt-2 rounded-lg border border-ctp-red/40 bg-ctp-red/10 px-3 py-2 text-xs text-danger-text select-text"
+              >
+                {t('extensions.lastError', { message: repo.lastError })}
+              </p>
+            ) : null}
+          </article>
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem disabled={refresh.isPending} onSelect={() => refresh.mutate()}>
+            <RefreshCw aria-hidden />
+            {t('extensions.refresh')}
+          </ContextMenuItem>
+          {trustAction === 'trust' ? (
+            <ContextMenuItem disabled={trust.isPending} onSelect={() => trust.mutate(true)}>
+              <ShieldCheck aria-hidden />
+              {t('extensions.trustKey')}
+            </ContextMenuItem>
+          ) : trustAction === 'stop' ? (
+            <ContextMenuItem disabled={trust.isPending} onSelect={() => trust.mutate(false)}>
+              <ShieldOff aria-hidden />
+              {t('extensions.stopTrusting')}
+            </ContextMenuItem>
+          ) : null}
+          <ContextMenuItem onSelect={() => void copyText(repo.url, t('contextMenu.extensions.urlLabel'))}>
+            <Copy aria-hidden />
+            {t('contextMenu.extensions.copyUrl')}
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem destructive onSelect={() => setConfirming(true)}>
+            <Trash2 aria-hidden />
+            {t('extensions.removeRepoShort')}
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+      {/* Outside the trigger, so a right click inside the dialog does not open the card's menu. */}
       <ConfirmDialog
         open={confirming}
         onOpenChange={setConfirming}
@@ -181,6 +224,6 @@ function RepoCard({ repo }: { repo: RepoInfo }) {
         confirmLabel={t('extensions.removeRepoShort')}
         onConfirm={() => remove.mutate()}
       />
-    </article>
+    </>
   );
 }

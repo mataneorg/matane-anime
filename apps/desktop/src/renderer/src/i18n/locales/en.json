@@ -1420,6 +1420,12 @@
       "moveLeft": "Move left",
       "moveRight": "Move right",
       "deleteCategory": "Delete category…"
+    },
+    "extensions": {
+      "copyId": "Copy extension ID",
+      "idLabel": "Extension ID",
+      "copyUrl": "Copy URL",
+      "urlLabel": "Repository URL"
     }
   }
 }

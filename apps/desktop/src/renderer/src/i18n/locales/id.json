@@ -1400,6 +1400,12 @@
       "moveLeft": "Geser ke kiri",
       "moveRight": "Geser ke kanan",
       "deleteCategory": "Hapus kategori…"
+    },
+    "extensions": {
+      "copyId": "Salin ID ekstensi",
+      "idLabel": "ID ekstensi",
+      "copyUrl": "Salin URL",
+      "urlLabel": "URL repositori"
     }
   }
 }
