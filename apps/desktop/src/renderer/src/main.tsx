@@ -7,6 +7,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './i18n';
 import { ipc } from './lib/ipc';
+import { MotionProvider } from './lib/MotionProvider';
 import { createQueryClient } from './lib/query';
 import { router } from './router';
 import './styles.css';
@@ -31,7 +32,9 @@ createRoot(root).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <RouterProvider router={router} />
+        <MotionProvider>
+          <RouterProvider router={router} />
+        </MotionProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>,
