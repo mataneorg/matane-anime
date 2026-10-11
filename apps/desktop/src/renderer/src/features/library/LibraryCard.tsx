@@ -1,22 +1,33 @@
 import type { LibraryDisplay, LibraryItem } from '@matane-anime/shared';
-import { Link } from '@tanstack/react-router';
-import { Check, Play } from 'lucide-react';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { ArrowRightLeft, Check, CheckSquare, Download, ExternalLink, FolderInput, Play, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Cover } from '@renderer/components/Cover';
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from '@renderer/components/ui/context-menu';
 import { cn } from '@renderer/lib/utils';
+import { type CardMenuAction, cardMenuRows } from './menu';
 import type { PickEvent } from './selection';
 
 /**
  * One anime of the library (mockup 01), in the four displays: cover with its title under it (comfortable) or on
  * it (compact), the cover alone, or a row. All of them show the unwatched badge and the watched share, and the
- * Continue button on hover.
+ * Continue button on hover. A right-click opens the actions of the anime, or of the whole selection when the card
+ * is part of it (`targetCount` says how many anime that is).
  */
 export function LibraryCard({
   item,
   display = 'comfortable',
   selecting,
   selected,
+  targetCount,
   onPick,
+  onMenuAction,
 }: {
   item: LibraryItem;
   display?: LibraryDisplay;
@@ -24,8 +35,13 @@ export function LibraryCard({
   selected: boolean;
   /** A click on the card: the page decides whether it opens the anime or changes the selection. */
   onPick: (event: PickEvent) => void;
+  /** How many anime a menu action would apply to: the selection when this card is in it, otherwise one. */
+  targetCount: number;
+  /** An action picked in the right-click menu; the page runs it (see `menuTargetIds`). */
+  onMenuAction: (action: CardMenuAction) => void;
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const watchedShare = item.total > 0 ? ((item.total - item.unwatched) / item.total) * 100 : 0;
   const language = item.lang ? item.lang.toUpperCase() : null;
   const subtitle = [
@@ -98,8 +114,8 @@ export function LibraryCard({
       </Link>
     ) : null;
 
-  if (display === 'list') {
-    return (
+  const content =
+    display === 'list' ? (
       <div
         className={cn(
           'group relative flex h-16 min-w-0 items-center gap-3 border-b px-2 transition-colors hover:bg-accent/60',
@@ -126,47 +142,98 @@ export function LibraryCard({
         </div>
         {continueLink}
       </div>
-    );
-  }
-
-  return (
-    <div className="group relative flex flex-col gap-2">
-      <div
-        className={cn(
-          'relative overflow-hidden rounded-lg border transition-colors group-hover:border-primary',
-          selected && 'border-primary ring-2 ring-primary',
-        )}
-      >
-        <Cover
-          sourceId={item.sourceId}
-          url={item.thumbnailUrl}
-          localAnimeId={item.hasLocalCover ? item.animeId : undefined}
-          className="aspect-[2/3] w-full"
-        />
-        {link}
-        {badge}
-        {check}
-        {display === 'compact' ? (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-1 bg-linear-to-t from-ctp-crust/95 via-ctp-crust/90 via-65% to-transparent px-2 pt-6 pb-2"
-          >
-            <p className="line-clamp-2 text-xs leading-snug font-semibold text-ctp-text">{item.title}</p>
+    ) : (
+      <div className="group relative flex flex-col gap-2">
+        <div
+          className={cn(
+            'relative overflow-hidden rounded-lg border transition-colors group-hover:border-primary',
+            selected && 'border-primary ring-2 ring-primary',
+          )}
+        >
+          <Cover
+            sourceId={item.sourceId}
+            url={item.thumbnailUrl}
+            localAnimeId={item.hasLocalCover ? item.animeId : undefined}
+            className="aspect-[2/3] w-full"
+          />
+          {link}
+          {badge}
+          {check}
+          {display === 'compact' ? (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-1 bg-linear-to-t from-ctp-crust/95 via-ctp-crust/90 via-65% to-transparent px-2 pt-6 pb-2"
+            >
+              <p className="line-clamp-2 text-xs leading-snug font-semibold text-ctp-text">{item.title}</p>
+            </div>
+          ) : null}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-ctp-crust/60" aria-hidden>
+            <div className="h-full bg-primary" style={{ width: `${watchedShare}%` }} />
+          </div>
+          {continueLink}
+        </div>
+        {display === 'comfortable' ? (
+          <div className="min-w-0">
+            <div className="line-clamp-2 text-[13px] leading-snug font-semibold text-foreground transition-colors group-hover:text-primary-text">
+              {item.title}
+            </div>
+            <div className="truncate text-xs text-muted-foreground">{subtitle}</div>
           </div>
         ) : null}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-ctp-crust/60" aria-hidden>
-          <div className="h-full bg-primary" style={{ width: `${watchedShare}%` }} />
-        </div>
-        {continueLink}
       </div>
-      {display === 'comfortable' ? (
-        <div className="min-w-0">
-          <div className="line-clamp-2 text-[13px] leading-snug font-semibold text-foreground transition-colors group-hover:text-primary-text">
-            {item.title}
-          </div>
-          <div className="truncate text-xs text-muted-foreground">{subtitle}</div>
-        </div>
-      ) : null}
-    </div>
+    );
+
+  const episodeId = item.continue ? String(item.continue.episodeId) : '';
+  const rows = cardMenuRows({ canContinue: item.continue !== null, selected, targetCount });
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger asChild>{content}</ContextMenuTrigger>
+      <ContextMenuContent>
+        {rows.continue && item.continue ? (
+          <ContextMenuItem onSelect={() => void navigate({ to: '/watch/$episodeId', params: { episodeId } })}>
+            <Play aria-hidden />
+            {continueLabel}
+          </ContextMenuItem>
+        ) : null}
+        {rows.open ? (
+          <ContextMenuItem
+            onSelect={() => void navigate({ to: '/anime/$animeId', params: { animeId: String(item.animeId) } })}
+          >
+            <ExternalLink aria-hidden />
+            {t('contextMenu.library.open')}
+          </ContextMenuItem>
+        ) : null}
+        {rows.continue || rows.open ? <ContextMenuSeparator /> : null}
+        <ContextMenuItem onSelect={() => onMenuAction('markWatched')}>
+          <Check aria-hidden />
+          {t('library.markWatched')}
+        </ContextMenuItem>
+        <ContextMenuItem onSelect={() => onMenuAction('move')}>
+          <FolderInput aria-hidden />
+          {t('contextMenu.library.moveToCategory')}
+        </ContextMenuItem>
+        <ContextMenuItem onSelect={() => onMenuAction('download')}>
+          <Download aria-hidden />
+          {t('anime.download')}
+        </ContextMenuItem>
+        {rows.migrate ? (
+          <ContextMenuItem onSelect={() => onMenuAction('migrate')}>
+            <ArrowRightLeft aria-hidden />
+            {t('contextMenu.library.migrate')}
+          </ContextMenuItem>
+        ) : null}
+        {rows.select ? (
+          <ContextMenuItem onSelect={() => onMenuAction('select')}>
+            <CheckSquare aria-hidden />
+            {t('library.select')}
+          </ContextMenuItem>
+        ) : null}
+        <ContextMenuSeparator />
+        <ContextMenuItem destructive onSelect={() => onMenuAction('remove')}>
+          <Trash2 aria-hidden />
+          {t('library.removeFromLibrary')}
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }

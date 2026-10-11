@@ -1389,6 +1389,17 @@
       "open": "Buka",
       "addToCategory": "Tambah ke kategori…",
       "searchAll": "Cari di semua sumber"
+    },
+    "library": {
+      "open": "Buka",
+      "moveToCategory": "Pindah ke kategori…",
+      "migrate": "Migrasi ke source lain…",
+      "rename": "Ganti nama…",
+      "renameTitle": "Ganti nama kategori",
+      "autoDownload": "Unduh episode baru otomatis",
+      "moveLeft": "Geser ke kiri",
+      "moveRight": "Geser ke kanan",
+      "deleteCategory": "Hapus kategori…"
     }
   }
 }

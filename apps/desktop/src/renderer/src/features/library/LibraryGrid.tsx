@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef } from 'react';
 import { useScroller } from '@renderer/lib/useScroller';
 import { LibraryCard } from './LibraryCard';
 import { gridLayout } from './layout';
+import { type CardMenuAction, menuTargetIds } from './menu';
 import type { PickEvent } from './selection';
 
 /**
@@ -17,6 +18,7 @@ export function LibraryGrid({
   selecting,
   selected,
   onPick,
+  onMenuAction,
 }: {
   items: LibraryItem[];
   display: LibraryDisplay;
@@ -24,6 +26,8 @@ export function LibraryGrid({
   selecting: boolean;
   selected: Set<number>;
   onPick: (event: PickEvent, animeId: number) => void;
+  /** An action picked in a card's right-click menu; the page runs it on `menuTargetIds(selected, animeId)`. */
+  onMenuAction: (action: CardMenuAction, animeId: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scroller, margin, width } = useScroller(ref);
@@ -79,7 +83,9 @@ export function LibraryGrid({
                   display={display}
                   selecting={selecting}
                   selected={selected.has(item.animeId)}
+                  targetCount={menuTargetIds(selected, item.animeId).length}
                   onPick={(event) => onPick(event, item.animeId)}
+                  onMenuAction={(action) => onMenuAction(action, item.animeId)}
                 />
               ))}
             </div>
