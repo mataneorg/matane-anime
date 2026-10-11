@@ -6,6 +6,16 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.0-rc.2',
+    date: '2026-10-11',
+    items: [
+      'Right-click menus: library cards and category tabs, anime cards, sources, episodes, extensions and repositories, downloads, updates, history and text fields.',
+      'Motion: dialogs, the player’s panels and bars, the sidebar and tab indicators, and page changes now animate. It follows the reduced-motion setting of your system.',
+      'Filters: a redesigned filter panel for sources, with a Filters button that shows how many are on, removable chips for the active ones, controls that fit each kind of filter, and a drawer on narrow windows.',
+      'Filters: a default that an extension declares is now shown as chosen and sent with every search, and the panel says so when the filters are loading or could not be loaded.',
+    ],
+  },
+  {
     version: '1.0.0-rc.1',
     date: '2026-10-11',
     items: [
