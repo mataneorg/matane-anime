@@ -46,7 +46,10 @@ export interface Stream {
   url: string;
   /** Label for the player menu, e.g. "Server A". */
   server: string;
-  /** Height in pixels (1080, 720…). Read from the master playlist when missing. */
+  /**
+   * Height in pixels (1080, 720…), a whole number: "1080p" is repaired to 1080 by the host. When missing, the app
+   * uses the tallest `RESOLUTION` of the master playlist once it has opened the stream (if the playlist says).
+   */
   quality?: number;
   /** Defaults to `auto` (guessed from the extension and Content-Type). */
   kind?: StreamKind;

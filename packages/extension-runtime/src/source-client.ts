@@ -18,7 +18,7 @@ import {
   episodeListSchema,
   filterListSchema,
   preferenceListSchema,
-  streamListSchema,
+  readStreams,
 } from './results.js';
 import type { CallOptions, ExtensionRuntime } from './runtime.js';
 
@@ -45,13 +45,15 @@ export function runtimeBackend(runtime: ExtensionRuntime): SourceBackend {
  * through this, so an extension that works in `ma-ext test` works in the app. Pages start at 1.
  */
 export class SourceClient {
+  /** `onWarning` hears about results that were repaired or partly dropped (a stream that broke the contract). */
   constructor(
     readonly backend: SourceBackend,
     readonly sourceKey: string,
+    private readonly onWarning?: (message: string) => void,
   ) {}
 
-  static forRuntime(runtime: ExtensionRuntime, sourceKey: string): SourceClient {
-    return new SourceClient(runtimeBackend(runtime), sourceKey);
+  static forRuntime(runtime: ExtensionRuntime, sourceKey: string, onWarning?: (message: string) => void): SourceClient {
+    return new SourceClient(runtimeBackend(runtime), sourceKey, onWarning);
   }
 
   supports(method: 'getLatest' | 'getFilters' | 'resolveUrl' | 'getWebUrl' | 'migrateUrl'): Promise<boolean> {
@@ -84,17 +86,34 @@ export class SourceClient {
     return this.checked('getEpisodes', [anime], episodeListSchema, options);
   }
 
-  /** At least one stream: an empty list is `NotFoundError`, as the contract says. */
+  /**
+   * At least one stream: an empty list is `NotFoundError`, as the contract says. A stream that breaks the contract
+   * is dropped (and reported to `onWarning`) instead of failing the others; only when none is left is it an error.
+   */
   async getStreams(episode: Episode, options?: CallOptions): Promise<Stream[]> {
-    const streams = await this.checked('getStreams', [episode], streamListSchema, options);
-    if (streams.length === 0) {
+    const read = readStreams(await this.backend.call(this.sourceKey, 'getStreams', [episode], options));
+    if (!read) {
+      throw new ExtensionRuntimeError(
+        'invalid_result',
+        'getStreams returned data that does not match the contract: expected a list of streams',
+      );
+    }
+    if (read.dropped.length > 0)
+      this.onWarning?.(`getStreams dropped ${read.dropped.length} stream(s): ${read.dropped.join('; ')}`);
+    if (read.streams.length === 0) {
+      if (read.dropped.length > 0) {
+        throw new ExtensionRuntimeError(
+          'invalid_result',
+          `getStreams returned data that does not match the contract: ${read.dropped.join('; ')}`,
+        );
+      }
       throw new ExtensionRuntimeError(
         'extension',
         'The extension returned no streams for this episode',
         'NotFoundError',
       );
     }
-    return streams;
+    return read.streams;
   }
 
   async resolveUrl(url: string, options?: CallOptions): Promise<AnimeSummary | null> {

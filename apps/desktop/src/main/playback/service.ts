@@ -54,6 +54,8 @@ export interface PlaybackDeps {
   resumeFor(episode: EpisodeRecord): number;
   /** A line for the log: what was fetched ahead, and how long it took. */
   log?(message: string): void;
+  /** A line that belongs in the log file: why no server of an episode answered. */
+  warn?(message: string): void;
 }
 
 /** The only server of a playback from disk. */
@@ -452,6 +454,8 @@ export class PlaybackService {
     const TICK = Symbol('tick');
     let next = 0;
     let last: ProbeResult | null = null;
+    /** Why each stream that did not answer failed, for the error and the log. */
+    const reasons: string[] = [];
     type Opened = { position: number; kind: 'hls' | 'mp4' };
     let winner: Opened | null = null;
     // Streams that answered but have nothing the player can decode (PLY-12): used only when no other one answers.
@@ -494,6 +498,7 @@ export class PlaybackService {
         }
         running.delete(settled.position);
         if (settled.result.ok) {
+          this.labelFromPlaylist(playback.candidates[settled.position], settled.result.height);
           const pick = { position: settled.position, kind: settled.result.kind };
           if (!isStreamUnsupported(settled.result.variants, this.codecSupport)) {
             winner = pick;
@@ -510,6 +515,7 @@ export class PlaybackService {
         playback.failed.add(settled.position);
         playback.tried.push(label(failed));
         last = settled.result;
+        if (settled.result.reason !== 'cancelled') reasons.push(`${label(failed)}: ${settled.result.reason}`);
         if (next < queue.length && running.size < PROBE_PARALLEL) begin();
       }
       // Several can answer; the best-ranked one of them goes first.
@@ -523,10 +529,19 @@ export class PlaybackService {
     }
 
     if (!winner) {
-      throw new AppError('extension', last ? `No server answered (${last.reason})` : 'This episode has no streams', {
-        kind: 'no_stream',
-        ...(last && !last.ok && last.httpStatus !== null && { status: last.httpStatus }),
-      });
+      if (reasons.length > 0) {
+        this.deps.warn?.(
+          `${playback.anime.title} / ${playback.episode.name}: no server answered: ${reasons.join('; ')}`,
+        );
+      }
+      throw new AppError(
+        'extension',
+        last ? `No server answered (${reasons.join('; ') || last.reason})` : 'This episode has no streams',
+        {
+          kind: 'no_stream',
+          ...(last && !last.ok && last.httpStatus !== null && { status: last.httpStatus }),
+        },
+      );
     }
     const session = sessions.get(winner.position) as ProbedSession;
     // The probe may have found out what an unlabelled URL is.
@@ -536,6 +551,15 @@ export class PlaybackService {
     playback.active = winner.position;
     playback.kind = winner.kind;
     playback.url = `anime://play/${session.id}/${winner.kind === 'hls' ? 'index.m3u8' : 'media.mp4'}`;
+  }
+
+  /**
+   * A stream the extension gave no `quality` is labelled with the tallest variant of its master playlist, so the
+   * server list and the quality buttons can show it. A quality the extension did set is never replaced.
+   */
+  private labelFromPlaylist(candidate: Ranked | undefined, height: number | undefined): void {
+    if (!candidate || height === undefined || candidate.stream.quality !== undefined) return;
+    candidate.stream = { ...candidate.stream, quality: height };
   }
 
   private describe(playback: Playback): PlaybackSessionDto {

@@ -20,7 +20,7 @@ afterEach(() => {
   for (const runtime of created.splice(0)) runtime.dispose();
 });
 
-async function client(methods: string): Promise<SourceClient> {
+async function client(methods: string, onWarning?: (message: string) => void): Promise<SourceClient> {
   const host: HostApi = {
     http: async () => ({ status: 200, url: 'https://site.test/', headers: {}, text: '' }),
     storage: { get: async () => null, set: async () => undefined, remove: async () => undefined },
@@ -33,7 +33,7 @@ async function client(methods: string): Promise<SourceClient> {
     hostInfo: { appName: 'Matane Anime', appVersion: '0.0.0', apiVersion: 1 },
   });
   created.push(runtime);
-  return SourceClient.forRuntime(runtime, 'en');
+  return SourceClient.forRuntime(runtime, 'en', onWarning);
 }
 
 const reject = async (promise: Promise<unknown>): Promise<ExtensionRuntimeError> => {
@@ -83,6 +83,36 @@ describe('SourceClient', () => {
     const [stream] = await source.getStreams({ url: '/ok', name: 'x' });
     expect(stream?.headers).toEqual({ Referer: 'https://site.test/' });
     expect(streamSchema.safeParse({ url: 'ftp://x/y', server: 'A' }).success).toBe(false);
+  });
+
+  it('repairs small slips in a stream and drops only the stream that is beyond repair', async () => {
+    const warnings: string[] = [];
+    const source = await client(
+      `getStreams() { return [
+        { url: '//cdn.test/a.m3u8', server: 'A', quality: '1080p' },
+        { url: 'https://cdn.test/b.mp4', server: '', quality: 719.6, kind: 'dash' },
+        { url: 'https://cdn.test/c.m3u8', server: 'C', quality: '1920x1080' },
+        { url: 'ftp://cdn.test/d', server: 'D' },
+        { url: 'https://cdn.test/e.m3u8', server: 'E', quality: 'HD' },
+      ]; }`,
+      (message) => warnings.push(message),
+    );
+    const streams = await source.getStreams({ url: '/e', name: 'Ep' });
+    expect(streams.map((s) => [s.server, s.url, s.quality, s.kind])).toEqual([
+      ['A', 'https://cdn.test/a.m3u8', 1080, undefined],
+      ['cdn.test', 'https://cdn.test/b.mp4', 720, undefined],
+      ['C', 'https://cdn.test/c.m3u8', 1080, undefined],
+      ['E', 'https://cdn.test/e.m3u8', undefined, undefined],
+    ]);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toMatch(/dropped 1 stream\(s\): #4/);
+  });
+
+  it('still fails when no stream can be read, and when the result is not a list', async () => {
+    const none = await client(`getStreams() { return [{ url: 'ftp://x/y', server: 'A' }]; }`);
+    expect((await reject(none.getStreams({ url: '/e', name: 'x' }))).code).toBe('invalid_result');
+    const notAList = await client(`getStreams() { return { url: 'https://x/y' }; }`);
+    expect((await reject(notAList.getStreams({ url: '/e', name: 'x' }))).code).toBe('invalid_result');
   });
 
   it('reads optional methods only when the source has them', async () => {

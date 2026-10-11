@@ -27,6 +27,23 @@ export function parseVariantCodecs(playlist: string): string[][] {
   return variants;
 }
 
+/** `RESOLUTION=1920x1080`, not preceded by another attribute name (`FRAME-RATE` and the like never match). */
+const RESOLUTION_ATTRIBUTE = /(?:^|,)RESOLUTION=\d+x(\d+)/i;
+
+/**
+ * The tallest `RESOLUTION` among the variants of a master playlist, or null when it has none (a media playlist, or a
+ * master that does not say). It is the height a stream without a `quality` is labelled with.
+ */
+export function parseVariantHeight(playlist: string): number | null {
+  let best = 0;
+  for (const line of playlist.split(/\r?\n/)) {
+    const attributes = STREAM_INF.exec(line.trim())?.[1];
+    const height = Number(RESOLUTION_ATTRIBUTE.exec(attributes ?? '')?.[1]);
+    if (Number.isFinite(height) && height > best) best = height;
+  }
+  return best > 0 ? best : null;
+}
+
 /** The family of a codec string (`avc1.640028` → `h264`), or null for one the app does not judge. */
 export function codecFamily(codec: string): string | null {
   const [prefix = '', object = ''] = codec.trim().toLowerCase().split('.');

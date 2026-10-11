@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { codecFamily, isStreamUnsupported, isVariantSupported, parseVariantCodecs } from './codecs';
+import { codecFamily, isStreamUnsupported, isVariantSupported, parseVariantCodecs, parseVariantHeight } from './codecs';
 
 const noHevc = { h264: true, hevc: false, aac: true, av1: false };
 
@@ -29,6 +29,24 @@ describe('parseVariantCodecs', () => {
   it('finds nothing in a media playlist, and treats a CODECS cut off by the read cap as unknown', () => {
     expect(parseVariantCodecs('#EXTM3U\n#EXTINF:4,\nseg.ts\n')).toEqual([]);
     expect(parseVariantCodecs('#EXT-X-STREAM-INF:BANDWIDTH=1,CODECS="avc1.64001f,mp4a.4')).toEqual([[]]);
+  });
+});
+
+describe('parseVariantHeight', () => {
+  it('takes the tallest RESOLUTION, whatever the order and the other attributes', () => {
+    const master = [
+      '#EXTM3U',
+      '#EXT-X-STREAM-INF:BANDWIDTH=1,AVERAGE-RESOLUTION=9999x9999,RESOLUTION=1280x720,CODECS="avc1.4d401e"',
+      'a.m3u8',
+      '#EXT-X-STREAM-INF:RESOLUTION=640x360,BANDWIDTH=2',
+      'b.m3u8',
+    ].join('\n');
+    expect(parseVariantHeight(master)).toBe(720);
+  });
+
+  it('is null for a media playlist and for a master that does not say', () => {
+    expect(parseVariantHeight('#EXTM3U\n#EXTINF:4,\nseg.ts\n')).toBeNull();
+    expect(parseVariantHeight('#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=1\na.m3u8\n')).toBeNull();
   });
 });
 

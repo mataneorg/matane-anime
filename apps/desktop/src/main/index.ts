@@ -225,6 +225,7 @@ if (!app.requestSingleInstanceLock()) {
         isIncognito: () => incognito.enabled,
       });
       const service = new ExtensionService({
+        warn: (message) => log.warn(message),
         registry,
         host,
         store,
@@ -428,6 +429,7 @@ if (!app.requestSingleInstanceLock()) {
         requests,
         resumeFor: (episode) => watch.resumeFor(episode),
         log: (message) => log.debug(message),
+        warn: (message) => log.warn(message),
       });
 
       const spikeEnabled = process.env['MATANE_SPIKE'] === '1' || !app.isPackaged;

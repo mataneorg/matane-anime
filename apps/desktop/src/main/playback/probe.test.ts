@@ -56,11 +56,26 @@ describe('probeStream (STR-2)', () => {
     expect(result).toEqual({
       ok: true,
       kind: 'hls',
+      height: 360,
       variants: [
         ['avc1.4d401e', 'mp4a.40.2'],
         ['hvc1.1.6.L93.B0', 'mp4a.40.2'],
       ],
     });
+  });
+
+  it('reports the tallest RESOLUTION of a master playlist, so a stream without a quality can be labelled', async () => {
+    const master = [
+      '#EXTM3U',
+      '#EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360',
+      'low.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080,FRAME-RATE=30',
+      'high.m3u8',
+      '#EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720',
+      'mid.m3u8',
+    ].join('\n');
+    const result = await probeStream(stream('https://x/master.m3u8'), answering(master), session);
+    expect(result).toMatchObject({ ok: true, kind: 'hls', height: 1080 });
   });
 
   it('reads no more of a long playlist than its cap', async () => {

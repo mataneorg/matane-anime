@@ -31,6 +31,8 @@ import type { ExtensionHostClient } from './host-client';
 import type { ExtensionRecord, ExtensionRegistry } from './registry';
 
 export interface ServiceDeps {
+  /** Hears about extension results that had to be repaired or partly dropped. */
+  warn?(message: string): void;
   registry: ExtensionRegistry;
   host: ExtensionHostClient;
   store: ExtensionStore;
@@ -450,7 +452,9 @@ export class ExtensionService {
       throw new AppError('not_found', `The source "${sourceId}" is not installed`);
     }
     return {
-      client: new SourceClient(this.backend(record), sourceKey),
+      client: new SourceClient(this.backend(record), sourceKey, (message) =>
+        this.deps.warn?.(`${record.manifest?.id ?? sourceId}: ${message}`),
+      ),
       record,
       sourceKey,
       extensionId: record.manifest.id,

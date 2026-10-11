@@ -1,12 +1,16 @@
 import type { Stream } from '@matane-anime/extension-sdk';
 import type { PlaybackSession } from './sessions';
 import type { UpstreamFetch } from './proxy';
-import { parseVariantCodecs } from './codecs';
+import { parseVariantCodecs, parseVariantHeight } from './codecs';
 import { guessKind } from './ranking';
 
-/** `variants` are the `CODECS` of each variant of an HLS master playlist (empty when it has none). */
+/**
+ * `variants` are the `CODECS` of each variant of an HLS master playlist (empty when it has none); `height` is the
+ * tallest `RESOLUTION` among them, when the playlist says.
+ */
 export type ProbeResult =
-  { ok: true; kind: 'hls' | 'mp4'; variants?: string[][] } | { ok: false; reason: string; httpStatus: number | null };
+  | { ok: true; kind: 'hls' | 'mp4'; variants?: string[][]; height?: number }
+  | { ok: false; reason: string; httpStatus: number | null };
 
 export const PROBE_TIMEOUT_MS = 8000;
 const HEAD_BYTES = 4096;
@@ -43,11 +47,11 @@ export async function readHead(response: Response, max: number): Promise<Uint8Ar
 const looksLikePlaylist = (head: Uint8Array): boolean =>
   new TextDecoder().decode(head.subarray(0, 64)).trimStart().startsWith('#EXTM3U');
 
-const playlistResult = (head: Uint8Array): ProbeResult => ({
-  ok: true,
-  kind: 'hls',
-  variants: parseVariantCodecs(new TextDecoder().decode(head)),
-});
+const playlistResult = (head: Uint8Array): ProbeResult => {
+  const text = new TextDecoder().decode(head);
+  const height = parseVariantHeight(text);
+  return { ok: true, kind: 'hls', variants: parseVariantCodecs(text), ...(height !== null && { height }) };
+};
 
 /**
  * Checks that a stream answers before the player is pointed at it (docs/PRD.md STR-2): a playlist must be

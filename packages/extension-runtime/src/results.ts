@@ -70,6 +70,65 @@ export const streamSchema = z.object({
 });
 export const streamListSchema = z.array(streamSchema).max(100);
 
+const STREAM_LIMIT = 100;
+const KINDS = new Set(['hls', 'mp4', 'auto']);
+
+/** The height out of 1080, 1080.4, "1080p", "720p60", "1920x1080" or "HD 720": the first number that reads as one. */
+function heightOf(value: unknown): number | undefined {
+  const text = String(value ?? '');
+  const parsed =
+    typeof value === 'number'
+      ? Math.round(value)
+      : Number((/(\d{3,4})\s*p/i.exec(text) ?? /\d{3,4}\s*x\s*(\d{3,4})/i.exec(text) ?? /(\d{3,4})/.exec(text))?.[1]);
+  return Number.isInteger(parsed) && parsed > 0 && parsed <= 10_000 ? parsed : undefined;
+}
+
+/**
+ * Tidies the small slips extensions make, so one of them does not cost the user every server: a protocol-relative
+ * URL gets `https:`, a quality written as text or with decimals becomes a whole height, an unknown `kind` is left
+ * to the probe, a missing or oversized server name is made from the host.
+ */
+function normalizeStream(raw: unknown): unknown {
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return raw;
+  const stream = { ...(raw as Record<string, unknown>) };
+  if (typeof stream['url'] === 'string') {
+    const trimmed = stream['url'].trim();
+    stream['url'] = trimmed.startsWith('//') ? `https:${trimmed}` : trimmed;
+  }
+  if (stream['quality'] !== undefined && stream['quality'] !== null) stream['quality'] = heightOf(stream['quality']);
+  if (typeof stream['kind'] === 'string' && !KINDS.has(stream['kind'])) delete stream['kind'];
+  const server = typeof stream['server'] === 'string' ? stream['server'].trim().slice(0, 100) : '';
+  if (server) stream['server'] = server;
+  else if (typeof stream['url'] === 'string')
+    stream['server'] = /^https?:\/\/([^/?#]+)/i.exec(stream['url'])?.[1] ?? '';
+  return stream;
+}
+
+export interface StreamRead {
+  streams: z.output<typeof streamSchema>[];
+  /** Why each dropped stream was dropped, for the log. */
+  dropped: string[];
+}
+
+/**
+ * Reads what `getStreams` returned one stream at a time (after `normalizeStream`): a stream that still breaks the
+ * contract is dropped and reported, the others are kept. `null` when the result is not even a list.
+ */
+export function readStreams(value: unknown): StreamRead | null {
+  if (!Array.isArray(value)) return null;
+  const streams: StreamRead['streams'] = [];
+  const dropped: string[] = [];
+  value.forEach((raw, index) => {
+    const result = streamSchema.safeParse(normalizeStream(raw));
+    if (result.success && streams.length < STREAM_LIMIT) streams.push(result.data);
+    else if (!result.success)
+      dropped.push(
+        `#${index + 1}: ${result.error.issues[0]?.message ?? 'invalid'} (${result.error.issues[0]?.path.join('.') || 'stream'})`,
+      );
+  });
+  return { streams, dropped };
+}
+
 const option = z.object({ value: text(200), label: text(200) });
 const sortValue = z.object({ value: text(200), ascending: z.boolean() });
 

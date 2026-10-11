@@ -9,7 +9,7 @@ Before the player is pointed at a stream, main probes it (docs/PRD.md STR-2): a 
 - **A short head start, then a small pool.** `openFirstWorking` starts the best-ranked candidate alone. When it has not answered after 1.5 s (`PROBE_STAGGER_MS`), or when it fails, the next candidate is probed beside it, and so on, with at most 3 probes in flight (`PROBE_PARALLEL`). A failure frees a slot and starts the next candidate at once.
 - **The first success wins.** In a healthy case that is the best-ranked stream, because it answers inside its head start, so the ranking (manual choice, quality, last server, extension order; STR-1) still decides what plays. Only when the top choice is slow or dead does a lower-ranked one get ahead of it.
 - **Losers are cancelled, not blamed.** `probeStream` takes an `AbortSignal` and reports `cancelled` when it fires. Probes still running when a winner comes in are aborted and their sessions deleted; they are not added to `failed` or to the list of servers tried, so the server picker shows them as available. Only probes that really failed are marked failed and listed.
-- **Same error as before.** When nothing answers, the error is `No server answered (<reason of the last failure>)`, and no session is left behind.
+- **Same error as before.** When nothing answers, the error is `No server answered (<server and reason of each failure>)`, and the same line goes to the log file, and no session is left behind.
 - **Switching by hand** probes the single chosen stream through the same code.
 - `PlaybackDeps.probeStaggerMs` exists so a test can shorten the head start.
 

@@ -32,6 +32,7 @@ interface Harness {
   streamCalls: { url: string; fresh: boolean }[];
   /** What the service wrote to the log. */
   logs: string[];
+  warnings: string[];
   /** What the fake upstream answers; replaced by the tests that need a slow or failing server. */
   upstream: { handler: (url: string, init: RequestInit) => Promise<Response> };
 }
@@ -62,6 +63,7 @@ async function setup(): Promise<Harness> {
   };
   const streamCalls: Harness['streamCalls'] = [];
   const logs: string[] = [];
+  const warnings: string[] = [];
   const upstream: Harness['upstream'] = { handler: async () => new Response('#EXTM3U\n', { status: 200 }) };
   const sessions = new SessionStore();
   const service = new PlaybackService({
@@ -92,8 +94,9 @@ async function setup(): Promise<Harness> {
     requests: new RequestRegistry(),
     resumeFor: () => 1234,
     log: (message) => logs.push(message),
+    warn: (message) => warnings.push(message),
   });
-  return { db, service, sessions, folder, episodeId, calls, options, streamCalls, logs, upstream };
+  return { db, service, sessions, folder, episodeId, calls, options, streamCalls, logs, warnings, upstream };
 }
 
 /** A finished HLS download on disk and in the database. */
@@ -376,11 +379,15 @@ describe('PlaybackService: probing streams (STR-2)', () => {
     expect(peak).toBe(3);
   });
 
-  it('reports the last reason and leaves no session behind when nothing answers', async () => {
+  it('reports why each server failed, in the error and the log, and leaves no session behind', async () => {
     const h = harness;
     h.options.streams = [server('a', 1080), server('b', 720)];
-    h.upstream.handler = async () => new Response('gone', { status: 404 });
-    await expect(h.service.start(h.episodeId)).rejects.toThrow('No server answered (HTTP 404)');
+    h.upstream.handler = async (url) => new Response('gone', { status: new URL(url).host === 'a.test' ? 403 : 404 });
+    await expect(h.service.start(h.episodeId)).rejects.toThrow(
+      /No server answered \(.*a 1080p: HTTP 403.*b 720p: HTTP 404|.*b 720p: HTTP 404.*a 1080p: HTTP 403\)/,
+    );
+    expect(h.warnings).toHaveLength(1);
+    expect(h.warnings[0]).toMatch(/no server answered: .*HTTP 403.*HTTP 404|no server answered: .*HTTP 404.*HTTP 403/);
     expect(h.sessions.size).toBe(0);
   });
 });
@@ -438,6 +445,26 @@ describe('PlaybackService: ranking by CODECS (PLY-12)', () => {
     const dto = await h.service.start(h.episodeId);
     expect(dto.streams[dto.activeIndex]?.server).toBe('a');
     expect(h.sessions.size).toBe(1);
+  });
+
+  it('labels a stream that has no quality with the tallest variant of its master playlist', async () => {
+    const h = harness;
+    h.options.streams = [{ url: 'http://a.test/index.m3u8', server: 'a' }];
+    h.upstream.handler = async () =>
+      new Response(
+        '#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=1,RESOLUTION=1280x720\nlow.m3u8\n#EXT-X-STREAM-INF:BANDWIDTH=2,RESOLUTION=1920x1080\nhigh.m3u8\n',
+      );
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]).toMatchObject({ server: 'a', quality: 1080 });
+  });
+
+  it('never replaces a quality the extension set', async () => {
+    const h = harness;
+    h.options.streams = [server('a', 480)];
+    h.upstream.handler = async () =>
+      new Response('#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=2,RESOLUTION=1920x1080\nhigh.m3u8\n');
+    const dto = await h.service.start(h.episodeId);
+    expect(dto.streams[dto.activeIndex]?.quality).toBe(480);
   });
 
   it('judges nothing without a report from the renderer', async () => {
