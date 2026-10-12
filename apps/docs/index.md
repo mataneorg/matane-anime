@@ -8,10 +8,8 @@ hero:
   name: Matane Anime
   text: A desktop anime player
   tagline: A library, watch progress, downloads and new-episode alerts, for sources you choose. Open source, no telemetry.
+  # The Download button is a component (.vitepress/theme/DownloadButton.vue), shown above these.
   actions:
-    - theme: brand
-      text: Install
-      link: /guide/getting-started
     - theme: alt
       text: Write an extension
       link: /authors/
