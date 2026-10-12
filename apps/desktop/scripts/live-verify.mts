@@ -10,6 +10,8 @@
 //                              the app cannot reach, and the quality the app labels each with
 //           --anime <n>        check n different anime per source (spread over the Popular list), not just the first
 //           --oldest           check the oldest episode as well as the newest
+//           --title <text>     take the first search result for this text instead of the first Popular anime
+//           --episode <n>      play episode number n instead of the newest one
 //           --play-seconds <n> how long to wait for frames (default 25)
 //           --out <dir>        where the report goes (default apps/desktop/test-results)
 import { spawnSync } from 'node:child_process';
@@ -33,6 +35,8 @@ const EXT_ROOT = resolve(option('ext-root') ?? resolve(REPO, '../matane-anime-ex
 const ONLY = option('only')?.split(',').filter(Boolean);
 const ALL_STREAMS = flag('all-streams');
 const OLDEST = flag('oldest');
+const TITLE = option('title');
+const EPISODE = option('episode') === undefined ? undefined : Number(option('episode'));
 const ANIME = Math.max(1, Number(option('anime') ?? 1));
 const PLAY_MS = Number(option('play-seconds') ?? 25) * 1000;
 const OUT = resolve(option('out') ?? resolve(DESKTOP, 'test-results'));
@@ -237,7 +241,10 @@ async function openEach(session: Session): Promise<NonNullable<NonNullable<Row['
 async function checkSource(row: Row, sourceId: string, which = 0): Promise<void> {
   const popular = await timed(() =>
     withTimeout(
-      invoke<{ items: AnimeItem[] }>('sources.browse', { sourceId, kind: 'popular', page: 1 }),
+      invoke<{ items: AnimeItem[] }>(
+        'sources.browse',
+        TITLE ? { sourceId, kind: 'search', page: 1, query: TITLE } : { sourceId, kind: 'popular', page: 1 },
+      ),
       60_000,
       'popular',
     ),
@@ -262,7 +269,8 @@ async function checkSource(row: Row, sourceId: string, which = 0): Promise<void>
     withTimeout(invoke<{ episodes: EpisodeItem[] }>('anime.refresh', { animeId: first.animeId }), 90_000, 'episodes'),
   );
   const episodes = refreshed.value?.episodes ?? [];
-  const episode = [...episodes].sort((a, b) => (b.number ?? 0) - (a.number ?? 0))[0];
+  const newest = [...episodes].sort((a, b) => (b.number ?? 0) - (a.number ?? 0))[0];
+  const episode = EPISODE === undefined ? newest : (episodes.find((e) => e.number === EPISODE) ?? newest);
   row.episodes = {
     ...refreshed.step,
     count: episodes.length,
