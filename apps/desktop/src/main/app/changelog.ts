@@ -6,6 +6,16 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.1',
+    date: '2026-10-12',
+    items: [
+      'Playback: one broken stream no longer discards the whole list of servers; the working ones are kept.',
+      'Playback: the quality of a stream is read from its playlist when the extension does not give one, so the quality menu lists more servers.',
+      'Playback: when no server answers, the message says why each one failed, and the same lines are written to the log.',
+      'Player: a server that is reachable but never sends video no longer leaves the spinner running; after 25 seconds the player moves on to the next one.',
+    ],
+  },
+  {
     version: '1.0.0',
     date: '2026-10-11',
     items: [
