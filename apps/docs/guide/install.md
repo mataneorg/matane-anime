@@ -2,6 +2,8 @@
 
 Packages are built by CI when a release is cut and are published on the project's [Releases page](https://github.com/mataneorg/matane-anime/releases). Versions marked "Pre-release" are test builds ahead of the next version. You can also [build from source](https://github.com/mataneorg/matane-anime#build-from-source).
 
+<DownloadButton :guide="false" />
+
 ## Pick a package
 
 | Platform | Package                                                | How                                                                            |
@@ -29,7 +31,9 @@ To update, download the newer `PKGBUILD` and build it again.
 
 ## First-run warnings
 
-The builds are not code-signed yet, so the first run triggers a warning from your system.
+::: warning Unsigned builds
+The Windows and macOS builds are not code-signed yet, so your system warns you on first run. Download only from the project's [Releases page](https://github.com/mataneorg/matane-anime/releases).
+:::
 
 **Windows (SmartScreen).** If you see "Windows protected your PC", choose **More info**, then **Run anyway**.
 
@@ -46,3 +50,12 @@ Your data (library, progress, settings) lives in the app's user data folder, and
 ## About
 
 **Settings, About** shows the version and the Electron, Chromium and Node versions it runs on, links to the release notes, the source code and the issue tracker, and the licence. **What's new** opens the changes dialog again, and **Run setup again** repeats the first-launch questions.
+
+## Updating
+
+A packaged app checks GitHub Releases 15 seconds after start and every 6 hours, on the **stable** or **beta** channel (a setting). This is the only traffic the app sends besides your sources.
+
+- **Windows installer and Linux AppImage:** downloads in the background and installs when you quit.
+- **macOS, Windows portable, Linux deb, rpm, the Arch `PKGBUILD` and Flatpak:** only tells you a new version exists, with a link to the release. macOS builds are unsigned, so macOS cannot update in place; the others are updated by you or your package manager.
+
+See [Packages and updates](https://github.com/mataneorg/matane-anime/blob/main/docs/packaging/README.md) for the details.

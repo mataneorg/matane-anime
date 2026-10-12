@@ -12,8 +12,12 @@ import {
   type ReleaseAsset,
 } from './downloads';
 
+// The install page already is the install guide, so it drops that link.
+const { guide = true } = defineProps<{ guide?: boolean }>();
+
 const REPO = 'mataneorg/matane-anime';
-const LATEST_PAGE = `https://github.com/${REPO}/releases/latest`;
+const RELEASES_PAGE = `https://github.com/${REPO}/releases`;
+const LATEST_PAGE = `${RELEASES_PAGE}/latest`;
 const CACHE_KEY = 'matane-anime:latest-release';
 
 interface Release {
@@ -26,13 +30,21 @@ const tag = ref('');
 const options = ref<DownloadOption[]>([]);
 const selectedId = ref('');
 
+// Only known in the browser, so the server-rendered button names no system (and hydration matches).
+const mobile = ref(false);
+const failed = ref(false);
+
 const selected = computed(() => options.value.find((o) => o.id === selectedId.value));
 const href = computed(() => selected.value?.url ?? LATEST_PAGE);
-const pick = computed(() => {
-  if (options.value.length === 0) return '';
-  return selected.value
-    ? `${OS_LABEL[selected.value.os]}, ${selected.value.label}\u00a0· `
-    : 'Not sure? Use the arrow to pick your system\u00a0· ';
+const title = computed(() =>
+  selected.value ? `Download for ${OS_LABEL[selected.value.os]}` : 'Download Matane Anime',
+);
+const meta = computed(() => {
+  if (tag.value) {
+    const size = selected.value?.size ? `${Math.round(selected.value.size / 1024 / 1024)} MB` : '';
+    return [tag.value, size].filter(Boolean).join(' · ');
+  }
+  return failed.value ? 'Opens GitHub releases' : 'Latest release';
 });
 const groups = computed(() =>
   (['windows', 'mac', 'linux'] as Os[])
@@ -69,7 +81,7 @@ async function latestRelease(): Promise<Release | null> {
     if (!body.tag_name || !Array.isArray(body.assets)) return null;
     const release = {
       tag: body.tag_name,
-      assets: body.assets.map(({ name, browser_download_url }) => ({ name, browser_download_url })),
+      assets: body.assets.map(({ name, size, browser_download_url }) => ({ name, size, browser_download_url })),
     };
     remember(release);
     return release;
@@ -94,13 +106,18 @@ async function macArch(): Promise<Arch | undefined> {
 }
 
 onMounted(async () => {
-  const release = await latestRelease();
-  if (!release) return;
-  const found = optionsOf(release.assets);
-  if (found.length === 0) return;
-
   const uaData = (navigator as { userAgentData?: { platform?: string } }).userAgentData;
-  const os = detectOs(navigator.userAgent, uaData?.platform ?? navigator.platform, navigator.maxTouchPoints);
+  const platform = uaData?.platform ?? navigator.platform;
+  const os = detectOs(navigator.userAgent, platform, navigator.maxTouchPoints);
+  // `detectOs` gives phones and tablets no system; an unknown desktop gets the same, but is not told to switch device.
+  mobile.value = os === null && (/android|iphone|ipad|ipod/i.test(navigator.userAgent) || navigator.maxTouchPoints > 1);
+
+  const release = await latestRelease();
+  const found = release ? optionsOf(release.assets) : [];
+  if (!release || found.length === 0) {
+    failed.value = true;
+    return;
+  }
   const arch = os === 'mac' ? await macArch() : undefined;
 
   tag.value = release.tag;
@@ -110,167 +127,116 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="download">
-    <div class="row">
-      <a class="button alt" :href="withBase('/guide/getting-started')">Get Started</a>
-      <div class="split" :class="{ solo: options.length === 0 }">
-        <a class="main" :href="href" rel="noopener">Download{{ tag ? ` ${tag}` : '' }}</a>
-        <span v-if="options.length > 0" class="more-pkgs" title="Choose another package">
-          <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16">
-            <path
-              d="M4 6l4 4 4-4"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <select v-model="selectedId" aria-label="Choose operating system and package">
-            <option v-if="!selected" value="" disabled>Choose a package</option>
-            <optgroup v-for="group in groups" :key="group.os" :label="group.label">
-              <option v-for="item in group.items" :key="item.id" :value="item.id">
-                {{ group.label }}, {{ item.label }}
-              </option>
-            </optgroup>
-          </select>
-        </span>
+  <div class="download" :class="{ page: !guide }">
+    <p v-if="mobile" class="note">Matane Anime is a desktop app. Open this page on your computer to download it.</p>
+    <div class="split">
+      <a class="main" :href="href" rel="noopener">
+        <span class="title">{{ title }}</span>
+        <span class="meta" aria-live="polite">{{ meta }}</span>
+      </a>
+      <div v-if="options.length > 0" class="chev" title="Choose another download">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+        <select v-model="selectedId" aria-label="Choose another download">
+          <option v-if="!selected" value="" disabled>Choose a package</option>
+          <optgroup v-for="group in groups" :key="group.os" :label="group.label">
+            <option v-for="item in group.items" :key="item.id" :value="item.id">{{ item.label }}</option>
+          </optgroup>
+        </select>
       </div>
-      <a class="button alt" :href="withBase('/authors/')">Write an extension</a>
     </div>
-    <p class="meta" aria-live="polite">
-      <span v-if="pick">{{ pick }}</span
-      ><a :href="withBase('/guide/getting-started')">Other packages and first-run warnings</a>
+    <p class="more">
+      <a :href="RELEASES_PAGE">All releases</a>
+      <a v-if="guide" :href="withBase('/guide/install')">Install guide</a>
     </p>
   </div>
 </template>
 
 <style scoped>
-/* The slot sits in the hero's text column, after the tagline. Spacing and alignment follow VPHero's `.actions`. */
 .download {
+  margin: 20px 0 0;
+  text-align: inherit;
+}
+.download.page {
+  margin: 20px 0 28px;
+}
+.split {
+  display: inline-flex;
+  height: 48px;
+}
+.main,
+.chev {
+  background-color: var(--vp-button-brand-bg);
+  color: var(--vp-button-brand-text);
+  transition: background-color 0.2s;
+}
+.main:hover,
+.chev:hover {
+  background-color: color-mix(in srgb, #000 14%, var(--vp-c-brand-3));
+}
+.main:active,
+.chev:active {
+  background-color: color-mix(in srgb, #000 24%, var(--vp-c-brand-3));
+}
+.main {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-top: 24px;
-  max-width: 100%;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
+  align-items: flex-start;
   justify-content: center;
-  gap: 8px;
-  max-width: 100%;
-}
-
-@media (min-width: 640px) {
-  .download {
-    padding-top: 32px;
-  }
-}
-
-@media (min-width: 960px) {
-  .download {
-    align-items: flex-start;
-  }
-
-  .row {
-    justify-content: flex-start;
-  }
-}
-
-.button.alt {
-  box-sizing: border-box;
-  display: inline-block;
-  max-width: 100%;
-  height: 40px;
-  padding: 0 20px;
-  border: 1px solid var(--vp-button-alt-border);
-  border-radius: 20px;
-  color: var(--vp-button-alt-text);
-  background-color: var(--vp-button-alt-bg);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 38px;
-  white-space: nowrap;
+  padding: 0 20px 0 24px;
+  border-radius: 24px;
+  text-align: left;
   text-decoration: none;
-  transition:
-    color 0.25s,
-    border-color 0.25s,
-    background-color 0.25s;
 }
-
-.button.alt:hover {
-  border-color: var(--vp-button-alt-hover-border);
-  color: var(--vp-button-alt-hover-text);
-  background-color: var(--vp-button-alt-hover-bg);
+.split:has(.chev) .main {
+  border-radius: 24px 0 0 24px;
 }
-
-/* One pill in two halves: the link downloads, the arrow opens a native select laid transparently over it. */
-.split {
-  box-sizing: border-box;
-  display: inline-flex;
-  position: relative;
-  height: 40px;
-  border: 1px solid var(--vp-button-brand-border);
-  border-radius: 20px;
-  background: var(--vp-button-brand-bg);
-  transition: border-color 0.25s;
-}
-
-.split:hover {
-  border-color: var(--vp-button-brand-hover-border);
-}
-
-.split:has(:focus-visible) {
-  outline: 2px solid var(--vp-c-brand-1);
+.main:focus-visible,
+.chev:has(select:focus-visible) {
+  outline: 2px solid var(--vp-c-text-1);
   outline-offset: 2px;
 }
-
-.main,
-.more-pkgs {
-  color: var(--vp-button-brand-text);
-  transition:
-    color 0.25s,
-    background-color 0.25s;
-}
-
-.main {
-  padding: 0 18px 0 20px;
-  border-radius: 19px 0 0 19px;
+.title {
   font-size: 14px;
   font-weight: 600;
-  line-height: 38px;
+  line-height: 1.25;
   white-space: nowrap;
-  text-decoration: none;
-  outline: none;
 }
-
-.split.solo .main {
-  padding-right: 20px;
-  border-radius: 19px;
+.meta {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.25;
+  opacity: 0.9;
+  font-variant-numeric: tabular-nums;
 }
-
-.more-pkgs {
+.chev {
   position: relative;
   display: grid;
   place-items: center;
-  width: 38px;
-  border-radius: 0 19px 19px 0;
-  animation: fade-in 0.2s;
+  width: 44px;
+  border-radius: 0 24px 24px 0;
+  cursor: pointer;
 }
-
-.more-pkgs::before {
+.chev::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
+  inset: 10px auto 10px 0;
   width: 1px;
-  background: color-mix(in srgb, var(--vp-button-brand-text) 40%, transparent);
+  background: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
 }
-
-.more-pkgs select {
+.chev select {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -278,81 +244,69 @@ onMounted(async () => {
   opacity: 0;
   cursor: pointer;
   appearance: none;
-  /* 16px keeps iOS from zooming the page when the picker opens. */
+  /* 16px stops iOS from zooming in on focus. */
   font-size: 16px;
+  color-scheme: inherit;
 }
-
-.more-pkgs option,
-.more-pkgs optgroup {
+.chev select:focus-visible {
+  outline: none;
+}
+.chev select :is(option, optgroup) {
+  background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
-  background: var(--vp-c-bg-elv);
 }
-
-.main:hover,
-.more-pkgs:hover,
-.main:focus-visible,
-.more-pkgs:has(select:focus-visible) {
-  color: var(--vp-button-brand-hover-text);
-  background: var(--vp-button-brand-hover-bg);
-}
-
-.main:active,
-.more-pkgs:active {
-  background: var(--vp-button-brand-active-bg);
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.meta {
-  margin: 12px 0 0;
-  font-size: 13px;
-  line-height: 20px;
+.note {
+  max-width: 360px;
+  margin: 0 auto 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
   color: var(--vp-c-text-2);
-  text-align: center;
-  text-wrap: balance;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.page .note {
+  margin: 0 0 12px;
+}
+.more {
+  display: block;
+  /* The links' side margin is pulled back so the first one lines up with the button edge. */
+  margin: 6px -8px 0;
+  text-align: inherit;
+}
+.more a {
+  display: inline-block;
+  margin: 0 8px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 2;
+  text-decoration: underline;
+  text-decoration-color: var(--vp-c-divider);
+  text-underline-offset: 3px;
+}
+.more a:hover {
+  color: var(--vp-c-brand-1);
+  text-decoration-color: currentColor;
 }
 
 @media (min-width: 960px) {
-  .meta {
-    text-align: left;
+  .note {
+    margin-left: 0;
   }
 }
-
-.meta a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.meta a:hover,
-.meta a:focus-visible {
-  color: var(--vp-c-brand-1);
-  text-decoration: underline;
-}
-
-@media (max-width: 639px) {
-  .more-pkgs {
-    width: 44px;
+@media (max-width: 479px) {
+  .split {
+    display: flex;
+    width: 100%;
   }
-}
-
-@media (max-width: 379px) {
-  .button.alt {
-    padding: 0 14px;
-  }
-
   .main {
-    padding: 0 12px 0 14px;
+    flex: 1;
   }
-
-  .split.solo .main {
-    padding-right: 14px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .main,
+  .chev {
+    transition: none;
   }
 }
 </style>

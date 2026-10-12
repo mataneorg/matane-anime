@@ -1,6 +1,6 @@
 # Extension repositories
 
-A repository is a static folder on any web host that lists extensions and carries their downloads. Users add its address in the app, decide whether to trust its signing key, and then install, update and remove extensions from it. This page is for people who **publish** one, and explains what users see and what the app checks. How to write an extension is in [the extension guide](/authors/writing-extensions).
+A repository is a static folder on any web host that lists extensions and carries their downloads. Users add its address in the app, decide whether to trust its signing key, and then install, update and remove extensions from it. This page is for people who **publish** one, and explains what users see and what the app checks. How to write an extension is in [the extension guide](/extensions/).
 
 **Matane Anime ships no repository, no extension and no key, and never suggests one** (PRD EXT-7). An empty install has nothing to install from; people bring their own address. Nothing here names or links a real site.
 
@@ -68,7 +68,7 @@ Limits: `index.json` 2 MB, an archive 20 MB, an icon 512 KB, `index.js` inside t
 
 ## Publishing a repository
 
-The commands below are real; the `ma-ext` binary is described in [the extension guide](/authors/writing-extensions#build-test-bench) (in a checkout: `node packages/extension-cli/bin/ma-ext.js`).
+The commands below are real; the `ma-ext` binary is described in [the extension guide](/extensions/#build-test-bench) (in a checkout: `node packages/extension-cli/bin/ma-ext.js`).
 
 1. **Make a key, once.**
 
@@ -148,9 +148,9 @@ Users who trusted your old key will refuse indexes signed with the new one (by d
 2. **Available** tab: what the repositories offer, with name, version, languages, size and an _Install_ button. Extensions that need a newer API or app are marked incompatible and cannot be installed. 18+ and other-language entries are filtered ([below](#18-and-language-filters)).
 3. **Install** is two steps. The app first downloads and checks everything, then shows a dialog: the repository and its trust state (with the key fingerprint), the extension's name, version, API version, languages, size and **SHA-256**, plus warnings (_unverified repository_, 18+). Nothing is written until the user confirms, and the confirmation expires after 5 minutes.
 4. **Atomic install.** The files are written to `<id>.tmp` in the app's data folder, the old copy (if any) is moved to `<id>.old`, the new folder is renamed into place and loaded into the sandbox. If anything fails, including the extension not loading, the previous version is put back and nothing changes. A crash in the middle is repaired at the next start.
-5. **Update.** When a repository offers a higher version, the installed row shows an update badge, and the page offers _Update all_. Updating installs directly, without the dialog, and only from the repository the extension came from. Checking the repositories never installs anything by itself. After an update, [`migrateUrl`](/authors/writing-extensions#versioning-and-migrateurl) runs on the user's stored URLs.
+5. **Update.** When a repository offers a higher version, the installed row shows an update badge, and the page offers _Update all_. Updating installs directly, without the dialog, and only from the repository the extension came from. Checking the repositories never installs anything by itself. After an update, [`migrateUrl`](/extensions/#versioning-and-migrateurl) runs on the user's stored URLs.
 6. **Uninstall** (with a confirmation) deletes the extension's files, its preferences, its storage and its browser session (cookies, cache). **The user's library, history and downloads stay**; their anime are shown as "source not installed" until the extension is installed again, and then they work as before.
-7. **Developer mode** is separate: a folder loaded in developer mode is not installed, is not updated and is not part of any repository ([the extension guide](/authors/writing-extensions#trying-it-in-the-app-developer-mode)). If a dev folder and an installed extension have the same `id`, the dev folder runs and the installed copy is marked shadowed until the folder is removed. An `id` installed from one repository cannot be installed from a second one at the same time.
+7. **Developer mode** is separate: a folder loaded in developer mode is not installed, is not updated and is not part of any repository ([the extension guide](/extensions/#trying-it-in-the-app-developer-mode)). If a dev folder and an installed extension have the same `id`, the dev folder runs and the installed copy is marked shadowed until the folder is removed. An `id` installed from one repository cannot be installed from a second one at the same time.
 
 ## 18+ and language filters
 
@@ -164,7 +164,7 @@ Users who trusted your old key will refuse indexes signed with the new one (by d
 - **Signature:** Ed25519 over the exact index bytes; the announced key against the trusted key; the serial against the last accepted one.
 - **Archive, before anything is written:** size and SHA-256 against the index; only `manifest.json`, `index.js`, `icon.png`; no unsafe paths, no encryption; declared sizes within limits and inflating never goes past them (compression bombs); a manifest that passes the manifest schema; `apiVersion` not higher than the app supports; `minAppVersion` (if given) not higher than the app; the manifest's id, version, `apiVersion`, `nsfw`, languages and sources equal to the index entry; the icon's size and SHA-256.
 - **Every time an installed extension is loaded** (start, after install or update): the SHA-256 of the installed `index.js` equals the one recorded at install, its manifest has the expected `id`, it fits the size limit and its `apiVersion` is supported. Otherwise it is marked with an error and **not run**: "The installed files were changed; reinstall the extension."
-- **At run time:** the sandbox limits and the result checks described in [the extension guide](/authors/writing-extensions#the-sandbox-and-the-host-api).
+- **At run time:** the sandbox limits and the result checks described in [the extension guide](/extensions/#the-sandbox-and-the-host-api).
 
 The app talks to a repository only to download these files, with plain `GET` requests from its own network client (separate from the extensions': its own session, no cookies, the app's User-Agent). Nothing about the user, their library or what is installed is sent.
 

@@ -98,7 +98,7 @@ Matane Anime is not code-signed yet, so your system will show a warning. This is
 - **macOS:** right-click the app in Applications and choose **Open**, then **Open** again. Or open **System Settings → Privacy & Security** and click **Open Anyway**. If macOS says the app is "damaged", run `xattr -dr com.apple.quarantine "/Applications/Matane Anime.app"` in Terminal.
 - **Linux:** make the AppImage executable (`chmod +x matane-anime-*.AppImage`, or right-click → Properties → "Allow executing") and run it. Some distributions need `libfuse2`.
 
-The [install guide](https://mataneorg.github.io/matane-anime/guide/getting-started) has more detail. A short setup on first launch then asks for your language, which kinds of content to show, your download folder and a few player choices.
+The [install guide](https://mataneorg.github.io/matane-anime/guide/install) has more detail. A short setup on first launch then asks for your language, which kinds of content to show, your download folder and a few player choices.
 
 ### Where is my data?
 
@@ -139,7 +139,7 @@ Other ways to help, all free:
 
 ## For developers
 
-Want to build Matane Anime from source, fix a bug or write an extension? Everything is in **[DEVELOPMENT.md](DEVELOPMENT.md)**: setup, commands, project layout, extensions, testing and releases. Also see [`CONTRIBUTING.md`](CONTRIBUTING.md) and the [extension guide](https://mataneorg.github.io/matane-anime/authors/).
+Want to build Matane Anime from source, fix a bug or write an extension? Everything is in **[DEVELOPMENT.md](DEVELOPMENT.md)**: setup, commands, project layout, extensions, testing and releases. Also see [`CONTRIBUTING.md`](CONTRIBUTING.md) and the [extension guide](https://mataneorg.github.io/matane-anime/extensions/).
 
 ## License
 

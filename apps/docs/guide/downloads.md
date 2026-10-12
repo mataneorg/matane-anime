@@ -1,19 +1,19 @@
 # Downloads and offline
 
-Episodes can be downloaded and watched without a connection. Downloaded episodes are always played in preference to streaming; if the file is missing, the download is marked broken and the app falls back to streaming.
+Episodes can be downloaded and watched without a connection. A downloaded episode is always played in preference to streaming.
 
-## What can be downloaded
+## Downloading
 
-- **HLS** (`.m3u8`, video on demand): the app picks the variant that matches your download quality, fetches the segments (including encrypted AES-128 ones and separate audio), and rewrites the playlist to local paths. A live stream (no end marker) is refused with a clear message.
+Download episodes from an anime's page. The app handles two kinds of stream:
+
+- **HLS** (`.m3u8`, video on demand): it picks the variant that matches your download quality, fetches the segments (including encrypted AES-128 ones and separate audio) and rewrites the playlist to local paths. A live stream (no end marker) is refused with a clear message.
 - **MP4**: downloaded with resume.
 
-## The queue
+The **Downloads** page shows the queue with progress, speed and time left. It is persistent, so it continues after you reopen the app. One episode downloads at a time by default (1 to 3 in Settings). You can pause or resume everything or one item, reorder, cancel or delete.
 
-The queue is persistent: it continues after you reopen the app. One episode downloads at a time by default (1 to 3 in Settings), with several segments in parallel. You can pause or resume everything or one item, reorder, cancel or delete. The Downloads page shows progress, speed and time left. Failed segments are retried three times; a download that still fails shows an error with a retry button, and the queue waits while you are offline.
-
-## Safe writing
-
-Segments are written to a temporary folder and only renamed into place when everything is complete. If the app is closed or a download fails, the segments already downloaded are kept, so a retry fetches only what is missing.
+::: tip
+Failed segments are retried three times. A download that still fails shows an error with a retry button, and the queue waits while you are offline. If the app is closed or a download fails, what is already downloaded is kept, so a retry fetches only what is missing.
+:::
 
 ## Folder and limits
 
@@ -23,3 +23,9 @@ Segments are written to a temporary folder and only renamed into place when ever
 - **Auto-download** of new episodes is per category and **off by default**.
 
 Settings, Downloads is where these options live.
+
+## Watching offline
+
+Downloaded episodes play without a connection, in the same player and with the same progress as streamed ones ([Watching and progress](/guide/watching)).
+
+If the file of a downloaded episode is missing (for example you deleted it from the folder), the download is marked **broken** and the app falls back to streaming. A download that failed part-way shows an error with a retry button.

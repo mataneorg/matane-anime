@@ -6,6 +6,7 @@ export type Arch = 'arm64' | 'x64';
 
 export interface ReleaseAsset {
   name: string;
+  size?: number;
   browser_download_url: string;
 }
 
@@ -14,6 +15,7 @@ export interface DownloadOption {
   os: Os;
   label: string;
   url: string;
+  size?: number;
 }
 
 // The names come from `artifactName` in apps/desktop/electron-builder.yml. Blockmaps and latest*.yml are the
@@ -34,7 +36,8 @@ export function optionsOf(assets: ReleaseAsset[]): DownloadOption[] {
   const options: DownloadOption[] = [];
   for (const spec of PACKAGES) {
     const asset = assets.find((a) => spec.pattern.test(a.name));
-    if (asset) options.push({ id: spec.id, os: spec.os, label: spec.label, url: asset.browser_download_url });
+    if (asset)
+      options.push({ id: spec.id, os: spec.os, label: spec.label, url: asset.browser_download_url, size: asset.size });
   }
   return options;
 }

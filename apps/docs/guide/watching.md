@@ -10,7 +10,7 @@ The player is full screen without the sidebar. It plays HLS and MP4. Other conta
 - **Next episode and autoplay.** When an episode ends, a 5-second countdown to the next one starts; you can cancel it, and autoplay can be turned off in Settings.
 - **Keep the screen awake** while playing; media keys work.
 
-See [Keyboard shortcuts](/guide/shortcuts).
+Keys for all of this are in [Keyboard shortcuts](#keyboard-shortcuts) below.
 
 ## Progress
 
@@ -26,4 +26,28 @@ You can mark episodes watched or unwatched, mark everything before an episode as
 
 ## History
 
-**History** lists one entry per anime (the last episode, position and time), grouped by date. You can continue, delete an entry, or clear everything. While [incognito](/guide/incognito) is on, nothing is added.
+**History** lists one entry per anime (the last episode, position and time), grouped by date. You can continue, delete an entry, or clear everything. While [incognito](/guide/library#incognito) is on, nothing is added.
+
+## Keyboard shortcuts
+
+### Player
+
+These are the defaults; they can be changed in Settings.
+
+| Key                   | Action                          |
+| --------------------- | ------------------------------- |
+| `Space` / `K`         | Play or pause                   |
+| `←` / `→`             | Seek back or forward 5 seconds  |
+| `J` / `L`             | Seek back or forward 10 seconds |
+| `↑` / `↓`             | Volume up or down               |
+| `M`                   | Mute                            |
+| `F`                   | Fullscreen                      |
+| `Shift+N` / `Shift+P` | Next or previous episode        |
+| `[` / `]`             | Slower or faster                |
+| `Esc`                 | Leave fullscreen, or go back    |
+
+With the mouse: click plays or pauses, double click toggles fullscreen, the wheel changes the volume.
+
+### Everywhere else
+
+`Ctrl+K` opens the command palette: go to a page, search the library, continue watching, run an action, search sources. It is not available inside the player.

@@ -11,52 +11,43 @@ export default defineConfig({
   description: 'A desktop anime player with a library, downloads and a sandboxed extension system.',
   lang: 'en-US',
   cleanUrls: true,
-  lastUpdated: false,
+  lastUpdated: true,
   head: [['link', { rel: 'icon', type: 'image/png', href: '/matane-anime/favicon.png' }]],
   themeConfig: {
     logo: '/logo.png',
     nav: [
-      { text: 'Guide', link: '/guide/getting-started' },
-      { text: 'Authors', link: '/authors/' },
-      { text: 'FAQ', link: '/faq' },
+      { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
+      { text: 'Extensions', link: '/extensions/', activeMatch: '/extensions/' },
+      { text: 'Download', link: `${repo}/releases` },
     ],
     sidebar: {
       '/guide/': [
         {
           text: 'Getting started',
-          items: [{ text: 'Install', link: '/guide/getting-started' }],
+          items: [
+            { text: 'Introduction', link: '/guide/' },
+            { text: 'Install', link: '/guide/install' },
+          ],
         },
         {
-          text: 'Using the app',
+          text: 'Using Matane Anime',
           items: [
             { text: 'Library', link: '/guide/library' },
             { text: 'Watching and progress', link: '/guide/watching' },
             { text: 'Downloads and offline', link: '/guide/downloads' },
-            { text: 'Statistics', link: '/guide/statistics' },
-            { text: 'Updates', link: '/guide/updates' },
             { text: 'Extensions and repositories', link: '/guide/extensions' },
-            { text: 'Network', link: '/guide/network' },
-            { text: 'Incognito', link: '/guide/incognito' },
+            { text: 'Network (DNS over HTTPS, proxy)', link: '/guide/network' },
             { text: 'Backup and restore', link: '/guide/backup' },
-            { text: 'Keyboard shortcuts', link: '/guide/shortcuts' },
-            { text: 'Themes', link: '/guide/themes' },
           ],
         },
-        {
-          text: 'More',
-          items: [
-            { text: 'Packages and updates', link: `${repo}/blob/main/docs/packaging/README.md` },
-            { text: 'FAQ and disclaimer', link: '/faq' },
-          ],
-        },
+        { text: 'Help', items: [{ text: 'FAQ and troubleshooting', link: '/guide/faq' }] },
       ],
-      '/authors/': [
+      '/extensions/': [
         {
-          text: 'For authors',
+          text: 'Extensions',
           items: [
-            { text: 'Overview', link: '/authors/' },
-            { text: 'Writing an extension', link: '/authors/writing-extensions' },
-            { text: 'Extension repositories', link: '/authors/repositories' },
+            { text: 'Writing extensions', link: '/extensions/' },
+            { text: 'Publishing a repository', link: '/extensions/repository' },
           ],
         },
       ],
@@ -69,6 +60,7 @@ export default defineConfig({
     search: { provider: 'local' },
     footer: {
       message: 'Matane Anime does not host, store or distribute any content. Released under the GPL-3.0 license.',
+      copyright: 'Copyright © 2026 SukunDev',
     },
   },
 });

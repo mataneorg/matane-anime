@@ -10,6 +10,7 @@ export default tseslint.config(
       '**/node_modules/**',
       '**/out/**',
       '**/dist/**',
+      '**/.vitepress/cache/**',
       '**/release/**',
       '.claude/**',
       '**/routeTree.gen.ts',

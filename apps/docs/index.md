@@ -2,13 +2,19 @@
 layout: home
 
 hero:
+  name: Matane Anime
+  text: A desktop anime player
+  tagline: Your library, progress and downloads on Windows, macOS and Linux. Sources come from sandboxed extensions.
   image:
     src: /logo.png
     alt: Matane Anime
-  name: Matane Anime
-  text: A desktop anime player
-  tagline: A library, watch progress, downloads and new-episode alerts, for sources you choose. Open source, no telemetry.
-  # The Download button and "Write an extension" are a component (.vitepress/theme/DownloadButton.vue), in the hero.
+  actions:
+    - theme: brand
+      text: Get started
+      link: /guide/
+    - theme: alt
+      text: Write an extension
+      link: /extensions/
 
 features:
   - title: Library and progress
@@ -20,11 +26,3 @@ features:
   - title: Private by design
     details: No telemetry. DNS over HTTPS, a proxy, a custom User-Agent and an incognito mode are built in.
 ---
-
-::: warning Unsigned builds
-The Windows and macOS builds are not code-signed, so your system warns you on first run: [how to get past it](/guide/getting-started#first-run-warnings).
-:::
-
-::: info Disclaimer
-Matane Anime does not host, store or distribute any content, and ships with no sources, repositories or keys. The developers are not affiliated with anything that third-party extensions provide. See the [FAQ and disclaimer](/faq).
-:::

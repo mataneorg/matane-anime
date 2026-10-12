@@ -1,10 +1,12 @@
-# Writing an extension for Matane Anime
+# Writing extensions
 
 An extension is one JavaScript file that tells the app how to read a site: what is popular, what matches a search, what an anime page and its episodes look like, and where the video is. The app does everything else: the network, the player, the library, the downloads, the updates. The contract is in [`packages/extension-sdk/src/types.ts`](https://github.com/mataneorg/matane-anime/blob/main/packages/extension-sdk/src/types.ts) and in the [PRD §7](https://github.com/mataneorg/matane-anime/blob/main/docs/PRD.md) (Indonesian).
 
 **Matane Anime ships no extensions, no repositories and no signing keys, and it never suggests any.** What you write, and what you point it at, is up to you; this guide uses only a fake site that lives in this repository.
 
-This page is for authors. Running a repository that others install from is in [the repository guide](/authors/repositories).
+The SDK, runtime and CLI are MIT-licensed npm packages (`@matane-anime/extension-sdk`, `@matane-anime/extension-runtime`, `@matane-anime/extension-cli`), so your extension is not bound by the app's GPL. Requests for a particular site or source belong to the extension repositories, not to the app's issue tracker.
+
+This page is for authors. Running a repository that others install from is in [Publishing a repository](/extensions/repository).
 
 - [What an extension is](#what-an-extension-is)
 - [Quick start](#quick-start)
@@ -99,7 +101,7 @@ Add an `icon.png` next to `manifest.json` (a PNG up to 512 KB) when you intend t
 | `version`             | Semantic version, e.g. `1.2.0` (a pre-release part such as `1.0.0-beta.1` is accepted). The app updates only to a _higher_ version. See [Versioning](#versioning-and-migrateurl).                      |
 | `apiVersion`          | The version of the extension contract you built against (`1` today). The app refuses an extension that needs a newer one than it supports. It goes up only for changes that break existing extensions. |
 | `type`                | Must be `"anime"`; anything else is refused, so an extension for another app is not installed by mistake.                                                                                              |
-| `nsfw`                | `true` for 18+ extensions (default `false`). Hidden unless the user turned on _Show 18+ sources_; see [the repository guide](/authors/repositories#18-and-language-filters).                           |
+| `nsfw`                | `true` for 18+ extensions (default `false`). Hidden unless the user turned on _Show 18+ sources_; see [the repository guide](/extensions/repository#18-and-language-filters).                          |
 | `rateLimit.perSecond` | Requests per second (default 10, at most 100). Segments and media have their own, looser limit.                                                                                                        |
 | `userAgent`           | Optional. Sent instead of the app's User-Agent.                                                                                                                                                        |
 | `sources[]`           | At least one. `key` (lower-case letters, digits, `-`; unique inside the extension), `lang` and `name`.                                                                                                 |
@@ -177,7 +179,7 @@ Inside this repository run the CLI as `node packages/extension-cli/bin/ma-ext.js
 
 ## Trying it in the app: developer mode
 
-Extensions of a repository are installed by users (see [the repository guide](/authors/repositories)). While you develop, load the folder instead:
+Extensions of a repository are installed by users (see [the repository guide](/extensions/repository)). While you develop, load the folder instead:
 
 1. **Settings → Advanced → Developer mode** on. This shows _Load from folder_ on the Extensions page and the extension log panel (level filter, clear, copy; load errors appear as log lines). Folders you loaded earlier stay listed with the switch off.
 2. Extensions → **Load from folder**, and pick the folder that holds `dist/` (or `manifest.json` + `index.js` directly).
@@ -233,7 +235,7 @@ ma-ext repo build my-site --out ./repo --name "My repository" --key ./keys/repo-
 ma-ext repo verify ./repo --key "$(cat ./keys/repo-key.pub)"
 ```
 
-then upload `./repo` and check the live copy with `ma-ext repo verify https://…/repo/ --key …`. The full story (what is in the folder, trust, serials, rotating a key, what users see) is in [the repository guide](/authors/repositories). The app ships no repository and does not suggest yours: people add the URL themselves.
+then upload `./repo` and check the live copy with `ma-ext repo verify https://…/repo/ --key …`. The full story (what is in the folder, trust, serials, rotating a key, what users see) is in [the repository guide](/extensions/repository). The app ships no repository and does not suggest yours: people add the URL themselves.
 
 ## Trying it without a real site
 
@@ -259,4 +261,4 @@ In the app, load `extensions/example` as a dev folder and set its _Site address_
 | `dist/ is stale: it holds x@1.0.0 but manifest.json says 1.1.0` (`repo build`)                               | You bumped the version but did not run `ma-ext build`.                                                                                        |
 | `… has no icon: repositories require one`                                                                    | Put `icon.png` (≤ 512 KB) next to `manifest.json` and run `ma-ext build` again.                                                               |
 | The app says the extension needs API _n_                                                                     | `apiVersion` in the manifest is higher than the app supports. Update the app, or lower it if you did not need the newer contract.             |
-| More messages (hash mismatch, key changed, serial too low, "The installed files were changed", id conflicts) | These are about repositories: [the repository guide, Troubleshooting](/authors/repositories#troubleshooting).                                 |
+| More messages (hash mismatch, key changed, serial too low, "The installed files were changed", id conflicts) | These are about repositories: [the repository guide, Troubleshooting](/extensions/repository#troubleshooting).                                |

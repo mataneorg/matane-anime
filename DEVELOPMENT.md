@@ -47,7 +47,7 @@ Extensions come in two ways:
 - **From a repository.** Under **Extensions → Add repository** you paste the address of a repository (a static folder with a signed `index.json`). You see its key's fingerprint and choose whether to trust it, then install, update and uninstall from the same page. Running a repository is described in [docs/repositories.md](docs/repositories.md). Authors build one with `ma-ext repo`.
 - **From a folder, in developer mode.** Turn on **Settings → Advanced → Developer mode**, then **Extensions → Load from folder** and pick a folder built with `ma-ext build`. The app reloads it when you rebuild. A dev folder wins over an installed extension with the same id.
 
-To write an extension, read [docs/extensions.md](docs/extensions.md) (also on the docs site, in the [extension author guide](https://mataneorg.github.io/matane-anime/authors/)). To try the app without a real site: `pnpm --filter @matane-anime/test-site serve`, build `extensions/example`, load it as a dev folder and set its _Site address_ preference to the address the server prints. Add `--repo` to the `serve` command to also serve a repository of the example, and add that address under Add repository.
+To write an extension, read [docs/extensions.md](docs/extensions.md) (also on the docs site, in the [extension author guide](https://mataneorg.github.io/matane-anime/extensions/)). To try the app without a real site: `pnpm --filter @matane-anime/test-site serve`, build `extensions/example`, load it as a dev folder and set its _Site address_ preference to the address the server prints. Add `--repo` to the `serve` command to also serve a repository of the example, and add that address under Add repository.
 
 ## Releases and packages
 

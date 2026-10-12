@@ -8,6 +8,10 @@ Every request to a source goes through the app, one separate session per extensi
 
 Off, automatic or always. **Automatic** tries the DoH server first and falls back to your system's resolver if it fails; **always** uses only DoH. You can use a preset (Cloudflare, Google, Quad9, AdGuard) or your own `https` address (plain `http` is refused). Use it when your provider blocks a site by DNS.
 
+::: tip
+A source that fails everywhere on your network and works on another is usually blocked by DNS. Try **Automatic** first: it falls back to your system's resolver if the DoH server is unreachable.
+:::
+
 ## Proxy
 
 Use the system proxy, none, an HTTP proxy or a SOCKS5 proxy, with host and port and an optional user name and password. The password is stored encrypted with the operating system's keyring and is never shown again; if no keyring is available, it is stored in plain text and the page warns you. A proxy without a valid host and port is ignored and the system proxy is used. SOCKS5 proxies that ask for a user name and password do not work, because the browser engine cannot send them.
