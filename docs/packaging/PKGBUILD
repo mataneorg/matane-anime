@@ -11,7 +11,7 @@
 # The app updates itself only when it is an AppImage: an installed package is updated by pacman, and the app
 # only tells the user that a new version exists.
 pkgname=matane-anime-bin
-_pkgver=1.0.0-rc.3
+_pkgver=1.0.1
 # pkgver may not contain a hyphen; the AUR convention for a pre-release is an underscore.
 pkgver=${_pkgver//-/_}
 pkgrel=1
@@ -27,7 +27,7 @@ conflicts=('matane-anime')
 options=('!strip' '!debug')
 noextract=("matane-anime-${_pkgver}.deb")
 source=("matane-anime-${_pkgver}.deb::${url}/releases/download/v${_pkgver}/matane-anime-${_pkgver}-linux-amd64.deb")
-sha256sums=('SKIP') # written by .github/workflows/release.yml
+sha256sums=('42283f17dadfd61433b35c7aea0ca2a919e17ccd67232cec8341c102873e0a53') # written by .github/workflows/release.yml
 
 package() {
   cd "${srcdir}"
