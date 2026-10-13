@@ -8,7 +8,7 @@ A repository is a static folder on any web host that lists extensions and carrie
 - [Publishing a repository](#publishing-a-repository)
 - [Trust, signatures and rollbacks](#trust-signatures-and-rollbacks)
 - [What users see](#what-users-see)
-- [18+ and language filters](#18-and-language-filters)
+- [18+ and language filters](#_18-and-language-filters)
 - [What the app checks](#what-the-app-checks)
 - [Troubleshooting](#troubleshooting)
 
@@ -145,7 +145,7 @@ Users who trusted your old key will refuse indexes signed with the new one (by d
 ## What users see
 
 1. **Add repository** (Extensions page): they paste the address. The app downloads `index.json` and `index.json.sig` and shows the name, how many extensions it lists and, if signed, the key's fingerprint with an _Unverified repository_ warning and a _Trust this key_ choice. A repository with a bad signature cannot be added. A repository that was already added is not added twice.
-2. **Available** tab: what the repositories offer, with name, version, languages, size and an _Install_ button. Extensions that need a newer API or app are marked incompatible and cannot be installed. 18+ and other-language entries are filtered ([below](#18-and-language-filters)).
+2. **Available** tab: what the repositories offer, with name, version, languages, size and an _Install_ button. Extensions that need a newer API or app are marked incompatible and cannot be installed. 18+ and other-language entries are filtered ([below](#_18-and-language-filters)).
 3. **Install** is two steps. The app first downloads and checks everything, then shows a dialog: the repository and its trust state (with the key fingerprint), the extension's name, version, API version, languages, size and **SHA-256**, plus warnings (_unverified repository_, 18+). Nothing is written until the user confirms, and the confirmation expires after 5 minutes.
 4. **Atomic install.** The files are written to `<id>.tmp` in the app's data folder, the old copy (if any) is moved to `<id>.old`, the new folder is renamed into place and loaded into the sandbox. If anything fails, including the extension not loading, the previous version is put back and nothing changes. A crash in the middle is repaired at the next start.
 5. **Update.** When a repository offers a higher version, the installed row shows an update badge, and the page offers _Update all_. Updating installs directly, without the dialog, and only from the repository the extension came from. Checking the repositories never installs anything by itself. After an update, [`migrateUrl`](/extensions/#versioning-and-migrateurl) runs on the user's stored URLs.

@@ -158,7 +158,7 @@ onMounted(async () => {
     </div>
     <p class="more">
       <a :href="RELEASES_PAGE">All releases</a>
-      <a v-if="guide" :href="withBase('/guide/install')">Install guide</a>
+      <a v-if="guide" :href="withBase('/docs/guides/install')">Install guide</a>
     </p>
   </div>
 </template>

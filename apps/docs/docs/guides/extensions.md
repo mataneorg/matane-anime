@@ -4,6 +4,8 @@ Matane Anime ships **no sources, no extension repositories and no signing keys**
 
 ## Adding a repository
 
+<Shot name="add-repository-checked" alt="The Add repository dialog after the address was checked" />
+
 A repository is a web address that someone publishes (a static folder with a signed `index.json`). Where to find one is up to you; the app does not tell you.
 
 ::: warning
@@ -16,7 +18,11 @@ Add only repositories you trust. An extension decides what a source shows you, a
 
 ## Installing, updating and removing
 
-<Shot name="extensions" alt="The Extensions page" />
+<Shot name="extensions-available" alt="The Available tab lists what the repositories offer" />
+
+<Shot name="extension-install" alt="The install dialog shows the repository, its trust state and the package details" />
+
+<Shot name="extensions" alt="The Installed tab" />
 
 - **Install** has two steps: the app first downloads and checks everything (size, SHA-256, contents), then shows a dialog with the repository and its trust state, the extension's version, languages, size and SHA-256 and any warning (unverified repository, 18+). Nothing is written until you confirm. Installation is atomic: if anything fails, the previous version stays.
 - **Update** comes from the same repository the extension was installed from, only to a strictly newer version.
@@ -24,6 +30,12 @@ Add only repositories you trust. An extension decides what a source shows you, a
 - If a repository changes its signing key or stops signing after you trusted it, the app refuses the new index and keeps the old one; you must remove the repository and add it again to trust a new key.
 
 Extensions run in a sandbox with no network or file access of their own; everything goes through the app. The details are in [the repository guide](/extensions/repository#what-the-app-checks).
+
+## Managing repositories
+
+The **Repositories** button on the Extensions page opens the list of repositories you added, with how many extensions each lists and when it was last synced. From there you can check a repository again, trust or stop trusting its key, or remove it.
+
+<Shot name="repositories" alt="The repositories panel" />
 
 ## Filters
 

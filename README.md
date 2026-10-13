@@ -98,7 +98,7 @@ Matane Anime is not code-signed yet, so your system will show a warning. This is
 - **macOS:** right-click the app in Applications and choose **Open**, then **Open** again. Or open **System Settings → Privacy & Security** and click **Open Anyway**. If macOS says the app is "damaged", run `xattr -dr com.apple.quarantine "/Applications/Matane Anime.app"` in Terminal.
 - **Linux:** make the AppImage executable (`chmod +x matane-anime-*.AppImage`, or right-click → Properties → "Allow executing") and run it. Some distributions need `libfuse2`.
 
-The [install guide](https://mataneorg.github.io/matane-anime/guide/install) has more detail. A short setup on first launch then asks for your language, which kinds of content to show, your download folder and a few player choices.
+The [install guide](https://mataneorg.github.io/matane-anime/docs/guides/install) has more detail. A short setup on first launch then asks for your language, which kinds of content to show, your download folder and a few player choices.
 
 ### Where is my data?
 
@@ -115,7 +115,7 @@ Matane Anime gets its anime from **extensions**, small add-ons that each connect
 2. In Matane Anime, open **Browse → Extensions** and choose **Add repository**.
 3. Check who runs it, then install the sources you want. Now you can browse and watch.
 
-Extensions run in a sandbox, so they cannot reach your files or the internet by themselves. Repositories are signed, so the app can tell if one was tampered with. What you add is your choice and your responsibility. A setting hides 18+ sources, and you can limit sources by language. The full walkthrough is in the [user guide](https://mataneorg.github.io/matane-anime/guide/extensions).
+Extensions run in a sandbox, so they cannot reach your files or the internet by themselves. Repositories are signed, so the app can tell if one was tampered with. What you add is your choice and your responsibility. A setting hides 18+ sources, and you can limit sources by language. The full walkthrough is in the [user guide](https://mataneorg.github.io/matane-anime/docs/guides/extensions).
 
 ## Support the project
 

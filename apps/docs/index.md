@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Get started
-      link: /guide/
+      link: /docs/guides/getting-started
     - theme: alt
       text: Write an extension
       link: /extensions/
