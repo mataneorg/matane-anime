@@ -6,6 +6,11 @@ import type { ChangelogEntry } from '@matane-anime/shared';
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.0.2',
+    date: '2026-10-18',
+    items: ['Extensions: the icons show up right after the app starts instead of falling back to a letter.'],
+  },
+  {
     version: '1.0.1',
     date: '2026-10-12',
     items: [
