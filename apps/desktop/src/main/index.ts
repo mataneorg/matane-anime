@@ -409,7 +409,11 @@ if (!app.requestSingleInstanceLock()) {
         repoIcon: (repoId, extensionId) => repoService.iconOf(repoId, extensionId),
         iconFolders: (extensionId) => {
           const record = registry.byExtensionId(extensionId);
-          return record ? [record.bundleFolder, record.inputFolder].filter((folder) => folder !== null) : [];
+          if (record) return [record.bundleFolder, record.inputFolder].filter((folder) => folder !== null);
+          // The window asks before the registry has loaded everything (or while an extension is in error): the
+          // folder an install recorded still has its icon, and only ids with a row are looked up.
+          const installDir = store.findExtension(extensionId)?.installDir;
+          return installDir ? [installDir] : [];
         },
         onRequest: (entry) => {
           const message = `anime:// ${entry.status} ${entry.target}${entry.range ? ` [${entry.range}]` : ''}`;
