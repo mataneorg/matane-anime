@@ -46,6 +46,10 @@ pnpm --filter @matane-anime/docs docs:build     # static build, fails on a dead 
 
 The extension author guides are adapted from `docs/extensions.md` and `docs/repositories.md`; when you change one, change the other.
 
+## Support the project
+
+Matane Anime is free and made in spare time. If it helps you and you would like to keep it going, a donation is very welcome (and never expected): [Donate via Saweria](https://saweria.co/PakdeKun).
+
 ## License
 
 The app is **GPL-3.0-only**. The packages extension authors depend on are **MIT**, so extensions are not bound by the GPL. By contributing you agree that your change is licensed under the license of the folder it goes into.

@@ -94,6 +94,7 @@ export default defineConfig({
       { text: 'Docs', link: '/docs/guides/getting-started', activeMatch: '^/docs/' },
       { text: 'Contribute', link: '/contribute', activeMatch: '^/contribute' },
       { text: 'Extensions', link: '/extensions/', activeMatch: '^/extensions/' },
+      { text: 'Donate', link: 'https://saweria.co/PakdeKun' },
     ],
     sidebar: {
       '/docs/': docsSidebar,
