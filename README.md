@@ -12,12 +12,14 @@
   <a href="https://github.com/mataneorg/matane-anime/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/mataneorg/matane-anime?style=for-the-badge"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/mataneorg/matane-anime?style=for-the-badge"></a>
   <a href="https://saweria.co/PakdeKun"><img alt="Support on Saweria" src="https://img.shields.io/badge/Support-Saweria-F7931E?style=for-the-badge"></a>
+  <a href="https://discord.gg/B9H8JTSpVZ"><img alt="Join the Discord" src="https://img.shields.io/badge/Discord-Join-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/mataneorg/matane-anime/releases">Download</a> ·
   <a href="https://mataneorg.github.io/matane-anime/">Documentation</a> ·
   <a href="https://github.com/mataneorg/matane-anime/issues/new/choose">Report a problem</a> ·
+  <a href="https://discord.gg/B9H8JTSpVZ">Discord</a> ·
   <a href="#support-the-project">Support</a>
 </p>
 
@@ -134,6 +136,7 @@ Other ways to help, all free:
 ## Help and documentation
 
 - **[User guide and FAQ](https://mataneorg.github.io/matane-anime/)**: installing, library, player, downloads, backup, network settings
+- **[Discord](https://discord.gg/B9H8JTSpVZ)**: chat with the community, ask questions and get help
 - **What's new in each version:** the [Releases page](https://github.com/mataneorg/matane-anime/releases), or **What's new** inside the app (**Settings → About**)
 - **[Report a problem](https://github.com/mataneorg/matane-anime/issues/new/choose)**: found a security problem? Please do not post it publicly. Follow [SECURITY.md](SECURITY.md).
 

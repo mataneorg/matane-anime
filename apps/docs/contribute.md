@@ -10,6 +10,7 @@ Thanks for wanting to help. The full rules are in [CONTRIBUTING.md](https://gith
 
 | I want to…                                  | Go to                                                                                                                                                   |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ask a question or chat with the community   | [Discord](https://discord.gg/B9H8JTSpVZ)                                                                                                                |
 | Report a bug or suggest an idea for the app | [GitHub issues](https://github.com/mataneorg/matane-anime/issues), using the templates. Read [Diagnosis](/docs/guides/troubleshooting/diagnosis) first. |
 | Report a vulnerability                      | Privately, as described in [SECURITY.md](https://github.com/mataneorg/matane-anime/blob/main/SECURITY.md). Not in a public issue.                       |
 | Ask for a site or a source                  | Not here. Matane Anime ships no sources and does not suggest any. The request belongs to the repository of the extension that provides it.              |

@@ -102,7 +102,10 @@ export default defineConfig({
       '/contribute': docsSidebar,
       '/extensions/': docsSidebar,
     },
-    socialLinks: [{ icon: 'github', link: repo }],
+    socialLinks: [
+      { icon: 'github', link: repo },
+      { icon: 'discord', link: 'https://discord.gg/B9H8JTSpVZ' },
+    ],
     editLink: {
       pattern: `${repo}/edit/main/apps/docs/:path`,
       text: 'Help us improve this page',
